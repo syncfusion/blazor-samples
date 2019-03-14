@@ -55,7 +55,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="ej2-blazor-samples/Pages/Grid">DataGrid</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/PivotView">Pivot Table (Preview)</a>
+            <a href="ej2-blazor-samples/Pages/PivotView">Pivot Table</a>
         </td>
         <td></td>
     </tr>
@@ -77,7 +77,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Diagram">Diagram (Preview)</a>
+            <a href="ej2-blazor-samples/Pages/Diagram">Diagram</a>
         </td>
         <td>
             <a href="ej2-blazor-samples/Pages/Heatmap">Heatmap chart</a>
@@ -111,10 +111,10 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/RichTextEditor">Rich Text Editor (Preview)</a>
+            <a href="ej2-blazor-samples/Pages/RichTextEditor">Rich Text Editor</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/DocumentEditor">Word Processor (Preview)</a>
+            <a href="ej2-blazor-samples/Pages/DocumentEditor">Word Processor</a>
         </td>
         <td></td>
     </tr>
@@ -163,7 +163,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/ProgressButton.cshtml">Progress Button (Preview)</a>
+            <a href="ej2-blazor-samples/Pages/Button/ProgressButton.cshtml">Progress Button</a>
         </td>
         <td>
             <a href="ej2-blazor-samples/Pages/Button/SplitButton.cshtml">Split Button</a>
@@ -206,7 +206,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="ej2-blazor-samples/Pages/ContextMenu">Context Menu</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Menu">Menu Bar (Preview)</a>
+            <a href="ej2-blazor-samples/Pages/Menu">Menu Bar</a>
         </td>
     </tr>
     <tr>
