@@ -1,0 +1,102 @@
+﻿@page "/PivotView/UserInteraction"
+
+@using Syncfusion.EJ2.RazorComponents.PivotView
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "User Interaction";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+    This sample demonstrates the grouping bar and field list feature of the pivotgrid widget. In the sample, fields are automatically populated
+    from the bound data source, and it can be used to create a pivot view at runtime.
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@"<p>
+    The pivotgrid widget grouping bar option automatically populates fields from the bound data source and allows end users
+    to drag fields between different axes such as columns, rows, values, and filters, and create pivot views at runtime.
+    To enable grouping bar, set the <code>showGroupingBar</code> property as true.
+</p>
+<p>
+    And the built-in field list option automatically populates fields from the bound data source and allows end users
+    to add, remove and rearrange the fields between different axes such as columns, rows, values, and filters, and create pivot views at runtime.
+    To enable field list, set the <code>showFieldList</code> property as true.
+</p>"
+};
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsPivotView ID="pivotview" ref="pivotView" Width="100%" Height="300" DataSource="@PivotDataSource" ShowFieldList=true ShowGroupingBar=true>
+            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
+        </EjsPivotView>
+    </div>
+</div>
+
+<style>
+    #pivotview {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+@functions{
+
+    EjsPivotView pivotView;
+
+    static PivotViewData pivotData = new PivotViewData();
+
+    static List<object> pivotRows { get; set; } = new List<object>
+    {
+       new { name = "Country" },
+       new { name = "Products" }
+    };
+
+    static List<object> pivotColumns { get; set; } = new List<object>
+    {
+       new { name = "Year" },
+       new { name = "Order_Source", caption = "Order Source" }
+    };
+
+    static List<object> pivotValues { get; set; } = new List<object>
+    {
+       new { name = "In_Stock", caption = "In Stock" },
+       new { name = "Sold", caption = "Units Sold" },
+       new { name = "Amount", caption = "Sold Amount" }
+    };
+
+    static List<object> pivotFilters { get; set; } = new List<object>
+    {
+       new { name = "Product_Categories", caption = "Product Categories" }
+    };
+
+    static List<object> pivotFormatSettings { get; set; } = new List<object>
+    {
+       new { name = "Amount", format = "C0" }
+    };
+
+    static List<string> drilledItems = new List<string> { "France" };
+
+    static List<object> pivotDrillMembers { get; set; } = new List<object>
+    {
+       new { name = "Country", items = drilledItems }
+    };
+    [Parameter]
+    private object PivotDataSource { get; set; } = new
+    {
+        data = pivotData.GetPivot_Data(),
+        expandAll = false,
+        enableSorting = true,
+        rows = pivotRows,
+        columns = pivotColumns,
+        values = pivotValues,
+        filters = pivotFilters,
+        formatSettings = pivotFormatSettings,
+        drilledMembers = pivotDrillMembers
+    };
+}

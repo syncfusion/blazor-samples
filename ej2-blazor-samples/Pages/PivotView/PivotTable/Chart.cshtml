@@ -1,0 +1,122 @@
+﻿@page "/PivotView/Chart"
+
+@using Syncfusion.EJ2.RazorComponents.PivotView
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Chart";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+    This sample demonstrates the basic rendering of the Chart control using pivot data. PivotTable Field List is also enabled to change the report at runtime.
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@"<p>
+            In this sample, the Pivot View component plots a chart widget based on the pivot report bound to it.
+            This can be achieved by setting the property <code>displayOption.view</code> to <code>Chart</code>.
+            The built-in options are:<br><br>
+
+            <code>Table</code> -> Renders grid widget only, which is the default.<br>
+            <code>Chart</code> -> Renders chart widget only.<br>
+            <code>Both</code> -> Renders both grid and chart widget.<br>
+        </p>
+        <p>
+            The chart types can be set using the <code>chartSettings.chartSeries.type</code>property.
+            The built-in chart types are:<br><br>
+
+            <code>Column</code><br>
+            <code>Line</code><br>
+            <code>Spline</code><br>
+            <code>Bar</code><br>
+            <code>Area</code><br>
+            <code>StepArea</code><br>
+            <code>SplineArea</code><br>
+            <code>StackingColumn</code><br>
+            <code>StackingArea</code><br>
+            <code>StackingBar</code><br>
+            <code>StepLine</code><br>
+            <code>Pareto</code><br>
+            <code>Bubble</code><br>
+            <code>Scatter</code><br>
+            <code>StackingColumn100</code><br>
+            <code>StackingBar100</code><br>
+            <code>StackingArea100</code><br>
+            <code>Polar</code><br>
+            <code>Radar</code><br><br>
+
+            In the sample, the field list option is enabled, through which you can see the result in the chart by altering the report dynamically.
+        </p>"
+};
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsPivotView ID="pivotview" ref="pivotView" Width="100%" Height="300" DataSource="@PivotDataSource" ShowFieldList=true>
+            <PivotViewDisplayOption View=View.Chart></PivotViewDisplayOption>
+            <PivotViewChartSettings Title="Sales Analysis" ChartSeries="@ChartSeries"></PivotViewChartSettings>
+        </EjsPivotView>
+    </div>
+</div>
+
+<style>
+    #pivotview {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+@functions{
+
+    EjsPivotView pivotView;
+
+    static PivotViewData pivotData = new PivotViewData();
+
+    static List<object> pivotRows { get; set; } = new List<object>
+    {
+       new { name = "Country" },
+       new { name = "Products" }
+    };
+
+    static List<object> pivotColumns { get; set; } = new List<object>
+    {
+       new { name = "Year" },
+       new { name = "Order_Source", caption = "Order Source" }
+    };
+
+    static List<object> pivotValues { get; set; } = new List<object>
+    {
+       new { name = "Amount", caption = "Sold Amount" }
+    };
+
+    static List<object> pivotFilters { get; set; } = new List<object>
+    {
+       new { name = "Product_Categories", caption = "Product Categories" }
+    };
+
+    static List<object> pivotFormatSettings { get; set; } = new List<object>
+    {
+       new { name = "Amount", format = "C" }
+    };
+    [Parameter]
+    private object PivotDataSource { get; set; } = new
+    {
+        data = pivotData.GetPivot_Data(),
+        expandAll = false,
+        enableSorting = true,
+        rows = pivotRows,
+        columns = pivotColumns,
+        values = pivotValues,
+        filters = pivotFilters,
+        formatSettings = pivotFormatSettings
+    };
+    [Parameter]
+    private object ChartSeries { get; set; } = new
+    {
+        type = "Column"
+    };
+}
