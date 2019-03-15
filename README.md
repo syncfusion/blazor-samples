@@ -306,12 +306,12 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
-            <b>FILE FORMAT LIBRARY<b>
+            <b>VIEWER<b>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Viewer/PdfViewer">PDF Library</a>
+            <a href="ej2-blazor-samples/Pages/Viewer/PdfViewer">PDF Viewer</a>
         </td>
     </tr>
 </table>
