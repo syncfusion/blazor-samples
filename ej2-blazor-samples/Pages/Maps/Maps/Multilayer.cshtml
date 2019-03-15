@@ -1,0 +1,194 @@
+﻿@page "/Maps/Multilayer"
+
+
+@using Syncfusion.EJ2.RazorComponents.Maps
+@using Syncfusion.EJ2.RazorComponents.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Multi-layers";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample depicts the layers along with sublayers. Countries in the African and Australian continents are rendered in the sublayers.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render a sublayer in map. Sublayers are used to render the desired shapes over the existing layers. Any number of sublayers can be added to a map. You can use the <code>fill</code>, <code>width</code>, and <code>color</code> properties in the border to customize the appearance of the shapes.
+
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div>
+        <EjsMaps ID="Layout" Layers="@layers" ZoomSettings="@zoomSettings" TitleSettings="@titleSettings"></EjsMaps>
+    </div>
+    <div style="float: right; margin-right: 10px;">
+        Source:
+        <a href="http://www.samsung.com/semiconductor/about-us/location/" target="_blank">www.samsung.com</a>
+    </div>
+</div>
+<div id="markercircle" style="display:none;">
+    <svg width="30" height="30">
+        <circle class="svgcircle" cx=15 cy=15 r=6 stroke='rgba(77, 77, 77, 0.8)' fill='rgba(0, 77, 153, 0.8)' />
+    </svg>
+</div>
+<style>
+    .markerTemplate {
+        font-size: 12px;
+        color: black;
+        font-weight: 500
+    }
+
+	.svgcircle{
+        -webkit-animation: opac 1.5s ease-out infinite;
+        animation: opac 1.5s ease-out infinite;
+    }
+
+    @@keyframes opac {
+        0% {
+            stroke-opacity: 0.6;
+            stroke-width: 0px;
+        }
+        100% {
+            stroke-opacity: 0.2;
+            stroke-width: 8px;
+        }
+    }
+</style>
+@functions {
+
+    public object zoomSettings = new
+    {
+        enable = false,
+        pinchZooming = true
+    };
+
+    public object titleSettings { get; set; } = new
+    {
+        text = "Samsung Semiconductor office locations in USA",
+        textStyle = new
+        {
+            size = "16px"
+        },
+    };
+    public List<object> layers { get; set; } = new List<object>
+    {
+        new {
+            shapeData = new {
+                async= true,
+                dataOptions= "scripts/MapsData/usa.json",
+                type= "GET"
+            },
+            shapeSettings= new {
+                fill= "#E5E5E5",
+                border= new  {
+                    color= "black",
+                    width= 0.1
+                },                
+            },
+            dataLabelSettings= new {
+                    visible= true,
+                    labelPath= "iso_3166_2",
+                    smartLabelMode= "Hide"
+            }
+        },
+        new {
+            shapeData = new {
+                async= true,
+                dataOptions= "scripts/MapsData/texas.json",
+                type= "GET"
+            },
+              type= "SubLayer",
+            shapeSettings= new {
+                fill= "rgba(141, 206, 255, 0.6)",
+                border= new  {
+                    color= "#1a9cff",
+                    width= 0.25
+                },
+            },
+            markerSettings= new object[] {
+                new {
+                    visible= true,
+                    width= 20,
+                    height= 20,
+                    template= "#markercircle",
+                    dataSource=new object[] {
+                       new {
+                            latitude= 30.267153,
+                            longitude= -97.7430608,
+                            name= "Austin"
+                        }
+                    },
+                    tooltipSettings= new {
+                        visible= true,
+                        valuePath= "name",
+                        format= "<b>${name}</b><br>Manufacturing Center,<br>Research and Development Center"
+                    }
+                },
+                new {
+                        visible= true,
+                        dataSource= new object[] {
+                            new {
+                                latitude= 31.80289258670676,
+                                longitude= -98.96484375
+                            }
+                        },
+                        template= "<div style='color:black;'>TX</div>"
+                    }
+            }
+        },
+            new {
+            shapeData = new {
+                async= true,
+                dataOptions= "scripts/MapsData/california.json",
+                type= "GET"
+            },
+              type= "SubLayer",
+            shapeSettings= new {
+                fill= "rgba(141, 206, 255, 0.6)",
+                border= new  {
+                    color= "#1a9cff",
+                    width= 0.25
+                },
+            },
+            markerSettings= new object[] {
+                new {
+                    visible= true,
+                    width= 20,
+                    height= 20,
+                    template= "#markercircle",
+                    dataSource=new object[] {
+                       new {
+                            latitude= 37.3382082,
+                            longitude= -121.8863286,
+                            name= "San Jose,"
+                        }
+                    },
+                    tooltipSettings= new {
+                        visible= true,
+                        valuePath= "name",
+                        format= "<b>${name}</b><br>Regional Office,<br>Research and Development Center"
+                    }
+                },
+                new {
+                        visible= true,
+                        dataSource= new object[] {
+                            new {
+                                latitude= 37.09023980307208,
+                                longitude= -119.35546875000001
+                            }
+                        },
+                        template= "<div style='color:black;'>CA</div>"
+                    }
+            },
+        },
+
+    };
+}

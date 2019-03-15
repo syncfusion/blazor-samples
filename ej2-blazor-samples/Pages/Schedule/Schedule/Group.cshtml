@@ -1,0 +1,155 @@
+﻿@page "/Schedule/Group"
+
+@using Syncfusion.EJ2.RazorComponents.Schedule
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Horizontal Grouping";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This demo illustrates the timings of different flight services on a specific route say between Barcelona and Los Angeles,
+            on a daily basis. Here, the Scheduler is grouped based on the 3 Airline services.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this demo, the scheduler has been grouped with multiple resources by making use of the property
+            <code>group</code>. The resources to be grouped depends on the values of
+            <code>resources</code> option within the
+            <code>group</code> property, which accepts the array of resource names. The resource header has been customized by making use of the
+            <code>resourceHeaderTemplate</code> property.
+        </p>
+        <p>
+            In mobile mode, when the grouping is enabled, the resources will be listed out in a treeview as a side-panel which opens
+            or closes, on clicking the hamburger icon at the resource header. Only a single resource will be viewable at a time,
+            due to the space constraints on mobile. If in case, the users want to view the grouped layout on mobile with scrolling
+            content, then it is necessary to set
+            <code>false</code> to the
+            <code>enableCompactView</code> option within the
+            <code>group</code> property which is set to
+            <code>true</code> by default. This option is not applicable on desktop mode.
+        </p>
+        <p>
+            Note: If the
+            <code>group</code> property is not defined, then the default scheduler will be rendered with no grouping on layout, but the appointments
+            of all the resources will be displayed on a single schedule.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <div class="schedule-demo-heading">
+            Flight timings between Barcelona and Los Angeles
+        </div>
+        <EjsSchedule id="schedule" width="100%" height="650px" selectedDate="new DateTime(2018, 3, 4)" Group="@groupData" Resources="@resourceData" EventSettings="@eventSettingsFields">
+        </EjsSchedule>
+    </div>
+</div>
+
+<style>
+   
+    .schedule-demo-heading {
+        font-size: 16px;
+        padding-bottom: 15px;
+        text-align: center;
+        font-weight: 500;
+    }
+       
+    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
+        width: 110px;
+    }
+
+    @@media (max-width: 550px) {
+        .schedule-demo-heading {
+            font-size: 14px;
+        }
+    }
+</style>
+
+@functions{
+    EjsSchedule scheduleObj;
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int AirlineId { get; set; }
+    }
+
+    private static List<object> generateEvents()
+    {
+        var subjectCollection = new List<string> { "Barcelona to Los Angeles", "Los Angeles to Barcelona" };
+        var collections = new List<object> { };
+        var dataCollections = new List<int> { 1, 2, 3 };
+        var id = 1;
+        var no = 0;
+        for (var i = 0; i < dataCollections.Count; i++)
+        {
+            var data = dataCollections[i];
+            var startDate = new DateTime(2018, 3, 1);
+            var lastDate = new DateTime(2018, 4, 1);
+            for (var date = startDate; date.Ticks < lastDate.Ticks; date = date.AddHours(2))
+            {
+                var strDate = date;
+                var endDate = strDate.AddHours(2);
+                collections.Add(new AppointmentData
+                {
+                    Id = id,
+                    Subject = subjectCollection[id % 2],
+                    StartTime = strDate,
+                    EndTime = endDate,
+                    AirlineId = data
+                });
+                no += 1;
+                id += 1;
+                date = date.AddHours(1);
+                if (id % 8 == 0)
+                {
+                    date = date.AddHours(1);
+                }
+            }
+        }
+        return collections;
+    }
+    
+    public object groupData { get; set; } = new
+    {
+        resources = new string[] { "Airlines" }
+    };
+
+    [Parameter]
+    private List<object> resourceData { get; set; } = new List<object> {
+        new {
+            field = "AirlineId", title = "Airline Name",
+            name = "Airlines", allowMultiple = true,
+            dataSource = new List<object>{
+                new { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50 },
+                new { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75},
+                new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100}
+            },
+        textField = "AirlineName", idField = "AirlineId", colorField = "AirlineColor"
+        }
+    };
+
+    [Parameter]
+    private object eventSettingsFields { get; set; } = new
+    {
+        dataSource = generateEvents(),
+        fields = new
+        {
+            subject = new { title = "Travel Summary", name = "Subject" },
+            location = new { title = "Source", name = "Location" },
+            description = new { title = "Comments", name = "Description" },
+            startTime = new { title = "Departure Time", name = "StartTime" },
+            endTime = new { title = "Arrival Time", name = "EndTime" }
+        }
+    };
+}

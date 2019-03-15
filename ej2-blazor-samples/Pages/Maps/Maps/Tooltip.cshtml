@@ -1,0 +1,150 @@
+﻿@page "/Maps/Tooltip"
+
+
+@using Syncfusion.EJ2.RazorComponents.Maps
+@using Syncfusion.EJ2.RazorComponents.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+        SampleBrowser.CurrentSampleName = "Tooltip";
+        SampleBrowser.CurrentControlName = "Maps";
+        SampleBrowser.CurrentControlCategory = "Maps";
+        SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+        SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+       This sample depicts the countries that were appeared in the finals of Cricket World Cup and their counts. By hovering the mouse over the shapes, county name, finalist count, and winning count will be displayed in the tooltip template.
+   </p>"
+    };
+        SampleBrowser.Description = new string[] {
+        @"<p>
+       In this example, you can see how to render the custom HTML element as tooltip. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. Also, the interactive legend has been placed at the left of the map. 
+    </p>
+<br/>
+    <p style=""font-weight: 500"">Injecting Module</p>
+    <p>
+     Maps component features are segregated into individual feature-wise modules. To use a tooltip, inject the <code>MapsTooltip</code> module using the < code > Maps.Inject(MapsTooltip) </ code > method.
+    </ p > "
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div>
+        <EjsMaps ID="Layout" Layers="@layers" ZoomSettings="@zoomSettings" LegendSettings="@legendSettings" TitleSettings="@titleSettings"></EjsMaps>
+    </div>
+    <div style="float: right; margin-right: 10px;">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/List_of_Cricket_World_Cup_finals" target="_blank">en.wikipedia.org</a>
+    </div>
+</div>
+<div id="template" style="display:none">
+    <div class="toolback">
+        <div class="listing2">
+            <center>
+                ${country}
+            </center>
+        </div>
+        <hr style="margin-top: 2px;margin-bottom:5px;border:0.5px solid #DDDDDD">
+        <div>
+            <span class="listing1">Finalist : </span><span class="listing2">${value1}</span>
+        </div>
+        <div>
+            <span class="listing1">Win : </span><span class="listing2">${value2}</span>
+        </div>
+    </div>
+
+</div>
+<style>
+    .toolback {
+        border-radius: 4px;
+        border: 1px #abb9c6;
+        opacity: 90%;
+        background: rgba(53, 63, 76, 0.90);
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.40);
+        padding-bottom: 5px;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 90px;
+    }
+
+    .listing1 {
+        font-size: 13px;
+        color: #cccccc
+    }
+
+    .listing2 {
+        font-size: 13px;
+        color: #ffffff;
+        font-weight: 500;
+    }
+</style>
+@functions {
+
+    public object zoomSettings = new
+    {
+        enable = false
+    };
+    public object legendSettings = new
+    {
+        visible= true,
+        mode= "Interactive",
+        position= "Left",
+        orientation= "Vertical",
+        height= "70%",
+        width= "10"
+    };
+    public object titleSettings { get; set; } = new
+    {
+        text = "Finalist in Cricket World Cup",
+        textStyle = new
+        {
+            size = "16px"
+        }
+    };
+    public List<object> layers { get; set; } = new List<object>
+{
+new {
+    shapeData = new {
+        async= true,
+        dataOptions= "scripts/MapsData/WorldMap.json",
+        type= "GET"
+    },
+    shapeDataPath= "name",
+    shapePropertyPath= "name",
+    dataSource = new {
+        async= true,
+        dataOptions= "scripts/MapsData/tooltip-datasource.json",
+        type= "GET"
+    },
+    tooltipSettings= new {
+        visible= true,
+        valuePath= "name",
+         template= "#template"
+    },
+    shapeSettings= new {
+        fill= "#E5E5E5",
+        colorMapping= new object[] {
+           new {
+                value= "1",
+                color= "#b3daff"
+            },
+            new {
+                color= "#80c1ff",
+                value= "2"
+            },
+            new {
+                color= "#1a90ff",
+                value= "3"
+            },
+            new {
+                color= "#005cb3",
+                value= "7"
+            },
+        },
+        colorValuePath= "value1"
+        }
+}
+};
+}
