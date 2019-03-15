@@ -66,7 +66,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Chart">Charts</a>
+            <a href="ej2-blazor-samples/Pages/Charts">Charts</a>
         </td>
         <td>
             <a href="ej2-blazor-samples/Pages/CircularGauge">Circular Gauge</a>
@@ -77,10 +77,10 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Diagram">Diagram</a>
+            <a href="ej2-blazor-samples/Pages/Diagrams">Diagram</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Heatmap">Heatmap chart</a>
+            <a href="ej2-blazor-samples/Pages/HeatMapChart">Heatmap chart</a>
         </td>
         <td>
             <a href="ej2-blazor-samples/Pages/Maps">Maps</a>
@@ -88,18 +88,18 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/RangeNavigator">Range Selector</a>
+            <a href="ej2-blazor-samples/Pages/Charts/RangeNavigator">Range Selector</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Smithchart">Smith Chart</a>
+            <a href="ej2-blazor-samples/Pages/Charts/SmithChart">Smith Chart</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Sparkline">Sparkline Charts</a>
+            <a href="ej2-blazor-samples/Pages/Charts/Sparkline">Sparkline Charts</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Treemap">TreeMap</a>
+            <a href="ej2-blazor-samples/Pages/TreeMap">TreeMap</a>
         </td>
         <td></td>
         <td></td>
@@ -128,21 +128,21 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="ej2-blazor-samples/Pages/Schedule">Scheduler</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Calendar">Calendar</a>
+            <a href="ej2-blazor-samples/Pages/Calendars/Calendar">Calendar</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/DatePicker">DatePicker</a>
+            <a href="ej2-blazor-samples/Pages/Calendars/DatePicker">DatePicker</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/DateRangePicker">Date Range Picker</a>
+            <a href="ej2-blazor-samples/Pages/Calendars/DateRangePicker">Date Range Picker</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/DateTimePicker">DateTime Picker</a>
+            <a href="ej2-blazor-samples/Pages/Calendars/DateTimePicker">DateTime Picker</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/TimePicker">Time Picker</a>
+            <a href="ej2-blazor-samples/Pages/Calendars/TimePicker">Time Picker</a>
         </td>
     </tr>
     <tr>
@@ -152,21 +152,21 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button">Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons">Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/ButtonGroup.cshtml">Button Group</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/ButtonGroup.cshtml">Button Group</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/DropDownButton.cshtml">Dropdown Menu</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/DropDownButton.cshtml">Dropdown Menu</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/ProgressButton.cshtml">Progress Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/ProgressButton.cshtml">Progress Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/SplitButton.cshtml">Split Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/SplitButton.cshtml">Split Button</a>
         </td>
         <td></td>
     </tr>
@@ -177,18 +177,18 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/AutoComplete">AutoComplete</a>
+            <a href="ej2-blazor-samples/Pages/DropDowns/AutoComplete">AutoComplete</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/ComboBox">ComboBox</a>
+            <a href="ej2-blazor-samples/Pages/DropDowns/ComboBox">ComboBox</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/DropDownList">Dropdown List</a>
+            <a href="ej2-blazor-samples/Pages/DropDowns/DropDownList">Dropdown List</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/MultiSelect">MultiSelect Dropdown</a>
+            <a href="ej2-blazor-samples/Pages/DropDowns/MultiSelect">MultiSelect Dropdown</a>
         </td>
         <td></td>
         <td></td>
@@ -200,29 +200,29 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Accordion">Accordion</a>
+            <a href="ej2-blazor-samples/Pages/Navigations/Accordion">Accordion</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/ContextMenu">Context Menu</a>
+            <a href="ej2-blazor-samples/Pages/Navigations/ContextMenu">Context Menu</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Menu">Menu Bar</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="ej2-blazor-samples/Pages/Sidebar">Sidebar</a>
-        </td>
-        <td>
-            <a href="ej2-blazor-samples/Pages/Tab">Tabs</a>
-        </td>
-        <td>
-            <a href="ej2-blazor-samples/Pages/Toolbar">Toolbar</a>
+            <a href="ej2-blazor-samples/Pages/Navigations/MenuBar">Menu Bar</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/TreeView">TreeView</a>
+            <a href="ej2-blazor-samples/Pages/Navigations/Sidebar">Sidebar</a>
+        </td>
+        <td>
+            <a href="ej2-blazor-samples/Pages/Navigations/Tab">Tabs</a>
+        </td>
+        <td>
+            <a href="ej2-blazor-samples/Pages/Navigations/Toolbar">Toolbar</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ej2-blazor-samples/Pages/Navigations/TreeView">TreeView</a>
         </td>
         <td></td>
         <td></td>
@@ -234,35 +234,35 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/TextBoxes">TextBox</a>
+            <a href="ej2-blazor-samples/Pages/Inputs/TextBox">TextBox</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/MaskedTextBox">Input Mask</a>
+            <a href="ej2-blazor-samples/Pages/Inputs/MaskedTextBox">Input Mask</a>
         </td>
          <td>
-            <a href="ej2-blazor-samples/Pages/NumericTextBox">Numeric Textbox</a>
+            <a href="ej2-blazor-samples/Pages/Inputs/NumericTextBox">Numeric Textbox</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/RadioButton.cshtml">Radio Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/RadioButton.cshtml">Radio Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/CheckBox.cshtml">Checkbox</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/CheckBox.cshtml">Checkbox</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/ColorPicker">Color Picker</a>
+            <a href="ej2-blazor-samples/Pages/Inputs/ColorPicker">Color Picker</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Uploader">File Upload</a>
+            <a href="ej2-blazor-samples/Pages/Inputs/Uploader">File Upload</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Slider">Range Slider</a>
+            <a href="ej2-blazor-samples/Pages/Inputs/Slider">Range Slider</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Button/Switch.cshtml">Toggle Switch Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/Switch.cshtml">Toggle Switch Button</a>
         </td>
     </tr>
     <tr>
@@ -272,21 +272,21 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Avatar">Avatar</a>
+            <a href="ej2-blazor-samples/Pages/Layouts/Avatar">Avatar</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Card">Card</a>
+            <a href="ej2-blazor-samples/Pages/Layouts/Card">Card</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Dialog">Dialog</a>
+            <a href="ej2-blazor-samples/Pages/Layout/Dialog">Dialog</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/ListView">ListView</a>
+            <a href="ej2-blazor-samples/Pages/Lists/ListView">ListView</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Tooltip">Tooltip</a>
+            <a href="ej2-blazor-samples/Pages/Popups/Tooltip">Tooltip</a>
         </td>
         <td></td>
     </tr>
@@ -297,10 +297,10 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Badge">Badge</a>
+            <a href="ej2-blazor-samples/Pages/Notifications/Badge">Badge</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Toast">Toast</a>
+            <a href="ej2-blazor-samples/Pages/Notifications/Toast">Toast</a>
         </td>
         <td></td>
     </tr>
@@ -311,21 +311,8 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/XlsIO">Excel Library</a>
+            <a href="ej2-blazor-samples/Pages/Viewer/PdfViewer">PDF Library</a>
         </td>
-        <td>
-            <a href="ej2-blazor-samples/Pages/PDF">PDF Library</a>
-        </td>
-        <td>
-            <a href="ej2-blazor-samples/Pages/DocIO">Word Library</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="ej2-blazor-samples/Pages/Presentation">PowerPoint Library</a>
-        </td>
-        <td></td>
-        <td></td>
     </tr>
 </table>
 
