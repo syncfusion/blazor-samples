@@ -39,7 +39,7 @@ The Syncfusion license that contains the terms and conditions can be found at
 
 * Open the command prompt from samples root directory.
 * Run `dotnet restore` and `dotnet build`.
-* Then Change the directory in to `ej2-blazor-samples`.
+* Then Change the directory in to `cd ej2-blazor-samples`.
 * Run `dotnet run`.
 
 ## Controls Catalog
