@@ -37,6 +37,15 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Chart",
+                Category = "PivotTable",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotView/Chart",
+                FileName = "Chart.cshtml",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Editing",
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
