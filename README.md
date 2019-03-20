@@ -16,7 +16,7 @@ This section guides you to use the Syncfusion ASP.NET Core Razor Components UI C
 The samples requires the below requirements to run.
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/#2019rc)
-* [.NET Core SDK 3.0 Preview](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+* [.NET Core SDK 3.0 Preview3](https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
 ## Documentation
 
