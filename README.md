@@ -1,13 +1,13 @@
-# Syncfusion ASP.NET Core Razor Components UI Controls samples
+# Syncfusion ASP.NET Core Razor Components UI Samples
 
-This repository contains the demos of [Syncfusion ASP.NET Core Razor Components](https://ej2.syncfusion.com/beta/aspnet-core-razor-components/) UI Controls. This is the best place to check our controls to get more insight about the usage of APIs.
+This repository contains the demos of [Syncfusion ASP.NET Core Razor Components](https://ej2.syncfusion.com/beta/aspnet-core-razor-components/).
 
-This section guides you to use the Syncfusion ASP.NET Core Razor Components UI Controls samples in your applications.
+The below topics can help you to use the Syncfusion ASP.NET Core Razor Components and run this application in your local
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
+* [Using the samples](#using-the-samples)
 * [Documentation](#documentation)
 * [License](#license)
-* [Using the samples](#using-the-samples)
 * [Controls Catalog](#controls-catalog)
 * [Support and Feedback](#support-and-feedback)
 
@@ -18,13 +18,20 @@ The samples requires the below requirements to run.
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/#2019rc)
 * [.NET Core SDK 3.0 Preview3](https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
+## Using the samples
+
+* Open the command prompt from samples root directory.
+* Run `dotnet restore` and `dotnet build`.
+* Then Change the directory in to `cd ej2-blazor-samples`.
+* Run `dotnet run`.
+
 ## Documentation
 
-All controls documentation for the Syncfusion ASP.NET Core Razor Components UI controls can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-razor-components/documentation/introduction/).
+All controls documentation for the Syncfusion ASP.NET Core Razor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-razor-components/documentation/introduction/).
 
 ## License
 
-Syncfusion ASP.NET Core Razor Components UI (Essential JS 2) controls library is available under the Syncfusion Essential Studio program,  and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
+Syncfusion ASP.NET Core Razor Components (Essential JS 2) is available under the Syncfusion Essential Studio program,  and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
 
 To be qualified for the Syncfusion Community License Program you must have a gross revenue of less than one (1) million U.S. dollars ($1,000,000.00 USD) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusion’s terms and conditions.
 
@@ -34,13 +41,6 @@ Under no circumstances can you use this product without (1) either a Community L
 
 The Syncfusion license that contains the terms and conditions can be found at
 [https://www.syncfusion.com/content/downloads/syncfusion_license.pdf](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf)
-
-## Using the samples
-
-* Open the command prompt from samples root directory.
-* Run `dotnet restore` and `dotnet build`.
-* Then Change the directory in to `cd ej2-blazor-samples`.
-* Run `dotnet run`.
 
 ## Controls Catalog
 
