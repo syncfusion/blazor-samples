@@ -73,10 +73,10 @@ function switchTheme(args) {
   //loadTheme(curTheme.innerText.toLowerCase());
 }
 function refreshTab(code) {
-  setTimeout(function() {
+  setTimeout(function () {
     document.querySelector("#sb-source-tab").ej2_instances[0].refresh();
-    document.querySelector("#code").innerHTML=code;
-    hljs.highlightBlock(document.querySelector("#code"),{language:"cshtml"});
+    document.querySelector("#code").innerHTML = code;
+    hljs.highlightBlock(document.querySelector("#code"), { language: "cshtml" });
     document.querySelector("#right-pane").scrollTo(0, 0);
   }, 300);
 }
@@ -91,6 +91,12 @@ function updateDescription(content) {
   }
   document.querySelector(".description-section").innerHTML = a;
 }
+
+// void function persistURL(navUrl){
+//   var pURL = (window.location.href).match(/theme=.*/g)[0];
+//  // return (window.location.href).replace(window.location.pathname, "/" + navUrl.url);
+//   return "?" + pURL;
+// }
 
 function destroyControl() {
   document.querySelectorAll("#control-content .e-control").forEach(function (e) {
