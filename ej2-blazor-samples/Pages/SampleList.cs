@@ -232,6 +232,16 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "ListBox",
+                Category = "DropDowns",
+                Directory = "DropDowns/ListBox",
+                Type = SampleType.New,
+                UID = 028,
+                Order = 05,
+                Samples = ListBox
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Sidebar",
                 Category = "Navigations",
                 Directory = "Navigations/Sidebar",
@@ -309,6 +319,16 @@ namespace ej2_blazor_samples
                 UID = 007,
                 Order = 01,
                 Samples = Card
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "DashboardLayout",
+                Category = "Layout",
+                Directory = "Layouts/DashboardLayout",
+                Type = SampleType.New,
+                UID = 028,
+                Order = 01,
+                Samples = DashboardLayout
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -402,6 +422,16 @@ namespace ej2_blazor_samples
                 Samples = Schedule
             });
 
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Gantt",
+                Category = "Calendars",
+                Directory = "Gantt/Gantt",
+                Type = SampleType.New,
+                UID = 005,
+                Order = 01,
+                Samples = Gantt
+            });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Diagram",
@@ -531,6 +561,16 @@ namespace ej2_blazor_samples
                 UID = 014,
                 Order = 14,
                 Samples = Slider
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "FileManager",
+                Category = "Navigations",
+                Directory = "Navigations/FileManager",
+                Type = SampleType.New,
+                UID = 016,
+                Order = 04,
+                Samples = FileManager
             });
         }
     }

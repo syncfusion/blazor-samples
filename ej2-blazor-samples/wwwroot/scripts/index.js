@@ -92,11 +92,11 @@ function updateDescription(content) {
   document.querySelector(".description-section").innerHTML = a;
 }
 
-// void function persistURL(navUrl){
-//   var pURL = (window.location.href).match(/theme=.*/g)[0];
-//  // return (window.location.href).replace(window.location.pathname, "/" + navUrl.url);
-//   return "?" + pURL;
-// }
+void function persistURL(navUrl){
+  var pURL = (window.location.href).match(/theme=.*/g)[0];
+ // return (window.location.href).replace(window.location.pathname, "/" + navUrl.url);
+  return "?" + pURL;
+}
 
 function destroyControl() {
   document.querySelectorAll("#control-content .e-control").forEach(function (e) {

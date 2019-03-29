@@ -13,8 +13,26 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "PdfViewer",
                 Directory = "Viewer/PdfViewer",
-                Url = "PdfViewer/DefaultFunctionalities",
+                Url = "Viewer/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.cshtml",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "CustomToolbar",
+                Category = "PdfViewer",
+                Directory = "Viewer/PdfViewer",
+                Url = "Viewer/CustomToolbar",
+                FileName = "CustomToolbar.cshtml",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "RightToLeft",
+                Category = "PdfViewer",
+                Directory = "Viewer/PdfViewer",
+                Url = "Viewer/RightToLeft",
+                FileName = "RightToLeft.cshtml",
                 Type = SampleType.New
             }
         };
