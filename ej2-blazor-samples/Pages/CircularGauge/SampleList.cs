@@ -28,17 +28,17 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Direction Compass",
+                Name = "Gauge Customization",
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "CircularGauge/Compass",
-                FileName = "Compass.cshtml",
+                Url = "CircularGauge/Customization",
+                FileName = "Customization.cshtml",
                 Type = SampleType.New
             },
             new Sample
             {
                 Name = "Pointer Image",
-                Category = "Pointer",
+                Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/PointerImage",
                 FileName = "PointerImage.cshtml",
@@ -47,7 +47,7 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Tooltip",
-                Category = "User Interaction",
+                Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/Tooltip",
                 FileName = "Tooltip.cshtml",

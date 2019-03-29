@@ -117,5 +117,17 @@ namespace ej2_blazor_samples
                 Type = SampleType.New,
             }
         };
+
+        public List<Sample> ListBox { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalites",
+                Category = "ListBox",
+                Directory = "DropDowns/ListBox",
+                Url = "ListBox/DefaultFunctionalities",
+                FileName = "DefaultFunctionalities.cshtml",
+                Type = SampleType.New,
+            },
+        };
     }
 }

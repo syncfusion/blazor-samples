@@ -159,9 +159,25 @@ namespace ej2_blazor_samples
                 Type = SampleType.New
             }
         };
+         public List<Sample> FileManager { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Overview",
+                Category = "FileManager",
+                Directory = "Navigations/FileManager",
+                Url = "FileManager/Overview",
+                FileName = "Overview.cshtml",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "CustomThumbnail",
+                Category = "FileManager",
+                Directory = "Navigations/FileManager",
+                Url = "FileManager/CustomThumbnail",
+                FileName = "CustomThumbnail.cshtml",
+                Type = SampleType.New
+            }
+        };
     }
-
-   
-
-
 }

@@ -64,6 +64,15 @@ namespace ej2_blazor_samples
                 Url = "Charts/RangeNavigator",
                 FileName = "RangeNavigator.cshtml",
                 Type = SampleType.New
+            },
+            new Sample
+             {
+                Name = "Light weight",
+                Category = "Range Navigator",
+                Directory = "Charts/RangeNavigator",
+                Url = "Charts/LightWeight",
+                FileName = "LightWeight.cshtml",
+                Type = SampleType.New
             }
         };
 		
@@ -112,11 +121,20 @@ namespace ej2_blazor_samples
         public List<Sample> StockChart { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Stock Chart",
-                Category = "StockChart",
+                Name = "StockChart",
+                Category = "Stock Chart",
                 Directory = "Charts/StockChart",
                 Url = "Charts/StockChart",
                 FileName = "StockChart.cshtml",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Hide Range Selector",
+                Category = "Stock Chart",
+                Directory = "Charts/StockChart",
+                Url = "Charts/HideSelector",
+                FileName = "HideSelector.cshtml",
                 Type = SampleType.New
             }
         };		

@@ -67,7 +67,17 @@ namespace ej2_blazor_samples
                 Type = SampleType.New,
             }
         };
-
+         public List<Sample> DashboardLayout { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Default",
+                Category = "Dashboard Layout",
+                Directory = "Layouts/DashboardLayout",
+                Url = "DashboardLayout/Default",
+                FileName = "Default.cshtml",
+                Type = SampleType.New
+            }
+        };
     }
 
    
