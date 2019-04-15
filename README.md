@@ -1,6 +1,6 @@
-# Syncfusion ASP.NET Core Razor Components UI Samples
+# Syncfusion ASP.NET Core Blazor Components Samples
 
-This repository contains the demos of [Syncfusion ASP.NET Core Razor Components](https://ej2.syncfusion.com/beta/aspnet-core-razor-components/).
+This repository contains the demos of [Syncfusion ASP.NET Core Blazor Components](https://ej2.syncfusion.com/beta/aspnet-core-razor-components/).
 
 The below topics can help you to use the Syncfusion ASP.NET Core Razor Components and run this application in your local
 
