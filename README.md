@@ -27,7 +27,7 @@ The samples requires the below requirements to run.
 
 ## Documentation
 
-All controls documentation for the Syncfusion ASP.NET Core Razor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-razor-components/documentation/introduction/).
+All controls documentation for the Syncfusion ASP.NET Core Razor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
 
 ## License
 
