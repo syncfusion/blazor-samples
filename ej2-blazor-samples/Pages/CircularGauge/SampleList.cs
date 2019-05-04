@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/Labels",
-                FileName = "Labels.cshtml",
+                FileName = "Labels.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/Customization",
-                FileName = "Customization.cshtml",
+                FileName = "Customization.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/PointerImage",
-                FileName = "PointerImage.cshtml",
+                FileName = "PointerImage.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/Tooltip",
-                FileName = "Tooltip.cshtml",
+                FileName = "Tooltip.razor",
                 Type = SampleType.New
             }
         };      

@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
                 Url = "TreeMap/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
                 Url = "TreeMap/Customization",
-                FileName = "Customization.cshtml",
+                FileName = "Customization.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
                 Url = "TreeMap/Label",
-                FileName = "TreeMapLabel.cshtml",
+                FileName = "TreeMapLabel.razor",
                 Type = SampleType.New
             },
               new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
                 Url = "TreeMap/Tooltip",
-                FileName = "Tooltip.cshtml",
+                FileName = "Tooltip.razor",
                 Type = SampleType.New
             },
                new Sample
@@ -50,46 +50,9 @@ namespace ej2_blazor_samples
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
                 Url = "TreeMap/Legend",
-                FileName = "Legend.cshtml",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "ColorMapping",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "TreeMap/ColorMapping",
-                FileName = "ColorMapping.cshtml",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Layout",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "TreeMap/layerData",
-                FileName = "layerData.cshtml",
-                Type = SampleType.New
-            },
-             new Sample
-            {
-                Name = "Print",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "TreeMap/Print",
-                FileName = "print.cshtml",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Selection",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "TreeMap/Selection",
-                FileName = "selection.cshtml",
+                FileName = "Legend.razor",
                 Type = SampleType.New
             }
-
         };      
     }
 

@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/Multilayer",
-                FileName = "Multilayer.cshtml",
+                FileName = "Multilayer.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/marker",
-                FileName = "marker.cshtml",
+                FileName = "marker.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/Tooltip",
-                FileName = "Tooltip.cshtml",
+                FileName = "Tooltip.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -50,20 +50,9 @@ namespace ej2_blazor_samples
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/OpenStreetMap",
-                FileName = "OpenStreetMap.cshtml",
-                Type = SampleType.New
-            },
-             new Sample
-            {
-                Name = "Projection",
-                Category = "Maps",
-                Directory = "Maps/Maps",
-                Url = "Maps/Projection",
-                FileName = "Projection.cshtml",
+                FileName = "OpenStreetMap.razor",
                 Type = SampleType.New
             }
-             
-
         };      
     }
 

@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Dialog",
                 Directory = "Layout/Dialog",
                 Url = "Layout/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Dialog",
                 Directory = "Layout/Dialog",
                 Url = "Layout/Draggable",
-                FileName = "Draggable.cshtml",
+                FileName = "Draggable.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Dialog",
                 Directory = "Layout/Dialog",
                 Url = "Layout/Resizable",
-                FileName = "Resizable.cshtml",
+                FileName = "Resizable.razor",
                 Type = SampleType.New
             }
         };
@@ -43,7 +43,7 @@ namespace ej2_blazor_samples
                 Category = "Splitter",
                 Directory = "Layout/Splitter",
                 Url = "Layout/Default",
-                FileName = "Default.cshtml",
+                FileName = "Default.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -52,7 +52,7 @@ namespace ej2_blazor_samples
                 Category = "Splitter",
                 Directory = "Layout/Splitter",
                 Url = "Layout/ExpandandCollapse",
-                FileName = "ExpandandCollapse.cshtml",
+                FileName = "ExpandandCollapse.razor",
                 Type = SampleType.New
             },
         };

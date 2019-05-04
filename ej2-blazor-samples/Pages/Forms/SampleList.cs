@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "QueryBuilder",
                 Directory = "Forms/QueryBuilder",
                 Url = "QueryBuilder/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             }
         };
     }

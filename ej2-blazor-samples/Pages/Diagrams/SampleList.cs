@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Diagram",
                 Directory = "Diagrams/Diagram",
                 Url = "Diagrams/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Diagram",
                 Directory = "Diagrams/Diagram",
                 Url = "Diagrams/Shapes",
-                FileName = "Shapes.cshtml",
+                FileName = "Shapes.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Diagram",
                 Directory = "Diagrams/Diagram",
                 Url = "Diagrams/HierarchicalModel",
-                FileName = "HierarchicalModel.cshtml",
+                FileName = "HierarchicalModel.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "Diagram",
                 Directory = "Diagrams/Diagram",
                 Url = "Diagrams/OrganizationModel",
-                FileName = "OrganizationModel.cshtml",
+                FileName = "OrganizationModel.razor",
                 Type = SampleType.New
             }
         };      

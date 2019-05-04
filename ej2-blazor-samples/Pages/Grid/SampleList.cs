@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/Sorting",
-                FileName = "Sorting.cshtml",
+                FileName = "Sorting.razor",
                 Type = SampleType.New
             },              
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/Filtering",
-                FileName = "Filtering.cshtml",
+                FileName = "Filtering.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/InlineEditing",
-                FileName = "InlineEditing.cshtml",
+                FileName = "InlineEditing.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/CheckboxSelection",
-                FileName = "CheckboxSelection.cshtml",
+                FileName = "CheckboxSelection.razor",
                 Type = SampleType.New
             }
         };      

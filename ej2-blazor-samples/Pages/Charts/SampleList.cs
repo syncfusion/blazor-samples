@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Chart",
                 Directory = "Charts/Chart",
                 Url = "Charts/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Chart",
                 Directory = "Charts/Chart",
                 Url = "Charts/bar",
-                FileName = "Bar.cshtml",
+                FileName = "Bar.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Chart",
                 Directory = "Charts/Chart",
                 Url = "Charts/Pie",
-                FileName = "Pie.cshtml",
+                FileName = "Pie.razor",
                 Type = SampleType.New
             },
               new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "Chart",
                 Directory = "Charts/Chart",
                 Url = "Charts/polar",
-                FileName = "Polar.cshtml",
+                FileName = "Polar.razor",
                 Type = SampleType.New
             },
                new Sample
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 Category = "Chart",
                 Directory = "Charts/Chart",
                 Url = "Charts/Trackball",
-                FileName = "Trackball.cshtml",
+                FileName = "Trackball.razor",
                 Type = SampleType.New
             }
         };
@@ -62,7 +62,7 @@ namespace ej2_blazor_samples
                 Category = "Range Navigator",
                 Directory = "Charts/RangeNavigator",
                 Url = "Charts/RangeNavigator",
-                FileName = "RangeNavigator.cshtml",
+                FileName = "RangeNavigator.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -71,7 +71,7 @@ namespace ej2_blazor_samples
                 Category = "Range Navigator",
                 Directory = "Charts/RangeNavigator",
                 Url = "Charts/LightWeight",
-                FileName = "LightWeight.cshtml",
+                FileName = "LightWeight.razor",
                 Type = SampleType.New
             }
         };
@@ -83,7 +83,7 @@ namespace ej2_blazor_samples
                 Category = "Sparkline",
                 Directory = "Charts/Sparkline",
                 Url = "Sparkline/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -92,7 +92,7 @@ namespace ej2_blazor_samples
                 Category = "Sparkline",
                 Directory = "Charts/Sparkline",
                 Url = "Sparkline/SeriesType",
-                FileName = "SeriesType.cshtml",
+                FileName = "SeriesType.razor",
                 Type = SampleType.New,
             }
         };
@@ -104,7 +104,7 @@ namespace ej2_blazor_samples
                 Category = "SmithChart",
                 Directory = "Charts/SmithChart",
                 Url = "SmithChart/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -113,7 +113,7 @@ namespace ej2_blazor_samples
                 Category = "SmithChart",
                 Directory = "Charts/SmithChart",
                 Url = "SmithChart/Customization",
-                FileName = "Customization.cshtml",
+                FileName = "Customization.razor",
                 Type = SampleType.New
             }
         };
@@ -125,7 +125,7 @@ namespace ej2_blazor_samples
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
                 Url = "Charts/StockChart",
-                FileName = "StockChart.cshtml",
+                FileName = "StockChart.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -134,7 +134,7 @@ namespace ej2_blazor_samples
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
                 Url = "Charts/HideSelector",
-                FileName = "HideSelector.cshtml",
+                FileName = "HideSelector.razor",
                 Type = SampleType.New
             }
         };		

@@ -16,7 +16,7 @@ The below topics can help you to use the Syncfusion ASP.NET Core Razor Component
 The samples requires the below requirements to run.
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/#2019rc)
-* [.NET Core SDK 3.0 Preview3](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+* [.NET Core SDK 3.0 Preview4](https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
 ## Using the samples
 
@@ -27,7 +27,7 @@ The samples requires the below requirements to run.
 
 ## Documentation
 
-All controls documentation for the Syncfusion ASP.NET Core Razor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-razor-components/documentation/introduction/).
+All controls documentation for the Syncfusion ASP.NET Core Razor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
 
 ## License
 
@@ -155,18 +155,18 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="ej2-blazor-samples/Pages/Buttons">Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/ButtonGroup.cshtml">Button Group</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/ButtonGroup.razor">Button Group</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/DropDownButton.cshtml">Dropdown Menu</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/DropDownButton.razor">Dropdown Menu</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/ProgressButton.cshtml">Progress Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/ProgressButton.razor">Progress Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/SplitButton.cshtml">Split Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/SplitButton.razor">Split Button</a>
         </td>
         <td></td>
     </tr>
@@ -245,10 +245,10 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/RadioButton.cshtml">Radio Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/RadioButton.razor">Radio Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/CheckBox.cshtml">Checkbox</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/CheckBox.razor">Checkbox</a>
         </td>
         <td>
             <a href="ej2-blazor-samples/Pages/Inputs/ColorPicker">Color Picker</a>
@@ -262,7 +262,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="ej2-blazor-samples/Pages/Inputs/Slider">Range Slider</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/Switch.cshtml">Toggle Switch Button</a>
+            <a href="ej2-blazor-samples/Pages/Buttons/Button/Switch.razor">Toggle Switch Button</a>
         </td>
     </tr>
     <tr>

@@ -13,7 +13,7 @@ namespace ej2_blazor_samples
                 Name = "BasicCard",
                 Category = "Card",
                 Directory = "Layouts/Card",
-                FileName = "BasicCard.cshtml",
+                FileName = "BasicCard.razor",
                 Url = "Card/BasicCard",
                 Type = SampleType.New
             },
@@ -22,7 +22,7 @@ namespace ej2_blazor_samples
                 Name = "VerticalCard",
                 Category = "Card",
                 Directory = "Layouts/Card",
-                FileName = "VerticalCard.cshtml",
+                FileName = "VerticalCard.razor",
                 Url = "Card/VerticalCard",
                 Type = SampleType.New
             },
@@ -31,7 +31,7 @@ namespace ej2_blazor_samples
                 Name = "HorizontalCard",
                 Category = "Card",
                 Directory = "Layouts/Card",
-                FileName = "HorizontalCard.cshtml",
+                FileName = "HorizontalCard.razor",
                 Url = "Card/HorizontalCard",
                 Type = SampleType.New
             },
@@ -43,7 +43,7 @@ namespace ej2_blazor_samples
                 Category = "Listview",
                 Directory = "Layouts/Listview",
                 Url = "Listview/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             }
         };
@@ -54,7 +54,7 @@ namespace ej2_blazor_samples
                 Category = "Avatar",
                 Directory = "Layouts/Avatar",
                 Url = "Avatar/Default",
-                FileName = "Default.cshtml",
+                FileName = "Default.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -63,7 +63,7 @@ namespace ej2_blazor_samples
                 Category = "Avatar",
                 Directory = "Layouts/Avatar",
                 Url = "Avatar/Types",
-                FileName = "Types.cshtml",
+                FileName = "Types.razor",
                 Type = SampleType.New,
             }
         };
@@ -74,7 +74,7 @@ namespace ej2_blazor_samples
                 Category = "Dashboard Layout",
                 Directory = "Layouts/DashboardLayout",
                 Url = "DashboardLayout/Default",
-                FileName = "Default.cshtml",
+                FileName = "Default.razor",
                 Type = SampleType.New
             }
         };

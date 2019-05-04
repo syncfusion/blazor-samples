@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/Default",
-                FileName = "Default.cshtml",
+                FileName = "Default.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/Agenda",
-                FileName = "Agenda.cshtml",
+                FileName = "Agenda.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/Timeline",
-                FileName = "Timeline.cshtml",
+                FileName = "Timeline.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/TimelineResourceGroup",
-                FileName = "TimelineResourceGroup.cshtml",
+                FileName = "TimelineResourceGroup.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/Group",
-                FileName = "Group.cshtml",
+                FileName = "Group.razor",
                 Type = SampleType.New
             }
         };
