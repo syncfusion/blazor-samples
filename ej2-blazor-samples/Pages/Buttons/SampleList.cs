@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             },
            new Sample
             {
@@ -22,7 +22,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/ButtonGroup",
-                FileName = "ButtonGroup.cshtml"
+                FileName = "ButtonGroup.razor"
             },
            new Sample
             {
@@ -30,7 +30,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/CheckBox",
-                FileName = "CheckBox.cshtml"
+                FileName = "CheckBox.razor"
             },
            new Sample
             {
@@ -38,7 +38,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/RadioButton",
-                FileName = "RadioButton.cshtml"
+                FileName = "RadioButton.razor"
             },
            new Sample
             {
@@ -46,7 +46,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/DropDownButton",
-                FileName = "DropDownButton.cshtml"
+                FileName = "DropDownButton.razor"
             },
            new Sample
             {
@@ -54,7 +54,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/SplitButton",
-                FileName = "SplitButton.cshtml"
+                FileName = "SplitButton.razor"
             },
            new Sample
             {
@@ -62,7 +62,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/Switch",
-                FileName = "Switch.cshtml"
+                FileName = "Switch.razor"
             },
            new Sample
             {
@@ -70,7 +70,7 @@ namespace ej2_blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "Buttons/ProgressButton",
-                FileName = "ProgressButton.cshtml"
+                FileName = "ProgressButton.razor"
             },
         };
         public List<Sample> Chips { get; set; } = new List<Sample>{
@@ -80,7 +80,7 @@ namespace ej2_blazor_samples
                 Category = "Chips",
                 Directory = "Buttons/Chips",
                 Url = "Chips/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             }
 

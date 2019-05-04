@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace ej2_blazor_samples
@@ -59,7 +58,7 @@ namespace ej2_blazor_samples
         internal static string CurrentUrl;
         internal static string[] ActionDescription;
         internal static string[] Description;
-        internal static List<String>  SampleUrls = new List<String>();
+        internal static List<String> SampleUrls = new List<String>();
     }
 
     enum SampleType
@@ -69,7 +68,4 @@ namespace ej2_blazor_samples
         Updated,
         Preview
     }
-
-
-
 }

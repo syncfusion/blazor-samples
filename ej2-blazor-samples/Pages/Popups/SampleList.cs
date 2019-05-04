@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
                 Url = "Tooltip/Default",
-                FileName = "Default.cshtml",
+                FileName = "Default.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
                 Url = "Tooltip/HtmlTemplate",
-                FileName = "HtmlTemplate.cshtml",
+                FileName = "HtmlTemplate.razor",
                 Type = SampleType.New,
             },
         };   

@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "PdfViewer",
                 Directory = "Viewer/PdfViewer",
                 Url = "Viewer/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "PdfViewer",
                 Directory = "Viewer/PdfViewer",
                 Url = "Viewer/CustomToolbar",
-                FileName = "CustomToolbar.cshtml",
+                FileName = "CustomToolbar.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "PdfViewer",
                 Directory = "Viewer/PdfViewer",
                 Url = "Viewer/RightToLeft",
-                FileName = "RightToLeft.cshtml",
+                FileName = "RightToLeft.razor",
                 Type = SampleType.New
             }
         };

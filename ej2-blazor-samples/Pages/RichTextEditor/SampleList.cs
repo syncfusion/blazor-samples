@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "RichTextEditor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "RichTextEditor/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "RichTextEditor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "RichTextEditor/Inline",
-                FileName = "Inline.cshtml",
+                FileName = "Inline.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "RichTextEditor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "RichTextEditor/Iframe-Functionalities",
-                FileName = "Iframe-Functionalities.cshtml",
+                FileName = "Iframe-Functionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "RichTextEditor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "RichTextEditor/Markdown-Overview",
-                FileName = "Markdown-Overview.cshtml",
+                FileName = "Markdown-Overview.razor",
                 Type = SampleType.New
             }
         };      

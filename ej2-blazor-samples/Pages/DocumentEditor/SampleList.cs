@@ -15,7 +15,7 @@ namespace ej2_blazor_samples
                 Category = "DocumentEditor",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -24,7 +24,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/CharacterFormat",
-                FileName = "CharacterFormat.cshtml",
+                FileName = "CharacterFormat.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -33,7 +33,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/ParagraphFormat",
-                FileName = "ParagraphFormat.cshtml",
+                FileName = "ParagraphFormat.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -42,7 +42,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/Styles",
-                FileName = "Styles.cshtml",
+                FileName = "Styles.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -51,7 +51,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/BulletsAndNumbering",
-                FileName = "BulletsAndNumbering.cshtml",
+                FileName = "BulletsAndNumbering.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -60,7 +60,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/HyperlinksAndBookmarks",
-                FileName = "HyperlinksAndBookmarks.cshtml",
+                FileName = "HyperlinksAndBookmarks.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -69,7 +69,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/TableFormat",
-                FileName = "TableFormat.cshtml",
+                FileName = "TableFormat.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -78,7 +78,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/SectionFormat",
-                FileName = "SectionFormat.cshtml",
+                FileName = "SectionFormat.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -87,7 +87,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/HeadersAndFooters",
-                FileName = "HeadersAndFooters.cshtml",
+                FileName = "HeadersAndFooters.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -96,7 +96,7 @@ namespace ej2_blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "DocumentEditor/TableOfContents",
-                FileName = "TableOfContents.cshtml",
+                FileName = "TableOfContents.razor",
                 Type = SampleType.New
             }
 

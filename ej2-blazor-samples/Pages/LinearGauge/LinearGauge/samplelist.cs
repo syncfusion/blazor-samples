@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "LinearGauge",
                 Directory = "LinearGauge/LinearGauge",
                 Url = "LinearGauge/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "LinearGauge",
                 Directory = "LinearGauge/LinearGauge",
                 Url = "LinearGauge/Container",
-                FileName = "Container.cshtml",
+                FileName = "Container.razor",
                 Type = SampleType.New
             }
 

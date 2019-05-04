@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotView/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotView/UserInteraction",
-                FileName = "UserInteraction.cshtml",
+                FileName = "UserInteraction.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotView/AdvanceFiltering",
-                FileName = "AdvanceFiltering.cshtml",
+                FileName = "AdvanceFiltering.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotView/Chart",
-                FileName = "Chart.cshtml",
+                FileName = "Chart.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotView/Editing",
-                FileName = "Editing.cshtml",
+                FileName = "Editing.razor",
                 Type = SampleType.New
             }
         };

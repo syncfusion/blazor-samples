@@ -14,16 +14,16 @@ namespace ej2_blazor_samples
                 Category = "InPlaceEditor",
                 Directory = "Editors/InPlaceEditor",
                 Url = "Editors/Overview",
-                FileName = "Overview.cshtml",
+                FileName = "Overview.razor",
                 Type = SampleType.New
             },
             new Sample
             {
-                Name = "Dropdown components",
+                Name = "DropDownComponents",
                 Category = "InPlaceEditor",
                 Directory = "Editors/InPlaceEditor",
                 Url = "Editors/DropDownComponents",
-                FileName = "DropDownComponents.cshtml",
+                FileName = "DropDownComponents.razor",
                 Type = SampleType.New
             }
         };

@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "HeatMapChart",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "HeatMapChart/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "HeatMapChart",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "HeatMapChart/Emptypoints",
-                FileName = "Emptypoints.cshtml",
+                FileName = "Emptypoints.razor",
                 Type = SampleType.New
             }
         };    

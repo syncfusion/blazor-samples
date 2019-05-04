@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },                      
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/Dock",
-                FileName = "Dock.cshtml",
+                FileName = "Dock.razor",
                 Type = SampleType.New
             },          
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/SidebarWithListView",
-                FileName = "SidebarWithListView.cshtml",
+                FileName = "SidebarWithListView.razor",
                 Type = SampleType.New
             },         
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/SidebarWithMenu",
-                FileName = "SidebarWithMenu.cshtml",
+                FileName = "SidebarWithMenu.razor",
                 Type = SampleType.New
             },           
             new Sample
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/PanelWithResponsive",
-                FileName = "PanelWithResponsive.cshtml",
+                FileName = "PanelWithResponsive.razor",
                 Type = SampleType.New
             }           
         };
@@ -62,7 +62,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "ContextMenu",
                 Directory = "Navigations/ContextMenu",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Url = "ContextMenu/DefaultFunctionalities"
             }
         };
@@ -73,7 +73,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Menu Bar",
                 Directory = "Navigations/MenuBar",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Url = "MenuBar/DefaultFunctionalities"
             },
             new Sample
@@ -81,7 +81,7 @@ namespace ej2_blazor_samples
                 Name = "Data Binding",
                 Category = "Menu Bar",
                 Directory = "Navigations/MenuBar",
-                FileName = "DataBinding.cshtml",
+                FileName = "DataBinding.razor",
                 Url = "MenuBar/DataBinding"
             }
         };
@@ -92,7 +92,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Accordion",
                 Directory = "Navigations/Accordion",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                  Url = "Accordion/DefaultFunctionalities",
                 Type = SampleType.New
             },
@@ -101,7 +101,7 @@ namespace ej2_blazor_samples
                 Name = "Icons",
                 Category = "Accordion",
                 Directory = "Navigations/Accordion",
-                FileName = "Icons.cshtml",
+                FileName = "Icons.razor",
                  Url = "Accordion/Icons",
                 Type = SampleType.New
             }
@@ -113,7 +113,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
                 Url = "Toolbar/DefaultFunctionalities"
             },
@@ -122,7 +122,7 @@ namespace ej2_blazor_samples
                 Name = "Popup",
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
-                FileName = "Popup.cshtml",
+                FileName = "Popup.razor",
                 Type = SampleType.New,
                 Url = "Toolbar/Popup"
             }
@@ -134,7 +134,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Tab",
                 Directory = "Navigations/Tab",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
                  Url = "Tab/DefaultFunctionalities"
             }
@@ -146,7 +146,7 @@ namespace ej2_blazor_samples
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "TreeView/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -155,7 +155,7 @@ namespace ej2_blazor_samples
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "TreeView/CheckBox",
-                FileName = "CheckBox.cshtml",
+                FileName = "CheckBox.razor",
                 Type = SampleType.New
             }
         };
@@ -166,7 +166,7 @@ namespace ej2_blazor_samples
                 Category = "FileManager",
                 Directory = "Navigations/FileManager",
                 Url = "FileManager/Overview",
-                FileName = "Overview.cshtml",
+                FileName = "Overview.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -175,7 +175,7 @@ namespace ej2_blazor_samples
                 Category = "FileManager",
                 Directory = "Navigations/FileManager",
                 Url = "FileManager/CustomThumbnail",
-                FileName = "CustomThumbnail.cshtml",
+                FileName = "CustomThumbnail.razor",
                 Type = SampleType.New
             }
         };

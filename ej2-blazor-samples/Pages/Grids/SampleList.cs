@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/DefaultFiltering",
-                FileName = "DefaultFiltering.cshtml",
+                FileName = "DefaultFiltering.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Editing",
-                FileName = "Editing.cshtml",
+                FileName = "Editing.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/CheckboxColumn",
-                FileName = "CheckboxColumn.cshtml",
+                FileName = "CheckboxColumn.razor",
                 Type = SampleType.New,
             }
         };

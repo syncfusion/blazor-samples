@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Toast",
                 Directory = "Notifications/Toast",
                 Url = "Notifications/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             }
         };
@@ -25,7 +25,7 @@ namespace ej2_blazor_samples
                 Category = "Badge",
                 Directory = "Notifications/Badge",
                 Url = "Badge/Default",
-                FileName = "Default.cshtml",
+                FileName = "Default.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -34,7 +34,7 @@ namespace ej2_blazor_samples
                 Category = "Badge",
                 Directory = "Notifications/Badge",
                 Url = "Badge/Types",
-                FileName = "Types.cshtml",
+                FileName = "Types.razor",
                 Type = SampleType.New,
             }
         };

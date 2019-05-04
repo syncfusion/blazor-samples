@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "DropDownList",
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDownList/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "DropDownList",
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDownList/DataBinding",
-                FileName = "DataBinding.cshtml",
+                FileName = "DataBinding.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "DropDownList",
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDownList/Filtering",
-                FileName = "Filtering.cshtml",
+                FileName = "Filtering.razor",
                 Type = SampleType.New,
             }
         };
@@ -44,7 +44,7 @@ namespace ej2_blazor_samples
                 Category = "ComboBox",
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
               new Sample
@@ -53,7 +53,7 @@ namespace ej2_blazor_samples
                 Category = "ComboBox",
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/DataBinding",
-                FileName = "DataBinding.cshtml",
+                FileName = "DataBinding.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -62,7 +62,7 @@ namespace ej2_blazor_samples
                 Category = "ComboBox",
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Filtering",
-                FileName = "Filtering.cshtml",
+                FileName = "Filtering.razor",
                 Type = SampleType.New,
             }
         };
@@ -74,7 +74,7 @@ namespace ej2_blazor_samples
                 Category = "AutoComplete",
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -83,7 +83,7 @@ namespace ej2_blazor_samples
                 Category = "AutoComplete",
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/DataBinding",
-                FileName = "DataBinding.cshtml",
+                FileName = "DataBinding.razor",
                 Type = SampleType.New,
             }
         };
@@ -95,7 +95,7 @@ namespace ej2_blazor_samples
                 Category = "MultiSelect",
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -104,7 +104,7 @@ namespace ej2_blazor_samples
                 Category = "MultiSelect",
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect/DataBinding",
-                FileName = "DataBinding.cshtml",
+                FileName = "DataBinding.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -113,7 +113,7 @@ namespace ej2_blazor_samples
                 Category = "MultiSelect",
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect/Filtering",
-                FileName = "Filtering.cshtml",
+                FileName = "Filtering.razor",
                 Type = SampleType.New,
             }
         };
@@ -125,7 +125,7 @@ namespace ej2_blazor_samples
                 Category = "ListBox",
                 Directory = "DropDowns/ListBox",
                 Url = "ListBox/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
         };

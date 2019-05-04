@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "Calendar",
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -23,7 +23,7 @@ namespace ej2_blazor_samples
                 Category = "Calendar",
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/DateRange",
-                FileName = "DateRange.cshtml",
+                FileName = "DateRange.razor",
                 Type = SampleType.New,
             },
               new Sample
@@ -32,7 +32,7 @@ namespace ej2_blazor_samples
                 Category = "Calendar",
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/MultiSelection",
-                FileName = "MultiSelection.cshtml",
+                FileName = "MultiSelection.razor",
                 Type = SampleType.New,
             }
         };
@@ -44,7 +44,7 @@ namespace ej2_blazor_samples
                 Category = "DatePicker",
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -53,7 +53,7 @@ namespace ej2_blazor_samples
                 Category = "DatePicker",
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/DateRange",
-                FileName = "DateRange.cshtml",
+                FileName = "DateRange.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -62,7 +62,7 @@ namespace ej2_blazor_samples
                 Category = "DatePicker",
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Format",
-                FileName = "Format.cshtml",
+                FileName = "Format.razor",
                 Type = SampleType.New,
             }
         };
@@ -74,7 +74,7 @@ namespace ej2_blazor_samples
                 Category = "DateTimePicker",
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTimePicker/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -83,7 +83,7 @@ namespace ej2_blazor_samples
                 Category = "DateTimePicker",
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTimePicker/DateTimeRange",
-                FileName = "DateTimeRange.cshtml",
+                FileName = "DateTimeRange.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -92,7 +92,7 @@ namespace ej2_blazor_samples
                 Category = "DateTimePicker",
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTimePicker/Format",
-                FileName = "Format.cshtml",
+                FileName = "Format.razor",
                 Type = SampleType.New,
             },
         };
@@ -105,7 +105,7 @@ namespace ej2_blazor_samples
                 Category = "TimePicker",
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -114,7 +114,7 @@ namespace ej2_blazor_samples
                 Category = "TimePicker",
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Format",
-                FileName = "Format.cshtml",
+                FileName = "Format.razor",
                 Type = SampleType.New,
             }
         };
@@ -127,7 +127,7 @@ namespace ej2_blazor_samples
                 Category = "DateRangePicker",
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample
@@ -136,7 +136,7 @@ namespace ej2_blazor_samples
                 Category = "DateRangePicker",
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/DateRange",
-                FileName = "DateRange.cshtml",
+                FileName = "DateRange.razor",
                 Type = SampleType.New,
             },
              new Sample
@@ -145,7 +145,7 @@ namespace ej2_blazor_samples
                 Category = "DateRangePicker",
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Format",
-                FileName = "Format.cshtml",
+                FileName = "Format.razor",
                 Type = SampleType.New,
             }
         };

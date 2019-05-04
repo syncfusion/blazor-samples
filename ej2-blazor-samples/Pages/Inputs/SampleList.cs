@@ -14,7 +14,7 @@ namespace ej2_blazor_samples
                 Category = "TextBox",
                 Directory = "Inputs/TextBox",
                 Url = "TextBox/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             }
         };
 
@@ -26,7 +26,7 @@ namespace ej2_blazor_samples
                 Category = "ColorPicker",
                 Directory = "Inputs/ColorPicker",
                 Url = "ColorPicker/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             }
         };
 
@@ -37,7 +37,7 @@ namespace ej2_blazor_samples
                 Category = "MaskedTextBox",
                 Directory = "Inputs/MaskedTextBox",
                 Url = "MaskedTextBox/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             },
              new Sample
             {
@@ -45,7 +45,7 @@ namespace ej2_blazor_samples
                 Category = "MaskedTextBox",
                 Directory = "Inputs/MaskedTextBox",
                 Url = "MaskedTextBox/CustomMask",
-                FileName = "CustomMask.cshtml"
+                FileName = "CustomMask.razor"
             }
         };
 
@@ -56,7 +56,7 @@ namespace ej2_blazor_samples
                 Category = "NumericTextBox",
                 Directory = "Inputs/NumericTextBox",
                 Url = "NumericTextBox/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -64,7 +64,7 @@ namespace ej2_blazor_samples
                 Category = "NumericTextBox",
                 Directory = "Inputs/NumericTextBox",
                 Url = "NumericTextBox/CustomFormat",
-                FileName = "CustomFormat.cshtml"
+                FileName = "CustomFormat.razor"
             },
             new Sample
             {
@@ -72,7 +72,7 @@ namespace ej2_blazor_samples
                 Category = "NumericTextBox",
                 Directory = "Inputs/NumericTextBox",
                 Url = "NumericTextBox/RestrictDecimals",
-                FileName = "RestrictDecimals.cshtml"
+                FileName = "RestrictDecimals.razor"
             }
         };
         public List<Sample> FileUpload { get; set; } = new List<Sample>{
@@ -82,7 +82,7 @@ namespace ej2_blazor_samples
                 Category = "FileUpload",
                 Directory = "Inputs/Uploader",
                 Url = "Uploader/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml"
+                FileName = "DefaultFunctionalities.razor"
             },
              new Sample
             {
@@ -90,7 +90,7 @@ namespace ej2_blazor_samples
                 Category = "FileUpload",
                 Directory = "Inputs/Uploader",
                 Url = "Uploader/ChunkUpload",
-                FileName = "ChunkUpload.cshtml"
+                FileName = "ChunkUpload.razor"
             },
                new Sample
             {
@@ -98,7 +98,7 @@ namespace ej2_blazor_samples
                 Category = "FileUpload",
                 Directory = "Inputs/Uploader",
                 Url = "Uploader/FileValidation",
-                FileName = "FileValidation.cshtml"
+                FileName = "FileValidation.razor"
             }
         };
         public List<Sample> Slider { get; set; } = new List<Sample>{
@@ -108,7 +108,7 @@ namespace ej2_blazor_samples
                 Category = "Slider",
                 Directory = "Inputs/Slider",
                 Url = "Slider/Default",
-                FileName = "Default.cshtml"
+                FileName = "Default.razor"
             },
             new Sample
             {
@@ -116,7 +116,7 @@ namespace ej2_blazor_samples
                 Category = "Slider",
                 Directory = "Inputs/Slider",
                 Url = "Slider/Ticks",
-                FileName = "Ticks.cshtml"
+                FileName = "Ticks.razor"
             },
         };
     }

@@ -15,7 +15,7 @@ namespace ej2_blazor_samples
                 Category = "Gantt",
                 Directory = "Gantt/Gantt",
                 Url = "Gantt/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.cshtml",
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -24,7 +24,7 @@ namespace ej2_blazor_samples
                 Category = "Gantt",
                 Directory = "Gantt/Editing",
                 Url = "Gantt/Editing",
-                FileName = "Editing.cshtml",
+                FileName = "Editing.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -33,7 +33,7 @@ namespace ej2_blazor_samples
                 Category = "Gantt",
                 Directory = "Gantt/Gantt",
                 Url = "Gantt/Baseline",
-                FileName = "FilBaselinetering.cshtml",
+                FileName = "FilBaselinetering.razor",
                 Type = SampleType.New
             }
         };
