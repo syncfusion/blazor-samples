@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace ej2_blazor_samples
@@ -11,6 +14,12 @@ namespace ej2_blazor_samples
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
+
+            new HubConnectionBuilder()
+               .WithUrl("/chatHub")
+               .AddNewtonsoftJsonProtocol()
+               .Build();
+
         }
 
         public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
@@ -58,7 +67,7 @@ namespace ej2_blazor_samples
         internal static string CurrentUrl;
         internal static string[] ActionDescription;
         internal static string[] Description;
-        internal static List<String> SampleUrls = new List<String>();
+        internal static List<String>  SampleUrls = new List<String>();
     }
 
     enum SampleType
@@ -68,4 +77,7 @@ namespace ej2_blazor_samples
         Updated,
         Preview
     }
+
+
+    
 }
