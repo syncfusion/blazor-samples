@@ -33,7 +33,7 @@ namespace ej2_blazor_samples
                 Category = "Gantt",
                 Directory = "Gantt/Gantt",
                 Url = "Gantt/Baseline",
-                FileName = "FilBaselinetering.razor",
+                FileName = "Baseline.razor",
                 Type = SampleType.New
             }
         };

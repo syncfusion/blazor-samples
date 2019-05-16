@@ -6,65 +6,69 @@
 @using ej2_blazor_samples
 @using ej2_blazor_griddata
 @{
-                SampleBrowser.CurrentSampleName = "Sorting";
-                SampleBrowser.CurrentControlName = "DataGrid";
-                SampleBrowser.CurrentControlCategory = "DataGrid";
-                SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
-                SampleBrowser.ActionDescription = new string[] {
+    SampleBrowser.CurrentSampleName = "Sorting";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
         @"<p>
-			This sample demonstrates the Grid multi sorting feature. To sort two or more columns, hold the CTRL key and click the column header.
-		</p>"
+            This sample demonstrates the Grid multi sorting feature. To sort two or more columns, hold the CTRL key and click the column header.
+        </p>"
     };
-                SampleBrowser.Description = new string[]{
+    SampleBrowser.Description = new string[]{
         @"<p>
-				Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code>allowSorting</code> as true.
-			</p>
-			<p To sort a Grid column simply click the column header. The icons <span class=""e-icons e-icon-ascending""></span>(ascending)
+                Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code>allowSorting</code> as true.
+            </p>
+            <p To sort a Grid column simply click the column header. The icons <span class=""e-icons e-icon-ascending""></span>(ascending)
 
                 and <span class=""e-icons e-icon-descending""></span>(descending) specifies the sort direction of a column.</p>
-			<p>By default, multi-sorting is enabled in Grid, to sort multiple column hold<strong> CTRL</strong> key and click the column
+            <p>By default, multi-sorting is enabled in Grid, to sort multiple column hold<strong> CTRL</strong> key and click the column
                 header. To clear sort for a column, hold<strong> SHIFT</strong> key and click the column header.</p>
-			<p>
+            <p>
 
                 While using Grid in a touch device, you have an option for multi sorting in single tap on the grid header.By tapping on
 
                 the grid header, it will show the toggle button in small popup with sort icon.Now tap the button to enable the multi-sorting
 
                 in single tap.
-			</p>
-			<p>In this demo,</p> 
+            </p>
+            <p>In this demo,</p>
             <p>Simply click the column header to sort a column.</p>"
     };
 }
 @*End:Hidden*@
+@{
+    List<object> cols = new List<object>();
+    cols.Add(new { field = "OrderDate", direction = "Ascending" });
+    cols.Add(new { field = "Freight", direction = "Descending" });
+}
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
 
-            <EjsGrid ID="Grid" ref="defaultGrid" DataSource="@gridData" AllowMultiSorting="true" AllowSorting="true" AllowPaging="true">
+            <EjsGrid ID="Grid" DataSource="@gridData" AllowMultiSorting="true" AllowSorting="true" AllowPaging="true">
                 <GridPagesettings PageCount="2"></GridPagesettings>
-                <GridSortsettings></GridSortsettings>
+                <GridSortsettings Columns="cols"></GridSortsettings>
                 <GridColumns>
-                    <GridColumn Field="OrderID" HeaderText="Order ID" TextAlign="@Syncfusion.EJ2.RazorComponents.Grids.TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field="CustomerID" HeaderText="Customer Name" Width="150"></GridColumn>
-                    <GridColumn Field="OrderDate" HeaderText=" Order Date" Format="yMd" Type="date" TextAlign="@Syncfusion.EJ2.RazorComponents.Grids.TextAlign.Right" Width="130"></GridColumn>
-                    <GridColumn Field="Freight" HeaderText="Freight" Format="C2" TextAlign="@Syncfusion.EJ2.RazorComponents.Grids.TextAlign.Right" Width="120"></GridColumn>                    
-                    <GridColumn Field="ShipCountry" HeaderText="Ship Country" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="@Syncfusion.EJ2.RazorComponents.Grids.TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="yMd" Type="date" TextAlign="@Syncfusion.EJ2.RazorComponents.Grids.TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="@Syncfusion.EJ2.RazorComponents.Grids.TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
                 </GridColumns>
             </EjsGrid>
 
         </div>
     </div>
 </div>
+
 @functions{
 
-        EjsGrid defaultGrid;
+    public List<OrdersDetails> gridData { get; set; }
 
-        public object gridData { get; set; }
-
-    protected override void OnAfterRender()
+    protected override void OnInit()
     {
-    gridData = this.defaultGrid.DataSource = OrdersDetails.GetAllRecords();
+        gridData = OrdersDetails.GetAllRecords();
     }
-    }
+}
