@@ -5,17 +5,17 @@
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
-        SampleBrowser.CurrentSampleName = "Hierarchical tree";
-        SampleBrowser.CurrentControlName = "Diagram";
-        SampleBrowser.CurrentControlCategory = "Diagram";
-        SampleBrowser.CurrentControl = SampleBrowser.Config.Diagram;
-        SampleBrowser.ActionDescription = new string[] {
+    SampleBrowser.CurrentSampleName = "Hierarchical tree";
+    SampleBrowser.CurrentControlName = "Diagram";
+    SampleBrowser.CurrentControlCategory = "Diagram";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Diagram;
+    SampleBrowser.ActionDescription = new string[] {
         @"<p>
         This sample illustrates a generating hierarchical tree from right to left orientation with external data source.
 
     </p>"
     };
-        SampleBrowser.Description = new string[] {
+    SampleBrowser.Description = new string[] {
        @"<p>
         In this example, you can see how to generate a complex hierarchical tree from external data sources. You can also customize the spacing between the objects in the tree. You can use the
         <code>horizontalSpacing</code> and <code>verticalSpacing</code> properties of <code>layout</code> to customize the space between the objects in the tree. You can use the <code>layoutOrientation</code> property of
@@ -41,33 +41,64 @@
 @*End:Hidden*@
 
 <div class="control-section">
-    <EjsDiagram id="diagram" ref="diagram" Width="100%" Height="499px" Nodes="@nodes" Connectors="@connectors" SnapSettings="@snapSettings" Tool="@tool" Layout="@layoutSettings"></EjsDiagram>
+    <EjsDiagram id="diagram" @ref="diagram" Width="100%" Height="499px" Nodes="@nodes" Connectors="@connectors" SnapSettings="@snapSettings" Tool="@tool" Layout="@layoutSettings"></EjsDiagram>
 </div>
 
-@functions{
-EjsDiagram diagram;
-private static object getFlowShape(string id, string content,string category) {
-    return new { id= id, borderColor = "#3a6eb5",backgroundColor = "#659be5",
-    shape = new{ type= "Text"},
-    margin = new { left=5, right=5, bottom=5, top=5 },expandIcon =
-    new { height= 10, width= 10, shape= "None", fill= "lightgray", offset= new { x= .5, y= 1 },
-    verticalAlignment = "Auto",margin = new { left=10, right=10, top=10, bottom=10 }
-    },collapseIcon=new {offset = new{ x= .5, y= 1 },verticalAlignment = "Auto",height = 10,width = 10,
-    padding=new {top=5},shape = "None",fill = "lightgray"
-    },annotations= new List < object >
-    { new { content= content,style=new { color= "white"} ,margin = new { left=10, right=10, top=10, bottom=10 }} },
-    data=new {Category=category,Name=content},
-    style = new { fill= "#659be5", strokeColor= "none", color= "white", strokeWidth=2 }
-};
-}
-private static object getConnector(string id, string source,string tartget) {
+@code{
+    EjsDiagram diagram;
+    private static DiagramNode getFlowShape(string id, string content, string category)
+    {
+        return new DiagramNode()
+        {
+            Id = id,
+            BorderColor = "#3a6eb5",
+            BackgroundColor = "#659be5",
+            Shape = new { type = "Text" },
+            Margin = new { left = 5, right = 5, bottom = 5, top = 5 },
+            ExpandIcon =
+        new
+        {
+            height = 10,
+            width = 10,
+            shape = "None",
+            fill = "lightgray",
+            offset = new { x = .5, y = 1 },
+            verticalAlignment = "Auto",
+            margin = new { left = 10, right = 10, top = 10, bottom = 10 }
+        },
+            CollapseIcon = new
+            {
+                offset = new { x = .5, y = 1 },
+                verticalAlignment = "Auto",
+                height = 10,
+                width = 10,
+                padding = new { top = 5 },
+                shape = "None",
+                fill = "lightgray"
+            },
+            Annotations = new List<object>
+{ new { content= content,style=new { color= "white"} ,margin = new { left=10, right=10, top=10, bottom=10 }} },
+            Data = new { Category = category, Name = content },
+            Style = new { fill = "#659be5", strokeColor = "none", color = "white", strokeWidth = 2 }
+        };
+    }
+    private static DiagramConnector getConnector(string id, string source, string tartget)
+    {
 
-    return new {id= id, sourceID= source, targetID= tartget,targetDecorator= new{shape = "None"},type ="Orthogonal",
-    style= new{strokeColor = "#6d6d6d"},constraints = 0,cornerRadius = 5
-};
-}
-    private List < object >
-    nodes = new List < object >
+        return new DiagramConnector()
+        {
+            Id = id,
+            SourceID = source,
+            TargetID = tartget,
+            TargetDecorator = new { shape = "None" },
+            Type = Segments.Orthogonal,
+            Style = new { strokeColor = "#6d6d6d" },
+            Constraints = 0,
+            CornerRadius = 5
+        };
+    }
+    private List<DiagramNode>
+    nodes = new List<DiagramNode>
         {
         getFlowShape("node1","Diagram",""),
         getFlowShape("node2","Layout","Diagram"),
@@ -81,10 +112,10 @@ private static object getConnector(string id, string source,string tartget) {
         getFlowShape("node10","Human Resources","Management"),
         getFlowShape("node11","University","Management"),
         getFlowShape("node12","Business","Management")
-        };
+            };
 
-private List < object > connectors { get; set; } = new List < object >
-    {
+    private List<DiagramConnector> connectors { get; set; } = new List<DiagramConnector>
+{
        getConnector("connector1","node1","node2"),
        getConnector("connector2","node2","node3"),
        getConnector("connector3","node2","node4"),
@@ -98,12 +129,15 @@ private List < object > connectors { get; set; } = new List < object >
        getConnector("connector11","node9","node12")
     };
 
-private object layoutSettings { get; set; } = new {
-            type="HierarchicalTree", verticalSpacing=30, horizontalSpacing=40,
-            enableAnimation=true
-        };
+    private object layoutSettings { get; set; } = new
+    {
+        type = "HierarchicalTree",
+        verticalSpacing = 30,
+        horizontalSpacing = 40,
+        enableAnimation = true
+    };
 
-private object snapSettings { get; set; } = new {  constraints= "SnapConstraints.None" };
+    private object snapSettings { get; set; } = new { constraints = "SnapConstraints.None" };
 
-private DiagramTools tool= DiagramTools.ZoomPan;
+    private DiagramTools tool = DiagramTools.ZoomPan;
 }
