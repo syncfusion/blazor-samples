@@ -31,7 +31,30 @@
 
 <div class="control-section">
     <div>
-        <EjsMaps ID="Layout" Layers="@layers" ZoomSettings="@zoomSettings" LegendSettings="@legendSettings" TitleSettings="@titleSettings"></EjsMaps>
+        <EjsMaps ID="Layout">
+            <MapsLayers>
+                <MapsLayer ShapeData='@MapShapeData' DataSource='@datasource'
+                        ShapePropertyPath="@ShapePropertyPath"  ShapeDataPath="@ShapeDataPath" >
+                    <LayerTooltipSettings Visible="true" ValuePath="name" Template="#template"></LayerTooltipSettings>
+                    <MapsShapeSettings fill="@fill1" ColorValuePath="@color">
+                        <MapsColorMappings>
+                            <MapsColorMapping Value="@value1" Color="@color1"/>
+                            <MapsColorMapping Value="@value2" Color="@color2"/>
+                            <MapsColorMapping Value="@value3" Color="@color3"/>
+                            <MapsColorMapping Value="@value4" Color="@color4"/>
+                        </MapsColorMappings>
+                    </MapsShapeSettings> 
+                </MapsLayer>
+            </MapsLayers>
+            <MapsZoomSettings Enable='false'></MapsZoomSettings>
+            <MapsLegendSettings Visible='true'
+                                Mode="@Syncfusion.EJ2.RazorComponents.Maps.LegendMode.Interactive" Position='@Syncfusion.EJ2.RazorComponents.Maps.LegendPosition.Left'
+                                Orientation="@Syncfusion.EJ2.RazorComponents.Maps.LegendArrangement.Vertical" Height='70%' Width='10'>
+            </MapsLegendSettings>
+            <MapsTitleSettings Text="Finalist in Cricket World Cup">
+                    <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+            </MapsTitleSettings>
+        </EjsMaps>
     </div>
     <div style="float: right; margin-right: 10px;">
         Source:
@@ -81,70 +104,59 @@
     }
 </style>
 @code {
+    public String value1 { get; set; } = "1";
+    public String value2 { get; set; } = "2";
+    public String value3 { get; set; } = "3";
+    public String value4 { get; set; } = "7";
 
-    public object zoomSettings = new
+    public String color1 { get; set; } = "#b3daff";
+    public String color2 { get; set; } = "#80c1ff";
+    public String color3 { get; set; } = "#1a90ff";
+    public String color4 { get; set; } = "#005cb3";
+
+    public String fill1 { get; set; } = "#E5E5E5";
+
+    public String color { get; set; } = "value1";
+    
+    public MapDataSettings MapShapeData = new MapDataSettings
     {
-        enable = false
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };    
+
+    public String ShapePropertyPath = "name";
+
+    public String ShapeDataPath = "name";
+
+    public List<data> datasource = new List<data> {
+        new data { name="India", value1="3", value2="2", country="India" },
+        new data { name="Dominican Rep.", value1="3", value2="2", country="West Indies" },
+        new data { name="Cuba", value1="3", value2="2", country="West Indies" },
+        new data { name="Jamaica", value1="3", value2="2", country="West Indies" },
+        new data { name="Haiti", value1="3", value2="2", country="West Indies" },
+        new data { name="Guyana", value1="3", value2="2", country="West Indies" },
+        new data { name="Suriname", value1="3", value2="2", country="West Indies" },
+        new data { name="Trinidad and Tobago", value1="3", value2="2", country="West Indies" },
+        new data { name="Sri Lanka", value1="3", value2="1", country="Sri Lanka" },
+        new data { name="United Kingdom", value1="3", value2="0", country="England" },
+        new data { name="Pakistan", value1="2", value2="1", country="Pakistan" },
+        new data { name="new  Zealand", value1="1", value2="0", country="new  Zealand" },
+        new data { name="Australia", value1="7", value2="5", country="Australia" }
     };
-    public object legendSettings = new
+
+    public class MapDataSettings
     {
-        visible= true,
-        mode= "Interactive",
-        position= "Left",
-        orientation= "Vertical",
-        height= "70%",
-        width= "10"
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
     };
-    public object titleSettings { get; set; } = new
+
+    public class data
     {
-        text = "Finalist in Cricket World Cup",
-        textStyle = new
-        {
-            size = "16px"
-        }
-    };
-    public List<MapsLayer> layers { get; set; } = new List<MapsLayer>()
-{
-new MapsLayer() {
-    ShapeData = new {
-        async= true,
-        dataOptions= "scripts/MapsData/WorldMap.json",
-        type= "GET"
-    },
-    ShapeDataPath= "name",
-    ShapePropertyPath= "name",
-    DataSource = new {
-        async= true,
-        dataOptions= "scripts/MapsData/tooltip-datasource.json",
-        type= "GET"
-    },
-    TooltipSettings= new {
-        visible= true,
-        valuePath= "name",
-         template= "#template"
-    },
-    ShapeSettings= new {
-        fill= "#E5E5E5",
-        colorMapping= new object[] {
-           new {
-                value= "1",
-                color= "#b3daff"
-            },
-            new {
-                color= "#80c1ff",
-                value= "2"
-            },
-            new {
-                color= "#1a90ff",
-                value= "3"
-            },
-            new {
-                color= "#005cb3",
-                value= "7"
-            },
-        },
-        colorValuePath= "value1"
-        }
-}
-};
+        public string name;
+        public string value1;
+        public string value2;
+        public string country;
+    }
 }
