@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
-using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -13,13 +12,7 @@ namespace ej2_blazor_samples
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-
-            new HubConnectionBuilder()
-               .WithUrl("/chatHub")
-               .AddNewtonsoftJsonProtocol()
-               .Build();
-
+            CreateHostBuilder(args).Build().Run(); 
         }
 
         public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
