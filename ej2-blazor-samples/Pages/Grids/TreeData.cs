@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ej2_blazor_samples;
@@ -601,4 +602,306 @@ namespace ej2_blazor_treedata
             return BusinessObjectCollection;
         }
     }
+
+    public class ShipmentData
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public int Units { get; set; }
+        public string Category { get; set; }
+        public int UnitPrice { get; set; }
+        public int Price { get; set; }
+        public string ShipmentCategory { get; set; }
+        public DateTime ShippedDate { get; set; }
+        public DateTime OrderDate { get; set; }
+        public List<ShipmentData> Children { get; set; }
+
+
+        public static List<ShipmentData> GetShipmentData()
+        {
+
+            List<ShipmentData> DataCollection = new List<ShipmentData>();
+
+            ShipmentData Parent1 = new ShipmentData()
+            {
+                ID = "1",
+                Name = "Order 1",
+                Category = "Seafood",
+                Units = 1395,
+                UnitPrice = 47,
+                Price = 65565,
+                OrderDate = new DateTime(2017, 3, 2),
+                ShippedDate = new DateTime(2017, 9, 2),
+                ShipmentCategory = "Seafood",
+                Children = new List<ShipmentData>()
+            };
+
+            ShipmentData Child1 = new ShipmentData()
+            {
+                ID = "1.1",
+                Name = "Mackerel",
+                Category = "Frozen Seafood",
+                Units = 235,
+                UnitPrice = 12,
+                Price = 2820,
+                OrderDate = new DateTime(2017, 3, 3),
+                ShippedDate = new DateTime(2017, 10, 3),
+                ShipmentCategory = "Frozen Seafood"
+            };
+
+            ShipmentData Child2 = new ShipmentData()
+            {
+                ID = "1.2",
+                Name = "Yellowfin Tuna",
+                Category = "Frozen Seafood",
+                Units = 324,
+                UnitPrice = 8,
+                Price = 2592,
+                OrderDate = new DateTime(2017, 3, 5),
+                ShippedDate = new DateTime(2017, 10, 5),
+                ShipmentCategory = "Frozen Seafood"
+            };
+            ShipmentData Child3 = new ShipmentData()
+            {
+                ID = "1.3",
+                Name = "Herrings",
+                Category = "Frozen Seafood",
+                Units = 488,
+                UnitPrice = 11,
+                Price = 5368,
+                OrderDate = new DateTime(2017, 8, 5),
+                ShippedDate = new DateTime(2017, 5, 15),
+                ShipmentCategory = "Frozen Seafood"
+            };
+            ShipmentData Child4 = new ShipmentData()
+            {
+                ID = "1.4",
+                Name = "Preserved Olives",
+                Category = "Edible",
+                Units = 125,
+                UnitPrice = 9,
+                Price = 1125,
+                OrderDate = new DateTime(2017, 6, 10),
+                ShippedDate = new DateTime(2017, 6, 17),
+                ShipmentCategory = "Edible"
+            };
+            ShipmentData Child5 = new ShipmentData()
+            {
+                ID = "1.5",
+                Name = " Sweet corn Frozen ",
+                Category = "Edible",
+                Units = 223,
+                UnitPrice = 7,
+                Price = 1561,
+                OrderDate = new DateTime(2017, 7, 12),
+                ShippedDate = new DateTime(2017, 7, 19),
+                ShipmentCategory = "Edible"
+            };
+            Parent1.Children.Add(Child1);
+            Parent1.Children.Add(Child2);
+            Parent1.Children.Add(Child3);
+            Parent1.Children.Add(Child4);
+            Parent1.Children.Add(Child5);
+
+            ShipmentData Parent2 = new ShipmentData()
+            {
+                ID = "2",
+                Name = "Order 2",
+                Category = "Products",
+                Units = 1944,
+                UnitPrice = 58,
+                Price = 21233,
+                OrderDate = new DateTime(2017, 1, 10),
+                ShippedDate = new DateTime(2017, 1, 16),
+                ShipmentCategory = "Seafood",
+                Children = new List<ShipmentData>()
+            };
+
+            ShipmentData Child6 = new ShipmentData()
+            {
+                ID = "2.1",
+                Name = "Tilapias",
+                Category = "Frozen Seafood",
+                Units = 278,
+                UnitPrice = 15,
+                Price = 4170,
+                OrderDate = new DateTime(2017, 2, 5),
+                ShippedDate = new DateTime(2017, 2, 12),
+                ShipmentCategory = "Frozen Seafood"
+            };
+
+            ShipmentData Child7 = new ShipmentData()
+            {
+                ID = "2.2",
+                Name = "White Shrimp",
+                Category = "Frozen Seafood",
+                Units = 560,
+                UnitPrice = 7,
+                Price = 3920,
+                OrderDate = new DateTime(2017, 5, 22),
+                ShippedDate = new DateTime(2017, 5, 29),
+                ShipmentCategory = "Frozen Seafood"
+            };
+            ShipmentData Child8 = new ShipmentData()
+            {
+                ID = "2.3",
+                Name = "Fresh Cheese",
+                Category = "Dairy",
+                Units = 323,
+                UnitPrice = 12,
+                Price = 3876,
+                OrderDate = new DateTime(2017, 6, 8),
+                ShippedDate = new DateTime(2017, 6, 15),
+                ShipmentCategory = "Dairy"
+            };
+            ShipmentData Child9 = new ShipmentData()
+            {
+                ID = "2.4",
+                Name = "Blue Veined Cheese",
+                Category = "Dairy",
+                Units = 370,
+                UnitPrice = 15,
+                Price = 5550,
+                OrderDate = new DateTime(2017, 7, 10),
+                ShippedDate = new DateTime(2017, 7, 17),
+                ShipmentCategory = "Dairy"
+            };
+            ShipmentData Child10 = new ShipmentData()
+            {
+                ID = "2.5",
+                Name = "Butter",
+                Category = "Dairy",
+                Units = 413,
+                UnitPrice = 9,
+                Price = 3717,
+                OrderDate = new DateTime(2017, 9, 18),
+                ShippedDate = new DateTime(2017, 9, 25),
+                ShipmentCategory = "Dairy"
+            };
+
+            Parent2.Children.Add(Child6);
+            Parent2.Children.Add(Child7);
+            Parent2.Children.Add(Child8);
+            Parent2.Children.Add(Child9);
+            Parent2.Children.Add(Child10);
+
+            ShipmentData Parent3 = new ShipmentData()
+            {
+                ID = "3",
+                Name = "Order 3",
+                Category = "Crystals",
+                Units = 1944,
+                UnitPrice = 58,
+                Price = 21233,
+                OrderDate = new DateTime(2017, 9, 10),
+                ShippedDate = new DateTime(2017, 9, 20),
+                ShipmentCategory = "Seafood",
+                Children = new List<ShipmentData>()
+            };
+
+            ShipmentData Child11 = new ShipmentData()
+            {
+                ID = "3.1",
+                Name = "Lead glassware",
+                Category = "Solid crystals",
+                Units = 542,
+                UnitPrice = 6,
+                Price = 3252,
+                OrderDate = new DateTime(2017, 2, 7),
+                ShippedDate = new DateTime(2017, 2, 14),
+                ShipmentCategory = "Solid crystals"
+            };
+
+            ShipmentData Child12 = new ShipmentData()
+            {
+                ID = "3.2",
+                Name = "Pharmaceutical Glass",
+                Category = "Solid crystals",
+                Units = 324,
+                UnitPrice = 11,
+                Price = 3564,
+                OrderDate = new DateTime(2017, 4, 19),
+                ShippedDate = new DateTime(2017, 4, 26),
+                ShipmentCategory = "Solid crystals"
+            };
+            ShipmentData Child13 = new ShipmentData()
+            {
+                ID = "3.3",
+                Name = "Glass beads",
+                Category = "Solid crystals",
+                Units = 254,
+                UnitPrice = 16,
+                Price = 4064,
+                OrderDate = new DateTime(2017, 5, 22),
+                ShippedDate = new DateTime(2017, 3, 22),
+                ShipmentCategory = "Solid crystals"
+            };
+
+            Parent3.Children.Add(Child11);
+            Parent3.Children.Add(Child12);
+            Parent3.Children.Add(Child13);
+
+            DataCollection.Add(Parent1);
+            DataCollection.Add(Parent2);
+            DataCollection.Add(Parent3);
+
+            return DataCollection;
+        }
+    }
+
+
+    public class SelfReferenceData
+    {
+        public static List<SelfReferenceData> tree = new List<SelfReferenceData>();
+        [Key]
+        public int TaskID { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public String Progress { get; set; }
+        public String Priority { get; set; }
+        public int Duration { get; set; }
+        public int? ParentItem { get; set; }
+        public bool? isParent { get; set; }
+        public SelfReferenceData() { }
+        public static List<SelfReferenceData> GetTree()
+        {
+            if (tree.Count == 0)
+            {
+                int root = -1;
+                for (var t = 1; t <= 15; t++)
+                {
+                    Random ran = new Random();
+                    string math = (ran.Next() % 3) == 0 ? "High" : (ran.Next() % 2) == 0 ? "Release Breaker" : "Critical";
+                    string progr = (ran.Next() % 3) == 0 ? "Started" : (ran.Next() % 2) == 0 ? "Open" : "In Progress";
+                    root++;
+                    int rootItem = tree.Count + root + 1;
+                    tree.Add(new SelfReferenceData() { TaskID = rootItem, TaskName = "Parent Task " + rootItem.ToString(), StartDate = new DateTime(1992, 06, 07), EndDate = new DateTime(1994, 08, 25), isParent = true, ParentItem = null, Progress = progr, Priority = math, Duration = ran.Next(1, 50) });
+                    int parent = tree.Count;
+                    for (var c = 0; c < 10; c++)
+                    {
+                        root++;
+                        string val = ((parent + c + 1) % 3 == 0) ? "Low" : "Critical";
+                        int parn = parent + c + 1;
+                        progr = (ran.Next() % 3) == 0 ? "In Progress" : (ran.Next() % 2) == 0 ? "Open" : "Validated";
+                        int iD = tree.Count + root + 1;
+                        tree.Add(new SelfReferenceData() { TaskID = iD, TaskName = "Child Task " + iD.ToString(), StartDate = new DateTime(1992, 06, 07), EndDate = new DateTime(1994, 08, 25), isParent = (((parent + c + 1) % 3) == 0), ParentItem = rootItem, Progress = progr, Priority = val, Duration = ran.Next(1, 50) });
+                        if ((((parent + c + 1) % 3) == 0))
+                        {
+                            int immParent = tree.Count;
+                            for (var s = 0; s < 3; s++)
+                            {
+                                root++;
+                                string Prior = (immParent % 2 == 0) ? "Validated" : "Normal";
+                                tree.Add(new SelfReferenceData() { TaskID = tree.Count + root + 1, TaskName = "Sub Task " + (tree.Count + root + 1).ToString(), StartDate = new DateTime(1992, 06, 07), EndDate = new DateTime(1994, 08, 25), isParent = false, ParentItem = iD, Progress = (immParent % 2 == 0) ? "On Progress" : "Closed", Priority = Prior, Duration = ran.Next(1, 50) });
+                            }
+                        }
+                    }
+                }
+            }
+            return tree;
+        }
+    }
+
+
 }
