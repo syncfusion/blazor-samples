@@ -32,9 +32,34 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView ID="pivotview" Width="100%" Height="300" DataSource="@PivotDataSource" ShowFieldList=true ShowGroupingBar=true>
+        <EjsPivotView ID="pivotview" Width="100%" Height="300" ShowFieldList=true ShowGroupingBar=true>
+            <PivotViewDataSource Data="@data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { " France" })"></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+            </PivotViewDataSource>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
         </EjsPivotView>
+
     </div>
 </div>
 
@@ -45,58 +70,12 @@
     }
 </style>
 
-@code{
+@functions{
 
-    EjsPivotView pivotView;
+     EjsPivotView pivotView;
 
     static PivotViewData pivotData = new PivotViewData();
 
-    static List<object> pivotRows { get; set; } = new List<object>
-    {
-       new { name = "Country" },
-       new { name = "Products" }
-    };
-
-    static List<object> pivotColumns { get; set; } = new List<object>
-    {
-       new { name = "Year" },
-       new { name = "Order_Source", caption = "Order Source" }
-    };
-
-    static List<object> pivotValues { get; set; } = new List<object>
-    {
-       new { name = "In_Stock", caption = "In Stock" },
-       new { name = "Sold", caption = "Units Sold" },
-       new { name = "Amount", caption = "Sold Amount" }
-    };
-
-    static List<object> pivotFilters { get; set; } = new List<object>
-    {
-       new { name = "Product_Categories", caption = "Product Categories" }
-    };
-
-    static List<object> pivotFormatSettings { get; set; } = new List<object>
-    {
-       new { name = "Amount", format = "C0" }
-    };
-
-    static List<string> drilledItems = new List<string> { "France" };
-
-    static List<object> pivotDrillMembers { get; set; } = new List<object>
-    {
-       new { name = "Country", items = drilledItems }
-    };
-    [Parameter]
-    private object PivotDataSource { get; set; } = new
-    {
-        data = pivotData.GetPivot_Data(),
-        expandAll = false,
-        enableSorting = true,
-        rows = pivotRows,
-        columns = pivotColumns,
-        values = pivotValues,
-        filters = pivotFilters,
-        formatSettings = pivotFormatSettings,
-        drilledMembers = pivotDrillMembers
-    };
+    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+   
 }
