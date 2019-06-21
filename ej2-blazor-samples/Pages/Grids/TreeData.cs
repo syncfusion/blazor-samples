@@ -869,7 +869,7 @@ namespace ej2_blazor_treedata
             if (tree.Count == 0)
             {
                 int root = -1;
-                for (var t = 1; t <= 15; t++)
+                for (var t = 1; t <= 2; t++)
                 {
                     Random ran = new Random();
                     string math = (ran.Next() % 3) == 0 ? "High" : (ran.Next() % 2) == 0 ? "Release Breaker" : "Critical";
