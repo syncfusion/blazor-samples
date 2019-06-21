@@ -47,7 +47,20 @@
         <div class="schedule-demo-heading">
             Flight timings between Barcelona and Los Angeles
         </div>
-        <EjsSchedule id="schedule" width="100%" height="650px" selectedDate="new DateTime(2018, 3, 4)" Group="@groupData" Resources="@resourceData" EventSettings="@eventSettingsFields">
+        <EjsSchedule ID="schedule" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 3, 4)">
+            <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleEventSettings DataSource="@GenerateEvents()">
+                <ScheduleField>
+                    <FieldSubject Title="Travel Summary" Name="Subject"></FieldSubject>
+                    <FieldLocation Title="Place" Name="Location"></FieldLocation>
+                    <FieldDescription Title="Comments" Name="Description"></FieldDescription>
+                    <FieldStartTime Title="Departure Time" Name="StartTime"></FieldStartTime>
+                    <FieldEndTime Title="Arrival Time" Name="EndTime"></FieldEndTime>
+                </ScheduleField>
+            </ScheduleEventSettings>
         </EjsSchedule>
     </div>
 </div>
@@ -73,9 +86,7 @@
 </style>
 
 @code{
-    EjsSchedule scheduleObj;
-
-    public class AppointmentData
+      public class AppointmentData
     {
         public int Id { get; set; }
         public string Subject { get; set; }
@@ -84,8 +95,9 @@
         public int AirlineId { get; set; }
     }
 
-    private static List<object> generateEvents()
+    private static List<object> GenerateEvents()
     {
+        System.Console.WriteLine("hello");
         var subjectCollection = new List<string> { "Barcelona to Los Angeles", "Los Angeles to Barcelona" };
         var collections = new List<object> { };
         var dataCollections = new List<int> { 1, 2, 3 };
@@ -119,37 +131,12 @@
         }
         return collections;
     }
-    
-    public object groupData { get; set; } = new
-    {
-        resources = new string[] { "Airlines" }
-    };
 
-    [Parameter]
-    private List<ScheduleResource> resourceData { get; set; } = new List<ScheduleResource>() {
-        new ScheduleResource() {
-            Field = "AirlineId", Title = "Airline Name",
-            Name = "Airlines", AllowMultiple = true,
-            DataSource = new List<object>{
-                new { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50 },
-                new { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75},
-                new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100}
-            },
-        TextField = "AirlineName", IdField = "AirlineId", ColorField = "AirlineColor"
-        }
-    };
+    public string[] GroupData = new string[] { "Airlines" };
 
-    [Parameter]
-    private object eventSettingsFields { get; set; } = new
-    {
-        dataSource = generateEvents(),
-        fields = new
-        {
-            subject = new { title = "Travel Summary", name = "Subject" },
-            location = new { title = "Source", name = "Location" },
-            description = new { title = "Comments", name = "Description" },
-            startTime = new { title = "Departure Time", name = "StartTime" },
-            endTime = new { title = "Arrival Time", name = "EndTime" }
-        }
+    private List<object> ResourceData { get; set; } = new List<object> {
+        new { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50 },
+        new { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75},
+        new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100}
     };
 }
