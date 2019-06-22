@@ -19,29 +19,11 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Filtering",
+                Name = "Sorting",
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
-                Url = "TreeGrid/DefaultFiltering",
-                FileName = "DefaultFiltering.razor",
-                Type = SampleType.New,
-            },
-            new Sample
-            {
-                Name = "Inline Editing",
-                Category = "TreeGrid",
-                Directory = "Grids/TreeGrid",
-                Url = "TreeGrid/Editing",
-                FileName = "Editing.razor",
-                Type = SampleType.New,
-            },
-            new Sample
-            {
-                Name = "Checkbox Column",
-                Category = "TreeGrid",
-                Directory = "Grids/TreeGrid",
-                Url = "TreeGrid/CheckboxColumn",
-                FileName = "CheckboxColumn.razor",
+                Url = "TreeGrid/Sorting",
+                FileName = "Sorting.razor",
                 Type = SampleType.New,
             }
         };

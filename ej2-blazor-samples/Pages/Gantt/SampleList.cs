@@ -18,15 +18,15 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Editing",
-                Category = "Gantt",
-                Directory = "Gantt/Editing",
-                Url = "Gantt/Editing",
-                FileName = "Editing.razor",
-                Type = SampleType.New
-            },
+            //new Sample
+            //{
+            //    Name = "Editing",
+            //    Category = "Gantt",
+            //    Directory = "Gantt/Editing",
+            //    Url = "Gantt/Editing",
+            //    FileName = "Editing.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Baseline",

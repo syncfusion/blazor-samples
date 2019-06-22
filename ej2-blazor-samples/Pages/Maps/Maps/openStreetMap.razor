@@ -23,7 +23,21 @@
 
 <div class="control-section">
     <div>
-        <EjsMaps ID="Layout" Layers="@layers" ZoomSettings="@zoomSettings" CenterPosition="@centerPosition" TitleSettings="@titleSettings"></EjsMaps>
+        <EjsMaps ID="Maps">
+            <MapsTitleSettings Text="Headquarters of the United Nations">
+            </MapsTitleSettings>
+            <MapsCenterPosition Latitude=40.7209 Longitude=-73.9680></MapsCenterPosition>
+            <MapsZoomSettings Enable="false" ZoomFactor=10></MapsZoomSettings>
+        <MapsLayers>
+        <MapsLayer LayerType="@Syncfusion.EJ2.RazorComponents.Maps.ShapeLayerType.OSM" AnimationDuration=0>
+            <MapsMarkerSettings>
+                <MapsMarker Visible="true" DataSource="@markerData" Template="@template">
+                    <MapsMarkerTooltipSettings Visible="true" ValuePath="name"></MapsMarkerTooltipSettings>
+                </MapsMarker>
+            </MapsMarkerSettings>
+        </MapsLayer>
+        </MapsLayers>
+        </EjsMaps>
     </div>
     <div style="float: right">
         <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>
@@ -65,48 +79,15 @@
         min-width: 100px !important
     }
 </style>
-@functions {
-
-    public object zoomSettings = new
+@code {
+    public string template = "<div><img src='styles/images/maps/ballon.png' style='height:30px;width:20px;'></img></div>";
+    public class MarkerData
     {
-        zoomFactor = 10,
-        enable = false
-    };
-
-    public object titleSettings { get; set; } = new
-    {
-        text = "Headquarters of the United Nations",
-        textStyle = new
-        {
-            size = "16px"
-        }
-    };
-
-    public object centerPosition = new {
-        latitude = 40.7209,
-        longitude = -73.9680
-    };
-    public List<object> layers { get; set; } = new List<object>
-    {
-        new{
-            layerType = "OSM",
-            animationDuration= 0,
-            markerSettings= new List<object>{
-                new {
-                    visible= true,
-                    template= "<div><img src='styles/images/maps/ballon.png' style='height:30px;width:20px;'></img></div>",
-                    dataSource= new List<object> {
-                        new{ name= "Manhattan, New York, USA",
-                             latitude= 40.7488758,
-                             longitude= -73.9730091
-                           }
-                    },
-                    tooltipSettings= new {
-                        visible= true,
-                        valuePath= "name"
-                    }
-                  }
-            }
-        }
-    };
+        public string name;
+        public double latitude;
+        public double longitude;
     }
+    public List<MarkerData> markerData = new List<MarkerData> {
+        new MarkerData { name= "Manhattan, New York, USA",  latitude= 40.7488758, longitude= -73.9730091 }
+    };
+}
