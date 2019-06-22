@@ -6,12 +6,12 @@ function viewSwitch() {
   var controlTree = ej.base.select("#controlTree");
   var controlList = ej.base.select("#controlSamples");
 
-  if (controlTree.classList.contains("trans-left")) {
-    controlTree.classList.remove("trans-left");
-    controlList.classList.add("trans-right");
+  if (controlTree.classList.contains("sb-hide")) {
+      controlTree.classList.remove("sb-hide");
+    //controlList.classList.add("trans-right");
   } else {
-    controlTree.classList.add("trans-left");
-    controlList.classList.remove("trans-right");
+    controlTree.classList.add("sb-hide");
+    //controlList.classList.remove("trans-right");
   }
 }
 

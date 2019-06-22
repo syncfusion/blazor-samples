@@ -364,71 +364,72 @@ protected void onSourceTabSelected(Syncfusion.EJ2.RazorComponents.Navigations.Se
     sources = new List<TabItem>();
     if (arg.SelectedIndex == 1)
     {
-        SampleBrowser.CurrentControl.ForEach(async (s) =>
-        {
-            if (s.Name == SampleBrowser.CurrentSampleName)
-            {
-                String response = await Http.GetStringAsync("https://ej2.syncfusion.com/razor-components/Pages/" + s.Directory + "/" + s.FileName + ".txt");
-                response = response.Replace("<", "&lt;");
-                response = response.Replace(">", "&gt;");
-                response = RemoveString(response);
-                sources.Add(new TabItem(){ Header = new { text = s.FileName }, Content = "<pre id='code' class='sb-src-code'><code>" + response + "</code></pre>" });
-                this.sourceTab.Items = sources;
-                this.sourceTab.DataBind();
-                JsRuntime.InvokeAsync<Object>("refreshTab", response);
-            }
+    SampleBrowser.CurrentControl.ForEach(async (s) =>
+    {
+    if (s.Name == SampleBrowser.CurrentSampleName)
+    {
+    String response = await Http.GetStringAsync("https://ej2.syncfusion.com/razor-components/Pages/" + s.Directory + "/" + s.FileName + ".txt");
+    response = response.Replace("<", "&lt;");
+    response = response.Replace(">", "&gt;");
+    response = RemoveString(response);
+    sources.Add(new TabItem(){ Header = new { text = s.FileName }, Content = "<pre id='code' class='sb-src-code'><code>" + response + "</code></pre>" });
+    this.sourceTab.Items = sources;
+    @*Console.WriteLine("this.sourceTab.Items =" + JsonConvert.SerializeObject(sources));*@
+    this.sourceTab.DataBind();
+    JsRuntime.InvokeAsync<Object>("refreshTab", response);
+        }
         });
 
-    }
-}
+        }
+        }
 
-protected override void OnAfterRender()
-{
-    if (this.ControlName != SampleBrowser.CurrentSampleName)
-    {
+        protected override void OnAfterRender()
+        {
+        if (this.ControlName != SampleBrowser.CurrentSampleName)
+        {
         string[] paths = new string[3];
         int i = 0;
         paths[i] = SampleBrowser.CurrentControlName;
         i++;
         if (SampleBrowser.CurrentControlCategory != SampleBrowser.CurrentControlName)
         {
-            paths[i] = SampleBrowser.CurrentControlCategory;
-            i++;
+        paths[i] = SampleBrowser.CurrentControlCategory;
+        i++;
         }
         paths[i] = SampleBrowser.CurrentSampleName;
         this.ControlName = SampleBrowser.CurrentControlName;
         JsRuntime.InvokeAsync<Object>
             ("updateBreadCrumb", new String[] { this.ControlName }, paths);
-        List<string>
-            ls = new List<string>
-                ();
-        List<string>
-            ls1 = new List<string>
-                ();
-        if (SampleBrowser.ActionDescription != null)
-        {
-            foreach (string element1 in SampleBrowser.ActionDescription)
-            {
-                ls.Add(element1);
-            }
-            JsRuntime.InvokeAsync<Object>
-                ("updateActionDescription", ls);
-        }
-        else
-        {
-            JsRuntime.InvokeAsync<Object>
-                ("updateActionDescription", new List<string>
-                    ());
-        }
-        if (SampleBrowser.Description != null)
-        {
-            foreach (string element in SampleBrowser.Description)
-            {
-                ls1.Add(element);
-            }
-            JsRuntime.InvokeAsync<Object>
-                ("updateDescription", ls1);
-        }
-    }
-}
-                                                        }
+            List<string>
+                ls = new List<string>
+                    ();
+                    List<string>
+                        ls1 = new List<string>
+                            ();
+                            if (SampleBrowser.ActionDescription != null)
+                            {
+                            foreach (string element1 in SampleBrowser.ActionDescription)
+                            {
+                            ls.Add(element1);
+                            }
+                            JsRuntime.InvokeAsync<Object>
+                                ("updateActionDescription", ls);
+                                }
+                                else
+                                {
+                                JsRuntime.InvokeAsync<Object>
+                                    ("updateActionDescription", new List<string>
+                                        ());
+                                        }
+                                        if (SampleBrowser.Description != null)
+                                        {
+                                        foreach (string element in SampleBrowser.Description)
+                                        {
+                                        ls1.Add(element);
+                                        }
+                                        JsRuntime.InvokeAsync<Object>
+                                            ("updateDescription", ls1);
+                                            }
+                                            }
+                                            }
+                                            }
