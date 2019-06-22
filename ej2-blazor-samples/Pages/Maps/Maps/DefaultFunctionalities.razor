@@ -36,7 +36,32 @@
 
 <div class="control-section">
     <div>
-        <EjsMaps ID="Layout" Layers="@layers" ZoomSettings="@zoomSettings" LegendSettings="@legendSettings" TitleSettings="@titleSettings"></EjsMaps>
+         <EjsMaps ID="Layout">
+            <MapsLayers>
+                <MapsLayer ShapeData='@mapShapeData' DataSource='@dataSource'
+                 ShapePropertyPath="@shapePropertyPath" ShapeDataPath="@shapeDataPath">
+                    <MapsMarkerSettings>
+                        <MapsMarker Visible='true' DataSource='@markerDataSource' Height='20' Width='20' Offset="@mapOffset"
+                            AnimationDuration='0' Shape='@Syncfusion.EJ2.RazorComponents.Maps.MarkerType.Image'
+                            ImageUrl='styles/images/maps/ballon.png' TooltipSettings='@tooltip'></MapsMarker>
+                        <MapsMarker Visible='true' AnimationDuration='0' DataSource='@marker1' Template='@template1'>
+                        </MapsMarker>
+                        <MapsMarker Visible='true' AnimationDuration='0' DataSource='@marker2' Template='@template2'>
+                        </MapsMarker>
+                        <MapsMarker Visible='true' AnimationDuration='0' DataSource='@marker3' Template='@template3'></MapsMarker>
+                        <MapsMarker Visible='true' AnimationDuration='0' DataSource='@marker4' Template='@template4'></MapsMarker>
+                        <MapsMarker Visible='true' AnimationDuration='0' DataSource='@marker5' Template='@template5'></MapsMarker>
+                        <MapsMarker Visible='true' AnimationDuration='0' DataSource='@marker6' Template='@template6'></MapsMarker>
+                    </MapsMarkerSettings>
+                    <MapsShapeSettings ColorValuePath= "color"></MapsShapeSettings>
+                </MapsLayer>
+            </MapsLayers>
+            <MapsZoomSettings Enable='false'></MapsZoomSettings>
+            <MapsLegendSettings Visible='true'></MapsLegendSettings>
+            <MapsTitleSettings Text="YouTube office locations">
+                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+            </MapsTitleSettings>
+        </EjsMaps>
     </div>
     <div style="float: right; margin-right: 10px;">
         Source:
@@ -51,165 +76,145 @@
         font-weight: 500
     }
 </style>
-@functions {
-
-    public object zoomSettings = new {
-        enable = false
-    };
-    public object legendSettings = new
+@code {
+    public class offset
     {
-        visible = true
-    };
-    public object titleSettings { get; set; } = new {
-        text = "YouTube office locations",
-        textStyle = new { size = "16px" }
+        public double x;
+        public double y;
     };
 
-    public List<object> layers { get; set; } = new List<object>
+    public offset mapOffset = new offset
     {
-        new{ shapeData= new{
-                async= true,
-                dataOptions= "scripts/MapsData/WorldMap.json",
-                type= "GET"
+        x = 0.5,
+        y = -10
+    };
+
+    public String shapePropertyPath = "continent";
+    public String shapeDataPath = "continent";
+    public class Tooltip {
+        public Boolean visible;
+        public string valuePath;
+    };
+    public Tooltip tooltip = new Tooltip {
+        visible=true,
+        valuePath="name",
+    };
+    public String template1 = "<div id='marker1' class='markerTemplate'>Asia" +
+    "</div>";
+    public String template2 = "<div id='marker2' class='markerTemplate'>Australia" +
+    "</div>";
+    public String template3 = "<div id='marker3' class='markerTemplate'>Africa" +
+    "</div>";
+    public String template4 = "<div id='marker4' class='markerTemplate'>Europe" +
+    "</div>";
+    public String template5 = "<div id='marker5' class='markerTemplate' style='width:50px'>North America" +
+    "</div>";
+    public String template6 = "<div id='marker6' class='markerTemplate' style='width:50px'>South America" +
+    "</div>";
+    public class MapMarker
+    {
+        public double latitude;
+        public double longitude;
+    };
+    public List<MapMarker> marker1 = new List<MapMarker> {
+            new MapMarker { latitude= 50.32087157990324, longitude= 90.015625 }
+        };
+    public List<MapMarker>  marker2 = new List<MapMarker>  {
+            new MapMarker { latitude= -25.88583769986199, longitude= 134.296875 }
+        };
+    public List<MapMarker>  marker3 = new List<MapMarker>  {
+             new MapMarker { latitude= 16.97274101999902, longitude= 16.390625 }
+        };
+    public List<MapMarker>  marker4 = new List<MapMarker>  {
+            new MapMarker { latitude= 49.95121990866204, longitude= 18.468749999999998 }
+        };
+    public List<MapMarker>  marker5 = new List<MapMarker>  {
+            new MapMarker { latitude= 59.88893689676585, longitude= -109.3359375 }
+        };
+    public List<MapMarker>  marker6 = new List<MapMarker>  {
+            new MapMarker { latitude= -6.64607562172573, longitude= -55.54687499999999 }
+        };
+
+    public MapDataSettings mapShapeData = new MapDataSettings{
+        async= true,
+        dataOptions= "scripts/MapsData/WorldMap.json",
+        type= "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async{ get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+
+    public class MapDataSource
+    {
+        public string drillColor;
+        public string continent;
+        public string CategoryName;
+        public double Sales;
+        public string color;
+    };
+    public List<MapDataSource> dataSource = new List<MapDataSource>{
+            new MapDataSource {
+                drillColor= "#C13664",
+                continent= "North America",
+                CategoryName= "Books",
+                Sales= 10882,
+                color= "#71B081"
             },
-                shapePropertyPath= "continent",
-                shapeDataPath= "continent",
-                    dataSource= datasource,
-                shapeSettings= new {
-                    colorValuePath= "color",
-                },
-                markerSettings= new List<object>{
-                    new {
-                        visible= true,
-                        dataSource= new List<object> {
-                          new{ latitude= 37.6276571, longitude= -122.4276688, name= "San Bruno" },
-                          new{ latitude= 33.5302186, longitude= -117.7418381, name= "Laguna Niguel" },
-                          new{ latitude= 40.7424509, longitude= -74.0081468, name= "New York" },
-                          new{ latitude= -23.5268201, longitude= -46.6489927, name= "Bom Retiro" },
-                          new{ latitude= 43.6533855, longitude= -79.3729994, name= "Toronto" },
-                          new{ latitude= 48.8773406, longitude= 2.3299627, name= "Paris" },
-                          new{ latitude= 52.4643089, longitude= 13.4107368, name= "Berlin" },
-                          new{ latitude= 19.1555762, longitude= 72.8849595, name= "Mumbai" },
-                          new{ latitude= 35.6628744, longitude= 139.7345469, name= "Minato" },
-                          new{ latitude= 51.5326602, longitude= -0.1262422, name= "London" }
-                        },
-                        shape= "Image",
-                        imageUrl= "styles/images/maps/ballon.png",
-                        height= 20,
-                        width= 20,
-                        offset = new
-                        {
-                            x = '0', y = -10
-                        },
-                        tooltipSettings= new {
-                            visible= true,
-                            valuePath= "name",
-                        },
-                        animationDuration= 0
-                    },
-                    new{
-                        visible= true,
-                        tooltipSettings= new {
-                            visible= true
-                        },
-                        template= "<div id='marker1' class='markerTemplate'>Asia" +
-                            "</div>",
-                        dataSource= new List<object> {new
-                            { latitude= 50.32087157990324, longitude= 90.015625 }
-                        },
-                        animationDuration= 0
-                    },
-                     new {
-                        visible= true,
-                        template= "<div id='marker2' class='markerTemplate'>Australia" +
-                            "</div>",
-                       dataSource= new List<object> {new
-                            { latitude= -25.88583769986199, longitude= 134.296875 }
-                       },
-                        animationDuration= 0
-                    },
-                    new {
-                        visible= true,
-                        template= "<div id='marker3' class='markerTemplate'>Africa" +
-                            "</div>",
-                       dataSource= new List<object> {new
-                            { latitude= 16.97274101999902, longitude= 16.390625 }
-                       },
-                        animationDuration= 0
-                    },
-                   new {
-                        visible= true,
-                        template= "<div id='marker4' class='markerTemplate'>Europe" +
-                            "</div>",
-                        dataSource= new List<object> {new
-                            { latitude= 49.95121990866204, longitude= 18.468749999999998 }
-                      },
-                        animationDuration= 0,
-                    },
-                  new {
-                        visible= true,
-                        template= "<div id='marker5' class='markerTemplate' style='width:50px'>North America" +
-                            "</div>",
-                        dataSource= new List<object> {new
-                            { latitude= 59.88893689676585, longitude= -109.3359375 }
-                        },
-                        animationDuration= 0
-                    },
-                 new {
-                        visible= true,
-                        template= "<div id='marker6' class='markerTemplate' style='width:50px'>South America" +
-                            "</div>",
-                         dataSource= new List<object> {new
-                            { latitude= -6.64607562172573, longitude= -55.54687499999999 }
-                         },
-                        animationDuration= 0
-                    },
-                }
-    }
+            new MapDataSource {
+                drillColor= "#9C3367",
+                continent= "South America",
+                CategoryName= "Books",
+                Sales= 13776,
+                color= "#5A9A77"
+            },
+            new MapDataSource {
+                drillColor= "#80306A",
+                continent= "Africa",
+                CategoryName= "Books",
+                Sales= 18718.0,
+                color= "#498770"
+            },
+            new MapDataSource {
+                drillColor= "#622D6C",
+                continent= "Europe",
+                CategoryName= "Books",
+                Sales= 3746,
+                color= "#39776C"
+            },
+            new MapDataSource {
+                drillColor= "#462A6D",
+                continent= "Asia",
+                CategoryName= "Books",
+                Sales= 10688,
+                color= "#266665"
+            },
+            new MapDataSource {
+                drillColor= "#2A2870",
+                continent= "Australia",
+                CategoryName= "Books",
+                Sales= 30716,
+                color= "#124F5E"
+            }
     };
-    public static object[] datasource = new object[] {
-        new {
-        drillColor= "#C13664",
-        continent= "North America",
-        CategoryName= "Books",
-        Sales= 10882,
-        color= "#71B081"
-    },
-    new {
-        drillColor= "#9C3367",
-        continent= "South America",
-        CategoryName= "Books",
-        Sales= 13776,
-        color= "#5A9A77"
-    },
-    new {
-        drillColor= "#80306A",
-        continent= "Africa",
-        CategoryName= "Books",
-        Sales= 18718.0,
-        color= "#498770"
-    },
-    new {
-        drillColor= "#622D6C",
-        continent= "Europe",
-        CategoryName= "Books",
-        Sales= 3746,
-        color= "#39776C"
-    },
-    new {
-        drillColor= "#462A6D",
-        continent= "Asia",
-        CategoryName= "Books",
-        Sales= 10688,
-        color= "#266665"
-    },
-    new {
-        drillColor= "#2A2870",
-        continent= "Australia",
-        CategoryName= "Books",
-        Sales= 30716,
-        color= "#124F5E"
-    }
+    public class MapMarkerDataSource
+    {
+        public double latitude;
+        public double longitude;
+        public string name;
     };
-
+    public List<MapMarkerDataSource> markerDataSource = new List<MapMarkerDataSource> {
+        new MapMarkerDataSource{ latitude= 37.6276571, longitude= -122.4276688, name= "San Bruno" },
+        new MapMarkerDataSource{ latitude= 33.5302186, longitude= -117.7418381, name= "Laguna Niguel" },
+        new MapMarkerDataSource{ latitude= 40.7424509, longitude= -74.0081468, name= "New York" },
+        new MapMarkerDataSource{ latitude= -23.5268201, longitude= -46.6489927, name= "Bom Retiro" },
+        new MapMarkerDataSource{ latitude= 43.6533855, longitude= -79.3729994, name= "Toronto" },
+        new MapMarkerDataSource{ latitude= 48.8773406, longitude= 2.3299627, name= "Paris" },
+        new MapMarkerDataSource{ latitude= 52.4643089, longitude= 13.4107368, name= "Berlin" },
+        new MapMarkerDataSource{ latitude= 19.1555762, longitude= 72.8849595, name= "Mumbai" },
+        new MapMarkerDataSource{ latitude= 35.6628744, longitude= 139.7345469, name= "Minato" },
+        new MapMarkerDataSource{ latitude= 51.5326602, longitude= -0.1262422, name= "London" }
+    };
 }

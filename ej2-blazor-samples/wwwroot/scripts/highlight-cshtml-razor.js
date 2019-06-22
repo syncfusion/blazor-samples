@@ -320,14 +320,14 @@ function hljsDefineRazorCshtml(hljs) {
 
 
     var BLOCK_FUNCTIONS = {
-        begin: "@functions[\\s]*{",
+        begin: "@code[\\s]*{",
         end: "}",
         returnBegin: true,
         returnEnd: true,
         subLanguage: "cs",
         contains: [
             {
-                begin: "@functions[\\s]*{",
+                begin: "@code[\\s]*{",
                 className: SPECIAL_SYMBOL_CLASSNAME
             },
             {
