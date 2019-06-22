@@ -43,15 +43,6 @@ namespace ej2_blazor_samples
                 Url = "CircularGauge/PointerImage",
                 FileName = "PointerImage.razor",
                 Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Tooltip",
-                Category = "CircularGauge",
-                Directory = "CircularGauge/CircularGauge",
-                Url = "CircularGauge/Tooltip",
-                FileName = "Tooltip.razor",
-                Type = SampleType.New
             }
         };      
     }
