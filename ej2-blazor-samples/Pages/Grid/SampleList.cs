@@ -34,29 +34,7 @@ namespace ej2_blazor_samples
                 Url = "Grid/Filtering",
                 FileName = "Filtering.razor",
                 Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Inline Editing",
-                Category = "DataGrid",
-                Directory = "Grid/DataGrid",
-                Url = "Grid/InlineEditing",
-                FileName = "InlineEditing.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Checkbox Selection",
-                Category = "DataGrid",
-                Directory = "Grid/DataGrid",
-                Url = "Grid/CheckboxSelection",
-                FileName = "CheckboxSelection.razor",
-                Type = SampleType.New
             }
         };      
     }
-
-   
-
-
 }
