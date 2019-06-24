@@ -10,9 +10,8 @@
 @inject IJSRuntime JsRuntime;
 
 
-
 @*<div id="controlTree" class='e-view'></div>*@
-<EjsTreeView ID="controlTree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" NodeSelected="@onNodeClick" @ref="treeView"></EjsTreeView>
+<EjsTreeView ID="controlTree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" NodeSelected="@OnNodeClick" @ref="treeView"></EjsTreeView>
 
 
 <div id="controlSamples" class="time-duration">
@@ -59,122 +58,122 @@
     };
 
 
-    private void onNodeClick(object arg)
+    private void OnNodeClick(object arg)
     {
-    //JsRuntime.InvokeAsync<Object>("test", arg);
-        string adc = JsonConvert.SerializeObject(arg);
-        TreeViewEventModel data = JsonConvert.DeserializeObject<TreeViewEventModel>
-            (adc, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            if (data.nodeData.parentID != null)
-            {
-            SampleBrowser.CurrentControl = SampleBrowser.Config.GetType().GetProperty(data.nodeData.text).GetValue(SampleBrowser.Config) as List<Sample>
-    ;
-    this.ListClass = "e-view sb-control-list-top";
-    this.treeviewClass = "e-view time-duration sb-hide";
-    this.ListDataSource = SampleBrowser.CurrentControl;
-    this.StateHasChanged();
-    this.controlList.Refresh();
-    toggle();
-    }
-    }
-
-    public void toggle()
-    {
-    @*JsRuntime.InvokeAsync<Object>
-        ("viewSwitch");*@
-    if (this.treeviewClass.Contains("sb-hide")) {
-    this.treeviewClass = "e-view time-duration";
-    this.ListClass = "sb-hide";
-
-    this.treeView.DataBind();
-    }
-    @*if (this.treeviewClass != "e-view time-duration")
+    string adc = JsonConvert.SerializeObject(arg);
+    TreeViewEventModel data = JsonConvert.DeserializeObject<TreeViewEventModel>
+        (adc, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        if (data.nodeData.parentID != null)
         {
-        this.treeviewClass = "e-view time-duration";
-        // this.treeView.DataBind();
-        }*@
-    }
+        SampleBrowser.CurrentControl = SampleBrowser.Config.GetType().GetProperty(data.nodeData.text).GetValue(SampleBrowser.Config) as List<Sample>
+            ;
+            this.ListClass = "e-view sb-control-list-top";
+            this.treeviewClass = "e-view time-duration sb-hide";
+            this.ListDataSource = SampleBrowser.CurrentControl;
 
-    public void OnSampleSelect(Syncfusion.EJ2.RazorComponents.Lists.SelectEventArgs arg)
-    {
+            this.StateHasChanged();
+            @*this.controlList.Refresh();*@
+            JsRuntime.InvokeAsync<Object>
+                ("viewSwitch", this.ListClass);
+                @*toggle();*@
+                }
+                }
 
-    string ad = JsonConvert.SerializeObject(arg);
-    ListViewEvent data = JsonConvert.DeserializeObject<ListViewEvent>
-        (ad, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        List<string>
-            ls = new List<string>
-                ();
-                List<string>
-                    ls1 = new List<string>
-    ();
-    if (SampleBrowser.CurrentUrl != data.data.Url)
-    {
-    if (SampleBrowser.ActionDescription != null)
-    {
-    foreach (string element1 in SampleBrowser.ActionDescription)
-    {
-    ls.Add(element1);
-    }
-    JsRuntime.InvokeAsync<Object>
-        ("updateActionDescription", ls);
-        }
-        else
-        {
-        JsRuntime.InvokeAsync<Object>
-            ("updateActionDescription", new List<string>
-                ());
-                }
-                if (SampleBrowser.Description != null)
+                public void toggle()
                 {
-                foreach (string element in SampleBrowser.Description)
-                {
-                ls1.Add(element);
-                }
+                @*JsRuntime.InvokeAsync<Object>
+                    ("viewSwitch");*@
+                if (this.treeviewClass.Contains("sb-hide")) {
+                this.treeviewClass = "e-view time-duration";
+                this.ListClass = "sb-hide";
+                this.treeView.DataBind();
                 JsRuntime.InvokeAsync<Object>
-                    ("updateDescription", ls1);
+                    ("viewSwitch", this.ListClass);
                     }
-                    else
+                    @*if (this.treeviewClass != "e-view time-duration")
+                        {
+                        this.treeviewClass = "e-view time-duration";
+                        // this.treeView.DataBind();
+                        }*@
+                    }
+
+                    private void OnSampleSelect(Syncfusion.EJ2.RazorComponents.Lists.SelectEventArgs arg)
                     {
-                    JsRuntime.InvokeAsync<Object>
-                        ("updateDescription", new List<string>
-                            ());
-                            }
+                    string compareUrl="";
+                    string ad = JsonConvert.SerializeObject(arg);
+                    ListViewEvent data = JsonConvert.DeserializeObject<ListViewEvent>
+                        (ad, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                        List<string> ls = new List<string>();
+                        List<string> ls1 = new List<string>();
+                                        if (SampleBrowser.CurrentUrl != data.data.Url || data.data.Url != compareUrl )
+                                        {
+                                          compareUrl = SampleBrowser.CurrentUrl;
+                                        if (SampleBrowser.ActionDescription != null)
+                                        {
+                                        foreach (string element1 in SampleBrowser.ActionDescription)
+                                        {
+                                        ls.Add(element1);
+                                        }
+                                        JsRuntime.InvokeAsync<Object>
+                                            ("updateActionDescription", ls);
+                                            }
+                                            else
+                                            {
+                                            JsRuntime.InvokeAsync<Object>
+                                                ("updateActionDescription", new List<string>
+                                                    ());
+                                                    }
+                                                    if (SampleBrowser.Description != null)
+                                                    {
+                                                    foreach (string element in SampleBrowser.Description)
+                                                    {
+                                                    ls1.Add(element);
+                                                    }
+                                                    JsRuntime.InvokeAsync<Object>
+                                                        ("updateDescription", ls1);
+                                                        }
+                                                        else
+                                                        {
+                                                        JsRuntime.InvokeAsync<Object>
+                                                            ("updateDescription", new List<string>
+                                                                ());
+                                                                }
 
-                            JsRuntime.InvokeAsync<Object>
-                                ("destroyControl", new List<string>
-                                    ());
+                                                                JsRuntime.InvokeAsync<Object>
+                                                                    ("destroyControl", new List<string>
+                                                                        ());
 
 
 
-                                    UriHelper.NavigateTo(data.data.Url);
-                                    SampleBrowser.CurrentUrl = data.data.Url;
+                                                                        UriHelper.NavigateTo(data.data.Url);
+                                                                        SampleBrowser.CurrentUrl = data.data.Url;
 
-                                    }
-                                    }
+                                                                        }
+                                                                        }
 
 
-                                    [Parameter]
-                                    private object ListDataSource { get; set; }
+                                                                        [Parameter]
+                                                                        private object ListDataSource { get; set; }
 
-                                    protected override void OnAfterRender()
-                                    {
-                                    ListDataSource = this.controlList.DataSource = SampleBrowser.CurrentControl;
-                                    this.controlList.DataBind();
-                                    SampleBrowser.CurrentControl.ForEach(f =>
-                                    {
-                                    if (f.Name == SampleBrowser.CurrentSampleName)
-                                    {
-                                    SampleBrowser.CurrentUrl = f.Url;
-                                    }
-                                    });
-                                    }
+                                                                        protected override void OnAfterRender()
+                                                                        {
+                                                                        ListDataSource = this.controlList.DataSource = SampleBrowser.CurrentControl;
+                                                                        this.controlList.DataBind();
+                                                                        SampleBrowser.CurrentControl.ForEach(f =>
+                                                                        {
+                                                                        if (f.Name == SampleBrowser.CurrentSampleName)
+                                                                        {
+                                                                        SampleBrowser.CurrentUrl = f.Url;
+                                                                        }
+                                                                        });
+                                                                        }
 
-                                    object ListFields = new
-                                    {
-                                    id = "UID",
-                                    groupBy = "Category",
-                                    text = "Name",
-                                    sortBy = "Order"
-                                    };
+                                                                        object ListFields = new
+                                                                        {
+                                                                        id = "UID",
+                                                                        groupBy = "Category",
+                                                                        text = "Name",
+                                                                        sortBy = "Order"
+                                                                        };
 
-                                    }
+                                                                        }

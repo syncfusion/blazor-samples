@@ -2,17 +2,13 @@ var a = "";
 var flag = true;
 var themeCollection = ['material', 'fabric', 'bootstrap', 'bootstrap4', 'highcontrast'];
 var isMobile = window.matchMedia('(max-width:550px)').matches;
-function viewSwitch() {
-  var controlTree = ej.base.select("#controlTree");
+function viewSwitch(list) {
   var controlList = ej.base.select("#controlSamples");
-
-  if (controlTree.classList.contains("sb-hide")) {
-      controlTree.classList.remove("sb-hide");
-    //controlList.classList.add("trans-right");
-  } else {
-    controlTree.classList.add("sb-hide");
-    //controlList.classList.remove("trans-right");
-  }
+    if (list === "sb-hide") {
+        controlList.classList.add("sb-hide");
+    } else {
+        controlList.classList.remove("sb-hide");
+    }
 }
 
 function loadTheme(theme) {

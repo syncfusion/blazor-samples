@@ -1,0 +1,158 @@
+@page "/Maps/Multilayer"
+
+
+@using Syncfusion.EJ2.RazorComponents.Maps
+@using Syncfusion.EJ2.RazorComponents.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Multi-layers";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample depicts the layers along with sublayers. Countries in the African and Australian continents are rendered in the sublayers.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render a sublayer in map. Sublayers are used to render the desired shapes over the existing layers. Any number of sublayers can be added to a map. You can use the <code>fill</code>, <code>width</code>, and <code>color</code> properties in the border to customize the appearance of the shapes.
+
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div>
+        <EjsMaps ID="Layout">
+            <MapsTitleSettings Text="Samsung Semiconductor office locations in USA">
+                <MapsTitleTextStyle Size="16px">
+                </MapsTitleTextStyle>
+            </MapsTitleSettings>
+            <MapsZoomSettings Enable="false" PinchZooming="true">
+            </MapsZoomSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='@MapDataSource'>
+                <MapsShapeSettings Fill="#E5E5E5" Border="@shapeBorder">
+                </MapsShapeSettings>
+                <MapsDataLabelSettings Visible="true" LabelPath="iso_3166_2"  SmartLabelMode="SmartLabelMode.Hide">
+                </MapsDataLabelSettings>
+            </MapsLayer>
+            <MapsLayer ShapeData='@SubLayer' Type="Syncfusion.EJ2.RazorComponents.Maps.Type.SubLayer">
+                <MapsShapeSettings Fill="rgba(141, 206, 255, 0.6)" Border="@markerBorder">
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Width="20" Height="20" Template="#markercircle" DataSource="@MarkerDataSource">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath= "name" Format="<b>${name}</b><br>Manufacturing Center,<br>Research and Development Center">
+                        </MapsMarkerTooltipSettings>
+                    </MapsMarker>
+                    <MapsMarker Visible="true"  Template="<div style='color:black;'>TX</div>" DataSource="@MarkerDataSources">
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+            <MapsLayer ShapeData='@SubLayers' Type= "Syncfusion.EJ2.RazorComponents.Maps.Type.SubLayer">
+                <MapsShapeSettings Fill="rgba(141, 206, 255, 0.6)" Border="@markerBorder">
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Width="20" Height="20" Template="#markercircle" DataSource="@marker1">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="name" Format="<b>${name}</b><br>Regional Office,<br>Research and Development Center">
+                        </MapsMarkerTooltipSettings>
+                    </MapsMarker>
+                    <MapsMarker Visible="true"  Template="<div style='color:black;'>CA</div>" DataSource="@marker2">
+                    </MapsMarker>
+                </MapsMarkerSettings>
+                </MapsLayer>
+            </MapsLayers>
+        </EjsMaps>
+    </div>
+    <div style="float: right; margin-right: 10px;">
+        Source:
+        <a href="http://www.samsung.com/semiconductor/about-us/location/" target="_blank">www.samsung.com</a>
+    </div>
+</div>
+<div id="markercircle" style="display:none;">
+    <svg width="30" height="30">
+        <circle class="svgcircle" cx=15 cy=15 r=6 stroke='rgba(77, 77, 77, 0.8)' fill='rgba(0, 77, 153, 0.8)' />
+    </svg>
+</div>
+<style>
+    .markerTemplate {
+        font-size: 12px;
+        color: black;
+        font-weight: 500
+    }
+
+	.svgcircle{
+        -webkit-animation: opac 1.5s ease-out infinite;
+        animation: opac 1.5s ease-out infinite;
+    }
+
+    @@keyframes opac {
+        0% {
+            stroke-opacity: 0.6;
+            stroke-width: 0px;
+        }
+        100% {
+            stroke-opacity: 0.2;
+            stroke-width: 8px;
+        }
+    }
+</style>
+@functions {
+
+    public class MapDataSettings
+    {
+        public Boolean async{ get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    }
+    public MapDataSettings MapDataSource = new MapDataSettings{
+        async= true,
+        dataOptions= "scripts/MapsData/usa.json",
+        type= "GET"
+    };
+    public MapDataSettings SubLayer = new MapDataSettings{
+        async= true,
+        dataOptions= "scripts/MapsData/texas.json",
+        type= "GET"
+    };
+    public MapDataSettings SubLayers = new MapDataSettings{
+        async= true,
+        dataOptions= "scripts/MapsData/california.json",
+        type= "GET"
+    };
+    public class MapMarker
+        {
+           public double latitude;
+           public double longitude;
+           public String name;
+        };
+    public List<MapMarker> MarkerDataSource = new List<MapMarker> {
+            new MapMarker {latitude= 30.267153,longitude= -97.7430608, name= "Austin" }
+        };
+    public List<MapMarker> MarkerDataSources = new List<MapMarker> {
+            new MapMarker {latitude= 31.80289258670676,longitude= -98.96484375 }
+    };
+    public List<MapMarker> marker1 = new List<MapMarker> {
+            new MapMarker {latitude= 37.3382082,longitude= -121.8863286, name= "San Jose," }
+    };
+    public List<MapMarker> marker2 = new List<MapMarker> {
+            new MapMarker {latitude= 37.09023980307208,longitude= -119.35546875000001 }
+    };
+    public class Border
+        {
+           public String color;
+           public String width;
+        };
+    public Border shapeBorder = new Border {
+        color ="black",
+        width ="0.2"
+    };
+    public Border markerBorder = new Border {
+        color ="#1a9cff",
+        width ="0.25"
+    }; 
+}

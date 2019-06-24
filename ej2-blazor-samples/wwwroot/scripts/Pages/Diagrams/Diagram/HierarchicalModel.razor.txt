@@ -1,0 +1,109 @@
+@page "/Diagrams/HierarchicalModel"
+
+@using Syncfusion.EJ2.RazorComponents.Diagrams
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+        SampleBrowser.CurrentSampleName = "Hierarchical tree";
+        SampleBrowser.CurrentControlName = "Diagram";
+        SampleBrowser.CurrentControlCategory = "Diagram";
+        SampleBrowser.CurrentControl = SampleBrowser.Config.Diagram;
+        SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+        This sample illustrates a generating hierarchical tree from right to left orientation with external data source.
+
+    </p>"
+    };
+        SampleBrowser.Description = new string[] {
+       @"<p>
+        In this example, you can see how to generate a complex hierarchical tree from external data sources. You can also customize the spacing between the objects in the tree. You can use the
+        <code>horizontalSpacing</code> and <code>verticalSpacing</code> properties of <code>layout</code> to customize the space between the objects in the tree. You can use the <code>layoutOrientation</code> property of
+        <code>layout</code> to change the orientation of the tree.
+    </p>
+    <p>
+        To change the orientation of the tree, click the templates that are added to the property panel.
+    </p>
+    <p style=""font-weight: 500"">Injecting Module</p>
+    <p>
+        Diagram component's features are segregated into individual feature-wise modules. To generate diagrams from an external data source,
+        we need to Inject <code>DataBinding</code> module using < code > Diagram.Inject(DataBinding) </ code > method.To automatically arrange the objects in a hierarchical structure, we need to Inject<code>ComplexHierarchicalTree</ code > module using
+
+
+              < code > Diagram.Inject(ComplexHierarchicalTree) </ code > method.
+
+
+
+          </ p > "
+
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <EjsDiagram id="diagram" ref="diagram" Width="100%" Height="499px" Nodes="@nodes" Connectors="@connectors" SnapSettings="@snapSettings" Tool="@tool" Layout="@layoutSettings"></EjsDiagram>
+</div>
+
+@functions{
+EjsDiagram diagram;
+private static object getFlowShape(string id, string content,string category) {
+    return new { id= id, borderColor = "#3a6eb5",backgroundColor = "#659be5",
+    shape = new{ type= "Text"},
+    margin = new { left=5, right=5, bottom=5, top=5 },expandIcon =
+    new { height= 10, width= 10, shape= "None", fill= "lightgray", offset= new { x= .5, y= 1 },
+    verticalAlignment = "Auto",margin = new { left=10, right=10, top=10, bottom=10 }
+    },collapseIcon=new {offset = new{ x= .5, y= 1 },verticalAlignment = "Auto",height = 10,width = 10,
+    padding=new {top=5},shape = "None",fill = "lightgray"
+    },annotations= new List < object >
+    { new { content= content,style=new { color= "white"} ,margin = new { left=10, right=10, top=10, bottom=10 }} },
+    data=new {Category=category,Name=content},
+    style = new { fill= "#659be5", strokeColor= "none", color= "white", strokeWidth=2 }
+};
+}
+private static object getConnector(string id, string source,string tartget) {
+
+    return new {id= id, sourceID= source, targetID= tartget,targetDecorator= new{shape = "None"},type ="Orthogonal",
+    style= new{strokeColor = "#6d6d6d"},constraints = 0,cornerRadius = 5
+};
+}
+    private List < object >
+    nodes = new List < object >
+        {
+        getFlowShape("node1","Diagram",""),
+        getFlowShape("node2","Layout","Diagram"),
+        getFlowShape("node3","Tree Layout","Layout"),
+        getFlowShape("node4","Organizational Chart","Layout"),
+        getFlowShape("node5","Hierarchical Tree","Tree Layout"),
+        getFlowShape("node6","Radial Tree","Tree Layout"),
+        getFlowShape("node7","Mind Map","Hierarchical Tree"),
+        getFlowShape("node8","Family Tree","Hierarchical Tree"),
+        getFlowShape("node9","Management", "Organizational Chart"),
+        getFlowShape("node10","Human Resources","Management"),
+        getFlowShape("node11","University","Management"),
+        getFlowShape("node12","Business","Management")
+        };
+
+private List < object > connectors { get; set; } = new List < object >
+    {
+       getConnector("connector1","node1","node2"),
+       getConnector("connector2","node2","node3"),
+       getConnector("connector3","node2","node4"),
+       getConnector("connector4","node3","node5"),
+       getConnector("connector5","node3","node6"),
+       getConnector("connector6","node4","node9"),
+       getConnector("connector7","node5","node7"),
+       getConnector("connector8","node5","node8"),
+       getConnector("connector9","node9","node10"),
+       getConnector("connector10","node9","node11"),
+       getConnector("connector11","node9","node12")
+    };
+
+private object layoutSettings { get; set; } = new {
+            type="HierarchicalTree", verticalSpacing=30, horizontalSpacing=40,
+            enableAnimation=true
+        };
+
+private object snapSettings { get; set; } = new {  constraints= "SnapConstraints.None" };
+
+private DiagramTools tool= DiagramTools.ZoomPan;
+}
