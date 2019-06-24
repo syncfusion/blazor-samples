@@ -1,0 +1,93 @@
+@page "/Gantt/Baseline"
+
+@using Syncfusion.EJ2.RazorComponents.Gantt
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_ganttdata
+@{
+    SampleBrowser.CurrentSampleName = "Baseline";
+    SampleBrowser.CurrentControlName = "Gantt";
+    SampleBrowser.CurrentControlCategory = "Gantt";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Gantt;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample visualizes the complete service schedule for a car. Baselines are enabled to view the deviation between the planned dates and actual dates.
+        </p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>
+            The baseline feature enables the user to view the deviation between the planned dates and the actual dates of
+            the tasks in a project. Baselines can be enabled in Gantt chart by enabling the <code>RenderBaseline</code>
+            property along
+            with mapping the data source values for <code>BaselineStartDate</code> and <code>BaselineEndDate</code>
+            properties.
+            The baseline will appear for all type of tasks in the project such as child tasks, parent tasks and also for
+            milestones. You can change the color for the baselines using <code>BaselineColor</code> property.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsGantt id="baselineGantt" DataSource="@ganttData" Height="450px" HighlightWeekends="true"
+                      TreeColumnIndex="1" AllowSelection="true" IncludeWeekend="true" DateFormat="hh:mm a"
+                      ProjectStartDate="03/05/2018 09:30:00 AM" ProjectEndDate="03/05/2018 07:00:00 PM"
+                      DurationUnit="@Syncfusion.EJ2.RazorComponents.Gantt.DurationUnit.Minute"
+                      RenderBaseline="true">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+                                 BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate" Child="SubTasks"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskName" HeaderText="Service Name" Width="250" Format="hm"></GanttColumn>
+                    <GanttColumn Field="BaselineStartDate" HeaderText="Planned start time" Format="hm"></GanttColumn>
+                    <GanttColumn Field="BaselineEndDate" HeaderText="Planned end time" Format="hm"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start time" Format="hm"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End time" Format="hm"></GanttColumn>
+                </GanttColumns>
+                <GanttTooltipSettings Taskbar="@(@"<table>
+                                      <tbody>
+                                      <tr><td colspan='3'>${TaskName}</td></tr><tr>
+                                         <td> Start Time </td>
+                                         <td>:</td>
+                                         <td>${this.getFormatedDate(StartDate)}</td>
+                                     </tr>
+                                     <tr>
+                                         <td> End Time</td>
+                                         <td>:</td>
+                                         <td>${this.getFormatedDate(EndDate)}</td>
+                                     </tr>
+                                     <tr>
+                                         <td> Planned start time</td>
+                                         <td>:</td>
+                                         <td>${this.getFormatedDate(BaselineStartDate)}</td>
+                                     </tr>
+                                     <tr>
+                                         <td> Planned end time</td>
+                                         <td>:</td>
+                                         <td>${this.getFormatedDate(BaselineEndDate)}</td>
+                                     </tr>
+                                 </tbody>
+                             </table>")">
+                </GanttTooltipSettings>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="1" To="24"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+                <GanttTimelineSettings TimelineUnitSize="65">
+			    <GanttTopTierSettings Unit="@Syncfusion.EJ2.RazorComponents.Gantt.TimelineViewMode.None"></GanttTopTierSettings>
+			    <GanttBottomTierSettings Unit="@Syncfusion.EJ2.RazorComponents.Gantt.TimelineViewMode.Minutes"
+                    Count="15" Format="hh:mm a"></GanttBottomTierSettings>
+		        </GanttTimelineSettings>
+            </EjsGantt>
+        </div>
+    </div>
+</div>
+
+@functions{
+    public List<GanttData.GanttDataSource> ganttData { get; set; }    
+    protected override void OnInit()
+    {
+        this.ganttData = GanttData.BaselineData().ToList();        
+    }
+}

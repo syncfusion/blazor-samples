@@ -1,0 +1,80 @@
+@page "/Schedule/TimelineResourceGroup"
+
+@using Syncfusion.EJ2.RazorComponents.Schedule
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Timeline Grouping";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+This demo showcases how the multiple resources are grouped as well as how the events are portrayed in timeline view layouts.
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@"<p>
+In the timeline view, each row depicts a single resource whereas in vertical views, each resource are grouped parallelly
+as columns. Here, the resource grouping follows the tree-view like hierarchical grouping structure and can contain
+any level of child resources. In this sample, we have used two level hierarchy, where the
+<code>PROJECT 1</code> and
+<code>PROJECT 2</code> are the parent level and the
+<code>development</code> and
+<code>testing</code> are child level resources which are defined using the
+<code>resources</code> property. They are grouped in layout by making use of the
+<code>group</code> property and its order of grouping depends on the order of names passed onto the
+<code>resources</code> option within
+<code>group</code>.
+</p>
+<p>
+Also, the colors defined for the child level resources will get applied to the events of those resources by default. In case,
+if the colors of parent level needs to be applied to those child events, then it is necessary to define the
+<code>resourceColorField</code> option within the
+<code>eventSettings</code> property with the parent level resource name value.
+</p>"
+};
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsSchedule id="schedule" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 4, 4)" CurrentView="View.TimelineWeek">
+            <ScheduleGroup Resources="@groupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource DataSource="@projectData" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="text" IdField="id" ColorField="color"></ScheduleResource>
+                <ScheduleResource DataSource="@taskData" Field="TaskId" Title="Category" Name="Categories" TextField="text" IdField="id" GroupIDField="groupId" ColorField="color" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleViews>
+                <ScheduleView Option="View.TimelineDay"></ScheduleView>
+                <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+                <ScheduleView Option="View.TimelineWorkWeek"></ScheduleView>
+                <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@data.GetResourceData().Concat(data.GetTimelineResourceData())"></ScheduleEventSettings>
+        </EjsSchedule>
+    </div>
+</div>
+
+@functions{
+    static ScheduleData data = new ScheduleData();
+
+    public new string[] groupData = new string[] { "Projects", "Categories" };
+
+    private List<object> projectData { get; set; } = new List<object> {
+                new {text = "PROJECT 1", id= 1, color= "#cb6bb2"},
+                new {text = "PROJECT 2", id= 2, color= "#56ca85"},
+                new {text = "PROJECT 3", id= 3, color= "#df5286"}
+    };
+
+    private List<object> taskData { get; set; } = new List<object> {
+                new { text = "Nancy", id= 1, groupId = 1, color = "#df5286" },
+                new { text = "Steven", id= 2, groupId = 1, color = "#7fa900" },
+                new { text = "Robert", id= 3, groupId = 2, color = "#ea7a57" },
+                new { text = "Smith", id= 4, groupId = 2, color = "#5978ee" },
+                new { text = "Micheal", id= 5, groupId = 3, color = "#df5286" },
+                new { text = "Root", id= 6, groupId = 3, color = "#00bdae" }
+    };
+}
