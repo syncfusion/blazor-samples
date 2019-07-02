@@ -1,8 +1,8 @@
-# Syncfusion ASP.NET Core Blazor Components Samples
+# Syncfusion Blazor Components Demos
 
-This repository contains the demos of [Syncfusion ASP.NET Core Blazor Components](https://ej2.syncfusion.com/beta/aspnet-core-razor-components/).
+This repository contains the demos of [Syncfusion Blazor Components](https://ej2.syncfusion.com/home/aspnet-core-blazor.html).
 
-The below topics can help you to use the Syncfusion ASP.NET Core Razor Components and run this application in your local
+The below topics can help you to use the Syncfusion Blazor Components and run this application in your local
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
 * [Using the samples](#using-the-samples)
@@ -15,10 +15,10 @@ The below topics can help you to use the Syncfusion ASP.NET Core Razor Component
 
 The samples requires the below requirements to run.
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/#2019rc)
-* [.NET Core SDK 3.0 Preview4](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+* [Visual Studio 2019 Preview](https://visualstudio.microsoft.com/vs/preview/)
+* [.NET Core SDK 3.0.100-preview6-012264](https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
-## Using the samples
+## Using the demos
 
 * Open the command prompt from samples root directory.
 * Run `dotnet restore` and `dotnet build`.
@@ -27,11 +27,11 @@ The samples requires the below requirements to run.
 
 ## Documentation
 
-All controls documentation for the Syncfusion ASP.NET Core Razor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
+All controls documentation for the Syncfusion Blazor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
 
 ## License
 
-Syncfusion ASP.NET Core Razor Components (Essential JS 2) is available under the Syncfusion Essential Studio program,  and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
+Syncfusion Blazor Components (Essential JS 2) is available under the Syncfusion Essential Studio program,  and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
 
 To be qualified for the Syncfusion Community License Program you must have a gross revenue of less than one (1) million U.S. dollars ($1,000,000.00 USD) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusion’s terms and conditions.
 
@@ -318,6 +318,6 @@ The Syncfusion license that contains the terms and conditions can be found at
 
 ## Support and Feedback
 
-* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing&utm_campaign=ej2-aspnetcore-samples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=ej2-aspnetcore-samples).
+* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing&utm_campaign=ej2-aspnetcore-samples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples).
 
-* To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing&utm_campaign=ej2-aspnetcore-samples) or contact our sales team at <salessupport@syncfusion.com>.
+* To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples) or contact our sales team at <salessupport@syncfusion.com>.
