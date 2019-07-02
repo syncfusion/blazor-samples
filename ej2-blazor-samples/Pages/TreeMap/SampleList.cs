@@ -19,15 +19,6 @@ namespace ej2_blazor_samples
             },
              new Sample
             {
-                Name = "Customization",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "TreeMap/Customization",
-                FileName = "Customization.razor",
-                Type = SampleType.New
-            },
-             new Sample
-            {
                 Name = "Data Label",
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",

@@ -1,10 +1,12 @@
 @page "/DocumentEditor/HyperlinksAndBookmarks"
 
-@using Syncfusion.EJ2.RazorComponents.DocumentEditor;
+@using Syncfusion.EJ2.Blazor.DocumentEditor;
 @using Newtonsoft.Json;
 @inject HttpClient Http;
-@using Syncfusion.EJ2.RazorComponents.SplitButtons;
+@using Syncfusion.EJ2.Blazor.SplitButtons;
 @inject IJSRuntime JsRuntime;
+
+
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -36,7 +38,7 @@
         <div class="single-line" id="documenteditor_title_contentEditor" title="Document Name. Click or tap to rename this document.">
             <label id="documenteditor_title_name" style="font-weight:400;text-overflow:ellipsis;white-space:pre;overflow:hidden;user-select:none;cursor:text"></label>
         </div>
-        <div class="print-ctnr" style="float:right" onclick="@onPrint">
+        <div style="float:right" @onclick="@onPrint">
             <Ejsbutton id="de-print" cssClass="printIconCss" iconCss="e-de-icon-Print">Print</Ejsbutton>
         </div>
     </div>
@@ -124,25 +126,31 @@
     .e-de-icon-Download:before {
         content: "\e728";
     }
-
-    .print-ctnr {
-        cursor: pointer;
-        margin-top: 6px;
-    }
 </style>
 
-@functions{
+@code{
 
-    private string DocumentName { get; set; } = "Getting Started";
+    private string DocumentName {get;set;} ="Getting Started";
     private async void onCreate(object args)
     {
-        await JsRuntime.InvokeAsync<bool>
-        ("AfterRender", "Hyperlinks and Bookmarks");
+    await JsRuntime.InvokeAsync<bool>
+    ("AfterRender","Hyperlinks and Bookmarks");
     }
 
-    private void onPrint()
+    private async void onExport(object args)
     {
-        JsRuntime.InvokeAsync<bool>("Print");
-    }
+    await JsRuntime.InvokeAsync<bool>
+        ("OnExportClick",args);
+        }
 
-}
+        private async void onDocxExport(object args){
+        await JsRuntime.InvokeAsync<bool>
+            ("OnDocxExport");
+            }
+            private async void onPrint(object args)
+            {
+            await JsRuntime.InvokeAsync<bool>
+                ("Print");
+                }
+
+                }

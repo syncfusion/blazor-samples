@@ -1,0 +1,111 @@
+﻿@page "/Charts/PrintExport"
+@using Syncfusion.EJ2.Blazor.Charts
+@inject HttpClient Http
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Print and Export";
+    SampleBrowser.CurrentControlName = "RangeNavigator";
+    SampleBrowser.CurrentControlCategory = "RangeNavigator";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        This sample represent the exchange rate analysis for USD to EUR with datetime axis.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the valueType to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>intervalType</code> of the range navigator. You can also directly set the format using the <code>labelFormat</code> property.
+    </p>"
+    };
+}
+@*End:Hidden*@
+@if (exportData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section">
+        <div class="row" align="center">
+            <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>           
+            <div id="container">
+                <EjsRangeNavigator Value="@value" id="container" labelFormat="MMM" enableGrouping="true" intervalType="RangeIntervalType.Months"
+                                   DataSource="@exportData" xName="xDate" yName="Close" valueType="Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime">
+                </EjsRangeNavigator>
+            </div> <br>
+            <div id="chartcontainer">
+                <EjsChart id="chart">
+                    <ChartPrimaryXAxis valueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" edgeLabelPlacement="EdgeLabelPlacement.Shift">
+                        <ChartPrimaryXAxisMajorGridLines width="0"></ChartPrimaryXAxisMajorGridLines>
+                    </ChartPrimaryXAxis>
+                    <ChartPrimaryYAxis minimum="81" maximum="87" interval="2" title="Million in USD"
+                                       labelFormat="{value}M">
+                        <ChartPrimaryYAxisMajorGridLines width="0"></ChartPrimaryYAxisMajorGridLines>
+                        <ChartPrimaryYAxisLineStyle width="0"></ChartPrimaryYAxisLineStyle>
+                    </ChartPrimaryYAxis>
+                    <ChartTooltipSettings enable="true" shared="true"></ChartTooltipSettings>
+                    <ChartArea>
+                        <ChartAreaBorder color="Transparent"></ChartAreaBorder>
+                    </ChartArea>
+                    <ChartSeriesCollection>
+                        <ChartSeries Fill="rgba(255, 64, 129, 0.3)" DataSource="@exportData" xName="xDate" name="Close" width="2" yName="Close" type="ChartSeriesType.SplineArea"></ChartSeries>
+                    </ChartSeriesCollection>
+                    <ChartLegendSettings visible="false"></ChartLegendSettings>
+                </EjsChart>
+            </div>
+        </div>
+    </div>
+}
+@code{
+    ChartData[] exportData;
+    protected override async Task OnInitAsync()
+    {
+        exportData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/exportdata.json");
+    }
+    class ChartData
+    {
+        public DateTime xDate;
+        public double Open;
+        public double High;
+        public double Low;
+        public double Close;
+
+    }
+    DateTime[] value = new DateTime[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
+    protected void onRangeLoad(IRangeLoadedEventArgs args)
+    {
+
+    }
+    protected void onRangeChanged(IChangedEventArgs args)
+    {
+        double zoomFactor = args.ZoomFactor;
+
+    }
+    protected void onChartLoad(ILoadedEventArgs args)
+    {
+
+    }
+    //protected void labelRender(IAxisLabelRenderEventArgs args) {
+
+    //}
+}
+<style>
+
+    #button-control {
+        width: 100%;
+        text-align: center;
+    }
+
+    #control-container {
+        padding: 0px !important;
+    }
+
+    .e-export-icon::before {
+        content: '\e728';
+    }
+
+    .e-print-icon::before {
+        content: '\e813';
+    }
+</style>

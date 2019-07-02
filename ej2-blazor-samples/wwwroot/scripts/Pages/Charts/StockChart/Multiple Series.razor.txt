@@ -1,0 +1,50 @@
+﻿@page "/Charts/MultipleSeries"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@inject HttpClient Http
+
+@if (dataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+<EjsStockChart Title="Multiple Series">
+    <ChartBorder Width="0">
+    </ChartBorder>
+    <StockChartPrimaryXAxis>
+        <StockChartPrimaryXAxisMajorGridLines Width="0"></StockChartPrimaryXAxisMajorGridLines>
+        <StockChartCrosshairTooltip enable="true"></StockChartCrosshairTooltip>
+    </StockChartPrimaryXAxis>
+    <StockChartPrimaryYAxis Interval="40">
+        <StockChartPrimaryXAxisLineStyle Color="Transparent"></StockChartPrimaryXAxisLineStyle>
+        <StockChartPrimaryXAxisMajorTickLines Width="0" Color="Transparent"></StockChartPrimaryXAxisMajorTickLines>
+        <StockChartCrosshairTooltip enable="true"></StockChartCrosshairTooltip>
+    </StockChartPrimaryYAxis>
+    <StockChartSeriesCollection>
+        <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Line" xName="x" yName="close" name="Apple"></StockChartSeries>
+        <StockChartSeries DataSource="@dataSource2" Type="ChartSeriesType.Line" xName="x" yName="close" name="Google"></StockChartSeries>
+    </StockChartSeriesCollection>
+    <ChartAreaBorder Width="0"></ChartAreaBorder>
+</EjsStockChart>
+}
+@code{
+
+    ChartData[] dataSource;
+    ChartData[] dataSource2;
+    protected override async Task OnInitAsync()
+    {
+        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/goog.json");
+        dataSource2 = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/googl.json");
+    }
+    class ChartData
+    {
+        public DateTime x;
+        public double open;
+        public double low;
+        public double close;
+        public double high;
+        public double volume;
+    }
+
+}

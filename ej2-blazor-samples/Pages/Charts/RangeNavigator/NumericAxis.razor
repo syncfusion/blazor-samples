@@ -1,0 +1,84 @@
+﻿@page "/RangeSelector/NumericAxis"
+@using Syncfusion.EJ2.Blazor.Charts
+@inject HttpClient Http
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Numeric Axis";
+    SampleBrowser.CurrentControlName = "RangeNavigator";
+    SampleBrowser.CurrentControlCategory = "RangeNavigator";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        This sample depicts the cricket match data between two countries with the help of numeric axis in range navigator.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        Numeric axis is used to plot numeric data in range navigator. To render numeric axis, set valueType to Double. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.
+    </p>"
+    };
+}
+@*End:Hidden*@
+@if (ausData == null && slData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+<div class="control-section" align="center">
+    <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Score Comparision AUS vs SL</h4>
+    <div id="container" style="height:120px">
+        <EjsRangeNavigator id="container" LabelPosition="AxisPosition.Outside" Value="@value">
+            <RangeNavigatorRangeTooltipSettings Enable="true"></RangeNavigatorRangeTooltipSettings>
+            <RangeNavigatorSeriesCollection>
+                <RangeNavigatorSeries DataSource="@ausData" Width="2" xName="x" type="RangeNavigatorType.Line" yName="y">
+                </RangeNavigatorSeries>
+                <RangeNavigatorSeries DataSource="@slData" Width="2" xName="x" type="RangeNavigatorType.Line" yName="y">
+                </RangeNavigatorSeries>
+            </RangeNavigatorSeriesCollection>
+        </EjsRangeNavigator>
+    </div>
+    <div id="chartcontainer" style="height:350px">
+        <EjsChart id="chart">
+            <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Overs">
+                <ChartPrimaryXAxisMajorGridLines Width="0"></ChartPrimaryXAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="0" Title="Runs">
+                <ChartPrimaryYAxisMajorTickLines Width="0"></ChartPrimaryYAxisMajorTickLines>
+                <ChartPrimaryYAxisLineStyle Width="0"></ChartPrimaryYAxisLineStyle>
+            </ChartPrimaryYAxis>
+            <ChartAnnotations>
+                <ChartAnnotation Content="<div id='exchangeRate'></div>" X="85%" Y="15%" CoordinateUnits='Syncfusion.EJ2.Blazor.Charts.Units.Pixel' Region="Regions.Chart"></ChartAnnotation>
+            </ChartAnnotations>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ausData" XName="x" YName="y" name="AUS" width="2" type="ChartSeriesType.Spline">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries DataSource="@slData" XName="x" YName="y" name="SL" width="2" type="ChartSeriesType.Spline">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="false" Shared="false"></ChartTooltipSettings>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </EjsChart>
+    </div>
+</div>
+}
+@code{
+     ChartData[] ausData;
+        ChartData[] slData;
+    protected override async Task OnInitAsync()
+    {
+        ausData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/double_data_aus.json");
+        slData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/double_data_sl.json");
+    }
+    class ChartData
+    {
+        public double x;
+        public double y;
+        public bool isWicket;
+    }
+    int[] value = new int[] {31,50};
+}

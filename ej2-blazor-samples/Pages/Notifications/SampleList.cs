@@ -36,7 +36,17 @@ namespace ej2_blazor_samples
                 Url = "Badge/Types",
                 FileName = "Types.razor",
                 Type = SampleType.New,
-            }
+            },
+             new Sample
+            {
+                Name = "Notifications",
+                Category = "Badge",
+                Directory = "Notifications/Badge",
+                Url = "Badge/Notifications",
+                FileName = "Notifications.razor",
+                Type = SampleType.New,
+            },
+
         };
     }
 }

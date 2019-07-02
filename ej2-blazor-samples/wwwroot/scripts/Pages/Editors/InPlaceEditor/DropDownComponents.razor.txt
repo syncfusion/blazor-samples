@@ -1,25 +1,23 @@
-@page "/Editors/DropDownComponents"
+﻿@page "/Editors/DropDownComponents"
 
-@using Syncfusion.EJ2.RazorComponents
-@using Syncfusion.EJ2.RazorComponents.InPlaceEditor
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.InPlaceEditor
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
-    SampleBrowser.CurrentSampleName = "DropDownComponents";
+    SampleBrowser.CurrentSampleName = "DropDown Components";
     SampleBrowser.CurrentControlName = "InPlaceEditor";
     SampleBrowser.CurrentControlCategory = "InPlaceEditor";
     SampleBrowser.CurrentControl = SampleBrowser.Config.InPlaceEditor;
     SampleBrowser.ActionDescription = new string[] {
       @"<p>
-        This sample demonstrates the usage of drop-down components such as AutoComplete, ComboBox, DropDownList, and MultiSelect. Click on the dotted input element to switch to the
-        editable state of the corresponding integrated component.
+        This sample demonstrates the usage of drop-down components such as AutoComplete, ComboBox, DropDownList, and MultiSelect. Click on the dotted input element to switch to the editable state of the corresponding integrated component.
     </p>"
     };
     SampleBrowser.Description = new string[] {
         @"<p>
-        This sample illustrates the way to integrate drop-down components with <code>In-place Editor</code>. The
-        applicable types of components are:
+        This sample illustrates the way to integrate drop-down components with <code>In-place Editor</code>. The applicable types of components are:
     </p>
     <p>
         <ul>
@@ -38,14 +36,10 @@
         </ul>
     </p>
     <p>
-        The above components and their features are editable in place and can be customized with the model
-        properties of the specific component.
+        The above components and their features are editable in place and can be customized with the model properties of the specific component.
     </p>
     <p>
-        More information on the <code>In-place Editor</code> instantiation can be found in the <a target=""_blank""
-                                                                                                  href=""https://ej2.syncfusion.com/aspnetcore/documentation/inplace-editor/getting-started-asp-core/"">
-            documentation section
-        </a>.
+        More information on the <code>In-place Editor</code> instantiation can be found in the <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnetcore/documentation/inplace-editor/getting-started-asp-core/"">documentation section</a>.
     </p>"
     };
 
@@ -62,7 +56,7 @@
                     </label>
                 </td>
                 <td>
-                    <EjsInPlaceEditor id="dropdownEle" mode="@RenderMode.Popup" type="@InputType.DropDownList" value="@dropdownValue" model="@dropdownData">
+                    <EjsInPlaceEditor id="dropdownEle" Mode="@mode" type="@InputType.DropDownList" value="@dropdownValue" model="@dropdownData">
                     </EjsInPlaceEditor>
                 </td>
             </tr>
@@ -73,7 +67,7 @@
                     </label>
                 </td>
                 <td>
-                    <EjsInPlaceEditor id="autoCompleteEle" mode="@RenderMode.Popup" type="@InputType.AutoComplete" value="@autoValue" model="@autocompleteData">
+                    <EjsInPlaceEditor Mode="@mode" Type="@InputType.AutoComplete" Value="@autoValue" Model="@autocompleteData">
                     </EjsInPlaceEditor>
                 </td>
             </tr>
@@ -84,7 +78,7 @@
                     </label>
                 </td>
                 <td>
-                    <EjsInPlaceEditor id="comboBoxEle" mode="@RenderMode.Popup" type="@InputType.ComboBox" value="@comboValue" model="@comboData">
+                    <EjsInPlaceEditor Mode="@mode" Type="@InputType.ComboBox" Value="@comboValue" Model="@comboData">
                     </EjsInPlaceEditor>
                 </td>
             </tr>
@@ -95,12 +89,27 @@
                     </label>
                 </td>
                 <td>
-                    <EjsInPlaceEditor id="multiSelectEle" mode="@RenderMode.Popup" type="@InputType.MultiSelect" value="@multiValue" model="@multiSelectData">
+                    <EjsInPlaceEditor Mode="@mode" Type="@InputType.MultiSelect" Value="@multiValue" Model="@multiSelectData">
                     </EjsInPlaceEditor>
                 </td>
             </tr>
         </table>
     </div>
+</div>
+
+<div class="col-lg-4 property-section" id="dropdownProperty">
+    <table id="property" title="Properties">
+        <tr>
+            <td>
+                <div> Mode</div>
+            </td>
+            <td>
+                <div>
+                    <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@modeData" Change="@changeEditMode" Index="0"></EjsDropDownList>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
 <style>
@@ -123,51 +132,58 @@
         max-width: 400px;
     }
 
-    .inplace-control-section.drop-down-layout .control_wrapper table {
-        margin: auto;
-    }
+        .inplace-control-section.drop-down-layout .control_wrapper table {
+            margin: auto;
+        }
 
-    .inplace-control-section.drop-down-layout .control_wrapper table td {
-        width: 200px;
-        height: 100px;
-    }
+            .inplace-control-section.drop-down-layout .control_wrapper table td {
+                width: 200px;
+                height: 100px;
+            }
 
     #dropdownProperty table td {
         width: 50%;
     }
 
-    #dropdownProperty .property-panel-table div {
+    #dropdownProperty table div {
         padding-left: 10px;
         padding-top: 10px;
     }
 </style>
 
-@functions {
-    object dropdownValue = "Canada";
-    object autoValue = "Australia";
-    object comboValue = "Finland";
-    string[] multiValue = new string[] { "Canada", "Bermuda" };
+@code {
+    private RenderMode mode = RenderMode.Inline;
+    private object dropdownValue = "Canada";
+    private object autoValue = "Australia";
+    private object comboValue = "Finland";
+    private string[] modeData = new string[] { "Inline", "Popup" };
+    private string[] multiValue = new string[] { "Canada", "Bermuda" };
 
-    object dropdownData = new
+    private object dropdownData = new
     {
         placeholder = "Find a countries",
         dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
     };
-    object autocompleteData = new
+    private object autocompleteData = new
     {
         placeholder = "Type to search countries",
         dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
     };
-    object comboData = new
+    private object comboData = new
     {
         placeholder = "Find a countries",
         dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
     };
-
-    object multiSelectData = new
+    private object multiSelectData = new
     {
+        mode = "Box",
         placeholder = "Choose the countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" },
-        mode = "Box"
+        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
     };
+
+    private void changeEditMode(ChangeEventArgs args)
+    {
+        this.mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
+        this.StateHasChanged();
+    }
 }

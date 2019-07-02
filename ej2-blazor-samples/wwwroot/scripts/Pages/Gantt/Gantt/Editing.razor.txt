@@ -1,6 +1,6 @@
-@page "/Gantt/Editing"
+﻿@page "/Gantt/Editing"
 
-@using Syncfusion.EJ2.RazorComponents.Gantt
+@using Syncfusion.EJ2.Blazor.Gantt
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -48,15 +48,17 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt id="editingGantt" DataSource="@ganttData" Height="450px" HighlightWeekends="true"
+            <EjsGantt id="editingGantt" @ref="editingGantt" DataSource="@ganttData" Height="450px" HighlightWeekends="true"
                       Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})"
-                      AllowSelection="true" GridLines="@Syncfusion.EJ2.RazorComponents.Gantt.GridLine.Both" TreeColumnIndex="1"
+                      AllowSelection="true" GridLines="@Syncfusion.EJ2.Blazor.Gantt.GridLine.Both" TreeColumnIndex="1"
                       ResourceNameMapping="ResourceName" ResourceIDMapping="ResourceId" Resources="@ganttResources"
-                      ProjectStartDate="03/25/2019" ProjectEndDate="07/28/2019" TimelineSettings="@timelineSettings">
+                      ProjectStartDate="03/25/2019" ProjectEndDate="07/28/2019">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  Dependency="Predecessor" Child="SubTasks" Notes="Notes" ResourceInfo="ResourceId"></GanttTaskFields>
                 <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
                                    ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttTimelineSettings TopTier="@topTier" BottomTier="@bottomTier">
+                </GanttTimelineSettings>
                 <GanttEventMarkers>
                     <GanttEventMarker Day="4/17/2019" Label="Project approval and kick-off"></GanttEventMarker>
                     <GanttEventMarker Day="5/3/2019" Label="Foundation inspection"></GanttEventMarker>
@@ -74,22 +76,22 @@
                 <GanttLabelSettings LeftLabel="TaskName"
                                     RightLabel="${if(taskData.SubTasks)}${taskData.Duration} ${else if(ResourceId)}${ResourceId}${/if}">
                 </GanttLabelSettings>
-                <GanttTimelineSettings>
-			    <GanttTopTierSettings Unit="@Syncfusion.EJ2.RazorComponents.Gantt.TimelineViewMode.Week" Format="MMM dd, y"></GanttTopTierSettings>
-			    <GanttBottomTierSettings Unit="@Syncfusion.EJ2.RazorComponents.Gantt.TimelineViewMode.Day"></GanttBottomTierSettings>
-		        </GanttTimelineSettings>
             </EjsGantt>
         </div>
     </div>
 </div>
-@functions{
-    public List<GanttData.GanttDataSource> ganttData { get; set; }
-    public List<GanttData.GanttResources> ganttResources { get; set; }
-    public object timelineSettings { get; set; }
+@code{
+    EjsGantt editingGantt;
+    public object ganttData { get; set; }
+    public object ganttResources { get; set; }
+    public object topTier { get; set; }
+    public object bottomTier { get; set; }
 
-    protected override void OnInit()
+    protected override void OnAfterRender()
     {
-        this.ganttData = GanttData.EditingData().ToList();
-        this.ganttResources = GanttData.EditingResources().ToList();        
+        ganttData = this.editingGantt.DataSource = GanttData.EditingData();
+        ganttResources = this.editingGantt.Resources = GanttData.EditingResources();
+        topTier = new { Unit= Syncfusion.EJ2.Blazor.Gantt.TimelineViewMode.Week,  Format="MMM dd, y"};
+        bottomTier = new { Unit= Syncfusion.EJ2.Blazor.Gantt.TimelineViewMode.Day};
     }
 }

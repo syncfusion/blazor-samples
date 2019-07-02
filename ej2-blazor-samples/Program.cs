@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -12,7 +13,13 @@ namespace ej2_blazor_samples
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run(); 
+            CreateHostBuilder(args).Build().Run();
+
+            new HubConnectionBuilder()
+               .WithUrl("/chatHub")
+               .AddNewtonsoftJsonProtocol()
+               .Build();
+
         }
 
         public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
@@ -43,9 +50,15 @@ namespace ej2_blazor_samples
         public int Order { get; set; }
         public string FileName { get; set; }
         public string Url { get; set; }
+        public List<SourceCollection> SourceFiles { get; set; } = new List<SourceCollection>();
 
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
+    }
+    internal class SourceCollection
+    {
+        public string FileName { get; set; }
+        public string Id { get; set; }
     }
 
     internal static class SampleBrowser

@@ -80,6 +80,16 @@ namespace ej2_blazor_samples
                 Order = 04,
                 Samples = LinearGauge
             });
+			SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Diagram",
+                Category = "Data Visualization",
+                Directory = "Diagrams",
+                Type = SampleType.New,
+                UID = 005,
+                Order = 05,
+                Samples = Diagram
+            });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Sparkline",
@@ -129,6 +139,16 @@ namespace ej2_blazor_samples
                 UID = 009,
                 Order = 09,
                 Samples = SmithChart
+            });
+			SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Barcode",
+                Category = "Data Visualization",
+                Directory = "Barcodes",
+                Type = SampleType.New,
+                UID = 005,
+                Order = 05,
+                Samples = Barcode
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -334,7 +354,7 @@ namespace ej2_blazor_samples
             {
                 Name = "Dialog",
                 Category = "Layout",
-                Directory = "Layout",
+                Directory = "Popups/Dialog",
                 Type = SampleType.New,
                 UID = 008,
                 Order = 02,
@@ -364,7 +384,7 @@ namespace ej2_blazor_samples
             {
                 Name = "Splitter",
                 Category = "Layout",
-                Directory = "Layout",
+                Directory = "Layouts/Splitter",
                 Type = SampleType.New,
                 UID = 010,
                 Order = 10,
@@ -431,16 +451,6 @@ namespace ej2_blazor_samples
                 UID = 005,
                 Order = 01,
                 Samples = Gantt
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Diagram",
-                Category = "Data Visualization",
-                Directory = "Diagrams",
-                Type = SampleType.New,
-                UID = 005,
-                Order = 05,
-                Samples = Diagram
             });
             SampleBrowser.SampleList.Add(new SampleList
             {

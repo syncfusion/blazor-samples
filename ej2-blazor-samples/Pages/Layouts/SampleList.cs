@@ -45,7 +45,34 @@ namespace ej2_blazor_samples
                 Url = "Listview/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
-            }
+            },
+            new Sample
+            {
+                Name = "Checklist",
+                Category = "Listview",
+                Directory = "Layouts/Listview",
+                Url = "Listview/Checklist",
+                FileName = "Checklist.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Nested List",
+                Category = "Listview",
+                Directory = "Layouts/Listview",
+                Url = "Listview/NestedList",
+                FileName = "NestedList.razor",
+                Type = SampleType.New
+            },
+			new Sample
+            {
+                Name = "Template",
+                Category = "Listview",
+                Directory = "Layouts/Listview",
+                Url = "Listview/GroupTemplate",
+                FileName = "ListGroupTemplate.razor",
+                Type = SampleType.New
+            },
         };
         public List<Sample> Avatar { get; set; } = new List<Sample>{
             new Sample
@@ -59,22 +86,70 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Badge",
+                Name = "Types",
                 Category = "Avatar",
                 Directory = "Layouts/Avatar",
                 Url = "Avatar/Types",
                 FileName = "Types.razor",
                 Type = SampleType.New,
-            }
+            },
+            new Sample
+            {
+                Name = "Badge",
+                Category = "Integration",
+                Directory = "Layouts/Avatar",
+                Url = "Avatar/Badge",
+                FileName = "Badge.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Card",
+                Category = "Integration",
+                Directory = "Layouts/Avatar",
+                Url = "Avatar/Card",
+                FileName = "Card.razor",
+                Type = SampleType.New,
+            },
+             
+
         };
          public List<Sample> DashboardLayout { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Default",
+                Name = "Default Functionalities",
                 Category = "Dashboard Layout",
                 Directory = "Layouts/DashboardLayout",
                 Url = "DashboardLayout/Default",
+                FileName = "Default.razor"
+            }
+        };
+        public List<Sample> Splitter { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Splitter",
+                Directory = "Layouts/Splitter",
+                Url = "Splitter/Default",
                 FileName = "Default.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Expand and Collapse",
+                Category = "Splitter",
+                Directory = "Layouts/Splitter",
+                Url = "Splitter/ExpandandCollapse",
+                FileName = "ExpandandCollapse.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Code Editor Layout",
+                Category = "Use Case",
+                Directory = "Layouts/Splitter",
+                Url = "Splitter/CodeEditorLayout",
+                FileName = "CodeEditorLayout.razor",
                 Type = SampleType.New
             }
         };

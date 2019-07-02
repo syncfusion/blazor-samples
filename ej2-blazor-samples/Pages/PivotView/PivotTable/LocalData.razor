@@ -1,0 +1,93 @@
+﻿@page "/PivotView/LocalData"
+
+@using Syncfusion.EJ2.Blazor.PivotView
+
+@inject HttpClient Http;
+@inject IJSRuntime JsRuntime;
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Local Data";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+     This sample demonstrates basic rendering of the pivot table bound to JSON data extracted from a local file.
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@" <p>The pivot table supports JSON data source. The
+        <code>dataSourceSettings->dataSource</code> property can be assigned with the JSON data to populate the pivot table.</p>
+    <p>In this demo, the JSON data is assigned from an external file.</p>"
+};
+}
+@*End:Hidden*@
+@{var range = 4;}
+@{ var grouping = new string[] { "Years", "Months", "Days" };}
+@if (pivotData == null)
+{
+    <div class="pivotviewtloader"></div>
+}
+else
+{
+    <div class="control-section">
+        <div class="content-wrapper">
+            <EjsPivotView ID="pivotview" Width="100%" Height="340">
+                <PivotViewDataSourceSettings DataSource="@pivotData" ExpandAll=true EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="EnerType" Caption="Energy Type"></PivotViewColumn>
+                        <PivotViewColumn Name="EneSource" Caption="Energy Source"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Year" Caption="Production Year"></PivotViewRow>
+                        <PivotViewRow Name="HalfYear" Caption="Half Year"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="PowUnits" Caption="Units (GWh)"></PivotViewValue>
+                        <PivotViewValue Name="ProCost" Caption="Cost (MM)"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="ProCost" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
+            </EjsPivotView>
+        </div>
+    </div>
+}
+
+<style>
+    #pivotview {
+        width: 100%;
+        height: 100%;
+    }
+    .e-pivotview {
+        min-height: 200px;
+    }
+</style>
+
+@code{
+
+    EjsPivotView pivotView;
+
+    static PivotData[] pivotData;
+	
+    protected override async Task OnInitAsync()
+    {
+        pivotData = await Http.GetJsonAsync<PivotData[]>("scripts/PivotView/rData.json");
+    }
+    class PivotData
+    {
+        public string Sector;
+        public string EnerType;
+        public string EneSource;
+        public Int64 PowUnits;
+        public Int64 ProCost;
+        public string Year;
+        public string Quarter;
+        public string HalfYear;
+    }
+
+
+}

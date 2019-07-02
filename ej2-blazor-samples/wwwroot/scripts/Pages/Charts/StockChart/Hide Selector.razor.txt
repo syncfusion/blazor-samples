@@ -1,0 +1,49 @@
+﻿@page "/Charts/HidePeriodSelector"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@inject HttpClient Http
+
+@if (dataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+<EjsStockChart Title="AAPL Stock Price" EnableSelector="false">
+    <StockChartPrimaryXAxis>
+        <StockChartPrimaryXAxisMajorGridLines Width="0"></StockChartPrimaryXAxisMajorGridLines>
+        <StockChartPrimaryXAxisCrosshairTooltip Enable="true"></StockChartPrimaryXAxisCrosshairTooltip>
+    </StockChartPrimaryXAxis>
+    <StockChartPrimaryYAxis>
+        <StockChartPrimaryXAxisLineStyle Width="0"></StockChartPrimaryXAxisLineStyle>
+        <StockChartPrimaryXAxisMajorTickLines Width="0" Color="transparent"></StockChartPrimaryXAxisMajorTickLines>
+        <StockChartPrimaryYAxisCrosshairTooltip Enable="true"></StockChartPrimaryYAxisCrosshairTooltip>
+    </StockChartPrimaryYAxis>
+    <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+    <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+    <StockChartSeriesCollection>
+        <StockChartSeries DataSource="@dataSource" xName="x" yName="high" Type="ChartSeriesType.Area" Fill="#BDEDE9" name="google"></StockChartSeries>
+    </StockChartSeriesCollection>
+    <StockChartChartArea>
+        <StockChartChartAreaBorder width="0"></StockChartChartAreaBorder>
+    </StockChartChartArea>
+</EjsStockChart>
+}
+@code{
+
+    ChartData[] dataSource;
+    protected override async Task OnInitAsync()
+    {
+        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/aapl.json");
+    }
+    class ChartData
+    {
+        public DateTime x;
+        public int open;
+        public int low;
+        public int close;
+        public int high;
+        public int volume;
+    }
+
+}

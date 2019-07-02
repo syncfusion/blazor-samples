@@ -1,0 +1,58 @@
+﻿@page "/Charts/CandlestickandVolume"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@inject HttpClient Http
+
+@if (dataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+<EjsStockChart Title="AAPL Historical">
+   
+    <ChartBorder Width="0">
+    </ChartBorder>
+    <StockChartPrimaryXAxis>
+        <StockChartPrimaryXAxisMajorGridLines Width="0"></StockChartPrimaryXAxisMajorGridLines>
+        <StockChartPrimaryXAxisCrosshairTooltip enable="true"></StockChartPrimaryXAxisCrosshairTooltip>
+    </StockChartPrimaryXAxis>
+    <StockChartPrimaryYAxis LabelFormat="n0">
+        <StockChartPrimaryYAxisLineStyle Width="0"></StockChartPrimaryYAxisLineStyle>
+    </StockChartPrimaryYAxis>
+    <StockChartTooltipSettings enable="true"></StockChartTooltipSettings>
+    <StockChartCrosshairSettings enable="true"></StockChartCrosshairSettings>
+    <StockChartAxes>
+        <StockChartAxis RowIndex=1 Name="yAxis1" OpposedPosition="true">
+        </StockChartAxis>
+    </StockChartAxes>
+    <StockChartRows>
+        <StockChartRow Height="30%"></StockChartRow>
+        @*<StockChartRow Height="70%"></StockChartRow>*@
+    </StockChartRows>
+    <StockChartSeriesCollection>
+        <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Candle" xName="date" yName="high" yAxisName="yAxis1" high="high" low="low"></StockChartSeries>
+        <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Column" xName="date" yName="volume" high="high" low="low" name="Apple Inc"></StockChartSeries>
+    </StockChartSeriesCollection>
+ 
+</EjsStockChart>
+}
+@code{
+    string percent = "30%";
+    string percent1 = "70%";
+    ChartData[] dataSource;
+    protected override async Task OnInitAsync()
+    {
+        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/chartdata.json");
+    }
+    class ChartData
+    {
+        public DateTime date;
+        public double open;
+        public double low;
+        public double close;
+        public double high;
+        public double volume;
+    }
+
+}

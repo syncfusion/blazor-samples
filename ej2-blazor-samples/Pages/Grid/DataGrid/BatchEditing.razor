@@ -1,0 +1,71 @@
+﻿@page "/Grid/BatchEditing"
+
+@using Syncfusion.EJ2.Blazor.Grids
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@{
+    SampleBrowser.CurrentSampleName = "Dialog Editing";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates CRUD operations in Grid. You can perform CRUD operations as follows,</p>
+        <ul>
+            <li><code>Add</code> -  To add new record, click Add toolbar button </li>
+            <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
+            <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row </li>
+            <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
+        </ul>
+        <p>By default, a new row will be added at the top of the grid. You can change it by setting <code>editSettings.newRowPosition</code> as <code>Bottom</code></p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p> The Grid supports CRUD operations. This CRUD operations can be configured in Grid using
+        <code>editSettings</code>. Also, it has different modes to manipulate the datasource.
+    </p>
+    <p>The available modes are,</p>
+    <ul>
+        <li><code>Inline</code></li>
+        <li><code>Dialog</code></li>
+        <li><code>Batch</code></li>
+    </ul>
+    <p>
+        In this demo, Batch mode is enabled for editing by defining <code><a target='_blank' class='code'
+        href='http://ej2.syncfusion.com/documentation/grid/api-editSettings.html#mode-string'>
+        editSettings.mode</a></code> as <code>batch</code>. You can start editing by double clicking a cell and can change the cell value.
+        The edited cell will be highlighted while navigating to a new cell, so that you know which cells had been edited.
+        You can bulk save the edited data to the datasource by click on the toolbar's <code>update</code> button
+        or by externally invoking the <code><a target='_blank' class='code'
+        href='http://ej2.syncfusion.com/documentation/grid/api-edit.html#batchsave'>batchSave</a></code> method.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsGrid ID="Grid" DataSource="@gridData" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="@EditMode.Batch"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new { required=true, number=true})" TextAlign="@TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" ValidationRules="@(new { required=true})" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" ValidationRules="@(new { required=true})" EditType="numericedit" Format="C2" TextAlign="@TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" EditType="datepickeredit" Format="yMd" Type="date" TextAlign="@TextAlign.Right" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" EditType="dropdownedit" Width="150"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<OrdersDetails> gridData { get; set; }
+
+    protected override void OnInit()
+    {
+        gridData = OrdersDetails.GetAllRecords();
+    }
+}

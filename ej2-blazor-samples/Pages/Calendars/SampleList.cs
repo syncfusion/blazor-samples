@@ -15,7 +15,7 @@ namespace ej2_blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.New
             },
              new Sample
             {
@@ -24,7 +24,7 @@ namespace ej2_blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/DateRange",
                 FileName = "DateRange.razor",
-                Type = SampleType.New,
+                Type = SampleType.New
             },
               new Sample
             {
@@ -33,7 +33,25 @@ namespace ej2_blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/MultiSelection",
                 FileName = "MultiSelection.razor",
-                Type = SampleType.New,
+                Type = SampleType.New
+            },
+              new Sample
+            {
+                Name = "Month Picker",
+                Category = "Calendar",
+                Directory = "Calendars/Calendar",
+                Url = "Calendar/MonthPicker",
+                FileName = "MonthPicker.razor",
+                Type = SampleType.New
+            },
+              new Sample
+            {
+                Name = "Islamic Calendar",
+                Category = "Calendar",
+                Directory = "Calendars/Calendar",
+                Url = "Calendar/IslamicCalendar",
+                FileName = "IslamicCalendar.razor",
+                Type = SampleType.New
             }
         };
 

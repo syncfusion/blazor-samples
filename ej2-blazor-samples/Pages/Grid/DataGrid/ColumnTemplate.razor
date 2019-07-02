@@ -1,0 +1,79 @@
+﻿@page "/Grid/ColumnTemplate"
+
+@using Syncfusion.EJ2.Blazor.Grids
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+
+@{
+    SampleBrowser.CurrentSampleName = "Column Template";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This demo for Essential JS 2 grid control shows the usage of template columns in grid.</p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>
+        The Grid provides a way to use a custom layout for each cell using column template feature. The
+        <code>columns->template</code> property accepts either string or HTML element`s ID value, which will be used as the template
+        for the cell.
+    </p>
+    <p>
+        In this demo, using column template, we have presented <strong>Employee Image</strong> column with Employee Photo
+        and the <code>columns->template</code> is assigned with the ID of a SCRIPT element whose content is used as the template.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+
+<style>
+    .image img {
+        height: 55px;
+        width: 55px;
+        border-radius: 50px;
+        box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0,0,0,0.2);
+    }
+</style>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <EjsGrid ID="Grid" ModelType="@model" DataSource="@gridData">
+                <GridColumns>
+                    <GridColumn HeaderText="Employee Image" Width="120">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                <div class="image">
+                                    <img src="@UriHelper.ToAbsoluteUri($"images/Grid/{employee.EmployeeID}.png")" alt="@employee.EmployeeID" />
+                                </div>
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(Employee.EmployeeID) HeaderText="Employee ID" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.FirstName) HeaderText="Name" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.Title) HeaderText="Title" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.HireDate) HeaderText="Hire Date" Format="yMd" Type="date" TextAlign="@TextAlign.Right" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.ReportsTo) HeaderText="Reports To" Width="120"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<Employee> gridData { get; set; }
+    public Employee model = new Employee();
+
+    protected override void OnInit()
+    {
+        gridData = Employee.GetAllRecords();
+    }
+}

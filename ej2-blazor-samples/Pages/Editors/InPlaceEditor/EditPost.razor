@@ -1,0 +1,212 @@
+﻿@page "/Editors/EditPost"
+
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.InPlaceEditor
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Edit Post";
+    SampleBrowser.CurrentControlName = "InPlaceEditor";
+    SampleBrowser.CurrentControlCategory = "Use Case";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.InPlaceEditor;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+        This sample demonstrates the default functionalities of the In-place Editor component. Click on the dotted input element to switch to the editable state and save or cancel it by clicking the actions buttons.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        The <code>In-place Editor</code> component is used to edit values in place and update them to the server.
+    </p>
+    <p>
+        <code>In-place Editor</code> modes can be switched by selecting the appropriate values provided in a drop-down. The applicable editor positions are as follows:
+    </p>
+    <p>
+        <ul>
+            <li>
+                <a target=""_blank"" href=""https://ej2.syncfusion.com/documentation/api/inplace-editor/#mode""> Inline </a>
+            </li>
+            <li>
+                <a target=""_blank"" href=""https://ej2.syncfusion.com/documentation/api/inplace-editor/#mode""> Pop-up </a>
+            </li>
+        </ul>
+    </p>
+    <p>
+        The edit on modes of In-place editor can be switched by selecting the appropriate values provided in a drop-down. The applicable modes are as follows:
+        <ul>
+            <li>Click - Editor opens the edit input with single click of textbox.</li>
+            <li>DblClick - Editor opens the edit input with double click of textbox.</li>
+            <li>EditIconClick - Edit mode can be open with the use of edit icon only which is visible on hover of textbox.</li>
+        </ul>
+    </p>
+    <p>
+        The Save and Cancel buttons of the <code>In-place Editor</code> component can be shown or hidden by switching the Show Button check box state. If the action buttons are hidden, then you can save the data by clicking outside the target or by pressing the Enter key. You can cancel the edit request by pressing the Esc key.
+    </p>
+    <p>
+        More information on the <code>In-place Editor</code> instantiation can be found in the <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnetcore/documentation/inplace-editor/getting-started-asp-core/"">documentation section</a>.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="row">
+    <div class="col-lg-8 control-section inplace-editor-control-section form-layout" id='inplace-editor-control'>
+        <div class="content-wrapper" style="margin-bottom: 25px">
+            <div id="confirmation">
+                <div id="submitDialog"></div>
+                <form id="formId" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
+                            Title
+                        </label>
+                        <EjsInPlaceEditor Mode="@mode" EmptyText="Enter your question title" Name="Title" ValidationRules="@titleValidation" Value="@titleValue" Model="@titleData">
+                            <InPlaceEditorPopupSettings Model="@tipModel"></InPlaceEditorPopupSettings>
+                        </EjsInPlaceEditor>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
+                            Comments
+                        </label>
+                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.RTE" EditableOn="@EditableType.EditIconClick" SubmitOnEnter="false" EmptyText="Enter your comment" Name="RTE" ValidationRules="@commentValidation" Value="@commentValue" Model="@commentData">
+                            <InPlaceEditorPopupSettings Model="@tipModel"></InPlaceEditorPopupSettings>
+                        </EjsInPlaceEditor>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
+                            Tags
+                        </label>
+                        <EjsInPlaceEditor @ref="tag" Mode="@mode" Type="@InputType.MultiSelect" EmptyText="Enter your tags" Name="Tag" ValidationRules="@tagValidation" Value="@tagValue" Model="@tagData">
+                            <InPlaceEditorPopupSettings Model="@tipModel"></InPlaceEditorPopupSettings>
+                        </EjsInPlaceEditor>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 property-section" id="editorProperty">
+        <table id="property" title="Properties">
+            <tr>
+                <td style="width: 50%;">
+                    <div>Mode</div>
+                </td>
+                <td style="width: 50%;">
+                    <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@modeData" ValueChange="@changeEditMode" Index="0"></EjsDropDownList>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<style>
+    .inplace-editor-control-section.form-layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
+    .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide {
+        display: block;
+        visibility: hidden;
+    }
+
+    /* custom code start */
+    .inplace-editor-control-section.form-layout #confirmation {
+        max-width: 500px;
+        margin: auto;
+    }
+    /* custom code end */
+
+    .inplace-editor-control-section.form-layout #formId {
+        padding-top: 20px;
+        margin-bottom: 45px;
+        border: 1px solid #ccc;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.36);
+        border-radius: 5px;
+    }
+
+    .inplace-editor-control-section.form-layout .form-horizontal .form-group {
+        margin: 0 20px;
+    }
+
+        .inplace-editor-control-section.form-layout .form-horizontal .form-group > * {
+            width: 100%;
+        }
+
+        .inplace-editor-control-section.form-layout .form-horizontal .form-group:last-child {
+            padding-bottom: 40px;
+        }
+
+    .inplace-editor-control-section.form-layout .form-title {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.70);
+    }
+
+    .inplace-editor-control-section.form-layout .submit {
+        margin: auto;
+        width: 50%;
+        text-align: center;
+    }
+
+    .inplace-editor-control-section.form-layout .form-horizontal .control-label {
+        padding: 15px 15px 15px 0;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    @@media (max-width: 768px) {
+        .inplace-editor-control-section.form-layout .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+        }
+    }
+
+    #editorProperty table td {
+        width: 50%;
+    }
+
+    #editorProperty table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+</style>
+
+@code {
+    EjsInPlaceEditor tag;
+
+    private RenderMode mode = RenderMode.Inline;
+    private string titleValue = "Succinctly E-Book about TypeScript";
+    private string commentValue = "The extensive adoption of JavaScript for application development, and the ability to use HTML and JavaScript to create Windows Store apps, has made JavaScript a vital part of the Windows development ecosystem. Microsoft has done extensive work to make JavaScript easier to use.";
+    private object titleData = new { placeholder = "Enter your question title" };
+    private object tipModel = new { width = "auto" };
+    private string[] tagValue = new string[] { "TypeScript", "JavaScript" };
+    private static string[] data = new string[] { "Android", "JavaScript", "jQuery", "TypeScript", "Angular", "React", "Vue", "Ionic" };
+    private string[] modeData = new string[] { "Inline", "Popup" };
+    private static string[] validation1 = new string[] { "true", "Enter valid title" };
+    private static string[] validation2 = new string[] { "true", "Enter valid comments" };
+    private static string[] validation3 = new string[] { "true", "Enter valid tags" };
+    private static string[] rteItems = new string[] { "Bold", "Italic", "Underline", "FontColor", "BackgroundColor", "LowerCase", "UpperCase", "|", "OrderedList", "UnorderedList" };
+
+    private object tagData = new
+    {
+        mode = "Box",
+        dataSource = data,
+        placeholder = "Enter your tags"
+    };
+    private object commentData = new
+    {
+        toolbarSettings = new
+        {
+            enableFloating = false,
+            items = rteItems
+        }
+    };
+    private object titleValidation = new { Title = new { required = validation1 } };
+    private object commentValidation = new { RTE = new { required = validation2 } };
+    private object tagValidation = new { Tag = new { required = validation3 } };
+    
+    private void changeEditMode(ChangeEventArgs args)
+    {
+        this.mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
+        this.StateHasChanged();
+    }
+}

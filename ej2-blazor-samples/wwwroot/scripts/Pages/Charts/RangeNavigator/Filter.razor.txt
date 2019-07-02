@@ -1,0 +1,87 @@
+﻿@page "/Charts/Filter"
+@using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Grids
+@inject HttpClient Http
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Filter";
+    SampleBrowser.CurrentControlName = "RangeNavigator";
+    SampleBrowser.CurrentControlCategory = "RangeNavigator";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        This sample filters the data by hire date using date-time axis.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        In this example, you can see how to bind the value of the range navigator to the grid control using the changed event.
+    </p>"
+    };
+}
+@*End:Hidden*@
+@if (filterData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section">
+        <div class="row" align="center">
+            <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
+            <br>
+            <div id="container">
+                <EjsRangeNavigator id="container" valueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime
+                                   allowSnapping="true" intervalType="RangeIntervalType.Quarter"
+                                   enableGrouping="true" GroupBy="RangeIntervalType.Years"
+                                   enableDeferredUpdate="true" Value="@value" DataSource="@filterData"
+                                   xName="HireDate" yName="yValue">
+                </EjsRangeNavigator>
+            </div> <br>
+            <div id="gridcontainer">
+                <EjsGrid id="Grid" Width="80%" DataSource="@filterData" AllowPaging="true">
+                    <GridColumns>
+                        <GridColumn field="EmployeeID" headerText="Employee ID" textAlign="TextAlign.Center"></GridColumn>
+                        <GridColumn field="FirstName" headerText="Name" textAlign="TextAlign.Center"></GridColumn>
+                        <GridColumn field="Title" headerText="Title" textAlign="TextAlign.Center"></GridColumn>
+                        <GridColumn field="HireDate" headerText="Hire Date" textAlign="TextAlign.Center" format="yMd"></GridColumn>
+                    </GridColumns>
+                </EjsGrid>
+            </div>
+        </div>
+    </div>
+}
+@code{
+    ChartData[] filterData;
+    protected override async Task OnInitAsync()
+    {
+        filterData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/employee-data.json");
+    }
+    class ChartData
+    {
+        public double EmployeeID;
+        public double yValue;
+        public string FirstName;
+        public string Title;
+        public DateTime HireDate;
+
+    }
+    DateTime[] value = new DateTime[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
+    protected void onRangeLoad(IRangeLoadedEventArgs args)
+    {
+
+    }
+    protected void onRangeChanged(IChangedEventArgs args)
+    {
+        double zoomFactor = args.ZoomFactor;
+
+    }
+    protected void onChartLoad(ILoadedEventArgs args)
+    {
+
+    }
+    //protected void labelRender(IAxisLabelRenderEventArgs args) {
+
+    //}
+}

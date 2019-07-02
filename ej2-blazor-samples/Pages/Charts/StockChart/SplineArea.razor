@@ -1,0 +1,47 @@
+﻿@page "/StockChart/StockChartSplineArea"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@inject HttpClient Http
+
+@if (dataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <EjsStockChart Title="Google Stock Price">
+        <StockChartPrimaryXAxis>
+            <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+            <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+        </StockChartPrimaryXAxis>
+        <StockChartPrimaryYAxis>
+            <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+            <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+            <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+        </StockChartPrimaryYAxis>
+        <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+        <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+        <StockChartSeriesCollection>
+            <StockChartSeries DataSource="@dataSource" xName="x" yName="high" Type="ChartSeriesType.Area" Fill="#BDEDE9" name="google"></StockChartSeries>
+        </StockChartSeriesCollection>
+        <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+    </EjsStockChart>
+}
+@code{
+
+    ChartData[] dataSource;
+    protected override async Task OnInitAsync()
+    {
+        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/googl.json");
+    }
+    class ChartData
+    {
+        public DateTime x;
+        public double open;
+        public double low;
+        public double close;
+        public double high;
+        public double volume;
+    }
+
+}

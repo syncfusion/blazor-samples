@@ -1,7 +1,7 @@
-@page "/Sidebar/Default"
+﻿@page "/Sidebar/Default"
 
-@using Syncfusion.EJ2.RazorComponents.Navigations
-@using Syncfusion.EJ2.RazorComponents.Buttons
+@using Syncfusion.EJ2.Blazor.Navigations
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -21,8 +21,8 @@
     <div id="wrapper">
         <div class="col-lg-12 col-sm-12 col-md-12" id="sidebar-section">
             <!-- sidebar element declaration -->
-            <span id="hamburger" onclick="@show" class="e-icons menu default"></span>
-            <EjsSidebar ID="default-sidebar" ref="sidebarObj">
+            <span id="hamburger" onclick="@show" class="@hamburgerclass"></span>
+            <EjsSidebar ID="default-sidebar" @ref="sidebarObj" Position="@Position">
                 <ChildContent>
                     <div class="title-header">
                         <div style="display:inline-block"> Sidebar </div>
@@ -41,8 +41,16 @@
                     Click the button to open/close the Sidebar.
                     <div style="padding:20px" class="center-align">
                         <!-- button element declaration -->
-                        <EjsButton ID="toggle" onclick="@toggle" CssClass="e-btn e-info">Toggle Sidebar</EjsButton>
-                    </div>                   
+                        <EjsButton ID="toggle" OnButtonClick="@toggle" CssClass="e-btn e-info">Toggle Sidebar</EjsButton>
+                    </div>
+                    <div class="column">
+                        <!-- RadioButton element declaration -->
+                        <EjsRadioButton ID="left" @bind-Checked="@leftbtn" Value="Left" Label="Left" Name="state" ValueChange="@positionChange"></EjsRadioButton>
+                    </div>
+                    <div class="column">
+                        <!-- RadioButton element declaration -->
+                        <EjsRadioButton ID="right" Value="Right" Label="Right" Name="state" ValueChange="@positionChange"></EjsRadioButton>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,28 +60,48 @@
 
 </div>
 
-@functions{
+@code {
     EjsSidebar sidebarObj;
-    public void show() {
+    public bool leftbtn = true;
+    public string hamburgerclass = "e-icons menu default";
+    public SidebarPosition Position { get; set; } = SidebarPosition.Left;
+    public void show()
+    {
         this.sidebarObj.Show();
     }
-    public void close() {
+    public void close()
+    {
         this.sidebarObj.Hide();
     }
-    public void toggle() {
+    public void toggle()
+    {
         this.sidebarObj.Toggle();
+    }
+    public void positionChange(ChangeArgs args)
+    {
+        if (args.Value == "Left")
+        {
+            this.Position = SidebarPosition.Left;
+            this.hamburgerclass = "e-icons menu default";
+        }
+        else
+        {
+            this.Position = SidebarPosition.Right;
+            this.hamburgerclass = "e-icons menu default e-rtl";
+        }
+        this.StateHasChanged();
     }
 
 }
 
 <style>
     /* sample-level styles */
-
+    /* custom code start */
     .center-align {
         text-align: center;
         padding: 20px;
     }
-
+    /* custom code end */
     .title {
         text-align: center;
         font-size: 20px;
@@ -90,7 +118,7 @@
         font-size: 16px;
         padding: 10px;
     }
-
+    /* custom code start */
     .center {
         text-align: center;
         display: none;
@@ -102,16 +130,16 @@
     .sb-content-tab .center {
         display: block;
     }
-
+    /* custom code end */
     #default-sidebar {
         background-color: rgb(25, 118, 210);
         color: #ffffff;
     }
 
-    #default-sidebar .close-btn:hover {
-        color: rgba(0, 0, 0, .87);
-        background-color: #fafafa;
-    }
+        #default-sidebar .close-btn:hover {
+            color: rgba(0, 0, 0, .87);
+            background-color: #fafafa;
+        }
     /* sample-level styles */
 
     #hamburger.menu {
@@ -124,14 +152,14 @@
         padding: 9px 15px 0;
     }
 
-    #hamburger.menu:before {
-        content: '\e10d';
-    }
+        #hamburger.menu:before {
+            content: '\e10d';
+        }
 
-    #hamburger.menu.e-rtl {
-        position: relative;
-        float: right;
-    }
+        #hamburger.menu.e-rtl {
+            position: relative;
+            float: right;
+        }
 
     #wrapper #close:before {
         content: "\e109";

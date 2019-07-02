@@ -1,0 +1,47 @@
+﻿@page "/Charts/StockChartSpline"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@inject HttpClient Http
+
+@if (dataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <EjsStockChart Title="AAPL Stock Price">
+        <StockChartPrimaryXAxis>
+            <StockChartPrimaryXAxisMajorGridLines Width="0"></StockChartPrimaryXAxisMajorGridLines>
+            <StockChartCrosshairTooltip enable="true"></StockChartCrosshairTooltip>
+        </StockChartPrimaryXAxis>
+        <StockChartPrimaryYAxis>
+            <StockChartPrimaryXAxisLineStyle Width="0"></StockChartPrimaryXAxisLineStyle>
+            <StockChartPrimaryXAxisMajorTickLines Width="0"></StockChartPrimaryXAxisMajorTickLines>
+            <StockChartCrosshairTooltip enable="true"></StockChartCrosshairTooltip>
+        </StockChartPrimaryYAxis>
+        <StockChartTooltipSettings enable="true"></StockChartTooltipSettings>
+        <StockChartCrosshairSettings enable="true"></StockChartCrosshairSettings>
+        <StockChartSeriesCollection>
+            <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Spline"></StockChartSeries>
+        </StockChartSeriesCollection>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
+    </EjsStockChart>
+}
+@code{
+
+    ChartData[] dataSource;
+    protected override async Task OnInitAsync()
+    {
+        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/chartdata.json");
+    }
+    class ChartData
+    {
+        public DateTime date;
+        public double open;
+        public double low;
+        public double close;
+        public double high;
+        public double volume;
+    }
+
+}

@@ -16,16 +16,97 @@ namespace ej2_blazor_samples
                 Url = "HeatMapChart/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
+            },            
+            new Sample
+            {
+                Name = "Calendar Heatmap",
+                Category = "HeatMapChart",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/CalendarHeatmap",
+                FileName = "CalendarHeatmap.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Bubble Types",
+                Category = "Bubble HeatMap",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/BubbleTypes",
+                FileName = "BubbleTypes.razor",
+                Type = SampleType.New
             },
             new Sample
             {
                 Name = "Empty Points",
-                Category = "HeatMapChart",
+                Category = "Features",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "HeatMapChart/Emptypoints",
                 FileName = "Emptypoints.razor",
                 Type = SampleType.New
+            },
+            new Sample 
+            {
+                Name = "Inversed Axis",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/InversedAxis",
+                FileName = "InversedAxis.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Opposed Axis",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/OpposedAxis",
+                FileName = "OpposedAxis.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Legend Placement",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/LegendPlacement",
+                FileName = "LegendPlacement.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Large Data",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/LargeData",
+                FileName = "LargeData.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Palette Mode",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/PaletteMode",
+                FileName = "PaletteMode.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Rendering Mode",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/RenderingMode",
+                FileName = "RenderingMode.razor",
+                Type = SampleType.New
             }
+            //new Sample
+            //{
+            //    Name = "Tooltip Template",
+            //    Category = "Features",
+            //    Directory = "HeatMapChart/HeatMapChart",
+            //    Url = "HeatMapChart/TooltipTemplate",
+            //    FileName = "TooltipTemplate.razor",
+            //    Type = SampleType.New
+            //}
         };    
     }
 

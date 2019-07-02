@@ -1,6 +1,6 @@
 ﻿@page "/Gantt/DefaultFunctionalities"
 
-@using Syncfusion.EJ2.RazorComponents.Gantt
+@using Syncfusion.EJ2.Blazor.Gantt
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -30,7 +30,7 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt id="defaultGantt" @ref="defaultGantt" DataSource="@ganttData" Height="450px" HighlightWeekends="true">
+            <EjsGantt id="defaultGantt" ModelType="@templateCollections" DataSource="@ganttData" Height="450px" HighlightWeekends="true" ProjectStartDate="03/24/2019" ProjectEndDate="07/06/2019">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  Dependency="Predecessor" Child="SubTasks"></GanttTaskFields>
                 <GanttEventMarkers>
@@ -39,16 +39,22 @@
                     <GanttEventMarker Day="05/23/2019" Label="Production phase"></GanttEventMarker>
                     <GanttEventMarker Day="06/20/2019" Label="Sales and marketing phase"></GanttEventMarker>
                 </GanttEventMarkers>
-                <GanttLabelSettings LeftLabel="TaskName"></GanttLabelSettings>
+                <GanttLabelSettings>
+                    <LeftLabelTemplate>
+                        <div class="e-left-label-inner-div" style="height:22px;margin-top:7px;">
+                            <span class="e-label">@context.TaskName</span>
+                        </div>
+                    </LeftLabelTemplate>
+                </GanttLabelSettings>
             </EjsGantt>
         </div>
     </div>
 </div>
-@code{
-    EjsGantt defaultGantt;
-    public object ganttData { get; set; }
-    protected override void OnAfterRender()
+@functions{
+    public GanttTemplate templateCollections = new GanttTemplate();
+    public List<GanttData.GanttDataSource> ganttData { get; set; }
+    protected override void OnInit()
     {
-        ganttData = this.defaultGantt.DataSource = GanttData.ProjectNewData();
+        this.ganttData = GanttData.ProjectNewData().ToList();
     }
 }

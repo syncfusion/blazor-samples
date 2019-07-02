@@ -1,0 +1,54 @@
+﻿@page "/Charts/Multilevel"
+@using Syncfusion.EJ2.Blazor.Charts
+@inject HttpClient Http
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Multilevel Labels";
+    SampleBrowser.CurrentControlName = "RangeNavigator";
+    SampleBrowser.CurrentControlCategory = "RangeNavigator";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        Axis labels are placed based on the values of the start and end ranges. You can add higher level of labels to the range navigator using multilevel labels.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        In this example, you can see how to group the axis labels. Here the interval for the second level labels can be customized using <code>groupBy</code>.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+@if (multiLevelData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+<div class="control-section">
+    <br>
+    <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi Level Labels</h4>
+    <div id="container" align="center">
+        <EjsRangeNavigator id="container" LabelPosition="AxisPosition.Outside" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@value" IntervalType="RangeIntervalType.Quarter" valueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime dataSource="@multiLevelData" xName="x" yName="low">
+            <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+        </EjsRangeNavigator>
+    </div>
+</div>
+
+}
+@code{
+     ChartData[] multiLevelData;
+    protected override async Task OnInitAsync()
+    {
+        multiLevelData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/chartdata.json");
+    }
+    class ChartData
+    {
+        public DateTime x;
+        public double low;
+    }    
+    DateTime[] value = new DateTime[] { new DateTime(2013, 01, 07), new DateTime(2015, 01, 05) };
+}

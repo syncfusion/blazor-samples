@@ -34,6 +34,15 @@ namespace ej2_blazor_samples
                 Url = "DropDownList/Filtering",
                 FileName = "Filtering.razor",
                 Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Cascading",
+                Category = "DropDownList",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDownList/Cascading",
+                FileName = "Cascading.razor",
+                Type = SampleType.New
             }
         };
 
@@ -55,6 +64,15 @@ namespace ej2_blazor_samples
                 Url = "ComboBox/DataBinding",
                 FileName = "DataBinding.razor",
                 Type = SampleType.New,
+            },
+           new Sample
+            {
+                Name = "Cascading",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/Cascading",
+                FileName = "Cascading.razor",
+                Type = SampleType.New
             },
              new Sample
             {
@@ -128,6 +146,24 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
+			new Sample
+            {
+                Name = "CheckBox",
+                Category = "ListBox",
+                Directory = "DropDowns/ListBox",
+                Url = "ListBox/Checkbox",
+                FileName = "Checkbox.razor",
+                Type = SampleType.New,
+            },
+			new Sample
+            {
+                Name = "API",
+                Category = "ListBox",
+                Directory = "DropDowns/ListBox",
+                Url = "ListBox/Api",
+                FileName = "Api.razor",
+                Type = SampleType.New,
+            }
         };
     }
 }

@@ -1,6 +1,6 @@
 ﻿@page "/Diagrams/DefaultFunctionalities"
 
-@using Syncfusion.EJ2.RazorComponents.Diagrams
+@using Syncfusion.EJ2.Blazor.Diagrams
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -10,19 +10,27 @@
     SampleBrowser.CurrentControlCategory = "Diagram";
     SampleBrowser.CurrentControl = SampleBrowser.Config.Diagram;
     SampleBrowser.ActionDescription = new string[] {
-        @" <p>
-            This sample visualizes an organizational structure along with an overview for easily navigating the large organizational
-            structure using Overview Panel.
-
-        </p>"
+        @"<p>
+        This sample visualizes the processing of an order placed using credit card with built-in flow shapes in Syncfusion EJ2 Typescript Diagram.
+    </p>
+"
     };
     SampleBrowser.Description = new string[] {
         @"<p>
-            This example shows how to render the Overview Panel and how to display a preview (overall view) of the entire content of
-            a diagram. This helps you look at the overall picture of a large diagram and also to navigate (pan or zoom) to a
-            particular position of the page. The <code>SourceID</code> property can be used to map the diagram control with Overview Panel.
-        </p>
-        <br>"
+        This example shows how to create a simple flow chart using the diagram control. The <code>DiagramNodes</code> property can
+        be used to define different stages of a process. To define the flow between different stages, the <code>DiagramConnectors</code>        property
+        can be used.
+    </p>
+
+    <p>
+        To easily build flow diagrams, few shapes are predefined and added to symbol palette. You can drag-and-drop predefined shapes
+        into the drawing area. The <code>Symbols</code> property allows you to add predefined symbols to the palette.
+    </p>
+
+    <p>
+        In this example, undo and redo support is enabled.
+    </p>
+    <br>"
     };
 }
 @*End:Hidden*@
@@ -30,208 +38,264 @@
 <div class="control-section">
     <link href="https://ej2.syncfusion.com/javascript/demos/src/diagram/styles/diagram-common.css" rel="stylesheet">
     <div class="sb-mobile-palette-bar">
-        <div Id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
+        <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
     </div>
-    <div Id="palette-space" class="sb-mobile-palette">
-        <EjsSymbolPalette Id="palettes" Width="100%" Height="700px" SymbolHeight=60 SymbolWidth=60 Palettes="@palette" SymbolMargin="@symbolMargin"></EjsSymbolPalette>
+    <div id="palette-space" class="sb-mobile-palette">
+        <EjsSymbolPalette id="palettes" Width="100%" Height="700px" SymbolHeight="60" SymbolWidth="60">
+            <SymbolMargin Left="15" Right="15" Bottom="15" Top="15"></SymbolMargin>
+            <SymbolPalettePalettes>
+                <SymbolPalettePalette Id="flow" Expanded="true" Symbols="@flowShapes" IconCss="e-ddb-icons e-flow" Title="Flow Shapes">
+                </SymbolPalettePalette>
+                <SymbolPalettePalette Id="connectors" Expanded="true" Symbols="@connectors" IconCss="e-ddb-icons e-connector" Title="Connectors">
+                </SymbolPalettePalette>
+            </SymbolPalettePalettes>
+        </EjsSymbolPalette>
     </div>
-    <div Id="diagram-space" class="sb-mobile-diagram">
-        <EjsDiagram Id="diagram" Width="100%" Height="690px" Nodes="@nodes" SnapSettings="@snapSettings" Connectors="@connectors"></EjsDiagram>
+    <div id="diagram-space" class="sb-mobile-diagram">
+        <EjsDiagram id="diagram" Width="100%" Height="690px">
+            <DiagramSnapSettings>
+                <HorizontalGridlines LineColor="#e0e0e0 " LineIntervals="@lineIntervals">
+                </HorizontalGridlines>
+                <VerticalGridlines LineColor="#e0e0e0" LineIntervals="@lineIntervals">
+                </VerticalGridlines>
+            </DiagramSnapSettings>
+            <DiagramNodes>
+                <DiagramNode Id="NewIdea" Height="60" Width="145" OffsetX="350" OffsetY="80">
+                    <DiagramFlowShape Shape="@FlowShapes.Terminator" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Place Order">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="Meeting" Height="60" Width="145" OffsetX="350" OffsetY="160">
+                    <DiagramFlowShape Shape="@FlowShapes.Process" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Start Transaction">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="BoardDecision" Height="60" Width="145" OffsetX="350" OffsetY="240">
+                    <DiagramFlowShape Shape="@FlowShapes.Process" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Verification">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="Project" Height="60" Width="145" OffsetX="350" OffsetY="330">
+                    <DiagramFlowShape Shape="@FlowShapes.Decision" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Credit card valid?">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="End" Height="60" Width="145" OffsetX="350" OffsetY="430">
+                    <DiagramFlowShape Shape="@FlowShapes.Decision" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Funds available?">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="node11" Height="60" Width="145" OffsetX="580" OffsetY="330">
+                    <DiagramFlowShape Shape="@FlowShapes.Process" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Enter payment method">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="transaction_entered" Height="60" Width="145" OffsetX="350" OffsetY="630">
+                    <DiagramFlowShape Shape="@FlowShapes.Terminator" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Log transaction">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="node12" Height="60" Width="145" OffsetX="530" OffsetY="630">
+                    <DiagramFlowShape Shape="@FlowShapes.Process" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Reconcile the entries">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="transaction_completed" Height="60" Width="145" OffsetX="350" OffsetY="530">
+                    <DiagramFlowShape Shape="@FlowShapes.Process" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Complete Transaction">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="Data" Height="60" Width="145" OffsetX="160" OffsetY="530">
+                    <DiagramFlowShape Shape="@FlowShapes.Data" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Send e-mail">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+                <DiagramNode Id="node10" Height="70" Width="145" OffsetX="525" OffsetY="530">
+                    <DiagramFlowShape Shape="@FlowShapes.DirectData" Type="@Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow"></DiagramFlowShape>
+                    <NodeShapeStyle Fill="#357BD2" StrokeColor="white"></NodeShapeStyle>
+                    <DiagramNodeAnnotations>
+                        <DiagramNodeAnnotation Content="Customer Database">
+                            <NodeAnnotationStyle Fill="transparent" Color="white"></NodeAnnotationStyle>
+                        </DiagramNodeAnnotation>
+                    </DiagramNodeAnnotations>
+                </DiagramNode>
+            </DiagramNodes>
+            <DiagramConnectors>
+                <DiagramConnector Id="connector1" SourceID="NewIdea" TargetID="Meeting">
+                </DiagramConnector>
+                <DiagramConnector Id="connector2" SourceID="Meeting" TargetID="BoardDecision"></DiagramConnector>
+                <DiagramConnector Id="connector3" SourceID="BoardDecision" TargetID="Project"></DiagramConnector>
+                <DiagramConnector Id="connector4" SourceID="Project" TargetID="End">
+                    <DiagramConnectorAnnotations>
+                        <DiagramConnectorAnnotation Content="Yes">
+                            <ConnectorAnnotationStyle Fill="white"></ConnectorAnnotationStyle>
+                        </DiagramConnectorAnnotation>
+                    </DiagramConnectorAnnotations>
+                </DiagramConnector>
+                <DiagramConnector Id="connector5" SourceID="End" TargetID="transaction_completed">
+                    <DiagramConnectorAnnotations>
+                        <DiagramConnectorAnnotation Content="Yes">
+                            <ConnectorAnnotationStyle Fill="white"></ConnectorAnnotationStyle>
+                        </DiagramConnectorAnnotation>
+                    </DiagramConnectorAnnotations>
+                </DiagramConnector>
+                <DiagramConnector Id="connector6" SourceID="transaction_completed" TargetID="transaction_entered"></DiagramConnector>
+                <DiagramConnector Id="connector7" SourceID="transaction_completed" TargetID="Data"></DiagramConnector>
+                <DiagramConnector Id="connector8" SourceID="transaction_completed" TargetID="node10"></DiagramConnector>
+                <DiagramConnector Id="connector9" SourceID="node11" TargetID="Meeting" Type="@Segments.Orthogonal" Segments="@segment1"></DiagramConnector>
+                <DiagramConnector Id="connector10" SourceID="End" TargetID="node11" Type="@Segments.Orthogonal" Segments="@segment2">
+                    <DiagramConnectorAnnotations>
+                        <DiagramConnectorAnnotation Content="No">
+                            <ConnectorAnnotationStyle Fill="white"></ConnectorAnnotationStyle>
+                        </DiagramConnectorAnnotation>
+                    </DiagramConnectorAnnotations>
+                </DiagramConnector>
+                <DiagramConnector Id="connector11" SourceID="Project" TargetID="node11">
+                    <DiagramConnectorAnnotations>
+                        <DiagramConnectorAnnotation Content="No">
+                            <ConnectorAnnotationStyle Fill="white"></ConnectorAnnotationStyle>
+                        </DiagramConnectorAnnotation>
+                    </DiagramConnectorAnnotations>
+                </DiagramConnector>
+                <DiagramConnector Id="connector12" SourceID="transaction_entered" TargetID="node12"></DiagramConnector>
+            </DiagramConnectors>
+        </EjsDiagram>
     </div>
-
 </div>
 
+@functions{
+    private double[] lineIntervals { get; set; } = new double[] {
+                1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75
+                };
 
-@code{
-    private static object getFlowShape(string id, string shapeType)
-    {
-        return new { id = id, shape = new { type = "Flow", shape = shapeType } };
-    }
-    private List<DiagramNode>
-    nodes
-    { get; set; } = new List<DiagramNode>()
-    {
-            new DiagramNode() {
-                Id= "NewIdea", Height = 60, Width = 145, OffsetX = 400 - 50, OffsetY = 80,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Terminator" }, Annotations= new List < object >
-            { new { content= "Place Order" , style=  new { color= "white", fill= "transparent" } } }
-            },
-            new DiagramNode() {
-                Id= "Meeting", Height = 60, Width = 145, OffsetX = 400 - 50, OffsetY = 160,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Process" }, Annotations=  new List < object >
-            {
-                    new { content= "Start Transaction", style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-                Id= "BoardDecision", Height = 60,Width = 145,  OffsetX = 400 - 50, OffsetY = 240,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape =new { type= "Flow", shape= "Process" }, Annotations=  new List < object >
-            {
-                    new { content= "Verification" , style=  new { color= "white", fill= "transparent" } }
-                }
-            },
-            new  DiagramNode() {
-                Id= "Project", Height = 60, Width = 145, OffsetX = 400 - 50, OffsetY = 330,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Decision" }, Annotations= new List < object >
-            {
-                    new { content= "Credit card valid?", style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-                Id= "End", Height = 60, Width = 145, OffsetX = 400 - 50, OffsetY = 430,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Decision" }, Annotations=  new List < object >
-            {
-                    new   { content= "Funds available?", style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-                Id= "node11", Height = 60,Width = 145,  OffsetX = (400 - 50) + 230, OffsetY = 330,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Process" }, Annotations=  new List < object >
-            {
-                    new   { content= "Enter payment method", style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-            Id= "transaction_entered", Width = 145, Height = 60, OffsetX = (400 - 50), OffsetY = 630,Style = new { fill= "#357BD2", strokeColor= "white" },
-            Shape = new{ type= "Flow", shape="Terminator" }, Annotations=  new List < object >
-        {
-            new   { content= "Log transaction", style=  new { color= "white", fill= "transparent" }  }
-            }
-        },
-           new DiagramNode() {
-                Id= "node12", Height = 60, Width = 145, OffsetX = (400 - 50) + 180, OffsetY = 630,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Process" }, Annotations=  new List < object >
-            {
-                    new { content= "Reconcile the entries", style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-                Id= "transaction_completed", Width = 145, Height = 60, OffsetX = (400 - 50), OffsetY = 530,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Process" }, Annotations=  new List < object >
-            {
-                    new { content= "Complete Transaction", style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-               Id= "Data", Height = 45, Width = 145, OffsetX = (400 - 50) - 190, OffsetY = 530,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "Data" }, Annotations=  new List < object >
-            {
-                    new { content= "Send e-mail", margin= new { left= 25, right= 25 }, style=  new { color= "white", fill= "transparent" }  }
-                }
-            },
-            new DiagramNode() {
-                Id= "node10", Height = 70, Width = 145, OffsetX = (400 - 50) + 175, OffsetY = 530,Style = new { fill= "#357BD2", strokeColor= "white" },
-                Shape = new { type= "Flow", shape= "DirectData" }, Annotations=  new List < object >
-            {
-                    new { content= "Customer Database", margin= new { left= 25, right= 25 }, style=  new { color= "white", fill= "transparent" }  }
-                }
-            }
-        };
-
-    private List<DiagramConnector>
-        connectors
-    { get; set; } = new List<DiagramConnector>()
-    {
-        new DiagramConnector() { Id= "connector1", SourceID= "NewIdea", TargetID ="Meeting" },
-        new DiagramConnector() { Id= "connector2", SourceID= "Meeting", TargetID ="BoardDecision" },
-        new DiagramConnector() { Id= "connector3", SourceID= "BoardDecision", TargetID ="Project" },
-        new DiagramConnector() { Id= "connector4", SourceID= "Project",
-        Annotations= new List < object >
-    { new{content= "Yes", style= new { fill= "white" } } }, TargetID ="End"
-        },
-        new  DiagramConnector() { Id= "connector5", SourceID= "End",
-        Annotations= new List < object >
-    { new{ content= "Yes", style= new { fill= "white" } } }, TargetID ="transaction_completed"
-        },
-        new DiagramConnector() { Id= "connector6", SourceID= "transaction_completed", TargetID ="transaction_entered" },
-        new DiagramConnector() { Id= "connector7", SourceID= "transaction_completed", TargetID ="Data" },
-        new DiagramConnector() { Id= "connector8", SourceID= "transaction_completed", TargetID ="node10" },
-        new DiagramConnector() { Id= "connector9", SourceID= "node11", Type= Segments.Orthogonal, TargetID ="Meeting", Segments= new List < object >
-    { new { direction= "Top", type= "Orthogonal", length= 120 } }
-        },
-        new DiagramConnector() {
-        Id= "connector10", SourceID= "End", Type= Segments.Orthogonal, Annotations= new List < object >
-    { new { content= "No", style= new { fill= "white" } } },
-        TargetID ="node11", Segments= new List < object >
-    { new{ direction= "Right", Type= Segments.Orthogonal, length= 100 } }
-        },
-        new DiagramConnector() { Id= "connector11", SourceID= "Project", Annotations= new List < object >
-    { new { content= "No", style=new { fill= "white" } } }, TargetID ="node11"
-        },
-        new DiagramConnector() { Id= "connector12", Style=new { strokeDashArray= "2,2" }, SourceID= "transaction_entered", TargetID ="node12" }
-        };
-
-    private List<SymbolPalettePalette>
-        palette
-    { get; set; } = new List<SymbolPalettePalette>()
-{
-    new SymbolPalettePalette() {Id="flow", Expanded = true, Symbols =  new List <object>
-{
-    getFlowShape("Terminator", "Terminator"),
-    getFlowShape("Process", "Process"),
-    getFlowShape("Decision", "Decision"),
-    getFlowShape("Document", "Document"),
-    getFlowShape("PreDefinedProcess", "PreDefinedProcess"),
-    getFlowShape("PaperTap", "PaperTap"),
-    getFlowShape("DirectData", "DirectData"),
-    getFlowShape("SequentialData", "SequentialData"),
-    getFlowShape("Sort", "Sort"),
-    getFlowShape("MultiDocument", "MultiDocument"),
-    getFlowShape("Collate", "Collate"),
-    getFlowShape("Or", "Or"),
-    getFlowShape("Extract", "Extract"),
-    getFlowShape("Merge", "Merge"),
-    getFlowShape("OffPageReference", "OffPageReference"),
-    getFlowShape("SequentialAccessStorage", "SequentialAccessStorage"),
-    getFlowShape("Annotation", "Annotation"),
-    getFlowShape("Annotation2", "Annotation2"),
-    getFlowShape("Data", "Data"),
-    getFlowShape("Card", "Card"),
-    getFlowShape("Delay", "Delay"),
-    }, IconCss = "e-ddb-icons e-flow", Title= "Flow Shapes" },
-    new SymbolPalettePalette() {Id= "connectors", Expanded= true, Symbols= new List < object >
-{
-    new {
-    id= "Link1", type= "Orthogonal", sourcePoint=new { x= 0, y= 0 }, targetPoint= new { x= 60, y= 60 },
-    targetDecorator= new { shape= "Arrow" }, style= new { strokeWidth= 1 }
-    },
-    new  {
-    id= "link3", type= "Orthogonal", sourcePoint= new { x= 0, y= 0 }, targetPoint= new { x= 60, y= 60 },
-    style= new { strokeWidth= 1 }, targetDecorator= new { shape= "None" }
-    },
-    new {
-    id= "Link21", type= "Straight", sourcePoint= new { x= 0, y= 0 }, targetPoint= new { x= 60, y= 60 },
-    targetDecorator= new { shape= "Arrow" }, style= new { strokeWidth= 1 }
-    },
-    new {
-    id= "link23", type= "Straight", sourcePoint= new { x= 0, y= 0 }, targetPoint= new { x= 60, y= 60 },
-    style= new { strokeWidth= 1 }, targetDecorator= new { shape= "None" }
-    },
-    new  {
-    id= "link33", type= "Bezier", sourcePoint= new { x= 0, y= 0 }, targetPoint= new { x= 60, y= 60 },
-    style= new { strokeWidth= 1 }, targetDecorator= new { shape= "None" }
-    }
-    }, IconCss = "e-ddb-icons e-connector", Title = "Connectors" }
+    private List<object> segment1 { get; set; } = new List<object> {
+        new { direction= "Top", type= "Orthogonal", length= 120 }
+    };
+    private List<object> segment2 { get; set; } = new List<object>{
+        new  { direction= "Right", type= "Orthogonal", length= 100 }
     };
 
-    private object symbolMargin = new { left = 15, right = 15, top = 15, bottom = 15 };
-    private object snapSettings = new
-    {
-        horizontalGridlines = new
-        {
-            lineColor = "#e0e0e0",
-            lineIntervals = new List<double>
-    {
-        1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75
-        }
+    private List<DiagramNode> flowShapes { get; set; } = new List<DiagramNode> {
+        new DiagramNode(){Id="Terminator" , Shape = new DiagramFlowShape(){
+            Type = Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Terminator }
         },
-        verticalGridlines = new
-        {
-            lineColor = "#e0e0e0",
-            lineIntervals = new List<double>
-        {
-            1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75
-            }
+        new DiagramNode(){Id="Process" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Process }
+    },
+        new DiagramNode(){Id="Decision" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Decision }
+    },
+        new DiagramNode(){Id="Document" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Document }
+    },
+        new DiagramNode(){Id="PreDefinedProcess" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.PreDefinedProcess }
+    },
+        new DiagramNode(){Id="PaperTap" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.PaperTap }
+    },
+        new DiagramNode(){Id="DirectData" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.DirectData }
+    },
+        new DiagramNode(){Id="SequentialData" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.SequentialData }
+    },
+        new DiagramNode(){Id="Sort" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Sort }
+    },
+        new DiagramNode(){Id="MultiDocument" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.MultiDocument }
+    },
+        new DiagramNode(){Id="Collate" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Collate }
+    },
+        new DiagramNode(){Id="Or" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Or }
+    },
+        new DiagramNode(){Id="Extract" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Extract }
+    },
+        new DiagramNode(){Id="Merge" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Merge }
+    },
+        new DiagramNode(){Id="OffPageReference" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.OffPageReference }
+    },
+        new DiagramNode(){Id="SequentialAccessStorage" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.SequentialAccessStorage }
+    },
+        new DiagramNode(){Id="Annotation" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Annotation }
+    },
+        new DiagramNode(){Id="Annotation2" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Annotation2 }
+    },
+        new DiagramNode(){Id="Data" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Data }
+    },
+        new DiagramNode(){Id="Card" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Card }
+    },
+        new DiagramNode(){Id="Delay" , Shape = new DiagramFlowShape(){
+        Type =Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow,Shape=FlowShapes.Delay }
+    },
+    };
+    private List<DiagramConnector> connectors { get; set; } = new List<DiagramConnector>
+{
+        new DiagramConnector(){Id="Link11" ,  Type=Segments.Orthogonal,SourcePoint= new ConnectorSourcePoint(){ X=0,Y=0 },TargetPoint = new ConnectorTargetPoint(){  X=60,Y=60},
+          TargetDecorator= new ConnectorTargetDecorator(){ Shape=DecoratorShapes.Arrow},Style= new DiagramStrokeStyle(){ StrokeWidth=1}
+        },
+        new DiagramConnector(){Id="link12" ,  Type=Segments.Orthogonal,SourcePoint= new ConnectorSourcePoint(){ X=0,Y=0 },TargetPoint = new ConnectorTargetPoint(){  X=60,Y=60},
+         TargetDecorator= new ConnectorTargetDecorator(){ Shape=DecoratorShapes.None},Style= new DiagramStrokeStyle(){ StrokeWidth=1}
+        },
+        new DiagramConnector(){Id="Link21" ,  Type=Segments.Straight,SourcePoint= new ConnectorSourcePoint(){ X=0,Y=0 },TargetPoint = new ConnectorTargetPoint(){  X=60,Y=60},
+          TargetDecorator= new ConnectorTargetDecorator(){ Shape=DecoratorShapes.Arrow},Style= new DiagramStrokeStyle(){ StrokeWidth=1}
+        },
+        new DiagramConnector(){Id="link22" ,  Type=Segments.Straight,SourcePoint= new ConnectorSourcePoint(){ X=0,Y=0 },TargetPoint = new ConnectorTargetPoint(){  X=60,Y=60},
+          TargetDecorator= new ConnectorTargetDecorator(){ Shape=DecoratorShapes.None},Style= new DiagramStrokeStyle(){ StrokeWidth=1}
+        },
+        new DiagramConnector(){Id="link32" ,  Type=Segments.Bezier,SourcePoint= new ConnectorSourcePoint(){ X=0,Y=0 },TargetPoint = new ConnectorTargetPoint(){  X=60,Y=60},
+          TargetDecorator= new ConnectorTargetDecorator(){ Shape=DecoratorShapes.None},Style= new DiagramStrokeStyle(){ StrokeWidth=1}
         }
     };
 }

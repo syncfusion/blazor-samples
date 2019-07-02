@@ -1,5 +1,5 @@
-@page "/Charts/HideSelector"
-@using Syncfusion.EJ2.RazorComponents.Charts
+﻿@page "/Charts/HideSelector"
+@using Syncfusion.EJ2.Blazor.Charts
 @using System;
 @using System.Collections.Generic;
 @using System.Linq;
@@ -28,28 +28,46 @@
 @*End:Hidden*@
 
 <div class="control-section">
-    <EjsStockChart id="stockChart" title="AAPL Stock Price" dataSource="@data" EnablePeriodSelector="false">
-        <StockChartPrimaryXAxis LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-            <StockChartPrimaryXAxisMajorGridLines Width="0"></StockChartPrimaryXAxisMajorGridLines>
-        </StockChartPrimaryXAxis>
-        <StockChartPrimaryYAxis LabelFormat="{value}M" Title="Revenue" RangePadding="ChartRangePadding.None">
-            <StockChartPrimaryYAxisMajorTickLines Width="0"></StockChartPrimaryYAxisMajorTickLines>
-        </StockChartPrimaryYAxis>
-        <StockChartTooltipSettings Enable="false" Shared="true"></StockChartTooltipSettings>
-        <StockChartCrosshairSettings Enable="false" LineType="LineType.Vertical"></StockChartCrosshairSettings>
-        <StockChartPeriods>
-            <StockChartPeriod IntervalType="RangeIntervalType.Years" Interval="1" Text="1Y"></StockChartPeriod>
-            <StockChartPeriod IntervalType="RangeIntervalType.Years" Interval="2" Text="2Y"></StockChartPeriod>
-            <StockChartPeriod IntervalType="RangeIntervalType.Years"  Selected="true" Interval="3" Text="3Y"></StockChartPeriod>
-            <StockChartPeriod Text="All"></StockChartPeriod>
-        </StockChartPeriods>
-        <StockChartSeriesCollection>
-            <StockChartSeries XName="xValue" Type="ChartSeriesType.Line" YName="yValue"></StockChartSeries>
-        </StockChartSeriesCollection>
+    <EjsStockChart id="stockChart" title="AAPL Stock Price" series="@seriesData" primaryXAxis="@xAxis" 
+    primaryYAxis="@yAxis" tooltip="@tooltip" dataSource="@data" periods="@periods" enableSelector="false">
     </EjsStockChart>
 </div>
 
-@functions{
+@code{
+
+    public object xAxis = new
+    {
+        valueType = "DateTime",
+        labelFormat = "y",
+        intervalType = "Years",
+        edgelabelPalcement = "Shift",
+        majorGridLines = new { width = 0.0000001 }
+    };
+
+
+
+    public object yAxis = new
+    {
+        labelFormat = "{value}M",
+        rangePadding = "None",
+        title = "Revenue",
+        majorTickLines = new { width = 0.000001 },
+        minorTickLines = new { width = 0.000001 }
+    };
+
+    public Object tooltip = new
+    {
+        enable = false,
+        shared = true
+    };
+
+
+
+    public Object crosshair = new
+    {
+        enable = false,
+        lineType = "Vertical"
+    };
 
     public List<object> data { get; set; } = new List<object> {
 
@@ -72,6 +90,21 @@
 		public double yValue;
         public double yValue1;
     };
-   
+
+
+
+
+    public List<StockChartSeries> seriesData { get; set; } = new List<StockChartSeries>()
+    {
+        new StockChartSeries() { XName = "xValue", Type = ChartSeriesType.Line, YName = "yValue" }
+    };
+
+    public List<StockChartPeriod> periods { get; set; } = new List<StockChartPeriod>()
+    {
+        new StockChartPeriod(){ IntervalType = RangeIntervalType.Minutes, Interval= 1, Text= "1m" },
+        new StockChartPeriod() { IntervalType = RangeIntervalType.Years, Interval= 1, Text= "iY" },
+        new StockChartPeriod() { IntervalType= RangeIntervalType.Hours, Interval= 1, Text= "1H" },
+        new StockChartPeriod() { IntervalType= RangeIntervalType.Years, Interval= 2, Text= "2Y", Selected= true },
+    };    
 
 }
