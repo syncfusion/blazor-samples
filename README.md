@@ -2,13 +2,13 @@
 
 This repository contains the demos of [Syncfusion Blazor Components](https://ej2.syncfusion.com/home/aspnet-core-blazor.html).
 
-The below topics can help you to use the Syncfusion Blazor Components and run this application in your local
+The below topics can help you to use the Syncfusion Blazor Components and run this application in your local.
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
 * [Using the samples](#using-the-samples)
 * [Documentation](#documentation)
 * [License](#license)
-* [Controls Catalog](#controls-catalog)
+* [Components Catalog](#components-catalog)
 * [Support and Feedback](#support-and-feedback)
 
 ## Requirements to run the demo
@@ -20,14 +20,13 @@ The samples requires the below requirements to run.
 
 ## Using the demos
 
+* Clone this repository.
 * Open the command prompt from samples root directory.
-* Run `dotnet restore` and `dotnet build`.
-* Then Change the directory in to `cd ej2-blazor-samples`.
-* Run `dotnet run`.
+* Run the demo using `dotnet run` command.
 
 ## Documentation
 
-All controls documentation for the Syncfusion Blazor Components can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
+All components documentation for the `Syncfusion Blazor Components` can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
 
 ## License
 
@@ -42,7 +41,7 @@ Under no circumstances can you use this product without (1) either a Community L
 The Syncfusion license that contains the terms and conditions can be found at
 [https://www.syncfusion.com/content/downloads/syncfusion_license.pdf](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf)
 
-## Controls Catalog
+## Components Catalog
 
 <table>
     <tr>
@@ -318,6 +317,6 @@ The Syncfusion license that contains the terms and conditions can be found at
 
 ## Support and Feedback
 
-* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing&utm_campaign=ej2-aspnetcore-samples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples).
+* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples).
 
 * To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples) or contact our sales team at <salessupport@syncfusion.com>.
