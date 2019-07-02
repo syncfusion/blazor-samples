@@ -361,7 +361,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Stacked Area",
+                Name = "Polar Stacked Area",
                 Category = "Polar Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarStackedArea",
