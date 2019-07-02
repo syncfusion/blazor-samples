@@ -36,16 +36,7 @@ namespace ej2_blazor_samples
                 FileName = "Baseline.razor",
                 Type = SampleType.New
             },
-			new Sample
-            {
-                Name = "Taskbar Template",
-                Category = "Gantt",
-                Directory = "Gantt/Gantt",
-                Url = "Gantt/TaskbarTemplate",
-                FileName = "GanttTaskbarTemplate.razor",
-                Type = SampleType.New
-            },
-            new Sample
+             new Sample
             {
                 Name = "Filtering",
                 Category = "Gantt",
