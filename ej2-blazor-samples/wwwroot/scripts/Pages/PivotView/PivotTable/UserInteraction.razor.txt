@@ -1,7 +1,9 @@
-@page "/PivotView/UserInteraction"
+﻿@page "/PivotView/UserInteraction"
 
-@using Syncfusion.EJ2.RazorComponents.PivotView
+@using Syncfusion.EJ2.Blazor.PivotView
 
+@inject HttpClient Http;
+@inject IJSRuntime JsRuntime;
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -11,70 +13,107 @@
     SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
     SampleBrowser.ActionDescription = new string[] {
 @"<p>
-    This sample demonstrates the grouping bar and field list feature of the pivotgrid widget. In the sample, fields are automatically populated
-    from the bound data source, and it can be used to create a pivot view at runtime.
+    This sample demonstrates the grouping bar and field list feature of the pivot table. In the sample, fields are automatically populated
+    from the bound data source, and it can be used to create a pivot table at runtime.
 </p>"
 };
     SampleBrowser.Description = new string[] {
-@"<p>
-    The pivotgrid widget grouping bar option automatically populates fields from the bound data source and allows end users
-    to drag fields between different axes such as columns, rows, values, and filters, and create pivot views at runtime.
-    To enable grouping bar, set the <code>showGroupingBar</code> property as true.
-</p>
-<p>
-    And the built-in field list option automatically populates fields from the bound data source and allows end users
-    to add, remove and rearrange the fields between different axes such as columns, rows, values, and filters, and create pivot views at runtime.
-    To enable field list, set the <code>showFieldList</code> property as true.
-</p>"
+@"<p>The pivot table provides a built-in field list very similar to Microsoft Excel. The top section of the
+        field list
+        allows the user to add and remove fields. The bottom section of the field list allows the user to rearrange the
+        fields
+        between different axes, including column, row, value, and filter along with filter and sort options.
+        <br>
+        <br> To show the field list independently, create as separate component namely
+        <code>PivotFieldList</code> and assign JSON data source to its
+        <code>dataSourceSettings->dataSource</code> property. Simultaneously pivotgrid will be populated by passing its instance in
+        the updateView method, inside the
+        <code>enginePopulated</code> event of field list.
+        <br />
+        <br />
+        Additionally, user interface for calculated field, label filter, and value filter features have been enabled in
+        this demo by setting the properties
+        <code>allowCalculatedField</code>,
+        <code>dataSourceSettings->allowLabelFilter</code> and <code>dataSourceSettings->allowValueFilter</code> to true.
+    </p>"
 };
 }
 @*End:Hidden*@
-
-<div class="control-section">
-    <div class="content-wrapper">
-        <EjsPivotView ID="pivotview" Width="100%" Height="340" ShowFieldList=true ShowGroupingBar=true>
-            <PivotViewDataSource Data="@data" ExpandAll=false EnableSorting=true>
-                <PivotViewColumns>
-                    <PivotViewColumn Name="Year"></PivotViewColumn>
-                    <PivotViewColumn Name="Order_Source"></PivotViewColumn>
-                </PivotViewColumns>
-                <PivotViewRows>
-                    <PivotViewRow Name="Country"></PivotViewRow>
-                    <PivotViewRow Name="Products"></PivotViewRow>
-                </PivotViewRows>
-                <PivotViewValues>
-                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
-                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
-                </PivotViewValues>
-                <PivotViewFilters>
-                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
-                </PivotViewFilters>
-                <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                </PivotViewFormatSettings>
-                <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { " France" })"></PivotViewDrilledMember>
-                </PivotViewDrilledMembers>
-            </PivotViewDataSource>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-        </EjsPivotView>
+    <div class="control-section">
+        <div class="content-wrapper">
+            <EjsPivotView ID="pivotview" Width="100%" Height="300" AllowDeferLayoutUpdate=true>
+                </EjsPivotView>
+                <EjsPivotFieldList Id="pivotfieldlist" RenderMode=Syncfusion.EJ2.Blazor.PivotView.Mode.Fixed Created="@OnAfterRender" AllowCalculatedField=true AllowDeferLayoutUpdate=true>
+                    <PivotFieldListDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+                        <PivotFieldListColumns>
+                            <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
+                            <PivotFieldListColumn Name="Order_Source"></PivotFieldListColumn>
+                        </PivotFieldListColumns>
+                        <PivotFieldListRows>
+                            <PivotFieldListRow Name="Country"></PivotFieldListRow>
+                            <PivotFieldListRow Name="Products"></PivotFieldListRow>
+                        </PivotFieldListRows>
+                        <PivotFieldListValues>
+                            <PivotFieldListValue Name="In_Stock" Caption="In Stock"></PivotFieldListValue>
+                            <PivotFieldListValue Name="Sold" Caption="Units Sold"></PivotFieldListValue>
+                            <PivotFieldListValue Name="Amount" Caption="Sold Amount"></PivotFieldListValue>
+                        </PivotFieldListValues>
+                        <PivotFieldListFilters>
+                            <PivotFieldListFilter Name="Product_Categories" Caption="Product Categories"></PivotFieldListFilter>
+                        </PivotFieldListFilters>
+                    </PivotFieldListDataSourceSettings>
+                </EjsPivotFieldList>
+        </div>
     </div>
-</div>
 
-<style>
-    #pivotview {
-        width: 100%;
-        height: 100%;
+    <style>
+         #pivotview {
+            width: 58%;
+            height: 100%;
+        }
+
+        #pivotfieldlist {
+            width: 42%;
+            height: 100%;
+        }
+        .e-pivotview {
+            float: left;
+        }
+
+        .e-pivotfieldlist {
+            float: right;
+        }
+
+        .e-pivotfieldlist .e-static {
+            width: 100% !important;
+        }
+        .e-pivotview {
+            min-height: 200px;
+        }
+    </style>
+
+    @code{
+
+        EjsPivotView pivotView;
+
+        static PivotViewData pivotData = new PivotViewData();
+
+        private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+
+        //private async void OnInit()
+        //{
+        //    await JsRuntime.InvokeAsync<bool>
+        //    ("onLoad");
+        //}
+        //protected override async Task OnInitAsync()
+        //{
+        //    await JsRuntime.InvokeAsync<bool>
+        //  ("onLoad");
+        //}
+
+        private async void OnAfterRender(object args)
+        {
+            await JsRuntime.InvokeAsync<bool>
+           ("onAfterRender");
+        }
     }
-</style>
-
-@functions{
-
-    EjsPivotView pivotView;
-
-    static PivotViewData pivotData = new PivotViewData();
-
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
-
-}

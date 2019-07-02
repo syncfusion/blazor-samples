@@ -14,46 +14,51 @@ namespace ej2_blazor_samples
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New
-            },                      
+                FileName = "Default.razor"
+            },
             new Sample
             {
                 Name = "Dock",
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/Dock",
-                FileName = "Dock.razor",
-                Type = SampleType.New
-            },          
+                FileName = "SidebarDock.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Sidebar",
+                Directory = "Navigations/Sidebar",
+                Url = "Sidebar/API",
+                FileName = "SidebarAPI.razor"
+            },
             new Sample
             {
                 Name = "Sidebar with ListView",
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/SidebarWithListView",
-                FileName = "SidebarWithListView.razor",
-                Type = SampleType.New
-            },         
+                FileName = "SidebarList.razor"
+            },
             new Sample
             {
                 Name = "Sidebar Menu",
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/SidebarWithMenu",
-                FileName = "SidebarWithMenu.razor",
-                Type = SampleType.New
-            },           
+                FileName = "SidebarMenu.razor"
+            },
             new Sample
             {
                 Name = "Responsive Panel",
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/PanelWithResponsive",
-                FileName = "PanelWithResponsive.razor",
-                Type = SampleType.New
-            }           
+                FileName = "ResponsivePanel.razor"
+            }
+
         };
+
 
         public List<Sample> ContextMenu { get; set; } = new List<Sample>
         {
@@ -83,6 +88,22 @@ namespace ej2_blazor_samples
                 Directory = "Navigations/MenuBar",
                 FileName = "DataBinding.razor",
                 Url = "MenuBar/DataBinding"
+            },
+			new Sample
+            {
+                Name = "Scrollable",
+                Category = "Menu Bar",
+                Directory = "Navigations/MenuBar",
+                FileName = "Scrollable.razor",
+                Url = "MenuBar/Scrollable"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Menu Bar",
+                Directory = "Navigations/MenuBar",
+                FileName = "Api.razor",
+                Url = "MenuBar/Api"
             }
         };
 
@@ -140,7 +161,7 @@ namespace ej2_blazor_samples
             }
         };
         public List<Sample> TreeView { get; set; } = new List<Sample>{
-            new Sample
+           new Sample
             {
                 Name = "Default Functionalities",
                 Category = "TreeView",
@@ -151,19 +172,74 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Icons and Images",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "TreeView/IconsandImages",
+                FileName = "IconsandImages.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "CheckBox",
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "TreeView/CheckBox",
                 FileName = "CheckBox.razor",
                 Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Node Editing",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "TreeView/NodeEditing",
+                FileName = "NodeEditing.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Multiple Selection",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "TreeView/MultipleSelection",
+                FileName = "MultipleSelection.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "TreeView/Template",
+                FileName = "Template.razor",
+                Type = SampleType.New
+            },
+              new Sample
+            {
+                Name = "Local Data",
+                Category = "Data Binding",
+                Directory = "Navigations/DataBinding",
+                Url = "TreeView/LocalData",
+                FileName = "LocalData.razor",
+                Type = SampleType.New
+            },
+               new Sample
+            {
+                Name = "Remote Data",
+                Category = "Data Binding",
+                Directory = "Navigations/DataBinding",
+                Url = "TreeView/RemoteData",
+                FileName = "RemoteData.razor",
+                Type = SampleType.New
             }
+
         };
-         public List<Sample> FileManager { get; set; } = new List<Sample>{
+        public List<Sample> FileManager { get; set; } = new List<Sample>{
             new Sample
             {
                 Name = "Overview",
-                Category = "FileManager",
+                Category = "File Manager",
                 Directory = "Navigations/FileManager",
                 Url = "FileManager/Overview",
                 FileName = "Overview.razor",
@@ -171,13 +247,39 @@ namespace ej2_blazor_samples
             },
              new Sample
             {
-                Name = "CustomThumbnail",
-                Category = "FileManager",
+                Name = "Custom Thumbnails",
+                Category = "File Manager",
                 Directory = "Navigations/FileManager",
                 Url = "FileManager/CustomThumbnail",
                 FileName = "CustomThumbnail.razor",
                 Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "API",
+                Category = "File Manager",
+                Directory = "Navigations/FileManager",
+                Url = "FileManager/API",
+                FileName = "API.razor"
+            },
+            new Sample
+            {
+                Name = "Drag and Drop",
+                Category = "File Manager",
+                Directory = "Navigations/FileManager",
+                Url = "FileManager/DragAndDrop",
+                FileName = "DragAndDrop.razor"
+            },
+            new Sample
+            {
+                Name = "Azure Blob Storage",
+                Category = "Cloud Service Providers",
+                Directory = "Navigations/FileManager",
+                Url = "FileManager/Azure",
+                FileName = "Azure.razor"
             }
+
         };
+
     }
 }

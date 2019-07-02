@@ -1,0 +1,241 @@
+﻿@page "/MenuBar/Api"
+
+@using Syncfusion.EJ2.Blazor.Navigations
+
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Newtonsoft.Json;
+
+@using Syncfusion.EJ2.Blazor
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = SampleBrowser.Config.MenuBar[0].Name;
+    SampleBrowser.CurrentControlName = "MenuBar";
+    SampleBrowser.CurrentControlCategory = "Navigations";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.MenuBar;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates the customization of <code>Menu</code> component by using its properties from the property pane. Select any combination of properties from the property pane to customize <code>Menu</code> component.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+           In this demo, default menu is rendered with minimal configuration.</p>
+        <p>This sample can be customized further with the combination of <code>Menu</code> properties from the property pane. For example,</p>
+        <ul>
+            <li>
+                You can switch to <b>Vertical</b> and <b>Horizontal</b> modes by clicking and selecting the
+                <code>orientation</code> mode from <i>Orientation</i> dropdownlist.
+            </li>
+            <li>
+                You can enable or disable menu items by clicking and selecting the item
+                from <i>Enable item</i> or <i>Disable item</i> dropdownlists.
+            </li>
+            <li>
+                You can also enable the show menu item on mouse click <code>ShowItemOnClick</code> property by checking the
+                <i>Show item on Click</i> checkbox.
+            </li>
+        </ul>
+        <p>
+            More information about Menu can be found in this
+            <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/menu/getting-started/"">
+                documentation section
+            </a>.
+        </p>"
+    };
+
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="col-lg-8 control-section">
+        <div class="menu-control">
+            <EjsMenu ID="menu" @ref="Menu" Items="@MenuItems" Fields="@MenuFields">
+            </EjsMenu>
+        </div>
+    </div>
+
+    <div class="col-lg-4 property-section">
+        <table id="property" title="Properties" style="width: 100%">
+            <tbody>
+                <tr>
+                    <td style="width: 50%;padding-top:10px">
+                        <div>Orientation</div>
+                    </td>
+                    <td style="width: 50%;padding-top:10px">
+                        <div style="max-width: 200px">
+                            <EjsDropDownList ID="ddl" DataSource="@DropDownListData" PopupHeight="200px" ValueChange="@Change" index="0">
+                                <DropDownListFieldSettings Value="value" Text="text"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;padding-top:10px">
+                        <div>Enable / Disable item</div>
+                    </td>
+                    <td style="width: 50%;padding-top:10px">
+                        <div style="max-width: 200px">
+                            <EjsMultiSelect ID="enableDisable" DataSource="@HeaderData" PopupHeight="200px" Width="160px" Mode="Syncfusion.EJ2.Blazor.DropDowns.VisualMode.CheckBox" PlaceHolder="Select item" ShowDropDownIcon="true" ValueChange="@EnableDisableChange"></EjsMultiSelect>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;padding-top:15px">
+                        <div>Show Item on Click</div>
+                    </td>
+                    <td style="width: 50%;padding-top:15px">
+                        <EjsCheckBox ID="show-btn" ValueChange="@CheckBoxChange"></EjsCheckBox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    @@font-face {
+        font-family: 'em-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .em-icons {
+        font-family: 'em-icons';
+    }
+
+    .e-file::before {
+        content: '\e700';
+    }
+
+    .e-edit::before {
+        content: '\e701';
+    }
+
+    .e-tool::before {
+        content: '\e7cf';
+    }
+
+    .e-cut::before {
+        content: '\e704';
+    }
+
+    .e-copy::before {
+        content: '\e705';
+    }
+
+    .e-paste::before {
+        content: '\e706';
+    }
+
+    .e-open::before {
+        content: '\e702';
+    }
+
+    .e-save::before {
+        content: '\e703';
+    }
+
+    .menu-control {
+        margin: 45px auto 0;
+        text-align: center;
+    }
+</style>
+
+@code{
+    EjsMenu Menu;
+    public string[] items = new string[] { "Events", "Movies", "Directory", "Queries", "Services" };
+    public string str;
+    public List<string> EnableItems;
+    private void Change(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args)
+    {
+        if (args.Value.ToString() == "Vertical")
+        {
+            Menu.Orientation = Orientation.Vertical;
+        }
+        else
+        {
+            Menu.Orientation = Orientation.Horizontal;
+        }
+        Menu.DataBind();
+    }
+
+    private void EnableDisableChange(Syncfusion.EJ2.Blazor.DropDowns.MultiSelectChangeEventArgs args)
+    {
+        if (args.Value != null)
+        {
+            this.str = JsonConvert.SerializeObject(args.Value);
+            this.EnableItems = JsonConvert.DeserializeObject<List<string>>(this.str);
+            Menu.EnableItems(items, true);
+            Menu.EnableItems(this.EnableItems, false);
+        } else
+        {   
+            Menu.EnableItems(items, true);
+        }
+    }
+
+    private void CheckBoxChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        Menu.ShowItemOnClick = args.Checked;
+        Menu.DataBind();
+    }
+
+    public List<object> MenuItems = new List<object>() {
+                new {
+                    header = "Events",
+                    subItems = new List<object>() {
+                        new { text= "Conferences" },
+                        new { text= "Music" },
+                        new { text= "Workshops" }
+                    }
+                },
+                new {
+                    header = "Movies",
+                    subItems = new List<object>() {
+                        new { text= "Now Showing" },
+                        new { text= "Coming Soon" }
+                    }
+                },
+                new {
+                    header = "Directory",
+                    subItems = new List<object>() {
+                        new { text= "Media Gallery" },
+                        new { text= "Newsletters" }
+                    }
+                },
+                new {
+                    header = "Queries",
+                    subItems = new List<object>() {
+                        new { text= "Our Policy" },
+                        new { text= "Site Map"},
+                        new { text= "24x7 Support"}
+                    }
+                },
+                new { header= "Services" }
+            };
+
+    public MenuFieldSettings MenuFields = new MenuFieldSettings()
+    {
+        IconCss = "icon",
+        Text = new string[] { "header", "text", "value" },
+        Children = new string[] { "subItems", "options" }
+    };
+
+    public List<object> HeaderData = new List<object>()
+    {
+                new { text= "Events" },
+                new { text= "Movies"},
+                new { text= "Directory" },
+                new {text= "Queries" },
+                new { text= "Services" }
+            };
+
+    public List<object> DropDownListData = new List<object>()
+    {
+                new { value = "Horizontal", text = "Horizontal" },
+                new { value = "Vertical", text = "Vertical" },
+            };
+
+}

@@ -18,22 +18,49 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Editing",
-            //    Category = "Gantt",
-            //    Directory = "Gantt/Editing",
-            //    Url = "Gantt/Editing",
-            //    FileName = "Editing.razor",
-            //    Type = SampleType.New
-            //},
             new Sample
+            {
+                Name = "Remote Data",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/RemoteData",
+                FileName = "RemoteData.razor",
+                Type = SampleType.New
+            },
+             new Sample
             {
                 Name = "Baseline",
                 Category = "Gantt",
                 Directory = "Gantt/Gantt",
                 Url = "Gantt/Baseline",
                 FileName = "Baseline.razor",
+                Type = SampleType.New
+            },
+			new Sample
+            {
+                Name = "Taskbar Template",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/TaskbarTemplate",
+                FileName = "GanttTaskbarTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Filtering",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/Filtering",
+                FileName = "Filtering.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Zooming",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/Zooming",
+                FileName = "Zooming.razor",
                 Type = SampleType.New
             }
         };

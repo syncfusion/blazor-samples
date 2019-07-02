@@ -27,6 +27,30 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/ColorPicker",
                 Url = "ColorPicker/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor"
+            },
+            new Sample
+            {
+                Name = "Inline Mode",
+                Category = "ColorPicker",
+                Directory = "Inputs/ColorPicker",
+                Url = "ColorPicker/Inline",
+                FileName = "Inline.razor"
+            },
+            new Sample
+            {
+                Name = "Custom Palettes",
+                Category = "ColorPicker",
+                Directory = "Inputs/ColorPicker",
+                Url = "ColorPicker/Custom",
+                FileName = "Custom.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "ColorPicker",
+                Directory = "Inputs/ColorPicker",
+                Url = "ColorPicker/Api",
+                FileName = "Api.razor"
             }
         };
 
@@ -91,7 +115,7 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/Uploader",
                 Url = "Uploader/ChunkUpload",
                 FileName = "ChunkUpload.razor"
-            },
+            },              
                new Sample
             {
                 Name = "File Validation",
@@ -117,6 +141,22 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/Slider",
                 Url = "Slider/Ticks",
                 FileName = "Ticks.razor"
+            },
+            new Sample
+            {
+                Name = "Tooltip",
+                Category = "Slider",
+                Directory = "Inputs/Slider",
+                Url = "Slider/Tooltip",
+                FileName = "Tooltip.razor"
+            },
+            new Sample
+            {
+                Name = "Limits",
+                Category = "Slider",
+                Directory = "Inputs/Slider",
+                Url = "Slider/Limits",
+                FileName = "Limits.razor"
             },
         };
     }

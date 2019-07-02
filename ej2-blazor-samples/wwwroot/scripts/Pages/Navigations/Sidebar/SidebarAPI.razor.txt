@@ -1,8 +1,8 @@
-@page "/Sidebar/SidebarAPI"
+﻿@page "/Sidebar/SidebarAPI"
 
-@using Syncfusion.EJ2.RazorComponents.Navigations;
-@using Syncfusion.EJ2.RazorComponents.Buttons;
-@using Syncfusion.EJ2.RazorComponents.DropDowns;
+@using Syncfusion.EJ2.Blazor.Navigations;
+@using Syncfusion.EJ2.Blazor.Buttons;
+@using Syncfusion.EJ2.Blazor.DropDowns;
 @inject IJSRuntime JsRuntime;
 
 @*Hidden:Lines*@
@@ -22,8 +22,8 @@
 <div id="wrapper">
     <div class="col-lg-12 col-sm-12 col-md-12">
         <!-- sidebar element declaration -->
-        <span id="hamburger" onclick="@show" class="e-icons menu"></span>
-        <EjsSidebar ID="default-sidebar" ref="sidebar">
+        <span id="hamburger" onclick="@show" class="@hamburgerclass"></span>
+        <EjsSidebar ID="default-sidebar" @ref="sidebarObj" CloseOnDocumentClick="@closeOnDocumentClick" ShowBackdrop="@showBackdrop" Position="@Position" Type="@Type">
             <ChildContent>
                 <div class="title-header">
                     <div style="display:inline-block"> Sidebar </div>
@@ -48,85 +48,154 @@
                     <p class=" inline-element" style="width:70%">
                         <b>Toggle</b> - Toggles the Sidebar to be open or closed state.
                     </p>
-                    <div onclick="@togglebtnclick">
-                        <EjsButton ID="togglesidebar" CssClass='e-info inline-element right' IsToggle="true">Toggle</EjsButton>
-                    </div>
+                    <EjsButton ID="togglesidebar" CssClass='e-info inline-element right' IsToggle="true" OnButtonClick="@togglebtnclick">Toggle</EjsButton>
                     <br />
                     <br />
                     <!--Sidebar position -->
                     <p class=" inline-element" style="width:70%">
                         <b>Position</b> - Allows to place the sidebar in right or left side of the page.
                     </p>
-                    <div onclick="@positionbtnclick">
-                        <EjsButton ID="positionButton" CssClass='e-info inline-element right' IsToggle="true" ref="positionElement">Right</EjsButton>
-                    </div>
+                    <EjsButton ID="positionButton" CssClass='e-info inline-element right' IsToggle="true" @ref="positionElement" OnButtonClick="@positionbtnclick" Content="@content"></EjsButton>
                     <br />
                     <br />
                     <!--Sidebar types -->
                     <p class="inline-element" style="width:70%"><b>Types </b> - Specifies the act of expanding or collapsing the sidebar with main content.</p>
                     <div class="inline-element right" style="width:75px">
-                        <EjsDropDownList ID="types" Index="3" PopupHeight="200px" CssClass="e-textbox right" DataSource="@data"></EjsDropDownList>
+                        <EjsDropDownList @ref="@dropValue" ID="types" Index="3" PopupHeight="200px" CssClass="e-textbox right" DataSource="@data" ValueChange="@onChange"></EjsDropDownList>
                     </div>
                     <br />
                     <br />
                     <!--on document click -->
                     <p class=" inline-element" style="width:70%"><b>Closing on document click</b> - Allows to collapse / close the sidebar on document click.</p>
-                    <div onclick="@docbtnclick">
-                        <EjsButton ID="documentclick" CssClass='e-info inline-element right' IsToggle="true"><ChildContent>True</ChildContent></EjsButton>
-                    </div>
+                    <EjsButton ID="documentclick" @ref="documentclickElement" CssClass='e-info inline-element right' IsToggle="true" OnButtonClick="@docbtnclick" Content="@docContent"></EjsButton>
                     <br />
                     <br />
                     <!--showbackdrop option -->
                     <p class=" inline-element" style="width:70%"><b>Backdrop</b> - Sets the backdrop over the main content area on open / expanded state. </p>
-                    <div onclick="@backbtnclick">
-                        <EjsButton ID="backdrop" CssClass='e-info inline-element right' IsToggle="true"><ChildContent>True</ChildContent></EjsButton>
-                    </div>
+                    <EjsButton ID="backdrop" @ref="backdropElement" CssClass='e-info inline-element right' IsToggle="true" OnButtonClick="@backbtnclick" Content="@backcontent"></EjsButton>
                     <br />
                     <br />
                 </div>
             </div>
         </div>
     </div>
-    <title>Essential JS 2 (Preview) for ASP.Net Core Sidebar-> API</title>
-    <!--end of sample level element declaration -->
 </div>
 
-@functions{
-    EjsSidebar sidebar;
+@code {
+    EjsSidebar sidebarObj;
     EjsButton positionElement;
+    EjsButton documentclickElement;
+    EjsButton backdropElement;
+    EjsDropDownList dropValue;
 
-    public class typeData{
+    public bool closeOnDocumentClick = false;
+    public bool showBackdrop = false;
+    public string hamburgerclass = "e-icons menu";
+    public string content = "Right";
+    public string backcontent = "True";
+    public string docContent = "True";
+    public SidebarPosition Position { get; set; } = SidebarPosition.Left;
+    public SidebarType Type { get; set; } = SidebarType.Push;
+
+
+    public class typeData
+    {
         public string text;
     }
     private List<typeData> data { get; set; } = new List<typeData> {
-        new typeData { text = "Over" },
         new typeData { text = "Push" },
+        new typeData { text = "Over" },
         new typeData { text = "Slide" },
         new typeData { text = "Auto" }
     };
-    private SidebarPosition Position { get; set; } = SidebarPosition.Left;
-    private void togglebtnclick() {
-        this.sidebar.Toggle();
+
+    private void togglebtnclick()
+    {
+        this.sidebarObj.Toggle();
     }
-    private void positionbtnclick() {
-        this.positionElement.Content = "Left";
-        this.sidebar.Position = SidebarPosition.Right;
+    private void positionbtnclick(UIMouseEventArgs args)
+    {
+        if (positionElement.Content == "Right")
+        {
+            this.content = "Left";
+            this.Position = SidebarPosition.Right;
+            this.hamburgerclass = "e-icons menu e-rtl";
+        }
+        else
+        {
+            this.content = "Right";
+            this.Position = SidebarPosition.Left;
+            this.hamburgerclass = "e-icons menu";
+        }
+        positionElement.Content = this.content;
+        sidebarObj.Position = this.Position;
+        this.StateHasChanged();
     }
-    private void docbtnclick() {
-        JsRuntime.InvokeAsync<string> ("alert", "Button Created");
+    private void docbtnclick(UIMouseEventArgs args)
+    {
+        if (documentclickElement.Content == "True")
+        {
+            this.docContent = "False";
+            this.closeOnDocumentClick = true;
+        }
+        else
+        {
+            this.docContent = "True";
+            this.closeOnDocumentClick = false;
+        }
+        this.documentclickElement.Content = this.docContent;
+        this.sidebarObj.CloseOnDocumentClick = this.closeOnDocumentClick;
+        this.StateHasChanged();
     }
-    private void backbtnclick() {
-        JsRuntime.InvokeAsync<string> ("alert", "Button Created");
+    private void backbtnclick(UIMouseEventArgs args)
+    {
+        if (this.backdropElement.Content == "True")
+        {
+            this.backcontent = "False";
+            this.showBackdrop = true;
+        }
+        else
+        {
+            this.backcontent = "True";
+            this.showBackdrop = false;
+        }
+        this.sidebarObj.ShowBackdrop = this.showBackdrop;
+        this.backdropElement.Content = this.backcontent;
+        this.StateHasChanged();
     }
-    public void show() {
-        this.sidebar.Show();
+    public void show()
+    {
+        this.sidebarObj.Show();
     }
-    public void close() {
-        this.sidebar.Hide();
+    public void close()
+    {
+        this.sidebarObj.Hide();
+    }
+    public void onChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args)
+    {
+        if (args.Value.ToString() == "Over")
+        {
+            this.Type = SidebarType.Over;
+        }
+        else if (args.Value.ToString() == "Push")
+        {
+            this.Type = SidebarType.Push;
+        }
+        else if (args.Value.ToString() == "Slide")
+        {
+            this.Type = SidebarType.Slide;
+        }
+        else
+        {
+            this.Type = SidebarType.Auto;
+        }
+        this.sidebarObj.Type = this.Type;
+        this.StateHasChanged();
     }
 }
 
 <style>
+    /* custom code start */
     .responsive {
         width: 80%;
     }
@@ -135,7 +204,7 @@
         text-align: center;
         padding: 20px;
     }
-
+    /* custom code end */
     .title {
         color: #000000;
         font-weight: 500;
@@ -143,7 +212,7 @@
         font-size: 18px;
         margin: 0px;
     }
-
+    /* custom code start */
     body {
         font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif";
         margin: 0px;
@@ -153,7 +222,7 @@
     }
     /* End of content area styles */
     /* property content styles */
-
+    /* custom code end */
     #types {
         background-color: #ffffff;
         border: none;
@@ -175,7 +244,7 @@
         padding: 60px 10px 10px 45px;
         font-size: 14px;
     }
-
+    /* custom code start */
     .center {
         text-align: center;
         display: none;
@@ -192,6 +261,7 @@
         display: none
     }
     /* end of property content styles */
+    /* custom code end */
     /* sidebar styles */
 
     .content {
@@ -243,14 +313,14 @@
         z-index: 1000;
     }
 
-    #hamburger.menu:before {
-        content: '\e10d';
-    }
+        #hamburger.menu:before {
+            content: '\e10d';
+        }
 
-    #hamburger.menu.e-rtl {
-        position: relative;
-        float: right;
-    }
+        #hamburger.menu.e-rtl {
+            position: relative;
+            float: right;
+        }
 
     #wrapper #close:before {
         content: "\e109";
@@ -279,7 +349,7 @@
         font-weight: normal;
         font-style: normal;
     }
-
+    /* custom code start */
     .ej2-new .sb-header,
     .ej2-new .sb-bread-crumb,
     .ej2-new #action-description,
@@ -335,4 +405,5 @@
         top: 0;
     }
     /* end of newTab support */
+    /* custom code end */
 </style>

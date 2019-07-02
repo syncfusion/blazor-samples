@@ -1,0 +1,84 @@
+﻿@page "/Schedule/GroupByChild"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Hierarchical Grouping";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+This demo illustrates the work progress under two different projects which are categorized as 'Development' and 'Testing',
+            since both the projects comes across the two common stages.
+
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@"<p>
+   In this demo, there are two resource levels defined under the
+            <code>resources</code> property - one with the name
+            <code>Projects</code> and other with the name
+            <code>Categories</code> respectively. Also, both the names are defined in the
+            <code>Group</code> property to allow two level hierarchical grouping. The order of grouping depends on the order of names passed onto
+            the
+            <code>Resources</code> option within
+            <code>Group</code>. The requirement here is to categorize the sub-options that are common to both the projects and therefore to enable
+            such grouping, it is necessary to set
+            <code>ByGroupID</code> option within the
+            <code>GroupID</code> - whereby allowing all the resources available in each child level to group under its parent resources. With this
+            option available, we can avoid the need to provide multiple definitions of the same data to be grouped under different
+            parent.
+        </p>
+        <p>
+            Also, the colors defined at the last level resources will get applied to the events of those resources by default. In case,
+            if the colors of parent level needs to be applied to child events, then it is necessary to define the
+            <code>resourceColorField</code> option within the
+            <code>eventSettings</code> property with the parent level resource name value.
+</p>"
+};
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsSchedule ID="schedule" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="new DateTime(2018, 6, 5)" StartHour="09:00" EndHour="19:00">
+            <ScheduleGroup ByGroupID="false" Resources="@GroupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource DataSource="@Projects" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="text" IdField="id" ColorField="color"></ScheduleResource>
+                <ScheduleResource DataSource="@Categories" Field="CategoryId" Title="Category" Name="Categories" TextField="text" IdField="id" ColorField="color" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleEventSettings DataSource="@Data.GetResourceTeamData()">
+                <ScheduleField>
+                    <FieldSubject Name="Subject" Title="Summary"></FieldSubject>
+                    <FieldDescription Name="Description" Title="Comments"></FieldDescription>
+                </ScheduleField>
+            </ScheduleEventSettings>
+        </EjsSchedule>
+    </div>
+</div>
+<style type="text/css">
+    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
+        width: 90px;
+    }
+
+    .e-schedule .e-agenda-view .e-resource-column {
+        width: 100px;
+    }
+</style>
+
+@code{
+    static ScheduleData Data = new ScheduleData();
+    public string[] GroupData = new string[] { "Projects", "Categories" };
+    private List<object> Projects { get; set; } = new List<object> {
+        new { text = "PROJECT 1", id = 1, color = "#cb6bb2" },
+        new  { text = "PROJECT 2", id = 2, color = "#56ca85" }
+    };
+    private List<object> Categories { get; set; } = new List<object>
+    {
+        new { text = "Development", id = 1, color = "#df5286" },
+        new  { text = "Testing", id = 2, color = "#7fa900" }
+    };
+}

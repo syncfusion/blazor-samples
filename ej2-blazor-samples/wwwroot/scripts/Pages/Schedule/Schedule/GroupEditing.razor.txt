@@ -1,0 +1,85 @@
+﻿@page "/Schedule/GroupEditing"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Shared Events";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+           This demo illustrates the usage of single event that are shared by multiple resources.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+           In this demo,
+            <code>AllowGroupEdit</code> option is set to true within the
+            <code>Group</code> property to enable the same event to be shared with multiple resources. With this property enabled, a single appointment
+            object will be maintained within the appointment collection, even if it is shared by more than one resource - whereas
+            the resource fields of such appointment object will hold the IDs of the multiple resources separated by commas. Any
+            actions such as create, edit or delete held on any one of the event, will be reflected on all other related instances
+            visible on the UI. The
+            <code>AllowMultiple</code> option when set as true within the
+            <code>Resource</code> property, will allow the user to select multiple resources from the resource field of editor window, while trying
+            to create appointments.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsSchedule ID="schedule" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="new DateTime(2018, 6, 5)">
+            <ScheduleGroup AllowGroupEdit="true" Resources="@GroupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource DataSource="@Conferences" Field="ConferenceId" Title="Attendees" Name="Conferences" TextField="text" IdField="id" ColorField="color" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@Data.GetResourceConferenceData()">
+                <ScheduleField>
+                    <FieldSubject Name="Subject" Title="Conference Name"></FieldSubject>
+                    <FieldStartTime Name="StartTime" Title="From"></FieldStartTime>
+                    <FieldEndTime Name="EndTime" Title="To"></FieldEndTime>
+                    <FieldDescription Name="Description" Title="Summary"></FieldDescription>
+                </ScheduleField>
+            </ScheduleEventSettings>
+        </EjsSchedule>
+    </div>
+</div>
+<style>
+    .schedule-demo-heading {
+        font-size: 16px;
+        padding-bottom: 15px;
+        text-align: center;
+        font-weight: 500;
+    }
+       
+    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
+        width: 110px;
+    }
+
+    @@media (max-width: 550px) {
+        .schedule-demo-heading {
+            font-size: 14px;
+        }
+    }
+</style>
+
+@code{
+    static ScheduleData Data = new ScheduleData();
+    public string[] GroupData = new string[] { "Conferences" };
+    private List<object> Conferences { get; set; } = new List<object> {
+        new { text = "Margaret", id = 1, color = "#1aaa55" },
+        new { text = "Robert", id = 2, color = "#357cd2" },
+        new { text = "Laura", id = 3, color = "#7fa900" }
+    };
+}

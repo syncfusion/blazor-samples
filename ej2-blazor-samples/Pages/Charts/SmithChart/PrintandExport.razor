@@ -1,0 +1,184 @@
+﻿@page "/SmithChart/PrintandExport"
+@using Syncfusion.EJ2.Blazor.Charts;
+@using Syncfusion.EJ2.Blazor.Buttons;
+@using Syncfusion.EJ2.Blazor.DropDowns;
+@using Syncfusion.EJ2.Blazor.Inputs;
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Print and Export";
+    SampleBrowser.CurrentControlName = "SmithChart";
+    SampleBrowser.CurrentControlCategory = "SmithChart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.SmithChart;
+    SampleBrowser.ActionDescription = new string[] {
+        @" <p>
+        This sample explores the exporting and printing functionality in Smith chart.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        In this example, you can see how to export and print the rendered Smith chart. Smith chart can be exported to JPEG, PNG, SVG, and PDF formats.
+    </p>
+    "
+    };
+}
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    
+        <div id="container">
+            <EjsSmithchart ID="smithchart" @ref="@smithChart">
+                <SmithChartHorizontalAxis>
+                    <SmithchartMinorGridLines Visible="true"></SmithchartMinorGridLines>
+                </SmithChartHorizontalAxis>
+                <SmithChartRadialAxis>
+                    <SmithchartMinorGridLines Visible="true"></SmithchartMinorGridLines>
+                </SmithChartRadialAxis>
+                <SmithchartSeriesCollection>
+                    <SmithchartSeries Name="Transmission" EnableAnimation="true"
+                                      Points="@dataSource">
+                        <SmithchartSeriesTooltip Visible="true"></SmithchartSeriesTooltip>
+                        <SmithchartSeriesMarker Shape="Circle" Visible="true">
+                            <SmithchartSeriesMarkerBorder Width="2"></SmithchartSeriesMarkerBorder>
+                        </SmithchartSeriesMarker>
+                    </SmithchartSeries>
+                    <SmithchartLegendSettings Visible="true" Shape="Circle"></SmithchartLegendSettings>
+                </SmithchartSeriesCollection>
+            </EjsSmithchart>
+        </div>
+    
+</div>
+<div class="col-lg-3 property-section">
+     <div class="property-panel-section">
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <table id="property" title="Properties" style="width: 100%" class="property-panel-table">
+
+                    <tbody>
+                        <tr style="height: 50px">
+                            <td style="width: 40%">
+                                <div class="property-text">Export Type</div>
+                            </td>
+                            <td style="width: 60%;">
+                                <div style="margin-left: -10px">
+                                    <EjsDropDownList ID="spark"  DataSource="@fileTypes" Value="@fileType">
+                                        <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                                    </EjsDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height: 50px">
+                            <td style="width: 40%">
+                                <div class="property-text">File Name</div>
+                            </td>
+                            <td style="width: 60%;">
+                                <div class="e-float-input" style="margin-top: 0px;  margin-left: -10px">
+                                    <EjsTextBox id='firstname' Value="@fileName" placeholder='Smith chart'></EjsTextBox>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="button-control1">
+                            <td>
+                                <div style="height: 45px;margin-left:50%; text-transform:none !important; width: 80px; ">
+                                    <EjsButton id="export" Content="Export" onclick="@exportClick" CssClass="e-info"  IsToggle="true" IsPrimary="true"></EjsButton>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="button-control2">
+                            <td>
+                                <div style="height: 45px;margin-left:50% ;text-transform:none !important;width: 80px;">
+                                    <EjsButton id="print" Content="Print" onclick="@printClick" CssClass="e-info" IsToggle="true" IsPrimary="true"></EjsButton>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>               
+            </div>
+         
+     </div>
+</div>
+
+@code {
+
+EjsSmithchart smithChart;
+private String fileType { get; set; } = "JPEG";
+private String fileName { get; set; } = "Smith chart";
+
+public class SmithDataSource
+{
+    public Double resistance;
+    public Double reactance;
+};
+public List<SmithDataSource> dataSource = new List<SmithDataSource>
+{
+        new SmithDataSource { resistance= 0.15, reactance= 0.01 },
+        new SmithDataSource { resistance= 0.15, reactance= 0.15 },
+        new SmithDataSource { resistance= 0.18, reactance= 0.3 },
+        new SmithDataSource { resistance= 0.2, reactance= 0.4 },
+        new SmithDataSource { resistance= 0.25, reactance= 0.6 },
+        new SmithDataSource { resistance= 0.38, reactance= 0.95 },
+        new SmithDataSource { resistance= 0.6, reactance= 1.25 },
+        new SmithDataSource { resistance= 1, reactance= 1.6 },
+        new SmithDataSource { resistance= 1.65, reactance= 1.9 },
+        new SmithDataSource { resistance= 2.75, reactance= 2 },
+        new SmithDataSource { resistance= 4.5, reactance= 0.01 },
+        new SmithDataSource { resistance= 3, reactance= -2 },
+        new SmithDataSource { resistance= 1.65, reactance= -1.95 },
+        new SmithDataSource { resistance= 1, reactance= -1.65 },
+        new SmithDataSource { resistance= 0.6, reactance= -1.25 },
+        new SmithDataSource { resistance= 0.35, reactance= -0.9 },
+        new SmithDataSource { resistance= 0.25, reactance= -0.6 },
+        new SmithDataSource { resistance= 0.25, reactance= -0.4 },
+        new SmithDataSource { resistance= 0.25, reactance= -0.3 },
+        new SmithDataSource { resistance= 0.25, reactance= -0.15 },
+        new SmithDataSource { resistance= 0.25, reactance= 0.01 },
+};
+
+public class Typelist
+{
+    public String Value { get; set; }
+    public String Name { get; set; }
+}
+public List<Typelist> fileTypes = new List<Typelist>
+{
+    new Typelist{Name="JPEG" , Value="JPEG"},
+    new Typelist{Name="PNG" , Value="PNG"},
+    new Typelist{Name="SVG" , Value="SVG"},
+    new Typelist{Name="PDF" , Value="PDF"}
+};
+private void smithValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args)
+{    
+    fileType = (args.Value).ToString();
+    this.StateHasChanged();
+
+}
+private void nameChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs args1)
+{
+    fileName = args1.Value;
+}
+private void exportClick(UIMouseEventArgs args)
+{
+    SmithchartExportType exportFileType = SmithchartExportType.JPEG; 
+    switch(fileType){
+        case "JPEG": 
+            exportFileType =  SmithchartExportType.JPEG;
+            break;
+        case "PNG":
+            exportFileType =  SmithchartExportType.PNG;
+            break;
+        case "SVG": 
+            exportFileType =  SmithchartExportType.SVG;
+            break;
+        case "PDF":
+            exportFileType =  SmithchartExportType.PDF;
+            break;
+    }
+    this.smithChart.Export(exportFileType, fileName);
+}
+private void printClick(UIMouseEventArgs args)
+{
+    this.smithChart.Print();
+}
+}
+

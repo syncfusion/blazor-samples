@@ -1,7 +1,10 @@
-@page "/TreeGrid/DefaultFiltering"
+﻿@page "/TreeGrid/DefaultFiltering"
 
-@using Syncfusion.EJ2.RazorComponents.TreeGrid
-@using Syncfusion.EJ2.RazorComponents.Grids
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Data
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.DropDowns
 
 
 @*Hidden:Lines*@
@@ -64,15 +67,15 @@
     <div class="content-wrapper">
         <div class="row">
 
-            <EjsTreeGrid ID="TreeGrid" DataSource="@treedata" AllowFiltering="true" AllowSorting="true" AllowPaging="true" ChildMapping="Children" TreeColumnIndex="1">
-                <TreeGridFilterSettings Type="@Syncfusion.EJ2.RazorComponents.TreeGrid.FilterType.Menu"></TreeGridFilterSettings>
+            <EjsTreeGrid ID="TreeGrid" AllowFiltering="true" AllowPaging="true" ChildMapping="Children" TreeColumnIndex="1">
+                <EjsDataManager Json="@treedata" Adaptor="Adaptors.JsonAdaptor"></EjsDataManager>
                 <TreeGridPageSettings PageSize="10"></TreeGridPageSettings>
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="80" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="100" TextAlign="@TextAlign.Right"></TreeGridColumn>
                     <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="160"></TreeGridColumn>
                     <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" TextAlign="@TextAlign.Right"></TreeGridColumn>
                     <TreeGridColumn Field="Progress" HeaderText="Progress" Width="100" TextAlign="@TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="100"></TreeGridColumn>
                     <TreeGridColumn Field="Approved" HeaderText="Approved" Width="100" DisplayAsCheckBox="true"></TreeGridColumn>
                 </TreeGridColumns>
             </EjsTreeGrid>
@@ -80,14 +83,49 @@
     </div>
 </div>
 
+@*<div class="col-lg-3 property-section">
+    <h4 style="margin-top:28px;">Properties</h4>
+
+    <table id="property" style="width: 73%; height: 58px;">
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Hierarchy Mode</td>
+            <td>
+                <EjsDropDownList ID="modes" Index="0" PopupWidth="110px" DataSource="@lines" Change="@onchange">
+                    <DropDownListFieldSettings text="id" value="mode"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </td>
+        </tr>
+    </table>
+</div>*@
+
 @functions{
 
     EjsTreeGrid treeGrid;
 
-    public List<TreeData.BusinessObject> treedata { get; set; }
+    public class Modes
+    {
+        public string id { get; set; }
+
+        public string mode { get; set; }
+    }
+
+    List<Modes> lines = new List<Modes>()
+    {
+        new Modes(){ id= "Parent", mode= "Parent" },
+        new Modes(){ id= "Child", mode= "Child" },
+        new Modes(){ id= "Both", mode= "Both" },
+        new Modes(){ id= "None", mode= "None" },
+    };
+
+    public void onchange(object args)
+    {
+        //Fix by core team.
+    }
+
+    public TreeData.BusinessObject[] treedata { get; set; }
 
     protected override void OnInit()
     {
-        this.treedata = TreeData.GetDefaultData().ToList();
+        this.treedata = TreeData.GetDefaultData().Cast<TreeData.BusinessObject>().ToArray();
     }
 }

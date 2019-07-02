@@ -1,6 +1,7 @@
 ﻿@page "/sidebar/SidebarDock"
 
-@using Syncfusion.EJ2.RazorComponents.Navigations
+@using Syncfusion.EJ2.Blazor.Navigations
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -18,11 +19,11 @@
 
 <div class="col-lg-12 col-sm-12 col-md-12">
     <div id="wrapper">
-        <EjsSidebar ID="dockSidebar" Width="220px" DockSize="72px" EnableDock="true" @ref="sidebar">
+        <EjsSidebar ID="dockSidebar" Width="220px" DockSize="72px" EnableDock="true" Position="@Position" @ref="sidebar">
             <ChildContent>
                 <div class="dock">
                     <ul>
-                        <li class="sidebar-item" id="toggle" @onclick="@toggle">
+                        <li class="sidebar-item" id="toggle" onclick="@toggle">
                             <span class="e-icons expand"></span>
                             <span class="e-text" title="menu">Menu</span>
                         </li>
@@ -49,16 +50,42 @@
         <!-- end of sidebar element -->
         <!-- main content declaration -->
         <div id="main-content container-fluid col-md-12">
-            <div class="title">Main content</div>      
+            <div class="title">Main content</div>
+            <div class="sub-title">
+                <p>Click the radio button to switch the Sidebar position</p>
+                <div class="column">
+                    <!-- RadioButton element declaration -->
+                    <EjsRadioButton ID="left" @bind-Checked="@leftbtn" Value="Left" Label="Left" Name="state" ValueChange="@positionChange"></EjsRadioButton>
+                </div>
+                <div class="column">
+                    <!-- RadioButton element declaration -->
+                    <EjsRadioButton ID="right" Value="Right" Label="Right" Name="state" ValueChange="@positionChange"></EjsRadioButton>
+                </div>
+            </div>
         </div>
     </div>
     <title>Essential JS 2 (Preview) for ASP.Net Core Sidebar-> Dock</title>
 </div>
 
-@code{
+@code {
     EjsSidebar sidebar;
-    public void toggle() {
+    public bool leftbtn = true;
+    private SidebarPosition Position { get; set; }
+    public void toggle()
+    {
         this.sidebar.Toggle();
+    }
+    public void positionChange(Syncfusion.EJ2.Blazor.Buttons.ChangeArgs args)
+    {
+        if (args.Value == "Left")
+        {
+            this.Position = SidebarPosition.Left;
+        }
+        else
+        {
+            this.Position = SidebarPosition.Right;
+        }
+        this.StateHasChanged();
     }
 }
 
@@ -79,7 +106,7 @@
         display: inline-block;
         padding: 10px;
     }
-
+    /* custom code start */
     .center {
         text-align: center;
         display: none;
@@ -91,7 +118,7 @@
     .sb-content-tab .center {
         display: block;
     }
-
+    /* custom code end */
     /* end of content area styles */
 
     /* Sidebar styles */
@@ -200,6 +227,7 @@
         font-style: normal;
     }
     /* end of custom generated icons styles */
+    /* custom code start */
     .ej2-new .sb-header,
     .ej2-new .sb-bread-crumb,
     .ej2-new #action-description,
@@ -260,6 +288,7 @@
     }
 
     /* end of newTab support */
+    /* custom code end */
     /* end of sidebar styles */
 </style>
 

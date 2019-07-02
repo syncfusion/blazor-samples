@@ -1,0 +1,158 @@
+﻿@page "/RangeSelector/DateTimeAxis"
+@using Syncfusion.EJ2.Blazor.Charts
+@inject HttpClient Http
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "DateTime Axis";
+    SampleBrowser.CurrentControlName = "RangeNavigator";
+    SampleBrowser.CurrentControlCategory = "RangeNavigator";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        This sample represent the exchange rate analysis for USD to EUR with datetime axis.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the valueType to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>intervalType</code> of the range navigator. You can also directly set the format using the <code>labelFormat</code> property.
+    </p>"
+    };
+}
+@*End:Hidden*@
+@if (dateTimeData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section">
+        <div class="row" align="center">
+            <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">EUR Exchange Rate from USD</h4>
+            <div id="container">
+                <EjsRangeNavigator id="container" Value="@value" LabelPosition="AxisPosition.Outside" valueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
+                    <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
+                    <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+                    <RangeNavigatorSeriesCollection>
+                        <RangeNavigatorSeries Fill="url(#material-gradient-chart)" DataSource="@dateTimeData" Width="2" xName="x" type="RangeNavigatorType.Area" yName="y">
+                        </RangeNavigatorSeries>
+                    </RangeNavigatorSeriesCollection>
+                </EjsRangeNavigator>
+            </div>
+            <div id="chartcontainer">
+                <EjsChart id="area" title="Average Sales Comparison">
+                    <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+                    <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    </ChartPrimaryXAxis>
+                    <ChartPrimaryYAxis Interval="0.1" Minimum="0.6" Maximum="1" LabelFormat="n1">
+                        <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    </ChartPrimaryYAxis>
+                    <ChartSeriesCollection>
+                        <ChartSeries Fill="url(#material-gradient-chart)" DataSource="@dateTimeData" XName="x" YName="y" name="Rate" width="2" type="ChartSeriesType.Spline">
+                        </ChartSeries>
+                    </ChartSeriesCollection>
+                    <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+                        <CharCrosshairLine Color="transparent" Width="0"></CharCrosshairLine>
+                    </ChartCrosshairSettings>
+                    <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+                    <ChartLegendSettings Visible="false"></ChartLegendSettings>
+                </EjsChart>
+            </div>
+        </div>
+
+    </div>
+}
+    @code{
+        ChartData[] dateTimeData;
+        protected override async Task OnInitAsync()
+        {
+            dateTimeData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/stock-data.json");
+        }
+        class ChartData
+        {
+            public DateTime x;
+            public double y;
+        }
+        public object crosshairLine = new
+        {
+            color = "transparent",
+            width = "0"
+        };
+        DateTime[] value = new DateTime[] { new DateTime(2011, 01, 01), new DateTime(2013, 12, 31) };
+        protected void onRangeLoad(IRangeLoadedEventArgs args)
+        {
+
+        }
+        protected void onRangeChanged(IChangedEventArgs args)
+        {
+            double zoomFactor = args.ZoomFactor;
+            
+        }
+        protected void onChartLoad(ILoadedEventArgs args)
+        {
+            
+        }
+        //protected void labelRender(IAxisLabelRenderEventArgs args) {
+
+        //}
+}
+    <style>
+        #control-container {
+            padding: 0px !important;
+        }
+
+        #material-gradient-chart stop {
+            stop-color: #00bdae;
+        }
+
+        #fabric-gradient-chart stop {
+            stop-color: #4472c4;
+        }
+
+        #bootstrap-gradient-chart stop {
+            stop-color: #a16ee5;
+        }
+
+        #bootstrap4-gradient-chart stop {
+            stop-color: #a16ee5;
+        }
+
+        #highcontrast-gradient-chart stop {
+            stop-color: #79ECE4;
+        }
+
+        .chart-gradient stop[offset="0"] {
+            stop-opacity: 0.9;
+        }
+
+        .chart-gradient stop[offset="1"] {
+            stop-opacity: 0.3;
+        }
+    </style>
+    <svg style="height: 0">
+        <defs>
+            <linearGradient id="material-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+            <linearGradient id="fabric-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+            <linearGradient id="bootstrap-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+            <linearGradient id="bootstrap4-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+            <linearGradient id="highcontrast-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0"></stop>
+                <stop offset="1"></stop>
+            </linearGradient>
+        </defs>
+    </svg>

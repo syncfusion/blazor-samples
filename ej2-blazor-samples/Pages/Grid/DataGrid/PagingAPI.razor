@@ -1,0 +1,130 @@
+﻿@page "/Grid/PagingAPI"
+
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@{
+    SampleBrowser.CurrentSampleName = "Paging API";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the usage of paging API in Grid. In this sample, use the properties panel to change the page size,
+        page count and current page of the Grid.</p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>
+			Paging allows you to display the contents of the Grid in page segments. The number of items on a page is determined by
+            the <code><a target='_blank' class='code' href='http://ej2.syncfusion.com/documentation/grid/api-pageSettingsModel.html#pagesize-number'>
+            PageSettings->PageSize </a></code> property. If no value is specified for the <code><a target='_blank' class='code'
+            href='http://ej2.syncfusion.com/documentation/grid/api-pageSettingsModel.html#pagesize-number'>PageSettings->PageSize
+            </a></code> property, the Grid will display 12 items on a page. By default, paging is disabled. To enable paging,
+            set <code><a target='_blank' class='code' href='http://ej2.syncfusion.com/documentation/grid/api-grid.html#allowpaging-boolean'>AllowPaging
+            </a></code> property to true.</p>
+          <p>In this demo,</p>
+          <ul>
+             <li>Click the <strong>Allow Paging</strong> check box to enable/disable paging feature.</li>
+             <li>Change the value of <strong>Page Size</strong> textbox to change <code><a target='_blank' class='code'
+             href='http://ej2.syncfusion.com/documentation/grid/api-pageSettingsModel.html#pagesize-number'>
+             PageSettings->PageSize.</a></code></li>
+             <li>Change the value of <strong>Page Count</strong> textbox to change <code><a target='_blank' class='code'
+             href='http://ej2.syncfusion.com/documentation/grid/api-pageSettingsModel.html#pagecount-number'>
+             PageSettings->PageCount.</a></code></li>
+             <li>Change the value of <strong>Current Page</strong> textbox to change <code><a target='_blank' class='code'
+             href='http://ej2.syncfusion.com/documentation/grid/api-pageSettingsModel.html#currentpage-number'>
+             PageSettings->CurrentPage.</a></code></li>
+          </ul>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsGrid id="Grid" DataSource="@gridData" AllowPaging="true" Height="365">
+                <GridPageSettings PageCount="2" PageSizes="true"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="@TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="date" TextAlign="@TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="@TextAlign.Right" Width="120"></GridColumn>                   
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+
+        </div>
+    </div>
+</div>
+
+@*<div class="col-lg-3 property-section">
+    <h4 style="margin-top:38px;">Properties</h4>
+
+    <table id="property" style="width: 90%; height: 350px;">
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Allow Paging</td>
+            <td>
+                <EjsCheckBox ID="paging" Checked="true"></EjsCheckBox>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Page Size Mode</td>
+            <td>
+                <EjsDropDownList ID="sizemode" Index="0" PopupWidth="110px" DataSource="@sizemode" Change="@modechange">
+                    <DropDownListFieldSettings text="id" value="type"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Page Size</td>
+            <td>
+                <EjsNumericTextBox id="pagesize" value="10" format="##" min="1" max="36"></EjsNumericTextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Page Count</td>
+            <td>
+                <EjsNumericTextBox id="pagecount" value="2" format="##" min="1" max="4"></EjsNumericTextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Current Page</td>
+            <td>
+                <EjsNumericTextBox id="currentpage" value="1" format="##" min="1" max="17"></EjsNumericTextBox>
+            </td>
+        </tr>
+    </table>
+</div>*@
+
+@code{
+
+    public List<OrdersDetails> gridData { get; set; }
+
+    public class SizeMode
+    {
+        public string id { get; set; }
+
+        public string type { get; set; }
+    }
+
+    List<SizeMode> sizemode = new List<SizeMode>()
+    {
+        new SizeMode(){ id= "All", type= "All" },
+        new SizeMode(){ id= "Root", type= "Root" },
+    };
+
+    protected override void OnInit()
+    {
+        gridData = OrdersDetails.GetAllRecords();
+    }
+
+    public void modechange(object args)
+    {
+        //Fix by core team.
+    }
+}

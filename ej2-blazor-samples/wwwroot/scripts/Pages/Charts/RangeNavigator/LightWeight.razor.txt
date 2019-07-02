@@ -1,10 +1,7 @@
 @page "/Charts/LightWeight"
-@using Syncfusion.EJ2.RazorComponents.Charts
-@using System;
-@using System.Collections.Generic;
-@using System.Linq;
-@using System.Threading.Tasks;
-@using Newtonsoft.Json;
+@using Syncfusion.EJ2.Blazor.Charts
+@inject HttpClient Http
+
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -25,37 +22,32 @@
 }
 @*End:Hidden*@
 
-<div class="control-section">
+@if (lightWeightData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Calculate the Bussiness and Weekend days in a period</h4>
+        <br /><div id="datetime">
+            <EjsRangeNavigator id="range" Value="@value" IntervalType="RangeIntervalType.Months" AnimationDuration="500" LabelFormat="MMM" valueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime dataSource="@lightWeightData" xName="x" yName="y">
+                <RangeNavigatorMajorGridLines Width="0.000001"></RangeNavigatorMajorGridLines>
+            </EjsRangeNavigator>
+        </div>
+    </div>
 
-    <h4 id="default" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;" align="center">LightWeight Range Navigator</h4>
-    <EjsRangeNavigator id="range" valueType=Syncfusion.EJ2.RazorComponents.Charts.RangeValueType.DateTime dataSource="@data" xName="xValue" yName="yValue">
-        <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
-    </EjsRangeNavigator>
-
-</div>
-<style>
-    .control-section {
-        padding: 0px !important;
-    }
-</style>
-@functions{
-
-    public List<object> data { get; set; } = new List<object> {
-
-            new LineChartData { xValue = new DateTime(2005, 01, 01), yValue = 21, yValue1 = 28 },
-            new LineChartData { xValue = new DateTime(2006, 01, 01), yValue = 24, yValue1 = 44 },
-            new LineChartData { xValue = new DateTime(2007, 01, 01), yValue = 36, yValue1 = 48 },
-            new LineChartData { xValue = new DateTime(2008, 01, 01), yValue = 38, yValue1 = 50 },
-            new LineChartData { xValue = new DateTime(2009, 01, 01), yValue = 54, yValue1 = 66 },
-            new LineChartData { xValue = new DateTime(2010, 01, 01), yValue = 57, yValue1 = 78 },
-            new LineChartData { xValue = new DateTime(2011, 01, 01), yValue = 70, yValue1 = 84 },
-        };
-
-    public class LineChartData
+}
+@code{
+    ChartData[] lightWeightData;
+    protected override async Task OnInitAsync()
     {
-        public DateTime xValue;
-        public double yValue;
-        public double yValue1;
-    };
-
+        lightWeightData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/default_data.json");
+    }
+    class ChartData
+    {
+        public DateTime x;
+        public double y;
+    }
+    DateTime[] value = new DateTime[] { new DateTime(2017, 10, 01), new DateTime(2017, 11, 01) };
 }
