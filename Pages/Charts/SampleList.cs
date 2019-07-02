@@ -449,15 +449,15 @@ namespace ej2_blazor_samples
                 FileName = "IndexedCategoryAxis.razor",
                 Type = SampleType.New
             },
-              new Sample
-            {
-                Name = "Logarithmic Axis",
-                Category = "Chart Axes",
-                Directory = "Charts/Chart",
-                Url = "Charts/LogarithmicAxis",
-                FileName = "LogarithmicScale.razor",
-                Type = SampleType.New
-            },
+            //  new Sample
+            //{
+            //    Name = "Logarithmic Axis",
+            //    Category = "Chart Axes",
+            //    Directory = "Charts/Chart",
+            //    Url = "Charts/LogarithmicAxis",
+            //    FileName = "LogarithmicScale.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Multiple Axis",
@@ -587,37 +587,37 @@ namespace ej2_blazor_samples
                 FileName = "Multilevel.razor",
                 Type = SampleType.New
             },
-             new Sample
-             {
-                Name = "Empty Points",
-                Category = "Customization",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/EmptyPoint",
-                FileName = "EmptyPoint.razor",
-                Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "Filter",
-                Category = "Customization",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/Filter",
-                FileName = "Filter.razor",
-                Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "Print and Export",
-                Category = "Export",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/PrintExport",
-                FileName = "PrintExport.razor",
-                Type = SampleType.New
-            },
+            // new Sample
+            // {
+            //    Name = "Empty Points",
+            //    Category = "Customization",
+            //    Directory = "Charts/RangeNavigator",
+            //    Url = "RangeSelector/EmptyPoint",
+            //    FileName = "EmptyPoint.razor",
+            //    Type = SampleType.New
+            //},
+            // new Sample
+            // {
+            //    Name = "Filter",
+            //    Category = "Customization",
+            //    Directory = "Charts/RangeNavigator",
+            //    Url = "RangeSelector/Filter",
+            //    FileName = "Filter.razor",
+            //    Type = SampleType.New
+            //},
+            // new Sample
+            // {
+            //    Name = "Print and Export",
+            //    Category = "Export",
+            //    Directory = "Charts/RangeNavigator",
+            //    Url = "RangeSelector/PrintExport",
+            //    FileName = "PrintExport.razor",
+            //    Type = SampleType.New
+            //},
              new Sample
              {
                 Name = "RTL",
-                Category = "RTL",
+                Category = "Right To Left",
                 Directory = "Charts/RangeNavigator",
                 Url = "RangeSelector/RTL",
                 FileName = "RTL.razor",
@@ -686,15 +686,15 @@ namespace ej2_blazor_samples
                 FileName = "Default.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Hide Selector",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/HidePeriodSelector",
-                FileName = "Hide Selector.razor",
-                Type = SampleType.New
-            },
+            //new Sample
+            //{
+            //    Name = "Hide Selector",
+            //    Category = "Stock Chart",
+            //    Directory = "Charts/StockChart",
+            //    Url = "StockChart/HidePeriodSelector",
+            //    FileName = "Hide Selector.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "OHLC",
