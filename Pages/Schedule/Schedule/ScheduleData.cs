@@ -5992,6 +5992,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public string CategoryColor { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class BlockData
         {
@@ -6003,6 +6006,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public bool IsBlock { get; set; }
             public bool IsAllDay { get; set; }
             public int EmployeeId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
 
         public class AppointmentData
@@ -6013,6 +6019,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public string CategoryColor { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class ResourceData
         {
@@ -6023,6 +6032,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public bool IsAllDay { get; set; }
             public int ProjectId { get; set; }
             public int TaskId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class ResourceTeamData
         {
@@ -6033,6 +6045,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public int ProjectId { get; set; }
             public int CategoryId { get; set; }
             public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class HeaderRowData
         {
@@ -6042,6 +6056,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime EndTime { get; set; }
             public bool IsAllDay { get; set; }
             public string CategoryColor { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class ResourceConferenceData
         {
@@ -6050,6 +6067,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public int[] ConferenceId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class RecurrenceData
         {
@@ -6061,6 +6081,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Location { get; set; }
             public string RecurrenceRule { get; set; }
             public string CategoryColor { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class FifaEventsData
         {
@@ -6075,6 +6097,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string EndTimezone { get; set; }
             public string CategoryColor { get; set; }
             public int GroupId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class HospitalData
         {
@@ -6086,6 +6111,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public int DepartmentID { get; set; }
             public int ConsultantID { get; set; }
             public string DepartmentName { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class ZooEventData
         {
@@ -6094,6 +6122,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public string CategoryColor { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class ReadonlyEventsData
         {
@@ -6102,6 +6133,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public bool IsReadonly { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
 
         public class ResourceSampleData
@@ -6111,6 +6145,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public int OwnerId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class RoomData
         {
@@ -6123,6 +6160,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public int RoomId { get; set; }
             public bool IsBlock { get; set; }
             public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
 
         public class ResourceEventsData
@@ -6133,6 +6172,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime EndTime { get; set; }
             public bool IsAllDay { get; set; }
             public int CalendarId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
 
         public class DoctorData
@@ -6143,6 +6185,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime EndTime { get; set; }
             public bool IsAllDay { get; set; }
             public int DoctorId { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class WebinarData
         {
@@ -6155,6 +6200,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string ImageName { get; set; }
             public string PrimaryColor { get; set; }
             public string SecondaryColor { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
         public class EventsData
         {
@@ -6165,6 +6213,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string EventType { get; set; }
             public string City { get; set; }
             public string CategoryColor { get; set; }
+            public string RecurrenceRule { get; set; }
+            public int? RecurrenceID { get; get; }
+            public string RecurrenceException { get; set; }
         }
 
     }
