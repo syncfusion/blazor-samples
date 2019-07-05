@@ -32,61 +32,37 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt id="baselineGantt" @ref="baselineGantt" DataSource="@ganttData" Height="450px" HighlightWeekends="true"
+            <EjsGantt id="baselineGantt" DataSource="@ganttData" Height="450px" HighlightWeekends="true"
                       TreeColumnIndex="1" AllowSelection="true" IncludeWeekend="true" DateFormat="hh:mm a"
                       ProjectStartDate="03/05/2018 09:30:00 AM" ProjectEndDate="03/05/2018 07:00:00 PM"
-                      DurationUnit="@Syncfusion.EJ2.Blazor.Gantt.DurationUnit.Minute" TimelineSettings="@timelineSettings"
+                      DurationUnit="@Syncfusion.EJ2.Blazor.Gantt.DurationUnit.Minute"
                       RenderBaseline="true">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
-                                 BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate" Child="SubTasks"></GanttTaskFields>
+                                 BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate"></GanttTaskFields>
                 <GanttColumns>
-                    <GanttColumn Field="TaskName" HeaderText="Service Name" Width="250" Format="hm"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Service Name" Width="250"></GanttColumn>
                     <GanttColumn Field="BaselineStartDate" HeaderText="Planned start time" Format="hm"></GanttColumn>
                     <GanttColumn Field="BaselineEndDate" HeaderText="Planned end time" Format="hm"></GanttColumn>
                     <GanttColumn Field="StartDate" HeaderText="Start time" Format="hm"></GanttColumn>
                     <GanttColumn Field="EndDate" HeaderText="End time" Format="hm"></GanttColumn>
                 </GanttColumns>
-                <GanttTooltipSettings Taskbar="@(@"<table>
-                                      <tbody>
-                                      <tr><td colspan='3'>${TaskName}</td></tr><tr>
-                                         <td> Start Time </td>
-                                         <td>:</td>
-                                         <td>${this.getFormatedDate(StartDate)}</td>
-                                     </tr>
-                                     <tr>
-                                         <td> End Time</td>
-                                         <td>:</td>
-                                         <td>${this.getFormatedDate(EndDate)}</td>
-                                     </tr>
-                                     <tr>
-                                         <td> Planned start time</td>
-                                         <td>:</td>
-                                         <td>${this.getFormatedDate(BaselineStartDate)}</td>
-                                     </tr>
-                                     <tr>
-                                         <td> Planned end time</td>
-                                         <td>:</td>
-                                         <td>${this.getFormatedDate(BaselineEndDate)}</td>
-                                     </tr>
-                                 </tbody>
-                             </table>")">
-                </GanttTooltipSettings>
                 <GanttDayWorkingTimeCollection>
-                    <GanttDayWorkingTime From="1" To="24"></GanttDayWorkingTime>
+                    <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
                 </GanttDayWorkingTimeCollection>
+                <GanttTimelineSettings TimelineUnitSize="65">
+			    <GanttTopTierSettings Unit="@Syncfusion.EJ2.Blazor.Gantt.TimelineViewMode.None"></GanttTopTierSettings>
+			    <GanttBottomTierSettings Unit="@Syncfusion.EJ2.Blazor.Gantt.TimelineViewMode.Minutes"
+                    Count="15" Format="hh:mm a"></GanttBottomTierSettings>
+		        </GanttTimelineSettings>
             </EjsGantt>
         </div>
     </div>
 </div>
 
-@code{
-    EjsGantt baselineGantt;
-    public object ganttData { get; set; }
-    public object timelineSettings { get; set; }
-    protected override void OnAfterRender()
+@functions{
+    public List<GanttData.GanttDataSource> ganttData { get; set; }    
+    protected override void OnInit()
     {
-        ganttData = this.baselineGantt.DataSource = GanttData.BaselineData();
-        timelineSettings = this.baselineGantt.TimelineSettings = new { timelineUnitSize= 65, topTier = new  { unit= "None"},
-            bottomTier= new { unit= "Minutes", count=15, format="hh:mm a"} };
+        this.ganttData = GanttData.BaselineData().ToList();        
     }
 }

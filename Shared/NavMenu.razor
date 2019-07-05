@@ -9,88 +9,88 @@
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 @inject IJSRuntime JsRuntime;
 
-<EjsTreeView ID="controlTree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" NodeSelected="@onNodeClick" @ref="treeView"></EjsTreeView>
+<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@TreeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" NodeSelected="@OnNodeClick" @ref="ComponentsTree"></EjsTreeView>
 
 <div id="controlSamples" class="time-duration">
-    <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@toggle">
+    <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnToggle">
         <div class="e-icons sb-icons back-icon"></div>
         <div class='control-name'>All Controls</div>
     </div>
-    <EjsListView id="controlList" CssClass="@ListClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="controlList" Selected="@OnSampleSelect"></EjsListView>
+    <EjsListView id="sample-list" CssClass="@ListClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" Selected="@OnSampleSelect"></EjsListView>
 </div>
 
 @code {
 
-    EjsListView controlList;
-    EjsTreeView treeView;
+    EjsListView SampleList;
+    EjsTreeView ComponentsTree;
 
-    private string treeviewClass { get; set; } = "e-view time-duration sb-hide";
+    private string TreeviewClass { get; set; } = "e-view time-duration sb-hide";
 
     private string ListClass { get; set; } = "e-view sb-control-list-top";
 
     Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings DataSource = new Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings
     {
-        DataSource = SampleBrowser.SampleList.GroupBy(u => u.Category).Select(g =>
+        DataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
         {
-            List<SampleList> lst = g.ToList();
-            lst.OrderBy(ob => ob.Order);
-            lst.ForEach(sam =>
+            List<SampleList> SampleItems = samples.ToList();
+            SampleItems.OrderBy(orderBy => orderBy.Order);
+            SampleItems.ForEach(sampleItem =>
             {
-                sam.Samples.ForEach(curSam =>
+                sampleItem.Samples.ForEach(currentSample =>
                 {
-                    SampleBrowser.SampleUrls.Add(curSam.Url);
+                    SampleBrowser.SampleUrls.Add(currentSample.Url);
                 });
             });
-            return new { dataSource = lst, Name = lst[0].Category, UID = g.Key, expanded = true };
+            return new { dataSource = SampleItems, Name = SampleItems[0].Category, UID = samples.Key, expanded = true };
         }),
         Id = "UID",
         Text = "Name",
         Child = "dataSource"
     };
 
-    private void onNodeClick(object arg)
+    private void OnNodeClick(object args)
     {
-        string adc = JsonConvert.SerializeObject(arg);
-        TreeViewEventModel data = JsonConvert.DeserializeObject<TreeViewEventModel>(adc, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        if (data.nodeData.parentID != null)
+         string ArgsString = JsonConvert.SerializeObject(args);
+        TreeViewEventModel Data = JsonConvert.DeserializeObject<TreeViewEventModel>(ArgsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        if (Data.nodeData.parentID != null)
         {
-            SampleBrowser.CurrentControl = SampleBrowser.Config.GetType().GetProperty(data.nodeData.text).GetValue(SampleBrowser.Config) as List<Sample>;
+            SampleBrowser.CurrentControl = SampleBrowser.Config.GetType().GetProperty(Data.nodeData.text).GetValue(SampleBrowser.Config) as List<Sample>;
             this.ListClass = "e-view sb-control-list-top";
-            this.treeviewClass = "e-view time-duration sb-hide";
+            this.TreeviewClass = "e-view time-duration sb-hide";
             this.ListDataSource = SampleBrowser.CurrentControl;
             base.StateHasChanged();
             JsRuntime.InvokeAsync<Object>("viewSwitch", this.ListClass);
         }
     }
 
-    public void toggle()
+    public void OnToggle()
     {
-        if (this.treeviewClass.Contains("sb-hide"))
+        if (this.TreeviewClass.Contains("sb-hide"))
         {
-            this.treeviewClass = "e-view time-duration";
+            this.TreeviewClass = "e-view time-duration";
             this.ListClass = "sb-hide";
-            this.treeView.DataBind();
+            this.ComponentsTree.DataBind();
             JsRuntime.InvokeAsync<Object>("viewSwitch", this.ListClass);
         }
     }
 
-    public void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs arg)
+    public void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs args)
     {
-        string CompareUrl="";
-        string ad = JsonConvert.SerializeObject(arg);
-        ListViewEvent data = JsonConvert.DeserializeObject<ListViewEvent>(ad, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        List<string> ls = new List<string>();
-        List<string> ls1 = new List<string>();
-        if (SampleBrowser.CurrentUrl != data.data.Url || data.data.Url != CompareUrl)
+        string ArgsString = JsonConvert.SerializeObject(args);
+        ListViewEvent SampleData = JsonConvert.DeserializeObject<ListViewEvent>(ArgsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        string CompareUrl = string.Empty;
+        List<string> ActionDescriptionItems = new List<string>();
+        List<string> DescriptionItems = new List<string>();
+        if (SampleBrowser.CurrentUrl != SampleData.data.Url || SampleData.data.Url != CompareUrl)
         {
             CompareUrl = SampleBrowser.CurrentUrl;
             if (SampleBrowser.ActionDescription != null)
             {
-                foreach (string element1 in SampleBrowser.ActionDescription)
+                foreach (string Element in SampleBrowser.ActionDescription)
                 {
-                    ls.Add(element1);
+                    ActionDescriptionItems.Add(Element);
                 }
-                JsRuntime.InvokeAsync<Object>("updateActionDescription", ls);
+                JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
             }
             else
             {
@@ -98,11 +98,11 @@
             }
             if (SampleBrowser.Description != null)
             {
-                foreach (string element in SampleBrowser.Description)
+                foreach (string Element in SampleBrowser.Description)
                 {
-                    ls1.Add(element);
+                    DescriptionItems.Add(Element);
                 }
-                JsRuntime.InvokeAsync<Object>("updateDescription", ls1);
+                JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
             }
             else
             {
@@ -111,26 +111,27 @@
 
             JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
 
-            var temp = JsRuntime.InvokeAsync<Object>("persistURL", data.data, new List<string>());
+            var temp = JsRuntime.InvokeAsync<Object>("persistURL", SampleData.data, new List<string>());
 
-            UriHelper.NavigateTo(data.data.Url);
-            SampleBrowser.CurrentUrl = data.data.Url;
+            UriHelper.NavigateTo(SampleData.data.Url);
+            SampleBrowser.CurrentUrl = SampleData.data.Url;
         }
     }
 
 
     [Parameter]
-    private object ListDataSource { get; set; } = new List<Sample>();
+    private List<Sample> ListDataSource { get; set; } = new List<Sample>();
 
     protected override void OnAfterRender()
     {
-        this.ListDataSource = this.controlList.DataSource = SampleBrowser.CurrentControl;
-        this.controlList.DataBind();
-        SampleBrowser.CurrentControl.ForEach(f =>
+        this.ListDataSource = SampleBrowser.CurrentControl;
+        this.SampleList.DataSource = this.ListDataSource;
+        this.SampleList.DataBind();
+        SampleBrowser.CurrentControl.ForEach(sample =>
         {
-            if (f.Name == SampleBrowser.CurrentSampleName)
+            if (sample.Name == SampleBrowser.CurrentSampleName)
             {
-                SampleBrowser.CurrentUrl = f.Url;
+                SampleBrowser.CurrentUrl = sample.Url;
             }
         });
     }
@@ -142,5 +143,4 @@
         Text = "Name",
         SortBy = "Order"
     };
-
 }

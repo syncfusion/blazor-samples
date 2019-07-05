@@ -17,24 +17,6 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
-             new Sample
-            {
-                Name = "CustomToolbar",
-                Category = "PdfViewer",
-                Directory = "Viewer/PdfViewer",
-                Url = "Viewer/CustomToolbar",
-                FileName = "CustomToolbar.razor",
-                Type = SampleType.New
-            },
-             new Sample
-            {
-                Name = "RightToLeft",
-                Category = "PdfViewer",
-                Directory = "Viewer/PdfViewer",
-                Url = "Viewer/RightToLeft",
-                FileName = "RightToLeft.razor",
-                Type = SampleType.New
-            }
         };
     }
 }

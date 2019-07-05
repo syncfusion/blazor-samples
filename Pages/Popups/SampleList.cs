@@ -48,7 +48,7 @@ namespace ej2_blazor_samples
         public List<Sample> Tooltip { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Default Functionalities",
+                Name = "Default",
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
                 Url = "Tooltip/Default",
@@ -57,7 +57,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Html Template",
+                Name = "HtmlTemplate",
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
                 Url = "Tooltip/HtmlTemplate",

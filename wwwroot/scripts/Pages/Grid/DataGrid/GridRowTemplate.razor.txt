@@ -1,0 +1,154 @@
+﻿@page "/Grid/RowTemplate"
+
+@using Syncfusion.EJ2.Blazor.Grids
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+
+@{
+    SampleBrowser.CurrentSampleName = "Row Template";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the Grid component with the row template feature. In this sample, we have rendered each Grid
+			row using the template.</p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>
+				The RowTemplate has an option to customize the look and behavior of the grid rows.
+                The <strong>RowTemplate</strong> should be wrapped around a component named <strong>GridTemplates</strong>.
+                The RowTemplate content must be <strong>TD</strong> elements and the number of <strong>TD</strong> elements must match the number of grid columns..
+			</p>
+			<p>
+				In this demo, we have presented Employee Information with Employee Photo in the first column and employee details like Name,
+				Address etc. in the second column.
+			</p>"
+    };
+}
+@*End:Hidden*@
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <EjsGrid ID="Grid" ModelType="@model" DataSource="@gridData" Height="335">
+                <GridTemplates>
+                    <RowTemplate>
+                        @{
+                            var employee = (context as Employee);
+                            <td class="photo">
+                                 <img src="@UriHelper.ToAbsoluteUri($"images/Grid/{employee.EmployeeID}.png")" alt="@employee.EmployeeID" />                            </td>
+                            <td class="details">
+                                <table class="CardTable" cellpadding="3" cellspacing="2">
+                                    <colgroup>
+                                        <col width="50%">
+                                        <col width="50%">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td class="CardHeader">First Name </td>
+                                            <td>@employee.FirstName </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CardHeader">Last Name</td>
+                                            <td>@employee.LastName </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CardHeader">
+                                                Title
+                                            </td>
+                                            <td>
+                                                @employee.Title
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CardHeader">
+                                                Birth Date
+                                            </td>
+                                            <td>
+                                                @employee.BirthDate.ToShortDateString()
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="CardHeader">
+                                                Hire Date
+                                            </td>
+                                            <td>
+                                                @employee.HireDate.ToShortDateString()
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        }
+                    </RowTemplate>
+                </GridTemplates>
+                <GridColumns>
+                    <GridColumn HeaderText="Employee Image" width="150" TextAlign="@TextAlign.Center"> </GridColumn>
+                    <GridColumn HeaderText="Employee Details" width="300" TextAlign="@TextAlign.Left"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+        </div>
+    </div>
+</div>
+
+<style type="text/css" class="cssStyles">
+    .photo img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .photo,
+    .details {
+        border-color: #e0e0e0;
+        border-style: solid;
+    }
+
+    .photo {
+        border-width: 1px 0px 0px 0px;
+        text-align: center;
+    }
+
+    .details {
+        border-width: 1px 0px 0px 0px;
+        padding-left: 18px;
+    }
+
+    .e-bigger .details {
+        padding-left: 25px;
+    }
+
+    .e-device .details {
+        padding-left: 8px;
+    }
+
+    .details > table {
+        width: 100%;
+    }
+
+    .CardHeader {
+        font-weight: 600;
+    }
+
+    td {
+        padding: 2px 2px 3px 4px;
+    }
+</style>
+
+@code{
+
+    public List<Employee>
+    gridData { get; set; }
+    public Employee model = new Employee();
+
+    protected override void OnInit()
+    {
+    gridData = Employee.GetAllRecords();
+    }
+    }

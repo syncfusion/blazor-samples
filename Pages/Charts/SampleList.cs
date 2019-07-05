@@ -10,7 +10,7 @@ namespace ej2_blazor_samples
        public List<Sample> Chart { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Line",
+                Name = "Line Chart",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
                 Url = "Charts/DefaultFunctionalities",
@@ -19,7 +19,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Spline",
+                Name = "Spline Chart",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
                 Url = "Charts/Spline",
@@ -217,7 +217,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Bubble",
+                Name = "Bubble Chart",
                 Category = "Scatter and Bubble",
                 Directory = "Charts/Chart",
                 Url = "Charts/Bubble",
@@ -253,7 +253,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Trendlines",
+                Name = "TrendLines",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
                 Url = "Charts/TrendLines",
@@ -262,7 +262,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "MultiSeries Chart",
+                Name = "Multi Series Chart",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
                 Url = "Charts/MultiSeriesChart",
@@ -280,7 +280,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Pie",
+                Name = "Pie Chart",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "Charts/Pie",
@@ -289,7 +289,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Pie With Radius",
+                Name = "Pie Radius",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "Charts/PieRadius",
@@ -298,7 +298,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Donut",
+                Name = "Donut Chart",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "Charts/Donut",
@@ -316,7 +316,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Funnel",
+                Name = "Funnel Chart",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "Charts/Funnel",
@@ -361,7 +361,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Stacked Area",
+                Name = "Polar StackedArea",
                 Category = "Polar Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarStackedArea",
@@ -397,7 +397,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Polar Range Column",
+                Name = "Polar RangeColumn",
                 Category = "Polar Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarRangeColumn",
@@ -449,15 +449,15 @@ namespace ej2_blazor_samples
                 FileName = "IndexedCategoryAxis.razor",
                 Type = SampleType.New
             },
-              new Sample
-            {
-                Name = "Logarithmic Axis",
-                Category = "Chart Axes",
-                Directory = "Charts/Chart",
-                Url = "Charts/LogarithmicAxis",
-                FileName = "LogarithmicScale.razor",
-                Type = SampleType.New
-            },
+            //  new Sample
+            //{
+            //    Name = "Logarithmic Axis",
+            //    Category = "Chart Axes",
+            //    Directory = "Charts/Chart",
+            //    Url = "Charts/LogarithmicAxis",
+            //    FileName = "LogarithmicScale.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Multiple Axis",
@@ -523,7 +523,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Track ball",
+                Name = "Trackball",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
                 Url = "Charts/Trackball",
@@ -560,24 +560,24 @@ namespace ej2_blazor_samples
                 FileName = "LightWeight.razor",
                 Type = SampleType.New
             },
-             new Sample
-             {
-                Name = "DateTime Axis",
-                Category = "Axis",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/DateTimeAxis",
-                FileName = "DateTimeAxis.razor",
-                Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "Numeric Axis",
-                Category = "Axis",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/NumericAxis",
-                FileName = "NumericAxis.razor",
-                Type = SampleType.New
-            },
+            //  new Sample
+            //  {
+            //     Name = "DateTime Axis",
+            //     Category = "Axis",
+            //     Directory = "Charts/RangeNavigator",
+            //     Url = "RangeSelector/DateTimeAxis",
+            //     FileName = "DateTimeAxis.razor",
+            //     Type = SampleType.New
+            // },
+            //  new Sample
+            //  {
+            //     Name = "Numeric Axis",
+            //     Category = "Axis",
+            //     Directory = "Charts/RangeNavigator",
+            //     Url = "RangeSelector/NumericAxis",
+            //     FileName = "NumericAxis.razor",
+            //     Type = SampleType.New
+            // },
               new Sample
              {
                 Name = "Multilevel Labels",
@@ -586,43 +586,43 @@ namespace ej2_blazor_samples
                 Url = "RangeSelector/Multilevel",
                 FileName = "Multilevel.razor",
                 Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "Empty Points",
-                Category = "Customization",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/EmptyPoint",
-                FileName = "EmptyPoint.razor",
-                Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "Filter",
-                Category = "Customization",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/Filter",
-                FileName = "Filter.razor",
-                Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "Print and Export",
-                Category = "Export",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/PrintExport",
-                FileName = "PrintExport.razor",
-                Type = SampleType.New
-            },
-             new Sample
-             {
-                Name = "RTL",
-                Category = "RTL",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/RTL",
-                FileName = "RTL.razor",
-                Type = SampleType.New
             }
+            // new Sample
+            // {
+            //    Name = "Empty Points",
+            //    Category = "Customization",
+            //    Directory = "Charts/RangeNavigator",
+            //    Url = "RangeSelector/EmptyPoint",
+            //    FileName = "EmptyPoint.razor",
+            //    Type = SampleType.New
+            //},
+            // new Sample
+            // {
+            //    Name = "Filter",
+            //    Category = "Customization",
+            //    Directory = "Charts/RangeNavigator",
+            //    Url = "RangeSelector/Filter",
+            //    FileName = "Filter.razor",
+            //    Type = SampleType.New
+            //},
+            // new Sample
+            // {
+            //    Name = "Print and Export",
+            //    Category = "Export",
+            //    Directory = "Charts/RangeNavigator",
+            //    Url = "RangeSelector/PrintExport",
+            //    FileName = "PrintExport.razor",
+            //    Type = SampleType.New
+            //},
+            //  new Sample
+            //  {
+            //     Name = "RTL",
+            //     Category = "Right To Left",
+            //     Directory = "Charts/RangeNavigator",
+            //     Url = "RangeSelector/RTL",
+            //     FileName = "RTL.razor",
+            //     Type = SampleType.New
+            // }
         };
 		
 		public List<Sample> Sparkline { get; set; } = new List<Sample>{
@@ -646,7 +646,7 @@ namespace ej2_blazor_samples
             } ,
 			 new Sample
             {
-                Name = "Axis value types",
+                Name = "Axis Value Types",
                 Category = "Sparkline",
                 Directory = "Charts/Sparkline",
                 Url = "Sparkline/AxisTypes",
@@ -686,15 +686,15 @@ namespace ej2_blazor_samples
                 FileName = "Default.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Hide Selector",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/HidePeriodSelector",
-                FileName = "Hide Selector.razor",
-                Type = SampleType.New
-            },
+           // new Sample
+           // {
+           //     Name = "Hide Selector",
+           //     Category = "Stock Chart",
+           //     Directory = "Charts/StockChart",
+           //     Url = "StockChart/HidePeriodSelector",
+           //     FileName = "Hide Selector.razor",
+           //     Type = SampleType.New
+           // },
             new Sample
             {
                 Name = "OHLC",
@@ -742,7 +742,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "SplineArea",
+                Name = "Spline Area",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
                 Url = "StockChart/StockChartSplineArea",

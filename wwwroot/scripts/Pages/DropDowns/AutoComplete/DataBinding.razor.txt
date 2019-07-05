@@ -1,6 +1,7 @@
 ﻿@page "/AutoComplete/DataBinding"
 
 @using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Data
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -54,47 +55,63 @@
 @*End:Hidden*@
 
 <div class="control-section col-lg-12">
-
-    <div id='local-data'>
+    <div id='local-data' class="col-lg-6">
         <div class='content'>
             <h4>Local Data</h4>
-            <EjsAutoComplete ID="country" PlaceHolder="e.g. Australia" DataSource="@localdata" SortOrder="@sort" AutoFill="true" FilterType="@Syncfusion.EJ2.Blazor.DropDowns.FilterType.StartsWith" Fields="@AutoCompleteFieldSettings"></EjsAutoComplete>
+            <EjsAutoComplete ID="country" PlaceHolder="e.g. Australia" DataSource="@Country" SortOrder="@Sort" AutoFill="true">
+                <AutoCompleteFieldSettings Value="Name"></AutoCompleteFieldSettings>
+            </EjsAutoComplete>
+        </div>
+    </div>
+    <div id='remote-data' class="col-lg-6">
+        <div class='content'>
+            <h4>Remote Data</h4>
+            <EjsAutoComplete placeholder="Select a name" query="@RemoteQuery">
+                <EjsDataManager Url="https://ej2services.syncfusion.com/production/web-services/api/Employees"  Adaptor="@Adaptors.WebApiAdaptor" CrossDomain="true"></EjsDataManager>
+                <AutoCompleteFieldSettings Value="FirstName"></AutoCompleteFieldSettings>
+            </EjsAutoComplete>
         </div>
     </div>
 </div>
 
 <style>
-    #local-data {
-        width: 350px;
-        margin: 0 auto;
+  #local-data, #remote-data {
+        max-width: 350px;
+        margin: 25px 60px;
         padding-top: 15px;
     }
 </style>
 
 @code{
-    List<object> localdata = new List<object>
+    public class countries
     {
-    new { Name = "Australia", Code = "AU" },
-    new { Name = "Bermuda", Code = "BM" },
-    new { Name = "Canada", Code = "CA" },
-    new { Name = "Cameroon", Code = "CM" },
-    new { Name = "Denmark", Code = "DK" },
-    new { Name = "France", Code = "FR" },
-    new { Name = "Finland", Code = "FI" },
-    new { Name = "Germany", Code = "DE" },
-    new { Name = "Greenland", Code = "GL" },
-    new { Name = "Hong Kong", Code = "HK" },
-    new { Name = "India", Code = "IN" },
-    new { Name = "Italy", Code = "IT" },
-    new { Name = "Japan", Code = "JP" },
-    new { Name = "Mexico", Code = "MX" },
-    new { Name = "Norway", Code = "NO" },
-    new { Name = "Poland", Code = "PL" },
-    new { Name = "Switzerland", Code = "CH" },
-    new { Name = "United Kingdom", Code = "GB" },
-    new { Name = "United States", Code = "US" },
-    };
+        public string Name { get; set; }
 
-    public object AutoCompleteFieldSettings = new { value = "Name" };
-    public string sort { get; set; } = "Ascending";
+        public string Code { get; set; }
     }
+
+        List<countries> Country = new List<countries>
+        {
+        new countries() { Name = "Australia", Code = "AU" },
+        new countries() { Name = "Bermuda", Code = "BM" },
+        new countries() { Name = "Canada", Code = "CA" },
+        new countries() { Name = "Cameroon", Code = "CM" },
+        new countries() { Name = "Denmark", Code = "DK" },
+        new countries() { Name = "France", Code = "FR" },
+        new countries() { Name = "Finland", Code = "FI" },
+        new countries() { Name = "Germany", Code = "DE" },
+        new countries() { Name = "Greenland", Code = "GL" },
+        new countries() { Name = "Hong Kong", Code = "HK" },
+        new countries() { Name = "India", Code = "IN" },
+        new countries() { Name = "Italy", Code = "IT" },
+        new countries() { Name = "Japan", Code = "JP" },
+        new countries() { Name = "Mexico", Code = "MX" },
+        new countries() { Name = "Norway", Code = "NO" },
+        new countries() { Name = "Poland", Code = "PL" },
+        new countries() { Name = "Switzerland", Code = "CH" },
+        new countries() { Name = "United Kingdom", Code = "GB" },
+        new countries() { Name = "United States", Code = "US" },
+        };
+        public string RemoteQuery = "new ej.data.Query().select(['FirstName']).take(10).requiresCount()";
+        public string Sort { get; set; } = "Ascending";
+        }

@@ -1,0 +1,202 @@
+@page "/DashboardLayout/API"
+
+@using Syncfusion.EJ2.Blazor.Layouts
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.Inputs
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "API";
+    SampleBrowser.CurrentControlName = "DashboardLayout";
+    SampleBrowser.CurrentControlCategory = "Layouts";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DashboardLayout;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+           This sample demonstrates the properties of DashboardLayout component from the property pane. Select any combination of properties from the property pane to customize the DashboardLayout.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            This sample allows to configure the <code>cellSize</code>, <code>cellSpacing</code>, <code>allowFloating</code> and <code>allowPushing</code> properties of the dashboard layout component.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section">
+    <div class="content-wrapper" style="max-width: 100%">
+        <EjsDashboardLayout ID="dynamicLayout" @ref="dashboardObject" AllowResizing="@allowresizing" AllowFloating="@allowfloating" CellSpacing="@CellSpacing" Columns="@Columns">
+            <DashboardLayoutPanels>
+                <DashboardLayoutPanel ID="1" Row="0" Col="0" SizeX="2" SizeY="2">
+                    <HeaderTemplate><div>Panel 1</div></HeaderTemplate>
+                </DashboardLayoutPanel>
+                <DashboardLayoutPanel Id="2" Row="0" Col="2" SizeX="2" SizeY="2">
+                    <HeaderTemplate><div>Panel 2</div></HeaderTemplate>
+                </DashboardLayoutPanel>
+                <DashboardLayoutPanel Id="3" Row="0" Col="4" SizeX="2" SizeY="2">
+                    <HeaderTemplate><div>Panel 3</div></HeaderTemplate>
+                </DashboardLayoutPanel>
+                <DashboardLayoutPanel Id="4" Row="2" Col="0" SizeX="4" SizeY="2">
+                    <HeaderTemplate><div>Panel 4</div></HeaderTemplate>
+                </DashboardLayoutPanel>
+                <DashboardLayoutPanel Id="5" Row="2" Col="4" SizeX="2" SizeY="2">
+                    <HeaderTemplate><div>Panel 5</div></HeaderTemplate>
+                </DashboardLayoutPanel>
+            </DashboardLayoutPanels>
+        </EjsDashboardLayout>
+    </div>
+</div>
+<div class="col-lg-4 property-section dashboard">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="row property-panel-content">
+        <div class="card-body">
+            <div class="form-group row">
+                <label for="settings-bubble-up-input" class="col-sm-4 col-form-label form-label">AllowFloating</label>
+                <div class="col-sm-8">
+                    <EjsCheckBox ID="floating" @bind-Checked="@floatcheck" Name="floating" ValueChange="@onfloatChange" Value="1"></EjsCheckBox>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="settings-bubble-up-input" class="col-sm-4 col-form-label form-label">AllowResizing</label>
+                <div class="col-sm-8">
+                    <EjsCheckBox ID="resizing" @bind-Checked="@resizecheck" Name="resizing" ValueChange="@onChange" Value="2"></EjsCheckBox>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <EjsButton ID="add" CssClass="e-primary" Content="Add Panel" @onclick="@addclick"></EjsButton>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <EjsButton ID="remove" CssClass="e-danger" Content="Remove Panel" @onclick="@removeClick"></EjsButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    EjsDashboardLayout dashboardObject;
+
+    public double[] CellSpacing = { 10, 10 };
+    public bool floatcheck = true;
+    public bool resizecheck = true;
+    public double Columns = 6;
+    public bool allowfloating { get; set; } = true;
+    public bool allowresizing { get; set; } = true;
+    public int count = 5;
+    public int length { get; set; }
+
+    public void onfloatChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.allowfloating = args.Checked;
+        this.StateHasChanged();
+    }
+    public void onChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.allowresizing = args.Checked;
+        this.StateHasChanged();
+    }
+
+    public void addclick(UIMouseEventArgs args)
+    {
+        this.count = this.count + 1;
+        dashboardObject.AddPanel(new PanelModel
+        {
+            Id = this.count.ToString() + "_layout",
+            SizeX = 2,
+            SizeY = 2,
+            Row = 0,
+            Col = 0,
+            Enabled = true,
+            Header = "<div>Panel " + this.count.ToString() + "</div>"
+        });
+        this.StateHasChanged();
+    }
+
+
+    public async void removeClick(UIMouseEventArgs args)
+    {
+        List<PanelModel> panel = await this.dashboardObject.Serialize();
+        length = panel.Count;
+        if (length != 0)
+        {
+            for (var i = length - 1; i < length; i++)
+            {
+                dashboardObject.RemovePanel(panel[length - 1 - i].Id);
+            }
+        }
+        this.StateHasChanged();
+    }
+}
+
+
+<style>
+
+    .form-label {
+        margin-bottom: 0;
+        font-size: 12px;
+        line-height: 1.5;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .e-panel-header {
+        padding: 10px;
+        margin-bottom: 0;
+        background-color: rgba(0, 0, 0, .03);
+    }
+
+    .panel-content {
+        vertical-align: middle;
+        font-size: 15px;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.61);
+        text-align: center;
+    }
+
+    .e-panel-content {
+        height: calc(100% - 28px);
+        width: 100%;
+        display: block;
+    }
+
+    .e-panel .e-header-text {
+        padding: 12px 0 12px 0;
+    }
+
+    #dashboard .e-panel-container .e-panel-header {
+        border-bottom: 1px solid #888383;
+    }
+
+    .e-dashboardlayout.e-control .e-panel .e-panel-header {
+        font-size: 15px;
+        font-weight: 500;
+        height: 37px;
+        padding: 10px;
+        vertical-align: middle;
+        border-bottom: 0.5px solid #e3e3e3;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .row-header {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .e-panel-content {
+        padding: 15px;
+    }
+    #add, #remove {
+        width: 125px;
+    }
+</style>

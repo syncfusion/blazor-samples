@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 using ej2_blazor_samples;
 namespace ej2_blazor_ganttdata
 {
+    public class GanttTemplate
+    {
+        public string TaskName { get; set; }
+    }
+
     public class GanttData
     {
         public class GanttDataSource
@@ -34,6 +39,134 @@ namespace ej2_blazor_ganttdata
             public string Movie { get; set; }
 
         }
+        public static List<GanttDataSource> ZoomingData()
+        {
+            List<GanttDataSource> GanttDataSourceCollection = new List<GanttDataSource>();
+
+            GanttDataSource Record1 = new GanttDataSource()
+            {
+                TaskId = 1,
+                TaskName = "Product concept",
+                StartDate = new DateTime(2019, 04, 02),
+                EndDate = new DateTime(2019, 04, 21),
+                SubTasks = new List<GanttDataSource>(),
+            };
+
+            GanttDataSource Child11 = new GanttDataSource()
+            {
+                TaskId = 2,
+                TaskName = "Defining the product and its usage",
+                StartDate = new DateTime(2019, 04, 02),
+                Progress = 30,
+                Duration = 3,
+            };
+
+            GanttDataSource Child12 = new GanttDataSource()
+            {
+                TaskId = 3,
+                TaskName = "Defining target audience",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = 3,
+            };
+
+            GanttDataSource Child13 = new GanttDataSource()
+            {
+                TaskId = 4,
+                TaskName = "Prepare product sketch and notes",
+                StartDate = new DateTime(2019, 04, 02),
+                Progress = 30,
+                Duration = 2,
+                Predecessor = "2"
+            };
+            Record1.SubTasks.Add(Child11);
+            Record1.SubTasks.Add(Child12);
+            Record1.SubTasks.Add(Child13);
+
+            GanttDataSource Record2 = new GanttDataSource()
+            {
+                TaskId = 5,
+                TaskName = "Concept approval",
+                StartDate = new DateTime(2019, 04, 02),
+                Duration = 0,
+                Predecessor = "3, 4",
+            };
+
+            GanttDataSource Record3 = new GanttDataSource()
+            {
+                TaskId = 6,
+                TaskName = "Market research",
+                StartDate = new DateTime(2019, 04, 02),
+                EndDate = new DateTime(2019, 04, 21),
+                SubTasks = new List<GanttDataSource>(),
+            };
+
+            GanttDataSource Record6Child1 = new GanttDataSource()
+            {
+                TaskId = 7,
+                TaskName = "Demand analysis",
+                StartDate = new DateTime(2019, 04, 04),
+                EndDate = new DateTime(2019, 04, 21),
+                SubTasks = new List<GanttDataSource>(),
+            };
+
+            GanttDataSource Record7Child1 = new GanttDataSource()
+            {
+                TaskId = 8,
+                TaskName = "Customer strength",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = 4,
+                Predecessor = "5",
+                Progress = 30
+            };
+
+            GanttDataSource Record7Child2 = new GanttDataSource()
+            {
+                TaskId = 9,
+                TaskName = "Market opportunity analysis",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = 4,
+                Predecessor = "5",
+            };
+            Record6Child1.SubTasks.Add(Record7Child1);
+            Record6Child1.SubTasks.Add(Record7Child2);
+
+            GanttDataSource Record6Child2 = new GanttDataSource()
+            {
+                TaskId = 10,
+                TaskName = "Competitor analysis",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = 4,
+                Predecessor = "7, 8",
+                Progress = 30,
+            };
+            GanttDataSource Record6Child3 = new GanttDataSource()
+            {
+                TaskId = 11,
+                TaskName = "Product strength analsysis",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = 4,
+                Predecessor = "9",
+            };
+            GanttDataSource Record6Child4 = new GanttDataSource()
+            {
+                TaskId = 12,
+                TaskName = "Research complete",
+                StartDate = new DateTime(2019, 04, 04),
+                Duration = 1,
+                Predecessor = "10",
+            };
+            Record3.SubTasks.Add(Record6Child1);
+            Record3.SubTasks.Add(Record6Child2);
+            Record3.SubTasks.Add(Record6Child3);
+            Record3.SubTasks.Add(Record6Child4);
+
+            GanttDataSourceCollection.Add(Record1);
+            GanttDataSourceCollection.Add(Record2);
+            GanttDataSourceCollection.Add(Record3);
+
+            return GanttDataSourceCollection;
+        }
+
         public static List<GanttDataSource> ProjectNewData()
         {
             List<GanttDataSource> GanttDataSourceCollection = new List<GanttDataSource>();

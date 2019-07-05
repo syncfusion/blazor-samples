@@ -217,18 +217,18 @@ namespace ej2_blazor_samples
             },
               new Sample
             {
-                Name = "Local Data",
+                Name = "LocalData",
                 Category = "Data Binding",
-                Directory = "Navigations/DataBinding",
+                Directory = "Navigations/TreeView",
                 Url = "TreeView/LocalData",
                 FileName = "LocalData.razor",
                 Type = SampleType.New
             },
                new Sample
             {
-                Name = "Remote Data",
+                Name = "RemoteData",
                 Category = "Data Binding",
-                Directory = "Navigations/DataBinding",
+                Directory = "Navigations/TreeView",
                 Url = "TreeView/RemoteData",
                 FileName = "RemoteData.razor",
                 Type = SampleType.New

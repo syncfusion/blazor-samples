@@ -31,7 +31,7 @@ namespace ej2_blazor_samples
                 Name = "Pivot Chart",
                 Category = "Integration",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/PivotChart",
+                Url = "PivotView/Chart",
                 FileName = "Chart.razor",
                 Type = SampleType.New
             },
@@ -40,8 +40,8 @@ namespace ej2_blazor_samples
                 Name = "Grouping Bar",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/Groupingbar",
-                FileName = "Groupingbar.razor",
+                Url = "PivotView/GroupingBar",
+                FileName = "GroupingBar.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -107,7 +107,6 @@ namespace ej2_blazor_samples
                 FileName = "ValueSorting.razor",
                 Type = SampleType.New
             },
-            
             new Sample
             {
                 Name = "Default Filtering",

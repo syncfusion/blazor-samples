@@ -52,7 +52,7 @@ function switchTheme(args) {
     previous.classList.remove("sb-icon-icon-selection");
   }
   var curTheme = document
-    .getElementById("menuitem_0-menu-popup")
+    .getElementById("menuitem_0-theme-menu-popup")
     .querySelector(".e-selected");
   curTheme.classList.add("sb-icon-icon-selection");
   if (!curTheme.classList.contains("sb-icons"))
@@ -70,7 +70,6 @@ function switchTheme(args) {
 }
 function refreshTab(code) {
   setTimeout(function () {
-    document.querySelector("#sb-source-tab").ej2_instances[0].refresh();
     document.querySelector("#code").innerHTML = code;
     hljs.highlightBlock(document.querySelector("#code"), { language: "cshtml" });
     document.querySelector("#right-pane").scrollTo(0, 0);
@@ -108,7 +107,7 @@ function tickTheme() {
   if (previous) {
     previous.classList.remove("sb-icon-icon-selection");
   }
-  var curTheme = document.getElementById("menuitem_0-menu-popup").querySelector(".e-selected");
+  var curTheme = document.getElementById("menuitem_0-theme-menu-popup").querySelector(".e-selected");
   curTheme.classList.add("sb-icon-icon-selection");
   if (!curTheme.classList.contains("sb-icons"))
     curTheme.classList.add("sb-icons");
