@@ -295,6 +295,33 @@ namespace ej2_blazor_samples
                 Url = "Grid/ColumnTemplate",
                 FileName = "ColumnTemplate.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Row Template",
+                Category = "Rows",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/RowTemplate",
+                FileName = "GridRowTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Detail Template",
+                Category = "Rows",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/DetailTemplate",
+                FileName = "GridDetailTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Header Template",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/HeaderTemplate",
+                FileName = "GridHeaderTemplate.razor",
+                Type = SampleType.New
             }
         };
     }

@@ -304,7 +304,7 @@ namespace ej2_blazor_samples
             {
                 Name = "Toast",
                 Category = "Notifications",
-                Directory = "Notifications",
+                Directory = "Notifications/Toast",
                 Type = SampleType.New,
                 UID = 016,
                 Order = 16,

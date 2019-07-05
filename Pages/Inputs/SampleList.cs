@@ -115,7 +115,15 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/Uploader",
                 Url = "Uploader/ChunkUpload",
                 FileName = "ChunkUpload.razor"
-            },              
+            },
+               new Sample
+            {
+                Name = "Preload Files",
+                Category = "FileUpload",
+                Directory = "Inputs/Uploader",
+                Url = "Uploader/PreloadFiles",
+                FileName = "PreloadFiles.razor"
+            },
                new Sample
             {
                 Name = "File Validation",

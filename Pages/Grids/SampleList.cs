@@ -14,19 +14,7 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/DefaultFunctionalities",
-                SourceFiles = new List<SourceCollection>
-                {
-                    new SourceCollection
-                    {
-                        Id = "Default",
-                        FileName = "DefaultFunctionalities.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id = "Data",
-                        FileName = "SelfData.cs"
-                    },
-                },
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
             new Sample

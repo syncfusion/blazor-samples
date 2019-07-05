@@ -133,13 +133,31 @@ namespace ej2_blazor_samples
                 Url = "MultiSelect/Filtering",
                 FileName = "Filtering.razor",
                 Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "CheckBox",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/CheckBox",
+                FileName = "CheckBox.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "SelectionLimit",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/SelectionLimit",
+                FileName = "SelectionLimit.razor",
+                Type = SampleType.New,
             }
         };
 
         public List<Sample> ListBox { get; set; } = new List<Sample> {
             new Sample
             {
-                Name = "Default Functionalites",
+                Name = "Default Functionalities",
                 Category = "ListBox",
                 Directory = "DropDowns/ListBox",
                 Url = "ListBox/DefaultFunctionalities",

@@ -122,6 +122,14 @@ namespace ej2_blazor_samples
                 Directory = "Layouts/DashboardLayout",
                 Url = "DashboardLayout/Default",
                 FileName = "Default.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Dashboard Layout",
+                Directory = "Layouts/DashboardLayout",
+                Url = "DashboardLayout/API",
+                FileName = "API.razor"
             }
         };
         public List<Sample> Splitter { get; set; } = new List<Sample>{

@@ -1,13 +1,12 @@
 @page "/DocumentEditor/SectionFormat"
 
+@using Syncfusion.EJ2.DocumentEditor.Blazor;
+@using Syncfusion.EJ2.Blazor.Buttons;
+@using EJ2BlazorSamples.DocumentData;
 @using Syncfusion.EJ2.Blazor.DocumentEditor;
 @using Newtonsoft.Json;
 @inject HttpClient Http;
-@using Syncfusion.EJ2.Blazor.SplitButtons;
 @inject IJSRuntime JsRuntime;
-
-
-
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -34,42 +33,80 @@
 @*End:Hidden*@
 
 
+
 <div class="control-section">
-    <div id='documenteditor_titlebar' class="e-de-ctn-title">
-        <div class="single-line" id="documenteditor_title_contentEditor" title="Document Name. Click or tap to rename this document.">
-            <label id="documenteditor_title_name" style="font-weight:400;text-overflow:ellipsis;white-space:pre;overflow:hidden;user-select:none;cursor:text"></label>
+    <div>
+        <div id='documenteditor_titlebar' class="e-de-ctn-title">
+            <div class="single-line" id="documenteditor_title_contentEditor" style="border: 1px solid transparent;" title="Document Name." contenteditable="false">
+                <label id="documenteditor_title_name" class="doc-edit-title"> @DocumentName</label>
+            </div>
+            <div style="float: right">
+                <EjsButton IconCss="e-de-icon-Print" CssClass="title-bar-btn" @onclick="@Print">Print</EjsButton>
+            </div>
+            <div style="float: right">
+                <EjsButton IconCss="e-de-icon-Download" CssClass="title-bar-btn" @onclick="@onExport">Download</EjsButton>
+            </div>
         </div>
-        <div style="float:right" @onclick="@onPrint">
-            <Ejsbutton id="de-print" cssClass="printIconCss" iconCss="e-de-icon-Print">Print</Ejsbutton>
+        <div>
+            <EjsDocumentEditorContainer @ref="@container" ID="docedit" Created="@OnCreated" EnableToolbar=true></EjsDocumentEditorContainer>
         </div>
     </div>
-    <EjsDocumentEditorContainer ID="container" enableToolbar=true created="@onCreate"></EjsDocumentEditorContainer>
 </div>
 
+
+@code {
+
+    internal string DocumentName { get; set; } = "Section Formatting";
+
+    EjsDocumentEditorContainer container;
+
+    public void onExport(object args)
+    {
+        DocumentEditorModule documentEditor = container.GetDocumentEditor();
+        documentEditor.Save(DocumentName, Syncfusion.EJ2.Blazor.DocumentEditor.FormatType.Docx);
+    }
+
+    public void Print(object args)
+    {
+        DocumentEditorModule documentEditor = container.GetDocumentEditor();
+        documentEditor.Print();
+    }
+
+    public void OnCreated(object args)
+    {
+        DocumentEditorModule documentEditor = container.GetDocumentEditor();
+        documentEditor.Open(Data.SectionFormat);
+    }
+}
 
 
 <style>
 
-    #container {
-        height: 590px;
+    #docedit {
+        height: 550px;
+        display: block;
     }
 
-    .printIconCss {
-        float: right;
+    #edit_container {
+        width: 950px;
+    }
+
+    .title-bar-btn, .title-bar-btn:hover, .title-bar-btn:focus {
         background: transparent;
         box-shadow: none;
+        font-family: inherit;
         border-color: transparent;
         border-radius: 2px;
         color: inherit;
         font-size: 12px;
         text-transform: capitalize;
-        margin-top: 4px;
         height: 28px;
         font-weight: 400;
-        font-family: inherit;
+        margin-top: 2px;
     }
 
     #documenteditor_titlebar {
+        border-bottom: 1px solid #3f51b5;
         height: 36px;
         line-height: 26px;
         width: 100%;
@@ -90,15 +127,26 @@
         margin: 5px;
     }
 
+    .doc-edit-title {
+        text-transform: capitalize;
+        font-weight: 400;
+        font-family: inherit;
+        text-overflow: ellipsis;
+        outline: none;
+        white-space: pre;
+        overflow: hidden;
+        user-select: none;
+        cursor: text
+    }
 
     .single-line {
         cursor: text !important;
         outline: none;
     }
 
-        .single-line:hover {
+    /*.single-line:hover, .single-line:focus {
             border-color: #e4e4e4 !important;
-        }
+        }*/
 
     [contenteditable="true"].single-line {
         white-space: nowrap;
@@ -122,36 +170,16 @@
 
     .e-de-icon-Print:before {
         content: "\e723";
+        font-family: 'Sample brower icons' !important;
     }
 
     .e-de-icon-Download:before {
         content: "\e728";
+        font-family: 'Sample brower icons' !important;
+    }
+
+    .print-ctnr {
+        cursor: pointer;
+        margin-top: 6px;
     }
 </style>
-
-@code{
-
-    private string DocumentName {get;set;} ="Getting Started";
-    private async void onCreate(object args)
-    {
-    await JsRuntime.InvokeAsync<bool>
-    ("AfterRender","Section Formatting");
-    }
-
-    private async void onExport(object args)
-    {
-    await JsRuntime.InvokeAsync<bool>
-        ("OnExportClick",args);
-        }
-
-        private async void onDocxExport(object args){
-        await JsRuntime.InvokeAsync<bool>
-            ("OnDocxExport");
-            }
-            private async void onPrint(object args)
-            {
-            await JsRuntime.InvokeAsync<bool>
-                ("Print");
-                }
-
-                }

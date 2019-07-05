@@ -36,7 +36,7 @@ namespace ej2_blazor_samples
                 FileName = "Baseline.razor",
                 Type = SampleType.New
             },
-             new Sample
+			new Sample
             {
                 Name = "Filtering",
                 Category = "Gantt",

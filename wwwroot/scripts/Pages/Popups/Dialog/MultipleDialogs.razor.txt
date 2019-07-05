@@ -1,0 +1,78 @@
+﻿@page "/Dialog/MultipleDialogs"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Popups
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Multiple Dialogs";
+    SampleBrowser.CurrentControlName = "Dialog";
+    SampleBrowser.CurrentControlCategory = "Dialog";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Dialog;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This example demonstrates how to display multiple dialogs one over the other. The second dialog is configured with draggable behavior to adjust its position. You can invoke the second dialog from first dialog's button. Enable the 'open dialog' button to reopen the dialog if the first dialog is closed.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            You can configure the dialog as a parent and child, and invoke the child dialog from its parent dialog. In addition, multiple dialogs can be shown at a time in a page. The Z- index order will be controlled automatically in the browser and manually using the <code>zIndex</code> property.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section" id="target">    
+    <button id="dialogBtn" class="e-btn" onclick="@onClicked">Open Dialog</button>
+    <EjsDialog ID="defaultDialog" @ref="firstDialogObj" Width="330px" Visible="true" Height="260px" Target="#target" ShowCloseIcon="true" Header="@DialogFirstHeader">
+        <ChildContent>
+            <p>This is the first dialog and acts as a parent dialog, you can open the second (child) dialog by clicking 'Next'.</p>
+            <DialogButtons>
+                <DialogButton ButtonModel="@defaultbutton" OnClick="@dlgButtonClick"></DialogButton>
+            </DialogButtons>
+        </ChildContent>
+    </EjsDialog>
+    <EjsDialog ID="secondDialog" @ref="secondDialogObj" Header="@DialogSecondHeader" Visible="false" IsModal="true" Width="285px" Height="215px" Target="#target" ShowCloseIcon="true">
+        <ChildContent>
+            <p>This is the second dialog and act as a child dialog.</p>
+            <DialogButtons>
+                <DialogButton ButtonModel="@defaultbutton1" OnClick="@dlg2ButtonClick"></DialogButton>
+            </DialogButtons>
+        </ChildContent>
+    </EjsDialog>
+</div>
+<style>
+     .e-btn-hide {
+        display: none;
+    }
+</style>
+
+@code {
+    EjsDialog firstDialogObj;
+    EjsDialog secondDialogObj;
+
+    string DialogFirstHeader = "First Dialog";
+    string DialogSecondHeader = "Second Dialog";
+    private void onClicked()
+    {
+        this.firstDialogObj.Show();
+    }
+    private void dlgButtonClick(object arg)
+    {
+        this.secondDialogObj.Show();
+    }
+    private void dlg2ButtonClick(object arg)
+    {
+        this.secondDialogObj.Hide();
+    }
+    public class ButtonModel
+    {
+        public string content { get; set; }
+        public bool isPrimary { get; set; }
+    }
+
+    public ButtonModel defaultbutton = new ButtonModel { content = "Next", isPrimary = true };
+    public ButtonModel defaultbutton1 = new ButtonModel {  content = "Close", isPrimary = true };
+}

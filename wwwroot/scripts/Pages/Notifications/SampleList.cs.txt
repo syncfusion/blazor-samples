@@ -13,7 +13,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Toast",
                 Directory = "Notifications/Toast",
-                Url = "Notifications/DefaultFunctionalities",
+                Url = "Toast/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             }

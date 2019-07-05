@@ -12,28 +12,37 @@
 @using ej2_blazor_treedata
 
 @{
-    SampleBrowser.CurrentSampleName = "Selection";
+    SampleBrowser.CurrentSampleName = "Default Selection";
     SampleBrowser.CurrentControlName = "TreeGrid";
     SampleBrowser.CurrentControlCategory = "TreeGrid";
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
     SampleBrowser.ActionDescription = new string[] {
         @"<p>
-            This sample demonstrates the default rendering of the TreeGrid with minimum configuration.
+            This sample demonstrates the selection feature in TreeGrid, which allows you to select row or cell through simple mouse down or keyboard interaction.
         </p>"
     };
     SampleBrowser.Description = new string[] {
         @"<p>
-            The TreeGrid is used to represent the hierarchical data in a tabular format, combining the visual representation of Grid and TreeView controls.
-            It represents the data from datasource such as an array of JSON objects, OData web services, or DataManager binding data fields to columns or self-referential datasource.
-        </p>
-        <p>
-            In this demo, the TreeGrid is populated with its minimum default settings.
-        </p>
-        <br>
-
-        <p>
-            More information on the TreeGrid instantiation can be found in this documentation section.
-        </p>"
+        Selection provides an interactive support to highlight the row or cell that you select. 
+        Selection can be done through a simple
+        Mouse down or Keyboard interaction. To enable selection, set <code>
+        allowSelection
+        </code> as true.
+    </p>
+    <p>TreeGrid supports two types of selection which can be set using 
+        <code>
+        selectionSettings->type
+        </code> property. They are,</p>
+    <ul>
+        <li><code>Single</code> - Enabled by default. Allows the user to select single row/cell at a time.</li>
+        <li><code>Multiple</code> - Allows the user to select more than one row/cell at a time.</li>
+    </ul>
+     <p>To perform the multi-selection, hold <strong>CTRL</strong> key and click the desired rows/cells. 
+    To select range of rows/cells, hold <strong>SHIFT</strong> key and click the rows/cells.</p>
+    <p>While using the TreeGrid in a touch device environment, there is an option for multi-selection 
+        through single tap on the row and it will show a popup with the multi-selection symbol. 
+        Tap the icon to enable multi-selection in a single tap.
+    </p>."
     };
 }
 @*End:Hidden*@
@@ -42,6 +51,7 @@
     <div class="content-wrapper">
         <div class="row">
             <EjsTreeGrid ID="TreeGrid" DataSource="@treedata" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true" AllowSelection="true">
+                <TreeGridSelectionSettings Type="@Syncfusion.EJ2.Blazor.Grids.SelectionType.Multiple" Mode="@Syncfusion.EJ2.Blazor.Grids.SelectionMode.Row"></TreeGridSelectionSettings>
                 <TreeGridPageSettings PageSize="1"></TreeGridPageSettings>
                 <TreeGridColumns>
                     <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" TextAlign="@TextAlign.Right"></TreeGridColumn>
@@ -57,82 +67,9 @@
     </div>
 </div>
 
-@*<div class="col-lg-3 property-section">
-    <h4 style="margin-top:38px;">Properties</h4>
-
-    <table id="property" style="width: 73%; height: 105px;">
-        <tr>
-            <td class="left-side" style="padding-right:15px;">Selection Type</td>
-            <td>
-                <EjsDropDownList ID="types" Index="0" PopupWidth="110px" DataSource="@types" Change="@onchange">
-                    <DropDownListFieldSettings text="id" value="type"></DropDownListFieldSettings>
-                </EjsDropDownList>
-            </td>
-        </tr>
-
-        <tr>
-            <td class="left-side" style="padding-right:15px;">Selection Mode</td>
-            <td>
-                <EjsDropDownList ID="modes" Index="0" PopupWidth="110px" DataSource="@lines" Change="@modechange">
-                    <DropDownListFieldSettings text="id" value="mode"></DropDownListFieldSettings>
-                </EjsDropDownList>
-            </td>
-        </tr>
-    </table>
-</div>*@
-
-@functions{
+@code{
 
     EjsTreeGrid treeGrid;
-
-    public class Modes
-    {
-        public string id { get; set; }
-
-        public string mode { get; set; }
-    }
-
-    public class CellModes
-    {
-        public string id { get; set; }
-
-        public string mode { get; set; }
-    }
-
-    public class SelectionType
-    {
-        public string id { get; set; }
-
-        public string type { get; set; }
-    }
-
-    List<CellModes> cellmode = new List<CellModes>()
-    {
-        new CellModes(){ id= "Flow", mode= "Flow" },
-        new CellModes(){ id= "Box", mode= "Box" },
-    };
-
-    List<Modes> lines = new List<Modes>()
-    {
-        new Modes(){ id= "Row", mode= "Row" },
-        new Modes(){ id= "Cell", mode= "Cell" },
-    };
-
-    List<SelectionType> types = new List<SelectionType>()
-    {
-        new SelectionType(){ id= "Single", type= "Single" },
-        new SelectionType(){ id= "Multiple", type= "Multiple" },
-    };
-
-    public void onchange(object args)
-    {
-        //Fix by core team.
-    }
-
-    public void modechange(object args)
-    {
-        //Fix by core team.
-    }
 
     public List<SelfReferenceData> treedata { get; set; }
 
