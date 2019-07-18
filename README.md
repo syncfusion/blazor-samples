@@ -57,7 +57,9 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="ej2-blazor-samples/Pages/PivotView">Pivot Table</a>
         </td>
-        <td></td>
+        <td>
+            <a href="ej2-blazor-samples/Pages/Grids/TreeGrid">Tree Grid</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
