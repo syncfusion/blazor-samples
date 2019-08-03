@@ -7,35 +7,6 @@ namespace ej2_blazor_samples
 {
     internal partial class SampleConfig
     {
-        public List<Sample> Card { get; set; } = new List<Sample>{
-            new Sample
-            {
-                Name = "BasicCard",
-                Category = "Card",
-                Directory = "Layouts/Card",
-                FileName = "BasicCard.razor",
-                Url = "Card/BasicCard",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "VerticalCard",
-                Category = "Card",
-                Directory = "Layouts/Card",
-                FileName = "VerticalCard.razor",
-                Url = "Card/VerticalCard",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "HorizontalCard",
-                Category = "Card",
-                Directory = "Layouts/Card",
-                FileName = "HorizontalCard.razor",
-                Url = "Card/HorizontalCard",
-                Type = SampleType.New
-            },
-        };
 		public List<Sample> Listview { get; set; } = new List<Sample>{
             new Sample
             {
@@ -73,46 +44,6 @@ namespace ej2_blazor_samples
                 FileName = "ListGroupTemplate.razor",
                 Type = SampleType.New
             },
-        };
-        public List<Sample> Avatar { get; set; } = new List<Sample>{
-            new Sample
-            {
-                Name = "Default Functionalities",
-                Category = "Avatar",
-                Directory = "Layouts/Avatar",
-                Url = "Avatar/Default",
-                FileName = "Default.razor",
-                Type = SampleType.New,
-            },
-            new Sample
-            {
-                Name = "Types",
-                Category = "Avatar",
-                Directory = "Layouts/Avatar",
-                Url = "Avatar/Types",
-                FileName = "Types.razor",
-                Type = SampleType.New,
-            },
-            new Sample
-            {
-                Name = "Badge",
-                Category = "Integration",
-                Directory = "Layouts/Avatar",
-                Url = "Avatar/Badge",
-                FileName = "Badge.razor",
-                Type = SampleType.New,
-            },
-            new Sample
-            {
-                Name = "Card",
-                Category = "Integration",
-                Directory = "Layouts/Avatar",
-                Url = "Avatar/Card",
-                FileName = "Card.razor",
-                Type = SampleType.New,
-            },
-             
-
         };
          public List<Sample> DashboardLayout { get; set; } = new List<Sample>{
             new Sample

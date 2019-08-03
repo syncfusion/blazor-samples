@@ -18,14 +18,6 @@ namespace ej2_blazor_samples
             },
            new Sample
             {
-                Name = "ButtonGroup",
-                Category = "Button",
-                Directory = "Buttons/Button",
-                Url = "Buttons/ButtonGroup",
-                FileName = "ButtonGroup.razor"
-            },
-           new Sample
-            {
                 Name = "CheckBox",
                 Category = "Button",
                 Directory = "Buttons/Button",

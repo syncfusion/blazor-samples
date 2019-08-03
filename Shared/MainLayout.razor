@@ -6,7 +6,6 @@
 @using Syncfusion.EJ2.Blazor.SplitButtons;
 @using Syncfusion.EJ2.Blazor.DropDowns;
 @using Microsoft.AspNetCore.Components;
-@using System.Net.Http;
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper;
 @inject HttpClient Http;
 @inject IJSRuntime JsRuntime;
@@ -19,12 +18,12 @@
     <div id='sample-header' class="sb-header e-view" role="banner">
         <div class='sb-header-left sb-left sb-table'>
             <div class='sb-header-item sb-table-cell'>
-                <div id="sb-toggle-left" @onclick="@OnToggleClick" role="button" tabindex="0" class="sb-slide-nav sb-icons toggle-active sb-icon-Hamburger" aria-label="toggle all controls navigation"
+                <div id="sb-toggle-left" @onclick="OnToggleClick" role="button" tabindex="0" class="sb-slide-nav sb-icons toggle-active sb-icon-Hamburger" aria-label="toggle all controls navigation"
                      title='toggle leftpane'></div>
             </div>
             <div class='sb-header-item sb-table-cell' id="sb-header-text" style="padding-left:20px">
-                <span>Essential JS 2 for </span>
-                <EjsDropDownButton id="platform-switch" Content="Blazor" Items="@Platforms"></EjsDropDownButton>
+                @*<span>Essential JS 2 for </span>*@
+                <EjsDropDownButton ID="platform-switch" Content="Essential JS 2 for Blazor" Items="@platforms"></EjsDropDownButton>
             </div>
             <div class='sb-header-item sb-table-cell'>
                 <div>
@@ -37,14 +36,16 @@
         <div class='sb-header-right sb-right sb-table'>
             <div class="sb-header-item sb-table-cell">
                 <div id="header-theme-switcher" role="button" tabindex="0" title='Change theme of sample browser'>
-                    <EjsMenu ID='theme-menu' created="@ThemeMenuCreated" Items='@MenuItems' ItemSelected="@OnThemeChange"></EjsMenu>
+                    <EjsMenu ID='theme-menu' ShowItemOnClick="true" Items='@menuItems' @ref="menuBar">
+                        <MenuEvents Created="ThemeMenuCreated" OnOpen="tickTheme" OnClose ="OnThemeChange"></MenuEvents>
+                    </EjsMenu>
                 </div>
             </div>
-            @*<div class='sb-header-item sb-table-cell sb-search-wrapper'>
+            <!-- <div class='sb-header-item sb-table-cell sb-search-wrapper'>
                     <div class='sb-search-btn' id='sb-trigger-search' role="button" tabindex="0" aria-label="toggle sample search" title="Toggle sample search">
                         <span class='sb-settings sb-icons sb-icon-Search'></span>
                     </div>
-                </div>*@
+                </div> -->
             <!-- <div class='sb-header-item sb-table-cell sb-settings-wrapper'>
                 <div class='sb-setting-btn' role="button" tabindex="0" aria-label="toggle settings menu" tabindex="">
                     <span class='sb-settings sb-icons sb-icon-Settings-Preferences'></span>
@@ -61,11 +62,12 @@
                     </button>
                 </a>
             </div>
+            <div class="sb-header-item sb-table-cell sb-header-settings sb-icons" @onclick="@OnRightToggleClick" role="button"></div>
         </div>
     </div>
 
     <div class="sb-content e-view">
-        <EjsSidebar ID="left-sidebar" @ref="@Sidebar" EnableGestures="false" Target=".sb-content">
+        <EjsSidebar ID="left-sidebar" @ref="sidebar" EnableGestures="false" Target=".sb-content">
             <ChildContent>
                 <div class='sb-left-pane e-view'>
                     <div class="sb-left-pane-header">
@@ -76,16 +78,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sb-home" @onclick="document.getElementById('sb-home').click()">
+                    <div class="sb-home" @onclick="HomeButtonClick">
                         <div class="sb-home-link sb-icons sb-icon-Home"></div>
                         <div class="sb-home-text">
                             <span>HOME</span>
                         </div>
-                        <a id="sb-home" href="https://ej2.syncfusion.com/home/aspnet-core-razor-components.html"></a>
+                        <a id="sb-home" href="https://ej2.syncfusion.com/home/aspnet-core-blazor.html"></a>
                     </div>
 
                     <div class='sb-control-navigation e-view'>
-                        <NavMenu></NavMenu>
+                        <NavMenu TValue="object"></NavMenu>
                     </div>
                     <div class='sb-left-footer'>
                         <div class="sb-mobile-header-buttons">
@@ -104,6 +106,7 @@
                 </div>
             </ChildContent>
         </EjsSidebar>
+
         <div class='sb-right-pane e-view' id='right-pane'>
             <div class="sb-content-overlay">
                 <div class="sb-loading sb-hide">
@@ -114,14 +117,15 @@
             </div>
             <div class='sb-desktop-wrapper'>
                 <div id='component-name' role='header' class='sb-component-name sb-rightpane-padding'>
-                    <h1 class='sb-sample-text'>@ControlName</h1>
+                    <h1 class='sb-sample-text'>@controlName</h1>
                 </div>
                 <div id='sample-bread-crumb' class='sb-bread-crumb sb-rightpane-padding'>
                     <div class='sb-bread-crumb-text'></div>
                 </div>
                 <div class='sb-action-description sb-rightpane-padding'>
                 </div>
-                <EjsTab CssClass='sb-content-tab' id='content-tab' selected="@OnSourceTabSelected">
+                <EjsTab CssClass='sb-content-tab' id='content-tab'>
+                    <TabEvents Selecting="swiped" Selected="OnSourceTabSelected"></TabEvents>
                     <div id="sb-content" class='sb-content-section'>
                         <div id='sb-content-header' class="e-tab-header sb-content-tab-header">
                             <div>
@@ -145,7 +149,9 @@
                             </div>
                             <div>
                                 <div class='sb-source-section'>
-                                    <EjsTab id='sb-source-tab' items="@SourceCodeItems" headerPlacement="@HeaderPosition.Bottom" @ref="SourceTab"></EjsTab>
+                                    <EjsTab id='sb-source-tab' items="@sourceCodeItems" headerPlacement="@HeaderPosition.Bottom" @ref="sourceTab">
+                                        <TabEvents Selected="OnSourceClicked"></TabEvents>
+                                    </EjsTab>
                                 </div>
                             </div>
                         </div>
@@ -180,6 +186,23 @@
                 </div>
             </div>
         </div>
+
+        <EjsSidebar ID="right-sidebar" @ref="sidebarRight" EnableGestures="false" Position="@Position" Type="@Type">
+        <ChildContent>
+            <div class="sb-left-pane-header">
+                <div class="sb-setting-header">Preferences</div>
+            </div>
+            <div class="sb-setting-item sb-setting-theme-section">
+                <div class="sb-icons sb-setting-icons sb-icon-Palette"></div>
+                <div class="sb-setting-text">Theme Selection</div>
+                <EjsDropDownList ID="mobileTheme" PopupWidth="180px" DataSource="@data" TValue="string">
+                    <DropDownListEvents ValueChange="ThemeChange" TValue="string"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </div>
+        @*<div class="sb-name">Choose Theme</div>*@
+        </ChildContent>
+        </EjsSidebar>
         <div class="sb-body-overlay sb-hide">
             <div class="sb-loading">
                 <svg class="circular" height="40" width="40">
@@ -196,10 +219,10 @@
             <div id='search-popup' class='sb-search-result'></div>
         </div>
         <div class='sb-mobilefooter e-view sample-navigation' id='mobile-footer'>
-            <button id='mobile-prev-sample' class="sb-navigation-prev sb-left" @onclick="@OnPrevSampleClick" aria-label="previous sample">
+            <button id='mobile-prev-sample' class="sb-navigation-prev sb-left" @onclick="OnPrevSampleClick" aria-label="previous sample">
                 PREVIOUS
             </button>
-            <button id='mobile-next-sample' class="sb-navigation-next sb-right" @onclick="@OnNextSampleClick" aria-label="next sample">
+            <button id='mobile-next-sample' class="sb-navigation-next sb-right" @onclick="OnNextSampleClick" aria-label="next sample">
                 NEXT
             </button>
         </div>
@@ -208,45 +231,82 @@
 
 @code {
 
-    EjsTab SourceTab;
-    EjsSidebar Sidebar;
+        EjsTab sourceTab;
+        EjsSidebar sidebar;
+        EjsSidebar sidebarRight;
+        EjsMenu menuBar;
+
+public SidebarPosition Position { get; set; } = SidebarPosition.Right;
+
+    public SidebarType Type { get; set; } = SidebarType.Push;
+
 
     [Parameter]
-    public string ControlName { get; set; } = "ControlName";
+    public string controlName { get; set; } = "ControlName";
+
+    public string[] sourceResponse { get; set; } = new string[5];
 
     [Parameter]
-    private string Theme { get; set; }
+    private string theme { get; set; }
 
-    List<object> MenuItems = new List<object>
+    public class typeData
     {
+        public string text;
+    }
+    private List<typeData> data { get; set; } = new List<typeData> {
+        new typeData { text = "Material" },
+        new typeData { text = "Fabric" },
+        new typeData { text = "Bootstrap" },
+        new typeData { text = "High Contrast" },
+        new typeData { text = "Bootstrap V4" }
+    };
+
+    public List<object> menuItems = new List<object>
+{
         new { text = "CHOOSE THEME",
             items = new List<object>
-            {
-                new { id= "Theme1", text= "Material" },
+        {
+                new { id= "Theme1", text= "Material"},
                 new { id= "Theme2", text= "Fabric"},
-                new { id= "Theme3", text= "Bootstrap" },
-                new { id= "Theme4", text= "High Contrast" },
-                new { id= "Theme5", text= "Bootstrap V4" },
+                new { id= "Theme3", text= "Bootstrap"},
+                new { id= "Theme4", text= "High Contrast"},
+                new { id= "Theme5", text= "Bootstrap V4"},
             }
         }
     };
 
+    private void ThemeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        JsRuntime.InvokeAsync<string>("mobileThemeChange", args.Value.ToString());
+    }
+
+    private void HomeButtonClick()
+    {
+        JsRuntime.InvokeAsync<string>("homeButtonClick");
+    }
+
     private void OnPrevSampleClick()
     {
+        JsRuntime.InvokeAsync<Object>("persistTheme");
         int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(SampleBrowser.CurrentUrl);
-        UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString());
-        SampleBrowser.CurrentUrl = SampleBrowser.SampleUrls[CurrentIndex - 1].ToString();
+        if (CurrentIndex != 0) {
+            UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString());
+            SampleBrowser.CurrentUrl = SampleBrowser.SampleUrls[CurrentIndex - 1].ToString();
+            JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
+        }
     }
 
     private void OnNextSampleClick()
     {
+        JsRuntime.InvokeAsync<Object>("persistTheme");
         int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(SampleBrowser.CurrentUrl);
         UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex + 1].ToString());
         SampleBrowser.CurrentUrl = SampleBrowser.SampleUrls[CurrentIndex + 1].ToString();
+        JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
     }
 
-    public List<Syncfusion.EJ2.Blazor.SplitButtons.ItemModel> Platforms { get; set; } = new List<Syncfusion.EJ2.Blazor.SplitButtons.ItemModel>
-    {
+    public List<Syncfusion.EJ2.Blazor.SplitButtons.ItemModel> platforms { get; set; } = new List<Syncfusion.EJ2.Blazor.SplitButtons.ItemModel>
+{
         new Syncfusion.EJ2.Blazor.SplitButtons.ItemModel{ Text = "JavaScript", Url="https://ej2.syncfusion.com/demos/" },
         new Syncfusion.EJ2.Blazor.SplitButtons.ItemModel{ Text = "JavaScript (ES5)", Url="https://ej2.syncfusion.com/javascript/demos/" },
         new Syncfusion.EJ2.Blazor.SplitButtons.ItemModel { Text = "React", Url="https://ej2.syncfusion.com/react/demos/" },
@@ -256,18 +316,37 @@
         new Syncfusion.EJ2.Blazor.SplitButtons.ItemModel { Text = "Vue", Url="https://ej2.syncfusion.com/vue/demos/" }
     };
 
-    public List<TabItem> SourceCodeItems;
+    public List<TabItem> sourceCodeItems;
 
-    public void OnToggleClick()
+    private void OnToggleClick()
     {
+        this.sidebar.Toggle();
         JsRuntime.InvokeAsync<string>("callResizeEvent");
-        this.Sidebar.Toggle();
     }
 
-    protected void OnThemeChange(Syncfusion.EJ2.Blazor.Navigations.MenuEventArgs args)
+    public void OnRightToggleClick()
     {
-        JsRuntime.InvokeAsync<Object>("switchTheme", this.Theme);
-        JsRuntime.InvokeAsync<Object>("tickTheme", this.Theme);
+
+        JsRuntime.InvokeAsync<Object>("mobileSideBarVisibility");
+        this.sidebarRight.Toggle();
+        JsRuntime.InvokeAsync<Object>("mobileThemePersist");
+    }
+
+    private void swiped(Syncfusion.EJ2.Blazor.Navigations.SelectingEventArgs args)
+    {
+        if (args.IsSwiped) {
+            args.Cancel = true;
+        }
+    }
+
+    protected void OnThemeChange(Syncfusion.EJ2.Blazor.Navigations.BeforeOpenCloseMenuEventArgs args)
+    {
+        JsRuntime.InvokeAsync<Object>("switchTheme", args);
+    }
+
+    protected void tickTheme(Syncfusion.EJ2.Blazor.Navigations.BeforeOpenCloseMenuEventArgs args)
+    {
+        JsRuntime.InvokeAsync<Object>("tickTheme", args);
     }
 
     protected void ThemeMenuCreated(object args)
@@ -296,35 +375,61 @@
             return comments;
         }
     }
-        
+
     protected void OnSourceTabSelected(Syncfusion.EJ2.Blazor.Navigations.SelectEventArgs arg)
     {
-        SourceCodeItems = new List<TabItem>();
+        sourceCodeItems = new List<TabItem>();
         if (arg.SelectedIndex == 1)
         {
             SampleBrowser.CurrentControl.ForEach(async (control) =>
             {
                 if (control.Name == SampleBrowser.CurrentSampleName)
                 {
-                    String Response = await Http.GetStringAsync("./scripts/Pages/" + control.Directory + "/" + control.FileName + ".txt");
+                    if (control.SourceFiles.Count != 0) {
+                        string[] Response = new string[control.SourceFiles.Count];
+                        string[] id = new string[control.SourceFiles.Count];
+                        for (var i = 0; i < control.SourceFiles.Count; i++) {
+                            Response[i] = await Http.GetStringAsync("./scripts/Pages/" + control.Directory + "/" + control.SourceFiles[i].FileName + ".txt");
+                            id[i] = control.SourceFiles[i].Id;
+                            Response[i] = Response[i].Replace("<", "&lt;");
+                            Response[i] = Response[i].Replace(">", "&gt;");
+                            Response[i] = RemoveString(Response[i]);
+                            sourceCodeItems.Add (
+                                new TabItem() { Header = new TabHeader() { Text = control.SourceFiles[i].FileName }, Content = "<pre id='"+ id[i] +"' class='sb-src-code'><code>" + Response[i] + "</code></pre>" }
+                            );}
+                        this.sourceTab.Items = sourceCodeItems;
+                        this.sourceTab.DataBind();
+                        this.sourceTab.Refresh();
+                        sourceResponse = Response;
+
+                        JsRuntime.InvokeAsync<Object>("refreshTab", Response, control, id);
+                    } else {
+                        String Response = await Http.GetStringAsync("./scripts/Pages/" + control.Directory + "/" + control.FileName + ".txt");
                         Response = Response.Replace("<", "&lt;");
                         Response = Response.Replace(">", "&gt;");
                         Response = RemoveString(Response);
-                        SourceCodeItems = new List<TabItem>() {
+                        sourceCodeItems = new List<TabItem>() {
                             new TabItem() { Header = new TabHeader() { Text = control.FileName }, Content = "<pre id='code' class='sb-src-code'><code>" + Response + "</code></pre>" }
                         };
-                        this.SourceTab.Items = SourceCodeItems;
-                        this.SourceTab.DataBind();
-                        this.SourceTab.Refresh();
-                        JsRuntime.InvokeAsync<Object>("refreshTab", Response);
+                        this.sourceTab.Items = sourceCodeItems;
+                        this.sourceTab.DataBind();
+                        this.sourceTab.Refresh();
+                        JsRuntime.InvokeAsync<Object>("refreshTab", Response, control);
+                    }
                 }
             });
         }
     }
 
+    protected void OnSourceClicked(Syncfusion.EJ2.Blazor.Navigations.SelectEventArgs arg)
+    {
+        JsRuntime.InvokeAsync<Object>("tabClicked", arg, sourceResponse);
+    }
+
+
     protected override void OnAfterRender()
     {
-        if (this.ControlName != SampleBrowser.CurrentSampleName)
+        if (this.controlName != SampleBrowser.CurrentSampleName)
         {
             string[] SamplePath = new string[3];
             int Index = 0;
@@ -336,8 +441,8 @@
                 Index++;
             }
             SamplePath[Index] = SampleBrowser.CurrentSampleName;
-            this.ControlName = SampleBrowser.CurrentControlName;
-            JsRuntime.InvokeAsync<Object>("updateBreadCrumb", new String[] { this.ControlName }, SamplePath);
+            this.controlName = SampleBrowser.CurrentControlName;
+            JsRuntime.InvokeAsync<Object>("updateBreadCrumb", new String[] { this.controlName }, SamplePath);
             List<string> ActionDescription = new List<string>();
             List<string> Description = new List<string>();
             if (SampleBrowser.ActionDescription != null)

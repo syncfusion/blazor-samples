@@ -125,15 +125,15 @@ namespace ej2_blazor_samples
                 FileName = "RowHover.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Row Drag And Drop",
-                Category = "Rows",
-                Directory = "Grid/DataGrid",
-                Url = "Grid/RowDragAndDrop",
-                FileName = "RowDragAndDrop.razor",
-                Type = SampleType.New
-            },
+            // new Sample
+            // {
+            //     Name = "Row Drag And Drop",
+            //     Category = "Rows",
+            //     Directory = "Grid/DataGrid",
+            //     Url = "Grid/RowDragAndDrop",
+            //     FileName = "RowDragAndDrop.razor",
+            //     Type = SampleType.New
+            // },
             //new Sample
             //{
             //    Name = "Row Drag And Drop Within Grid",
@@ -170,15 +170,15 @@ namespace ej2_blazor_samples
                 FileName = "BatchEditing.razor",
                 Type = SampleType.New
             },
-            // new Sample
-            // {
-                // Name = "Command Column",
-                // Category = "Editing",
-                // Directory = "Grid/DataGrid",
-                // Url = "Grid/CommandColumn",
-                // FileName = "CommandColumn.razor",
-                // Type = SampleType.New
-            // },
+            new Sample
+            {
+                Name = "Command Column",
+                Category = "Editing",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/CommandColumn",
+                FileName = "CommandColumn.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Multi Sorting",
@@ -206,15 +206,15 @@ namespace ej2_blazor_samples
                 FileName = "FilterMenu.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Search",
-            //    Category = "Filtering",
-            //    Directory = "Grid/DataGrid",
-            //    Url = "Grid/Search",
-            //    FileName = "Search.razor",
-            //    Type = SampleType.New
-            //},
+            new Sample
+            {
+               Name = "Search",
+               Category = "Filtering",
+               Directory = "Grid/DataGrid",
+               Url = "Grid/Search",
+               FileName = "Search.razor",
+               Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Paging",
@@ -242,24 +242,24 @@ namespace ej2_blazor_samples
                 FileName = "CheckboxSelection.razor",
                 Type = SampleType.New
             },
-            // new Sample
-            // {
-            //     Name = "Default Aggregate",
-            //     Category = "Aggregates",
-            //     Directory = "Grid/DataGrid",
-            //     Url = "Grid/Aggregate",
-            //     FileName = "Aggregate.razor",
-            //     Type = SampleType.New
-            // },
-            // new Sample
-            // {
-            //     Name = "Group And Caption Aggregate",
-            //     Category = "Aggregates",
-            //     Directory = "Grid/DataGrid",
-            //     Url = "Grid/GroupAndCaptionAggregate",
-            //     FileName = "GroupAndCaptionAggregate.razor",
-            //     Type = SampleType.New
-            // },
+            new Sample
+            {
+                Name = "Default Aggregate",
+                Category = "Aggregates",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/Aggregate",
+                FileName = "Aggregate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Group And Caption Aggregate",
+                Category = "Aggregates",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/GroupAndCaptionAggregate",
+                FileName = "GroupAndCaptionAggregate.razor",
+                Type = SampleType.New
+            },
             //new Sample
             //{
             //    Name = "Default Exporting",

@@ -6,6 +6,7 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ej2_blazor_samples;
 
 namespace ej2_blazor_samples
 {
@@ -83,7 +84,4 @@ namespace ej2_blazor_samples
         Updated,
         Preview
     }
-
-
-    
 }

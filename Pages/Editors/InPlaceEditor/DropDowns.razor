@@ -57,7 +57,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor id="dropdownEle" Mode="@mode" type="@InputType.DropDownList" value="@dropdownValue" model="@dropdownData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.DropDownList" Value="@DropdownValue" Model="@DropdownData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -68,7 +68,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.AutoComplete" Value="@autoValue" Model="@autocompleteData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.AutoComplete" Value="@AutoValue" Model="@AutocompleteData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -79,18 +79,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.ComboBox" Value="@comboValue" Model="@comboData">
-                        </EjsInPlaceEditor>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label class="control-label">
-                            MultiSelect
-                        </label>
-                    </td>
-                    <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.MultiSelect" Value="@multiValue" Model="@multiSelectData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.ComboBox" Value="@ComboValue" Model="@ComboData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -105,13 +94,46 @@
                 </td>
                 <td>
                     <div>
-                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@modeData" ValueChange="@changeEditMode" Index="0"></EjsDropDownList>
+                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@ModeData" @bind-Value="@DropMode">
+                            <DropDownListEvents TValue="string" ValueChange="ChangeEditMode"></DropDownListEvents>
+                        </EjsDropDownList>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
 </div>
+
+@code {
+    private RenderMode Mode = RenderMode.Inline;
+    private object DropdownValue = "Canada";
+    private object AutoValue = "Australia";
+    private object ComboValue = "Finland";
+    private string[] ModeData = new string[] { "Inline", "Popup" };
+    public object DropMode { get; set; } = "Inline";
+
+    private object DropdownData = new
+    {
+        placeholder = "Find a countries",
+        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
+    };
+    private object AutocompleteData = new
+    {
+        placeholder = "Type to search countries",
+        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
+    };
+    private object ComboData = new
+    {
+        placeholder = "Find a countries",
+        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
+    };
+
+    private void ChangeEditMode(ChangeEventArgs<string> args)
+    {
+        Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
+        this.StateHasChanged();
+    }
+}
 
 <style>
     .inplace-control-section.drop-down-layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
@@ -151,40 +173,3 @@
         padding-top: 10px;
     }
 </style>
-
-@code {
-    private RenderMode mode = RenderMode.Inline;
-    private object dropdownValue = "Canada";
-    private object autoValue = "Australia";
-    private object comboValue = "Finland";
-    private string[] modeData = new string[] { "Inline", "Popup" };
-    private string[] multiValue = new string[] { "Canada", "Bermuda" };
-
-    private object dropdownData = new
-    {
-        placeholder = "Find a countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-    private object autocompleteData = new
-    {
-        placeholder = "Type to search countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-    private object comboData = new
-    {
-        placeholder = "Find a countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-    private object multiSelectData = new
-    {
-        mode = "Box",
-        placeholder = "Choose the countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-
-    private void changeEditMode(ChangeEventArgs args)
-    {
-        mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
-        this.StateHasChanged();
-    }
-}

@@ -1,8 +1,7 @@
 ﻿@page "/ColorPicker/Inline"
 
 @using Syncfusion.EJ2.Blazor.Inputs
-@using Newtonsoft.Json;
-@using Newtonsoft.Json.Converters;
+@using Newtonsoft.Json.Linq;
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -60,26 +59,24 @@
         <div id="inline-content" class="row">
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                 <h4>Inline Palette</h4>
-                <EjsColorPicker ID="inline-color-palette" Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" ModeSwitcher="false" Inline="true" ShowButtons="false" ValueChange="@OnChange"></EjsColorPicker>
+                <EjsColorPicker Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" ModeSwitcher="false" Inline="true" ShowButtons="false" ValueChange="OnChange"></EjsColorPicker>
             </div>
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                 <h4>Inline Picker</h4>
-                <EjsColorPicker ID="inline-color-picker" ModeSwitcher="false" Inline="true" ShowButtons="false" ValueChange="@OnChange"></EjsColorPicker>
+                <EjsColorPicker ModeSwitcher="false" Inline="true" ShowButtons="false" ValueChange="OnChange"></EjsColorPicker>
             </div>
         </div>
     </div>
 </div>
 
 
-@functions{
+@code{
 
     public string StyleValue = "background-color:#008000";
     public GetCurrentValue ColorValue { get; set; }
-    public string str = "";
-    private void OnChange(ColorPickerEventArgs args)
+    public void OnChange(ColorPickerEventArgs args)
     {
-        this.str = JsonConvert.SerializeObject(args.CurrentValue);
-        this.ColorValue = JsonConvert.DeserializeObject<GetCurrentValue>(this.str);
+        this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
         this.StyleValue = "background-color:" + this.ColorValue.hex;
         this.StateHasChanged();
     }

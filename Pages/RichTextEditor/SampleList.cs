@@ -70,16 +70,7 @@ namespace ej2_blazor_samples
                 Url = "RichTextEditor/Markdown-Overview",
                 FileName = "Markdown-Overview.razor",
                 Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Preview",
-                Category = "Markdown",
-                Directory = "RichTextEditor/RichTextEditor",
-                Url = "RichTextEditor/Preview",
-                FileName = "Preview.razor",
-                Type = SampleType.New
-            },
+            }
         };      
     }
 

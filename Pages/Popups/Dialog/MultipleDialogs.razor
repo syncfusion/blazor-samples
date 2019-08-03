@@ -25,47 +25,43 @@
 @*End:Hidden*@
 
 <div class="col-lg-12 control-section" id="target">    
-    <button id="dialogBtn" class="e-btn" onclick="@onClicked">Open Dialog</button>
-    <EjsDialog ID="defaultDialog" @ref="firstDialogObj" Width="330px" Visible="true" Height="260px" Target="#target" ShowCloseIcon="true" Header="@DialogFirstHeader">
-        <ChildContent>
-            <p>This is the first dialog and acts as a parent dialog, you can open the second (child) dialog by clicking 'Next'.</p>
-            <DialogButtons>
-                <DialogButton ButtonModel="@defaultbutton" OnClick="@dlgButtonClick"></DialogButton>
-            </DialogButtons>
-        </ChildContent>
+    <button id="dialogBtn" class="e-btn" @onclick="@OnClicked">Open Dialog</button>
+    <EjsDialog @ref="FirstDialogObj" Width="330px" Visible="true" Height="260px" Target="#target" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header> <div>First Dialog</div> </Header>
+            <Content> <div> <p>This is the first dialog and acts as a parent dialog, you can open the second (child) dialog by clicking 'Next'.</p></div> </Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton ButtonModel="@DefaultButton" OnClick="@DlgButtonClick"></DialogButton>
+        </DialogButtons>        
     </EjsDialog>
-    <EjsDialog ID="secondDialog" @ref="secondDialogObj" Header="@DialogSecondHeader" Visible="false" IsModal="true" Width="285px" Height="215px" Target="#target" ShowCloseIcon="true">
-        <ChildContent>
-            <p>This is the second dialog and act as a child dialog.</p>
-            <DialogButtons>
-                <DialogButton ButtonModel="@defaultbutton1" OnClick="@dlg2ButtonClick"></DialogButton>
-            </DialogButtons>
-        </ChildContent>
+    <EjsDialog @ref="SecondDialogObj" @bind-Visible="@Visibility" IsModal="true" Width="285px" Height="215px" Target="#target" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header> <div>Second Dialog</div> </Header>
+            <Content> <div><p>This is the second dialog and act as a child dialog.</p></div> </Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton ButtonModel="@DefaultButton1" OnClick="@Dlg2ButtonClick"></DialogButton>
+        </DialogButtons>
     </EjsDialog>
 </div>
-<style>
-     .e-btn-hide {
-        display: none;
-    }
-</style>
 
 @code {
-    EjsDialog firstDialogObj;
-    EjsDialog secondDialogObj;
+    EjsDialog FirstDialogObj;
+    EjsDialog SecondDialogObj;
 
-    string DialogFirstHeader = "First Dialog";
-    string DialogSecondHeader = "Second Dialog";
-    private void onClicked()
+    private bool Visibility { get; set; } = false;
+    private void OnClicked()
     {
-        this.firstDialogObj.Show();
+        this.FirstDialogObj.Show();
     }
-    private void dlgButtonClick(object arg)
+    private void DlgButtonClick(object arg)
     {
-        this.secondDialogObj.Show();
+        this.SecondDialogObj.Show();
     }
-    private void dlg2ButtonClick(object arg)
+    private void Dlg2ButtonClick(object arg)
     {
-        this.secondDialogObj.Hide();
+        this.SecondDialogObj.Hide();
     }
     public class ButtonModel
     {
@@ -73,6 +69,6 @@
         public bool isPrimary { get; set; }
     }
 
-    public ButtonModel defaultbutton = new ButtonModel { content = "Next", isPrimary = true };
-    public ButtonModel defaultbutton1 = new ButtonModel {  content = "Close", isPrimary = true };
+    public ButtonModel DefaultButton = new ButtonModel { content = "Next", isPrimary = true };
+    public ButtonModel DefaultButton1 = new ButtonModel {  content = "Close", isPrimary = true };
 }

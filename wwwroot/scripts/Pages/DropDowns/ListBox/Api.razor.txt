@@ -28,7 +28,7 @@
 
 <div class="col-lg-8 control-section">
     <div id="listbox-control1">
-        <EjsListBox ID="listbox" @ref="ListBox" DataSource="@VegetableData">
+        <EjsListBox @ref="listBox" DataSource="@VegetableData" TValue="string[]">
             <ListBoxFieldSettings GroupBy="Category" Text="Vegetable" Value="Id"></ListBoxFieldSettings>
             <ListBoxSelectionSettings Mode="@Mode"></ListBoxSelectionSettings>
         </EjsListBox>
@@ -43,7 +43,8 @@
                 </td>
                 <td style="width: 50%;padding-top:10px">
                     <div style="max-width: 200px">
-                        <EjsDropDownList ID="ddl" PopupHeight="200px" DataSource="@SortItems" ValueChange="OrderChange" Index="0">
+                        <EjsDropDownList PopupHeight="200px" DataSource="@SortItems" Index="0" TValue="string">
+                            <DropDownListEvents ValueChange="OrderChange" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
                         </EjsDropDownList>
                     </div>
@@ -55,7 +56,8 @@
                 </td>
                 <td style="width: 50%;padding-top:10px">
                     <div style="max-width: 200px">
-                        <EjsDropDownList ID="mode" PopupHeight="200px" DataSource="@SelectionType" ValueChange="ModeChange" Index="1">
+                        <EjsDropDownList PopupHeight="200px" DataSource="@SelectionType" Index="0" TValue="string">
+                            <DropDownListEvents ValueChange="ModeChange" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
                         </EjsDropDownList>
                     </div>
@@ -83,27 +85,27 @@
 
 @code{
 
-    EjsListBox ListBox;
+    EjsListBox<string[]> listBox;
     SelectionMode Mode = SelectionMode.Single;
-    private void OrderChange(ChangeEventArgs args)
+    private void OrderChange(ChangeEventArgs<string> args)
     {
-        ListBox.SortOrder = args.Value;
-        ListBox.DataBind();
+        listBox.SortOrder = args.Value;
+        listBox.DataBind();
     }
 
-    private void ModeChange(ChangeEventArgs args)
+    private void ModeChange(ChangeEventArgs<string> args)
     {
         if (args.Value.ToString() == "Single")
         {
-            ListBox.SelectionSettings.Mode = SelectionMode.Single;
+            this.Mode = SelectionMode.Single;
         }
         else
         {
-            ListBox.SelectionSettings.Mode = SelectionMode.Multiple;
+            this.Mode = SelectionMode.Multiple;
         }
     }
 
-    List<object> SortItems = new List<object>
+    public List<object> SortItems = new List<object>
 {
         new { Text = "None" },
         new { Text = "Ascending" },
@@ -111,13 +113,13 @@
 
         };
 
-    List<object> SelectionType = new List<object>
+    public List<object> SelectionType = new List<object>
 {
         new { Text = "Single" },
         new { Text = "Multiple" }
         };
 
-    List<object> VegetableData = new List<object>
+    public List<object> VegetableData = new List<object>
 {
         new { Vegetable = "Cabbage", Category= "Leafy and Salad", Id= "item1" },
         new { Vegetable = "Chickpea", Category= "Beans", Id= "item2" },

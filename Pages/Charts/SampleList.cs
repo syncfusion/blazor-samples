@@ -215,15 +215,24 @@ namespace ej2_blazor_samples
                 FileName = "NegativeStack.razor",
                 Type = SampleType.New
             },
+             new Sample
+            {
+                Name = "Scatter Plot",
+                Category = "Scatter and Bubble",
+                Directory = "Charts/Chart",
+                Url = "Charts/Scatter",
+                FileName = "Scatter.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
-                Name = "Bubble Chart",
+                Name = "Bubble",
                 Category = "Scatter and Bubble",
                 Directory = "Charts/Chart",
                 Url = "Charts/Bubble",
                 FileName = "Bubble.razor",
                 Type = SampleType.New
-            },
+            },           
             new Sample
             {
                 Name = "Waterfall",
@@ -276,6 +285,96 @@ namespace ej2_blazor_samples
                 Directory = "Charts/Chart",
                 Url = "Charts/Pareto",
                 FileName = "Pareto.razor",
+                Type = SampleType.New
+            },
+			new Sample
+            {
+                Name = "Accumulation Distributions",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/ADIChart",
+                FileName = "ADIChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "ATR",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/ATRChart",
+                FileName = "ATRChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Bollinger",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/BollingerChart",
+                FileName = "BollingerChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "EMA",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/EmaChart",
+                FileName = "EmaChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "MACD",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/MacdChart",
+                FileName = "MacdChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Momentum",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/MomentumChart",
+                FileName = "MomentumChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "RSI",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/RsiChart",
+                FileName = "RsiChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "SMA",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/SmaChart",
+                FileName = "SmaChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Stochastic",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/StochasticChart",
+                FileName = "StochasticChart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "TMA",
+                Category = "Technical Indicators",
+                Directory = "Charts/Chart",
+                Url = "Charts/TmaChart",
+                FileName = "TmaChart.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -344,7 +443,7 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Polar Line",
-                Category = "Polar Radar",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarLine",
                 FileName = "PolarLineChart.razor",
@@ -353,7 +452,7 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Polar Area",
-                Category = "Polar Radar",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarArea",
                 FileName = "PolarArea.razor",
@@ -362,7 +461,7 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Polar StackedArea",
-                Category = "Polar Radar",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarStackedArea",
                 FileName = "PolarStackedArea.razor",
@@ -371,7 +470,7 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Polar Scatter",
-                Category = "Polar Radar",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarScatter",
                 FileName = "PolarScatter.razor",
@@ -379,8 +478,8 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Polar Column",
-                Category = "Polar Radar",
+                Name = "Radar Column",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarColumn",
                 FileName = "PolarColumn.razor",
@@ -389,7 +488,7 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Wind Rose",
-                Category = "Polar Radar",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/Polar",
                 FileName = "Polar.razor",
@@ -397,8 +496,8 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Polar RangeColumn",
-                Category = "Polar Radar",
+                Name = "Radar RangeColumn",
+                Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarRangeColumn",
                 FileName = "PolarRangeColumn.razor",

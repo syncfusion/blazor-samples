@@ -43,14 +43,6 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/ColorPicker",
                 Url = "ColorPicker/Custom",
                 FileName = "Custom.razor"
-            },
-            new Sample
-            {
-                Name = "API",
-                Category = "ColorPicker",
-                Directory = "Inputs/ColorPicker",
-                Url = "ColorPicker/Api",
-                FileName = "Api.razor"
             }
         };
 

@@ -62,7 +62,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" EditableOn="@editableOn" Type="@InputType.Text" ShowButtons="@showButtons" Disabled="@disabled" Value="@textValue" SubmitOnEnter="true" Model="@textModel">
+                        <EjsInPlaceEditor Mode="@Mode" EditableOn="@EditableOn" Type="@InputType.Text" ShowButtons="@ShowButtons" Disabled="@Disabled" Value="@TextValue" SubmitOnEnter="true" Model="@TextModel">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -73,7 +73,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" EditableOn="@editableOn" Type="@InputType.Numeric" ShowButtons="@showButtons" Disabled="@disabled" Value="@numericValue" Model="@numericModel">
+                        <EjsInPlaceEditor Mode="@Mode" EditableOn="@EditableOn" Type="@InputType.Numeric" ShowButtons="@ShowButtons" Disabled="@Disabled" Value="@NumericValue" Model="@NumericModel">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -84,7 +84,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" EditableOn="@editableOn" Type="@InputType.Mask" ShowButtons="@showButtons" Disabled="@disabled" Value="@maskValue" Model="@maskedModel">
+                        <EjsInPlaceEditor Mode="@Mode" EditableOn="@EditableOn" Type="@InputType.Mask" ShowButtons="@ShowButtons" Disabled="@Disabled" Value="@MaskValue" Model="@MaskedModel">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -99,7 +99,9 @@
                 </td>
                 <td>
                     <div>
-                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@modeData" ValueChange="@changeEditMode" Index="0"></EjsDropDownList>
+                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@ModeData" @bind-Value="@DropMode">
+                            <DropDownListEvents TValue="string" ValueChange="ChangeEditMode"></DropDownListEvents>
+                        </EjsDropDownList>
                     </div>
                 </td>
             </tr>
@@ -109,7 +111,9 @@
                 </td>
                 <td>
                     <div>
-                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@editableData" ValueChange="@changeEditableOn" Index="0"></EjsDropDownList>
+                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@EditableData" @bind-Value="@DropEdit">
+                            <DropDownListEvents TValue="string" ValueChange="ChangeEditableOn"></DropDownListEvents>
+                        </EjsDropDownList>
                     </div>
                 </td>
             </tr>
@@ -119,7 +123,7 @@
                 </td>
                 <td>
                     <div>
-                        <EjsCheckBox Checked="@showButtons" LabelPosition="LabelPosition.Before" ValueChange="@onChange"></EjsCheckBox>
+                        <EjsCheckBox Checked="@ShowButtons" LabelPosition="LabelPosition.Before" ValueChange="@OnChange"></EjsCheckBox>
                     </div>
                 </td>
             </tr>
@@ -129,13 +133,71 @@
                 </td>
                 <td>
                     <div>
-                        <EjsCheckBox LabelPosition="LabelPosition.Before" ValueChange="@onChangeEnable"></EjsCheckBox>
+                        <EjsCheckBox LabelPosition="LabelPosition.Before" ValueChange="@OnChangeEnable"></EjsCheckBox>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
 </div>
+
+@code {
+    private RenderMode Mode = RenderMode.Inline;
+    private EditableType EditableOn = EditableType.Click;
+    private bool Disabled { get; set; } = false;
+    private bool ShowButtons { get; set; } = true;
+    private object TextValue = "Andrew";
+    private object MaskValue = "012-345-6789";
+    private object NumericValue = "$100.00";
+    private string[] ModeData = new string[] { "Inline", "Popup" };
+    private string[] EditableData = new string[] { "Click", "Double Click", "Edit Icon Click" };
+    public object DropMode { get; set; } = "Inline";
+    public object DropEdit { get; set; } = "Click";
+    private object TextModel = new
+    {
+        placeholder = "Enter employee name"
+    };
+    private object NumericModel = new
+    {
+        placeholder = "Currency format",
+        value = 100,
+        format = "c2"
+    };
+    private object MaskedModel = new
+    {
+        mask = "000-000-0000"
+    };
+
+    private void ChangeEditMode(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
+        this.StateHasChanged();
+    }
+
+    private void ChangeEditableOn(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        if (args.Value.ToString() == "Click") {
+            this.EditableOn = EditableType.Click;
+        } else if (args.Value.ToString() == "Double Click") {
+            this.EditableOn = EditableType.DblClick;
+        } else {
+            this.EditableOn = EditableType.EditIconClick;
+        }
+        this.StateHasChanged();
+    }
+
+    private void OnChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs arg)
+    {
+        this.ShowButtons = arg.Checked;
+        this.StateHasChanged();
+    }
+
+    private void OnChangeEnable(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.Disabled = args.Checked;
+        this.StateHasChanged();
+    }
+}
 
 <style>
     .inplace-control-section.default_layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
@@ -200,60 +262,3 @@
         }
     }
 </style>
-
-@code {
-    private RenderMode mode = RenderMode.Inline;
-    private EditableType editableOn = EditableType.Click;
-    private bool disabled { get; set; } = false;
-    private bool showButtons { get; set; } = true;
-    private object textValue = "Andrew";
-    private object maskValue = "012-345-6789";
-    private object numericValue = "$100.00";
-    private string[] modeData = new string[] { "Inline", "Popup" };
-    private string[] editableData = new string[] { "Click", "Double Click", "Edit Icon Click" };
-
-    private object textModel = new
-    {
-        placeholder = "Enter employee name"
-    };
-    private object numericModel = new
-    {
-        placeholder = "Currency format",
-        value = 100,
-        format = "c2"
-    };
-    private object maskedModel = new
-    {
-        mask = "000-000-0000"
-    };
-
-    private void changeEditMode(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args)
-    {
-        this.mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
-        this.StateHasChanged();
-    }
-
-    private void changeEditableOn(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args)
-    {
-        if (args.Value.ToString() == "Click") {
-            this.editableOn = EditableType.Click;
-        } else if (args.Value.ToString() == "Double Click") {
-            this.editableOn = EditableType.DblClick;
-        } else {
-            this.editableOn = EditableType.EditIconClick;
-        }
-        this.StateHasChanged();
-    }
-
-    private void onChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs arg)
-    {
-        this.showButtons = arg.Checked;
-        this.StateHasChanged();
-    }
-
-    private void onChangeEnable(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
-    {
-        this.disabled = args.Checked;
-        this.StateHasChanged();
-    }
-}
