@@ -17,6 +17,15 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
+			new Sample
+            {
+                Name = "Template",
+                Category = "Dialog",
+                Directory = "Popups/Dialog",
+                Url = "Dialog/Template",
+                FileName = "Template.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Draggable",

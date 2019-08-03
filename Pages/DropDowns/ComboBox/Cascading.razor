@@ -30,12 +30,13 @@
 <div class="col-lg-12 control-section">
     <div class='control-wrapper'>
         <div class="padding-top">
-            <EjsComboBox id="country" Placeholder="Select a country" AllowCustom="false" PopupHeight="auto" DataSource="@country" ValueChange="@ChangeCountry">
+            <EjsComboBox TValue="string" Placeholder="Select a country" AllowCustom=false PopupHeight="auto" DataSource="@Country">
+                <ComboBoxEvents TValue="string" ValueChange="ChangeCountry"></ComboBoxEvents>
                 <ComboBoxFieldSettings Text="CountryName" Value="CountryId"></ComboBoxFieldSettings>
             </EjsComboBox>
         </div>
         <div class="padding-top">
-            <EjsComboBox id="state" Enabled="@EnableStateDropDown" Value="@StateValue" Placeholder="Select a state" Query="@StateQuery" AllowCustom="false" PopupHeight="auto" DataSource="@states">
+            <EjsComboBox Enabled="@EnableStateDropDown" Value="@StateValue" Placeholder="Select a state" Query="@StateQuery" AllowCustom=false PopupHeight="auto" DataSource="@States">
                 <ComboBoxFieldSettings Text="StateName" Value="StateId"></ComboBoxFieldSettings>
             </EjsComboBox>
         </div>
@@ -56,39 +57,40 @@
 
 
 @code {
-    private bool EnableStateDropDown = false;
-    private string StateQuery {get;set;} = null;
-    private string StateValue {get; set;} = null;
+    public bool EnableStateDropDown = false;
+    public string StateValue { get; set; } = null;
+    public string StateQuery { get; set; } = null;
 
-    private void ChangeCountry(@Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args) {
+    public void ChangeCountry(@Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
         this.EnableStateDropDown = true;
-        this.StateQuery = "new ej.data.Query().where('CountryId', 'equal', '" + args.Value  + "')";
+        this.StateQuery = "new ej.data.Query().where('CountryId', 'equal', '" + args.Value + "')";
         this.StateValue = null;
         this.StateHasChanged();
     }
 
     public class State
     {
-    public string StateName { get; set; }
+        public string StateName { get; set; }
 
-    public string CountryId { get; set; }
+        public string CountryId { get; set; }
 
-    public string StateId { get; set; }
+        public string StateId { get; set; }
     }
 
-    public class Country
+    public class Countries
     {
-    public string CountryName { get; set; }
+        public string CountryName { get; set; }
 
-    public string CountryId { get; set; }
+        public string CountryId { get; set; }
     }
 
-    List<Country> country = new List<Country> () {
-        new Country(){ CountryName= "Australia", CountryId= "2" },
-        new Country(){ CountryName= "United States", CountryId= "1" },
+    public List<Countries> Country = new List<Countries>() {
+        new Countries(){ CountryName= "Australia", CountryId= "2" },
+        new Countries(){ CountryName= "United States", CountryId= "1" },
     };
 
-    List<State> states = new List<State>() {
+    public List<State> States = new List<State>() {
         new State() { StateName= "New York", CountryId= "1", StateId= "101" },
         new State() { StateName= "Queensland", CountryId= "2", StateId= "104" },
         new State() { StateName= "Tasmania ", CountryId= "2", StateId= "105" },
@@ -96,4 +98,4 @@
         new State() { StateName= "Virginia", CountryId= "1", StateId= "102" },
         new State() { StateName= "Washington", CountryId= "1", StateId= "103" }
     };
- }
+}

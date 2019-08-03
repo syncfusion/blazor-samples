@@ -70,7 +70,7 @@ namespace ej2_blazor_samples
                 Order = 03,
                 Samples = CircularGauge
             });
-			SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "LinearGauge",
                 Category = "Data Visualization",
@@ -80,7 +80,7 @@ namespace ej2_blazor_samples
                 Order = 04,
                 Samples = LinearGauge
             });
-			SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
@@ -94,13 +94,13 @@ namespace ej2_blazor_samples
             {
                 Name = "Sparkline",
                 Category = "Data Visualization",
-				Directory = "Charts/Sparkline",
+                Directory = "Charts/Sparkline",
                 Type = SampleType.New,
                 UID = 010,
                 Order = 10,
                 Samples = Sparkline
             });
-			SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "TreeMap",
                 Category = "Data Visualization",
@@ -140,7 +140,7 @@ namespace ej2_blazor_samples
                 Order = 09,
                 Samples = SmithChart
             });
-			SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Barcode",
                 Category = "Data Visualization",
@@ -322,26 +322,6 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Avatar",
-                Category = "Layout",
-                Directory = "Layouts/Avatar",
-                Type = SampleType.New,
-                UID = 012,
-                Order = 12,
-                Samples = Avatar
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Card",
-                Category = "Layout",
-                Directory = "Layouts/Card",
-                Type = SampleType.New,
-                UID = 007,
-                Order = 01,
-                Samples = Card
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
                 Name = "DashboardLayout",
                 Category = "Layout",
                 Directory = "Layouts/DashboardLayout",
@@ -462,7 +442,7 @@ namespace ej2_blazor_samples
                 Order = 01,
                 Samples = RichTextEditor
             });
-              SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "NumericTextBox",
                 Category = "Inputs",
@@ -541,16 +521,6 @@ namespace ej2_blazor_samples
                 UID = 004,
                 Order = 03,
                 Samples = Chips
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Badge",
-                Category = "Notifications",
-                Directory = "Notifications/Badge",
-                Type = SampleType.New,
-                UID = 017,
-                Order = 17,
-                Samples = Badge
             });
             SampleBrowser.SampleList.Add(new SampleList
             {

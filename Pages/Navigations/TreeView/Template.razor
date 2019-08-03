@@ -17,42 +17,42 @@
     };
     SampleBrowser.Description = new string[] {
         @" <p>The <code>TreeView</code> component  has an option to customize the node structure through the <code>nodeTemplate</code> property, so that the tree node can be formed with any custom structure.</p>
-    <p>In this demo, the node is formed as like webmail with folder name and number of unread messages.</p>
-    <p>For more information, you can refer to the <a href='https://ej2.syncfusion.com/documentation/treeview/template/' target='_blank'>Templates</a> section from the documentation.</p>"
+    <p>In this demo, the node is formed as like webmail with folder name and number of unread messages.</p>"
+
     };
 }
 @*End:Hidden*@
-@using Syncfusion.EJ2.Blazor.Navigations;
-<div class="control_wrapper">
-    <EjsTreeView ID="tree" ModelType="@modelType" LoadOnDemand="false">
-        <TreeViewFieldsSettings Id="Id" Text="Name" ParentID="Pid" HasChildren="HasChild" Selected="Selected" Expanded="Expanded" DataSource="@localData"></TreeViewFieldsSettings>
-        <TreeViewTemplates>
-            <NodeTemplate>
-                <div>
-                    <div class="treeviewdiv">
-                        <div style="float:left">
-                            <span class="treeName">@context.Name</span>
-                        </div>
-                        @{
 
-                        @if (@context.Count != 0)
-                        {
-                        <div style="margin-right: 5px; float:right">
-                            <span class="treeCount e-badge e-badge-primary">@context.Count</span>
-                        </div>
-                        }
-                            }
+<div class="control_wrapper">
+<EjsTreeView ModelType="@ModelType" TValue="TreeData">
+    <TreeViewFieldsSettings Id="Id" TValue="TreeData" Text="Name" ParentID="Pid" HasChildren="HasChild" Selected="Selected" Expanded="Expanded" DataSource="@localData"></TreeViewFieldsSettings>
+    <TreeViewTemplates>
+        <NodeTemplate>
+            <div>
+                <div class="treeviewdiv">
+                    <div style="float:left">
+                        <span class="treeName">@((context as TreeData).Name)</span>
                     </div>
+                    @{
+
+                        @if (((context as TreeData).Count) != 0)
+                        {
+                            <div style="margin-right: 5px; float:right">
+                                <span class="treeCount e-badge e-badge-primary">@((context as TreeData).Count)</span>
+                            </div>
+                        }
+                    }
                 </div>
-            </NodeTemplate>
-        </TreeViewTemplates>
-    </EjsTreeView>
+            </div>
+        </NodeTemplate>
+    </TreeViewTemplates>
+</EjsTreeView>
 </div>
 
-@functions{
+@code{
 
-    List<TreeData> localData = new List<TreeData>();
-    public TreeData modelType = new TreeData();
+    private List<TreeData> localData = new List<TreeData>();
+    public TreeData ModelType = new TreeData();
     protected override void OnInit()
     {
         base.OnInit();
@@ -89,7 +89,7 @@
             Id = 5,
             HasChild = true,
             Name = "My Folder",
-            Expanded=true
+            Expanded = true
         });
         localData.Add(new TreeData
         {
@@ -143,15 +143,13 @@
     public class TreeData
     {
         public int Id { get; set; }
-        public int Pid { get; set; }
+        public int? Pid { get; set; }
         public string Name { get; set; }
         public bool HasChild { get; set; }
         public bool Expanded { get; set; }
         public int Count { get; set; }
         public bool Selected { get; set; }
     }
-
-
 }
 <style>
     .control_wrapper {
@@ -174,3 +172,4 @@
         vertical-align: middle;
     }
 </style>
+

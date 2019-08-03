@@ -1,7 +1,7 @@
 ﻿@page "/ColorPicker/Custom"
 
 @using Syncfusion.EJ2.Blazor.Inputs
-@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
 
 
 @*Hidden:Lines*@
@@ -49,20 +49,103 @@
         </div>
         <div id="custom-content" class="row">
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6 e-circle-wrap">
-                <EjsColorPicker ID="circle-palette" Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="4" PresetColors="@CustomValues[0]" OnTileRender="@BeforeCircleTileRender" ValueChange="@OnChange"></EjsColorPicker>
+                <EjsColorPicker Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" CssClass="circle-palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="4" PresetColors="@CustomValues[0]" OnTileRender="BeforeCircleTileRender" ValueChange="OnChange"></EjsColorPicker>
             </div>
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6 e-rounded-wrap">
-                <EjsColorPicker ID="rounded-palette" Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="5" PresetColors="@CustomValues[2]" OnTileRender="@BeforeRoundedTileRender" ValueChange="@RoundedPaletteChange"></EjsColorPicker>
+                <EjsColorPicker Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" CssClass="rounded-palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="5" PresetColors="@CustomValues[2]" OnTileRender="BeforeRoundedTileRender" ValueChange="RoundedPaletteChange"></EjsColorPicker>
             </div>
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6 e-square-wrap">
-                <EjsColorPicker ID="square-palette" Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="8" PresetColors="@CustomValues[1]" OnTileRender="@BeforeSquareTileRender" ValueChange="@OnChange"></EjsColorPicker>
+                <EjsColorPicker Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" CssClass="square-palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="8" PresetColors="@CustomValues[1]" OnTileRender="BeforeSquareTileRender" ValueChange="OnChange"></EjsColorPicker>
             </div>
             <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6 e-scroll-wrap">
-                <EjsColorPicker ID="scroll-palette" Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="4" PresetColors="@CustomValues[3]" OnTileRender="@BeforeScrollTileRender" ValueChange="@OnChange"></EjsColorPicker>
+                <EjsColorPicker Mode="Syncfusion.EJ2.Blazor.Inputs.ColorPickerMode.Palette" CssClass="scroll-palette" ModeSwitcher="false" Inline="true" ShowButtons="false" Columns="4" PresetColors="@CustomValues[3]" OnTileRender="BeforeScrollTileRender" ValueChange="OnChange"></EjsColorPicker>
             </div>
         </div>
     </div>
 </div>
+
+@code{
+
+    public string StyleValue = "background-color:#008000";
+    public GetCurrentValue ColorValue { get; set; }
+    public void OnChange(ColorPickerEventArgs args)
+    {
+        this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
+        this.StyleValue = "background-color:" + this.ColorValue.hex;
+        this.StateHasChanged();
+    }
+
+    public class GetCurrentValue
+    {
+        public string hex { get; set; }
+        public string rgba { get; set; }
+    }
+
+    public void BeforeCircleTileRender(PaletteTileEventArgs args)
+    {
+        args.Element.AddClass(new string[] { "e-circle-palette" });
+    }
+            
+    public void BeforeSquareTileRender(PaletteTileEventArgs args)
+    {
+        args.Element.AddClass(new string[] { "e-square-palette" });
+
+    }
+
+    public void BeforeRoundedTileRender(PaletteTileEventArgs args)
+    {
+        args.Element.AddClass(new string[] { "e-rounded-palette" });
+    }
+
+    public void BeforeScrollTileRender(PaletteTileEventArgs args)
+    {
+        args.Element.AddClass(new string[] { "e-icons" });
+        args.Element.AddClass(new string[] { "e-scroll-palette" });
+
+    }
+
+    public void RoundedPaletteChange(ColorPickerEventArgs args)
+    {
+        this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
+        this.StyleValue = "background-color:" + this.ColorValue.hex;
+        this.StateHasChanged();
+    }
+
+    public List<object> CustomValues = new List<object> {
+            new
+            {
+                Custom = new string[] {"#f44336", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4",
+                "#009688", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107" }
+    },
+            new
+            {
+                Custom = new string[] {"#b80000", "#db3e00", "#fccb00", "#008b02",
+                "#006b76", "#1273de", "#004dcf", "#5300eb", "#eb9694", "#fad0c3", "#fef3bd", "#c1e1c5",
+                "#bedadc", "#c4def6", "#bed3f3", "#d4c4fb"}
+            },
+            new
+            {
+                Custom = new string[] {"#ff6900", "#fcb900", "#7bdcb5", "#00d084",
+                "#8ed1fc", "#0693e3", "#abb8c3", "#eb144c", "#f78da7", "#9900ef"}
+            },
+            new
+            {
+                Custom1 = new string[] {"#ef9a9a", "#e57373", "#ef5350",
+                "#f44336", "#f48fb1", "#f06292", "#ec407a", "#e91e63", "#ce93d8",
+                "#ba68c8", "#ab47bc", "#9c27b0", "#b39ddb", "#9575cd", "#7e57c2", "#673AB7"},
+                Custom2 = new string[] {"#9FA8DA", "#7986CB", "#5C6BC0", "#3F51B5",
+                "#90CAF9", "#64B5F6", "#42A5F5", "#2196F3", "#81D4FA", "#4FC3F7", "#29B6F6", "#03A9F4",
+                "#80DEEA", "#4DD0E1", "#26C6DA", "#00BCD4"},
+                Custom3 = new string[] {"#80CBC4", "#4DB6AC", "#26A69A", "#009688",
+                "#A5D6A7", "#81C784", "#66BB6A", "#4CAF50", "#C5E1A5", "#AED581", "#9CCC65", "#8BC34A", "#E6EE9C",
+                "#DCE775", "#D4E157", "#CDDC39"},
+                Custom4 = new string[] {"#FFF59D", "#FFF176", "#FFEE58", "#FFEB3B",
+                "#FFE082", "#FFD54F", "#FFCA28", "#FFC107", "#FFCC80", "#FFB74D", "#FFA726", "#FF9800", "#FFAB91",
+                "#FF8A65", "#FF7043", "#FF5722"}
+            }
+            };
+
+}
 
 <style>
     /* Common sample level styles */
@@ -168,16 +251,16 @@
         transition: transform .2s ease-out;
     }
 
-    #circle-palette + .e-container,
-    #scroll-palette + .e-container {
+    .circle-palette .e-container,
+    .scroll-palette .e-container {
         background-color: transparent;
         border-color: transparent;
         box-shadow: none;
     }
 
         /* Scrollable palette customization */
-        #scroll-palette + .e-container .e-custom-palette.e-palette-group,
-        .e-bigger #scroll-palette + .e-container .e-custom-palette.e-palette-group {
+        .scroll-palette .e-container .e-custom-palette.e-palette-group,
+        .e-bigger .scroll-palette .e-container .e-custom-palette.e-palette-group {
             height: 125px;
         }
 
@@ -212,8 +295,8 @@
         height: 20px;
     }
 
-    #square-palette + .e-container .e-custom-palette .e-palette,
-    #rounded-palette + .e-container .e-custom-palette .e-palette {
+    .square-palette .e-container .e-custom-palette .e-palette,
+    .rounded-palette .e-container .e-custom-palette .e-palette {
         padding: 5px;
     }
 
@@ -242,90 +325,3 @@
         outline: none;
     }
 </style>
-
-@code{
-
-    public string StyleValue = "background-color:#008000";
-    public GetCurrentValue ColorValue { get; set; }
-    public string str = "";
-    private void OnChange(ColorPickerEventArgs args)
-    {
-        this.str = JsonConvert.SerializeObject(args.CurrentValue);
-        this.ColorValue = JsonConvert.DeserializeObject<GetCurrentValue>(this.str);
-        this.StyleValue = "background-color:" + this.ColorValue.hex;
-        this.StateHasChanged();
-    }
-
-    public class GetCurrentValue
-    {
-        public string hex { get; set; }
-        public string rgba { get; set; }
-    }
-
-    private void BeforeCircleTileRender(PaletteTileEventArgs args)
-    {
-        args.Element.AddClass(new string[] { "e-circle-palette" });
-    }
-
-    private void BeforeSquareTileRender(PaletteTileEventArgs args)
-    {
-        args.Element.AddClass(new string[] { "e-square-palette" });
-
-    }
-
-    private void BeforeRoundedTileRender(PaletteTileEventArgs args)
-    {
-        args.Element.AddClass(new string[] { "e-rounded-palette" });
-    }
-
-    private void BeforeScrollTileRender(PaletteTileEventArgs args)
-    {
-        args.Element.AddClass(new string[] { "e-icons" });
-        args.Element.AddClass(new string[] { "e-scroll-palette" });
-
-    }
-
-    private void RoundedPaletteChange(ColorPickerEventArgs args)
-    {
-        this.str = JsonConvert.SerializeObject(args.CurrentValue);
-        this.ColorValue = JsonConvert.DeserializeObject<GetCurrentValue>(this.str);
-        this.StyleValue = "background-color:" + this.ColorValue.hex;
-        this.StateHasChanged();
-    }
-
-    List<object> CustomValues = new List<object> {
-            new
-            {
-                Custom = new string[] {"#f44336", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4",
-                "#009688", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107" }
-    },
-            new
-            {
-                Custom = new string[] {"#b80000", "#db3e00", "#fccb00", "#008b02",
-                "#006b76", "#1273de", "#004dcf", "#5300eb", "#eb9694", "#fad0c3", "#fef3bd", "#c1e1c5",
-                "#bedadc", "#c4def6", "#bed3f3", "#d4c4fb"}
-            },
-            new
-            {
-                Custom = new string[] {"#ff6900", "#fcb900", "#7bdcb5", "#00d084",
-                "#8ed1fc", "#0693e3", "#abb8c3", "#eb144c", "#f78da7", "#9900ef"}
-            },
-            new
-            {
-                Custom1 = new string[] {"#ef9a9a", "#e57373", "#ef5350",
-                "#f44336", "#f48fb1", "#f06292", "#ec407a", "#e91e63", "#ce93d8",
-                "#ba68c8", "#ab47bc", "#9c27b0", "#b39ddb", "#9575cd", "#7e57c2", "#673AB7"},
-                Custom2 = new string[] {"#9FA8DA", "#7986CB", "#5C6BC0", "#3F51B5",
-                "#90CAF9", "#64B5F6", "#42A5F5", "#2196F3", "#81D4FA", "#4FC3F7", "#29B6F6", "#03A9F4",
-                "#80DEEA", "#4DD0E1", "#26C6DA", "#00BCD4"},
-                Custom3 = new string[] {"#80CBC4", "#4DB6AC", "#26A69A", "#009688",
-                "#A5D6A7", "#81C784", "#66BB6A", "#4CAF50", "#C5E1A5", "#AED581", "#9CCC65", "#8BC34A", "#E6EE9C",
-                "#DCE775", "#D4E157", "#CDDC39"},
-                Custom4 = new string[] {"#FFF59D", "#FFF176", "#FFEE58", "#FFEB3B",
-                "#FFE082", "#FFD54F", "#FFCA28", "#FFC107", "#FFCC80", "#FFB74D", "#FFA726", "#FF9800", "#FFAB91",
-                "#FF8A65", "#FF7043", "#FF5722"}
-            }
-            };
-
-}
-

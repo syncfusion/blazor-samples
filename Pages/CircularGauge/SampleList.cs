@@ -35,7 +35,16 @@ namespace ej2_blazor_samples
                 FileName = "Customization.razor",
                 Type = SampleType.New
             },
-             new Sample
+			//   new Sample
+			// {
+			// 	Name = "Semi-circular Gauge",
+			// 	Category = "CircularGauge",
+			// 	Directory = "CircularGauge/CircularGauge",
+			// 	Url = "CircularGauge/Semicirculargauge",
+			// 	FileName = "Semicirculargauge.razor",
+			// 	Type = SampleType.New
+			// },
+			 new Sample
             {
                 Name = "Pointer Image",
                 Category = "CircularGauge",

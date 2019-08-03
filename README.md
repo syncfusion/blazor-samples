@@ -1,6 +1,6 @@
 # Syncfusion Blazor Components Demos
 
-This repository contains the demos of [Syncfusion Blazor Components](https://ej2.syncfusion.com/home/aspnet-core-blazor.html).
+This repository contains the demos of [Syncfusion Blazor Components](https://ej2.syncfusion.com/home/blazor.html).
 
 The below topics can help you to use the Syncfusion Blazor Components and run this application in your local.
 
@@ -16,7 +16,7 @@ The below topics can help you to use the Syncfusion Blazor Components and run th
 The samples requires the below requirements to run.
 
 * [Visual Studio 2019 Preview](https://visualstudio.microsoft.com/vs/preview/)
-* [.NET Core SDK 3.0.100-preview6-012264](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+* [.NET Core SDK 3.0.100-preview7-012821](https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
 ## Using the demos
 
@@ -154,9 +154,6 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="ej2-blazor-samples/Pages/Buttons">Button</a>
         </td>
         <td>
-            <a href="ej2-blazor-samples/Pages/Buttons/Button/ButtonGroup.razor">Button Group</a>
-        </td>
-        <td>
             <a href="ej2-blazor-samples/Pages/Buttons/Button/DropDownButton.razor">Dropdown Menu</a>
         </td>
     </tr>
@@ -270,12 +267,6 @@ The Syncfusion license that contains the terms and conditions can be found at
         </td>
     </tr>
     <tr>
-        <td>
-            <a href="ej2-blazor-samples/Pages/Layouts/Avatar">Avatar</a>
-        </td>
-        <td>
-            <a href="ej2-blazor-samples/Pages/Layouts/Card">Card</a>
-        </td>
         <td>
             <a href="ej2-blazor-samples/Pages/Layout/Dialog">Dialog</a>
         </td>

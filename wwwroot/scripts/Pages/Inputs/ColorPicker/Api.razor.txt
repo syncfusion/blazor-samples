@@ -5,7 +5,7 @@
 @using Syncfusion.EJ2.Blazor.DropDowns
 @using Syncfusion.EJ2.Blazor.Buttons
 @using Newtonsoft.Json;
-
+@using Newtonsoft.Json.Linq;
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -52,7 +52,7 @@
 <div class="col-lg-8 control-section">
     <div id="colorpicker-control">
         <h4>Choose a color</h4>
-        <EjsColorPicker ID='color-picker' @ref="ColorPicker" Value="#0db1e7" ValueChange="@OnChange"></EjsColorPicker>
+        <EjsColorPicker @ref="colorPicker" Value="#0db1e7" ValueChange="OnChange"></EjsColorPicker>
     </div>
 </div>
 <div class="col-lg-4 property-section">
@@ -64,7 +64,7 @@
                 </td>
                 <td style="width: 50%">
                     <div style="max-width: 200px">
-                        <EjsTextBox ID="firstname" Value="@InputValue" ValueChange="@TextboxChange"></EjsTextBox>
+                        <EjsTextBox ID="firstname" Value="@InputValue" ValueChange="TextboxChange"></EjsTextBox>
                     </div>
                 </td>
             </tr>
@@ -74,7 +74,8 @@
                 </td>
                 <td style="width: 50%;padding-top:10px">
                     <div style="max-width: 200px">
-                        <EjsDropDownList ID="ddl" DataSource="@Data" PopupHeight="200px" ValueChange="@ValueChanged" Index="0">
+                        <EjsDropDownList DataSource="@Data" PopupHeight="200px" Index="0" TValue="string">
+                            <DropDownListEvents ValueChange="ValueChanged" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Mode" Value="Id"></DropDownListFieldSettings>
                         </EjsDropDownList>
                     </div>
@@ -85,7 +86,7 @@
                     <div>Disable</div>
                 </td>
                 <td style="width: 50%;padding-top:15px">
-                    <EjsCheckBox ID='disabled' Checked="false" ValueChange="@DisabledOnChange"></EjsCheckBox>
+                    <EjsCheckBox @bind-Checked="Disable" ValueChange="DisabledOnChange"></EjsCheckBox>
                 </td>
             </tr>
             <tr>
@@ -93,7 +94,7 @@
                     <div>Show Buttons</div>
                 </td>
                 <td style="width: 50%;padding-top:15px">
-                    <EjsCheckBox ID='show-btn' Checked="true" ValueChange="@ButtonOnChange"></EjsCheckBox>
+                    <EjsCheckBox @bind-Checked="ShowButtonChange" ValueChange="ButtonOnChange"></EjsCheckBox>
                 </td>
             </tr>
             <tr>
@@ -101,31 +102,29 @@
                     <div>Mode Switcher</div>
                 </td>
                 <td style="width: 50%;padding-top:15px">
-                    <EjsCheckBox ID='mode-switch' Checked="true" ValueChange="@ModeOnChange"></EjsCheckBox>
+                    <EjsCheckBox @bind-Checked="ModeChange" ValueChange="ModeOnChange"></EjsCheckBox>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-
-
 @code{
 
-    EjsColorPicker ColorPicker;
+    EjsColorPicker colorPicker;
     public string InputValue = "#0db1e7";
-
     public string StyleValue = "background-color:#008000";
-
     public GetCurrentValue ColorValue { get; set; }
-    public string str = "";
+    public bool Disable = false;
+    public bool ModeChange = true;
+    public bool ShowButtonChange = true;
+
     private void OnChange(ColorPickerEventArgs args)
     {
-        this.str = JsonConvert.SerializeObject(args.CurrentValue);
-        this.ColorValue = JsonConvert.DeserializeObject<GetCurrentValue>(this.str);
+        this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
         this.StyleValue = "background-color:" + this.ColorValue.hex;
-        this.StateHasChanged();
         this.InputValue = this.ColorValue.hex;
+        this.StateHasChanged();
     }
 
     public class GetCurrentValue
@@ -148,36 +147,32 @@
         {
             args.Value = "#008000";
         }
-        ColorPicker.Value = args.Value;
+        colorPicker.Value = args.Value;
     }
 
-    private void ValueChanged(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs args)
+    private void ValueChanged(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         if (args.Value.ToString() == "Palette")
         {
-            ColorPicker.Mode = ColorPickerMode.Palette;
+            colorPicker.Mode = ColorPickerMode.Palette;
         }
         else
         {
-            ColorPicker.Mode = ColorPickerMode.Picker;
+            colorPicker.Mode = ColorPickerMode.Picker;
         }
-        ColorPicker.DataBind();
 
     }
     private void ModeOnChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
-        ColorPicker.ModeSwitcher = args.Checked;
-        ColorPicker.DataBind();
+        colorPicker.ModeSwitcher = args.Checked;
     }
     private void ButtonOnChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
-        ColorPicker.ShowButtons = args.Checked;
-        ColorPicker.DataBind();
+        colorPicker.ShowButtons = args.Checked;
     }
     private void DisabledOnChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
-        ColorPicker.Disabled = args.Checked;
-        ColorPicker.DataBind();
+        colorPicker.Disabled = args.Checked;
     }
 
     public List<object> Data = new List<object> {

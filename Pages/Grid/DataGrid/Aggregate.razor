@@ -60,12 +60,42 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGrid id="Grid" DataSource="@gridData" AllowPaging="true">
+            <EjsGrid DataSource="@GridData" AllowPaging="true">
+                <GridAggregates>
+                    <GridAggregate>
+                        <GridAggregatecolumns>
+                            <GridAggregateColumn Field=@nameof(OrdersDetails.Freight) Type="AggregateType.Sum"  Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var sumvalue = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Sum: @sumvalue.Sum</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregatecolumns>
+                    </GridAggregate>
+                    <GridAggregate>
+                        <GridAggregatecolumns>
+                            <GridAggregateColumn Field=@nameof(OrdersDetails.Freight) Type="AggregateType.Average"  Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var avgvalue = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Average: @avgvalue.Average</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregatecolumns>
+                    </GridAggregate>
+                </GridAggregates>
                 <GridPageSettings PageCount="5"></GridPageSettings>
                 <GridColumns>
                     <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="@TextAlign.Right" Width="160"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="date" TextAlign="@TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right"  Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="date" TextAlign="TextAlign.Right"  Width="130"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140"></GridColumn>
                 </GridColumns>
             </EjsGrid>
@@ -76,10 +106,10 @@
 
 @code{
 
-    public List<OrdersDetails> gridData { get; set; }
+    public List<OrdersDetails> GridData { get; set; }
 
     protected override void OnInit()
     {
-        gridData = OrdersDetails.GetAllRecords();
+        GridData = OrdersDetails.GetAllRecords();
     }
 }

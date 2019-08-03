@@ -45,7 +45,7 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt id="zoomingGantt" ModelType="@templateCollections" DataSource="@ganttData" Height="450px"
+            <EjsGantt ModelType="@TemplateModel" DataSource="@TaskCollection" Height="450px"
                       Toolbar="@(new List<string>{ "ZoomIn","ZoomOut","ZoomToFit"})" TreeColumnIndex="1"
                       ProjectStartDate="03/24/2019" ProjectEndDate="04/28/2019">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
@@ -53,7 +53,7 @@
                 <GanttLabelSettings>
                     <LeftLabelTemplate>
                         <div class="e-left-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@context.TaskName</span>
+                            <span class="e-label">@((context as GanttTemplateModel).TaskName)</span>
                         </div>
                     </LeftLabelTemplate>
                 </GanttLabelSettings>
@@ -61,12 +61,13 @@
         </div>
     </div>
 </div>
-@functions{
-    public List<GanttData.GanttDataSource> ganttData { get; set; }
-    public GanttTemplate templateCollections = new GanttTemplate();
+
+@code{
+    public List<GanttData.TaskData> TaskCollection { get; set; }
+    public GanttTemplateModel TemplateModel = new GanttTemplateModel();
 
     protected override void OnInit()
     {
-        this.ganttData = GanttData.ZoomingData().ToList();
+        this.TaskCollection = GanttData.ZoomingData();
     }
 }

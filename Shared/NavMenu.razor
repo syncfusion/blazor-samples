@@ -9,138 +9,147 @@
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
 @inject IJSRuntime JsRuntime;
 
-<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@TreeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" NodeSelected="@OnNodeClick" @ref="ComponentsTree"></EjsTreeView>
+@typeparam  TValue
+
+<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="object">
+    <TreeViewEvents NodeSelected="OnNodeClick" TValue="object"></TreeViewEvents>
+</EjsTreeView>
 
 <div id="controlSamples" class="time-duration">
     <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnToggle">
         <div class="e-icons sb-icons back-icon"></div>
         <div class='control-name'>All Controls</div>
     </div>
-    <EjsListView id="sample-list" CssClass="@ListClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" Selected="@OnSampleSelect"></EjsListView>
+    <EjsListView id="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="object">
+        <ListViewEvents Selected="OnSampleSelect" TValue="object"></ListViewEvents>
+    </EjsListView>
 </div>
 
 @code {
 
-    EjsListView SampleList;
-    EjsTreeView ComponentsTree;
+EjsListView<object> SampleList;
+EjsTreeView<object> ComponentsTree;
 
-    private string TreeviewClass { get; set; } = "e-view time-duration sb-hide";
+private string treeviewClass { get; set; } = "e-view time-duration sb-hide";
 
-    private string ListClass { get; set; } = "e-view sb-control-list-top";
+private string listClass { get; set; } = "e-view sb-control-list-top";
 
-    Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings DataSource = new Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings
+public Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings<object> DataSource = new Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings<object>
+{
+    DataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
     {
-        DataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
+        List<SampleList> SampleItems = samples.ToList();
+        SampleItems.OrderBy(orderBy => orderBy.Order);
+        SampleItems.ForEach(sampleItem =>
         {
-            List<SampleList> SampleItems = samples.ToList();
-            SampleItems.OrderBy(orderBy => orderBy.Order);
-            SampleItems.ForEach(sampleItem =>
+            sampleItem.Samples.ForEach(currentSample =>
             {
-                sampleItem.Samples.ForEach(currentSample =>
-                {
-                    SampleBrowser.SampleUrls.Add(currentSample.Url);
-                });
+                SampleBrowser.SampleUrls.Add(currentSample.Url);
             });
-            return new { dataSource = SampleItems, Name = SampleItems[0].Category, UID = samples.Key, expanded = true };
-        }),
-        Id = "UID",
-        Text = "Name",
-        Child = "dataSource"
-    };
-
-    private void OnNodeClick(object args)
-    {
-         string ArgsString = JsonConvert.SerializeObject(args);
-        TreeViewEventModel Data = JsonConvert.DeserializeObject<TreeViewEventModel>(ArgsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        if (Data.nodeData.parentID != null)
-        {
-            SampleBrowser.CurrentControl = SampleBrowser.Config.GetType().GetProperty(Data.nodeData.text).GetValue(SampleBrowser.Config) as List<Sample>;
-            this.ListClass = "e-view sb-control-list-top";
-            this.TreeviewClass = "e-view time-duration sb-hide";
-            this.ListDataSource = SampleBrowser.CurrentControl;
-            base.StateHasChanged();
-            JsRuntime.InvokeAsync<Object>("viewSwitch", this.ListClass);
-        }
-    }
-
-    public void OnToggle()
-    {
-        if (this.TreeviewClass.Contains("sb-hide"))
-        {
-            this.TreeviewClass = "e-view time-duration";
-            this.ListClass = "sb-hide";
-            this.ComponentsTree.DataBind();
-            JsRuntime.InvokeAsync<Object>("viewSwitch", this.ListClass);
-        }
-    }
-
-    public void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs args)
-    {
-        string ArgsString = JsonConvert.SerializeObject(args);
-        ListViewEvent SampleData = JsonConvert.DeserializeObject<ListViewEvent>(ArgsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        string CompareUrl = string.Empty;
-        List<string> ActionDescriptionItems = new List<string>();
-        List<string> DescriptionItems = new List<string>();
-        if (SampleBrowser.CurrentUrl != SampleData.data.Url || SampleData.data.Url != CompareUrl)
-        {
-            CompareUrl = SampleBrowser.CurrentUrl;
-            if (SampleBrowser.ActionDescription != null)
-            {
-                foreach (string Element in SampleBrowser.ActionDescription)
-                {
-                    ActionDescriptionItems.Add(Element);
-                }
-                JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
-            }
-            else
-            {
-                JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
-            }
-            if (SampleBrowser.Description != null)
-            {
-                foreach (string Element in SampleBrowser.Description)
-                {
-                    DescriptionItems.Add(Element);
-                }
-                JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
-            }
-            else
-            {
-                JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
-            }
-
-            JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
-
-            var temp = JsRuntime.InvokeAsync<Object>("persistURL", SampleData.data, new List<string>());
-
-            UriHelper.NavigateTo(SampleData.data.Url);
-            SampleBrowser.CurrentUrl = SampleData.data.Url;
-        }
-    }
-
-
-    [Parameter]
-    private List<Sample> ListDataSource { get; set; } = new List<Sample>();
-
-    protected override void OnAfterRender()
-    {
-        this.ListDataSource = SampleBrowser.CurrentControl;
-        this.SampleList.DataSource = this.ListDataSource;
-        this.SampleList.DataBind();
-        SampleBrowser.CurrentControl.ForEach(sample =>
-        {
-            if (sample.Name == SampleBrowser.CurrentSampleName)
-            {
-                SampleBrowser.CurrentUrl = sample.Url;
-            }
         });
-    }
+        return new { dataSource = SampleItems, Name = SampleItems[0].Category, UID = samples.Key, expanded = true };
+    }),
+    Id = "UID",
+    Text = "Name",
+    Child = "dataSource"
+};
 
-    Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings
+private void OnNodeClick(object args)
+{
+    string argsString = JsonConvert.SerializeObject(args);
+    TreeViewEventModel Data = JsonConvert.DeserializeObject<TreeViewEventModel>(argsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+    if (Data.nodeData.parentID != null)
     {
-        Id = "UID",
-        GroupBy = "Category",
-        Text = "Name",
-        SortBy = "Order"
-    };
+        SampleBrowser.CurrentControl = SampleBrowser.Config.GetType().GetProperty(Data.nodeData.text).GetValue(SampleBrowser.Config) as List<Sample>;
+        this.listClass = "e-view sb-control-list-top";
+        this.treeviewClass = "e-view time-duration sb-hide";
+        this.ListDataSource = SampleBrowser.CurrentControl;
+        base.StateHasChanged();
+        JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
+    }
+}
+
+public void OnToggle()
+{
+    if (this.treeviewClass.Contains("sb-hide"))
+    {
+        this.treeviewClass = "e-view time-duration";
+        this.listClass = "sb-hide";
+        this.ComponentsTree.DataBind();
+        JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
+    }
+}
+
+private void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs<object> args)
+{
+    string argsString = JsonConvert.SerializeObject(args);
+    ListViewEvent sampleData = JsonConvert.DeserializeObject<ListViewEvent>(argsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+    string compareUrl = string.Empty;
+    List<string> ActionDescriptionItems = new List<string>();
+    List<string> DescriptionItems = new List<string>();
+    if (SampleBrowser.CurrentUrl != sampleData.data.Url || sampleData.data.Url != compareUrl)
+    {
+        compareUrl = SampleBrowser.CurrentUrl;
+        if (SampleBrowser.ActionDescription != null)
+        {
+            foreach (string Element in SampleBrowser.ActionDescription)
+            {
+                ActionDescriptionItems.Add(Element);
+            }
+            JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
+        }
+        else
+        {
+            JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
+        }
+        if (SampleBrowser.Description != null)
+        {
+            foreach (string Element in SampleBrowser.Description)
+            {
+                DescriptionItems.Add(Element);
+            }
+            JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+        }
+        else
+        {
+            JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
+        }
+
+        JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+
+
+        JsRuntime.InvokeAsync<Object>("persistTheme");
+        UriHelper.NavigateTo(sampleData.data.Url);
+        SampleBrowser.CurrentUrl = sampleData.data.Url;
+        JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
+        JsRuntime.InvokeAsync<string>("callResizeEvent");
+    }
+}
+
+
+[Parameter]
+private List<Sample> ListDataSource { get; set; } = new List<Sample>();
+
+protected override void OnAfterRender()
+{
+    this.ListDataSource = SampleBrowser.CurrentControl;
+    this.SampleList.DataSource = this.ListDataSource;
+    this.SampleList.DataBind();
+    SampleBrowser.CurrentControl.ForEach(sample =>
+    {
+        if (sample.Name == SampleBrowser.CurrentSampleName)
+        {
+            SampleBrowser.CurrentUrl = sample.Url;
+        }
+    });
+    JsRuntime.InvokeAsync<string>("callResizeEvent");
+}
+
+Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings
+{
+    Id = "UID",
+    GroupBy = "Category",
+    Text = "Name",
+    SortBy = "Order"
+};
 }

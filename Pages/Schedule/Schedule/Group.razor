@@ -46,12 +46,12 @@
         <div class="schedule-demo-heading">
             Flight timings between Barcelona and Los Angeles
         </div>
-        <EjsSchedule ID="schedule" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 3, 4)">
+        <EjsSchedule TValue="AppointmentData" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 3, 4)">
             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
                 <ScheduleResource DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
-            <ScheduleEventSettings DataSource="@GenerateEvents()">
+            <ScheduleEventSettings DataSource="@DataSource">
                 <ScheduleField>
                     <FieldSubject Title="Travel Summary" Name="Subject"></FieldSubject>
                     <FieldLocation Title="Place" Name="Location"></FieldLocation>
@@ -64,27 +64,8 @@
     </div>
 </div>
 
-<style>
-
-    .schedule-demo-heading {
-        font-size: 16px;
-        padding-bottom: 15px;
-        text-align: center;
-        font-weight: 500;
-    }
-
-    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
-        width: 110px;
-    }
-
-    @@media (max-width: 550px) {
-        .schedule-demo-heading {
-            font-size: 14px;
-        }
-    }
-</style>
-
 @code{
+    public List<AppointmentData> DataSource = GenerateEvents();
     public class AppointmentData
     {
         public int Id { get; set; }
@@ -93,10 +74,10 @@
         public DateTime EndTime { get; set; }
         public int AirlineId { get; set; }
     }
-    private static List<object> GenerateEvents()
+    private static List<AppointmentData> GenerateEvents()
     {
         var subjectCollection = new List<string> { "Barcelona to Los Angeles", "Los Angeles to Barcelona" };
-        var collections = new List<object> { };
+        var collections = new List<AppointmentData> { };
         var dataCollections = new List<int> { 1, 2, 3 };
         var id = 1;
         var no = 0;
@@ -135,3 +116,23 @@
         new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100}
     };
 }
+
+<style>
+
+    .schedule-demo-heading {
+        font-size: 16px;
+        padding-bottom: 15px;
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
+        width: 110px;
+    }
+
+    @@media (max-width: 550px) {
+        .schedule-demo-heading {
+            font-size: 14px;
+        }
+    }
+</style>

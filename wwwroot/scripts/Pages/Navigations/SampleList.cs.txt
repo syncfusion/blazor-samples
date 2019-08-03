@@ -26,35 +26,11 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "API",
-                Category = "Sidebar",
-                Directory = "Navigations/Sidebar",
-                Url = "Sidebar/API",
-                FileName = "SidebarAPI.razor"
-            },
-            new Sample
-            {
-                Name = "Sidebar with ListView",
-                Category = "Sidebar",
-                Directory = "Navigations/Sidebar",
-                Url = "Sidebar/SidebarWithListView",
-                FileName = "SidebarList.razor"
-            },
-            new Sample
-            {
                 Name = "Sidebar Menu",
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "Sidebar/SidebarWithMenu",
                 FileName = "SidebarMenu.razor"
-            },
-            new Sample
-            {
-                Name = "Responsive Panel",
-                Category = "Sidebar",
-                Directory = "Navigations/Sidebar",
-                Url = "Sidebar/PanelWithResponsive",
-                FileName = "ResponsivePanel.razor"
             }
 
         };
@@ -96,14 +72,6 @@ namespace ej2_blazor_samples
                 Directory = "Navigations/MenuBar",
                 FileName = "Scrollable.razor",
                 Url = "MenuBar/Scrollable"
-            },
-            new Sample
-            {
-                Name = "API",
-                Category = "Menu Bar",
-                Directory = "Navigations/MenuBar",
-                FileName = "Api.razor",
-                Url = "MenuBar/Api"
             }
         };
 

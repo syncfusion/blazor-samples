@@ -9,84 +9,205 @@ namespace ej2_blazor_formatdata
     public class TreeDataFormat
     {
         public TreeDataFormat() { }
-        public string orderID { get; set; }
-        public string orderName { get; set; }
-        public DateTime orderDate { get; set; }
-        public DateTime shippedDate { get; set; }
-        public int units { get; set; }
-        public double price { get; set; }
-        public int unitPrice { get; set; }
-        public string category { get; set; }
-        public List<TreeDataFormat> subTasks { get; set; }
+        public int? OrderID { get; set; }
+        public string OrderName { get; set; }
+        public DateTime OrderDate { get; set; }
+        public DateTime ShippedDate { get; set; }
+        public double Units { get; set; }
+        public double Price { get; set; }
+        public double UnitPrice { get; set; }
+        public string Category { get; set; }
+        public int? ParentID { get; set; }
         public static List<TreeDataFormat> GetDataFormat()
         {
             List<TreeDataFormat> data = new List<TreeDataFormat>()
             {
                 new TreeDataFormat()
                 {
-                    orderID= "1",
-                    orderName= "Order 1",
-                    orderDate= new DateTime(2017, 03, 02),
-                    shippedDate= new DateTime(2019, 10, 09),
-                    units= 1395,
-                    unitPrice= 47,
-                    price=133.66,
-                    category= "Seafood",
-                    subTasks= new List<TreeDataFormat>() {
-                        new TreeDataFormat() { orderID= "1.1", orderName= "Mackerel", category= "Frozen seafood", units= 23,
-                            orderDate= new DateTime(2017, 03, 02), shippedDate= new DateTime(2019, 05, 13), unitPrice= 12, price= 28.20 },
-                        new TreeDataFormat() { orderID= "1.2", orderName= "Mackerel", category= "Frozen seafood", units= 23,
-                            orderDate= new DateTime(2017, 03, 05), shippedDate= new DateTime(2019, 05, 22), unitPrice= 11, price= 25.92 },
-                        new TreeDataFormat() { orderID= "1.3", orderName= "Mackerel", category= "Frozen seafood", units= 23,
-                            orderDate= new DateTime(2017, 03, 10), shippedDate= new DateTime(2019, 10, 14), unitPrice= 8, price= 52.68 },
-                        new TreeDataFormat() { orderID= "1.4", orderName= "Mackerel", category= "Edible", units= 23,
-                            orderDate= new DateTime(2017, 03, 08), shippedDate= new DateTime(2019, 08, 03), unitPrice= 9, price= 11.25 },
-                        new TreeDataFormat() { orderID= "1.5", orderName= "Mackerel", category= "Edible", units= 23,
-                            orderDate= new DateTime(2017, 03, 09), shippedDate= new DateTime(2019, 03, 09), unitPrice= 7, price= 15.61 }
-                    }
+                    OrderID= 1,
+                    OrderName= "Order 1",
+                    OrderDate= new DateTime(2017, 03, 02),
+                    ShippedDate= new DateTime(2019, 10, 09),
+                    Units= 1395,
+                    UnitPrice= 47,
+                    Price=133.66,
+                    Category= "Seafood",
+                    ParentID = null
+                },
+                new TreeDataFormat() {
+                    OrderID = 11,
+                    OrderName = "Mackerel",
+                    Category = "Frozen seafood",
+                    Units = 23,
+                    OrderDate= new DateTime(2017, 03, 02),
+                    ShippedDate = new DateTime(2019, 05, 13),
+                    UnitPrice = 12,
+                    Price = 28.20,
+                    ParentID = 1
+                },
+                new TreeDataFormat() {
+                    OrderID = 12,
+                    OrderName = "Mackerel",
+                    Category = "Frozen seafood",
+                    Units = 23,
+                    OrderDate= new DateTime(2017, 03, 05),
+                    ShippedDate = new DateTime(2019, 05, 22),
+                    UnitPrice = 11,
+                    Price = 25.92,
+                    ParentID = 1 },
+                new TreeDataFormat() {
+                    OrderID = 13,
+                    OrderName = "Mackerel",
+                    Category = "Frozen seafood",
+                    Units = 23,
+                    OrderDate= new DateTime(2017, 03, 10),
+                    ShippedDate = new DateTime(2019, 10, 14),
+                    UnitPrice = 8,
+                    Price = 52.68,
+                    ParentID = 1 },
+                new TreeDataFormat()
+                {
+                    OrderID = 14,
+                    OrderName = "Mackerel",
+                    Category = "Edible",
+                    Units = 23,
+                    OrderDate= new DateTime(2017, 03, 08),
+                    ShippedDate = new DateTime(2019, 08, 03),
+                    UnitPrice = 9,
+                    Price = 11.25,
+                    ParentID = 1
                 },
                 new TreeDataFormat()
                 {
-                    orderID= "2",
-                    orderName= "Order 2",
-                    orderDate= new DateTime(2017, 03, 05),
-                    shippedDate= new DateTime(2019, 05, 03),
-                    units= 1944,
-                    unitPrice= 58,
-                    price=212.33,
-                    category= "Seafood",
-                    subTasks= new List<TreeDataFormat>() {
-                        new TreeDataFormat() { orderID= "2.1", orderName= "Tilapias", category= "Frozen seafood", units= 278,
-                            orderDate= new DateTime(2017, 03, 05), shippedDate= new DateTime(2019, 03, 15), unitPrice= 15, price= 55.50 },
-                        new TreeDataFormat() { orderID= "2.2", orderName= "White Shrimp", category= "Frozen seafood", units= 560,
-                            orderDate= new DateTime(2017, 05, 07), shippedDate= new DateTime(2019, 09, 19), unitPrice= 7, price= 41.70 },
-                        new TreeDataFormat() { orderID= "2.3", orderName= "Fresh Cheese", category= "Dairy", units= 323,
-                            orderDate= new DateTime(2017, 03, 09), shippedDate= new DateTime(2019, 11, 13), unitPrice= 8, price= 39.20 },
-                        new TreeDataFormat() { orderID= "2.4", orderName= "Blue Veined Cheese", category= "Dairy", units= 373,
-                            orderDate= new DateTime(2017, 03, 11), shippedDate= new DateTime(2019, 11, 13), unitPrice= 9, price= 38.76 },
-                        new TreeDataFormat() { orderID= "2.5", orderName= "Butter", category= "Dairy", units= 413,
-                            orderDate= new DateTime(2017, 12, 23), shippedDate= new DateTime(2019, 12, 23), unitPrice= 7, price= 37.17 }
-                    }
+                    OrderID = 15,
+                    OrderName = "Mackerel",
+                    Category = "Edible",
+                    Units = 23,
+                    OrderDate= new DateTime(2017, 03, 09),
+                    ShippedDate = new DateTime(2019, 03, 09),
+                    UnitPrice = 7, Price= 15.61,
+                    ParentID = 1
                 },
                 new TreeDataFormat()
                 {
-                    orderID= "3",
-                    orderName= "Order 3",
-                    orderDate= new DateTime(2017, 03, 10),
-                    shippedDate= new DateTime(2019, 05, 20),
-                    units = 1120,
-                    unitPrice = 33,
-                    price = 108.80,
-                    category= "Seafood",
-                    subTasks= new List<TreeDataFormat>() {
-                        new TreeDataFormat() { orderID= "2.1", orderName= "Lead glassware", category= "Solid crystals", units= 542,
-                            orderDate= new DateTime(2017, 03, 05), shippedDate= new DateTime(2019, 03, 15), unitPrice= 6, price= 32.52 },
-                        new TreeDataFormat() { orderID= "2.2", orderName= "Glassware", category= "Solid crystals", units= 324,
-                            orderDate= new DateTime(2017, 05, 07), shippedDate= new DateTime(2019, 09, 19), unitPrice= 11, price= 35.64 },
-                        new TreeDataFormat() { orderID= "2.3", orderName= "Glass beads", category= "Solid crystals", units= 254,
-                            orderDate= new DateTime(2017, 03, 09), shippedDate= new DateTime(2019, 11, 13), unitPrice= 16, price= 40.64 },
-                        }
-                }
+                    OrderID= 2,
+                    OrderName= "Order 2",
+                    OrderDate= new DateTime(2017, 03, 05),
+                    ShippedDate= new DateTime(2019, 05, 03),
+                    Units= 1944,
+                    UnitPrice= 58,
+                    Price=212.33,
+                    Category= "Seafood",
+                    ParentID = null
+
+                },
+                 new TreeDataFormat()
+                 {
+                     OrderID = 16,
+                     OrderName = "Tilapias",
+                     Category = "Frozen seafood",
+                     Units = 278,
+                     OrderDate= new DateTime(2017, 03, 05),
+                     ShippedDate = new DateTime(2019, 03, 15),
+                     UnitPrice = 15,
+                     Price = 55.50,
+                     ParentID = 2
+                 },
+                 new TreeDataFormat()
+                 {
+                     OrderID = 17,
+                     OrderName = "White Shrimp",
+                     Category = "Frozen seafood",
+                     Units = 560,
+                     OrderDate= new DateTime(2017, 05, 07),
+                     ShippedDate = new DateTime(2019, 09, 19),
+                     UnitPrice = 7,
+                     Price = 41.70,
+                     ParentID = 2
+                 },
+                 new TreeDataFormat()
+                 {
+                     OrderID = 18,
+                     OrderName = "Fresh Cheese",
+                     Category = "Dairy",
+                     Units = 323,
+                     OrderDate= new DateTime(2017, 03, 09),
+                     ShippedDate = new DateTime(2019, 11, 13),
+                     UnitPrice = 8,
+                     Price = 39.20,
+                     ParentID = 2
+                 },
+                 new TreeDataFormat()
+                 {
+                     OrderID = 19,
+                     OrderName = "Blue Veined Cheese",
+                     Category = "Dairy",
+                     Units = 373,
+                     OrderDate= new DateTime(2017, 03, 11),
+                     ShippedDate = new DateTime(2019, 11, 13),
+                     UnitPrice = 9,
+                     Price = 38.76,
+                     ParentID = 2
+                 },
+                 new TreeDataFormat()
+                 {
+                     OrderID = 20,
+                     OrderName = "Butter",
+                     Category = "Dairy",
+                     Units = 413,
+                     OrderDate= new DateTime(2017, 12, 23),
+                     ShippedDate = new DateTime(2019, 12, 23),
+                     UnitPrice = 7,
+                     Price = 37.17,
+                     ParentID = 2
+                 },
+                new TreeDataFormat()
+                {
+                    OrderID= 3,
+                    OrderName= "Order 3",
+                    OrderDate= new DateTime(2017, 03, 10),
+                    ShippedDate= new DateTime(2019, 05, 20),
+                    Units = 1120,
+                    UnitPrice = 33,
+                    Price = 108.80,
+                    Category= "Seafood",
+                    ParentID = null
+                },
+                new TreeDataFormat()
+                {
+                    OrderID = 21,
+                    OrderName = "Lead glassware",
+                    Category = "Solid crystals",
+                    Units = 542,
+                    OrderDate= new DateTime(2017, 03, 05),
+                    ShippedDate = new DateTime(2019, 03, 15),
+                    UnitPrice = 6,
+                    Price = 32.52,
+                    ParentID = 3
+                },
+                new TreeDataFormat()
+                {
+                    OrderID = 22,
+                    OrderName = "Glassware",
+                    Category = "Solid crystals",
+                    Units = 324,
+                    OrderDate= new DateTime(2017, 05, 07),
+                    ShippedDate = new DateTime(2019, 09, 19),
+                    UnitPrice = 11,
+                    Price = 35.64,
+                    ParentID = 3
+                },
+                new TreeDataFormat()
+                {
+                    OrderID = 23,
+                    OrderName = "Glass beads",
+                    Category = "Solid crystals",
+                    Units = 254,
+                    OrderDate= new DateTime(2017, 03, 09),
+                    ShippedDate = new DateTime(2019, 11, 13),
+                    UnitPrice = 16,
+                    Price = 40.64
+                },
             };
             return data;
         }

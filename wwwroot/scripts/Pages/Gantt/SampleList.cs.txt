@@ -27,6 +27,15 @@ namespace ej2_blazor_samples
                 FileName = "RemoteData.razor",
                 Type = SampleType.New
             },
+              new Sample
+            {
+                Name = "Editing",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/Editing",
+                FileName = "Editing.razor",
+                Type = SampleType.New
+            },
              new Sample
             {
                 Name = "Baseline",
@@ -36,7 +45,16 @@ namespace ej2_blazor_samples
                 FileName = "Baseline.razor",
                 Type = SampleType.New
             },
-			new Sample
+            new Sample
+            {
+                Name = "Taskbar Template",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/TaskbarTemplate",
+                FileName = "GanttTaskbarTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
             {
                 Name = "Filtering",
                 Category = "Gantt",
@@ -52,6 +70,15 @@ namespace ej2_blazor_samples
                 Directory = "Gantt/Gantt",
                 Url = "Gantt/Zooming",
                 FileName = "Zooming.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Context Menu",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/ContextMenu",
+                FileName = "ContextMenu.razor",
                 Type = SampleType.New
             }
         };

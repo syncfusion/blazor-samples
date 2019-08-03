@@ -14,8 +14,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DefaultFunctionalities.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -23,8 +35,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/GridLines",
-                FileName = "GridLines.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="GridLines",
+                        FileName="GridLines.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="LinesData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -32,8 +56,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/ContextMenu",
-                FileName = "ContextMenu.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ContextMenu",
+                        FileName="ContextMenu.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ContextData",
+                        FileName="TreeData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -42,7 +78,7 @@ namespace ej2_blazor_samples
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/RemoteData",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
+                Type = SampleType.New
             },
             new Sample
             {
@@ -50,8 +86,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/ColumnFormatting",
-                FileName = "ColumnFormatting.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Formatting",
+                        FileName="ColumnFormatting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="FormatData",
+                        FileName="FormatData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -59,8 +107,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/ColumnTemplate",
-                FileName = "ColumnTemplate.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ColumnTemplate",
+                        FileName="ColumnTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ColumnData",
+                        FileName="TemplateData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -68,8 +128,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/AutoWrap",
-                FileName = "AutoWrap.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="AutoWrap",
+                        FileName="AutoWrap.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WrapData",
+                        FileName="WrapData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -77,8 +149,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/CellAlignment",
-                FileName = "CellAlignment.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CellAlignment",
+                        FileName="CellAlignment.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CellData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -86,8 +170,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/StackedHeader",
-                FileName = "StackedHeader.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="StackedHeader",
+                        FileName="StackedHeader.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="StackedData",
+                        FileName="ShipmentData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -95,8 +191,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/ColumnMenu",
-                FileName = "ColumnMenu.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ColumnMenu",
+                        FileName="ColumnMenu.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="MenuData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -104,8 +212,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Resizing",
-                FileName = "Resizing.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Resizing",
+                        FileName="Resizing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ResizeData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -113,17 +233,84 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Reorder",
-                FileName = "Reorder.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Reorder",
+                        FileName="Reorder.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ReorderData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
                 Name = "Row Hover",
-                Category = "TreeGrid",
+                Category = "Rows",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/RowHover",
-                FileName = "RowHover.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="RowHover",
+                        FileName="RowHover.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="HoverData",
+                        FileName="SelfData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Row Template",
+                Category = "Rows",
+                Directory = "Grids/TreeGrid",
+                Url = "TreeGrid/TreeGridRowTemplate",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="RowTemplate",
+                        FileName="TreeGridRowTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="RowData",
+                        FileName="TemplateData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Detail Template",
+                Category = "Rows",
+                Directory = "Grids/TreeGrid",
+                Url = "TreeGrid/TreeGridDetailTemplate",
+                FileName = "TreeGridDetailTemplate.razor",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DetailTemplate",
+                        FileName="TreeGridDetailTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TemplateData",
+                        FileName="TemplateData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -131,8 +318,20 @@ namespace ej2_blazor_samples
                 Category = "Editing",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Editing",
-                FileName = "Editing.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Editing",
+                        FileName="Editing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -140,8 +339,20 @@ namespace ej2_blazor_samples
                 Category = "Editing",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/DialogEditing",
-                FileName = "DialogEditing.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DialogEditing",
+                        FileName="DialogEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DialogData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -149,8 +360,20 @@ namespace ej2_blazor_samples
                 Category = "Editing",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/CommandColumn",
-                FileName = "CommandColumn.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CommandColumn",
+                        FileName="CommandColumn.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CommandData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -158,8 +381,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Sorting",
-                FileName = "Sorting.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Sorting",
+                        FileName="Sorting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="SortData",
+                        FileName="ShipmentData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -167,8 +402,20 @@ namespace ej2_blazor_samples
                 Category = "Filtering",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/DefaultFiltering",
-                FileName = "DefaultFiltering.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Filtering",
+                        FileName="DefaultFiltering.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="TreeData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -176,8 +423,20 @@ namespace ej2_blazor_samples
                 Category = "Filtering",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/MenuFilter",
-                FileName = "MenuFilter.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="MenuFilter",
+                        FileName="MenuFilter.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="FilterData",
+                        FileName="TreeData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -185,8 +444,20 @@ namespace ej2_blazor_samples
                 Category = "Filtering",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Search",
-                FileName = "Search.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Search",
+                        FileName="Search.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="TreeData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -194,8 +465,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Paging",
-                FileName = "Paging.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Paging",
+                        FileName="Paging.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -203,8 +486,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Selection",
-                FileName = "Selection.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Selection",
+                        FileName="Selection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="SelectionData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -212,8 +507,20 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/CheckboxColumn",
-                FileName = "CheckboxColumn.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Checkbox",
+                        FileName="CheckboxColumn.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CheckboxData",
+                        FileName="SelfData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -221,8 +528,20 @@ namespace ej2_blazor_samples
                 Category = "TreeGrid",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Print",
-                FileName = "Print.razor",
                 Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Print",
+                        FileName="Print.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="PrintData",
+                        FileName="SelfData.cs"
+                    }
+                }
             }
         };
     }

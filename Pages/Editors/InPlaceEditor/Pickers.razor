@@ -43,7 +43,6 @@
         More information on the <code>In-place Editor</code> instantiation can be found in the <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnetcore/documentation/inplace-editor/getting-started-asp-core/"">documentation section</a>.
     </p>"
     };
-
 }
 @*End:Hidden*@
 
@@ -58,7 +57,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.Date" Value="@dateValue1" Model="@dateData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.Date" Value="@DateValue1" Model="@DateData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -69,7 +68,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.Time" Value="@dateValue2" Model="@timeData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.Time" Value="@DateValue2" Model="@TimeData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -80,7 +79,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.DateTime" Value="@dateValue3" Model="@dateTimeData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.DateTime" Value="@DateValue3" Model="@DateTimeData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -91,7 +90,7 @@
                         </label>
                     </td>
                     <td>
-                        <EjsInPlaceEditor Mode="@mode" Type="@InputType.DateRange" Value="@dateRangeValue" Model="@dateRangeData">
+                        <EjsInPlaceEditor Mode="@Mode" Type="@InputType.DateRange" Value="@DateRangeValue" Model="@DateRangeData">
                         </EjsInPlaceEditor>
                     </td>
                 </tr>
@@ -106,7 +105,9 @@
                 </td>
                 <td>
                     <div>
-                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@modeData" ValueChange="@changeEditMode" Index="0"></EjsDropDownList>
+                        <EjsDropDownList CssClass="form-control" Width="90%" DataSource="@ModeData" @bind-Value="@DropMode">
+                            <DropDownListEvents TValue="string" ValueChange="ChangeEditMode"></DropDownListEvents>
+                        </EjsDropDownList>
                     </div>
                 </td>
             </tr>
@@ -114,6 +115,26 @@
     </div>
 </div>
 
+@code {
+    private RenderMode Mode = RenderMode.Inline;
+    private DateTime DateValue1 = new DateTime(2017, 05, 23);
+    private DateTime DateValue2 = new DateTime(2017, 05, 23);
+    private DateTime DateValue3 = new DateTime(2017, 05, 23);
+    private DateTime[] DateRangeValue = new DateTime[2] { new DateTime(2017, 05, 23), new DateTime(2017, 07, 05) };
+    private string[] ModeData = new string[] { "Inline", "Popup" };
+    private object DateData = new { placeholder = "Select a date" };
+    private object TimeData = new { placeholder = "Select a time" };
+    private object DateTimeData = new { placeholder = "Select a date and time" };
+    private object DateRangeData = new { placeholder = "Select a date range" };
+    public object DropMode { get; set; } = "Inline";
+    
+
+    private void ChangeEditMode(ChangeEventArgs<string> args)
+    {
+        this.Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
+        this.StateHasChanged();
+    }
+}
 
 <style>
     /* custom code start */
@@ -122,21 +143,22 @@
         max-width: 400px;
     }
 
-        .inplace-control-section.pickers-layout .control_wrapper table {
-            margin: auto;
-        }
+    .inplace-control-section.pickers-layout .control_wrapper table {
+        margin: auto;
+    }
 
-            .inplace-control-section.pickers-layout .control_wrapper table td {
-                width: 200px;
-                height: 100px;
-            }
+    .inplace-control-section.pickers-layout .control_wrapper table td {
+        width: 200px;
+        height: 100px;
+    }
 
-                .inplace-control-section.pickers-layout .control_wrapper table td .control-label {
-                    margin-bottom: 0px;
-                    text-align: left;
-                    font-size: 14px;
-                    font-weight: 400
-                }
+    .inplace-control-section.pickers-layout .control_wrapper table td .control-label {
+        margin-bottom: 0px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 400
+    }
+
     /* custom code end */
 
     #pickerProperty table td {
@@ -169,22 +191,3 @@
         }
     }
 </style>
-
-@code {
-    private RenderMode mode = RenderMode.Inline;
-    private DateTime dateValue1 = new DateTime(2017, 05, 23);
-    private DateTime dateValue2 = new DateTime(2017, 05, 23);
-    private DateTime dateValue3 = new DateTime(2017, 05, 23);
-    private DateTime[] dateRangeValue = new DateTime[2] { new DateTime(2017, 05, 23), new DateTime(2017, 07, 05) };
-    private string[] modeData = new string[] { "Inline", "Popup" };
-    private object dateData = new { placeholder = "Select a date" };
-    private object timeData = new { placeholder = "Select a time" };
-    private object dateTimeData = new { placeholder = "Select a date and time" };
-    private object dateRangeData = new { placeholder = "Select a date range" };
-
-    private void changeEditMode(ChangeEventArgs args)
-    {
-        this.mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
-        this.StateHasChanged();
-    }
-}

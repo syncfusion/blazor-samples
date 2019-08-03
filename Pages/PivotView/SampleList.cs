@@ -13,7 +13,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "PivotTable",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/DefaultFunctionalities",
+                Url = "PivotTable/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
@@ -22,7 +22,7 @@ namespace ej2_blazor_samples
                 Name = "Remote Data",
                 Category = "Data Binding",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/RemoteData",
+                Url = "PivotTable/RemoteData",
                 FileName = "RemoteData.razor",
                 Type = SampleType.New,
             },
@@ -31,7 +31,7 @@ namespace ej2_blazor_samples
                 Name = "Pivot Chart",
                 Category = "Integration",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/Chart",
+                Url = "PivotTable/Chart",
                 FileName = "Chart.razor",
                 Type = SampleType.New
             },
@@ -40,7 +40,7 @@ namespace ej2_blazor_samples
                 Name = "Grouping Bar",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/GroupingBar",
+                Url = "PivotTable/GroupingBar",
                 FileName = "GroupingBar.razor",
                 Type = SampleType.New
             },
@@ -49,7 +49,7 @@ namespace ej2_blazor_samples
                 Name = "Conditional Formatting",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/ConditionalFormatting",
+                Url = "PivotTable/ConditionalFormatting",
                 FileName = "ConditionalFormatting.razor",
                 Type = SampleType.New
             },
@@ -58,7 +58,7 @@ namespace ej2_blazor_samples
                 Name = "Show/Hide Totals",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/SummaryCustomization",
+                Url = "PivotTable/SummaryCustomization",
                 FileName = "SummaryCustomization.razor",
                 Type = SampleType.New
             },
@@ -67,7 +67,7 @@ namespace ej2_blazor_samples
                 Name = "Toolbar",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/Toolbar",
+                Url = "PivotTable/Toolbar",
                 FileName = "Toolbar.razor",
                 Type = SampleType.New
             },
@@ -76,7 +76,7 @@ namespace ej2_blazor_samples
                 Name = "Calculated Field",
                 Category = "Formula",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/CalculatedField",
+                Url = "PivotTable/CalculatedField",
                 FileName = "CalculatedField.razor",
                 Type = SampleType.New
             },
@@ -85,7 +85,7 @@ namespace ej2_blazor_samples
                 Name = "Aggregation",
                 Category = "Formula",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/Aggregation",
+                Url = "PivotTable/Aggregation",
                 FileName = "Aggregation.razor",
                 Type = SampleType.New
             },
@@ -94,7 +94,7 @@ namespace ej2_blazor_samples
                 Name = "Default Sorting",
                 Category = "Sorting",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/DefaultSorting",
+                Url = "PivotTable/DefaultSorting",
                 FileName = "DefaultSorting.razor",
                 Type = SampleType.New
             },
@@ -103,7 +103,7 @@ namespace ej2_blazor_samples
                 Name = "Value Sorting",
                 Category = "Sorting",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/ValueSorting",
+                Url = "PivotTable/ValueSorting",
                 FileName = "ValueSorting.razor",
                 Type = SampleType.New
             },
@@ -112,7 +112,7 @@ namespace ej2_blazor_samples
                 Name = "Default Filtering",
                 Category = "Filtering",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotView/MemberFiltering",
+                Url = "PivotTable/MemberFiltering",
                 FileName = "MemberFiltering.razor",
                 Type = SampleType.New
             }
@@ -121,7 +121,7 @@ namespace ej2_blazor_samples
             //    Name = "Label Filtering",
             //    Category = "Filtering",
             //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotView/LabelFiltering",
+            //    Url = "PivotTable/LabelFiltering",
             //    FileName = "LabelFiltering.razor",
             //    Type = SampleType.New
             //},
@@ -130,7 +130,7 @@ namespace ej2_blazor_samples
             //    Name = "Value Filtering",
             //    Category = "Filtering",
             //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotView/ValueFiltering",
+            //    Url = "PivotTable/ValueFiltering",
             //    FileName = "ValueFiltering.razor",
             //    Type = SampleType.New
             //},
@@ -139,7 +139,7 @@ namespace ej2_blazor_samples
             //    Name = "Editing",
             //    Category = "Miscellaneous",
             //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotView/Editing",
+            //    Url = "PivotTable/Editing",
             //    FileName = "Editing.razor",
             //    Type = SampleType.New
             //},
@@ -148,7 +148,7 @@ namespace ej2_blazor_samples
             //    Name = "Drill Through",
             //    Category = "Miscellaneous",
             //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotView/DrillThrough",
+            //    Url = "PivotTable/DrillThrough",
             //    FileName = "DrillThrough.razor",
             //    Type = SampleType.New
             //},
@@ -157,7 +157,7 @@ namespace ej2_blazor_samples
             //    Name = "Hyperlink",
             //    Category = "Miscellaneous",
             //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotView/HyperLink",
+            //    Url = "PivotTable/HyperLink",
             //    FileName = "HyperLink.razor",
             //    Type = SampleType.New
             //}

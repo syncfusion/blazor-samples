@@ -30,10 +30,10 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt id="FilteringGantt" ModelType="@templateCollections" DataSource="@ganttData" Height="450px" HighlightWeekends="true"
+            <EjsGantt ModelType="@TemplateModel" DataSource="@TaskCollection" Height="450px" HighlightWeekends="true"
                       TreeColumnIndex="0" AllowFiltering="true" IncludeWeekend="true" DateFormat="MM/dd/yyyy hh:mm:ss"
                       ProjectStartDate="07/16/1969 01:00:00 AM" ProjectEndDate="07/25/1969"
-                      DurationUnit="@Syncfusion.EJ2.Blazor.Gantt.DurationUnit.Hour">
+                      DurationUnit="DurationUnit.Hour">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
                                  Duration="Duration" Dependency="Predecessor" Child="SubTasks"></GanttTaskFields>
                 <GanttColumns>
@@ -48,13 +48,13 @@
                     <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
                 </GanttDayWorkingTimeCollection>
                 <GanttTimelineSettings TimelineUnitSize="60">
-                    <GanttTopTierSettings Unit="@Syncfusion.EJ2.Blazor.Gantt.TimelineViewMode.Day" Format="MMM dd, yyyy"></GanttTopTierSettings>
-                    <GanttBottomTierSettings Unit="@Syncfusion.EJ2.Blazor.Gantt.TimelineViewMode.Hour" Format="h.mm a"></GanttBottomTierSettings>
+                    <GanttTopTierSettings Unit="TimelineViewMode.Day" Format="MMM dd, yyyy"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Hour" Format="h.mm a"></GanttBottomTierSettings>
                 </GanttTimelineSettings>
                 <GanttLabelSettings>
                     <RightLabelTemplate>
                         <div class="e-right-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@context.TaskName</span>
+                            <span class="e-label">@((context as GanttTemplateModel).TaskName)</span>
                         </div>
                     </RightLabelTemplate>
                 </GanttLabelSettings>
@@ -63,12 +63,12 @@
     </div>
 </div>
 
-@functions{
-    public List<GanttData.GanttDataSource> ganttData { get; set; } 
-    public GanttTemplate templateCollections = new GanttTemplate();
+@code{
+    public List<GanttData.TaskData> TaskCollection { get; set; } 
+    public GanttTemplateModel TemplateModel = new GanttTemplateModel();
     
     protected override void OnInit()
     {
-        this.ganttData = GanttData.FilteredData().ToList();        
+        this.TaskCollection = GanttData.FilteredData();        
     }
 }

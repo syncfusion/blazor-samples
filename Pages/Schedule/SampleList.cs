@@ -55,15 +55,6 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Timezone",
-                Category = "Appointments",
-                Directory = "Schedule/Schedule",
-                Url = "Schedule/Timezone",
-                FileName = "Timezone.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
                 Name = "Basic Views",
                 Category = "Views",
                 Directory = "Schedule/Schedule",

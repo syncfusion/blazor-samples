@@ -1,58 +1,54 @@
 ﻿@page "/Maps/Tooltip"
 
-
 @using Syncfusion.EJ2.Blazor.Maps
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
-        SampleBrowser.CurrentSampleName = "Tooltip";
-        SampleBrowser.CurrentControlName = "Maps";
-        SampleBrowser.CurrentControlCategory = "Maps";
-        SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
-        SampleBrowser.ActionDescription = new string[] {
+    SampleBrowser.CurrentSampleName = "Tooltip";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
         @"<p>
        This sample depicts the countries that were appeared in the finals of Cricket World Cup and their counts. By hovering the mouse over the shapes, county name, finalist count, and winning count will be displayed in the tooltip template.
    </p>"
     };
-        SampleBrowser.Description = new string[] {
+    SampleBrowser.Description = new string[] {
         @"<p>
-       In this example, you can see how to render the custom HTML element as tooltip. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. Also, the interactive legend has been placed at the left of the map. 
-    </p>
-<br/>
-    <p style=""font-weight: 500"">Injecting Module</p>
-    <p>
-     Maps component features are segregated into individual feature-wise modules. To use a tooltip, inject the <code>MapsTooltip</code> module using the < code > Maps.Inject(MapsTooltip) </ code > method.
-    </ p > "
+            In this example, you can see how to render the custom HTML element as tooltip. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. Also, the interactive legend has been placed at the left of the map.
+        </p>
+        <br/>
+        </ p > "
     };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div>
-        <EjsMaps ID="Layout">
-            <MapsLayers>
-                <MapsLayer ShapeData='@mapShapeData' DataSource='@dataSource'
-                        ShapePropertyPath="@shapePropertyPath"  ShapeDataPath="@shapeDataPath" >
-                    <LayerTooltipSettings Visible="true" ValuePath="name" Template="#template"></LayerTooltipSettings>
-                    <MapsShapeSettings fill="@fill1" ColorValuePath="@color">
-                        <MapsColorMappings>
-                            <MapsColorMapping Value="@value1" Color="@color1"/>
-                            <MapsColorMapping Value="@value2" Color="@color2"/>
-                            <MapsColorMapping Value="@value3" Color="@color3"/>
-                            <MapsColorMapping Value="@value4" Color="@color4"/>
-                        </MapsColorMappings>
-                    </MapsShapeSettings> 
-                </MapsLayer>
-            </MapsLayers>
+        <EjsMaps>
+            <MapsTitleSettings Text="Finalist in Cricket World Cup">
+                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+            </MapsTitleSettings>
             <MapsZoomSettings Enable='false'></MapsZoomSettings>
             <MapsLegendSettings Visible='true'
                                 Mode="@Syncfusion.EJ2.Blazor.Maps.LegendMode.Interactive" Position='@Syncfusion.EJ2.Blazor.Maps.LegendPosition.Left'
                                 Orientation="@Syncfusion.EJ2.Blazor.Maps.LegendArrangement.Vertical" Height='70%' Width='10'>
             </MapsLegendSettings>
-            <MapsTitleSettings Text="Finalist in Cricket World Cup">
-                    <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
-            </MapsTitleSettings>
+            <MapsLayers>
+                <MapsLayer ShapeData='new {dataOptions= "https://cdn.syncfusion.com/maps/map-data/world-map.json"}' DataSource='@PerformanceReport'
+                           ShapePropertyPath='@("Name")' ShapeDataPath='@("name")'>
+                    <LayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}"></LayerTooltipSettings>
+                    <MapsShapeSettings fill='@("#E5E5E5")' ColorValuePath='@("Winner")'>
+                        <MapsShapeColorMappings>
+                            <MapsShapeColorMapping Value="1" Color='@("#b3daff")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping Value="2" Color='@("#80c1ff")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping Value="3" Color='@("#1a90ff")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping Value="7" Color='@("#005cb3")'></MapsShapeColorMapping>
+                        </MapsShapeColorMappings>
+                    </MapsShapeSettings>
+                </MapsLayer>
+            </MapsLayers>
         </EjsMaps>
     </div>
     <div style="float: right; margin-right: 10px;">
@@ -60,102 +56,28 @@
         <a href="https://en.wikipedia.org/wiki/List_of_Cricket_World_Cup_finals" target="_blank">en.wikipedia.org</a>
     </div>
 </div>
-<div id="template" style="display:none">
-    <div class="toolback">
-        <div class="listing2">
-            <center>
-                ${country}
-            </center>
-        </div>
-        <hr style="margin-top: 2px;margin-bottom:5px;border:0.5px solid #DDDDDD">
-        <div>
-            <span class="listing1">Finalist : </span><span class="listing2">${value1}</span>
-        </div>
-        <div>
-            <span class="listing1">Win : </span><span class="listing2">${value2}</span>
-        </div>
-    </div>
 
-</div>
-<style>
-    .toolback {
-        border-radius: 4px;
-        border: 1px #abb9c6;
-        opacity: 90%;
-        background: rgba(53, 63, 76, 0.90);
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.40);
-        padding-bottom: 5px;
-        padding-top: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-        width: 90px;
-    }
-
-    .listing1 {
-        font-size: 13px;
-        color: #cccccc
-    }
-
-    .listing2 {
-        font-size: 13px;
-        color: #ffffff;
-        font-weight: 500;
-    }
-</style>
 @code {
-    public String value1 { get; set; } = "1";
-    public String value2 { get; set; } = "2";
-    public String value3 { get; set; } = "3";
-    public String value4 { get; set; } = "7";
-
-    public String color1 { get; set; } = "#b3daff";
-    public String color2 { get; set; } = "#80c1ff";
-    public String color3 { get; set; } = "#1a90ff";
-    public String color4 { get; set; } = "#005cb3";
-
-    public String fill1 { get; set; } = "#E5E5E5";
-
-    public String color { get; set; } = "value1";
-    
-    public MapDataSettings mapShapeData = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/WorldMap.json",
-        type = "GET"
-    };    
-
-    public String shapePropertyPath = "name";
-
-    public String shapeDataPath = "name";
-
-    public List<WorldCupData> dataSource = new List<WorldCupData> {
-        new WorldCupData { name="India", value1="3", value2="2", country="India" },
-        new WorldCupData { name="Dominican Rep.", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Cuba", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Jamaica", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Haiti", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Guyana", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Suriname", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Trinidad and Tobago", value1="3", value2="2", country="West Indies" },
-        new WorldCupData { name="Sri Lanka", value1="3", value2="1", country="Sri Lanka" },
-        new WorldCupData { name="United Kingdom", value1="3", value2="0", country="England" },
-        new WorldCupData { name="Pakistan", value1="2", value2="1", country="Pakistan" },
-        new WorldCupData { name="new  Zealand", value1="1", value2="0", country="new  Zealand" },
-        new WorldCupData { name="Australia", value1="7", value2="5", country="Australia" }
+public List<Country> PerformanceReport = new List<Country> {
+        new Country { Name="India", Winner="3", Runner="2", City="India" },
+        new Country { Name="Dominican Rep.", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Cuba", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Jamaica", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Haiti", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Guyana", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Suriname", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Trinidad and Tobago", Winner="3", Runner="2", City="West Indies" },
+        new Country { Name="Sri Lanka", Winner="3", Runner="1", City="Sri Lanka" },
+        new Country { Name="United Kingdom", Winner="3", Runner="0", City="England" },
+        new Country { Name="Pakistan", Winner="2", Runner="1", City="Pakistan" },
+        new Country { Name="new  Zealand", Winner="1", Runner="0", City="new  Zealand" },
+        new Country { Name="Australia", Winner="7", Runner="5", City="Australia" }
     };
-
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
-    };
-
-    public class WorldCupData
-    {
-        public string name;
-        public string value1;
-        public string value2;
-        public string country;
-    }
+public class Country
+{
+    public string Name;
+    public string Winner;
+    public string Runner;
+    public string City;
+}
 }
