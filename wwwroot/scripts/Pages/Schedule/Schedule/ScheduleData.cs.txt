@@ -3151,17 +3151,6 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 RecurrenceRule = "FREQ=MONTHLY;BYMONTHDAY=20;INTERVAL=1;COUNT=5",
                 CategoryColor = "#ea7a57"
             });
-            recurrenceData.Add(new RecurrenceData
-            {
-                Id = 5,
-                Subject = "Team Fun Activities",
-                Location = "Office",
-                StartTime = new DateTime(2018, 2, 22),
-                EndTime = new DateTime(2018, 2, 23),
-                IsAllDay = true,
-                RecurrenceRule = "FREQ=YEARLY;BYDAY=TH;BYMONTH=2;BYSETPOS=4;INTERVAL=1;COUNT=10",
-                CategoryColor = "#00bdae"
-            });
             return recurrenceData;
         }
         public List<FifaEventsData> GetFifaEventsData()
@@ -6081,7 +6070,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public string CategoryColor { get; set; }
@@ -6100,7 +6089,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Location { get; set; }
             public string Description { get; set; }
             public bool IsBlock { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public int EmployeeId { get; set; }
             public string RecurrenceRule { get; set; }
             public Nullable<int> RecurrenceID { get; set; }
@@ -6117,7 +6106,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Description { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string CategoryColor { get; set; }
             public string RecurrenceRule { get; set; }
             public Nullable<int> RecurrenceID { get; set; }
@@ -6131,7 +6120,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public int ProjectId { get; set; }
@@ -6148,7 +6137,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public int ProjectId { get; set; }
@@ -6165,7 +6154,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public string CategoryColor { get; set; }
@@ -6181,7 +6170,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public int[] ConferenceId { get; set; }
@@ -6197,7 +6186,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public string RecurrenceRule { get; set; }
@@ -6213,7 +6202,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Description { get; set; }
             public string City { get; set; }
             public string StartTimezone { get; set; }
@@ -6232,7 +6221,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime EndTime { get; set; }
             public string Description { get; set; }
             public string Location { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public int DepartmentID { get; set; }
             public int ConsultantID { get; set; }
             public string DepartmentName { get; set; }
@@ -6248,7 +6237,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public string CategoryColor { get; set; }
@@ -6264,7 +6253,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public bool IsReadonly { get; set; }
@@ -6281,7 +6270,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public int OwnerId { get; set; }
@@ -6301,7 +6290,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime EndTime { get; set; }
             public int RoomId { get; set; }
             public bool IsBlock { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string RecurrenceRule { get; set; }
             public Nullable<int> RecurrenceID { get; set; }
             public string RecurrenceException { get; set; }
@@ -6315,7 +6304,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
             public int CalendarId { get; set; }
@@ -6332,7 +6321,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Subject { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public int DoctorId { get; set; }
             public string Location { get; set; }
             public string Description { get; set; }
@@ -6349,7 +6338,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Tags { get; set; }
             public string Description { get; set; }
             public string Location { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public string ImageName { get; set; }
@@ -6374,7 +6363,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public Nullable<int> RecurrenceID { get; set; }
             public string RecurrenceException { get; set; }
             public string Description { get; set; }
-            public bool IsAllDay { get; set; }
+            public Nullable<bool> IsAllDay { get; set; }
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
         }

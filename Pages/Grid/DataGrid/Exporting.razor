@@ -1,6 +1,7 @@
 ﻿@page "/Grid/Exporting"
 
 @using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Navigations
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -15,9 +16,9 @@
     };
     SampleBrowser.Description = new string[]{
         @"<p>
-			<p>Grid supports client-side exporting which allows you to export its data to the Excel, Pdf and CSV formats.</p>
+            <p>Grid supports client-side exporting which allows you to export its data to the Excel, Pdf and CSV formats.</p>
     <p>In this demo, for the toolbar items of exporting, we have defined actions in <code>toolbarClick</code> event to export the Grid data using the <code>excelExport</code>, <code>pdfExport</code> and <code>csvExport</code> methods.</p>
-    
+
     <p>
        More information about Exporting can be found in this documentation section.
     </p>"
@@ -29,12 +30,13 @@
     <div class="content-wrapper">
         <div class="row">
 
-            <EjsGrid DataSource="@GridData" AllowPaging="true" Toolbar="@(new List<string>() { "ExcelExport", "CsvExport", "PdfExport" })" AllowExcelExport="true" AllowPdfExport="true">
+            <EjsGrid ID="Grid" @ref="Grid" @ref:suppressField DataSource="@GridData" AllowPaging="true" Toolbar="@(new List<string>() { "ExcelExport", "CsvExport", "PdfExport" })" AllowExcelExport="true" AllowPdfExport="true">
+                <GridEvents OnToolbarClick="ToolbarClick" TValue="OrdersDetails"></GridEvents>
                 <GridColumns>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="date" TextAlign="TextAlign.Right"  Width="130"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right"  Width="120"></GridColumn>                   
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
                 </GridColumns>
             </EjsGrid>
@@ -44,12 +46,29 @@
 </div>
 
 @code{
+    EjsGrid<OrdersDetails> Grid;
 
     public List<OrdersDetails> GridData { get; set; }
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         GridData = OrdersDetails.GetAllRecords();
+    }
+
+    public void ToolbarClick(Syncfusion.EJ2.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Id == "Grid_pdfexport")
+        {
+           this.Grid.PdfExport();
+        }
+        if (args.Item.Id == "Grid_excelexport")
+        {
+           this.Grid.ExcelExport();
+        }
+        if (args.Item.Id == "Grid_csvexport")
+        {
+           this.Grid.CsvExport();
+        }
     }
 
 }

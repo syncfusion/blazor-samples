@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Grouping Bar";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -11,31 +12,33 @@
     SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
     SampleBrowser.ActionDescription = new string[] {
 @"<p>
-    This sample demonstrates the grouping feature of the pivot table. The pivot fields are automatically populated
-        from the bound data source, and they can be dragged and dropped to alter the report at runtime. The pivot fields
-        can be sorted, filtered, and removed dynamically as well.
+    This sample demonstrates grouping feature of the pivot table. The grouping bar is automatically populated from the bound report, and fields can be dragged and dropped to alter the report at runtime. The fields can be sorted, filtered, and removed dynamically as well.
 </p>"
 };
     SampleBrowser.Description = new string[] {
-@"<p>The pivot table grouping bar option automatically populates fields from the bound data source and allows end
+@"<p>The grouping bar option automatically populates fields from the bound report and allows end
         users
         to drag fields between different axes such as columns, rows, values, and filters, and create pivot table at
         runtime.
         To enable grouping bar, set the
-        <code>ShowGroupingBar</code> property as true.</p>
+        <code>ShowGroupingBar</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>
     <p>
         Filter and sort icons allow displaying selective records and ordering them in ascending or descending order. The
         value type icon
         allows to display values based on selected aggregate type. The remove icon
         allows the user to remove the field from the report.
-    </p>"
+    </p>
+
+    <p>
+
+    We can also hide the sort, filter, remove and value type icon in the <code>PivotViewGroupingBarSettings</code> by setting <code>ShowSortIcon</code>, <code>ShowFilterIcon</code>, <code>ShowRemoveIcon</code> and <code>ShowValueTypeIcon</code> properties to <b>false</b>.</p>"
 };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="400" ShowGroupingBar=true>
+        <EjsPivotView Height="400" ShowGroupingBar=true>
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true >
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
@@ -54,10 +57,8 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
-                <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { " France" })"></PivotViewDrilledMember>
-                </PivotViewDrilledMembers>
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
         </EjsPivotView>
@@ -72,8 +73,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
    
 }

@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Drill Through";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -21,14 +22,14 @@
         Initially drill-through information is displayed for bound fields and you can include the remaining raw items
         details using the <code>column chooser</code> option in the dialog.
     </p>
-    <p>This feature can be enabled by setting the <code>AllowDrillThrough</code> as true.</p>"
+    <p>This feature can be enabled by setting the <code>AllowDrillThrough</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>"
 };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="340" AllowDrillThrough=true>
+        <EjsPivotView AllowDrillThrough=true>
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
@@ -47,10 +48,8 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
-                <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { " France" })"></PivotViewDrilledMember>
-                </PivotViewDrilledMembers>
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
         </EjsPivotView>
@@ -65,8 +64,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
    
 }

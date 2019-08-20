@@ -259,4 +259,99 @@ namespace ej2_blazor_griddata
         }
     }
 
+    public class VirtualData
+    {
+        public string Field1 { get; set; }
+        public int Field2 { get; set; }
+        public int Field3 { get; set; }
+        public int Field4 { get; set; }
+        public int Field5 { get; set; }
+        public int Field6 { get; set; }
+        public int Field7 { get; set; }
+        public int Field8 { get; set; }
+        public int Field9 { get; set; }
+        public int Field10 { get; set; }
+        public int Field11 { get; set; }
+        public int Field12 { get; set; }
+        public int Field13 { get; set; }
+        public int Field14 { get; set; }
+        public int Field15 { get; set; }
+        public int Field16 { get; set; }
+        public int Field17 { get; set; }
+        public int Field18 { get; set; }
+        public int Field19 { get; set; }
+        public int Field20 { get; set; }
+
+        public VirtualData(string Field1, int Field2, int Field3, int Field4, int Field5, int Field6, int Field7
+            , int Field8, int Field9, int Field10, int Field11, int Field12, int Field13, int Field14, int Field15,
+            int Field16, int Field17, int Field18, int Field19, int Field20)
+        {
+            this.Field1 = Field1;
+            this.Field2 = Field2;
+            this.Field3 = Field3;
+            this.Field4 = Field4;
+            this.Field5 = Field5;
+            this.Field6 = Field6;
+            this.Field7 = Field7;
+            this.Field8 = Field8;
+            this.Field9 = Field9;
+            this.Field10 = Field10;
+            this.Field11 = Field11;
+            this.Field12 = Field12;
+            this.Field13 = Field13;
+            this.Field14 = Field14;
+            this.Field15 = Field15;
+            this.Field16 = Field16;
+            this.Field17 = Field17;
+            this.Field18 = Field18;
+            this.Field19 = Field19;
+            this.Field20 = Field20;
+        }
+
+
+        public static List<VirtualData> GetAllRecords()
+        {
+
+            List<VirtualData> data = new List<VirtualData>();
+
+            string[] name = new string[] {"hardire", "abramjo01", "aubucch01", "Hook", "Rumpelstiltskin", "Belle", "Emma", "Regina", "Aurora", "Elsa",
+          "Anna", "Snow White", "Prince Charming", "Cora", "Zelena", "August", "Mulan", "Graham", "Discord", "Will", "Robin Hood",
+          "Jiminy Cricket", "Henry", "Neal", "Red", "Aaran", "Aaren", "Aarez", "Aarman", "Aaron", "Aaron-James", "Aarron", "Aaryan", "Aaryn",
+          "Aayan", "Aazaan", "Abaan", "Abbas", "Abdallah", "Abdalroof", "Abdihakim", "Abdirahman", "Abdisalam", "Abdul", "Abdul-Aziz",
+          "Abdulbasir", "Abdulkadir", "Abdulkarem", "Abdulkhader", "Abdullah", "Abdul-Majeed", "Abdulmalik", "Abdul-Rehman", "Abdur",
+          "Abdurraheem", "Abdur-Rahman", "Abdur-Rehmaan", "Abel", "Abhinav", "Abhisumant", "Abid", "Abir", "Abraham", "Abu", "Abubakar",
+          "Ace", "Adain", "Adam", "Adam-James", "Addison", "Addisson", "Adegbola", "Adegbolahan", "Aden", "Adenn", "Adie", "Adil", "Aditya",
+          "Adnan", "Adrian", "Adrien", "Aedan", "Aedin", "Aedyn", "Aeron", "Afonso", "Ahmad", "Ahmed", "Ahmed-Aziz", "Ahoua", "Ahtasham",
+          "Aiadan", "Aidan", "Aiden", "Aiden-Jack", "Aiden-Vee" };
+            for (int i = 1; i < 1000; i++)
+            {
+                string Field1 = name[new Random().Next(96)];
+                int Field2 = 1967 + (i % 10);
+                int Field3 = (int)Math.Floor(new Random().NextDouble() * 200);
+                int Field4 = (int)Math.Floor(new Random().NextDouble() * 100);
+                int Field5 = (int)Math.Floor(new Random().NextDouble() * 2000);
+                int Field6 = (int)Math.Floor(new Random().NextDouble() * 1000);
+                int Field7 = (int)Math.Floor(new Random().NextDouble() * 100);
+                int Field8 = (int)Math.Floor(new Random().NextDouble() * 10);
+                int Field9 = (int)Math.Floor(new Random().NextDouble() * 10);
+                int Field10 = (int)Math.Floor(new Random().NextDouble() * 100);
+                int Field11 = (int)Math.Floor(new Random().NextDouble() * 100);
+                int Field12 = (int)Math.Floor(new Random().NextDouble() * 1000);
+                int Field13 = (int)Math.Floor(new Random().NextDouble() * 10);
+                int Field14 = (int)Math.Floor(new Random().NextDouble() * 10);
+                int Field15 = (int)Math.Floor(new Random().NextDouble() * 1000);
+                int Field16 = (int)Math.Floor(new Random().NextDouble() * 200);
+                int Field17 = (int)Math.Floor(new Random().NextDouble() * 300);
+                int Field18 = (int)Math.Floor(new Random().NextDouble() * 400);
+                int Field19 = (int)Math.Floor(new Random().NextDouble() * 500);
+                int Field20 = (int)Math.Floor(new Random().NextDouble() * 700);
+                data.Add(new VirtualData(Field1, Field2, Field3, Field4, Field5, Field6, Field7, Field8, Field9, Field10, Field11,
+                    Field12, Field13, Field14, Field15, Field16, Field17, Field18, Field19, Field20));
+            }
+            return data;
+        }
+
+    }
+
+
 }

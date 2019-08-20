@@ -1,0 +1,154 @@
+﻿@page "/Slider/Events"
+
+@using Syncfusion.EJ2.Blazor.Inputs;
+@using Syncfusion.EJ2.Blazor.Buttons;
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Events";
+    SampleBrowser.CurrentControlName = "Slider";
+    SampleBrowser.CurrentControlCategory = "Slider";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Slider;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the events that have been triggered on the Slider operations with the help of event trace panel.
+        Drag the thumb over the bar between min and max to know the event details.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>Slider component triggers the event based on its actions. The events can be used as an extension point to perform custom
+        operations.
+    </p>
+<p>In this demo, Slider performs following actions which can be traced by event trace panel: </p>
+<ul>
+        <li>Created - Triggers when Slider is created.</li>
+        <li>ValueChange - Triggers when the Slider value is changing.</li>
+        <li>OnChange - Triggers when the Slider action is completed with change in Slider value.</li>
+    </ul>"
+    };
+
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-wrapper">
+        <div class="content-wrapper">
+            <div class="sliderwrap">
+                <EjsSlider @bind-Value="@Value" Type="@SliderType.MinRange">
+                    <SliderTicksData Placement="@Placement.Both" LargeStep="20" SmallStep="5" ShowSmallTicks="true"></SliderTicksData>
+                    <SliderTooltipData IsVisible="true" Placement="@TooltipPlacement.Before"></SliderTooltipData>
+                    <SliderEvents TValue="int"
+                                  ValueChange="@(e => { EventsList.Add(new EventModel { Name = "ValueChange", CurrentValue = e.Value, PrevValue = e.PreviousValue });  })"
+                                  OnChange="@(e => { EventsList.Add(new EventModel { Name = "OnChange", CurrentValue = e.Value, PrevValue = e.PreviousValue });  })"
+                                  Created="@(e => { EventsList.Add(new EventModel { Name = "Created" });  })"
+                                  TicksRendered="@(e => { EventsList.Add(new EventModel { Name = "TicksRendered" });  })">
+                    </SliderEvents>
+                </EjsSlider>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="slider_event" class="col-lg-4 property-section">
+
+    <div class="property-panel-section">
+        <div class="property-panel-header">Event Trace</div><div class="property-panel-content">
+            <table id="property" title="Event Trace" class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="eventarea" style="height: 245px;overflow: auto">
+                                <span class="EventLog" id="EventLog" style="word-break: normal;">
+
+                                    @for (int i = EventsList.Count - 1; i >= 0; i--)
+                                    {
+                                        <span>
+                                            <b>@EventsList[i].Name</b>
+                                            @if (EventsList[i].CurrentValue != null)
+                                            {
+                                                <span>Current and Previous values are @EventsList[i].CurrentValue and @EventsList[i].PrevValue</span>
+                                            }
+                                            else
+                                            {
+                                                <span>has been triggered</span>
+                                            }
+                                            <hr>
+                                        </span>
+
+                                    }
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="evtbtn" style="padding-bottom: 10px">
+                                <!-- clear button element -->
+                                <button id="clear" class="btn btn-default" @onclick="@(e => { EventsList.RemoveAll((s) => true); })">Clear</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    int Value = 25;
+    List<EventModel> EventsList = new List<EventModel>();
+
+    class EventModel
+    {
+        public string Name { get; set; }
+        public int? CurrentValue { get; set; }
+        public int? PrevValue { get; set; }
+    }
+}
+
+<style>
+    .content-wrapper {
+        padding-top: 50px;
+        width: 55%;
+        margin: 0 auto;
+        min-width: 185px;
+    }
+
+    .sliderwrap {
+        margin-top: 40px;
+    }
+
+    .e-bigger .content-wrapper {
+        width: 80%;
+    }
+
+    .userselect {
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+        /* Standard syntax */
+    }
+
+    #EventLog b {
+        color: #388e3c;
+    }
+
+    hr {
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    #slider_event .property-panel-table div {
+        margin-top: -4px;
+        padding-bottom: 0px;
+    }
+
+    #slider_event.property-section {
+        margin-bottom: -19px;
+    }
+</style>

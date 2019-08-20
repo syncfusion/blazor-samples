@@ -172,6 +172,15 @@ namespace ej2_blazor_samples
                 Url = "ListBox/Checkbox",
                 FileName = "Checkbox.razor",
                 Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "ListBox",
+                Directory = "DropDowns/ListBox",
+                Url = "ListBox/Api",
+                FileName = "Api.razor",
+                Type = SampleType.New,
             }
         };
     }

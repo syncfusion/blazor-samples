@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Conditional Formatting";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -12,7 +13,7 @@
     SampleBrowser.ActionDescription = new string[] {
 @"<p>
     This sample demonstrates formatting the appearance of pivot table cells with user-defined styles based on applied
-        conditions. 
+        conditions.
 </p>"
 };
     SampleBrowser.Description = new string[] {
@@ -20,48 +21,58 @@
         allowing the users to change its appearance such as background color, font color, font family, and font size
         based on specific conditions.
         Conditional formatting can be applied either through code behind or UI. To enable this option in code behind, set
-        <code>AllowConditionalFormatting</code> to true.
-        Use the <code>ConditionalFormatSettings</code> object in the pivot table along with the following properties.
+        <code>AllowConditionalFormatting</code> in <code>EjsPivotView</code> to <b>true</b>.
+        Use the <code>PivotViewConditionalFormatSetting</code> class in the pivot table along with the following properties.
     </p>
     <table>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>measure :</code>
+                <code>Measure :</code>
             </td>
             <td>Specifies the value field name for which style will be applied.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>condition :</code>
+                <code>Condition :</code>
             </td>
             <td>Specifies the operator type like equals, greater than, less than, etc.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>value1 :</code>
+                <code>Value1 :</code>
             </td>
             <td>Specifies the start value.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>value2 :</code>
+                <code>Value2 :</code>
             </td>
             <td>Specifies the end value.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>style</code>
+                <code>Style</code>
             </td>
             <td>Specifies the style for the cell.</td>
         </tr>
-    </table>"
+    </table>
+
+    <p>
+    Also, we have applied conditional formatting for the fields <b>Sold Amount</b> and <b>Units Sold</b> in code behind</p>
+    
+    <p>In this sample, we can also invoke conditional formatting dialog via toolbar by defining toolbar option(s) and setting the <code>ShowToolbar</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>"
 };
 }
 @*End:Hidden*@
 
+@{var toolbar = new List<ToolbarItems> {
+      ToolbarItems.ConditionalFormatting
+  };
+}
+
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="340" AllowConditionalFormatting=true>
+        <EjsPivotView Width="100%" Height="340" AllowConditionalFormatting=true ShowToolbar="true" Toolbar="@toolbar">
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
@@ -80,13 +91,14 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewConditionalFormatSettings>
                     <PivotViewConditionalFormatSetting Measure="Amount" Conditions=Condition.GreaterThan Value1=1000>
                         <PivotViewStyle BackgroundColor="#80cbc4" Color="black" FontFamily="Tahoma" FontSize="12px">
                         </PivotViewStyle>
                     </PivotViewConditionalFormatSetting>
-					<PivotViewConditionalFormatSetting Measure="Sold" Conditions=Condition.Between Value1=500 Value2=40000>
+                    <PivotViewConditionalFormatSetting Measure="Sold" Conditions=Condition.Between Value1=500 Value2=40000>
                         <PivotViewStyle BackgroundColor="#f48fb1" Color="black" FontFamily="Tahoma" FontSize="12px">
                         </PivotViewStyle>
                     </PivotViewConditionalFormatSetting>
@@ -105,8 +117,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
-   
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
+
 }

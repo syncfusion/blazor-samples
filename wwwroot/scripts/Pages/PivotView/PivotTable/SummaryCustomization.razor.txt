@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Show/Hide Totals";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -17,23 +18,28 @@
 };
     SampleBrowser.Description = new string[] {
 @"<p>
-        In this sample, you can hide grand totals in row, column, or both using radio buttons available under the
-        <b>Hide grand totals</b> category. To hide grand totals in both row and column, set the property
-        <code>PivotViewDataSourceSettings->ShowGrandTotals</code> as false. To hide the row and column grand totals separately,
-        set the property <code>PivotViewDataSourceSettings->ShowRowGrandTotals</code> and <code>PivotViewDataSourceSettings->ShowColumnGrandTotals</code>as false.
+        You can hide grand totals in row, column, or both, To hide grand totals in both row and column, set the property
+        <code>ShowGrandTotals</code> in <code>PivotViewDataSourceSettings</code> to <b>false</b>. To hide the row and column grand totals separately,
+        set the property <code>ShowRowGrandTotals</code> and <code>ShowColumnGrandTotals</code> in <code>PivotViewDataSourceSettings</code> to <b>false</b>.
     </p>
+
     <p>
-        Also, in this sample, you can hide subtotals for specific fields too. It can be achieved by selecting appropriate fields
-        from the drop-down available under the <b>Hide sub-totals</b> category. To hide subtotals for a specific field, set the
-        <code>ShowSubTotals</code> property as false inside the field definition.
-    </p>"
+
+        You can hide subtotals for specific fields too. To hide subtotals for a specific field, set the
+        <code>ShowSubTotals</code> property to <b>false</b> inside the field definition.
+    </p>
+    <p>In this sample, we can also enable or disable grand total and subtotal via toolbar by defining toolbar option(s) and setting the <code>ShowToolbar</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>"
 };
 }
 @*End:Hidden*@
-
+@{var toolbar = new List<ToolbarItems> {
+      ToolbarItems.SubTotal,
+      ToolbarItems.GrandTotal
+  };
+}
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="340">
+        <EjsPivotView ShowToolbar="true" Toolbar="@toolbar" Height="340">
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true ShowGrandTotals=false ShowSubTotals=false>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
@@ -52,6 +58,7 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewDrilledMembers>
                     <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France" })"></PivotViewDrilledMember>
@@ -70,8 +77,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
-   
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
+
 }

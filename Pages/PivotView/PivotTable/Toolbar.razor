@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Toolbar";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -12,12 +13,12 @@
     SampleBrowser.ActionDescription = new string[] {
 @"<p>
      This sample demonstrates the toolbar options of the pivot table. The options include show or hide subtotals and grand totals, conditional formatting, and
-        exporting in the pivot table and pivot chart.
+        exporting in the pivot table.
 </p>"
 };
     SampleBrowser.Description = new string[] {
 @"<p>
-    Users can change to either pivot table or pivot chart using the toolbar options. Other toolbar options available are:
+    Users can change to either pivot table or pivot chart using the toolbar options. To enable toolbar set the <code>ShowToolbar</code> property in <code>EjsPivotView</code> to <b>true</b>, The toolbar options that are available are:
 </p>
  <table>
         <tr>
@@ -57,6 +58,7 @@
             <td>Provides option to alter the report dynamically through UI.</td>
         </tr>
     </table>
+    <p>To define toolbar options, create a list with necessary <code>ToolbarItems</code> enumeration values and add it to the <code>Toolbar</code> property in <code>EjsPivotView</code>.</p>
 "
 };
 }
@@ -74,9 +76,9 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="400" ShowFieldList=true ShowToolbar=true Toolbar="@toolbar" AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true>
+        <EjsPivotView ShowFieldList=true ShowToolbar=true Toolbar="@toolbar" AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true>
             <PivotViewDisplayOption Primary=Primary.Table View=View.Both></PivotViewDisplayOption>
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true ShowGrandTotals=false ShowSubTotals=false>
+            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true ShowGrandTotals=true ShowSubTotals=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
                     <PivotViewColumn Name="Quarter"></PivotViewColumn>
@@ -94,6 +96,7 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
@@ -109,8 +112,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
    
 }

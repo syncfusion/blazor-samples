@@ -1,4 +1,3 @@
-@inherits LayoutComponentBase
 @using System.Text.RegularExpressions;
 @using Newtonsoft.Json;
 @using ej2_blazor_samples
@@ -9,6 +8,7 @@
 @inject Microsoft.AspNetCore.Components.IUriHelper UriHelper;
 @inject HttpClient Http;
 @inject IJSRuntime JsRuntime;
+@inherits LayoutComponentBase;
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WLQL39J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
@@ -36,8 +36,8 @@
         <div class='sb-header-right sb-right sb-table'>
             <div class="sb-header-item sb-table-cell">
                 <div id="header-theme-switcher" role="button" tabindex="0" title='Change theme of sample browser'>
-                    <EjsMenu ID='theme-menu' ShowItemOnClick="true" Items='@menuItems' @ref="menuBar">
-                        <MenuEvents Created="ThemeMenuCreated" OnOpen="tickTheme" OnClose ="OnThemeChange"></MenuEvents>
+                    <EjsMenu ID='theme-menu' ShowItemOnClick="true" Items='@menuItems' @ref="menuBar" @ref:suppressField >
+                        <MenuEvents Created="ThemeMenuCreated" OnOpen="tickTheme" OnClose="OnThemeChange"></MenuEvents>
                     </EjsMenu>
                 </div>
             </div>
@@ -67,7 +67,7 @@
     </div>
 
     <div class="sb-content e-view">
-        <EjsSidebar ID="left-sidebar" @ref="sidebar" EnableGestures="false" Target=".sb-content">
+        <EjsSidebar ID="left-sidebar" @ref="sidebar" @ref:suppressField EnableGestures="false" Target=".sb-content">
             <ChildContent>
                 <div class='sb-left-pane e-view'>
                     <div class="sb-left-pane-header">
@@ -149,7 +149,7 @@
                             </div>
                             <div>
                                 <div class='sb-source-section'>
-                                    <EjsTab id='sb-source-tab' items="@sourceCodeItems" headerPlacement="@HeaderPosition.Bottom" @ref="sourceTab">
+                                    <EjsTab id='sb-source-tab' items="@sourceCodeItems" headerPlacement="@HeaderPosition.Bottom" @ref="sourceTab" @ref:suppressField >
                                         <TabEvents Selected="OnSourceClicked"></TabEvents>
                                     </EjsTab>
                                 </div>
@@ -163,7 +163,7 @@
                 <div class="sb-footer">
                     <div class="sb-footer-left">
                         <div class="sb-footer-links">
-                            <a href="https://ej2.syncfusion.com/aspnet-core-blazor/documentation/" target="_blank">
+                            <a href="https://ej2.syncfusion.com/blazor/documentation/" target="_blank">
                                 <div class="sb-footer-link">Documentation</div>
                             </a>
                             <a href="https://www.syncfusion.com/forums/blazor-components/" target="_blank">
@@ -187,21 +187,21 @@
             </div>
         </div>
 
-        <EjsSidebar ID="right-sidebar" @ref="sidebarRight" EnableGestures="false" Position="@Position" Type="@Type">
-        <ChildContent>
-            <div class="sb-left-pane-header">
-                <div class="sb-setting-header">Preferences</div>
-            </div>
-            <div class="sb-setting-item sb-setting-theme-section">
-                <div class="sb-icons sb-setting-icons sb-icon-Palette"></div>
-                <div class="sb-setting-text">Theme Selection</div>
-                <EjsDropDownList ID="mobileTheme" PopupWidth="180px" DataSource="@data" TValue="string">
-                    <DropDownListEvents ValueChange="ThemeChange" TValue="string"></DropDownListEvents>
-                    <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
-                </EjsDropDownList>
-            </div>
-        @*<div class="sb-name">Choose Theme</div>*@
-        </ChildContent>
+        <EjsSidebar ID="right-sidebar" @ref="sidebarRight" @ref:suppressField EnableGestures="false" Position="@Position" Type="@Type">
+            <ChildContent>
+                <div class="sb-left-pane-header">
+                    <div class="sb-setting-header">Preferences</div>
+                </div>
+                <div class="sb-setting-item sb-setting-theme-section">
+                    <div class="sb-icons sb-setting-icons sb-icon-Palette"></div>
+                    <div class="sb-setting-text">Theme Selection</div>
+                    <EjsDropDownList ID="mobileTheme" PopupWidth="180px" DataSource="@data" TValue="string">
+                        <DropDownListEvents ValueChange="ThemeChange" TValue="string"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                    </EjsDropDownList>
+                </div>
+                @*<div class="sb-name">Choose Theme</div>*@
+            </ChildContent>
         </EjsSidebar>
         <div class="sb-body-overlay sb-hide">
             <div class="sb-loading">
@@ -231,12 +231,12 @@
 
 @code {
 
-        EjsTab sourceTab;
-        EjsSidebar sidebar;
-        EjsSidebar sidebarRight;
-        EjsMenu menuBar;
+    EjsTab sourceTab;
+    EjsSidebar sidebar;
+    EjsSidebar sidebarRight;
+    EjsMenu menuBar;
 
-public SidebarPosition Position { get; set; } = SidebarPosition.Right;
+    public SidebarPosition Position { get; set; } = SidebarPosition.Right;
 
     public SidebarType Type { get; set; } = SidebarType.Push;
 
@@ -265,7 +265,7 @@ public SidebarPosition Position { get; set; } = SidebarPosition.Right;
 {
         new { text = "CHOOSE THEME",
             items = new List<object>
-        {
+    {
                 new { id= "Theme1", text= "Material"},
                 new { id= "Theme2", text= "Fabric"},
                 new { id= "Theme3", text= "Bootstrap"},
@@ -289,7 +289,8 @@ public SidebarPosition Position { get; set; } = SidebarPosition.Right;
     {
         JsRuntime.InvokeAsync<Object>("persistTheme");
         int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(SampleBrowser.CurrentUrl);
-        if (CurrentIndex != 0) {
+        if (CurrentIndex != 0)
+        {
             UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString());
             SampleBrowser.CurrentUrl = SampleBrowser.SampleUrls[CurrentIndex - 1].ToString();
             JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
@@ -334,7 +335,8 @@ public SidebarPosition Position { get; set; } = SidebarPosition.Right;
 
     private void swiped(Syncfusion.EJ2.Blazor.Navigations.SelectingEventArgs args)
     {
-        if (args.IsSwiped) {
+        if (args.IsSwiped)
+        {
             args.Cancel = true;
         }
     }
@@ -385,32 +387,45 @@ public SidebarPosition Position { get; set; } = SidebarPosition.Right;
             {
                 if (control.Name == SampleBrowser.CurrentSampleName)
                 {
-                    if (control.SourceFiles.Count != 0) {
+                    if (control.SourceFiles.Count != 0)
+                    {
                         string[] Response = new string[control.SourceFiles.Count];
                         string[] id = new string[control.SourceFiles.Count];
-                        for (var i = 0; i < control.SourceFiles.Count; i++) {
+                        for (var i = 0; i < control.SourceFiles.Count; i++)
+                        {
                             Response[i] = await Http.GetStringAsync("./scripts/Pages/" + control.Directory + "/" + control.SourceFiles[i].FileName + ".txt");
                             id[i] = control.SourceFiles[i].Id;
                             Response[i] = Response[i].Replace("<", "&lt;");
                             Response[i] = Response[i].Replace(">", "&gt;");
-                            Response[i] = RemoveString(Response[i]);
-                            sourceCodeItems.Add (
-                                new TabItem() { Header = new TabHeader() { Text = control.SourceFiles[i].FileName }, Content = "<pre id='"+ id[i] +"' class='sb-src-code'><code>" + Response[i] + "</code></pre>" }
-                            );}
+                            while (Response[i].IndexOf("@*Hidden:Lines*@") > -1)
+                            {
+                                Response[i] = RemoveString(Response[i]);
+                            }
+                            Response[i] = Regex.Replace(Response[i], @"^(?:[\t ]*(?:\r?\n|\r))+", string.Empty, RegexOptions.Multiline);
+                            sourceCodeItems.Add(
+                                new TabItem() { Header = new TabHeader() { Text = control.SourceFiles[i].FileName }, Content = "<pre id='" + id[i] + "' class='sb-src-code'><code>" + Response[i] + "</code></pre>" }
+                            );
+                        }
                         this.sourceTab.Items = sourceCodeItems;
                         this.sourceTab.DataBind();
                         this.sourceTab.Refresh();
                         sourceResponse = Response;
 
                         JsRuntime.InvokeAsync<Object>("refreshTab", Response, control, id);
-                    } else {
+                    }
+                    else
+                    {
                         String Response = await Http.GetStringAsync("./scripts/Pages/" + control.Directory + "/" + control.FileName + ".txt");
                         Response = Response.Replace("<", "&lt;");
                         Response = Response.Replace(">", "&gt;");
-                        Response = RemoveString(Response);
+                        while (Response.IndexOf("@*Hidden:Lines*@") > -1)
+                        {
+                            Response = RemoveString(Response);
+                        }
+                        Response = Regex.Replace(Response, @"^(?:[\t ]*(?:\r?\n|\r))+", string.Empty, RegexOptions.Multiline);
                         sourceCodeItems = new List<TabItem>() {
                             new TabItem() { Header = new TabHeader() { Text = control.FileName }, Content = "<pre id='code' class='sb-src-code'><code>" + Response + "</code></pre>" }
-                        };
+                            };
                         this.sourceTab.Items = sourceCodeItems;
                         this.sourceTab.DataBind();
                         this.sourceTab.Refresh();

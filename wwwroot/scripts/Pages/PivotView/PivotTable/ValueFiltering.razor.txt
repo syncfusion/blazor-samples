@@ -4,12 +4,13 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
-        SampleBrowser.CurrentSampleName = "Value Filtering";
-        SampleBrowser.CurrentControlName = "PivotTable";
-        SampleBrowser.CurrentControlCategory = "PivotTable";
-        SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
-        SampleBrowser.ActionDescription = new string[] {
+    SampleBrowser.CurrentSampleName = "Value Filtering";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
 @"<p>
     This sample demonstrates filtering row and column headers based on a specific measure and the grand total. The
         different conditions that can be applied to the grand total are equals, less than, greater than, between, etc.
@@ -17,55 +18,61 @@
 };
     SampleBrowser.Description = new string[] {
 @"<p>
-    Value filtering can be applied either through code-behind or UI. To achieve this in code-behind, use the
-        <code>filterSettings</code> object in the pivot table along with the following properties.
+    Value filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>AllowValueFilter</code> property in <code>PivotViewDataSourceSettings</code> to <b>true</b> and use the
+        <code>PivotViewFilterSetting</code> in the pivot table along with the following properties.
 </p>
 <table>
         <tr>
             <td style='vertical-align: top;padding: 10px 0;width:100px'>
-                <code>name :</code>
+                <code>Name :</code>
             </td>
             <td>Specifies the normal field.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>type :</code>
+                <code>Type :</code>
             </td>
             <td>Specifies the filter type. For label filtering, it should be 'Label' type and for value filtering, it should be 'Value' type.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>measure :</code>
+                <code>Measure :</code>
             </td>
             <td>Specifies the value based field.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>condition :</code>
+                <code>Condition :</code>
             </td>
             <td>Specifies the operator type like equals, greater than, less than, etc.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>value1 :</code>
+                <code>Value1 :</code>
             </td>
             <td>Gets the value to view the filter result.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
-                <code>value2 :</code>
+                <code>Value2 :</code>
             </td>
             <td>For conditions like 'between' and 'not between', this option will be enabled. Enter both start and end value to view the filter result.</td>
         </tr>
-    </table>"
+    </table>
+    </br>
+    <p>
+
+    In this sample, we have applied value filtering for the measure <b>Units Sold</b> GreaterThan 20000 in <b>Year</b>.</p>
+    
+    <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>"
 };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="400" ShowGroupingBar=true>
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false  EnableSorting=true AllowLabelFilter=true AllowValueFilter=true>
+        <EjsPivotView Height="400" ShowGroupingBar=true>
+            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true AllowValueFilter=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
                     <PivotViewColumn Name="Quarter"></PivotViewColumn>
@@ -81,11 +88,12 @@
                 <PivotViewFilters>
                     <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
                 </PivotViewFilters>
-				<PivotViewFilterSettings>
-					<PivotViewFilterSetting Name="Year" Measure="Sold" Type=Syncfusion.EJ2.Blazor.PivotView.FilterType.Value Condition=Operators.GreaterThan Value1= "2000"></PivotViewFilterSetting>
-				</PivotViewFilterSettings>
+                <PivotViewFilterSettings>
+                    <PivotViewFilterSetting Name="Year" Measure="Sold" Type=Syncfusion.EJ2.Blazor.PivotView.FilterType.Value Condition=Operators.GreaterThan Value1="20000"></PivotViewFilterSetting>
+                </PivotViewFilterSettings>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
@@ -101,8 +109,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
-   
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
+
 }

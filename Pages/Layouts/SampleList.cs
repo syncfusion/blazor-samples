@@ -28,6 +28,15 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Remote Data",
+                Category = "Listview",
+                Directory = "Layouts/Listview",
+                Url = "Listview/RemoteData",
+                FileName = "RemoteData.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Nested List",
                 Category = "Listview",
                 Directory = "Layouts/Listview",
@@ -35,13 +44,40 @@ namespace ej2_blazor_samples
                 FileName = "NestedList.razor",
                 Type = SampleType.New
             },
-			new Sample
+            new Sample
             {
-                Name = "Template",
-                Category = "Listview",
+                Name = "Templates",
+                Category = "Customization",
+                Directory = "Layouts/Listview",
+                Url = "Listview/ListTemplates",
+                FileName = "ListTemplates.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Group Template",
+                Category = "Customization",
                 Directory = "Layouts/Listview",
                 Url = "Listview/GroupTemplate",
                 FileName = "ListGroupTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Virtualization",
+                Category = "Listview",
+                Directory = "Layouts/Listview",
+                Url = "Listview/Virtualization",
+                FileName = "Virtualization.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Call History",
+                Category = "Use Case",
+                Directory = "Layouts/Listview",
+                Url = "Listview/CallHistory",
+                FileName = "CallHistory.razor",
                 Type = SampleType.New
             },
         };

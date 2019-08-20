@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Aggregation";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -18,8 +19,8 @@
 };
     SampleBrowser.Description = new string[] {
 @" <p>
-        In this sample, you can change the aggregate types for value fields using the dropdown list separately. The
-        aggregate type can be set using the <code>type</code> property of the value field. The built-in aggregates are:
+        The
+        aggregate type can be set using the <code>Type</code> property in <code>PivotViewValue</code>. The built-in aggregates are:
     </p>
     <p>
         <code>Sum</code>, <code>Average</code>, <code>Min</code>, <code>Max</code>, <code>Count</code>,
@@ -29,14 +30,18 @@
         <code>Difference From</code>, <code>% of Difference From</code>, <code>% of Grand Total</code>,
         <code>% of Column Total</code>, <code>% of Row Total</code>,
         <code>% of Parent Total</code>, <code>% of Parent Column Total</code>, <code>% of Parent Row Total.</code>
-    </p> "
+    </p> 
+
+    <p>
+
+     In this sample, you can also change the aggregate type for value fields at runtime using the dropdown icon via field list UI. Here we have set the aggregation type for the field <b>Sold Amount</b> to <b>Average</b> in the code behind.</p>"
 };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="340" ShowFieldList=true>
+        <EjsPivotView ShowFieldList=true>
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
                 <PivotViewColumns>
 					<PivotViewColumn Name="Products"></PivotViewColumn>
@@ -49,16 +54,17 @@
                 </PivotViewRows>
                 <PivotViewValues>
                     <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                    <PivotViewValue Name="Amount" Caption="Sold Amount" Type=Syncfusion.EJ2.Blazor.PivotView.SummaryTypes.Product></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount" Type=Syncfusion.EJ2.Blazor.PivotView.SummaryTypes.Avg></PivotViewValue>
                 </PivotViewValues>
                 <PivotViewFilters>
                     <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { " France" })"></PivotViewDrilledMember>
+                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France" })"></PivotViewDrilledMember>
                 </PivotViewDrilledMembers>
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
@@ -74,8 +80,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
    
 }

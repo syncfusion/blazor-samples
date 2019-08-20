@@ -20,21 +20,21 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "List Binding",
-                Category = "Data Grid",
+                Category = "Data Binding",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/LocalData",
                 FileName = "LocalData.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Remote Data",
-            //    Category = "Data Grid",
-            //    Directory = "Grid/DataGrid",
-            //    Url = "Grid/RemoteData",
-            //    FileName = "RemoteData.razor",
-            //    Type = SampleType.New
-            //},
+            new Sample
+            {
+                Name = "Remote Data",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/RemoteData",
+                FileName = "RemoteData.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Context Menu",
@@ -46,11 +46,20 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Scrolling",
-                Category = "Data Grid",
+                Name = "Default Scrolling",
+                Category = "Scrolling",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/DefaultScrolling",
                 FileName = "DefaultScrolling.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Virtual Scrolling",
+                Category = "Scrolling",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/VirtualScrolling",
+                FileName = "VirtualScrolling.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -125,15 +134,15 @@ namespace ej2_blazor_samples
                 FileName = "RowHover.razor",
                 Type = SampleType.New
             },
-            // new Sample
-            // {
-            //     Name = "Row Drag And Drop",
-            //     Category = "Rows",
-            //     Directory = "Grid/DataGrid",
-            //     Url = "Grid/RowDragAndDrop",
-            //     FileName = "RowDragAndDrop.razor",
-            //     Type = SampleType.New
-            // },
+             new Sample
+             {
+                 Name = "Row Drag And Drop",
+                 Category = "Rows",
+                 Directory = "Grid/DataGrid",
+                 Url = "Grid/RowDragAndDrop",
+                 FileName = "RowDragAndDrop.razor",
+                 Type = SampleType.New
+             },
             //new Sample
             //{
             //    Name = "Row Drag And Drop Within Grid",
@@ -260,19 +269,19 @@ namespace ej2_blazor_samples
                 FileName = "GroupAndCaptionAggregate.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Default Exporting",
-            //    Category = "Exporting",
-            //    Directory = "Grid/DataGrid",
-            //    Url = "Grid/Exporting",
-            //    FileName = "Exporting.razor",
-            //    Type = SampleType.New
-            //},
+            new Sample
+            {
+                Name = "Default Exporting",
+                Category = "Exporting",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/Exporting",
+                FileName = "Exporting.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Print",
-                Category = "Data Grid",
+                Category = "Exporting",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/Print",
                 FileName = "Print.razor",
@@ -322,7 +331,43 @@ namespace ej2_blazor_samples
                 Url = "Grid/HeaderTemplate",
                 FileName = "GridHeaderTemplate.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Clipboard",
+                Category = "Data Grid",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/Clipboard",
+                FileName = "Clipboard.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Row Height",
+                Category = "Rows",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/RowHeight",
+                FileName = "RowHeight.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Frozen Rows and Columns",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/FrozenRows",
+                FileName = "FrozenRowsAndColumns.razor",
+                Type = SampleType.New
             }
+            //new Sample
+            //{
+            //    Name = "Show or Hide Column",
+            //    Category = "Columns",
+            //    Directory = "Grid/DataGrid",
+            //    Url = "Grid/ShowHideColumn",
+            //    FileName = "ShoworHideColums.razor",
+            //    Type = SampleType.New
+            //}
         };
     }
 }

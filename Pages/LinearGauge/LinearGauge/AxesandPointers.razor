@@ -1,0 +1,274 @@
+﻿@page "/LinearGauge/AxesandPointers"
+
+@using Syncfusion.EJ2.Blazor.LinearGauge
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Axes and Pointers";
+    SampleBrowser.CurrentControlName = "LinearGauge";
+    SampleBrowser.CurrentControlCategory = "LinearGauge";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.LinearGauge;
+    SampleBrowser.ActionDescription = new string[] {
+        @" <p>
+            This sample illustrates the default rendering of linear gauge.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            This sample demonstrates the default linear gauge. The linear gauge component indicates the values of scales in horizontal
+            or vertical sliding meter. You can use <code>axes</code>,
+            <code>ranges</code>, <code>pointers</code> and <code>container</code> properties to customize the appearance of the
+            gauge. an axis, annotation and a pointer has been used.
+        </p>
+        <br>
+        <p>
+            More information about linear gauge can be found in this
+            <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <EjsLinearGauge Orientation="Syncfusion.EJ2.Blazor.LinearGauge.Orientation.Horizontal" @ref="@gaugeRef" @ref:suppressField>
+            <LinearGaugeAxes>
+                <LinearGaugeAxis Minimum="@gaugeMinimumValue" Maximum="@gaugeMaximumValue" IsInversed="@gaugeInversed" OpposedPosition="@gaugeOpposed">
+                    <LinearGaugeAxisLabelStyle Offset="@gaugeLabelOffset" Format="@gaugeLabelFormat">
+                    </LinearGaugeAxisLabelStyle>
+                    <LinearGaugeMajorTicks Color="#9E9E9E" Interval="10" Height="20">
+                    </LinearGaugeMajorTicks>
+                    <LinearGaugeMinorTicks Color="#9E9E9E" Interval="2" Height="10">
+                    </LinearGaugeMinorTicks>
+                    <LinearGaugePointers>
+                        <LinearGaugePointer Value="10" Height="15" Width="15" Placement="@gaugePointerPlacement" offset="@gaugePointerOffset" MarkerType="@gaugeMarkerType" Type="@gaugePointerType" Color="#757575">
+                        </LinearGaugePointer>
+                    </LinearGaugePointers>
+                </LinearGaugeAxis>
+            </LinearGaugeAxes>
+            <LinearGaugeAnnotations>
+                <LinearGaugeAnnotation Content="@annotationText"
+                                       AxisIndex="0" AxisValue="@annotationAxisvalue" X="@gaugeAnnotationX" Y="@gaugeAnnotationY" ZIndex="1">
+                    <LinearGaugeAnnotationFont Size="14px"></LinearGaugeAnnotationFont>
+                </LinearGaugeAnnotation>
+            </LinearGaugeAnnotations>
+        </EjsLinearGauge>
+    </div>
+</div>
+<div class="col-md-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties" style="width: 100%;" class="padding-table">
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            Axis Minimum
+                            <span>&nbsp;&nbsp;&nbsp;@minimumValueText</span>
+                        </div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <input type="range" value="@minimumValue" min="0" max="100" @onchange="minimumChange" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            Axis Maximum
+                            <span>&nbsp;&nbsp;&nbsp;@maximumValueText</span>
+                        </div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <input type="range" value="@maximumValue" min="0" max="100" @onchange="maximumChange" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Axis Inversed</div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <EjsCheckBox Checked="@inveredChecked" ValueChange="@inversedChange"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Axis Opposed</div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <EjsCheckBox Checked="@opposedChecked" ValueChange="@opposedChange"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Label Format</div>
+                    </td>
+                    <td style="width:40%">
+                        <div class="e-float-input" style="margin-top: 0px; padding-left: 10px; padding-top: 10px;">
+                            <EjsTextBox Value="@labelFormatValue" ValueChange='@labelFormatChange' @ref="@textboxRef" @ref:suppressField></EjsTextBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Pointer type</div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <EjsDropDownList DataSource="@pointerTypeList" Value="@pointerTypeValue" Placeholder="Select Range Bar Color">
+                                <DropDownListEvents ValueChange="pointerTypeChange" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Name"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Marker Placement</div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <EjsDropDownList Enabled="@placementListEnable" DataSource="@pointerPlacementList" Value="@placementValue">
+                                <DropDownListEvents ValueChange="placementTypeChange" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Name"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    #control-section {
+        padding: 0px !important;
+    }
+
+    .padding-table td {
+        width: 40%;
+    }
+</style>
+
+@code {
+    EjsLinearGauge gaugeRef;
+    EjsTextBox textboxRef;
+    private Double gaugePointerOffset = 30;
+    private Double gaugeLabelOffset = 48;
+    private Double gaugeAnnotationX = 10;
+    private Double gaugeAnnotationY = 60;
+    private Double gaugeMaximumValue = 100;
+    private Double gaugeMinimumValue = 0;
+    private Boolean gaugeInversed = false;
+    private Boolean gaugeOpposed = false;
+    private String gaugeLabelFormat = "{ value }";
+    private Syncfusion.EJ2.Blazor.LinearGauge.MarkerType gaugeMarkerType = Syncfusion.EJ2.Blazor.LinearGauge.MarkerType.InvertedTriangle;
+    private Syncfusion.EJ2.Blazor.LinearGauge.Placement gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Far;
+    private Point gaugePointerType = Point.Marker;
+    private String annotationText = "10 MPH";
+    private Double annotationAxisvalue = 10;
+    private Double minimumValue = 0;
+    private Double maximumValue = 100;
+    private Double minimumValueText = 0;
+    private Double maximumValueText = 100;
+    private Boolean inveredChecked = false;
+    private Boolean opposedChecked = false;
+    private String labelFormatValue = "{value}";
+    private String pointerTypeValue = "Marker";
+    private String placementValue = "Far";
+    private Boolean placementListEnable = true;
+    public class DropDownData
+    {
+        public String Name { get; set; }
+    }
+    private List<DropDownData> pointerTypeList = new List<DropDownData>
+{
+        new DropDownData{ Name = "Marker"},
+        new DropDownData{ Name = "Bar"},
+        };
+    private List<DropDownData> pointerPlacementList = new List<DropDownData>
+{
+        new DropDownData{ Name = "Far"},
+        new DropDownData{ Name = "Near"},
+        new DropDownData{ Name = "Center"},
+        };
+
+    private void minimumChange(UIChangeEventArgs args)
+    {
+        minimumValue = Convert.ToDouble(args.Value);
+        gaugeMinimumValue = minimumValueText = minimumValue;
+        gaugeMaximumValue = maximumValue;
+        gaugeRef.Refresh();
+        annotationAxisvalue = gaugeRef.Axes[0].Pointers[0].Value;
+        this.StateHasChanged();
+    }
+    private void maximumChange(UIChangeEventArgs args)
+    {
+        maximumValue = Convert.ToDouble(args.Value);
+        gaugeMinimumValue = minimumValue;
+        gaugeMaximumValue = maximumValueText = maximumValue;
+        gaugeRef.Refresh();
+        annotationAxisvalue = gaugeRef.Axes[0].Pointers[0].Value;
+        this.StateHasChanged();
+    }
+    private void inversedChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        inveredChecked = gaugeInversed = args.Checked;
+        this.StateHasChanged();
+    }
+    private void opposedChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        opposedChecked = gaugeOpposed = args.Checked;
+        if (opposedChecked)
+        {
+            gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Near;
+            gaugeMarkerType = Syncfusion.EJ2.Blazor.LinearGauge.MarkerType.Triangle;
+            gaugePointerOffset = -20;
+            gaugeLabelOffset = 0;
+            gaugeAnnotationX = 10;
+            gaugeAnnotationY = -60;
+        }
+        else
+        {
+            gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Far;
+            gaugeMarkerType = Syncfusion.EJ2.Blazor.LinearGauge.MarkerType.InvertedTriangle;
+            gaugePointerOffset = 30;
+            gaugeLabelOffset = 50;
+            gaugeAnnotationX = 10;
+            gaugeAnnotationY = 60;
+        }
+        this.StateHasChanged();
+    }
+    private void labelFormatChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs args)
+    {
+        labelFormatValue = (args.Value).ToString();
+        gaugeLabelFormat = labelFormatValue;
+        this.StateHasChanged();
+    }
+    private void pointerTypeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        pointerTypeValue = (args.Value).ToString();
+        if (pointerTypeValue == "Marker") { gaugePointerType = Point.Marker; placementListEnable = true; }
+        else { gaugePointerType = Point.Bar; placementListEnable = false; }
+        this.StateHasChanged();
+    }
+    private void placementTypeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        placementValue = (args.Value).ToString();
+        if (placementValue == "Far") { gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Far; }
+        else if (placementValue == "Near") { gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Near; }
+        else { gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Center; }
+        this.StateHasChanged();
+    }
+}

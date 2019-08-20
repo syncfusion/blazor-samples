@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Default Filtering";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -17,21 +18,42 @@
     SampleBrowser.Description = new string[] {
 @"<p>
     Member filtering can be applied either through code-behind or UI. To achieve this in code-behind, use the
-            <code>PivotViewFilterSettings</code> object in the pivot table along with the following properties.
+            <code>PivotViewFilterSetting</code> in the pivot table along with the following properties.
         </p>
 
-    <ul>
-        <li><code>Name :</code> - Specifies the normal field.</li>
-        <li><code>Type :</code> - Specifies the filter type and it should be 'Include' or 'Exclude' in this scenario.</li>
-        <li><code>Items :</code> - Specifies the fields to be include or excluded.</li>
-    </ul>"
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 10px 0;width:100px'>
+                <code>Name :</code>
+            </td>
+            <td>Specifies the normal field.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Type :</code>
+            </td>
+            <td>Specifies the filter type and it should be 'Include' or 'Exclude' in this scenario.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Items :</code>
+            </td>
+            <td>Specifies the fields to be include or excluded.</td>
+        </tr>
+    </table>
+    </br>
+    <p>
+
+    In this sample, we have applied member filter for the field <b>Year</b> by excluding <b>FY 2015</b> in code behind.</p>
+
+    <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>"
 };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="400" ShowGroupingBar=true>
+        <EjsPivotView Height="400" ShowGroupingBar=true>
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false  EnableSorting=true >
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
@@ -50,6 +72,7 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewFilterSettings>
 					<PivotViewFilterSetting Name="Year" Type=Syncfusion.EJ2.Blazor.PivotView.FilterType.Exclude Items="@(new string[] { "FY 2015" })"></PivotViewFilterSetting>
@@ -68,8 +91,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
    
 }
