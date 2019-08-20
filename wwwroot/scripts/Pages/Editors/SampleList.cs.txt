@@ -22,8 +22,8 @@ namespace ej2_blazor_samples
                 Name = "DropDown Components",
                 Category = "In-place Editor",
                 Directory = "Editors/InPlaceEditor",
-                Url = "Editors/DropDowns",
-                FileName = "DropDowns.razor",
+                Url = "Editors/DropDown",
+                FileName = "DropDown.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -31,8 +31,8 @@ namespace ej2_blazor_samples
                 Name = "Date Components",
                 Category = "In-place Editor",
                 Directory = "Editors/InPlaceEditor",
-                Url = "Editors/Pickers",
-                FileName = "Pickers.razor",
+                Url = "Editors/DatePickers",
+                FileName = "DatePickers.razor",
                 Type = SampleType.New
             },
             new Sample

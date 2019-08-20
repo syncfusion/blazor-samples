@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Calculated Field";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -15,15 +16,30 @@
         based on the existing measure items either through a dialog at runtime or through code behind.</p>"
 };
     SampleBrowser.Description = new string[] {
-@"<p>The calculated field feature allows users to create custom fields which are not present in the actual data. Users
+@"<p>The calculated field feature allows users to create custom fields which are not present in the actual data source. Users
         can
         create these fields using basic mathematical expression collaborating with existing fields. Calculated fields
         can
         be created through UI dialog as well as code behind and it can be enabled by setting
-        <code>AllowCalculatedField</code> as true. The
-        <code>CalculatedFieldSettings</code> property is available to configure the calculated field in code behind.
+        <code>AllowCalculatedField</code> in <code>EjsPivotView</code> to <b>true</b>. Use the
+        <code>PivotViewCalculatedFieldSetting</code> property to configure the calculated field in code behind along with the following properties.
         <br>
-        </p>"
+    </p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Name :</code>
+            </td>
+            <td>Specifies the given calculated field with unique name..</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Formula :</code>
+            </td>
+            <td>Specifies to set the formula based on the given data source.</td>
+        </tr>
+    </table>
+    "
 };
 }
 @*End:Hidden*@
@@ -34,7 +50,7 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="340" ShowFieldList=true AllowCalculatedField=true >
+        <EjsPivotView ShowFieldList=true AllowCalculatedField=true >
             <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
@@ -54,6 +70,7 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
 				<PivotViewCalculatedFieldSettings>
                     <PivotViewCalculatedFieldSetting Name="Total" Formula="@totalPrice">
@@ -73,8 +90,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
    
 }

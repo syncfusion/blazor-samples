@@ -1,0 +1,109 @@
+@page "/PivotTable/Grouping"
+
+@using Syncfusion.EJ2.Blazor.PivotView
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_groupdata
+@{
+    SampleBrowser.CurrentSampleName = "Grouping";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+    This sample demonstrates grouping dates in year, quarter, month, etc., and number types in ranges like 1-4, 5-8,
+        etc. in row and column headers of the pivot table.
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@"<p>In this sample, the date type can be separated and showcased individually as year, quarter, month, or day by
+        setting the appropriate option in the code.
+</p>
+<p>
+        Grouping can be applied through code-behind using the <code>PivotViewGroupSetting</code> in the pivot table
+        along with the following properties:
+    </p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 10px 0; width: 130px'>
+                <code>Name :</code>
+            </td>
+            <td>Specifies the normal field.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Type :</code>
+            </td>
+            <td>Specifies the field type for applying the group settings. For example, date formatted fields should be
+                in Date type and number formatted fields should be in Number type.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>GroupInterval :</code>
+            </td>
+            <td>Specifies the interval for date fields in years, quarters, months, etc.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>RangeInterval :</code>
+            </td>
+            <td>Specifies the interval value to group the number field.</td>
+        </tr>
+    </table>"
+
+};
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        @{var groupinterval = new List<DateGroup> {
+                DateGroup.Years,
+                DateGroup.Quarters,
+                DateGroup.Months,
+                DateGroup.Days
+            };
+        }
+        @{var start = "1001";}
+        @{var end = "1020";}
+        <EjsPivotView Height="400" ShowGroupingBar="true">
+            <PivotViewDataSourceSettings DataSource="@data">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Id" Caption="Product ID"></PivotViewColumn>
+                    <PivotViewColumn Name="Sector" Caption="Product Sector"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Date" Caption="Date"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="PowUnits" Caption="Units (GWh)"></PivotViewValue>
+                    <PivotViewValue Name="ProCost" Caption="Cost (MM)"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Date" Type="date" Format="dd/MM/yyyy-hh:mm a"></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewGroupSettings>
+                    <PivotViewGroupSetting Name="Date" Type=GroupType.Date GroupInterval="@groupinterval"></PivotViewGroupSetting>
+                    <PivotViewGroupSetting Name="Id" Type=GroupType.Number RangeInterval=4 StartingAt="@start" EndingAt="@end"></PivotViewGroupSetting>
+                </PivotViewGroupSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
+        </EjsPivotView>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+</style>
+
+@code{
+
+    public List<GroupData> data { get; set; }
+    protected override void OnInitialized()
+    {
+        this.data = GroupData.GetGroupData();
+    }
+}

@@ -1,0 +1,376 @@
+@page "/Maps/Legend"
+
+@using Syncfusion.EJ2.Blazor.Maps
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Legend";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+            @"<p>
+            This sample visualizes the continents in the world by rendering these in a map layer. Also marks the office locations of YouTube in the world using markers.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render a map with the provided GeoJSON data. Group of shapes can be combined to form a layer of the map. You can bind the desired colors from the data source to the map shapes. The marker templates are used to display the names for shapes and mark specific locations. Legend is enabled in this example to represent each continent.
+        </p>
+        <p>
+            Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+        </p>
+        <br />
+        <p style=""font-weight: 500"">Injecting Module</p>
+        <p>
+            Maps component features are segregated into individual feature-wise modules. To use a marker, inject the <code>Marker</code> module using the < code > Maps.Inject(Marker) </ code > method, and use a legend by injecting the<code> Legend</ code > module.
+
+
+              </ p > "
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="control-section">
+        <EjsMaps>
+            <MapsZoomSettings Enable="false"></MapsZoomSettings>
+            <MapsTitleSettings Text="Population density (per square kilometers) - 2015">
+                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+            </MapsTitleSettings>
+            <MapsLegendSettings Visible="true" Mode="@LegendTypeValue" Position="@LegendPositionValue"></MapsLegendSettings>
+            <MapsLayers>
+                <MapsLayer ShapeData="@MapShapeData" ShapeDataPath="name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData">
+                    <MapsLayerTooltipSettings Visible="true" ValuePath="name" Format="${name} : ${density} per square kms"></MapsLayerTooltipSettings>
+                    <MapsShapeSettings ColorValuePath="density" Fill="#E5E5E5">
+                        <MapsShapeColorMappings>
+                            <MapsShapeColorMapping From="0.00001" To="100" Color="@("rgb(153,174,214)")" Label="<100"></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="100" To="200" Color="@("rgb(115,143,199)")" Label="100-200"></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="200" To="300" Color="@("rgb(77,112,184)")" Label="200-300"></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="300" To="500" Color="@("rgb(38,82,168)")" Label="300-500"></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="500" To="19000" Color="@("rgb(0,51,153)")" Label=">500"></MapsShapeColorMapping>
+                            <MapsShapeColorMapping Color="@FifthColor" Label="@FifthLabel"></MapsShapeColorMapping>
+                        </MapsShapeColorMappings>
+                    </MapsShapeSettings>
+                </MapsLayer>
+            </MapsLayers>
+        </EjsMaps>
+        <div style="float: right; margin-right: 10px;">
+            Source:
+            <a href="https://simple.wikipedia.org/wiki/List_of_countries_by_population_density" target="_blank">simple.wikipedia.org</a>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" title="Properties">
+                <tbody>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Legend Type
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList Placeholder="Select layoutMode type" DataSource="@LegendType" Value="@LegendTypeDropDownValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="LegendTypeList"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Legend Position
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList Placeholder="Legend Position" DataSource="@LegendPosition" Value="@LegendPositionDropDownValue" Width="120px">
+                                <DropDownListEvents ValueChange="LegendPositionList" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Remaining Items in DataSource
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@RemainingDataCheck" ValueChange="RemainingData"></EjsCheckBox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    public Syncfusion.EJ2.Blazor.Maps.LegendMode LegendTypeValue = Syncfusion.EJ2.Blazor.Maps.LegendMode.Default;
+    public Syncfusion.EJ2.Blazor.Maps.LegendPosition LegendPositionValue = Syncfusion.EJ2.Blazor.Maps.LegendPosition.Top;
+    public string LegendTypeDropDownValue = "Default";
+    public string LegendPositionDropDownValue = "Top";
+    public string ShapePropertyPath = "name";
+    public string FifthColor = "null";
+    public string FifthLabel = "null";
+    public Boolean RemainingDataCheck;
+    public MapDataSettings MapShapeData = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    public class Data
+    {
+        public string code;
+        public double value;
+        public string name;
+        public double population;
+        public double density;
+    };
+    public List<Data> LegendData = new List<Data> {
+        new Data { code="Côte", value=1000, name="Côte d'Ivoire", population=1000000000, density=-1 },
+        new Data { code="BH", value=2000, name="Bhutan", population=202002020, density=-1 },
+        new Data { code="Ec", value=2000, name="Ecuador", population=10102002, density=-1 },
+        new Data { code="AF", value=53, name="Afghanistan", population=29863010, density=119 },
+        new Data { code="AL", value=117, name="Albania", population=3195000, density=111 },
+        new Data { code="DZ", value=15, name="Algeria", population=34895000, density=15 },
+        new Data { code="AO", value=15, name="Angola", population=18498000, density=15 },
+        new Data { code="AR", value=15, name="Argentina", population=40091359, density=14 },
+        new Data { code="AM", value=109, name="Armenia", population=3230100, density=108 },
+        new Data { code="AU", value=3, name="Australia", population=23839595, density=3.3 },
+        new Data { code="AT", value=102, name="Austria", population=8372930, density=100 },
+        new Data { code="AZ", value=110, name="Azerbaijan", population=9165000, density=106 },
+        new Data { code="BS", value=34, name="Bahamas", population=342000, density=25 },
+        new Data { code="BD", value=1142, name="Bangladesh", population=164994076, density=1118 },
+        new Data { code="BY", value=47, name="Belarus", population=9755106, density=47 },
+        new Data { code="BE", value=359, name="Belgium", population=10827519, density=355 },
+        new Data { code="BZ", value=15, name="Belize", population=322000, density=14 },
+        new Data { code="BJ", value=80, name="Benin", population=8935000, density=79 },
+        new Data { code="BO", value=9, name="Bolivia", population=9879000, density=9 },
+        new Data { code="BA", value=73, name="Bosnia and Herz.", population=3843126, density=75 },
+        new Data { code="BW", value=4, name="Botswana", population=1950000, density=3.4 },
+        new Data { code="BR", value=23, name="Brazil", population=206598985, density=24 },
+        new Data { code="BN", value=76, name="Brunei", population=400000, density=69 },
+        new Data { code="BG", value=69, name="Bulgaria", population=7351234, density=66 },
+        new Data { code="BF", value=60, name="Burkina Faso", population=15757000, density=58 },
+        new Data { code="BI", value=326, name="Burundi", population=8303000, density=298 },
+        new Data { code="KH", value=80, name="Cambodia", population=14805000, density=82 },
+        new Data { code="CM", value=41, name="Cameroon", population=19522000, density=106 },
+        new Data { code="CA", value=4, name="Canada", population=35151728, density=3.4 },
+        new Data { code="CF", value=7, name="Central African Rep.", population=4422000, density=7.1 },
+        new Data { code="TD", value=9, name="Chad", population=11274106, density=8.8 },
+        new Data { code="CL", value=23, name="Chile", population=18349928, density=24 },
+        new Data { code="CN", value=143, name="China", population=1389750000, density=144 },
+        new Data { code="CO", value=42, name="Colombia", population=49471496, density=43 },
+        new Data { code="CD", value=29, name="Dem. Rep. Congo", population=68692542, density=29 },
+        new Data { code="CG", value=12, name="Congo", population=3998904, density=12 },
+        new Data { code="CR", value=91, name="Costa Rica", population=4579000, density=90 },
+        new Data { code="HR", value=79, name="Croatia", population=4443000, density=79 },
+        new Data { code="CU", value=106, name="Cuba", population=11241894, density=102 },
+        new Data { code="CY", value=119, name="Cyprus", population=801851, density=87 },
+        new Data { code="CZ", value=136, name="Czech Rep.", population=10532770, density=134 },
+        new Data { code="DK", value=131, name="Denmark", population=5532531, density=128 },
+        new Data { code="DJ", value=38, name="Djibouti", population=864000, density=38 },
+        new Data { code="DO", value=205, name="Dominican Rep.", population=10090000, density=207 },
+        new Data { code="EG", value=81, name="Egypt", population=90177649, density=90 },
+        new Data { code="SV", value=299, name="El Salvador", population=6163000, density=293 },
+        new Data { code="GQ", value=25, name="Guinea", population=10069000, density=41 },
+        new Data { code="ER", value=52, name="Eritrea", population=5073000, density=43 },
+        new Data { code="EE", value=32, name="Estonia", population=1315819, density=29 },
+        new Data { code="ET", value=83, name="Ethiopia", population=79221000, density=72 },
+        new Data { code="FJ", value=47, name="Fiji", population=849000, density=46 },
+        new Data { code="FI", value=18, name="Finland", population=5538741, density=16 },
+        new Data { code="FR", value=118, name="France", population=62793432, density=114 },
+        new Data { code="GA", value=6, name="Gabon", population=1475000, density=5.5 },
+        new Data { code="GM", value=173, name="Gambia", population=1705000, density=151 },
+        new Data { code="GE", value=78, name="Georgia", population=4465000, density=64 },
+        new Data { code="DE", value=234, name="Germany", population=81757600, density=229 },
+        new Data { code="GH", value=107, name="Ghana", population=23837000, density=100 },
+        new Data { code="GR", value=88, name="Greece", population=11306183, density=86 },
+        new Data { code="GL", value=0.02, name="Greenland", population=57001, density=0.026 },
+        new Data { code="GT", value=134, name="Guatemala", population=14027000, density=129 },
+        new Data { code="GN", value=41, name="Guinea", population=10069000, density=41 },
+        new Data { code="GW", value=54, name="Guinea-Bissau", population=1611000, density=45 },
+        new Data { code="GY", value=4, name="Guyana", population=762000, density=3.5 },
+        new Data { code="HT", value=363, name="Haiti", population=10033000, density=362 },
+        new Data { code="HN", value=68, name="Honduras", population=7466000, density=66 },
+        new Data { code="HU", value=112, name="Hungary", population=10013628, density=108 },
+        new Data { code="IS", value=3, name="Iceland", population=318452, density=3.1 },
+        new Data { code="IN", value=394, name="India", population=1198003000, density=364 },
+        new Data { code="ID", value=132, name="Indonesia", population=237556363, density=121 },
+        new Data { code="IR", value=45, name="Iran", population=74196000, density=117 },
+        new Data { code="IQ", value=73, name="Iraq", population=30747000, density=70 },
+        new Data { code="IE", value=65, name="Ireland", population=4581269, density=65 },
+        new Data { code="IL", value=352, name="Israel", population=7697600, density=371 },
+        new Data { code="IT", value=206, name="Italy", population=60200060, density=200 },
+        new Data { code="JM", value=250, name="Jamaica", population=2719000, density=247 },
+        new Data { code="JP", value=350, name="Japan", population=127387000, density=337 },
+        new Data { code="JO", value=69, name="Jordan", population=6316000, density=67 },
+        new Data { code="KZ", value=6, name="Kazakhstan", population=17010000, density=6.2 },
+        new Data { code="KE", value=71, name="Kenya", population=39802000, density=69 },
+        new Data { code="KP", value=202, name="Dem. Rep. Korea", population=24051706, density=200 },
+        new Data { code="KR", value=504, name="Korea", population=48456369, density=487 },
+        new Data { code="XK", value=167, name="Kosovo", population=7800000, density=101 },
+        new Data { code="KW", value=154, name="Kuwait", population=3566437, density=200 },
+        new Data { code="KG", value=28, name="Kyrgyzstan", population=5482000, density=27 },
+        new Data { code="LA", value=27, name="Lao PDR", population=6320000, density=27 },
+        new Data { code="LV", value=36, name="Latvia", population=2248961, density=35 },
+        new Data { code="LB", value=413, name="Lebanon", population=4224000, density=404 },
+        new Data { code="LS", value=72, name="Lesotho", population=2067000, density=68 },
+        new Data { code="LR", value=41, name="Liberia", population=3476608, density= 38 },
+        new Data { code="LY", value=4, name="Libya", population=6420000, density=3.6 },
+        new Data { code="LT", value=53, name="Lithuania", population=3053800, density=47 },
+        new Data { code="LU", value=195, name="Luxembourg", population=502207, density=194 },
+        new Data { code="MK", value=82, name="Macedonia", population=2114550, density=82 },
+        new Data { code="MG", value=36, name="Madagascar", population=20653556, density=35 },
+        new Data { code="MW", value=158, name="Malawi", population=15263000, density=129 },
+        new Data { code="MY", value=86, name="Malaysia", population=28306700, density=86 },
+        new Data { code="ML", value=13, name="Mali", population=14517176, density=12 },
+        new Data { code="MR", value=3, name="Mauritania", population=3291000, density=3.2 },
+        new Data { code="MX", value=58, name="Mexico", population=107550697, density=57 },
+        new Data { code="MD", value=124, name="Moldova", population=3567500, density=105 },
+        new Data { code="MC", value=17704, name="Monaco", population=33000, density=16923 },
+        new Data { code="MN", value=2, name="Mongolia", population=2671000, density=1.7 },
+        new Data { code="ME", value=47, name="Montenegro", population=630548, density=45 },
+        new Data { code="MA", value=72, name="Morocco", population=34407605, density=77 },
+        new Data { code="MZ", value=30, name="Mozambique", population=22894000, density=29 },
+        new Data { code="MM", value=73, name="Myanmar", population=50020000, density=74 },
+        new Data { code="NA", value=3, name="Namibia", population=2171000, density=2.6 },
+        new Data { code="NP", value=209, name="Nepal", population=29331000, density=109 },
+        new Data { code="NL", value=492, name="Netherlands", population=17250000, density=415 },
+        new Data { code="NC", value=14, name="New Caledonia", population=244410, density=13 },
+        new Data { code="NZ", value=17, name="New Zealand", population=4315800, density=16 },
+        new Data { code="NI", value= 48, name="Nicaragua", population=5743000, density=44 },
+        new Data { code="NE", value=12, name="Niger", population=15290000, density=12 },
+        new Data { code="NG", value=174, name="Nigeria", population=154729000, density=167 },
+        new Data { code="NO", value=16, name="Norway", population=5279970, density=14 },
+        new Data { code="OM", value=9, name="Oman", population=2845000, density=9.2 },
+        new Data { code="PK", value=225, name="Pakistan", population=193231420, density=245 },
+        new Data { code="PA", value=47, name="Panama", population=3454000, density=46 },
+        new Data { code="PG", value=15, name="Papua New Guinea", population=6732000, density=15 },
+        new Data { code="PY", value=16, name="Paraguay", population=6349000, density=16 },
+        new Data { code="PE", value=23, name="Peru", population=29461933, density=23 },
+        new Data { code="PH", value=313, name="Philippines", population=100981437, density=337 },
+        new Data { code="PL", value=126, name="Poland", population=38163895, density=122 },
+        new Data { code="PT", value=116, name="Portugal", population=10636888, density=115 },
+        new Data { code="PR", value=449, name="Puerto Rico", population=3982000, density=449 },
+        new Data { code="WA", value=152, name="Qatar", population=1409000, density=128 },
+        new Data { code="RO", value=93, name="Romania", population=21466174, density=90 },
+        new Data { code="RU", value=9, name="Russia", population=142905208, density=8.3 },
+        new Data { code="RW", value=431, name="Rwanda", population=9998000, density=380 },
+        new Data { code="SA", value=14, name="Saudi Arabia", population=28146658, density=12 },
+        new Data { code="SN", value=65, name="Senegal", population=12534000, density=64 },
+        new Data { code="RS", value=83, name="Serbia", population=7800000, density=101 },
+        new Data { code="SL", value=82, name="Sierra Leone", population=5696000, density=79 },
+        new Data { code="SK", value=113, name="Slovakia", population=5424057, density=111 },
+        new Data { code="SI", value=102, name="Slovenia", population=2192912, density=108 },
+        new Data { code="SB", value=19, name="Solomon Is.", population=523000, density=18 },
+        new Data { code="SO", value=15, name="Somalia", population=9133000, density=14 },
+        new Data { code="ZA", value=41, name="South Africa", population=50586757, density=41 },
+        new Data { code="SS", value=13, name="S. Sudan", population=8260490, density=13 },
+        new Data { code="ES", value=92, name="Spain", population=46087170, density=91 },
+        new Data { code="LK", value=333, name="Sri Lanka", population=20238000, density=308 },
+        new Data { code="SD", value=16, name="Sudan", population=31894000, density=17 },
+        new Data { code="SR", value=3, name="Suriname", population=520000, density=3.2 },
+        new Data { code="SZ", value=69, name="Swaziland", population=1185000, density=68 },
+        new Data { code="SE", value=23, name="Sweden", population=9366092, density=21 },
+        new Data { code="CH", value=196, name="Switzerland", population=7866500, density=191 },
+        new Data { code="SY", value=111, name="Syria", population=21906000, density=118 },
+        new Data { code="TJ", value=49, name="Tajikistan", population=6952000, density=49 },
+        new Data { code="TZ", value=51, name="Tanzania", population=43739000, density=46 },
+        new Data { code="TH", value=135, name="Thailand", population=64232760, density=125 },
+        new Data { code="TP", value=76, name="Timor-Leste", population=1134000, density=76 },
+        new Data { code="TG", value=111, name="Togo", population=6619000, density=117 },
+        new Data { code="TT", value=261, name="Trinidad and Tobago", population=1339000, density=261 },
+        new Data { code="TN", value=68, name="Tunisia", population=10327800, density=63 },
+        new Data { code="TR", value=95, name="Turkey", population=77804122, density=93 },
+        new Data { code="TM", value=11, name="Turkmenistan", population=5110000, density=11 },
+        new Data { code="UG", value=170, name="Uganda", population=32710000, density=136 },
+        new Data { code="UA", value=79, name="Ukraine", population=46936000, density=78 },
+        new Data { code="AE", value=90, name="United Arab Emirates", population=8264070, density=99 },
+        new Data { code="GB", value=257, name="United Kingdom", population=62041708, density=255 },
+        new Data { code="US", value=34, name="United States", population=325020000, density=33 },
+        new Data { code="UY", value=19, name="Uruguay", population=3463197, density=20 },
+        new Data { code="UZ", value=66, name="Uzbekistan", population=27488000, density=61 },
+        new Data { code="VU", value=20, name="Vanuatu", population=240000, density=20 },
+        new Data { code="VE", value=33, name="Venezuela", population=32240855, density=35 },
+        new Data { code="VN", value=280, name="Vietnam", population=85789573, density=259 },
+        new Data { code="EH", value=2, name="W. Sahara", population=513000, density=1.9 },
+        new Data { code="YE", value=46, name="Yemen", population=23580000, density=45 },
+        new Data { code="ZM", value=17, name="Zambia", population=12935000, density=17 },
+        new Data { code="ZW", value=32, name="Zimbabwe", population=13009530, density=33 }
+    };
+    public class DropValues
+    {
+        public string value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<DropValues> LegendType = new List<DropValues> {
+        new DropValues { value="Default", Name="Default" },
+        new DropValues { value="Interactive", Name="Interactive" }
+    };
+    public List<DropValues> LegendPosition = new List<DropValues> {
+        new DropValues { value="Top", Name="Top" },
+        new DropValues { value="Bottom", Name="Bottom" },
+        new DropValues { value="Left", Name="Left" },
+        new DropValues { value="Right", Name="Right" }
+    };
+    public void LegendTypeList(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        LegendTypeDropDownValue = (args.Value).ToString();
+        if (LegendTypeDropDownValue == "Default")
+        {
+            LegendTypeValue = Syncfusion.EJ2.Blazor.Maps.LegendMode.Default;
+        }
+        else if (LegendTypeDropDownValue == "Interactive")
+        {
+            LegendTypeValue = Syncfusion.EJ2.Blazor.Maps.LegendMode.Interactive;
+        }
+        this.StateHasChanged();
+    }
+    public void LegendPositionList(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        LegendPositionDropDownValue = (args.Value).ToString();
+        if (LegendPositionDropDownValue == "Top")
+        {
+            LegendPositionValue = Syncfusion.EJ2.Blazor.Maps.LegendPosition.Top;
+        }
+        else if (LegendPositionDropDownValue == "Bottom")
+        {
+            LegendPositionValue = Syncfusion.EJ2.Blazor.Maps.LegendPosition.Bottom;
+        }
+        else if (LegendPositionDropDownValue == "Left")
+        {
+            LegendPositionValue = Syncfusion.EJ2.Blazor.Maps.LegendPosition.Left;
+        }
+        else if (LegendPositionDropDownValue == "Right")
+        {
+            LegendPositionValue = Syncfusion.EJ2.Blazor.Maps.LegendPosition.Right;
+        }
+        this.StateHasChanged();
+    }
+    public void RemainingData(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        RemainingDataCheck = args.Checked;
+        if (RemainingDataCheck == true)
+        {
+            FifthColor = "lightgrey";
+            FifthLabel = "No Data";
+        }
+        else
+        {
+            FifthColor = "null";
+            FifthLabel = "null";
+        }
+        this.StateHasChanged();
+    }
+}

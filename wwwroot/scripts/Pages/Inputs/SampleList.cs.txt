@@ -43,6 +43,14 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/ColorPicker",
                 Url = "ColorPicker/Custom",
                 FileName = "Custom.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "ColorPicker",
+                Directory = "Inputs/ColorPicker",
+                Url = "ColorPicker/Api",
+                FileName = "Api.razor"
             }
         };
 
@@ -152,11 +160,51 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Vertical Orientation",
+                Category = "Slider",
+                Directory = "Inputs/Slider",
+                Url = "Slider/VerticalOrientation",
+                FileName = "VerticalOrientation.razor"
+            },
+            new Sample
+            {
                 Name = "Limits",
                 Category = "Slider",
                 Directory = "Inputs/Slider",
                 Url = "Slider/Limits",
                 FileName = "Limits.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Slider",
+                Directory = "Inputs/Slider",
+                Url = "Slider/API",
+                FileName = "API.razor"
+            },
+            new Sample
+            {
+                Name = "Events",
+                Category = "Slider",
+                Directory = "Inputs/Slider",
+                Url = "Slider/Events",
+                FileName = "Events.razor"
+            },
+            new Sample
+            {
+                Name = "Thumb",
+                Category = "Customization",
+                Directory = "Inputs/Slider",
+                Url = "Slider/CustomThumb",
+                FileName = "CustomThumb.razor"
+            },
+            new Sample
+            {
+                Name = "Bar",
+                Category = "Customization",
+                Directory = "Inputs/Slider",
+                Url = "Slider/CustomBar",
+                FileName = "CustomBar.razor"
             },
         };
     }

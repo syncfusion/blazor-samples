@@ -24,7 +24,7 @@ namespace ej2_blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "PivotTable/RemoteData",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
+                Type = SampleType.New
             },
             new Sample
             {
@@ -60,6 +60,15 @@ namespace ej2_blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "PivotTable/SummaryCustomization",
                 FileName = "SummaryCustomization.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Grouping",
+                Category = "User Interaction",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/Grouping",
+                FileName = "Grouping.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -115,52 +124,61 @@ namespace ej2_blazor_samples
                 Url = "PivotTable/MemberFiltering",
                 FileName = "MemberFiltering.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Label Filtering",
+                Category = "Filtering",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/LabelFiltering",
+                FileName = "LabelFiltering.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Value Filtering",
+                Category = "Filtering",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/ValueFiltering",
+                FileName = "ValueFiltering.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Editing",
+                Category = "Miscellaneous",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/Editing",
+                FileName = "Editing.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Drill Through",
+                Category = "Miscellaneous",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/DrillThrough",
+                FileName = "DrillThrough.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Hyperlink",
+                Category = "Miscellaneous",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/HyperLink",
+                FileName = "HyperLink.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Export",
+                Category = "Miscellaneous",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/Export",
+                FileName = "Exporting.razor",
+                Type = SampleType.New
             }
-            //new Sample
-            //{
-            //    Name = "Label Filtering",
-            //    Category = "Filtering",
-            //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotTable/LabelFiltering",
-            //    FileName = "LabelFiltering.razor",
-            //    Type = SampleType.New
-            //},
-            //new Sample
-            //{
-            //    Name = "Value Filtering",
-            //    Category = "Filtering",
-            //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotTable/ValueFiltering",
-            //    FileName = "ValueFiltering.razor",
-            //    Type = SampleType.New
-            //},
-            //new Sample
-            //{
-            //    Name = "Editing",
-            //    Category = "Miscellaneous",
-            //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotTable/Editing",
-            //    FileName = "Editing.razor",
-            //    Type = SampleType.New
-            //},
-            //new Sample
-            //{
-            //    Name = "Drill Through",
-            //    Category = "Miscellaneous",
-            //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotTable/DrillThrough",
-            //    FileName = "DrillThrough.razor",
-            //    Type = SampleType.New
-            //},
-            //new Sample
-            //{
-            //    Name = "Hyperlink",
-            //    Category = "Miscellaneous",
-            //    Directory = "PivotView/PivotTable",
-            //    Url = "PivotTable/HyperLink",
-            //    FileName = "HyperLink.razor",
-            //    Type = SampleType.New
-            //}
         };
     }
 }

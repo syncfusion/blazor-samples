@@ -98,7 +98,7 @@ namespace ej2_blazor_heatmapdata
             return dataSource;
         }
 
-        public static Double[,] tableBubbleData()
+        public static Double[,] TableBubbleData()
         {
             Double[,] dataSource = new Double[,]
             {

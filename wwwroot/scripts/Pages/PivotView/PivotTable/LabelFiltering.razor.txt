@@ -4,6 +4,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_productdetails
 @{
     SampleBrowser.CurrentSampleName = "Label Filtering";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -17,26 +18,56 @@
 };
     SampleBrowser.Description = new string[] {
 @"<p>
-    Label filtering can be applied either through code-behind or UI. To achieve this in code-behind, use the
-            <code>PivotViewFilterSettings</code> object in the pivot table along with the following properties.
+    Label filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>AllowLabelFilter</code> property in <code>PivotViewDataSourceSettings</code> to <b>true</b> and use the
+            <code>PivotViewFilterSetting</code> in the pivot table along with the following properties.
         </p>
 
-    <ul>
-        <li><code>Name :</code> - Specifies the normal field.</li>
-        <li><code>Type :</code> - Specifies the filter type and it should be 'Label' in this scenario.</li>
-        <li><code>Condition :</code> - Specifies the operator type like equals, greater than, less than, etc.</li>
-        <li><code>Value1 :</code> - Gets the text to view the filter result. </li>
-        <li><code>Value2 :</code> - For conditions like 'between' and 'not between', this option will be enabled. Enter both start and end
-                text to view the filter result.</li>
-    </ul>"
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 10px 0;width:100px'>
+                <code>Name :</code>
+            </td>
+            <td>Specifies the normal field.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Type :</code>
+            </td>
+            <td>Specifies the filter type and it should be 'Label' in this scenario.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Condition :</code>
+            </td>
+            <td>Specifies the operator type like equals, greater than, less than, etc.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Value1 :</code>
+            </td>
+            <td>Gets the value to view the filter result.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Value2 :</code>
+            </td>
+            <td>For conditions like 'between' and 'not between', this option will be enabled. Enter both start and end value to view the filter result.</td>
+        </tr>
+    </table>
+    </br>
+    <p>
+
+    In this sample, we have applied the label filter for the field <b>Year</b> by showing the fields that are not equal to <b>FY 2017</b> in code behind.</p>
+
+     <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>"
 };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="400" ShowGroupingBar=true>
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false  EnableSorting=true AllowLabelFilter=true AllowValueFilter=true>
+        <EjsPivotView Height="400" ShowGroupingBar=true>
+            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true AllowLabelFilter=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
                     <PivotViewColumn Name="Quarter"></PivotViewColumn>
@@ -54,10 +85,11 @@
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewFilterSettings>
-					<PivotViewFilterSetting Name="Year" Type=Syncfusion.EJ2.Blazor.PivotView.FilterType.Label Condition=Operators.DoesNotEquals Value1= "FY 2017"></PivotViewFilterSetting>
-				</PivotViewFilterSettings>
+                    <PivotViewFilterSetting Name="Year" Type=Syncfusion.EJ2.Blazor.PivotView.FilterType.Label Condition=Operators.DoesNotEquals Value1="FY 2017"></PivotViewFilterSetting>
+                </PivotViewFilterSettings>
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
         </EjsPivotView>
@@ -72,8 +104,11 @@
 
 @code{
 
-    static PivotViewData pivotData = new PivotViewData();
+    public List<ProductDetails> data { get; set; }
 
-    private List<PivotViewData.Pivot_Data> data = pivotData.GetPivot_Data();
-   
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
+
 }

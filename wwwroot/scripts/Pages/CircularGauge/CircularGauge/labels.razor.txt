@@ -1,7 +1,9 @@
 ﻿@page "/CircularGauge/Labels"
 
 @using Syncfusion.EJ2.Blazor.CircularGauge
-@using Newtonsoft.Json;
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.Inputs
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -26,31 +28,32 @@
         </p>
         <p>
             More information on the labels can be found in this
-            <a target=""_blank"" href=""http://ej2.syncfusion.com/documentation"">documentation section</a>.
+            <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section</a>.
         </p>"
     };
 }
 @*End:Hidden*@
 
-<div class="control-section">
-    <EjsCircularGauge >
-        <CircularGaugeAxes>
-            <CircularGaugeAxis StartAngle="210" EndAngle="150" Minimum="0" Maximum="170" Radius="75%">  
-                    <CircularGaugeAxisLabelStyle Position="Position.Outside" AutoAngle="true">
-                        <CircularGaugeAxisLabelFont Size="10px" >
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <EjsCircularGauge>
+            <CircularGaugeAxes>
+                <CircularGaugeAxis StartAngle="210" EndAngle="150" Minimum="0" Maximum="170" Radius="75%" ShowLastLabel="@showLastLabel">
+                    <CircularGaugeAxisLabelStyle Position="@gaugeLabelPosition" AutoAngle="true" Offset="@gaugeLabelOffset">
+                        <CircularGaugeAxisLabelFont Size="10px">
                         </CircularGaugeAxisLabelFont>
                     </CircularGaugeAxisLabelStyle>
-                        <CircularGaugeAxisLineStyle Width="2" Color="#9E9E9E">
-                        </CircularGaugeAxisLineStyle>          
-                        <CircularGaugeAxisMajorTicks Position="Position.Inside" Color="#757575" Width="2" Height="10" Interval="20" >
-                        </CircularGaugeAxisMajorTicks>
-                        <CircularGaugeAxisMinorTicks Position="Position.Inside" Color="#757575" Width="2" Height="5" Interval="10">
-                        </CircularGaugeAxisMinorTicks>
+                    <CircularGaugeAxisLineStyle Width="2" Color="#9E9E9E">
+                    </CircularGaugeAxisLineStyle>
+                    <CircularGaugeAxisMajorTicks Position="@gaugeMajorPosition" Color="#757575" Width="2" Offset="@gaugeMajorOffset" Height="@gaugeMajorHeight" Interval="20">
+                    </CircularGaugeAxisMajorTicks>
+                    <CircularGaugeAxisMinorTicks Position="@gaugeMinorPosition" Color="#757575" Width="2" Offset="@gaugeMinorOffset" Height="@gaugeMinorHeight" Interval="10">
+                    </CircularGaugeAxisMinorTicks>
                     <CircularGaugePointers>
-                            <CircularGaugePointer  Type="PointerType.RangeBar" Value=145 Radius="60%" Color="#8BC34A" PointerWidth="7" RoundedCornerRadius="10">                
-                            <CircularGaugePointerAnimation Enable="false" Duration="0" >
+                        <CircularGaugePointer Type="PointerType.RangeBar" Value=145 Radius="60%" Color="#8BC34A" PointerWidth="7" RoundedCornerRadius="10">
+                            <CircularGaugePointerAnimation Enable="false" Duration="0">
                             </CircularGaugePointerAnimation>
-                            </CircularGaugePointer>
+                        </CircularGaugePointer>
                     </CircularGaugePointers>
                     <CircularGaugeAnnotations>
                         <CircularGaugeAnnotation Angle="0" Radius="0%" zIndex="1">
@@ -60,7 +63,220 @@
                         </CircularGaugeAnnotation>
                     </CircularGaugeAnnotations>
                 </CircularGaugeAxis>
-        </CircularGaugeAxes>
-    </EjsCircularGauge>
+            </CircularGaugeAxes>
+        </EjsCircularGauge>
+    </div>
 </div>
+<div class="col-md-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties" style="width: 100%">
+                <tr>
+                    <td>
+                        <div> Ticks </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsDropDownList DataSource="@tickData" Value="@tickValue">
+                                <DropDownListEvents ValueChange="tickChange" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Tickvalues"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div> Tick Position </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsDropDownList DataSource="@tickPositionData" Value="@tickPositionValue">
+                                <DropDownListEvents ValueChange="tickPositionChange" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="TickPositionValues"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div> Label Position </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsDropDownList DataSource="@LabelPositionData" Value="@labelPositionValue">
+                                <DropDownListEvents ValueChange="labelPositionChange" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="LabelPositionValues"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div id='offset'>Tick Offset <span>&nbsp;&nbsp;&nbsp;@tickOffsetText</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@tickOffsetValue" min="0" max="50" @onchange="tickOffsetChange" />
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div id='height'>Tick Height <span>&nbsp;&nbsp;&nbsp;@tickHeightText</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@tickHeightValue" min="1" max="50" @onchange="tickHeightChange" />
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div id='labelOffsetValue'>Label Offset <span>&nbsp;&nbsp;&nbsp;@labelOffsetText</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@labelOffsetValue" min="0" max="50" @onchange="labelOffsetChange" />
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div id='enablePointer'>Show Last Label </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsCheckBox id="checkbox" ValueChange="lastLabelChange" Checked="@lastLabelChecked"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    td {
+        width: 40%;
+    }
+</style>
+
+@code {
+    private Syncfusion.EJ2.Blazor.CircularGauge.Position gaugeLabelPosition = Syncfusion.EJ2.Blazor.CircularGauge.Position.Outside;
+    private Syncfusion.EJ2.Blazor.CircularGauge.Position gaugeMajorPosition = Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside;
+    private Syncfusion.EJ2.Blazor.CircularGauge.Position gaugeMinorPosition = Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside;
+    private Boolean showLastLabel;
+    private Double gaugeMajorOffset;
+    private Double gaugeMinorOffset;
+    private Double gaugeMajorHeight = 10;
+    private Double gaugeMinorHeight = 5;
+    private Double gaugeLabelOffset;
+    private String tickValue = "major";
+    private String tickPositionValue = "Inside";
+    private String labelPositionValue = "Outside";
+    private Double tickOffsetValue = 0;
+    private Double tickHeightValue = 10;
+    private Double labelOffsetValue = 0;
+    private Boolean lastLabelChecked;
+    private Double tickOffsetText = 0;
+    private Double tickHeightText = 10;
+    private Double labelOffsetText = 0;
+    public Boolean IsMajorTick = true;
+
+    public class LabelList
+    {
+        public string Tickvalues { get; set; }
+        public string Name { get; set; }
+    }
+
+    private List<LabelList> tickData = new List<LabelList> {
+        new LabelList{Tickvalues="major" , Name = "Major Ticks"},
+        new LabelList{Tickvalues="minor", Name = "Minor Ticks"},
+    };
+
+    public class TickPositionList
+    {
+        public string TickPositionValues { get; set; }
+        public string Name { get; set; }
+    }
+    private List<TickPositionList> tickPositionData = new List<TickPositionList> {
+        new TickPositionList{TickPositionValues="Inside" , Name = "Inside"},
+        new TickPositionList{TickPositionValues="Outside", Name = "Outside"}
+    };
+
+    public class LabelPositionList
+    {
+        public string LabelPositionValues { get; set; }
+        public string Name { get; set; }
+    }
+    private List<LabelPositionList> LabelPositionData = new List<LabelPositionList> {
+        new LabelPositionList{LabelPositionValues="Inside" , Name = "Inside"},
+        new LabelPositionList{LabelPositionValues="Outside", Name = "Outside"}
+    };
+
+    private void tickChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        tickValue = args.Value.ToString();
+        if (tickValue == "major")
+        {
+            IsMajorTick = true;
+            tickOffsetValue = gaugeMajorOffset;
+            tickHeightValue = gaugeMajorHeight;
+            tickOffsetText = gaugeMajorOffset;
+            tickHeightText = gaugeMajorHeight;
+        }
+        else
+        {
+            IsMajorTick = false;
+            tickOffsetValue = gaugeMinorOffset;
+            tickHeightValue = gaugeMinorHeight;
+            tickOffsetText = gaugeMinorOffset;
+            tickHeightText = gaugeMinorHeight;
+        }
+        this.StateHasChanged();
+    }
+    private void tickPositionChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        tickPositionValue = args.Value.ToString();
+        if (IsMajorTick) { gaugeMajorPosition = (tickPositionValue == "Inside") ? Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside : Syncfusion.EJ2.Blazor.CircularGauge.Position.Outside; }
+        else { gaugeMinorPosition = (tickPositionValue == "Inside") ? Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside : Syncfusion.EJ2.Blazor.CircularGauge.Position.Outside; }
+        this.StateHasChanged();
+    }
+    private void labelPositionChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        labelPositionValue = args.Value.ToString();
+        gaugeLabelPosition = labelPositionValue == "Inside" ? Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside : Syncfusion.EJ2.Blazor.CircularGauge.Position.Outside;
+        this.StateHasChanged();
+    }
+    private void tickOffsetChange(UIChangeEventArgs args)
+    {
+        tickOffsetValue = Convert.ToDouble(args.Value);
+        if (IsMajorTick) { gaugeMajorOffset = tickOffsetValue; }
+        else { gaugeMinorOffset = tickOffsetValue; }
+        tickOffsetText = tickOffsetValue;
+        this.StateHasChanged();
+    }
+    private void tickHeightChange(UIChangeEventArgs args)
+    {
+        tickHeightValue = Convert.ToDouble(args.Value);
+        if (IsMajorTick) { gaugeMajorHeight = tickHeightValue; }
+        else { gaugeMinorHeight = tickHeightValue; }
+        tickHeightText = tickHeightValue;
+        this.StateHasChanged();
+    }
+    private void labelOffsetChange(UIChangeEventArgs args)
+    {
+        labelOffsetValue = Convert.ToDouble(args.Value);
+        gaugeLabelOffset = labelOffsetValue;
+        labelOffsetText = labelOffsetValue;
+        this.StateHasChanged();
+    }
+    private void lastLabelChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        lastLabelChecked = args.Checked;
+        showLastLabel = args.Checked;
+        this.StateHasChanged();
+    }
+}
 

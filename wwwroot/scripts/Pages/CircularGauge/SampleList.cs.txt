@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ej2_blazor_samples;
+﻿using System.Collections.Generic;
 namespace ej2_blazor_samples
 {
     internal partial class SampleConfig
@@ -15,6 +11,15 @@ namespace ej2_blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Range",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/Range",
+                FileName = "Range.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -35,15 +40,24 @@ namespace ej2_blazor_samples
                 FileName = "Customization.razor",
                 Type = SampleType.New
             },
-			//   new Sample
+             new Sample
+            {
+                Name = "Semi-Circular Gauge",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/Semicirculargauge",
+                FileName = "Semicirculargauge.razor",
+                Type = SampleType.New
+            },	
+			//  new Sample
 			// {
-			// 	Name = "Semi-circular Gauge",
-			// 	Category = "CircularGauge",
-			// 	Directory = "CircularGauge/CircularGauge",
-			// 	Url = "CircularGauge/Semicirculargauge",
-			// 	FileName = "Semicirculargauge.razor",
-			// 	Type = SampleType.New
-			// },
+			//     Name = "Arc Gauge",
+			//     Category = "CircularGauge",
+			//     Directory = "CircularGauge/CircularGauge",
+			//     Url = "CircularGauge/Arcgauge",
+			//     FileName = "Arcgauge.razor",
+			//     Type = SampleType.New
+			// },			 
 			 new Sample
             {
                 Name = "Pointer Image",
@@ -62,6 +76,6 @@ namespace ej2_blazor_samples
                 FileName = "Tooltip.razor",
                 Type = SampleType.New
             }
-        };      
+        };
     }
 }

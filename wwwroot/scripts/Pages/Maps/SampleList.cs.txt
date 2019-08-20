@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ej2_blazor_samples;
+﻿using System.Collections.Generic;
 namespace ej2_blazor_samples
 {
     internal partial class SampleConfig
@@ -16,16 +12,25 @@ namespace ej2_blazor_samples
                 Url = "Maps/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
-            },           
+            },
+            new Sample
+            {
+                Name = "Projection",
+                Category = "Maps",
+                Directory = "Maps/Maps",
+                Url = "Maps/Projection",
+                FileName = "Projection.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Marker",
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/Marker",
-                FileName = "marker.razor",
+                FileName = "Marker.razor",
                 Type = SampleType.New
-            },            
+            },
             new Sample
             {
                 Name = "Marker clustering",
@@ -34,7 +39,25 @@ namespace ej2_blazor_samples
                 Url = "Maps/MarkerCluster",
                 FileName = "MarkerCluster.razor",
                 Type = SampleType.New
-            },           
+            },
+            new Sample
+            {
+                Name = "Labels",
+                Category = "Maps",
+                Directory = "Maps/Maps",
+                Url = "Maps/Label",
+                FileName = "Label.razor",
+                Type = SampleType.New
+            },                   
+            //new Sample
+            //{
+            //    Name = "Legend",
+            //    Category = "Maps",
+            //    Directory = "Maps/Maps",
+            //    Url = "Maps/Legend",
+            //    FileName = "Legend.razor",
+            //    Type = SampleType.New
+            //},     
             new Sample
             {
                 Name = "OpenStreetMap",
@@ -43,7 +66,7 @@ namespace ej2_blazor_samples
                 Url = "Maps/OpenStreetMap",
                 FileName = "OpenStreetMap.razor",
                 Type = SampleType.New
-            },            
+            },
             new Sample
             {
                 Name = "OSM with Sublayer",
@@ -61,7 +84,7 @@ namespace ej2_blazor_samples
                 Url = "Maps/Print",
                 FileName = "Print.razor",
                Type = SampleType.New
-            },            
+            },
             new Sample
             {
                 Name = "HeatMap",
@@ -70,11 +93,11 @@ namespace ej2_blazor_samples
                 Url = "Maps/HeatMap",
                 FileName = "HeatMap.razor",
                 Type = SampleType.New
-            },           
-        };      
+            }
+        };
     }
 
-   
+
 
 
 }

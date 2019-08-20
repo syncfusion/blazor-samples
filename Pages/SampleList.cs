@@ -34,7 +34,7 @@ namespace ej2_blazor_samples
             {
                 Name = "PivotTable",
                 Category = "Grids",
-                Directory = "PivotView",
+                Directory = "PivotView/PivotTable",
                 Type = SampleType.New,
                 UID = 027,
                 Order = 03,

@@ -1,0 +1,186 @@
+﻿@page "/CircularGauge/Semicirculargauge"
+
+@using Syncfusion.EJ2.Blazor.CircularGauge
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Semi-circular Gauge";
+    SampleBrowser.CurrentControlName = "CircularGauge";
+    SampleBrowser.CurrentControlCategory = "CircularGauge";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.CircularGauge;
+    SampleBrowser.ActionDescription = new string[] {
+        @" <p>
+            This sample visualizes the rendering of circular gauge with modified start and end angles. The radius, start angle, end angle, center X, and center Y of the circular gauge can be customized using the options in properties panel.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render the circular gauge with modified start and end angles to form semi or quarter circular gauges. By enabling the radius based on angle option, the radius of circular gauge will be calculated based on the start and end angles.
+        </p>
+        <p>
+            More information on the gauge can be found in this
+            <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section</a>.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <EjsCircularGauge CenterX="@gaugeCenterx" CenterY="@gaugeCentery" MoveToCenter="@gaugeMoveToCenter">
+            <CircularGaugeAxes>
+                <CircularGaugeAxis StartAngle="@gaugeStartAngle" EndAngle="@gaugeEndAngle" Minimum="0" Maximum="100" Radius="@gaugeRadius">
+                    <CircularGaugeAxisLineStyle Width="0.01" Color="#0450C2">
+                    </CircularGaugeAxisLineStyle>
+                    <CircularGaugeAxisLabelStyle Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Outside" AutoAngle=true>
+                        <CircularGaugeAxisLabelFont FontWeight="Normal">
+                        </CircularGaugeAxisLabelFont>
+                    </CircularGaugeAxisLabelStyle>
+                    <CircularGaugeAxisMajorTicks Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside" Width="2" Height="12" Interval="20">
+                    </CircularGaugeAxisMajorTicks>
+                    <CircularGaugeAxisMinorTicks Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside" Height="5" Width="1" Interval="2">
+                    </CircularGaugeAxisMinorTicks>
+                    <CircularGaugePointers>
+                        <CircularGaugePointer Value="30" Radius="75%" Color="#FF9200" PointerWidth="7">
+                            <CircularGaugePointerAnimation Enable=false>
+                            </CircularGaugePointerAnimation>
+                            <CircularGaugeCap Radius="8" Color="#565656">
+                                <CircularGaugeCapBorder Width="0">
+                                </CircularGaugeCapBorder>
+                            </CircularGaugeCap>
+                            <CircularGaugeNeedleTail Length="13%" Color="#FF9200">
+                            </CircularGaugeNeedleTail>
+                        </CircularGaugePointer>
+                    </CircularGaugePointers>
+                </CircularGaugeAxis>
+            </CircularGaugeAxes>
+        </EjsCircularGauge>
+    </div>
+</div>
+<div class="col-md-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties" style="width: 100%">
+                <tr style="height: 50px">
+                    <td>
+                        <div id='rangeStart'>Start Angle <span> &nbsp;&nbsp;&nbsp;@gaugeStartAngle°</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@gaugeStartAngle" min="0" max="360" @onchange="startSlider" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td>
+                        <div id='rangeEnd'>End Angle<span> &nbsp;&nbsp;&nbsp;@gaugeEndAngle°</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@gaugeEndAngle" min="0" max="360" @onchange="endSlider" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td>
+                        <div id='radius1'>Radius <span> &nbsp;&nbsp;&nbsp;@sliderRadius%</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@sliderRadius" min="0" max="100" @onchange="radiusSlider" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td>
+                        <div class="property-text">Radius based on angle</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsCheckBox ValueChange="@radiusAngleCheckbox" Checked="@gaugeMoveToCenter"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td>
+                        <div id='center1'>Center X <span> &nbsp;&nbsp;&nbsp;@sliderCenterx%</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input disabled="@centerSliderEnable" type="range" value="@sliderCenterx" min="0" max="100" @onchange="centerxSlider" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td>
+                        <div id='center2'>Center Y <span> &nbsp;&nbsp;&nbsp;@sliderCentery%</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input disabled="@centerSliderEnable" type="range" value="@sliderCentery" min="0" max="100" @onchange="centerySlider" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    private Double gaugeStartAngle = 270;
+    private Double gaugeEndAngle = 90;
+    private string gaugeRadius = "80%";
+    private double sliderRadius = 80;
+    private String gaugeCenterx = "50%";
+    private String gaugeCentery = "50%";
+    private double sliderCenterx = 50;
+    private double sliderCentery = 50;
+    private Boolean gaugeMoveToCenter = false;
+    private Boolean centerSliderEnable = false;
+    private void radiusAngleCheckbox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        gaugeMoveToCenter = args.Checked;
+        if (gaugeMoveToCenter)
+        {
+            gaugeCenterx = gaugeCentery = null;
+        }
+        else
+        {
+            gaugeCenterx = sliderCenterx.ToString() + "%";
+            gaugeCentery = sliderCentery.ToString() + "%";
+        }
+        centerSliderEnable = gaugeMoveToCenter;
+        this.StateHasChanged();
+    }
+    private void startSlider(UIChangeEventArgs args)
+    {
+        gaugeStartAngle = Convert.ToDouble(args.Value);
+        this.StateHasChanged();
+    }
+    private void endSlider(UIChangeEventArgs args)
+    {
+        gaugeEndAngle = Convert.ToDouble(args.Value);
+        this.StateHasChanged();
+    }
+    private void radiusSlider(UIChangeEventArgs args)
+    {
+        gaugeRadius = (args.Value.ToString() + "%");
+        sliderRadius = Convert.ToDouble(args.Value);
+        this.StateHasChanged();
+    }
+    private void centerxSlider(UIChangeEventArgs args)
+    {
+        gaugeCenterx = (args.Value.ToString() + "%");
+        sliderCenterx = Convert.ToDouble(args.Value);
+        this.StateHasChanged();
+    }
+    private void centerySlider(UIChangeEventArgs args)
+    {
+        gaugeCentery = (args.Value.ToString() + "%");
+        sliderCentery = Convert.ToDouble(args.Value);
+        this.StateHasChanged();
+    }
+}

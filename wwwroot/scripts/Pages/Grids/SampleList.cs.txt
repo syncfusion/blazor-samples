@@ -312,48 +312,48 @@ namespace ej2_blazor_samples
                     }
                 }
             },
-            new Sample
-            {
-                Name = "Inline Editing",
-                Category = "Editing",
-                Directory = "Grids/TreeGrid",
-                Url = "TreeGrid/Editing",
-                Type = SampleType.New,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="Editing",
-                        FileName="Editing.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="Data",
-                        FileName="SelfData.cs"
-                    }
-                }
-            },
-            new Sample
-            {
-                Name = "Dialog Editing",
-                Category = "Editing",
-                Directory = "Grids/TreeGrid",
-                Url = "TreeGrid/DialogEditing",
-                Type = SampleType.New,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="DialogEditing",
-                        FileName="DialogEditing.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="DialogData",
-                        FileName="SelfData.cs"
-                    }
-                }
-            },
+            //new Sample
+            //{
+            //    Name = "Inline Editing",
+            //    Category = "Editing",
+            //    Directory = "Grids/TreeGrid",
+            //    Url = "TreeGrid/Editing",
+            //    Type = SampleType.New,
+            //    SourceFiles = new List<SourceCollection>()
+            //    {
+            //        new SourceCollection
+            //        {
+            //            Id="Editing",
+            //            FileName="Editing.razor"
+            //        },
+            //        new SourceCollection
+            //        {
+            //            Id="Data",
+            //            FileName="SelfData.cs"
+            //        }
+            //    }
+            //},
+            //new Sample
+            //{
+            //    Name = "Dialog Editing",
+            //    Category = "Editing",
+            //    Directory = "Grids/TreeGrid",
+            //    Url = "TreeGrid/DialogEditing",
+            //    Type = SampleType.New,
+            //    SourceFiles = new List<SourceCollection>()
+            //    {
+            //        new SourceCollection
+            //        {
+            //            Id="DialogEditing",
+            //            FileName="DialogEditing.razor"
+            //        },
+            //        new SourceCollection
+            //        {
+            //            Id="DialogData",
+            //            FileName="SelfData.cs"
+            //        }
+            //    }
+            //},
             new Sample
             {
                 Name = "Command Column",

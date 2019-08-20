@@ -74,6 +74,15 @@ namespace ej2_blazor_samples
                 Url = "Chips/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Chips",
+                Directory = "Buttons/Chips",
+                Url = "Chips/API",
+                FileName = "API.razor",
+                Type = SampleType.New
             }
 
         };

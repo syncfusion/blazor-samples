@@ -754,6 +754,3565 @@ namespace ej2_blazor_samples.Pages.PivotView.PivotTable
             return defaultData;
         }
 
+        public List<RData> GetRData()
+        {
+            List<RData> rData = new List<RData>();
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 46,
+                ProCost = 43
+            });
+            rData.Add(new RData
+            {
+                Id = 1002,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 30,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1003,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 125,
+                ProCost = 96
+            });
+            rData.Add(new RData
+            {
+                Id = 1004,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 215,
+                ProCost = 123
+            });
+            rData.Add(new RData
+            {
+                Id = 1005,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 263,
+                ProCost = 125
+            });
+            rData.Add(new RData
+            {
+                Id = 1006,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 61,
+                ProCost = 50
+            });
+            rData.Add(new RData
+            {
+                Id = 1007,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 20,
+                ProCost = 31
+            });
+            rData.Add(new RData
+            {
+                Id = 1008,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 133,
+                ProCost = 110
+            });
+            rData.Add(new RData
+            {
+                Id = 1009,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 33,
+                ProCost = 65
+            });
+            rData.Add(new RData
+            {
+                Id = 1010,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 37,
+                ProCost = 20
+            });
+            rData.Add(new RData
+            {
+                Id = 1011,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 109,
+                ProCost = 96
+            });
+            rData.Add(new RData
+            {
+                Id = 1012,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 266,
+                ProCost = 139
+            });
+            rData.Add(new RData
+            {
+                Id = 1013,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 257,
+                ProCost = 143
+            });
+            rData.Add(new RData
+            {
+                Id = 1014,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 79,
+                ProCost = 53
+            });
+            rData.Add(new RData
+            {
+                Id = 1015,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 28,
+                ProCost = 48
+            });
+            rData.Add(new RData
+            {
+                Id = 1016,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 128,
+                ProCost = 117
+            });
+            rData.Add(new RData
+            {
+                Id = 1017,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 68,
+                ProCost = 48
+            });
+            rData.Add(new RData
+            {
+                Id = 1018,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 26,
+                ProCost = 32
+            });
+            rData.Add(new RData
+            {
+                Id = 1019,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 141,
+                ProCost = 98
+            });
+            rData.Add(new RData
+            {
+                Id = 1020,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 281,
+                ProCost = 134
+            });
+            rData.Add(new RData
+            {
+                Id = 1021,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 228,
+                ProCost = 107
+            });
+            rData.Add(new RData
+            {
+                Id = 1022,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 73,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1023,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 19,
+                ProCost = 44
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 149,
+                ProCost = 82
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 47,
+                ProCost = 58
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 25,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 127,
+                ProCost = 93
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 216,
+                ProCost = 124
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 267,
+                ProCost = 100
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 52,
+                ProCost = 65
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 39,
+                ProCost = 33
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 142,
+                ProCost = 97
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 53,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 23,
+                ProCost = 44
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 113,
+                ProCost = 106
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 270,
+                ProCost = 101
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 284,
+                ProCost = 105
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 62,
+                ProCost = 43
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 32,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 133,
+                ProCost = 83
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 51,
+                ProCost = 65
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 13,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 139,
+                ProCost = 101
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 297,
+                ProCost = 130
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 236,
+                ProCost = 119
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 57,
+                ProCost = 66
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 16,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 110,
+                ProCost = 93
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 55,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 32,
+                ProCost = 39
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 128,
+                ProCost = 120
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 290,
+                ProCost = 128
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 201,
+                ProCost = 105
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 55,
+                ProCost = 46
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 20,
+                ProCost = 37
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 122,
+                ProCost = 118
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 69,
+                ProCost = 54
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 21,
+                ProCost = 41
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 140,
+                ProCost = 83
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 239,
+                ProCost = 121
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 283,
+                ProCost = 127
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 80,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 33,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 120,
+                ProCost = 81
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 41,
+                ProCost = 69
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 14,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 144,
+                ProCost = 93
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 294,
+                ProCost = 146
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 217,
+                ProCost = 103
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 49,
+                ProCost = 44
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 36,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 118,
+                ProCost = 115
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 56,
+                ProCost = 41
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 17,
+                ProCost = 36
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 140,
+                ProCost = 81
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 274,
+                ProCost = 109
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 284,
+                ProCost = 145
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 40,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 12,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 150,
+                ProCost = 115
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 73,
+                ProCost = 64
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 23,
+                ProCost = 47
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 102,
+                ProCost = 112
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 252,
+                ProCost = 112
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 222,
+                ProCost = 131
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 52,
+                ProCost = 46
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 35,
+                ProCost = 30
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 104,
+                ProCost = 101
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 46,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 19,
+                ProCost = 31
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 118,
+                ProCost = 89
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 227,
+                ProCost = 130
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 226,
+                ProCost = 144
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 40,
+                ProCost = 52
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 19,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 127,
+                ProCost = 91
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 70,
+                ProCost = 66
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 36,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 144,
+                ProCost = 85
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 212,
+                ProCost = 130
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 210,
+                ProCost = 110
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 72,
+                ProCost = 56
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 13,
+                ProCost = 47
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 139,
+                ProCost = 98
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 59,
+                ProCost = 54
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 26,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 120,
+                ProCost = 97
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 299,
+                ProCost = 124
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 240,
+                ProCost = 110
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 71,
+                ProCost = 61
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 40,
+                ProCost = 33
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 134,
+                ProCost = 111
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 33,
+                ProCost = 50
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 18,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 139,
+                ProCost = 85
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 217,
+                ProCost = 141
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 252,
+                ProCost = 101
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 31,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 15,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 117,
+                ProCost = 112
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 34,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 10,
+                ProCost = 43
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 110,
+                ProCost = 83
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 212,
+                ProCost = 137
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 222,
+                ProCost = 126
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 75,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 31,
+                ProCost = 37
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 105,
+                ProCost = 98
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 72,
+                ProCost = 45
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 20,
+                ProCost = 45
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 143,
+                ProCost = 92
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 272,
+                ProCost = 128
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 208,
+                ProCost = 136
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 48,
+                ProCost = 46
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 22,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 150,
+                ProCost = 100
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 60,
+                ProCost = 43
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 15,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 107,
+                ProCost = 97
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 204,
+                ProCost = 136
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 210,
+                ProCost = 111
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 65,
+                ProCost = 47
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 26,
+                ProCost = 45
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 112,
+                ProCost = 115
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 54,
+                ProCost = 66
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 31,
+                ProCost = 36
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 120,
+                ProCost = 112
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 261,
+                ProCost = 149
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 226,
+                ProCost = 124
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 72,
+                ProCost = 63
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 35,
+                ProCost = 33
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 144,
+                ProCost = 118
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 293,
+                ProCost = 118
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 237,
+                ProCost = 110
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 36,
+                ProCost = 50
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 20,
+                ProCost = 36
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 120,
+                ProCost = 95
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 46,
+                ProCost = 59
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 31,
+                ProCost = 33
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 147,
+                ProCost = 96
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 230,
+                ProCost = 100
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 236,
+                ProCost = 104
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 60,
+                ProCost = 57
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 33,
+                ProCost = 41
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 140,
+                ProCost = 105
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 31,
+                ProCost = 55
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 20,
+                ProCost = 30
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 117,
+                ProCost = 106
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 259,
+                ProCost = 127
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 294,
+                ProCost = 126
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 51,
+                ProCost = 63
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 21,
+                ProCost = 45
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 102,
+                ProCost = 108
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 77,
+                ProCost = 64
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 29,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 140,
+                ProCost = 88
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 244,
+                ProCost = 144
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 213,
+                ProCost = 127
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 69,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 30,
+                ProCost = 33
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 116,
+                ProCost = 103
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 79,
+                ProCost = 47
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 29,
+                ProCost = 37
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 116,
+                ProCost = 96
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 295,
+                ProCost = 108
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 225,
+                ProCost = 127
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 35,
+                ProCost = 57
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 37,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 138,
+                ProCost = 118
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 80,
+                ProCost = 47
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 22,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 131,
+                ProCost = 91
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 240,
+                ProCost = 115
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 275,
+                ProCost = 109
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 46,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 40,
+                ProCost = 43
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 112,
+                ProCost = 105
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 35,
+                ProCost = 40
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 22,
+                ProCost = 31
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 119,
+                ProCost = 87
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 298,
+                ProCost = 148
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 200,
+                ProCost = 107
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 30,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 22,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 148,
+                ProCost = 88
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 37,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 23,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 130,
+                ProCost = 102
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 281,
+                ProCost = 129
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 228,
+                ProCost = 113
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 80,
+                ProCost = 60
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 39,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 119,
+                ProCost = 93
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 42,
+                ProCost = 46
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 18,
+                ProCost = 37
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 126,
+                ProCost = 96
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 222,
+                ProCost = 150
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 228,
+                ProCost = 105
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 54,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 16,
+                ProCost = 33
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 145,
+                ProCost = 110
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 35,
+                ProCost = 41
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 16,
+                ProCost = 38
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 118,
+                ProCost = 114
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 241,
+                ProCost = 110
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 281,
+                ProCost = 136
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 50,
+                ProCost = 66
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 23,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 129,
+                ProCost = 98
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 78,
+                ProCost = 53
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 28,
+                ProCost = 31
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 147,
+                ProCost = 120
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 240,
+                ProCost = 100
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 232,
+                ProCost = 116
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 33,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 18,
+                ProCost = 36
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 114,
+                ProCost = 113
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 52,
+                ProCost = 63
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 31,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 129,
+                ProCost = 88
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 263,
+                ProCost = 111
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 241,
+                ProCost = 105
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 55,
+                ProCost = 60
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 13,
+                ProCost = 30
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 134,
+                ProCost = 107
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Hydro-electric",
+                PowUnits = 33,
+                ProCost = 69
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Geo-thermal",
+                PowUnits = 20,
+                ProCost = 31
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Free Energy",
+                EneSource = "Solar",
+                PowUnits = 146,
+                ProCost = 109
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Free Energy",
+                EneSource = "Wind",
+                PowUnits = 241,
+                ProCost = 107
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 10,
+                ProCost = 30
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 38,
+                ProCost = 65
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 6,
+                ProCost = 24
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 72,
+                ProCost = 86
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 13,
+                ProCost = 20
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 34,
+                ProCost = 54
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 5,
+                ProCost = 20
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 12,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 48,
+                ProCost = 57
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 8,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 61,
+                ProCost = 97
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 19,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 40,
+                ProCost = 47
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 7,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 20,
+                ProCost = 24
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 45,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 4,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 72,
+                ProCost = 82
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 19,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 32,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 5,
+                ProCost = 20
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 20,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 43,
+                ProCost = 66
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 8,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 86,
+                ProCost = 87
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 16,
+                ProCost = 22
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 43,
+                ProCost = 54
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 6,
+                ProCost = 22
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 15,
+                ProCost = 20
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 40,
+                ProCost = 55
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 3,
+                ProCost = 24
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 60,
+                ProCost = 87
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 12,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 37,
+                ProCost = 50
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 3,
+                ProCost = 20
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 17,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 38,
+                ProCost = 53
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 8,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 88,
+                ProCost = 92
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 14,
+                ProCost = 22
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 31,
+                ProCost = 69
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 2,
+                ProCost = 22
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 16,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 35,
+                ProCost = 54
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 7,
+                ProCost = 24
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 79,
+                ProCost = 82
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 10,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 50,
+                ProCost = 65
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 5,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 17,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 46,
+                ProCost = 54
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 7,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 63,
+                ProCost = 84
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 19,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 47,
+                ProCost = 52
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 8,
+                ProCost = 23
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 20,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 40,
+                ProCost = 55
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 7,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 67,
+                ProCost = 88
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 20,
+                ProCost = 29
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 38,
+                ProCost = 61
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 7,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 11,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2018",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 36,
+                ProCost = 60
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 2,
+                ProCost = 24
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 83,
+                ProCost = 90
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 11,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 49,
+                ProCost = 42
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 7,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 13,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 30,
+                ProCost = 49
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2015",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 4,
+                ProCost = 26
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2015",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 76,
+                ProCost = 87
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 19,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "3/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 45,
+                ProCost = 55
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 1,
+                ProCost = 23
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 20,
+                ProCost = 23
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 34,
+                ProCost = 51
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "8/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 3,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "9/1/2016",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 85,
+                ProCost = 80
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2016",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 20,
+                ProCost = 22
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "1/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 40,
+                ProCost = 51
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 7,
+                ProCost = 25
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "4/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 15,
+                ProCost = 21
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "5/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 36,
+                ProCost = 41
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "6/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 1,
+                ProCost = 27
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "7/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 79,
+                ProCost = 93
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "10/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wastage",
+                PowUnits = 11,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "11/1/2017",
+                Sector = "Public Sector",
+                EnerType = "Biomass",
+                EneSource = "Ethenol Fuel",
+                PowUnits = 41,
+                ProCost = 51
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "12/1/2017",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Bio-diesel",
+                PowUnits = 8,
+                ProCost = 28
+            });
+            rData.Add(new RData
+            {
+                Id = 1001,
+                Date = "2/1/2018",
+                Sector = "Private Sector",
+                EnerType = "Biomass",
+                EneSource = "Wood",
+                PowUnits = 20,
+                ProCost = 23
+            });
+            return rData;
+        }
+
+        public List<RenewableData> GetrenewableEnergy()
+        {
+            List<RenewableData> renewableEnergy = renewableEnergyData();
+            return renewableEnergy;
+        }
+
+        public List<RenewableData> renewableEnergyData()
+        {
+            List<RenewableData> renewableEnergy = new List<RenewableData>();
+            List<RData> data = GetRData();
+            for (int ln = 0; ln < data.Count; ln++)
+            {
+                DateTime date = Convert.ToDateTime(data[ln].Date.ToString());
+                int dtYr = date.Year;
+                int dtMn = date.Month;
+                int dtdv = (dtMn) / 3;
+                data[ln].Year = "FY " + dtYr;
+                data[ln].Quarter = dtdv <= 1 ? "Q1 " + ("FY " + dtYr) : dtdv <= 2 ? "Q2 " + ("FY " + dtYr) :
+                dtdv <= 3 ? "Q3 " + ("FY " + dtYr) : "Q4 " + ("FY " + dtYr);
+                data[ln].HalfYear = (dtMn) / 6 <= 1 ? "H1 " + ("FY " + dtYr) : "H2 " + ("FY " + dtYr);
+                renewableEnergy.Add(new RenewableData
+                {
+                    Sector = data[ln].Sector,
+                    EnerType = data[ln].EnerType,
+                    EneSource = data[ln].EneSource,
+                    PowUnits = data[ln].PowUnits,
+                    ProCost = data[ln].ProCost,
+                    Year = data[ln].Year,
+                    Quarter = data[ln].Quarter,
+                    HalfYear = data[ln].HalfYear
+                });
+            }
+            return renewableEnergy;
+        }
+
+
+        public List<GroupData> GetGroupData()
+        {
+            List<GroupData> GroupData = new List<GroupData>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                GroupData p = new GroupData
+                {
+                    id = i + 1000,
+                    region = "North America",
+                    country = "USA",
+                    city = "New York",
+                    amount = 2000,
+                    date = new DateTime(2014, 01, 06)
+                };
+                GroupData.Add(p);
+            }
+            for (int i = 1; i <= 10; i++)
+            {
+                GroupData p = new GroupData
+                {
+                    id = i + 1011,
+                    region = "North America",
+                    country = "USA",
+                    city = "New York",
+                    amount = 2000,
+                    date = new DateTime(2012, 06, 07)
+                };
+                GroupData.Add(p);
+            }
+            for (int i = 1; i <= 10; i++)
+            {
+                GroupData p = new GroupData
+                {
+                    id = i + 1021,
+                    region = "North America",
+                    country = "USA",
+                    city = "New York",
+                    amount = 2000,
+                    date = new DateTime(2014, 04, 01)
+                };
+                GroupData.Add(p);
+            }
+            for (int i = 1; i <= 10; i++)
+            {
+                GroupData p = new GroupData
+                {
+                    id = i + 1031,
+                    region = "North America",
+                    country = "USA",
+                    city = "New York",
+                    amount = 2000,
+                    date = new DateTime(2015, 04, 01)
+                };
+                GroupData.Add(p);
+            }
+            for (int i = 1; i <= 10; i++)
+            {
+                GroupData p = new GroupData
+                {
+                    id = i + 1041,
+                    region = "North America",
+                    country = "USA",
+                    city = "New York",
+                    amount = 2000,
+                    date = new DateTime(2016, 04, 01)
+                };
+                GroupData.Add(p);
+            }
+            return GroupData;
+        }
+
+
+        public class RenewableData
+        {
+            public string Sector { get; set; }
+            public string EnerType { get; set; }
+            public string EneSource { get; set; }
+            public int PowUnits { get; set; }
+            public int ProCost { get; set; }
+            public string Year { get; set; }
+            public string Quarter { get; set; }
+            public string HalfYear { get; set; }
+        }
+        public class RData
+        {
+            public int Id { get; set; }
+            public string Date { get; set; }
+            public string Sector { get; set; }
+            public string EnerType { get; set; }
+            public string EneSource { get; set; }
+            public int PowUnits { get; set; }
+            public int ProCost { get; set; }
+            public string Year { get; set; }
+            public string Quarter { get; set; }
+            public string HalfYear { get; set; }
+        }
+        public class GroupData
+        {
+            public int id { get; set; }
+            public string region { get; set; }
+            public string country { get; set; }
+            public string city { get; set; }
+            public int amount { get; set; }
+            public DateTime date { get; set; }
+        }
+
         public class Pivot_Data
         {
             public int In_Stock { get; set; }

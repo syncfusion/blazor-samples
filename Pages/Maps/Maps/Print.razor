@@ -32,14 +32,14 @@
 <div class="col-lg-8 control-section sb-property-border">
     <div class="control-section">
         <div>
-            <EjsMaps @ref="@MapsRef" Format="n" UseGroupingSeparator="true">
+            <EjsMaps @ref="@MapsRef" @ref:suppressField Format="n" UseGroupingSeparator="true">
                 <MapsTitleSettings Text="State-wise US population - 2010">
                     <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
                 </MapsTitleSettings>
                 <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Bottom" Height="10" Width="350" LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center"></MapsLegendSettings>
                 <MapsLayers>
-                    <MapsLayer ShapeData= 'new {dataOptions ="https://cdn.syncfusion.com/maps/map-data/usa.json"}' ShapeDataPath="Name" ShapePropertyPath='@("name")' DataSource="@PopulationReport">
-                        <MapsShapeSettings ColorValuePath='@("Population")'>
+                    <MapsLayer ShapeData='new {dataOptions ="https://cdn.syncfusion.com/maps/map-data/usa.json"}' ShapeDataPath="Name" ShapePropertyPath='@("name")' DataSource="@PopulationReport">
+                        <MapsShapeSettings ColorValuePath="Population">
                             <MapsShapeBorder Width="0.5" Color='@("grey")'></MapsShapeBorder>
                             <MapsShapeColorMappings>
                                 <MapsShapeColorMapping From="580000" To="2800000" Color='@("#dae8f1")' Label="<3M"></MapsShapeColorMapping>
@@ -51,7 +51,7 @@
                                 <MapsShapeColorMapping From="26500000" To="38400000" Color='@("#004374")' Label=">25M"></MapsShapeColorMapping>
                             </MapsShapeColorMappings>
                         </MapsShapeSettings>
-                        <LayerTooltipSettings Visible="true" ValuePath="population" Format="State: ${Name} <br> Population: ${Population}"></LayerTooltipSettings>
+                        <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}"></MapsLayerTooltipSettings>
                     </MapsLayer>
                 </MapsLayers>
             </EjsMaps>
@@ -71,7 +71,7 @@
                 <tbody>
                     <tr id="button-control" style="height: 50px">
                         <td align="center">
-                            <EjsButton ID="Print" onclick="@PrintButton" IsPrimary="true" CssClass="e-info">Print</EjsButton>
+                            <EjsButton @onclick="PrintButton" IsPrimary="true" CssClass="e-info">Print</EjsButton>
                         </td>
                     </tr>
                 </tbody>
@@ -83,14 +83,14 @@
 
 @code {
     EjsMaps MapsRef;
-    
-   public class State
+
+    public class State
     {
-        public string Name;       
+        public string Name;
         public double Population;
     };
     public List<State> PopulationReport = new List<State>
-    {
+{
         new State { Name="California", Population=37252895 },
         new State { Name="Texas", Population=25146105},
         new State { Name="Florida", Population=18804623},
@@ -149,3 +149,25 @@
         this.MapsRef.Print();
     }
 }
+
+
+<style>
+
+    .control-section {
+        min-height: 450px;
+    }
+
+    .property-text {
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+        font-size: 13px !important;
+        font-weight: 400 !important;
+    }
+
+    #radius > * {
+        padding: 0px !important;
+    }
+
+    label {
+        height: 32px !important;
+    }
+</style>

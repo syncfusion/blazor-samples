@@ -1,0 +1,297 @@
+﻿@page "/LinearGauge/Ranges"
+
+@using Syncfusion.EJ2.Blazor.LinearGauge
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Inputs
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Ranges";
+    SampleBrowser.CurrentControlName = "LinearGauge";
+    SampleBrowser.CurrentControlCategory = "LinearGauge";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.LinearGauge;
+    SampleBrowser.ActionDescription = new string[] {
+        @" <p>
+            This sample illustrates how to highlight a region in an axis by using ranges in gauge. Start, end, color, and width of the range can be changed by using the options provided in the property panel.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render and configure the ranges in linear gauge. You can use <code>start</code>,
+        <code>end</code>, <code>startWidth</code>, <code>endWidth</code> and <code>position</code> properties to customize the ranges. You can also specify various colors for the ranges in the axis. If you enable
+        the <code>useRangeColor</code> property, then the axis labels will be displayed based on its range color.
+
+        </p>
+        <br>
+        <p>
+           More information about linear gauge can be found in this
+            <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <EjsLinearGauge Orientation="Syncfusion.EJ2.Blazor.LinearGauge.Orientation.Horizontal" Width="100%">
+            <LinearGaugeAxes>
+                <LinearGaugeAxis Minimum="0" Maximum="100">
+                    <LinearGaugeLine Width="0"></LinearGaugeLine>
+                    <LinearGaugeAxisLabelStyle Offset="30" Format="{value}%" UseRangeColor="@enableRangeColor">
+                    </LinearGaugeAxisLabelStyle>
+                    <LinearGaugeMajorTicks Interval="10" Height="0">
+                    </LinearGaugeMajorTicks>
+                    <LinearGaugeMinorTicks Height="0">
+                    </LinearGaugeMinorTicks>
+                    <LinearGaugePointers>
+                        <LinearGaugePointer Value="35" Height="10" Width="10" Placement="Syncfusion.EJ2.Blazor.LinearGauge.Placement.Near" Offset="-40" MarkerType="Syncfusion.EJ2.Blazor.LinearGauge.MarkerType.Triangle">
+                        </LinearGaugePointer>
+                    </LinearGaugePointers>
+                    <LinearGaugeRanges>
+                        <LinearGaugeRange Start="@firstRangeStart" End="@firstRangeEnd" Color="@firstRangeColor" StartWidth="@firstRangeStartWidth" EndWidth="@firstRangeEndWidth"></LinearGaugeRange>
+                        <LinearGaugeRange Start="@secondRangeStart" End="@secondRangeEnd" Color="@secondRangeColor" StartWidth="@secondRangeStartWidth" EndWidth="@secondRangeEndWidth"></LinearGaugeRange>
+                        <LinearGaugeRange Start="@thirdRangeStart" End="@thirdRangeEnd" Color="@thirdRangeColor" StartWidth="@thirdRangeStartWidth" EndWidth="@thirdRangeEndWidth"></LinearGaugeRange>
+                    </LinearGaugeRanges>
+                </LinearGaugeAxis>
+            </LinearGaugeAxes>
+            <LinearGaugeAnnotations>
+                <LinearGaugeAnnotation AxisIndex="0" AxisValue="35" Y="-50" ZIndex="1">
+                    <ContentTemplate>
+                        <div style="width:20px"><h1 style="font-size:18px; margin-top: -5px; margin-left: -10px">35</h1></div>
+                    </ContentTemplate>
+                </LinearGaugeAnnotation>
+            </LinearGaugeAnnotations>
+        </EjsLinearGauge>
+    </div>
+</div>
+<div class="col-md-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties" style="width: 100%">
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;"> Select Range</div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <EjsDropDownList DataSource="@rangDataList" Value="@rangeValue">
+                                <DropDownListEvents TValue="string" ValueChange="rangeChange"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Name"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Range Color</div>
+                    </td>
+                    <td style="width:40%">
+                        <div class="e-float-input" style="margin-top: 0px; padding-left: 10px; padding-top: 10px;">
+                            <EjsTextBox Value="@rangeColorValue" ValueChange="@rangeColorValueChange"></EjsTextBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">Range Font Color</div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <EjsDropDownList TValue="string" DataSource="@fontColorTypeList" Value="@fontColorValue">
+                                <DropDownListEvents TValue="string" ValueChange="rangeFontColorChange"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            Range Start
+                            <span>&nbsp;&nbsp;&nbsp;@rangeStartText</span>
+                        </div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <input type="range" value="@rangeStartValue" min="0" max="100" @onchange="rangeStartChange" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            Range End
+                            <span>&nbsp;&nbsp;&nbsp;@rangeEndText</span>
+                        </div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <input type="range" value="@rangeEndValue" min="0" max="100" @onchange="rangeEndChange" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            Range Start Width
+                            <span>&nbsp;&nbsp;&nbsp;@rangeStartWidthText</span>
+                        </div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <input type="range" value="@rangeStartWidth" min="0" max="30" @onchange="rangeStartwidthChange" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:50%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            Range End Width
+                            <span>&nbsp;&nbsp;&nbsp;@rangeEndWidthText</span>
+                        </div>
+                    </td>
+                    <td style="width:40%">
+                        <div style="padding-left: 10px; padding-top: 10px;">
+                            <input type="range" value="@rangeEndWidth" min="0" max="30" @onchange="rangeEndWidthChange" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .padding-table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+</style>
+@code {
+    private Double firstRangeStart = 0.1;
+    private Double firstRangeEnd = 32;
+    private Double firstRangeStartWidth = 15;
+    private Double firstRangeEndWidth = 15;
+    private String firstRangeColor = "#30B32D";
+    private Double secondRangeStart = 32;
+    private Double secondRangeEnd = 68;
+    private Double secondRangeStartWidth = 15;
+    private Double secondRangeEndWidth = 15;
+    private String secondRangeColor = "#FFDF00";
+    private Double thirdRangeStart = 68;
+    private Double thirdRangeEnd = 100;
+    private Double thirdRangeStartWidth = 15;
+    private Double thirdRangeEndWidth = 15;
+    private String thirdRangeColor = "#F03E3E";
+    private Boolean enableRangeColor = false;
+    private String rangeValue = "Low";
+    private String fontColorValue = "default";
+    private Double rangeStartValue = 0;
+    private Double rangeEndValue = 32;
+    private Double rangeStartWidth = 15;
+    private Double rangeEndWidth = 15;
+    private String rangeColorValue = "#F03E3E";
+    private Double rangeStartText = 0;
+    private Double rangeEndText = 32;
+    private Double rangeStartWidthText = 15;
+    private Double rangeEndWidthText = 15;
+    public class RangeData
+    {
+        public String Name { get; set; }
+    }
+    private List<RangeData> rangDataList = new List<RangeData>
+{
+    new RangeData{  Name = "Low"},
+    new RangeData{ Name = "Moderate"},
+    new RangeData{  Name = "High"},
+    };
+    public class FontColorData
+    {
+        public String Name { get; set; }
+        public String Value { get; set; }
+    }
+    private List<FontColorData> fontColorTypeList = new List<FontColorData>
+{
+    new FontColorData{ Value = "default" , Name = "Default Color"},
+    new FontColorData{ Value = "range" , Name = "Range Color"},
+    };
+    private void rangeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        rangeValue = (args.Value).ToString();
+        if (rangeValue == "Low")
+        {
+            rangeColorValue = firstRangeColor;
+            rangeStartValue = rangeStartText = firstRangeStart;
+            rangeEndValue = rangeEndText = firstRangeEnd;
+            rangeStartWidth = rangeStartWidthText = firstRangeStartWidth;
+            rangeEndWidth = rangeEndWidthText = firstRangeEndWidth;
+        }
+        else if (rangeValue == "Moderate")
+        {
+            rangeColorValue = secondRangeColor;
+            rangeStartValue = rangeStartText = secondRangeStart;
+            rangeEndValue = rangeEndText = secondRangeEnd;
+            rangeStartWidth = rangeStartWidthText = secondRangeStartWidth;
+            rangeEndWidth = rangeEndWidthText = secondRangeEndWidth;
+        }
+        else
+        {
+            rangeColorValue = thirdRangeColor;
+            rangeStartValue = rangeStartText = thirdRangeStart;
+            rangeEndValue = rangeEndText = thirdRangeEnd;
+            rangeStartWidth = rangeStartWidthText = thirdRangeStartWidth;
+            rangeEndWidth = rangeEndWidthText = thirdRangeEndWidth;
+        }
+        this.StateHasChanged();
+    }
+    private void rangeColorValueChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs args)
+    {
+        rangeColorValue = (args.Value).ToString();
+        if (rangeValue == "Low") { firstRangeColor = rangeColorValue; }
+        else if (rangeValue == "Moderate") { secondRangeColor = rangeColorValue; }
+        else { thirdRangeColor = rangeColorValue; }
+        this.StateHasChanged();
+    }
+    private void rangeFontColorChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        fontColorValue = (args.Value).ToString();
+        if (fontColorValue == "default") { enableRangeColor = false; }
+        else { enableRangeColor = true; }
+        this.StateHasChanged();
+    }
+    private void rangeStartChange(UIChangeEventArgs args)
+    {
+        rangeStartValue = rangeStartText = Convert.ToDouble(args.Value);
+        if (rangeValue == "Low") { firstRangeStart = rangeStartValue; }
+        else if (rangeValue == "Moderate") { secondRangeStart = rangeStartValue; }
+        else { thirdRangeStart = rangeStartValue; }
+        this.StateHasChanged();
+    }
+    private void rangeEndChange(UIChangeEventArgs args)
+    {
+        rangeEndValue = rangeEndText = Convert.ToDouble(args.Value);
+        if (rangeValue == "Low") { firstRangeEnd = rangeEndValue; }
+        else if (rangeValue == "Moderate") { secondRangeEnd = rangeEndValue; }
+        else { thirdRangeEnd = rangeEndValue; }
+        this.StateHasChanged();
+    }
+    private void rangeStartwidthChange(UIChangeEventArgs args)
+    {
+        rangeStartWidth = rangeStartWidthText = Convert.ToDouble(args.Value);
+        if (rangeValue == "Low") { firstRangeStartWidth = rangeStartWidth; }
+        else if (rangeValue == "Moderate") { secondRangeStartWidth = rangeStartWidth; }
+        else { thirdRangeStartWidth = rangeStartWidth; }
+        this.StateHasChanged();
+    }
+    private void rangeEndWidthChange(UIChangeEventArgs args)
+    {
+        rangeEndWidth = rangeEndWidthText = Convert.ToDouble(args.Value);
+        if (rangeValue == "Low") { firstRangeEndWidth = rangeEndWidth; }
+        else if (rangeValue == "Moderate") { secondRangeEndWidth = rangeEndWidth; }
+        else { thirdRangeEndWidth = rangeEndWidth; }
+        this.StateHasChanged();
+    }
+}

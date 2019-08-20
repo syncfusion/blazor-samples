@@ -16,6 +16,15 @@ namespace ej2_blazor_samples
                 Url = "Toast/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Types",
+                Category = "Toast",
+                Directory = "Notifications/Toast",
+                Url = "Toast/Types",
+                FileName = "Types.razor",
+                Type = SampleType.New
             }
         };
     }

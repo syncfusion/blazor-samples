@@ -530,24 +530,24 @@ namespace ej2_blazor_samples
                 FileName = "DateTimeCategoryAxis.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Category Axis",
-                Category = "Chart Axes",
-                Directory = "Charts/Chart",
-                Url = "Charts/CategoryAxis",
-                FileName = "CategoryAxis.razor",
-                Type = SampleType.New
-            },
-             new Sample
-            {
-                Name = "Indexed Category Axis",
-                Category = "Chart Axes",
-                Directory = "Charts/Chart",
-                Url = "Charts/IndexedCategoryAxis",
-                FileName = "IndexedCategoryAxis.razor",
-                Type = SampleType.New
-            },
+            //new Sample
+            //{
+            //    Name = "Category Axis",
+            //    Category = "Chart Axes",
+            //    Directory = "Charts/Chart",
+            //    Url = "Charts/CategoryAxis",
+            //    FileName = "CategoryAxis.razor",
+            //    Type = SampleType.New
+            //},
+            // new Sample
+            //{
+            //    Name = "Indexed Category Axis",
+            //    Category = "Chart Axes",
+            //    Directory = "Charts/Chart",
+            //    Url = "Charts/IndexedCategoryAxis",
+            //    FileName = "IndexedCategoryAxis.razor",
+            //    Type = SampleType.New
+            //},
             //  new Sample
             //{
             //    Name = "Logarithmic Axis",

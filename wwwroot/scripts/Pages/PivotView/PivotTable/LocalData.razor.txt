@@ -6,6 +6,7 @@
 @inject IJSRuntime JsRuntime;
 @*Hidden:Lines*@
 @using ej2_blazor_samples
+@using ej2_blazor_groupdata
 @{
     SampleBrowser.CurrentSampleName = "Local Data";
     SampleBrowser.CurrentControlName = "PivotTable";
@@ -25,16 +26,11 @@
 @*End:Hidden*@
 @{var range = 4;}
 @{ var grouping = new string[] { "Years", "Months", "Days" };}
-@if (pivotData == null)
-{
-    <div class="pivotviewtloader"></div>
-}
-else
-{
+
     <div class="control-section">
         <div class="content-wrapper">
             <EjsPivotView Width="100%" Height="340">
-                <PivotViewDataSourceSettings DataSource="@pivotData" ExpandAll=true EnableSorting=true>
+                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=true EnableSorting=true>
                     <PivotViewColumns>
                         <PivotViewColumn Name="EnerType" Caption="Energy Type"></PivotViewColumn>
                         <PivotViewColumn Name="EneSource" Caption="Energy Source"></PivotViewColumn>
@@ -55,7 +51,6 @@ else
             </EjsPivotView>
         </div>
     </div>
-}
 
 <style>
     .e-pivotview {
@@ -65,22 +60,10 @@ else
 
 @code{
 
-    static PivotData[] pivotData;
-	
-    protected override async Task OnInitAsync()
+    public List<GroupData> data { get; set; }
+    protected override void OnInitialized()
     {
-        pivotData = await Http.GetJsonAsync<PivotData[]>("scripts/PivotView/rData.json");
-    }
-    class PivotData
-    {
-        public string Sector;
-        public string EnerType;
-        public string EneSource;
-        public Int64 PowUnits;
-        public Int64 ProCost;
-        public string Year;
-        public string Quarter;
-        public string HalfYear;
+        this.data = GroupData.GetGroupData();
     }
 
 

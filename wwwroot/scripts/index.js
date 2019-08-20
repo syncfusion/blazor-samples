@@ -118,7 +118,7 @@ function homeButtonClick() {
 }
 
 function refreshTab(code, s, id) {
-  setTimeout(function () {
+  //setTimeout(function () {
       if (s.sourceFiles.length !== 0) {
         document.querySelector("#" + id[i]).innerHTML = code[i];
       if (s.sourceFiles[i].fileName.split(".")[1] === "cs") {
@@ -131,7 +131,7 @@ function refreshTab(code, s, id) {
       hljs.highlightBlock(document.querySelector("#code"), { language: "cshtml" });
     }
     document.querySelector("#right-pane").scrollTo(0, 0);
-  }, 300);
+ // }, 300);
 }
 
 function tabClicked(arg, sourceResponse) {
@@ -152,10 +152,10 @@ function updateDescription(content) {
   var a = "";
   if (content.length) {
     for (var i = 0; i < content.length; i++) {
-      a += "<p>" + content[i] + "</p>";
+      a += content[i];
     }
   }
-  document.querySelector(".description-section").innerHTML = a;
+    document.querySelector(".description-section").innerHTML = "<p>" + a + "</p>";
 }
 
 function destroyControl() {
@@ -172,10 +172,10 @@ function updateActionDescription(content) {
   var a = "";
   if (content.length) {
     for (var i = 0; i < content.length; i++) {
-      a += "<p>" + content[i] + "</p>";
+      a += content[i];
     }
   }
-  document.querySelector(".sb-action-description").innerHTML = a;
+    document.querySelector(".sb-action-description").innerHTML = "<p>" + a + "</p>";
 }
 function updateBreadCrumb(controlName, path) {
   var content_div = "<div class='bread-ctext'>";
