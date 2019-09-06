@@ -70,7 +70,7 @@ namespace ej2_blazor_samples
                 Order = 03,
                 Samples = CircularGauge
             });
-            SampleBrowser.SampleList.Add(new SampleList
+			SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "LinearGauge",
                 Category = "Data Visualization",
@@ -80,7 +80,7 @@ namespace ej2_blazor_samples
                 Order = 04,
                 Samples = LinearGauge
             });
-            SampleBrowser.SampleList.Add(new SampleList
+			SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
@@ -90,16 +90,16 @@ namespace ej2_blazor_samples
                 Order = 05,
                 Samples = Diagram
             });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Sparkline",
-                Category = "Data Visualization",
-                Directory = "Charts/Sparkline",
-                Type = SampleType.New,
-                UID = 010,
-                Order = 10,
-                Samples = Sparkline
-            });
+            //SampleBrowser.SampleList.Add(new SampleList
+            //{
+            //    Name = "Sparkline",
+            //    Category = "Data Visualization",
+            //    Directory = "Charts/Sparkline",
+            //    Type = SampleType.New,
+            //    UID = 010,
+            //    Order = 10,
+            //    Samples = Sparkline
+            //});
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "TreeMap",
@@ -140,7 +140,7 @@ namespace ej2_blazor_samples
                 Order = 09,
                 Samples = SmithChart
             });
-            SampleBrowser.SampleList.Add(new SampleList
+			SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Barcode",
                 Category = "Data Visualization",
@@ -442,7 +442,7 @@ namespace ej2_blazor_samples
                 Order = 01,
                 Samples = RichTextEditor
             });
-            SampleBrowser.SampleList.Add(new SampleList
+              SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "NumericTextBox",
                 Category = "Inputs",

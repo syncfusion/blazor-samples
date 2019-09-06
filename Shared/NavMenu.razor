@@ -6,12 +6,12 @@
 @using System.Reflection
 @using Microsoft.AspNetCore.Components
 
-@inject Microsoft.AspNetCore.Components.IUriHelper UriHelper
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @inject IJSRuntime JsRuntime;
 
 @typeparam  TValue
 
-<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" @ref:suppressField TValue="object">
+<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="object">
     <TreeViewEvents NodeSelected="OnNodeClick" TValue="object"></TreeViewEvents>
 </EjsTreeView>
 
@@ -20,7 +20,7 @@
         <div class="e-icons sb-icons back-icon"></div>
         <div class='control-name'>All Controls</div>
     </div>
-    <EjsListView id="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" @ref:suppressField TValue="object">
+    <EjsListView id="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="object">
         <ListViewEvents Selected="OnSampleSelect" TValue="object"></ListViewEvents>
     </EjsListView>
 </div>
@@ -30,9 +30,9 @@
     EjsListView<object> SampleList;
     EjsTreeView<object> ComponentsTree;
 
-    private string treeviewClass { get; set; } = "e-view time-duration sb-hide";
+    public string treeviewClass { get; set; } = "e-view time-duration sb-hide";
 
-    private string listClass { get; set; } = "e-view sb-control-list-top";
+    public string listClass { get; set; } = "e-view sb-control-list-top";
 
     public Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings<object> DataSource = new Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings<object>
     {
@@ -127,10 +127,9 @@
     }
 
 
-    [Parameter]
-    private List<Sample> ListDataSource { get; set; } = new List<Sample>();
+    List<Sample> ListDataSource { get; set; } = new List<Sample>();
 
-    protected override void OnAfterRender()
+    protected override void OnAfterRender(bool firstRender)
     {
         this.ListDataSource = SampleBrowser.CurrentControl;
         this.SampleList.DataSource = this.ListDataSource;

@@ -1,0 +1,73 @@
+﻿@page "/Grid/ObservableBinding"
+
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Buttons
+@using System.Collections.ObjectModel;
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@{
+    SampleBrowser.CurrentSampleName = "Observable Collection";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the usage of Observable data binding in Grid component.
+        </p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p> Using Observable Collections Objects can be added, removed or be updated with an automatic notification of actions. 
+    The UI is automatically updated, when an object is added to or removed from an <strong>observable collection<strong>.</p>"
+    };
+}
+@*End:Hidden*@
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsButton ID="add" @onclick="addRecords">Add Data</EjsButton>
+            <EjsButton ID="del" @onclick="delRecords">Delete Data</EjsButton>
+            <EjsButton ID="update" @onclick="updateRecords">Update Data</EjsButton>
+
+            <EjsGrid DataSource="@GridData" AllowPaging="true">
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetailsObserveData.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetailsObserveData.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetailsObserveData.Freight) HeaderText="Freight" EditType="EditType.NumericEdit" Format="C2" Width="140" TextAlign="@TextAlign.Right" HeaderTextAlign="@TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetailsObserveData.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="yMd" Type="ColumnType.Date" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetailsObserveData.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public ObservableCollection<OrdersDetailsObserveData> GridData { get; set; }
+
+    private int orderid { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetailsObserveData.GetRecords();
+    }
+
+    public void addRecords()
+    {
+        GridData.Add(new OrdersDetailsObserveData((10010 + ++orderid), "ALFKI", 4343, 2.3 * 43, false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+    }
+
+    public void delRecords()
+    {
+        GridData.Remove(GridData.First());
+    }
+
+    public void updateRecords()
+    {
+        var name = GridData.First();
+        name.CustomerID = "Record Updated";
+    }
+}

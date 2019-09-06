@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ej2_blazor_samples;
+﻿using System.Collections.Generic;
 namespace ej2_blazor_samples
 {
     internal partial class SampleConfig
     {
-       public List<Sample> Chart { get; set; } = new List<Sample>{
+        public List<Sample> Chart { get; set; } = new List<Sample>{
             new Sample
             {
                 Name = "Line Chart",
@@ -206,16 +202,16 @@ namespace ej2_blazor_samples
                 FileName = "StackedBar100.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Negative Stack",
-                Category = "Bar Charts",
-                Directory = "Charts/Chart",
-                Url = "Charts/NegativeStack",
-                FileName = "NegativeStack.razor",
-                Type = SampleType.New
-            },
-             new Sample
+			//new Sample
+			//{
+			//    Name = "Negative Stack",
+			//    Category = "Bar Charts",
+			//    Directory = "Charts/Chart",
+			//    Url = "Charts/NegativeStack",
+			//    FileName = "NegativeStack.razor",
+			//    Type = SampleType.New
+			//},
+			 new Sample
             {
                 Name = "Scatter Plot",
                 Category = "Scatter and Bubble",
@@ -232,7 +228,7 @@ namespace ej2_blazor_samples
                 Url = "Charts/Bubble",
                 FileName = "Bubble.razor",
                 Type = SampleType.New
-            },           
+            },
             new Sample
             {
                 Name = "Waterfall",
@@ -287,97 +283,99 @@ namespace ej2_blazor_samples
                 FileName = "Pareto.razor",
                 Type = SampleType.New
             },
+    //new Sample
+   //         {
+   //             Name = "Accumulation Distributions",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/ADIChart",
+   //             FileName = "ADIChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "ATR",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/ATRChart",
+   //             FileName = "ATRChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "Bollinger",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/BollingerChart",
+   //             FileName = "BollingerChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "EMA",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/EmaChart",
+   //             FileName = "EmaChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "MACD",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/MacdChart",
+   //             FileName = "MacdChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "Momentum",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/MomentumChart",
+   //             FileName = "MomentumChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "RSI",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/RsiChart",
+   //             FileName = "RsiChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "SMA",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/SmaChart",
+   //             FileName = "SmaChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "Stochastic",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/StochasticChart",
+   //             FileName = "StochasticChart.razor",
+   //             Type = SampleType.New
+   //         },
+   //         new Sample
+   //         {
+   //             Name = "TMA",
+   //             Category = "Technical Indicators",
+   //             Directory = "Charts/Chart",
+   //             Url = "Charts/TmaChart",
+   //             FileName = "TmaChart.razor",
+   //             Type = SampleType.New
+   //         },
+
+
 			new Sample
-            {
-                Name = "Accumulation Distributions",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/ADIChart",
-                FileName = "ADIChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "ATR",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/ATRChart",
-                FileName = "ATRChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Bollinger",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/BollingerChart",
-                FileName = "BollingerChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "EMA",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/EmaChart",
-                FileName = "EmaChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "MACD",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/MacdChart",
-                FileName = "MacdChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Momentum",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/MomentumChart",
-                FileName = "MomentumChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "RSI",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/RsiChart",
-                FileName = "RsiChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "SMA",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/SmaChart",
-                FileName = "SmaChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Stochastic",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/StochasticChart",
-                FileName = "StochasticChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "TMA",
-                Category = "Technical Indicators",
-                Directory = "Charts/Chart",
-                Url = "Charts/TmaChart",
-                FileName = "TmaChart.razor",
-                Type = SampleType.New
-            },
-            new Sample
             {
                 Name = "Pie Chart",
                 Category = "Accumulation Charts",
@@ -548,16 +546,16 @@ namespace ej2_blazor_samples
             //    FileName = "IndexedCategoryAxis.razor",
             //    Type = SampleType.New
             //},
-            //  new Sample
-            //{
-            //    Name = "Logarithmic Axis",
-            //    Category = "Chart Axes",
-            //    Directory = "Charts/Chart",
-            //    Url = "Charts/LogarithmicAxis",
-            //    FileName = "LogarithmicScale.razor",
-            //    Type = SampleType.New
-            //},
-            new Sample
+			//  new Sample
+			//{
+			//    Name = "Logarithmic Axis",
+			//    Category = "Chart Axes",
+			//    Directory = "Charts/Chart",
+			//    Url = "Charts/LogarithmicAxis",
+			//    FileName = "LogarithmicScale.razor",
+			//    Type = SampleType.New
+			//},
+			new Sample
             {
                 Name = "Multiple Axis",
                 Category = "Chart Axes",
@@ -649,82 +647,82 @@ namespace ej2_blazor_samples
                 Url = "RangeSelector/RangeNavigator",
                 FileName = "RangeNavigator.razor",
                 Type = SampleType.New
-            },
-            new Sample
-             {
-                Name = "LightWeight",
-                Category = "Range Selector",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/LightWeight",
-                FileName = "LightWeight.razor",
-                Type = SampleType.New
-            },
-            //  new Sample
-            //  {
-            //     Name = "DateTime Axis",
-            //     Category = "Axis",
-            //     Directory = "Charts/RangeNavigator",
-            //     Url = "RangeSelector/DateTimeAxis",
-            //     FileName = "DateTimeAxis.razor",
-            //     Type = SampleType.New
-            // },
-            //  new Sample
-            //  {
-            //     Name = "Numeric Axis",
-            //     Category = "Axis",
-            //     Directory = "Charts/RangeNavigator",
-            //     Url = "RangeSelector/NumericAxis",
-            //     FileName = "NumericAxis.razor",
-            //     Type = SampleType.New
-            // },
-              new Sample
-             {
-                Name = "Multilevel Labels",
-                Category = "Axis",
-                Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/Multilevel",
-                FileName = "Multilevel.razor",
-                Type = SampleType.New
             }
-            // new Sample
-            // {
-            //    Name = "Empty Points",
-            //    Category = "Customization",
-            //    Directory = "Charts/RangeNavigator",
-            //    Url = "RangeSelector/EmptyPoint",
-            //    FileName = "EmptyPoint.razor",
-            //    Type = SampleType.New
-            //},
-            // new Sample
-            // {
-            //    Name = "Filter",
-            //    Category = "Customization",
-            //    Directory = "Charts/RangeNavigator",
-            //    Url = "RangeSelector/Filter",
-            //    FileName = "Filter.razor",
-            //    Type = SampleType.New
-            //},
-            // new Sample
-            // {
-            //    Name = "Print and Export",
-            //    Category = "Export",
-            //    Directory = "Charts/RangeNavigator",
-            //    Url = "RangeSelector/PrintExport",
-            //    FileName = "PrintExport.razor",
-            //    Type = SampleType.New
-            //},
-            //  new Sample
-            //  {
-            //     Name = "RTL",
-            //     Category = "Right To Left",
-            //     Directory = "Charts/RangeNavigator",
-            //     Url = "RangeSelector/RTL",
-            //     FileName = "RTL.razor",
-            //     Type = SampleType.New
-            // }
-        };
-		
-		public List<Sample> Sparkline { get; set; } = new List<Sample>{
+			//new Sample
+			// {
+			//    Name = "LightWeight",
+			//    Category = "Range Selector",
+			//    Directory = "Charts/RangeNavigator",
+			//    Url = "RangeSelector/LightWeight",
+			//    FileName = "LightWeight.razor",
+			//    Type = SampleType.New
+			//},
+			//  new Sample
+			//  {
+			//     Name = "DateTime Axis",
+			//     Category = "Axis",
+			//     Directory = "Charts/RangeNavigator",
+			//     Url = "RangeSelector/DateTimeAxis",
+			//     FileName = "DateTimeAxis.razor",
+			//     Type = SampleType.New
+			// },
+			//  new Sample
+			//  {
+			//     Name = "Numeric Axis",
+			//     Category = "Axis",
+			//     Directory = "Charts/RangeNavigator",
+			//     Url = "RangeSelector/NumericAxis",
+			//     FileName = "NumericAxis.razor",
+			//     Type = SampleType.New
+			// },
+			//  new Sample
+			// {
+			//    Name = "Multilevel Labels",
+			//    Category = "Axis",
+			//    Directory = "Charts/RangeNavigator",
+			//    Url = "RangeSelector/Multilevel",
+			//    FileName = "Multilevel.razor",
+			//    Type = SampleType.New
+			//}
+			// new Sample
+			// {
+			//    Name = "Empty Points",
+			//    Category = "Customization",
+			//    Directory = "Charts/RangeNavigator",
+			//    Url = "RangeSelector/EmptyPoint",
+			//    FileName = "EmptyPoint.razor",
+			//    Type = SampleType.New
+			//},
+			// new Sample
+			// {
+			//    Name = "Filter",
+			//    Category = "Customization",
+			//    Directory = "Charts/RangeNavigator",
+			//    Url = "RangeSelector/Filter",
+			//    FileName = "Filter.razor",
+			//    Type = SampleType.New
+			//},
+			// new Sample
+			// {
+			//    Name = "Print and Export",
+			//    Category = "Export",
+			//    Directory = "Charts/RangeNavigator",
+			//    Url = "RangeSelector/PrintExport",
+			//    FileName = "PrintExport.razor",
+			//    Type = SampleType.New
+			//},
+			//  new Sample
+			//  {
+			//     Name = "RTL",
+			//     Category = "Right To Left",
+			//     Directory = "Charts/RangeNavigator",
+			//     Url = "RangeSelector/RTL",
+			//     FileName = "RTL.razor",
+			//     Type = SampleType.New
+			// }
+		};
+
+        public List<Sample> Sparkline { get; set; } = new List<Sample>{
             new Sample
             {
                 Name = "Default Functionalities",
@@ -734,16 +732,16 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
-            new Sample
-            {
-                Name = "Series Type",
-                Category = "Sparkline",
-                Directory = "Charts/Sparkline",
-                Url = "Sparkline/SeriesType",
-                FileName = "SeriesType.razor",
-                Type = SampleType.New,
-            } ,
-			 new Sample
+            // new Sample
+            // {
+            //     Name = "Series Type",
+            //     Category = "Sparkline",
+            //     Directory = "Charts/Sparkline",
+            //     Url = "Sparkline/SeriesType",
+            //     FileName = "SeriesType.razor",
+            //     Type = SampleType.New,
+            // },
+             new Sample
             {
                 Name = "Axis Value Types",
                 Category = "Sparkline",
@@ -753,8 +751,8 @@ namespace ej2_blazor_samples
                 Type = SampleType.New,
             }
         };
-		
-		public List<Sample> SmithChart { get; set; } = new List<Sample>{
+
+        public List<Sample> SmithChart { get; set; } = new List<Sample>{
            new Sample
             {
                 Name = "Default Functionalities",
@@ -772,7 +770,16 @@ namespace ej2_blazor_samples
                 Url = "SmithChart/Customization",
                 FileName = "Customization.razor",
                 Type = SampleType.New
-            }			
+            },
+            new Sample
+            {
+               Name = "Print and Export",
+               Category = "SmithChart",
+               Directory = "Charts/SmithChart",
+               Url = "SmithChart/PrintAndExport",
+               FileName = "PrintAndExport.razor",
+               Type = SampleType.New
+            }
         };
 
         public List<Sample> StockChart { get; set; } = new List<Sample>{
@@ -784,80 +791,80 @@ namespace ej2_blazor_samples
                 Url = "StockChart/StockChart",
                 FileName = "Default.razor",
                 Type = SampleType.New
-            },
-           // new Sample
-           // {
-           //     Name = "Hide Selector",
-           //     Category = "Stock Chart",
-           //     Directory = "Charts/StockChart",
-           //     Url = "StockChart/HidePeriodSelector",
-           //     FileName = "Hide Selector.razor",
-           //     Type = SampleType.New
-           // },
-            new Sample
-            {
-                Name = "OHLC",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/OHLC",
-                FileName = "OHLC.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Candlestick and Volume",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/CandlestickandVolume",
-                FileName = "Candlestick and Volume.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Multiple Series",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/MultipleSeries",
-                FileName = "Multiple Series.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Spline",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/StockChartSpline",
-                FileName = "Spline.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Area",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/StockChartArea",
-                FileName = "Area.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Spline Area",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/StockChartSplineArea",
-                FileName = "SplineArea.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Inversed Area",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "StockChart/InversedArea",
-                FileName = "Inversed Area.razor",
-                Type = SampleType.New
             }
-        };		
-    }   
+		   // new Sample
+		   // {
+		   //     Name = "Hide Selector",
+		   //     Category = "Stock Chart",
+		   //     Directory = "Charts/StockChart",
+		   //     Url = "StockChart/HidePeriodSelector",
+		   //     FileName = "Hide Selector.razor",
+		   //     Type = SampleType.New
+		   // },
+			//new Sample
+			//{
+			//    Name = "OHLC",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/OHLC",
+			//    FileName = "OHLC.razor",
+			//    Type = SampleType.New
+			//},
+			//new Sample
+			//{
+			//    Name = "Candlestick and Volume",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/CandlestickandVolume",
+			//    FileName = "Candlestick and Volume.razor",
+			//    Type = SampleType.New
+			//},
+			//new Sample
+			//{
+			//    Name = "Multiple Series",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/MultipleSeries",
+			//    FileName = "Multiple Series.razor",
+			//    Type = SampleType.New
+			//},
+			//new Sample
+			//{
+			//    Name = "Spline",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/StockChartSpline",
+			//    FileName = "Spline.razor",
+			//    Type = SampleType.New
+			//},
+			//new Sample
+			//{
+			//    Name = "Area",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/StockChartArea",
+			//    FileName = "Area.razor",
+			//    Type = SampleType.New
+			//},
+			//new Sample
+			//{
+			//    Name = "Spline Area",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/StockChartSplineArea",
+			//    FileName = "SplineArea.razor",
+			//    Type = SampleType.New
+			//},
+			//new Sample
+			//{
+			//    Name = "Inversed Area",
+			//    Category = "Stock Chart",
+			//    Directory = "Charts/StockChart",
+			//    Url = "StockChart/InversedArea",
+			//    FileName = "Inversed Area.razor",
+			//    Type = SampleType.New
+			//}
+		};
+    }
 
 }

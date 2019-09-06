@@ -7,7 +7,7 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
-@using ej2_blazor_treedata
+@using ej2_blazor_selfdata
 
 @{
     SampleBrowser.CurrentSampleName = "Default Exporting";
@@ -20,7 +20,7 @@
     SampleBrowser.Description = new string[] {
         @"<p>TreeGrid supports client-side exporting which allows you to export its data to the Excel, Pdf and CSV formats.</p>
     <p>In this demo, for the toolbar items of exporting, we have defined actions in <code>toolbarClick</code> event to export the TreeGrid data using the <code>excelExport</code>, <code>pdfExport</code> and <code>csvExport</code> methods.</p>
-    
+
     <p>
        More information about Exporting can be found in this documentation section.
     </p>"
@@ -31,15 +31,15 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsTreeGrid height="400" TValue="TreeData.BusinessObject" ChildMapping="Children" TreeColumnIndex="1" Toolbar="@(new List<string>() { "ExcelExport", "CsvExport", "PdfExport" })" AllowExcelExport="true" AllowPdfExport="true">
-                <EjsDataManager Json="@treeData" Adaptor="Adaptors.JsonAdaptor"></EjsDataManager>
+            <EjsTreeGrid ID="TreeGrid" @ref="treegrid" AllowPdfExport="true" AllowExcelExport="true" DataSource="@treeData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "PdfExport", "ExcelExport", "CsvExport" })">
+                <TreeGridEvents OnToolbarClick="toolbarclick" TValue="SelfReferenceData"></TreeGridEvents>
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" IsPrimaryKey="true" Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" EditType="stringedit" Width="190"></TreeGridColumn>
-                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" EditType="datepickeredit" Format="yMd" Type="date" Width="165" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="EndDate" HeaderText=" End Date" EditType="datepickeredit" Format="yMd" Type="date" Width="165" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Priority" HeaderText="Priority" EditType="stringedit" Width="135"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" IsPrimaryKey="true" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="yMd" Type="date" Width="90" TextAlign="@TextAlign.Right" EditType="datepickeredit"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Format="n" Width="80" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="80"></TreeGridColumn>
                 </TreeGridColumns>
             </EjsTreeGrid>
 
@@ -49,15 +49,28 @@
 
 @code{
 
-    public TreeData.BusinessObject[] treeData { get; set; }
+    EjsTreeGrid<SelfReferenceData> treegrid;
+
+    public List<SelfReferenceData> treeData { get; set; }
 
     protected override void OnInitialized()
     {
-        this.treeData = TreeData.GetDefaultData().Cast<TreeData.BusinessObject>().ToArray();
+        this.treeData = SelfReferenceData.GetTree().ToList();
     }
 
-    public void ToolBarClick(object args)
+    public void toolbarclick(Syncfusion.EJ2.Blazor.Navigations.ClickEventArgs args)
     {
-        
+        if (args.Item.Text == "PDF Export")
+        {
+            this.treegrid.PdfExport();
+        }
+        else if (args.Item.Text == "Excel Export")
+        {
+            this.treegrid.ExcelExport();
+        }
+        else if (args.Item.Text == "CSV Export") 
+		{
+            this.treegrid.CsvExport();
+        }
     }
 }

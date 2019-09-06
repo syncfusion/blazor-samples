@@ -1,0 +1,168 @@
+﻿@page "/Dialog/CustomDialogs"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Popups
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Custom Dialogs";
+    SampleBrowser.CurrentControlName = "Dialog";
+    SampleBrowser.CurrentControlCategory = "Dialog";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Dialog;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This example demonstrates the different types of Dialog like alert, confirm, and prompt. The buttons 'Alert', 'Confirm', and 'Prompt' will be shown after closing the alert Dialog. These buttons are used to open the corresponding Dialogs.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            The Dialog control is used to display messages such as supplementary content like images and text, and an interactive content like form components within a web page. The following are the two types of Dialogs:
+        </p>
+        <ul>
+            <li>
+                Alert - Used to show errors, warnings, and information that needs user awareness.
+            </li>
+            <li>
+                Prompt - Used to get input from the user.
+            </li>
+            <li>
+                Confirmation - Used to get approval from user that appears before any critical action.
+            </li>
+        </ul>
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div id="target" class=" col-lg-12 control-section">
+    <div>
+        @if (this.ShowButton)
+        {
+        <button class="e-btn dlgbtn" @onclick="@AlertBtn">Alert</button>
+        <button class="e-btn dlgbtn" @onclick="@ConfirmBtn">Confirm</button>
+        <button class="e-btn dlgbtn" @onclick="@PromptBtn">Prompt</button>
+        }
+    </div>
+
+    <EjsDialog ID="alert_dialog" @ref="AlertDialogObj" Height="150px" @bind-Visible="@Visibility" Target="#target" Width="250px">
+        <DialogTemplates>
+            <Header>
+                Low Battery
+            </Header>
+            <Content>
+                10% of battery remaining
+            </Content>
+        </DialogTemplates>
+        <DialogEvents Opened="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogButtons>
+            <DialogButton ButtonModel="@Alertbutton" OnClick="@AlertBtnClick"></DialogButton>
+        </DialogButtons>
+    </EjsDialog>
+    <EjsDialog ID="confirm_dialog" @ref="ConfirmDialogObj" Height="150px" @bind-Visible="@ConfirmDlgVisible" Width="400px" Target="#target" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header>
+                Delete Multiple Items
+            </Header>
+            <Content>
+                Are you sure you want to permanently delete these items ?
+            </Content>
+        </DialogTemplates>
+        <DialogEvents Opened="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogButtons>
+            <DialogButton ButtonModel="@Confirmbutton" OnClick="@ConfirmBtnClick"></DialogButton>
+            <DialogButton ButtonModel="@Confirmbutton1" OnClick="@ConfirmBtnClick"></DialogButton>
+        </DialogButtons>
+    </EjsDialog>
+    <EjsDialog ID="prompt_dialog" @ref="PromptDialogObj" Height="270px" @bind-Visible="@PromptDlgVisible" Target="#target" Width="330px">
+        <DialogTemplates>
+            <Header>
+                Join Wi-Fi network
+            </Header>
+            <Content>
+                <table class='Table'><tbody><tr><td>SSID:</td></tr><tr><td><b>AndroidAP</b></td></tr><tr><td>Password:</td></tr><tr><td><span class='e-input-group'><input type='password' id='password' name='Required' class='e-input'></span></td></tr></tbody></table>
+            </Content>
+        </DialogTemplates>
+        <DialogEvents Opened="@DialogOpen" Closed="@DialogClose" ></DialogEvents>
+        <DialogButtons>
+            <DialogButton ButtonModel="@Promptbutton" OnClick="@PromptBtnClick"></DialogButton>
+            <DialogButton ButtonModel="@Promptbutton1" OnClick="@PromptBtnClick"></DialogButton>
+        </DialogButtons>
+    </EjsDialog>
+</div>
+
+<style>
+    .e-btn-hide {
+        display: none;
+    }
+
+    .Table {
+        border-collapse: separate;
+        border-spacing: 10px;
+        width: 85%;
+        margin: 0px -5px 0px;
+    }
+
+    .dlgbtn {
+        margin-right: 10px;
+    }
+
+    #target {
+        height: 100%;
+        min-height: 350px;
+    }
+    .dlgbtn {
+        margin-right: 10px;
+    }
+</style>
+
+@code {
+    EjsDialog AlertDialogObj;
+    EjsDialog ConfirmDialogObj;
+    EjsDialog PromptDialogObj;
+
+    public bool Visibility { get; set; } = false;
+    public bool ConfirmDlgVisible { get; set; } = false;
+    public bool PromptDlgVisible { get; set; } = false;
+    public bool ShowButton { get; set; } = true;
+    private void AlertBtn()
+    {
+        this.AlertDialogObj.Show();
+    }
+    private void ConfirmBtn()
+    {
+        this.ConfirmDialogObj.Show();
+    }
+    private void PromptBtn()
+    {
+        this.PromptDialogObj.Show();
+    }
+    private void AlertBtnClick(Object e)
+    {
+        this.AlertDialogObj.Hide();
+    }
+    private void ConfirmBtnClick(Object e)
+    {
+        this.ConfirmDialogObj.Hide();
+    }
+    private void PromptBtnClick(Object e)
+    {
+        this.PromptDialogObj.Hide();
+    }
+    private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+    }
+
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+    }
+
+    public ButtonModel Alertbutton = new ButtonModel { Content = "Dismiss", IsPrimary = true };
+    public ButtonModel Confirmbutton = new ButtonModel { Content = "Yes", IsPrimary = true };
+    public ButtonModel Confirmbutton1 = new ButtonModel { Content = "No" };
+    public ButtonModel Promptbutton = new ButtonModel { Content = "Connect", IsPrimary = true };
+    public ButtonModel Promptbutton1 = new ButtonModel { Content = "Cancel" };
+}

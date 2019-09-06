@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using ej2_blazor_samples;
 
 namespace ej2_blazor_samples
 {
@@ -15,17 +18,14 @@ namespace ej2_blazor_samples
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
-
-            new HubConnectionBuilder()
-               .WithUrl("/chatHub")
-               .AddNewtonsoftJsonProtocol()
-               .Build();
-
         }
 
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-            BlazorWebAssemblyHost.CreateDefaultBuilder()
-                .UseBlazorStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 
     internal class SampleList
@@ -74,7 +74,7 @@ namespace ej2_blazor_samples
         internal static string CurrentUrl;
         internal static string[] ActionDescription;
         internal static string[] Description;
-        internal static List<String>  SampleUrls = new List<String>();
+        internal static List<String> SampleUrls = new List<String>();
     }
 
     enum SampleType

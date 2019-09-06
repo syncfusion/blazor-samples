@@ -1,6 +1,6 @@
 ﻿@page "/Charts/ADIChart"
+@using Newtonsoft.Json
 @using Syncfusion.EJ2.Blazor.Charts
-@inject HttpClient Http
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -63,7 +63,7 @@ else
             <ChartZoomSettings EnablePinchZooming="true" EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
             <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical"></ChartCrosshairSettings>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@indicatorData" XName="x" Low="low" High="high" Close="close" Volume="volume" open="open"
+                <ChartSeries DataSource="@indicatorData" XName="x" Low="low" High="high" Close="close" Volume="volume" Open="open"
                              Width=2 Name="Apple Inc" Type="ChartSeriesType.Candle" BearFillColor="#2ecd71" BullFillColor="#e74c3d">
                 </ChartSeries>
             </ChartSeriesCollection>
@@ -75,10 +75,11 @@ else
     </div>
 }
 @code{
-    ChartData[] indicatorData;
+    private ChartData[] indicatorData;
     protected override async Task OnInitializedAsync()
     {
-        indicatorData = await Http.GetJsonAsync<ChartData[]>("scripts/chart/financial-data.json");
+		indicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/chart/financial-data.json"));
+        //indicatorData = await Http.GetJsonAsync<ChartData[]>("scripts/chart/financial-data.json");
     }
     public class ChartData
     {

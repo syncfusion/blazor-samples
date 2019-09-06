@@ -1,0 +1,94 @@
+﻿@page "/Grid/ShoworHideColumn"
+
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@{
+    SampleBrowser.CurrentSampleName = "Show or Hide Column";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates dynamic show hide columns feature of Grid. 
+Click the switch to toggle visibility for columns.
+        .</p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>The Grid column can be showed/hidden dynamically using <code>showColumns </code> and <code>hideColumns</code> method of the Grid.</p>
+    <p>In this demo, the columns can be showed and hidden by clicking the 
+        Switch buttons to toggle visibility. And the column`s visibility is toggled based on the
+        <code>columns->headerText</code> value.</p>
+    <br/>
+    <p>The <code>columns->visible</code> property specifies the visibility of a column. To hide a column at the initial rendering, set the <code>columns->visible
+     </code> property to false.</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-mastertext">Click the switch to toggle visibility</div>
+            <div>
+                <label class="showhide" style="padding: 10px 5px 10px 0"> Order ID </label>
+                <EjsSwitch ValueChange="@((Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args) => { change("Order ID", args); })" @bind-Checked="@check"></EjsSwitch>
+                <label class="showhide" style="padding: 10px 5px 10px 40px"> Customer ID </label>
+                <EjsSwitch ValueChange="@((Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args) => { change("Customer Name", args); })" @bind-Checked="@check1"></EjsSwitch>
+                <label class="showhide" style="padding: 10px 5px 10px 40px"> Freight </label>
+                <EjsSwitch ValueChange="@((Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args) => { change("Freight", args); })" @bind-Checked="@check2"></EjsSwitch>
+            </div>
+
+            <EjsGrid DataSource="@GridData" @ref="Grid" AllowPaging="true">
+                <GridPageSettings PageCount="5"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Visible="true" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" Visible="true" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .showhide {
+        font-size: 15px;
+        font-weight: 200;
+    }
+
+    .e-mastertext {
+        font-size: 15px;
+        font-family: Roboto;
+        opacity: 0.87;
+        padding: 1em;
+    }
+</style>
+
+@code{
+    EjsGrid<OrdersDetails> Grid;
+
+    Boolean check =  true, check1 = true, check2 = true;
+
+    public List<OrdersDetails> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetails.GetAllRecords();
+    }
+
+    public void change(string name, Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        if (args.Checked)
+        {
+            this.Grid.ShowColumns(name);
+        }
+        else {
+            this.Grid.HideColumns(name);
+        }
+    }
+}

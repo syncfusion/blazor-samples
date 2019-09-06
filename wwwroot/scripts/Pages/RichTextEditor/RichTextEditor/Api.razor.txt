@@ -1,0 +1,182 @@
+﻿
+@page "/RichTextEditor/Api"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.RichTextEditor
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.Popups
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "API";
+    SampleBrowser.CurrentControlName = "RichTextEditor";
+    SampleBrowser.CurrentControlCategory = "RichTextEditor";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RichTextEditor;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrate the usage of API in RichTextEditor, use the properties panel to change the maximum length, read
+        only mode, disable status, to get value, enable HTML encode, select all content and get selected HTML from the RichTextEditor.</p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>In this demos, Ensuring the API'S behavious by doing</p>
+    <ul>
+        <li>Change the value of <code>maxLength</code> textbox to change maximum Length of character.</li>
+        <li>Click the <code>readOnly</code> check box to enable/disable editable and non-editable mode of the RTE.</li>
+        <li>Click the <code>enabled</code> check box to enable/disable the RTE component.</li>
+        <li>Click the <code>enableHtmlEncode</code> check box to enableHtmlEncode/disableHtmlEncode the RTE component.</li>
+        <li>Click the <code>getValue</code> button which shows the RTE values in the alert window.</li>
+        <li>Click the <code>getSelection</code> button which shows the selectedText in the alert window.</li>
+        <li>Click the <code>selectAll</code> button selecting all text content in the RTE.</li>
+    </ul>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section" id="target">
+    <div class="control-wrapper">
+        <div class="sample-container">
+            <div class="default-section">
+                <EjsDialog @ref="DialogObj" @bind-Visible="@visibility" Content="@Content" Header="@header" Target="#target" Height="200px" Width="400px" ShowCloseIcon="true">
+                    <DialogButtons>
+                        <DialogButton ButtonModel="@DialogBtn" OnClick="@DlgButtonClick"></DialogButton>
+                    </DialogButtons>
+                </EjsDialog>
+                <EjsRichTextEditor @ref="defaultAPIObj" @bind-Value="@RteValue" ShowCharCount="true" MaxLength="@MaxLength" Readonly="@ReadOnly" Enabled="@Enabled" EnableHtmlEncode="@EnableHtmlEncode">
+                </EjsRichTextEditor>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div id="property" title="Properties">
+        <table id="property" title="Properties">
+            <tbody>
+                <tr>
+                    <td>
+                        <div>Maximum Length </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsNumericTextBox Step="1" @bind-Value="@MaxLength" Min="555" Max="2000" Format="n0">
+                            </EjsNumericTextBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>ReadOnly </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsCheckBox @bind-Checked="@Checkbox1" ValueChange="ReadOnlyChange"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Enabled </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsCheckBox @bind-Checked="@Checkbox2" ValueChange="EnableChange"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Enable Html Encode </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsCheckBox @bind-Checked="@Checkbox3" ValueChange="EnableHtmlChange"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div>
+                            <button id="getVal" class="btn btn-default" @onclick="GetValueClick">Get Value</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div>
+                            <button id="selectall" class="btn btn-default" @onclick="SelectAllonClick">Select All </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .property-section table td {
+        width: 50%;
+    }
+
+    .property-section table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+</style>
+
+@code {
+    EjsRichTextEditor defaultAPIObj;
+    EjsDialog DialogObj;
+
+    public double MaxLength { get; set; } = 560;
+    public bool visibility = false;
+    public bool ReadOnly = false;
+    public bool Enabled = true;
+    public bool EnableHtmlEncode = false;
+    public object Content;
+    public string RteValue = @"<p>RichTextEditor is a WYSIWYG editing control which will reduce the effort for users while trying to express their formatting word content as HTML or Markdown format.</p><p><b>API’s:</b></p><ul><li><p>maxLength - allows to restrict the maximum length to be entered.</p></li><li><p>readOnly - allows to change it as non-editable state.</p></li><li><p>enabled - enable or disable the RTE component.</p></li><li><p>enableHtmlEncode - Get the encoded string value through value property and source code panel</p></li><li><p>getValue - get the value of RTE.</p></li><li><p>selectAll - select all content in RTE.</p></li></ul>";
+    public bool Checkbox1 { get; set; } = false;
+    public bool Checkbox2 { get; set; } = true;
+    public bool Checkbox3 { get; set; } = false;
+    public string header = "RichTextEditor's Value";
+
+    public Syncfusion.EJ2.Blazor.Buttons.ButtonModel DialogBtn = new Syncfusion.EJ2.Blazor.Buttons.ButtonModel { Content = "Ok", IsPrimary = true };
+
+    public void MaxlengthChange(Syncfusion.EJ2.Blazor.Inputs.ChangeEventArgs args)
+    {
+        this.MaxLength = args.Value;
+    }
+
+    public void ReadOnlyChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.ReadOnly = args.Checked;
+    }
+
+    public void EnableChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.Enabled = args.Checked;
+    }
+
+    public void EnableHtmlChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.EnableHtmlEncode = args.Checked;
+    }
+
+    public void GetValueClick()
+    {
+        this.Content = this.RteValue;
+        this.DialogObj.Show();
+    }
+
+    public void SelectAllonClick()
+    {
+        this.defaultAPIObj.SelectAll();
+    }
+
+    public void DlgButtonClick(object arg)
+    {
+        this.DialogObj.Hide();
+    }
+}
+

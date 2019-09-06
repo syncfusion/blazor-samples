@@ -312,48 +312,48 @@ namespace ej2_blazor_samples
                     }
                 }
             },
-            //new Sample
-            //{
-            //    Name = "Inline Editing",
-            //    Category = "Editing",
-            //    Directory = "Grids/TreeGrid",
-            //    Url = "TreeGrid/Editing",
-            //    Type = SampleType.New,
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="Editing",
-            //            FileName="Editing.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="Data",
-            //            FileName="SelfData.cs"
-            //        }
-            //    }
-            //},
-            //new Sample
-            //{
-            //    Name = "Dialog Editing",
-            //    Category = "Editing",
-            //    Directory = "Grids/TreeGrid",
-            //    Url = "TreeGrid/DialogEditing",
-            //    Type = SampleType.New,
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="DialogEditing",
-            //            FileName="DialogEditing.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="DialogData",
-            //            FileName="SelfData.cs"
-            //        }
-            //    }
-            //},
+            new Sample
+            {
+                Name = "Inline Editing",
+                Category = "Editing",
+                Directory = "Grids/TreeGrid",
+                Url = "TreeGrid/Editing",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Editing",
+                        FileName="Editing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="SelfData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Dialog Editing",
+                Category = "Editing",
+                Directory = "Grids/TreeGrid",
+                Url = "TreeGrid/DialogEditing",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DialogEditing",
+                        FileName="DialogEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DialogData",
+                        FileName="SelfData.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Command Column",
@@ -522,10 +522,31 @@ namespace ej2_blazor_samples
                     }
                 }
             },
+			new Sample
+            {
+                Name = "Default Exporting",
+                Category = "Exporting",
+                Directory = "Grids/TreeGrid",
+                Url = "TreeGrid/Exporting",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DefaultExporting",
+                        FileName="Exporting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DefaultExportingData",
+                        FileName="SelfData.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Print",
-                Category = "TreeGrid",
+                Category = "Exporting",
                 Directory = "Grids/TreeGrid",
                 Url = "TreeGrid/Print",
                 Type = SampleType.New,

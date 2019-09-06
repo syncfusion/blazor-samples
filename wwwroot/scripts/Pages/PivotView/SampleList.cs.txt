@@ -163,7 +163,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Hyperlink",
+                Name = "HyperLink",
                 Category = "Miscellaneous",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotTable/HyperLink",

@@ -1,0 +1,125 @@
+﻿@page "/Dialog/Animation"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Popups
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Animation";
+    SampleBrowser.CurrentControlName = "Dialog";
+    SampleBrowser.CurrentControlCategory = "Dialog";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Dialog;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This example demonstrates how to open or close the dialog with animation effects by clicking the appropriate button.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            The dialog can be opened or closed with animation effect using the <code>animationSettings</code> property. You can also customize the duration of animation and delay to begin animation. Disables the dialog's animation by setting the animation effect as none.
+         </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section" id="target">
+    <div id="customization">
+        <div class="animate">
+            <EjsButton IsPrimary="true" CssClass="e-outline" Content="Zoom" @onclick="@(()=>OnBtnclicked("Zoom"))"></EjsButton>
+        </div>
+        <div class="animate">
+            <EjsButton IsPrimary="true" CssClass="e-outline" Content="Flip XDown" @onclick="@(()=>OnBtnclicked("FlipXDown"))"></EjsButton>
+        </div>
+        <div class="animate">
+            <EjsButton IsPrimary="true" CssClass="e-outline" Content="Flip XUp" @onclick="@(()=>OnBtnclicked("FlipXUp"))"></EjsButton>
+        </div>
+        <div class="animate">
+            <EjsButton IsPrimary="true" CssClass="e-outline" Content="Flip YLeft" @onclick="@(()=>OnBtnclicked("FlipYLeft"))"></EjsButton>
+        </div>
+        <div class="animate">
+            <EjsButton IsPrimary="true" CssClass="e-outline" Content="Flip YRight" @onclick="@(()=>OnBtnclicked("FlipYRight"))"></EjsButton>
+        </div>
+    </div>
+    <EjsDialog id="defaultDialog" @ref="DialogObj" IsModal="true" Height="180px" Width="285px" Target="#target" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header>Animation Dialog</Header>
+            <Content>The dialog is configured with animation effect. It is opened or closed with @BtnContent animation.</Content>
+        </DialogTemplates>
+        <DialogAnimationSettings Effect="@Effects" Duration=400 Delay=50></DialogAnimationSettings>
+        <DialogButtons>
+            <DialogButton ButtonModel="@Defaultbutton" OnClick="@OnClicked"></DialogButton>
+        </DialogButtons>
+    </EjsDialog>
+</div>
+
+<style>
+
+    html,
+    body,
+    #container {
+        height: 100%;
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        min-height: 400px;
+    }
+
+    .text {
+        text-transform: capitalize;
+    }
+
+    #customization {
+        display: table;
+        margin: 0 auto;
+    }
+
+    .animate {
+        display: table-cell;
+        padding-left: 20px;
+    }
+</style>
+
+@code {
+    EjsDialog DialogObj;
+
+    public string BtnContent = "Zoom In or Out";
+    public DialogEffect Effects = DialogEffect.Zoom;
+
+    private void OnBtnclicked(string value)
+    {
+        switch (value)
+        {
+            case "Zoom":
+                this.Effects = DialogEffect.Zoom;                
+                break;
+            case "FlipXDown":
+                this.Effects = DialogEffect.FlipXDown;
+                break;
+            case "FlipXUp":
+                this.Effects = DialogEffect.FlipXUp;
+                break;
+            case "FlipYLeft":
+                this.Effects = DialogEffect.FlipYLeft;
+                break;
+            case "FlipYRight":
+                this.Effects = DialogEffect.FlipYRight;
+                break;
+        }
+        this.BtnContent = value;
+        this.StateHasChanged();
+        this.DialogObj.Show();
+    }
+    private void OnClicked(object arg)
+    {
+        this.DialogObj.Hide();
+    }
+    public class ButtonModel
+    {
+        public string content { get; set; }
+        public bool isPrimary { get; set; }
+    }
+
+    public ButtonModel Defaultbutton = new ButtonModel { content = "Hide", isPrimary = true };
+}

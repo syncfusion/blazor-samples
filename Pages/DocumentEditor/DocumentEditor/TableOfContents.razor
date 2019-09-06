@@ -4,9 +4,6 @@
 @using Syncfusion.EJ2.Blazor.Buttons;
 @using Syncfusion.EJ2.Blazor.DocumentEditor;
 @using EJ2BlazorSamples.DocumentData;
-@using Newtonsoft.Json;
-@inject HttpClient Http;
-@inject IJSRuntime JsRuntime;
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -50,8 +47,8 @@ table of contents such as hyperlink, page number, right-aligned tabs, and styles
             </div>
         </div>
         <div>
-            <EjsDocumentEditorContainer @ref="container" @ref:suppressField ID="docedit" EnableToolbar=true>
-                <DocumentEditorContainerEvents Created="OnCreated"></DocumentEditorContainerEvents>
+            <EjsDocumentEditorContainer @ref="container" ID="docedit">
+                <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
             </EjsDocumentEditorContainer>
         </div>
     </div>
@@ -60,14 +57,14 @@ table of contents such as hyperlink, page number, right-aligned tabs, and styles
 
 @code {
 
-    internal string DocumentName { get; set; } = "Table of Contents";
+    internal string DocumentName { get; set; }
 
     EjsDocumentEditorContainer container;
 
     public void OnExport(object args)
     {
         DocumentEditorModule documentEditor = container.GetDocumentEditor();
-        documentEditor.Save(DocumentName, Syncfusion.EJ2.Blazor.DocumentEditor.FormatType.Docx.ToString());
+        documentEditor.Save(DocumentName, FormatType.Docx);
     }
 
     public void Print(object args)
@@ -80,6 +77,16 @@ table of contents such as hyperlink, page number, right-aligned tabs, and styles
     {
         DocumentEditorModule documentEditor = container.GetDocumentEditor();
         documentEditor.Open(Data.TableOfContents);
+        DocumentName = "Table of Contents";
+    }
+
+    public void OnDocumentChange()
+    {
+        string name = container.GetDocumentEditor().DocumentName;
+        if (name != "")
+        {
+            DocumentName = name;
+        }
     }
 }
 

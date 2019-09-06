@@ -1,6 +1,7 @@
 ﻿@page "/Grid/InlineEditing"
 
 @using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.DropDowns
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -21,20 +22,15 @@
         <p>By default, a new row will be added at the top of the grid. You can change it by setting <code>editSettings.newRowPosition</code> as <code>Bottom</code></p>"
     };
     SampleBrowser.Description = new string[]{
-        @"<p> The Grid supports CRUD operations. This CRUD operations can be configured in Grid using
-        <code>editSettings</code>. Also, it has different modes to manipulate the datasource.
-    </p>
-    <p>The available modes are,</p>
-    <ul>
-        <li><code>Inline</code></li>
-        <li><code>Dialog</code></li>
-        <li><code>Batch</code></li>
-    </ul>
-    <p>
-        In this demo, Inline mode is enabled for editing. You can start editing any row by double clicking on it or clicking on toolbar’s
-        <code>Edit</code> button, then the currently selected row will be changed to edited state. You can change the row values
-        and save edited data to the datasource.
-    </p>"
+        @"<p>The Grid supports CRUD operations. The CRUD operations can be configured in Grid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
+        <p>The available modes are,</p>
+        <ul>
+            <li><code>Inline</code></li>
+            <li><code>Dialog</code></li>
+            <li><code>Batch</code></li>
+        </ul>
+        <p>In this demo, Inline mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> as <code>Inline</code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. You can start editing by double clicking a row or clicking on toolbar’s <code>Edit</code> button which will change the row to editing state. You can change the row values and save the edited data to the datasource.  You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~EditTemplate.html'>EditTemplate</a></code> of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to render the cell edit template.</p>
+        <p>In this demo, AutoComplete Component is rendered inside the Customer ID column using EditTemplate.</p>"
     };
 }
 @*End:Hidden*@
@@ -43,14 +39,20 @@
     <div class="content-wrapper">
         <div class="row">
 
-            <EjsGrid DataSource="@GridData" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })" AllowPaging="true">
+            <EjsGrid DataSource="@GridData" ModelType="@Model" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })" AllowPaging="true">
                 <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new { required=true, number=true})" TextAlign="TextAlign.Right"  Width="140"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" ValidationRules="@(new { required=true})" Width="150"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" ValidationRules="@(new { required=true})" EditType="numericedit" Format="C2" TextAlign="TextAlign.Right"  Width="140"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" EditType="datepickeredit" Format="yMd" Type="date" TextAlign="TextAlign.Right"  Width="160"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" EditType="dropdownedit" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new { required=true, number=true})" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" ValidationRules="@(new { required=true})" Width="150">
+                        <EditTemplate>
+                            <EjsAutoComplete ID="CustomerID" Value="@((context as OrdersDetails).CustomerID)" DataSource="@GridData">
+                                <AutoCompleteFieldSettings Value="CustomerID"></AutoCompleteFieldSettings>
+                            </EjsAutoComplete>
+                        </EditTemplate>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" ValidationRules="@(new { required=true})" EditType="EditType.NumericEdit" Format="C2" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="yMd" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
                 </GridColumns>
             </EjsGrid>
 
@@ -61,6 +63,8 @@
 @code{
 
     public List<OrdersDetails> GridData { get; set; }
+
+    public OrdersDetails Model = new OrdersDetails(); 
 
     protected override void OnInitialized()
     {

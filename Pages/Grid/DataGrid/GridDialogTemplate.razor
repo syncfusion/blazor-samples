@@ -1,0 +1,135 @@
+﻿@page "/Grid/GridDialogTemplate"
+
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Calendars
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Inputs
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@{
+    SampleBrowser.CurrentSampleName = "Dialog Template";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates CRUD operations in Grid. You can perform CRUD operations as follows,</p>
+<ul>
+    <li><code>Add</code> -  To add new record, click Add toolbar button </li>
+    <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
+    <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row </li>
+    <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
+</ul>."
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>The Grid supports CRUD operations. This CRUD operations can be configured in Grid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component.</p>
+        <p>In this demo, Dialog template is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> as <code>Dialog</code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Template.html'>Template</a></code> component. property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component to render the custom Dialog.</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsGrid ModelType="@Model" DataSource="@GridData" Toolbar="@(new string[] {"Add", "Edit" ,"Delete","Update","Cancel" })">
+			    <GridEvents OnActionComplete="ActionCompleteHandler" TValue="OrdersDetails"></GridEvents>
+                <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="@EditMode.Dialog">
+                    <Template>
+                        @{
+                            var Order = (context as OrdersDetails);
+                        }
+                        <div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="e-float-text e-label-top">Order ID</label>
+                                    <EjsTextBox ID="OrderID" Value="@(Order.OrderID.ToString())" Enabled="@check"></EjsTextBox>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="e-float-text e-label-top">Customer Name</label>
+                                    <EjsAutoComplete ID="customerID" FloatLabelType="FloatLabelType.Auto" Value="@(Order.CustomerID)" TValue="string" DataSource="@GridData">
+                                        <AutoCompleteFieldSettings Value="CustomerID"></AutoCompleteFieldSettings>
+                                    </EjsAutoComplete>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="e-float-text e-label-top">Freight</label>
+                                    <EjsNumericTextBox ID="Freight" Value="@(Order.Freight)" TValue="double?"></EjsNumericTextBox>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="e-float-text e-label-top">Order Date</label>
+                                    <EjsDatePicker ID="OrderDate" Value="@(Order.OrderDate)">
+                                    </EjsDatePicker>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="e-float-text e-label-top">Ship Country</label>
+                                    <EjsDropDownList ID="ShipCountry" Value="@(Order.ShipCountry)" TValue="string" DataSource="@GridData">
+                                        <DropDownListFieldSettings Value="ShipCountry" Text="ShipCountry"></DropDownListFieldSettings>
+                                    </EjsDropDownList>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="e-float-text e-label-top">Ship City</label>
+                                    <EjsDropDownList ID="ShipCity" Value="@(Order.ShipCity)" TValue="string" DataSource="@GridData">
+                                        <DropDownListFieldSettings Value="ShipCity" Text="ShipCity"></DropDownListFieldSettings>
+                                    </EjsDropDownList>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                        <label class="e-float-text e-label-top">Ship Address</label>
+                                        <EjsTextBox ID="ShipAddress" Value="@(Order.ShipAddress)"></EjsTextBox>
+                                    </div>
+                                </div>
+                        </div>
+                    </Template>
+                </GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" Width="140" TextAlign="@TextAlign.Right" HeaderTextAlign="@TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="ColumnType.Date" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public OrdersDetails Model = new OrdersDetails();
+
+    public List<OrdersDetails> GridData { get; set; }
+	
+	private Boolean check = false;
+
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetails.GetAllRecords();
+    }
+	 
+    public void ActionCompleteHandler(ActionEventArgs<OrdersDetails> args)
+    {
+        if (args.RequestType.ToString() == "Add")
+        {
+            check = true;
+        }
+        else
+        {
+            check = false;
+        }
+    }
+}
+
+<style>
+    .form-group.col-md-6 {
+        width: 200px;
+    }
+
+    label.e-float-text {
+        position:relative;
+    }
+</style>

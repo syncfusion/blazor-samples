@@ -1,0 +1,141 @@
+﻿@page "/Dialog/Positioning"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Popups
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Positioning";
+    SampleBrowser.CurrentControlName = "Dialog";
+    SampleBrowser.CurrentControlCategory = "Dialog";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Dialog;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This example demonstrates how to position the dialog control. Select the appropriate radio button to position where the dialog is displayed. The current position of the dialog is at the bottom. Enable the 'open dialog' button to reopen the dialog if it is closed.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            By default, the dialog is displayed in the center of the target container. Use the position property to set location where the dialog displays relative to the target. The property point-out the horizontal and vertical coordinates. You can set position with specific X and Y coordinates in pixel values.
+         </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section" id="target">
+    <EjsButton Content="Open Dialog" @onclick="@OnClicked"></EjsButton>
+
+    <EjsDialog ID="defaultDialog" @ref="DialogObj" Width="440px" Height="220px" Target="#target" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header>Choose a Dialog Position</Header>
+            <Content>
+                <table style="width:405px;" id="poschange">
+                    <tr>
+                        <td><EjsRadioButton Name="xy" Label="Left Top" Value="left top" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><EjsRadioButton Name="xy" Label="Center Top" Value="center top" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><EjsRadioButton Name="xy" Label="Right Top" Value="right top" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                    </tr>
+                    <tr>
+                        <td><EjsRadioButton Name="xy" Label="Left Center" Value="left center" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><EjsRadioButton Name="xy" Label="Center Center" Value="center center" @bind-Checked="@Checked" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><EjsRadioButton Name="xy" Label="Right Center" Value="right center" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                    </tr>
+                    <tr>
+                        <td><EjsRadioButton Name="xy" Label="Left Bottom" Value="left bottom" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><EjsRadioButton Name="xy" Label="Center Bottom" Value="center bottom" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><EjsRadioButton Name="xy" Label="Right Bottom" Value="right bottom" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                    </tr>
+                </table>
+            </Content>
+            <FooterTemplate> <span id='posvalue' style='float:left;margin-left:8px;padding:10px;'> Position: { X: '@Xvalue', Y: '@Yvalue' }</span></FooterTemplate>
+        </DialogTemplates>
+        <DialogPositionData X="@Xvalue" Y="@Yvalue"></DialogPositionData>
+    </EjsDialog>
+</div>
+
+<style>
+
+    html,
+    body,
+    #container {
+        height: 100%;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    #defaultDialog table,
+    #defaultDialog th,
+    #defaultDialog td {
+        border: 1px solid #D8D8D8;
+        border-collapse: collapse;
+    }
+
+    #container {
+        height: 365px;
+    }
+
+    #defaultDialog .e-dialog .e-footer-content {
+        padding: 0px 10px 10px;
+    }
+
+    .control-section {
+        width: 98%;
+    }
+
+    .e-dialog .e-dlgcontent {
+        padding: 10px 16px 10px;
+    }
+
+    .e-radio + label .e-label {
+        line-height: 18px;
+    }
+
+    td {
+        padding: 4px;
+    }
+
+    .bootstrap .e-dialog .e-footer-content {
+        padding: 5px;
+    }
+
+    .fabric .e-dialog .e-footer-content, .highcontrast .e-dialog .e-footer-content {
+        padding-left: 11px;
+    }
+
+    .fabric .control-section, .highcontrast .control-section {
+        min-height: 370px;
+        margin-bottom: 37px;
+        margin-top: 10px;
+    }
+
+    .control-section {
+        min-height: 370px;
+        margin-bottom: 14px;
+        margin-top: 10px;
+    }
+
+    .highcontrast .e-dialog .e-dlg-content, .fabric .e-dialog .e-dlg-content {
+        padding: 28px 19px 20px;
+    }
+</style>
+
+@code {
+    EjsDialog DialogObj;
+
+    public string Xvalue = "center";
+    public string Yvalue = "center";
+    public bool Checked { get; set; } = true;
+    private void OnClicked()
+    {
+        this.DialogObj.Show();
+    }
+
+    private void OnChangeHandler(ChangeArgs arg)
+    {
+        this.Xvalue = arg.Value.ToString().Split(' ')[0];
+        this.Yvalue = arg.Value.ToString().Split(' ')[1];
+        this.StateHasChanged();
+    }
+}

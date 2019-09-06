@@ -15,6 +15,14 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/TextBox",
                 Url = "TextBox/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor"
+            },
+            new Sample
+            {
+                Name = "Multiline TextBox",
+                Category = "TextBox",
+                Directory = "Inputs/TextBox",
+                Url = "TextBox/Multiline",
+                FileName = "Multiline.razor"
             }
         };
 
@@ -97,6 +105,14 @@ namespace ej2_blazor_samples
                 Directory = "Inputs/NumericTextBox",
                 Url = "NumericTextBox/RestrictDecimals",
                 FileName = "RestrictDecimals.razor"
+            },
+            new Sample
+            {
+                Name = "Range Validation",
+                Category = "NumericTextBox",
+                Directory = "Inputs/NumericTextBox",
+                Url = "NumericTextBox/RangeValidation",
+                FileName = "RangeValidation.razor"
             }
         };
         public List<Sample> FileUpload { get; set; } = new List<Sample>{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using ej2_blazor_samples;
 namespace ej2_blazor_griddata
 {
@@ -308,50 +309,77 @@ namespace ej2_blazor_griddata
             this.Field20 = Field20;
         }
 
-
-        public static List<VirtualData> GetAllRecords()
-        {
-
-            List<VirtualData> data = new List<VirtualData>();
-
-            string[] name = new string[] {"hardire", "abramjo01", "aubucch01", "Hook", "Rumpelstiltskin", "Belle", "Emma", "Regina", "Aurora", "Elsa",
-          "Anna", "Snow White", "Prince Charming", "Cora", "Zelena", "August", "Mulan", "Graham", "Discord", "Will", "Robin Hood",
-          "Jiminy Cricket", "Henry", "Neal", "Red", "Aaran", "Aaren", "Aarez", "Aarman", "Aaron", "Aaron-James", "Aarron", "Aaryan", "Aaryn",
-          "Aayan", "Aazaan", "Abaan", "Abbas", "Abdallah", "Abdalroof", "Abdihakim", "Abdirahman", "Abdisalam", "Abdul", "Abdul-Aziz",
-          "Abdulbasir", "Abdulkadir", "Abdulkarem", "Abdulkhader", "Abdullah", "Abdul-Majeed", "Abdulmalik", "Abdul-Rehman", "Abdur",
-          "Abdurraheem", "Abdur-Rahman", "Abdur-Rehmaan", "Abel", "Abhinav", "Abhisumant", "Abid", "Abir", "Abraham", "Abu", "Abubakar",
-          "Ace", "Adain", "Adam", "Adam-James", "Addison", "Addisson", "Adegbola", "Adegbolahan", "Aden", "Adenn", "Adie", "Adil", "Aditya",
-          "Adnan", "Adrian", "Adrien", "Aedan", "Aedin", "Aedyn", "Aeron", "Afonso", "Ahmad", "Ahmed", "Ahmed-Aziz", "Ahoua", "Ahtasham",
-          "Aiadan", "Aidan", "Aiden", "Aiden-Jack", "Aiden-Vee" };
-            for (int i = 1; i < 1000; i++)
-            {
-                string Field1 = name[new Random().Next(96)];
-                int Field2 = 1967 + (i % 10);
-                int Field3 = (int)Math.Floor(new Random().NextDouble() * 200);
-                int Field4 = (int)Math.Floor(new Random().NextDouble() * 100);
-                int Field5 = (int)Math.Floor(new Random().NextDouble() * 2000);
-                int Field6 = (int)Math.Floor(new Random().NextDouble() * 1000);
-                int Field7 = (int)Math.Floor(new Random().NextDouble() * 100);
-                int Field8 = (int)Math.Floor(new Random().NextDouble() * 10);
-                int Field9 = (int)Math.Floor(new Random().NextDouble() * 10);
-                int Field10 = (int)Math.Floor(new Random().NextDouble() * 100);
-                int Field11 = (int)Math.Floor(new Random().NextDouble() * 100);
-                int Field12 = (int)Math.Floor(new Random().NextDouble() * 1000);
-                int Field13 = (int)Math.Floor(new Random().NextDouble() * 10);
-                int Field14 = (int)Math.Floor(new Random().NextDouble() * 10);
-                int Field15 = (int)Math.Floor(new Random().NextDouble() * 1000);
-                int Field16 = (int)Math.Floor(new Random().NextDouble() * 200);
-                int Field17 = (int)Math.Floor(new Random().NextDouble() * 300);
-                int Field18 = (int)Math.Floor(new Random().NextDouble() * 400);
-                int Field19 = (int)Math.Floor(new Random().NextDouble() * 500);
-                int Field20 = (int)Math.Floor(new Random().NextDouble() * 700);
-                data.Add(new VirtualData(Field1, Field2, Field3, Field4, Field5, Field6, Field7, Field8, Field9, Field10, Field11,
-                    Field12, Field13, Field14, Field15, Field16, Field17, Field18, Field19, Field20));
-            }
-            return data;
-        }
-
     }
 
+    public class OrdersDetailsObserveData
+    {
+        public OrdersDetailsObserveData()
+        {
 
+        }
+        public OrdersDetailsObserveData(int OrderID, string CustomerId, int EmployeeId, double Freight, bool Verified, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress)
+        {
+            this.OrderID = OrderID;
+            this.CustomerID = CustomerId;
+            this.EmployeeID = EmployeeId;
+            this.Freight = Freight;
+            this.ShipCity = ShipCity;
+            this.Verified = Verified;
+            this.OrderDate = OrderDate;
+            this.ShipName = ShipName;
+            this.ShipCountry = ShipCountry;
+            this.ShippedDate = ShippedDate;
+            this.ShipAddress = ShipAddress;
+        }
+        public static ObservableCollection<OrdersDetailsObserveData> GetAllRecords()
+        {
+            ObservableCollection<OrdersDetailsObserveData>
+                order = new ObservableCollection<OrdersDetailsObserveData>();
+            int code = 10000;
+            for (int i = 1; i < 15; i++)
+            {
+                order.Add(new OrdersDetailsObserveData(code + 1, "ALFKI", i + 0, 2.3 * i, false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+                order.Add(new OrdersDetailsObserveData(code + 2, "ANATR", i + 2, 3.3 * i, true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
+                order.Add(new OrdersDetailsObserveData(code + 3, "ANTON", i + 1, 4.3 * i, true, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bol�var #65-98 Llano Largo"));
+                order.Add(new OrdersDetailsObserveData(code + 4, "BLONP", i + 3, 5.3 * i, false, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
+                order.Add(new OrdersDetailsObserveData(code + 5, "BOLID", i + 4, 6.3 * i, true, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
+                code += 5;
+            }
+            return order;
+        }
+
+        public static ObservableCollection<OrdersDetailsObserveData>
+            GetRecords()
+        {
+            ObservableCollection<OrdersDetailsObserveData>
+                order = new ObservableCollection<OrdersDetailsObserveData>
+                    ();
+            int code = 10000;
+            for (int i = 1; i < 3; i++)
+            {
+                order.Add(new OrdersDetailsObserveData(code + 1, "ALFKI", i + 0, 2.3 * i, false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+                order.Add(new OrdersDetailsObserveData(code + 2, "ANATR", i + 2, 3.3 * i, true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
+                order.Add(new OrdersDetailsObserveData(code + 3, "ANTON", i + 1, 4.3 * i, true, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bol�var #65-98 Llano Largo"));
+                order.Add(new OrdersDetailsObserveData(code + 4, "BLONP", i + 3, 5.3 * i, false, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
+                order.Add(new OrdersDetailsObserveData(code + 5, "BOLID", i + 4, 6.3 * i, true, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
+                code += 5;
+            }
+            return order;
+        }
+
+        public int OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public int EmployeeID { get; set; }
+        public double Freight { get; set; }
+        public string ShipCity { get; set; }
+        public bool Verified { get; set; }
+        public DateTime OrderDate { get; set; }
+
+        public string ShipName { get; set; }
+
+        public string ShipCountry { get; set; }
+
+        public DateTime ShippedDate { get; set; }
+        public string ShipAddress { get; set; }
+    }
 }

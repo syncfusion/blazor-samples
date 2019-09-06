@@ -1,0 +1,152 @@
+﻿@page "/TextBox/Multiline"
+
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Multiline";
+    SampleBrowser.CurrentControlName = "TextBox";
+    SampleBrowser.CurrentControlCategory = "TextBox";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TextBox;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This example demonstrates the multiline functionalities of the <code>Textbox</code> component. Enter or fill the textbox with multiple rows of text. Choose the corresponding option from the property panel to update the multiline textbox.</p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @" <p>
+            The Multiline Textbox is used to edit or display multiple lines of text that helps you to accept address, description, comments, feedbacks, and more in a form. In this sample, rendered multiline textbox from <b>textarea</b> tag and the following options are available to customize it:
+        </p>
+        <p>
+            <ul>
+            <li>Choose float label types either 'Never', 'Always', or 'Auto' to float the placeholder text.</li>
+            <li>To make a read-only multiline textbox, check the 'read-only' option.</li>
+            <li>Disable the textbox by unchecking an 'enabled' option.</li>
+            <li>Change the number of rows count to restrict the length of the input..</li>
+            </ul>
+        </p>
+        <p>
+            More information on the multiline feature can be found in the
+            <a href=""https://ej2.syncfusion.com/blazor/documentation/textbox/multiline/"" target=""_blank""> documentation section</a>.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section col-lg-12 multiline">
+    <div class="col-lg-8">
+        <div class='content wrapper'>
+            <EjsTextBox @ref="MultilineObj" Placeholder="Enter your address" FloatLabelType="@FloatLabel" Multiline="true"></EjsTextBox>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class='content property-section'>
+            <div class="property">Properties</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Float Label Type </div>
+                        </td>
+                        <td>
+                            <div>
+                                <EjsDropDownList TValue="string" DataSource="@Data" Index=0>
+                                    <DropDownListEvents TValue="string" ValueChange="OnChangeLabelType"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                                </EjsDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Disabled </div>
+                        </td>
+                        <td>
+                            <div>
+                                <EjsCheckBox @bind-Checked="@checkDisabled" ValueChange="OnEnabledChange"></EjsCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Read only</div>
+                        </td>
+                        <td>
+                            <div>
+                                <EjsCheckBox @bind-Checked="@checkReadonly" ValueChange="OnReadonlyChange"></EjsCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    public EjsTextBox MultilineObj;
+    public FloatLabelType FloatLabel { get; set; } = FloatLabelType.Auto;
+    private bool checkDisabled { get; set; } = false;
+    private bool checkReadonly { get; set; } = false;
+
+    public class FloatTypes
+    {
+        public string ID { get; set; }
+
+        public string Text { get; set; }
+    }
+
+    private List<FloatTypes> Data = new List<FloatTypes>() {
+        new FloatTypes(){ ID= "Auto", Text= "Auto" },
+        new FloatTypes(){ ID= "Always", Text= "Always" },
+        new FloatTypes(){ ID= "Never", Text= "Never" },
+    };
+
+    public void OnChangeLabelType(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.FloatLabel = (FloatLabelType)Enum.Parse(typeof(FloatLabelType), (args.Value));
+    }
+
+    public void OnEnabledChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.MultilineObj.Enabled = !args.Checked;
+    }
+    public void OnReadonlyChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.MultilineObj.Readonly = args.Checked;
+    }
+}
+
+<style>
+    .control-section.multiline {
+        margin-top: 20px;
+    }
+
+    .wrapper {
+        width: 45%;
+        margin-left: 200px;
+    }
+
+    .selectionText {
+        margin: 10px;
+        width: 100px;
+        font-size: 13px;
+    }
+
+    .apply-limit {
+        margin-top: 10px;
+    }
+
+    .control-label {
+        padding: 24px 0px 10px 0px;
+        font-size: 12px;
+    }
+
+    .property {
+        padding-left: 10px;
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+</style>

@@ -1,0 +1,132 @@
+﻿@page "/Grid/CustomBinding"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Data
+@using Newtonsoft.Json;
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_griddata
+@{
+    SampleBrowser.CurrentSampleName = "Custom Binding";
+    SampleBrowser.CurrentControlName = "DataGrid";
+    SampleBrowser.CurrentControlCategory = "DataGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the usage of custom data binding in Grid component.
+        </p>"
+    };
+    SampleBrowser.Description = new string[]{
+        @"<p>
+            The custom data binding can be performed in the Grid component by providing the custom adaptor class
+            and overriding the <code>Read or ReadAsync</code> method of the DataAdaptor abstract class.
+            The CRUD operations for the custom bounded data in the Grid component can be
+            implemented by overriding the following CRUD methods of the DataAdaptor abstract class,
+            <br>
+        </p>
+        <ul>
+            <li><code>Insert/InsertAsync</code> - Performs Insert operation.</li>
+            <li><code>Remove/RemoveAsync</code> - Performs Remove operation.</li>
+            <li><code>Update/UpdateAsync</code> - Performs Update operation.</li>
+            <li><code>BatchUpdate/BatchUpdateAsync</code> - Performs BatchUpdate operation.</li>
+        </ul>
+
+        <p>In this demo, CRUD operations for the custom bounded data is performed using the methods of DataAdaptor abstract class.
+        Similarly, you can perform Batch Update operations using <code>BatchUpdate/BatchUpdateAsync</code> methods.</p>"
+    };
+}
+@*End:Hidden*@
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <EjsGrid TValue="Order" AllowPaging="true" Toolbar="@(new string[] {"Add","Edit","Delete","Update","Cancel"})">
+                <EjsDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></EjsDataManager>
+                <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Normal"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Order.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(Order.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Order.Freight) HeaderText="Freight" EditType="EditType.NumericEdit" Format="C2" Width="140" TextAlign="@TextAlign.Right" HeaderTextAlign="@TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(Order.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="yMd" Type="ColumnType.Date" Width="160"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public class CustomAdaptor : DataAdaptor
+    {
+
+        public List<Order> Orders { get; set; } = Order.GetAllRecords();
+
+        public override async Task<Object> ReadAsync(DataManagerRequest dataManagerRequest, string key = null)
+        {
+            IEnumerable<Order> GridData = Orders;
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            if (dataManagerRequest.Skip != 0)
+            {
+                GridData = GridData.Skip(dataManagerRequest.Skip); //Paging
+            }
+            if (dataManagerRequest.Take != 0)
+            {
+                GridData = GridData.Take(dataManagerRequest.Take);
+            }
+            return dataManagerRequest.RequiresCounts ? new DataResult() { Result = GridData, Count = Order.GetAllRecords().Count()} : (object)GridData;
+        }
+
+        public override async Task<Object> InsertAsync(DataManager dataManager, object value, string key)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            Orders.Insert(0, value as Order);
+            return value;
+        }
+
+        public override async Task<object> RemoveAsync(DataManager dataManager, object value, string keyField, string key)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            int data = (int)value;
+            Orders.Remove(Orders.Where((Order) => Order.OrderID == data).FirstOrDefault());
+            return value;
+        }
+
+        public override async Task<object> UpdateAsync(DataManager dataManager, object value, string keyField, string key)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            var val = (value as Order);
+            var data = Orders.Where((Order) => Order.OrderID == val.OrderID).FirstOrDefault();
+            if (data != null) {
+                data.CustomerID = val.CustomerID;
+                data.Freight = val.Freight;
+                data.OrderDate = val.OrderDate;
+            }
+            return value;
+        }
+    }
+
+    public class Order
+    {
+        public int OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public DateTime OrderDate { get; set; }
+        public double Freight { get; set; }
+
+        public static List<Order> GetAllRecords() {
+            List<Order> Orders = new List<Order>();
+
+            Orders = Enumerable.Range(1, 70).Select(x => new Order()
+            {
+                OrderID = 1000 + x,
+                CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
+                Freight = 2.1 * x,
+                OrderDate = DateTime.Now.AddDays(-x),
+            }).ToList();
+            return Orders;
+        }
+    }
+}

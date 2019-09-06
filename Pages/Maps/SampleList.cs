@@ -13,15 +13,15 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Projection",
-                Category = "Maps",
-                Directory = "Maps/Maps",
-                Url = "Maps/Projection",
-                FileName = "Projection.razor",
-                Type = SampleType.New
-            },
+            // new Sample
+            // {
+            //     Name = "Projection",
+            //     Category = "Maps",
+            //     Directory = "Maps/Maps",
+            //     Url = "Maps/Projection",
+            //     FileName = "Projection.razor",
+            //     Type = SampleType.New
+            // },
             new Sample
             {
                 Name = "Marker",

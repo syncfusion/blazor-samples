@@ -82,6 +82,15 @@ namespace ej2_blazor_samples
                 Url = "DatePicker/Format",
                 FileName = "Format.razor",
                 Type = SampleType.New,
+            },
+             new Sample
+            {
+                Name = "Month Picker",
+                Category = "DatePicker",
+                Directory = "Calendars/DatePicker",
+                Url = "DatePicker/MonthPicker",
+                FileName = "MonthPicker.razor",
+                Type = SampleType.New,
             }
         };
 
@@ -97,7 +106,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Date Time Range",
+                Name = "DateTime Range",
                 Category = "DateTimePicker",
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTimePicker/DateTimeRange",
@@ -159,11 +168,29 @@ namespace ej2_blazor_samples
             },
              new Sample
             {
+                Name = "Day Span",
+                Category = "DateRangePicker",
+                Directory = "Calendars/DateRangePicker",
+                Url = "DateRangePicker/DaySpan",
+                FileName = "DaySpan.razor",
+                Type = SampleType.New,
+            },
+             new Sample
+            {
                 Name = "Format",
                 Category = "DateRangePicker",
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Format",
                 FileName = "Format.razor",
+                Type = SampleType.New,
+            },
+             new Sample
+            {
+                Name = "Month Range Picker",
+                Category = "DateRangePicker",
+                Directory = "Calendars/DateRangePicker",
+                Url = "DateRangePicker/MonthRangePicker",
+                FileName = "MonthRangePicker.razor",
                 Type = SampleType.New,
             }
         };

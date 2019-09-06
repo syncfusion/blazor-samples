@@ -80,6 +80,24 @@ namespace ej2_blazor_samples
                 Url = "Gantt/ContextMenu",
                 FileName = "ContextMenu.razor",
                 Type = SampleType.New
+            },
+			new Sample
+            {
+                Name = "Unscheduled Task",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/UnscheduledTask",
+                FileName = "UnscheduledTask.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Timeline",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/Timeline",
+                FileName = "Timeline.razor",
+                Type = SampleType.New
             }
         };
     }

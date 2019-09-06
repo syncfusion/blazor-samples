@@ -70,6 +70,51 @@ namespace ej2_blazor_samples
                 Url = "RichTextEditor/Markdown-Overview",
                 FileName = "Markdown-Overview.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Custom Format",
+                Category = "Markdown",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "RichTextEditor/Markdown-Custom-Format",
+                FileName = "Markdown-Custom-Format.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Paste from MS Word",
+                Category = "RichTextEditor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "RichTextEditor/Paste-Cleanup",
+                FileName = "Paste-Cleanup.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "RichTextEditor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "RichTextEditor/Api",
+                FileName = "Api.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Type",
+                Category = "RichTextEditor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "RichTextEditor/Types",
+                FileName = "Types.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Form Validation",
+                Category = "RichTextEditor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "RichTextEditor/Form-Validation",
+                FileName = "Form-Validation.razor",
+                Type = SampleType.New
             }
         };      
     }
