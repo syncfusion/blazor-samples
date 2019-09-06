@@ -89,7 +89,7 @@ namespace ej2_blazor_samples
                 FileName = "DataBinding.razor",
                 Url = "MenuBar/DataBinding"
             },
-			new Sample
+            new Sample
             {
                 Name = "Scrollable",
                 Category = "Menu Bar",
@@ -99,20 +99,37 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Template",
+                Category = "Menu Bar",
+                Directory = "Navigations/MenuBar",
+                FileName = "Templates.razor",
+                Url = "MenuBar/Templates"
+            },
+            new Sample
+            {
+                Name = "Hamburger Mode",
+                Category = "Menu Bar",
+                Directory = "Navigations/Hamburger",
+                FileName = "Hamburger.razor",
+                Url = "MenuBar/Hamburger"
+            },
+            new Sample
+            {
                 Name = "API",
                 Category = "Menu Bar",
                 Directory = "Navigations/MenuBar",
                 FileName = "Api.razor",
                 Url = "MenuBar/Api"
             },
-            //new Sample
-            //{
-            //    Name = "Template",
-            //    Category = "Menu Bar",
-            //    Directory = "Navigations/MenuBar",
-            //    FileName = "Templates.razor",
-            //    Url = "MenuBar/Templates"
-            //}
+            new Sample
+            {
+                Name = "Toolbar Integration",
+                Category = "Use Case",
+                Directory = "Navigations/MenuBar",
+                FileName = "Toolbar.razor",
+                Url = "MenuBar/Toolbar"
+            }
+
         };
 
         public List<Sample> Accordion { get; set; } = new List<Sample>{
@@ -122,8 +139,29 @@ namespace ej2_blazor_samples
                 Category = "Accordion",
                 Directory = "Navigations/Accordion",
                 FileName = "DefaultFunctionalities.razor",
-                 Url = "Accordion/DefaultFunctionalities",
+                Url = "Accordion/DefaultFunctionalities",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "Accordion",
+                Directory = "Navigations/Accordion",
+                Url = "Accordion/Template",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id = "Template",
+                        FileName = "Template.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id = "NetworkData",
+                        FileName = "NetworkData.razor"
+                    }
+                }
             },
             new Sample
             {
@@ -154,6 +192,15 @@ namespace ej2_blazor_samples
                 FileName = "Popup.razor",
                 Type = SampleType.New,
                 Url = "Toolbar/Popup"
+            },
+            new Sample
+            {
+                Name = "Alignment",
+                Category = "Toolbar",
+                Directory = "Navigations/Toolbar",
+                FileName = "Alignment.razor",
+                Type = SampleType.New,
+                Url = "Toolbar/Alignment"
             }
         };
 
@@ -165,7 +212,34 @@ namespace ej2_blazor_samples
                 Directory = "Navigations/Tab",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
-                 Url = "Tab/DefaultFunctionalities"
+                Url = "Tab/DefaultFunctionalities"
+            },
+            // new Sample
+            // {
+            //     Name = "Orientation",
+            //     Category = "Tab",
+            //     Directory = "Navigations/Tab",
+            //     FileName = "Orientation.razor",
+            //     Type = SampleType.New,
+            //     Url = "Tab/Orientation"
+            // },
+            new Sample
+            {
+                Name = "Responsive Modes",
+                Category = "Tab",
+                Directory = "Navigations/Tab",
+                FileName = "ResponsiveModes.razor",
+                Type = SampleType.New,
+                Url = "Tab/ResponsiveModes"
+            },
+            new Sample
+            {
+                Name = "Wizard",
+                Category = "Tab",
+                Directory = "Navigations/Tab",
+                FileName = "Wizard.razor",
+                Type = SampleType.New,
+                Url = "Tab/Wizard"
             }
         };
         public List<Sample> TreeView { get; set; } = new List<Sample>{

@@ -97,6 +97,14 @@ namespace ej2_blazor_samples
                 Directory = "Layouts/DashboardLayout",
                 Url = "DashboardLayout/API",
                 FileName = "API.razor"
+            },
+             new Sample
+            {
+                Name = "SEO Analytics Dashboard",
+                Category = "Use Case",
+                Directory = "Layouts/DashboardLayout",
+                Url = "DashboardLayout/SEO",
+                FileName = "SEO.razor"
             }
         };
         public List<Sample> Splitter { get; set; } = new List<Sample>{
@@ -116,6 +124,24 @@ namespace ej2_blazor_samples
                 Directory = "Layouts/Splitter",
                 Url = "Splitter/ExpandandCollapse",
                 FileName = "ExpandandCollapse.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Details View",
+                Category = "Use Case",
+                Directory = "Layouts/Splitter",
+                Url = "Splitter/DetailsView",
+                FileName = "DetailsView.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Outlook-style Layout",
+                Category = "Use Case",
+                Directory = "Layouts/Splitter",
+                Url = "Splitter/Outlook",
+                FileName = "OutlookStyleLayout.razor",
                 Type = SampleType.New
             },
              new Sample

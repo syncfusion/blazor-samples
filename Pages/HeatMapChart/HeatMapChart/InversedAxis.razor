@@ -1,8 +1,9 @@
 ﻿@page "/HeatMapChart/InversedAxis"
 
 @using Syncfusion.EJ2.Blazor.HeatMap
+@using Syncfusion.EJ2.Blazor.Buttons
 @using EJ2HeatMap = Syncfusion.EJ2.Blazor.HeatMap
-
+@using MSComponents = Microsoft.AspNetCore.Components
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @using ej2_blazor_heatmapdata
@@ -25,12 +26,12 @@
     };
 }
 @*End:Hidden*@
-<div class="row">
-    <div>
-        <EjsHeatMap DataSource="@HeatmapData">
+<div class="col-lg-8 control-section">
+    <div class="control-section">
+        <EjsHeatMap DataSource="@DataSource">
             <HeatMapTitle Text="Population Growth Rate of the most Populous Countries" TextStyle="@TextStyle"></HeatMapTitle>
-            <HeatMapXAxis Labels="@XLabels" LabelRotation="45" LabelIntersectAction="@EJ2HeatMap.LabelIntersectAction.None" IsInversed="true"></HeatMapXAxis>
-            <HeatMapYAxis Labels="@YLabels" IsInversed="true"></HeatMapYAxis>
+            <HeatMapXAxis Labels="@XLabels" LabelRotation="45" LabelIntersectAction="@EJ2HeatMap.LabelIntersectAction.None" IsInversed="@XInverse"></HeatMapXAxis>
+            <HeatMapYAxis Labels="@YLabels" IsInversed="@YInverse"></HeatMapYAxis>
             <HeatMapPaletteSettings Type="@EJ2HeatMap.PaletteType.Gradient">
                 <HeatMapPalettes>
                     <HeatMapPalette Value="0" Color="#4b7287"></HeatMapPalette>
@@ -44,13 +45,36 @@
             <HeatMapCellSettings ShowLabel="false" Border="@Border" Format="{value} %"></HeatMapCellSettings>
             <HeatMapLegendSettings Visible="false"></HeatMapLegendSettings>
         </EjsHeatMap>
-    </div>
-    <div style="float: right; margin-right: 10px;">
-        Source:
-        <a href="https://en.wikipedia.org/wiki/List_of_countries_by_oil_production" target="_blank">https://en.wikipedia.org/</a>
+        <div style="float: right; margin-right: 10px;">
+            Source:
+            <a href="https://en.wikipedia.org/wiki/List_of_countries_by_oil_production" target="_blank">https://en.wikipedia.org/</a>
+        </div>
     </div>
 </div>
+<div class="col-lg-4 property-section">
+    <div><h5>Properties</h5></div>
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 40%;">
+                    <div>
+                        <EjsCheckBox Label="Reverse X-Axis Origin" OnChange="ValueXChange"></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%;">
+                    <div>
+                        <EjsCheckBox Label="Reverse Y-Axis Origin" OnChange="ValueYChange"></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 @code{
+    bool XInverse = false;
+    bool YInverse = false;
     string[] XLabels = new string[] { "China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico" };
 
     string[] YLabels = new string[] { "1965-1970", "1970-1975", "1975-1980", "1980-1985", "1985-1990", "1990-1995", "1995-2000", "2000-2005", "2005-2010", "2010-2015" };
@@ -59,6 +83,18 @@
 
     BorderModel Border = new BorderModel() { Width = 0 };
 
-    double[,] HeatmapData = HeatMapData.GetInverseData();
+    double[,] DataSource = HeatMapData.GetInverseData();
+    public void ValueXChange(MSComponents.ChangeEventArgs args)
+
+    {
+        XInverse = (bool)args.Value;
+
+    }
+    public void ValueYChange(MSComponents.ChangeEventArgs args)
+
+    {
+        YInverse = (bool)args.Value;
+    }
 
 }
+

@@ -1,7 +1,7 @@
 ﻿@page "/RangeSelector/Filter"
 @using Syncfusion.EJ2.Blazor.Charts
 @using Syncfusion.EJ2.Blazor.Grids
-@inject HttpClient Http
+@using Newtonsoft.Json
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -33,7 +33,7 @@ else
             <br>
             <div id="container">
                 <EjsRangeNavigator ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime
-                                   AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
+                                   AllowSnapping="true" intervalType="RangeIntervalType.Quarter"
                                    EnableGrouping="true" GroupBy="RangeIntervalType.Years"
                                    EnableDeferredUpdate="true" Value="@value" DataSource="@filterData"
                                    XName="HireDate" YName="yValue">
@@ -56,7 +56,8 @@ else
     private ChartData[] filterData;
     protected override async Task OnInitializedAsync()
     {
-        filterData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/employee-data.json");
+        //filterData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/employee-data.json");
+		filterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/employee-data.json"));
     }
     public class ChartData
     {

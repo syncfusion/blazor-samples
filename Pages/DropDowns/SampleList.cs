@@ -43,6 +43,42 @@ namespace ej2_blazor_samples
                 Url = "DropDownList/Cascading",
                 FileName = "Cascading.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Grouping and Icon",
+                Category = "DropDownList",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDownList/GroupingIcon",
+                FileName = "GroupingIcon.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Inline",
+                Category = "DropDownList",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDownList/Inline",
+                FileName = "Inline.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Diacritics Filtering",
+                Category = "DropDownList",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDownList/DiacriticsFiltering",
+                FileName = "DiacriticsFiltering.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "DropDownList",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDownList/Template",
+                FileName = "Template.razor",
+                Type = SampleType.New,
             }
         };
 
@@ -82,6 +118,42 @@ namespace ej2_blazor_samples
                 Url = "ComboBox/Filtering",
                 FileName = "Filtering.razor",
                 Type = SampleType.New,
+            },
+             new Sample
+            {
+                Name = "Grouping and Icon",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/GroupingIcon",
+                FileName = "GroupingIcon.razor",
+                Type = SampleType.New,
+            },
+             new Sample
+            {
+                Name = "Diacritics Filtering",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/DiacriticsFiltering",
+                FileName = "DiacriticsFiltering.razor",
+                Type = SampleType.New,
+            },
+             new Sample
+            {
+                Name = "Template",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/Template",
+                FileName = "Template.razor",
+                Type = SampleType.New,
+            },
+             new Sample
+            {
+                Name = "Multi Column",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/MultiColumn",
+                FileName = "MultiColumn.razor",
+                Type = SampleType.New,
             }
         };
 
@@ -102,6 +174,42 @@ namespace ej2_blazor_samples
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/DataBinding",
                 FileName = "DataBinding.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Grouping and Icon",
+                Category = "AutoComplete",
+                Directory = "DropDowns/AutoComplete",
+                Url = "AutoComplete/GroupingIcon",
+                FileName = "GroupingIcon.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Diacritics Filtering",
+                Category = "AutoComplete",
+                Directory = "DropDowns/AutoComplete",
+                Url = "AutoComplete/DiacriticsFiltering",
+                FileName = "DiacriticsFiltering.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "AutoComplete",
+                Directory = "DropDowns/AutoComplete",
+                Url = "AutoComplete/Template",
+                FileName = "Template.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Highlight",
+                Category = "AutoComplete",
+                Directory = "DropDowns/AutoComplete",
+                Url = "AutoComplete/Highlight",
+                FileName = "Highlight.razor",
                 Type = SampleType.New,
             }
         };
@@ -145,11 +253,56 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "SelectionLimit",
+                Name = "Custom Value",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/CustomValue",
+                FileName = "CustomValue.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Diacritics Filtering",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/DiacriticsFiltering",
+                FileName = "DiacriticsFiltering.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Grouping",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/Grouping",
+                FileName = "Grouping.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Grouping With CheckBox",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/GroupingWithCheckBox",
+                FileName = "GroupingWithCheckBox.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Selection Limit",
                 Category = "MultiSelect",
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect/SelectionLimit",
                 FileName = "SelectionLimit.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "MultiSelect",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect/Template",
+                FileName = "Template.razor",
                 Type = SampleType.New,
             }
         };

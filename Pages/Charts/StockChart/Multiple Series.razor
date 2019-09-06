@@ -1,6 +1,6 @@
 ﻿@page "/StockChart/MultipleSeries"
 @using Syncfusion.EJ2.Blazor.Charts
-
+@using Newtonsoft.Json
 @{
     SampleBrowser.CurrentSampleName = "Multiple Series";
     SampleBrowser.CurrentControlName = "StockChart";
@@ -18,31 +18,30 @@
     };
 }
 
-@inject HttpClient Http
-
 @if (dataSource == null)
 {
     <div class="stockchartloader"></div>
 }
 else
 {
-<EjsStockChart Title="Multiple Series">
-    <StockChartBorder Width="0">
-    </StockChartBorder>
-    <StockChartPrimaryXAxis>
-        <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
-        <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
-    </StockChartPrimaryXAxis>
-    <StockChartPrimaryYAxis Interval="40">
-        <StockChartAxisLineStyle Color="Transparent"></StockChartAxisLineStyle>
-        <StockChartAxisMajorTickLines Width="0" Color="Transparent"></StockChartAxisMajorTickLines>
-        <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
-    </StockChartPrimaryYAxis>
-    <StockChartSeriesCollection>
-        <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Line" XName="x" YName="close" Name="Apple"></StockChartSeries>
-        <StockChartSeries DataSource="@dataSource2" Type="ChartSeriesType.Line" XName="x" YName="close" Name="Google"></StockChartSeries>
-    </StockChartSeriesCollection>   
-</EjsStockChart>
+    <EjsStockChart Title="Multiple Series">
+        <StockChartBorder Width="0">
+        </StockChartBorder>
+        <StockChartPrimaryXAxis>
+            <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+            <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+        </StockChartPrimaryXAxis>
+        <StockChartPrimaryYAxis Interval="40">
+            <StockChartAxisLineStyle Color="Transparent"></StockChartAxisLineStyle>
+            <StockChartAxisMajorTickLines Width="0" Color="Transparent"></StockChartAxisMajorTickLines>
+            <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+        </StockChartPrimaryYAxis>
+        <StockChartSeriesCollection>
+            <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Line" XName="x" YName="close" Name="Apple"></StockChartSeries>
+            <StockChartSeries DataSource="@dataSource2" Type="ChartSeriesType.Line" XName="x" YName="close" Name="Google"></StockChartSeries>
+        </StockChartSeriesCollection>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
+    </EjsStockChart>
 }
 @code{
 
@@ -50,8 +49,8 @@ else
     private ChartData[] dataSource2;
     protected override async Task OnInitializedAsync()
     {
-        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/goog.json");
-        dataSource2 = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/googl.json");
+        dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/goog.json"));
+        dataSource2 = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
     }
     public class ChartData
     {

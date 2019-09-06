@@ -1,7 +1,6 @@
 ﻿@page "/StockChart/StockChartSpline"
 @using Syncfusion.EJ2.Blazor.Charts
-
-@inject HttpClient Http
+@using Newtonsoft.Json
 
 @{
     SampleBrowser.CurrentSampleName = "Spline";
@@ -40,7 +39,8 @@ else
         <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
         <StockChartSeriesCollection>
             <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Spline"></StockChartSeries>
-        </StockChartSeriesCollection>        
+        </StockChartSeriesCollection>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
     </EjsStockChart>
 }
 @code{
@@ -48,7 +48,7 @@ else
     private ChartData[] dataSource;
     protected override async Task OnInitializedAsync()
     {
-        dataSource = await Http.GetJsonAsync<ChartData[]>("scripts/StockChartData/chartdata.json");
+        dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/chartdata.json"));
     }
     public class ChartData
     {

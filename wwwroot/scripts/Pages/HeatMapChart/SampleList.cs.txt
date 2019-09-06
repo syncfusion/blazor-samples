@@ -97,16 +97,16 @@ namespace ej2_blazor_samples
                 Url = "HeatMapChart/RenderingMode",
                 FileName = "RenderingMode.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Tooltip Template",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/TooltipTemplate",
+                FileName = "TooltipTemplate.razor",
+                Type = SampleType.New
             }
-            //new Sample
-            //{
-            //    Name = "Tooltip Template",
-            //    Category = "Features",
-            //    Directory = "HeatMapChart/HeatMapChart",
-            //    Url = "HeatMapChart/TooltipTemplate",
-            //    FileName = "TooltipTemplate.razor",
-            //    Type = SampleType.New
-            //}
         };    
     }
 

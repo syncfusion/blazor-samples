@@ -1,6 +1,6 @@
 ﻿@page "/Charts/MacdChart"
 @using Syncfusion.EJ2.Blazor.Charts
-@inject HttpClient Http
+@using Newtonsoft.Json
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -46,7 +46,7 @@ else
                            Minimum=-3.5 Maximum=3.5 Title="MACD">
                     <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>                   
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>                 
                 </ChartAxis>
             </ChartAxes>
             <ChartRows>
@@ -74,10 +74,11 @@ else
     </div>
 }
 @code{
-    public ChartData[] indicatorData;
+    private ChartData[] indicatorData;
     protected override async Task OnInitializedAsync()
     {
-        indicatorData = await Http.GetJsonAsync<ChartData[]>("scripts/chart/financial-data.json");
+      
+		indicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/chart/financial-data.json"));
     }
     public class ChartData
     {

@@ -1,17 +1,22 @@
 var a = "";
-var i = 0;
+var ik = 0;
 var flag = true;
 var currentTheme = 'material';
 var themeCollection = ['material', 'fabric', 'bootstrap', 'bootstrap4', 'highcontrast'];
 var isMobile = window.matchMedia('(max-width:550px)').matches;
 var previous;
 function viewSwitch(list) {
-  var controlList = ej.base.select("#controlSamples");
-  if (list === "sb-hide") {
-    controlList.classList.add("sb-hide");
-  } else {
-    controlList.classList.remove("sb-hide");
-  }
+    var componentsList = ej.base.select("#components-tree");
+    var controlList = ej.base.select("#controlSamples");
+    if (list === "sb-hide") {
+        controlList.classList.add("sb-hide");
+        if(componentsList.classList.contains("sb-hide")){
+        componentsList.classList.remove("sb-hide");
+        }
+    } else {
+        controlList.classList.remove("sb-hide");
+        componentsList.classList.add("sb-hide");
+    }
 }
 
 function loadTheme(theme) {
@@ -120,11 +125,11 @@ function homeButtonClick() {
 function refreshTab(code, s, id) {
   //setTimeout(function () {
       if (s.sourceFiles.length !== 0) {
-        document.querySelector("#" + id[i]).innerHTML = code[i];
-      if (s.sourceFiles[i].fileName.split(".")[1] === "cs") {
-        hljs.highlightBlock(document.querySelector("#" + id[i]), { language: "cs" });
+        document.querySelector("#" + id[ik]).innerHTML = code[ik];
+      if (s.sourceFiles[ik].fileName.split(".")[1] === "cs") {
+        hljs.highlightBlock(document.querySelector("#" + id[ik]), { language: "cs" });
       } else {
-        hljs.highlightBlock(document.querySelector("#" + id[i]), { language: "cshtml" });
+        hljs.highlightBlock(document.querySelector("#" + id[ik]), { language: "cshtml" });
       }
     } else {
       document.querySelector("#code").innerHTML = code;
@@ -144,6 +149,9 @@ function tabClicked(arg, sourceResponse) {
     } else {
       hljs.highlightBlock(codeBlock, { language: "cshtml" });
     }
+  }
+  else {
+      hljs.highlightBlock(codeBlock, { language: "cshtml" });
   }
   document.querySelector("#right-pane").scrollTo(0, 0);
 }

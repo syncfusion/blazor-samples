@@ -17,7 +17,25 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
-			new Sample
+            new Sample
+            {
+                Name = "Custom Dialogs",
+                Category = "Dialog",
+                Directory = "Popups/Dialog",
+                Url = "Dialog/CustomDialogs",
+                FileName = "CustomDialogs.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Modal",
+                Category = "Dialog",
+                Directory = "Popups/Dialog",
+                Url = "Dialog/Modal",
+                FileName = "Modal.razor",
+                Type = SampleType.New
+            },
+            new Sample
             {
                 Name = "Template",
                 Category = "Dialog",
@@ -44,6 +62,24 @@ namespace ej2_blazor_samples
                 FileName = "Resizable.razor",
                 Type = SampleType.New
             },
+            new Sample
+            {
+                Name = "Positioning",
+                Category = "Dialog",
+                Directory = "Popups/Dialog",
+                Url = "Dialog/Positioning",
+                FileName = "Positioning.razor",
+                Type = SampleType.New
+            },
+            // new Sample
+            // {
+            //     Name = "Animation",
+            //     Category = "Dialog",
+            //     Directory = "Popups/Dialog",
+            //     Url = "Dialog/Animation",
+            //     FileName = "Animation.razor",
+            //     Type = SampleType.New
+            // },
             new Sample
             {
                 Name = "Multiple Dialogs",

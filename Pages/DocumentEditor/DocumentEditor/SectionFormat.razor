@@ -4,9 +4,6 @@
 @using Syncfusion.EJ2.Blazor.Buttons;
 @using EJ2BlazorSamples.DocumentData;
 @using Syncfusion.EJ2.Blazor.DocumentEditor;
-@using Newtonsoft.Json;
-@inject HttpClient Http;
-@inject IJSRuntime JsRuntime;
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -48,8 +45,8 @@
             </div>
         </div>
         <div>
-            <EjsDocumentEditorContainer @ref="container" @ref:suppressField ID="docedit" EnableToolbar=true>
-                <DocumentEditorContainerEvents Created="OnCreated"></DocumentEditorContainerEvents>
+            <EjsDocumentEditorContainer @ref="container" ID="docedit">
+                <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
             </EjsDocumentEditorContainer>
         </div>
     </div>
@@ -58,14 +55,14 @@
 
 @code {
 
-    internal string DocumentName { get; set; } = "Section Formatting";
+    internal string DocumentName { get; set; }
 
     EjsDocumentEditorContainer container;
 
     public void OnExport(object args)
     {
         DocumentEditorModule documentEditor = container.GetDocumentEditor();
-        documentEditor.Save(DocumentName, Syncfusion.EJ2.Blazor.DocumentEditor.FormatType.Docx.ToString());
+        documentEditor.Save(DocumentName, FormatType.Docx);
     }
 
     public void Print(object args)
@@ -78,6 +75,16 @@
     {
         DocumentEditorModule documentEditor = container.GetDocumentEditor();
         documentEditor.Open(Data.SectionFormat);
+        DocumentName = "Section Formatting";
+    }
+
+    public void OnDocumentChange()
+    {
+        string name = container.GetDocumentEditor().DocumentName;
+        if (name != "")
+        {
+            DocumentName = name;
+        }
     }
 }
 

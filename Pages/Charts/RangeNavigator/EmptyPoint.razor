@@ -1,6 +1,6 @@
 ﻿@page "/RangeSelector/EmptyPoint"
 @using Syncfusion.EJ2.Blazor.Charts
-@inject HttpClient Http
+@using Newtonsoft.Json
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
@@ -29,7 +29,7 @@ else
     <div class="control-section" align="center">
         <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">AAPL 2012-17</h4>
         <div id="container">
-            <EjsRangeNavigator Value="@value" LabelPosition="AxisPosition.Outside" ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
+            <EjsRangeNavigator Value="@value" LabelPosition="AxisPosition.Outside" valueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
                 <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
                 <RangeNavigatorMajorTickLines Width="0"></RangeNavigatorMajorTickLines>
                 <RangeNavigatorBorder Width="0"></RangeNavigatorBorder>
@@ -65,12 +65,12 @@ else
     private ChartData[] emptyData;
     protected override async Task OnInitializedAsync()
     {
-        emptyData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/chartdata.json");
+		emptyData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/chartdata.json"));
     }
     public class ChartData
     {
-        public DateTime x { get; set; }
-        public double open { get; set; }
+        public DateTime x;
+        public double open;
     }
     private DateTime[] value = new DateTime[] { new DateTime(2013, 12, 27), new DateTime(2015, 03, 23) };
 }

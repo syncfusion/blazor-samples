@@ -1,6 +1,7 @@
 ﻿@page "/HeatMapChart/LegendPlacement"
 
 @using Syncfusion.EJ2.Blazor.HeatMap
+@using Syncfusion.EJ2.Blazor.DropDowns
 @using EJ2HeatMap = Syncfusion.EJ2.Blazor.HeatMap
 
 @*Hidden:Lines*@
@@ -25,12 +26,12 @@
     };
 }
 @*End:Hidden*@
-<div class="row">
-    <div>
-        <EjsHeatMap DataSource="@HeatmapData">
+<div class="col-lg-9 control-section">
+    <div class="row">
+        <EjsHeatMap DataSource="@DataSource">
             <HeatMapTitle Text="Hourly Weather Forecast (in Celsius)" TextStyle="@TextStyle"></HeatMapTitle>
-            <HeatMapXAxis Labels="@XLabels" 
-                          LabelRotation="45" 
+            <HeatMapXAxis Labels="@XLabels"
+                          LabelRotation="45"
                           LabelIntersectAction="@EJ2HeatMap.LabelIntersectAction.None">
             </HeatMapXAxis>
             <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
@@ -43,17 +44,36 @@
                 </HeatMapPalettes>
             </HeatMapPaletteSettings>
             <HeatMapCellSettings ShowLabel="false" Format="{value} C"></HeatMapCellSettings>
-            <HeatMapLegendSettings Position="@EJ2HeatMap.LegendPosition.Left"></HeatMapLegendSettings>
+            <HeatMapLegendSettings Position="@CurrentLegentPosition"></HeatMapLegendSettings>
         </EjsHeatMap>
     </div>
 </div>
+<div class="col-lg-3 property-section">
+    <div><h5>Legend Plaement</h5></div>
+    <EjsDropDownList TValue="string" PopupHeight="230px" Index=0 Placeholder="Select a game" DataSource="@LegendPlacements">
+        <DropDownListEvents TValue="string" ValueChange="@(e => { Enum.TryParse<EJ2HeatMap.LegendPosition>(e.Value, out CurrentLegentPosition); })"></DropDownListEvents>
+        <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+    </EjsDropDownList>
+</div>
 
 @code{
+    EJ2HeatMap.LegendPosition CurrentLegentPosition;
     string[] XLabels = new string[] { "London", "Berlin", "Madrid", "Paris", "Rome", "Lisbon", "Dublin" };
-
     string[] YLabels = new string[] { "12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM" };
-
     FontModel TextStyle = new FontModel() { Size = "15px", FontWeight = "500", FontStyle = "Normal" };
-
-    int[,] HeatmapData = HeatMapData.GetLegendData();
+    int[,] DataSource = HeatMapData.GetLegendData();
+    List<DataModel> LegendPlacements = new List<DataModel>();
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        LegendPlacements.Add(new DataModel { Id = "0", Text = "Left" });
+        LegendPlacements.Add(new DataModel { Id = "1", Text = "Right" });
+        LegendPlacements.Add(new DataModel { Id = "2", Text = "Top" });
+        LegendPlacements.Add(new DataModel { Id = "3", Text = "Bottom" });
+    }
+    class DataModel
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
 }

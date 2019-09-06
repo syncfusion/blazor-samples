@@ -3,6 +3,7 @@
 @using Syncfusion.EJ2.Blazor.HeatMap
 @using EJ2HeatMap = Syncfusion.EJ2.Blazor.HeatMap
 @using Syncfusion.EJ2.Blazor.Buttons;
+@using MSComponents = Microsoft.AspNetCore.Components
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -26,16 +27,16 @@
     };
 }
 @*End:Hidden*@
-<div class="row">
-    <div>
-        <EjsHeatMap DataSource="@HeatmapData">
+<div class="col-lg-9 control-section">
+    <div class="row">
+        <EjsHeatMap DataSource="@DataSource">
             <HeatMapTitle Text="U.S. Government Energy Consumption by Agency (Trillion Btu)" TextStyle="@TextStyle"></HeatMapTitle>
             <HeatMapXAxis Labels="@XLabels"
                           LabelRotation="45"
                           LabelIntersectAction="@EJ2HeatMap.LabelIntersectAction.None">
             </HeatMapXAxis>
             <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
-            <HeatMapPaletteSettings Type="@EJ2HeatMap.PaletteType.Fixed">
+            <HeatMapPaletteSettings Type="@PalatteType">
                 <HeatMapPalettes>
                     <HeatMapPalette Value="4.3" Color="#FFFFDA"></HeatMapPalette>
                     <HeatMapPalette Value="7" Color="#EDF8B6"></HeatMapPalette>
@@ -49,21 +50,66 @@
             <HeatMapCellSettings ShowLabel="false" Border="@Border"></HeatMapCellSettings>
             <HeatMapLegendSettings Position="@EJ2HeatMap.LegendPosition.Bottom"
                                    Width="400px"
-                                   EnableSmartLegend="true">
+                                   EnableSmartLegend="@SmartLegendEnable">
             </HeatMapLegendSettings>
         </EjsHeatMap>
     </div>
 </div>
-
+<div class="col-lg-3 property-section">
+    <div><h5>Properties</h5></div>
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Palette Type:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div class="row" style="padding-top: 10px;">
+                        <EjsRadioButton Label="Fixed" Name="PaletteType" Value="Fixed" Checked="true" OnChange="@ValueChange">
+                        </EjsRadioButton>
+                    </div>
+                    <div class="row" style="padding-top: 10px;">
+                        <EjsRadioButton Label="Gradient" Name="PaletteType" value="Gradient" OnChange="@ValueChange"></EjsRadioButton>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Enable Smart Legend:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div class="row" style="padding-top: 10px;">
+                        <EjsCheckBox Disabled="@CheckboxDisable" OnChange='@SmartLegend'></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 @code{
-
+    PaletteType PalatteType = PaletteType.Fixed;
+    bool CheckboxDisable = false;
+    bool SmartLegendEnable = false;
     string[] XLabels = new string[] { "China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico" };
-
     string[] YLabels = new string[] { "1965-1970", "1970-1975", "1975-1980", "1980-1985", "1985-1990", "1990-1995", "1995-2000", "2000-2005", "2005-2010", "2010-2015" };
-
     FontModel TextStyle = new FontModel() { Size = "15px", FontWeight = "500", FontStyle = "Normal" };
-
     BorderModel Border = new BorderModel() { Width = 0 };
-
-    double[,] HeatmapData = HeatMapData.GetPaletteData();
+    double[,] DataSource = HeatMapData.GetPaletteData();
+    public void ValueChange(MSComponents.ChangeEventArgs args)
+    {
+        if ((string)args.Value == "Fixed")
+        {
+            PalatteType = PaletteType.Fixed;
+            CheckboxDisable = false;
+        }
+        else
+        {
+            PalatteType = PaletteType.Gradient;
+            CheckboxDisable = true;
+        }
+    }
+    public void SmartLegend(MSComponents.ChangeEventArgs args)
+    {
+        SmartLegendEnable = (bool)args.Value;
+    }
 }

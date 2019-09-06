@@ -1,0 +1,183 @@
+﻿
+@page "/RichTextEditor/Types"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.RichTextEditor
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Type";
+    SampleBrowser.CurrentControlName = "RichTextEditor";
+    SampleBrowser.CurrentControlCategory = "RichTextEditor";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RichTextEditor;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the different behavior of toolbar support in the rich text editor. Change the toolbar type as multiRow or expand from the property panel to see its appearance . Check or uncheck the floating toolbar in property panel to look on its behavior.</p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p><code>Floating</code>: set boolean value to toolbarSettings.enableFloating property to enable or disable the floating toolbar.</p>
+    <p> The rich text editor allows you to configure different types of toolbar using <code>toolbarSettings.type</code> property. The types of
+        toolbar are: </p>
+    <ul>
+        <li><code>Expand</code>: The toolbar hides the overflowing items in the next row. Click the expand arrow to view overflowing toolbar items</li>
+        <li><code>Multi Row</code>: The toolbar hides the overflowing items in the next row.</li>
+    </ul>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-8 control-section">
+    <div class="control-section">
+        <EjsRichTextEditor>
+            <ChildContent>
+                <p>The rich text editor is WYSIWYG ("what you see is what you get") editor useful to create and edit content, and return the valid HTML markup or markdown of the content</p>
+
+                <p><b>Toolbar</b></p>
+
+                <ol>
+                    <li>
+                        <p>Toolbar contains commands to align the text, insert link, insert image, insert list, undo/redo operations, HTML view, etc </p>
+                    </li>
+                    <li>
+                        <p>Toolbar is fully customizable </p>
+                    </li>
+                </ol>
+
+                <p><b>Links</b></p>
+                <ol>
+                    <li>
+                        <p>You can insert a hyperlink with its corresponding dialog </p>
+                    </li>
+                    <li>
+                        <p>Attach a hyperlink to the displayed text. </p>
+                    </li>
+                    <li>
+                        <p>Customize the quick toolbar based on the hyperlink </p>
+                    </li>
+                </ol>
+
+                <p><b>Validation</b></p>
+                <ul>
+                    <li>
+                        <p>The editor’s content can be validated on form submission by applying validation rules and validation message</p>
+                    </li>
+                </ul>
+
+                <p><b>Locale.</b></p>
+                <ul>
+                    <li>
+                        <p>The editor provides an option to localize its static strings to adapt the editor to a local language.</p>
+                    </li>
+                </ul>
+
+                <p><b>Image.</b></p>
+                <ol>
+                    <li>
+                        <p>Allows you to insert images from an online source as well as the local computer </p>
+                    </li>
+                    <li>
+                        <p>You can upload an image </p>
+                    </li>
+                    <li>
+                        <p>Provides an option to customize quick toolbar for an image </p>
+                    </li>
+                </ol>
+                <img alt="Logo" src="images/RichTextEditor/RTEImage-Feather.png" />
+                <RichTextEditorToolbarSettings Type="@Tooltype" EnableFloating="@Floating" Items="@Tools"></RichTextEditorToolbarSettings>
+            </ChildContent>
+        </EjsRichTextEditor>
+    </div>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div id="property" title="Properties">
+        <table id="property" title="Properties">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="width: 200px">
+                            <EjsDropDownList @ref="DropObj" TValue="string" PopupHeight="200px" @bind-Value="@DropValue" DataSource="@Options">
+                                <DropDownListEvents TValue="string" ValueChange="valueChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>
+                            <EjsCheckBox @ref="CheckObj" @bind-Checked="@checkboxCheck" ValueChange="EnableFloating" Label="Enable Floating"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .property-section table td {
+        width: 50%;
+    }
+
+    .property-section table div {
+        padding-left: 10px;
+        padding-top: 35px;
+    }
+</style>
+
+@code {
+
+        EjsRichTextEditor RteObj;
+        EjsDropDownList<string> DropObj;
+        EjsCheckBox CheckObj;
+
+    public bool checkboxCheck { get; set; } = false;
+    public ToolbarType Tooltype = ToolbarType.Expand;
+    public bool Floating = false;
+    public string DropValue { get; set; } = "Expand";
+
+    public class GameFields
+    {
+        public string value { get; set; }
+
+        public string text { get; set; }
+    }
+
+    private List<GameFields> Options = new List<GameFields>() {
+        new GameFields(){ value= "Expand", text= "Expand" },
+        new GameFields(){ value= "Multi Row", text= "Multi Row" },
+            };
+
+    public void valueChange(@Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        switch (args.Value)
+        {
+            case "Expand":
+                this.Tooltype = ToolbarType.Expand;
+                break;
+            case "Multi Row":
+                this.Tooltype = ToolbarType.MultiRow;
+                break;
+        }
+
+    }
+
+    public void EnableFloating(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.Floating = args.Checked;
+    }
+
+    public static object[] Tools = new object[]{
+        "Bold", "Italic", "Underline", "StrikeThrough",
+                "FontName", "FontSize", "FontColor", "BackgroundColor",
+                "LowerCase", "UpperCase", "|",
+                "Formats", "Alignments", "OrderedList", "UnorderedList",
+                "Outdent", "Indent", "|",
+                "CreateLink", "Image", "|", "ClearFormat", "Print",
+                "SourceCode", "|", "Undo", "Redo"
+    };
+}
+

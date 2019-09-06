@@ -37,6 +37,15 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Custom Binding",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/CustomBinding",
+                FileName = "CustomBinding.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Context Menu",
                 Category = "Data Grid",
                 Directory = "Grid/DataGrid",
@@ -168,6 +177,15 @@ namespace ej2_blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "Grid/DialogEditing",
                 FileName = "DialogEditing.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Dialog Template",
+                Category = "Editing",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/GridDialogTemplate",
+                FileName = "GridDialogTemplate.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -358,16 +376,33 @@ namespace ej2_blazor_samples
                 Url = "Grid/FrozenRows",
                 FileName = "FrozenRowsAndColumns.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Show or Hide Column",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/ShoworHideColumn",
+                FileName = "ShoworHideColumn.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Observable Collection",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "Grid/ObservableBinding",
+                FileName = "ObservableBinding.razor",
+                Type = SampleType.New
+                //SourceFiles = new List<SourceCollection>
+                //{
+                //    new SourceCollection()
+                //    {
+                //        Id = "ObservableData1",
+                //        FileName = "ObservableData.cs"
+                //    }
+                //}
             }
-            //new Sample
-            //{
-            //    Name = "Show or Hide Column",
-            //    Category = "Columns",
-            //    Directory = "Grid/DataGrid",
-            //    Url = "Grid/ShowHideColumn",
-            //    FileName = "ShoworHideColums.razor",
-            //    Type = SampleType.New
-            //}
         };
     }
 }
