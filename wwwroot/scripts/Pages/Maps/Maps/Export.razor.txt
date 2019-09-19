@@ -1,0 +1,167 @@
+@page "/Maps/Export"
+
+@using Syncfusion.EJ2.Blazor.Maps
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Inputs
+
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Export";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+            @"<p>
+            This sample illustrates the exporting feature in Maps. By clicking the Export button, you can export the map in PNG, JPEG, SVG or in PDF formats.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render and configure the export. The rendered map can be exported as either JPEG, PNG, SVG and PDF formats. It can be achieved using Blob and it is supported only in modern browsers. Also this sample visualizes the locations of the wonders in the world using markers.
+        </p>
+        <p>
+        Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+        </p> "
+    };
+}
+@*End:Hidden*@
+    <div class="col-lg-8 control-section sb-property-border">
+        <EjsMaps @ref="@maps">
+            <MapsTitleSettings Text="Location of the Wonders in the World">
+                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+            </MapsTitleSettings>
+            <MapsLayers>
+                <MapsLayer ShapeData="@MapShapeData">
+                    <MapsShapeSettings Fill="lightgrey">
+                        <MapsShapeBorder Color="black" Width="0.1"></MapsShapeBorder>
+                    </MapsShapeSettings>
+                    <MapsMarkerSettings>
+                        <MapsMarker Visible="true" AnimationDuration="0" Shape="MarkerType.Balloon" Fill="#E13E40" Height="20" Width="15" DataSource="@MarkerDataSource">
+                            <MapsMarkerTooltipSettings Visible="true" ValuePath="name"></MapsMarkerTooltipSettings>
+                        </MapsMarker>
+                    </MapsMarkerSettings>
+                </MapsLayer>
+            </MapsLayers>
+        </EjsMaps>
+    </div>
+<div class="col-lg-3 property-section">
+<div class="property-panel-header">Properties</div>
+    <table title="Properties" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 40%">
+                    <div>
+                        Export Type
+                    </div>
+                </td>
+                <td style="width: 60%;">
+                    <div>
+                        <EjsDropDownList TValue="string" DataSource="@fileTypes" Value="@fileType" Width="95%">
+                            <DropDownListEvents TValue="string" ValueChange="TreemapValueChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                        </EjsDropDownList>
+                    </div>
+
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%">
+                    <div>File Name</div>
+                </td>
+                <td style="width: 40%;">
+                    <div class="e-float-input" style='margin-top: 0px;'>
+                        <EjsTextBox Value="@fileName" ValueChange="@nameChange"></EjsTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="height: 45px;margin-left:50%; text-transform:none !important; width: 80px; ">
+                        <EjsButton Content="Export" OnClick="exportClick" CssClass="e-info" IsToggle="true" IsPrimary="true">
+                        </EjsButton>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+@code {
+    EjsMaps maps;
+    public string fileType { get; set; } = "JPEG";
+    public string fileName { get; set; } = "TreeMap";
+    public MapDataSettings MapShapeData = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    public class MarkerData
+    {
+        public double latitude;
+        public double longitude;
+        public string name;
+    };
+    public List<MarkerData> MarkerDataSource = new List<MarkerData>
+{
+        new MarkerData { longitude=116.5703749, latitude=40.4319077, name="The Great Wall of China, China" },
+        new MarkerData { longitude=35.4443622, latitude=30.3284544, name="Petra, Jorden" },
+        new MarkerData { longitude=78.0421552, latitude=27.1750151, name="Taj Mahal, Agra, India" },
+        new MarkerData { longitude=12.4922309, latitude=41.8902102, name="The Roman Colosseum, Rome, Italy" },
+        new MarkerData { longitude=-88.5677826, latitude=20.6842849, name="The Chichen Itza, Mexico" },
+        new MarkerData { longitude=-72.5449629, latitude=-13.1631412, name="Machu Picchu, Peru" },
+        new MarkerData { longitude=-43.2104872, latitude=-22.951916, name="Christ Redeemer, Rio de janeiro, Brazil" }
+    };
+    public class FileFormatType
+    {
+        public string id { get; set; }
+        public string text { get; set; }
+    }
+
+    private List<FileFormatType> fileTypes = new List<FileFormatType>()
+{
+        new FileFormatType(){ id= "JPEG", text= "JPEG" },
+        new FileFormatType(){ id= "PNG", text= "PNG" },
+        new FileFormatType(){ id= "SVG", text= "SVG" },
+        new FileFormatType(){ id= "PDF", text= "PDF" },
+    };
+    private void nameChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs args)
+    {
+        fileName = args.Value;
+    }
+    private void TreemapValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        fileType = args.Value;
+    }
+    private void exportClick(MouseEventArgs args)
+    {
+
+        ExportType exportFileType = ExportType.JPEG;
+        switch (fileType)
+        {
+            case "JPEG":
+                exportFileType = ExportType.JPEG;
+                break;
+            case "PNG":
+                exportFileType = ExportType.PNG;
+                break;
+            case "SVG":
+                exportFileType = ExportType.SVG;
+                break;
+            case "PDF":
+                exportFileType = ExportType.PDF;
+                break;
+        }
+        maps.Export(exportFileType, fileName);
+    }
+}

@@ -27,6 +27,7 @@ namespace ej2_blazor_samples
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
             services.AddServerSideBlazor().AddHubOptions(o =>
             {
                 o.MaximumReceiveMessageSize = 102400000;

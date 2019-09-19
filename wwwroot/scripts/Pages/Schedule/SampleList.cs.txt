@@ -163,6 +163,51 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Date Header",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/DateHeader",
+                FileName = "DateHeader.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Cell",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/CustomCell",
+                FileName = "CustomCell.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Editor Template",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/EditorPopupTemplate",
+                FileName = "EditorPopupTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Event Template",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/AppointmentTemplate",
+                FileName = "AppointmentTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Tooltip",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/Tooltip",
+                FileName = "Tooltip.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Header Rows",
                 Category = "Customization",
                 Directory = "Schedule/Schedule",

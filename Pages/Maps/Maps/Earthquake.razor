@@ -1,0 +1,80 @@
+@page  "/Maps/Earthquake"
+
+@using Syncfusion.EJ2.Blazor.Maps
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Earthquake indication";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+            @"<p>
+            This sample visualizes the continents in the world by rendering these in a map layer. Also marks the office locations of YouTube in the world using markers.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render a map with the provided GeoJSON data. Group of shapes can be combined to form a layer of the map. You can bind the desired colors from the data source to the map shapes. The marker templates are used to display the names for shapes and mark specific locations. Legend is enabled in this example to represent each continent.
+        </p>
+        <p>
+            Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+        </p>
+        <br />
+        <p style=""font-weight: 500"">Injecting Module</p>
+        <p>
+            Maps component features are segregated into individual feature-wise modules. To use a marker, inject the <code>Marker</code> module using the < code > Maps.Inject(Marker) </ code > method, and use a legend by injecting the<code> Legend</ code > module.
+        </ p > "
+    };
+}
+@*End:Hidden*@
+
+    <div class="control-section">
+            <EjsMaps>
+                <MapsCenterPosition Latitude="1.5053645409602877" Longitude="105.14038085937499"></MapsCenterPosition>
+                <MapsZoomSettings Enable="false" ZoomFactor="7" MouseWheelZoom="false"></MapsZoomSettings>
+                <MapsAreaSettings Background="#AEE2FA"></MapsAreaSettings>
+                <MapsTitleSettings Text="7.6 Magnitude earthquake strikes Sumatra - 2009">
+                    <MapsTitleTextStyle Size="18px"></MapsTitleTextStyle>
+                </MapsTitleSettings>
+                <MapsLayers>
+                    <MapsLayer ShapeData="@Asia" AnimationDuration="1000" ShapeDataPath="name" ShapePropertyPath='@("name")'>
+                        <MapsShapeSettings Fill="#FFFDCF">
+                            <MapsShapeBorder Color="#3497C3" Width="0.5"></MapsShapeBorder>
+                        </MapsShapeSettings>
+                        <MapsMarkerSettings>
+                            <MapsMarker Visible="true" Shape="MarkerType.Circle" Fill="red" Height="20" Width="20" DataSource="@EarthQuakeIndication"></MapsMarker>
+                        </MapsMarkerSettings>
+                    </MapsLayer>
+                </MapsLayers>
+
+            </EjsMaps>
+        <div style="float: right; margin-right: 10px;">
+            Source:
+            <a href="https://en.wikipedia.org/wiki/2009_Sumatra_earthquakes" target="_blank">en.wikipedia.org</a>
+        </div>
+    </div>
+
+@code {
+    public MapDataSettings Asia = new MapDataSettings{
+        async= true,
+        dataOptions= "scripts/MapsData/asia.json",
+        type= "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async{ get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    public class Continent
+    {
+        public double latitude;
+        public double longitude;
+    };
+    public List<Continent> EarthQuakeIndication = new List<Continent>
+    {
+        new Continent { latitude=1.625758360412755, longitude=98.5693359375}
+    };
+}

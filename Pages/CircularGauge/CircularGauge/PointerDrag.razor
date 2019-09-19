@@ -1,0 +1,138 @@
+@page "/CircularGauge/PointerDrag"
+
+@using Syncfusion.EJ2.Blazor.CircularGauge
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.Inputs
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+	SampleBrowser.CurrentSampleName = "Pointer Drag";
+	SampleBrowser.CurrentControlName = "CircularGauge";
+	SampleBrowser.CurrentControlCategory = "CircularGauge";
+	SampleBrowser.CurrentControl = SampleBrowser.Config.CircularGauge;
+	SampleBrowser.ActionDescription = new string[] {
+		@" <p>
+			This sample visualizes pointer drag in circular gauge. Position of pointer value can be changed by using <code>Pointer Value</code> and we can drag the pointer by enabling drag option.
+		</p>"
+	};
+	SampleBrowser.Description = new string[] {
+		@"<p>
+			In this example, you can see how to move pointers in gauge using drag and drop. Use <code>enablePointerDrag</code> property, to achieve this behavior.
+		</p>
+		<p>
+			More information on the gauge can be found in this
+			<a target=""_blank"" href=""http://ej2.syncfusion.com/documentation"">documentation section</a>.
+		</p>"
+	};
+}
+@*End:Hidden*@
+	
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <EjsCircularGauge EnablePointerDrag="@pointerDrag">
+            <CircularGaugeAxes>
+                <CircularGaugeAxis EndAngle="140" StartAngle="220" Radius="80%" Minimum="0" Maximum="120">
+                    <CircularGaugeAnnotations>
+                        <CircularGaugeAnnotation Content='<div style="font-size: 14px;color:#E5C31C;font-weight: lighter;font-style: oblique;"><span>70 MPH</span></div>' Angle="180" ZIndex="1" Radius="45%">
+                        </CircularGaugeAnnotation>
+                    </CircularGaugeAnnotations>
+                    <CircularGaugeAxisLineStyle Width="0.01" Color="#9E9E9E">
+                    </CircularGaugeAxisLineStyle>
+                    <CircularGaugeAxisMajorTicks UseRangeColor="true">
+                    </CircularGaugeAxisMajorTicks>
+                    <CircularGaugeAxisMinorTicks UseRangeColor="true">
+                    </CircularGaugeAxisMinorTicks>
+                    <CircularGaugeAxisLabelStyle UseRangeColor="true">
+                    </CircularGaugeAxisLabelStyle>
+                    <CircularGaugeRanges>
+                        <CircularGaugeRange Start="0" End="40" StartWidth="8" EndWidth="8" Radius="108%" Color="@firstRangeColor">
+                        </CircularGaugeRange>
+                        <CircularGaugeRange Start="40" End="100" StartWidth="8" EndWidth="8" Radius="108%" Color="@secondRangeColor">
+                        </CircularGaugeRange>
+                        <CircularGaugeRange Start="100" End="120" StartWidth="8" EndWidth="8" Radius="108%" Color="@thirdRangeColor">
+                        </CircularGaugeRange>
+                    </CircularGaugeRanges>
+                    <CircularGaugePointers>
+                        <CircularGaugePointer Value="@pointerValue" Radius="110%" MarkerHeight="20" Color="@pointerColor" MarkerWidth="20" Type="PointerType.Marker" MarkerShape="GaugeShape.InvertedTriangle">
+                        </CircularGaugePointer>
+                        <CircularGaugePointer Value="@pointerValue" Radius="60%" Color="@pointerColor" MarkerWidth="5">
+                            <CircularGaugeCap Radius="10">
+                                <CircularGaugeCapBorder Width="5" Color="@pointerColor">
+                                </CircularGaugeCapBorder>
+                            </CircularGaugeCap>
+                            <CircularGaugeNeedleTail Length="0.01%" Color="@pointerColor">
+                            </CircularGaugeNeedleTail>
+                        </CircularGaugePointer>
+                    </CircularGaugePointers>
+                    <CircularGaugeAnnotations>
+                        <CircularGaugeAnnotation Angle="180" Radius='45%' ZIndex='1' Content="@templateValue">
+                            <CircularGaugeAnnotationTextStyle Color="@templateColor" FontFamily="Regular" Size="20px"></CircularGaugeAnnotationTextStyle>
+                        </CircularGaugeAnnotation>
+                    </CircularGaugeAnnotations>
+                </CircularGaugeAxis>
+            </CircularGaugeAxes>
+        </EjsCircularGauge>
+    </div>
+</div>
+<div class="col-md-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table title="Properties" style="width: 100%">
+                <tr style="height: 50px" >
+                    <td style="width: 30%">
+                        <div>Pointer Value <span> &nbsp;&nbsp;&nbsp;@sliderValueText</span> </div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                           <input type="range" value="@pointerValue" min="0" max="120"  @onchange="PointerDragChange"  />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 20%">
+                        <div>Enable Drag</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsCheckBox ValueChange="@EnableDragCheckbox" Checked="@enableDragChange"></EjsCheckBox>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    private Boolean pointerDrag = true;
+    private String firstRangeColor = "#30B32D";
+    private String secondRangeColor = "#E5C31C";
+    private String thirdRangeColor = "#F03E3E";
+    private String pointerColor = "#E5C31C";
+    private String templateValue = "70 MPH";
+    private String templateColor = "#E5C31C";
+    private Boolean silderEnable = true;
+    private Boolean enableDragChange = true;
+    private Double pointerSliderValue = 70;
+    private Double pointerValue = 70;
+    private Double sliderValueText = 70;
+    public void EnableDragCheckbox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        enableDragChange = args.Checked;
+        pointerDrag = args.Checked;
+        this.StateHasChanged();
+    }
+    private void PointerDragChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        pointerSliderValue = Convert.ToDouble(args.Value);
+        sliderValueText = pointerSliderValue;
+        pointerValue = pointerSliderValue;
+        templateValue = (pointerSliderValue).ToString() + "MPH";
+        if (pointerSliderValue > 0 && pointerSliderValue < 40) { pointerColor = templateColor = firstRangeColor; }
+        if (pointerSliderValue > 40 && pointerSliderValue < 100) { pointerColor = templateColor = secondRangeColor; }
+        if (pointerSliderValue > 100 && pointerSliderValue < 120) { pointerColor = templateColor = thirdRangeColor; }
+        this.StateHasChanged();
+    }
+}

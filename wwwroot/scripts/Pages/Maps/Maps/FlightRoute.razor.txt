@@ -1,0 +1,151 @@
+@page "/Maps/FlightRoute"
+
+@using Syncfusion.EJ2.Blazor.Maps
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Flight Routes";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+            @"<p>
+            This sample visualizes the continents in the world by rendering these in a map layer. Also marks the office locations of YouTube in the world using markers.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to render the curved lines between two points in a map. You can use the dashArray, width, and color properties to customize the appearance of the navigation lines.
+        </p>
+        <p>
+            Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+        </p>
+        <br />
+        <p style=""font-weight: 500"">Injecting Module</p>
+        <p>
+            Maps component features are segregated into individual feature-wise modules. To use the navigation lines, inject the NavigationLine module using the Maps.Inject(NavigationLine) method.
+        </ p > "
+    };
+}
+@*End:Hidden*@
+
+    <div class="control-section">
+        <div>
+            <EjsMaps>
+                <MapsCenterPosition Latitude="30.41078179084589" Longitude="90.52734374999999"></MapsCenterPosition>
+                <MapsZoomSettings Enable="false" ZoomFactor="3.5" MouseWheelZoom="false"></MapsZoomSettings>
+                <MapsAreaSettings Background="#AEE2FA"></MapsAreaSettings>
+                <MapsTitleSettings Text="Flights from India to China">
+                    <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+                </MapsTitleSettings>
+                <MapsLayers>
+                    <MapsLayer ShapeData="@MapShapeData" ShapeDataPath="name" ShapePropertyPath='@("name")' DataSource="@DataSource" AnimationDuration="1000">
+                        <MapsShapeSettings Fill="#fcfbf9" ColorValuePath="name">
+                            <MapsShapeBorder Color="Black" Width="0.1"></MapsShapeBorder>
+                            <MapsShapeColorMappings>
+                                <MapsShapeColorMapping Value="China" Color='@("#f7d083")'></MapsShapeColorMapping>
+                                <MapsShapeColorMapping Value="India" Color='@("#FFFE99")'></MapsShapeColorMapping>
+                            </MapsShapeColorMappings>
+                        </MapsShapeSettings>
+                        <MapsMarkerSettings>
+                            <MapsMarker DataSource="@FlightRouteCities" Visible="true" AnimationDuration="0" Shape='Syncfusion.EJ2.Blazor.Maps.MarkerType.Circle' Fill="white" Width="4">
+                                <MapsMarkerBorder Width="1" Color="black"></MapsMarkerBorder>
+                            </MapsMarker>
+                            
+                        </MapsMarkerSettings>
+                        <MapsNavigationLines>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 28.6139391, 39.9041999 }" Longitude="new double[] { 77.2090212, 116.4073963 }"></MapsNavigationLine>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 28.6139391, 31.2303904 }" Longitude="new double[] { 77.2090212, 121.4737021 }"></MapsNavigationLine>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 28.6139391, 23.12911 }" Longitude="new double[] { 77.2090212, 113.264385 }"></MapsNavigationLine>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 28.6139391, 22.396428 }" Longitude="new double[] { 77.2090212, 114.109497 }"></MapsNavigationLine>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 19.0759837, 23.12911 }" Longitude="new double[] { 72.8776559, 113.264385 }"></MapsNavigationLine>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 13.0826802, 22.396428 }" Longitude="new double[] { 80.2707184, 114.109497 }"></MapsNavigationLine>
+                            <MapsNavigationLine DashArray="5,1" Visible="true" Angle="-0.2" Color="black" Latitude="new double[] { 22.572646, 24.880095 }" Longitude="new double[] { 88.363895, 102.832891 }"></MapsNavigationLine>
+                        </MapsNavigationLines>
+                    </MapsLayer>
+                </MapsLayers>
+            </EjsMaps>
+        </div>
+        <div style="float: right; margin-right: 10px;">
+            Source:
+            <a href="https://www.tibettravel.org/nepal-map/nepal-india-map.html" target="_blank">www.tibettravel.org</a>
+        </div>
+    </div>
+
+
+@code {
+    public MapDataSettings MapShapeData = new MapDataSettings{
+        async= true,
+        dataOptions= "scripts/MapsData/WorldMap.json",
+        type= "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async{ get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    public class Data
+    {
+        public string name;
+    };
+    public List<Data> DataSource = new List<Data>
+    {
+        new Data { name="India"},
+        new Data { name="China" }
+    };
+    public class City
+    {
+        public double latitude;
+        public double longitude;
+        public String name;
+    };
+    public List<City> FlightRouteCities = new List<City> {
+        new City {
+            name= "New Delhi",
+            latitude= 28.6139391,
+            longitude= 77.2090212
+        },
+        new City {
+            name= "Mumbai",
+            latitude= 19.0759837,
+            longitude= 72.8776559
+        },
+        new City {
+            name= "Chennai",
+            latitude= 13.0826802,
+            longitude= 80.2707184
+        },
+        new City {
+            name= "Kolkata",
+            latitude= 22.572646,
+            longitude=88.363895
+        },
+        new City {
+            name= "Kunming",
+            latitude= 24.880095,
+            longitude= 102.832891
+        },
+        new City {
+            name= "Beijing",
+            latitude= 39.9041999,
+            longitude= 116.4073963
+        },
+        new City {
+            name= "Shanghai",
+            latitude= 31.2303904,
+            longitude= 121.4737021
+        },
+        new City {
+            name= "Hong Kong",
+            latitude= 22.396428,
+            longitude= 114.109497
+        },
+        new City {
+            name= "Guangzhou",
+            latitude= 23.12911,
+            longitude= 113.264385
+        }
+     };
+}

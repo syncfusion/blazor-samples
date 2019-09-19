@@ -1,0 +1,181 @@
+@page "/TreeMap/Print"
+
+
+@using Syncfusion.EJ2.Blazor.TreeMap
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Print";
+    SampleBrowser.CurrentControlName = "TreeMap";
+    SampleBrowser.CurrentControlCategory = "TreeMap";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeMap;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+        This sample visualizes the car sales of various countries in 2017 by rendering the countries at top level and car manufacturing companies as leaf items.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        In this example, you can see how to render a treemap with the provided data source. Palette color is applied for the items in treemap. Default legend is enabled in this example to represent the items in top level.
+    </p>
+    <p>
+        Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item in touch enabled devices.
+    </p>
+    <br />
+    <p style=""font-weight: 500"">Injecting Module</p>
+    <p>
+        Treemap component features are segregated into individual feature-wise modules. To use a tooltip, inject the
+        <code>Tooltip</code> module using the < code > Treemap.Inject(TreeMapTooltip) </ code > method, and use a legend by injecting the<code> Legend</ code > module using the < code > Treemap.Inject(TreeMapLegend) </ code > method.
+
+
+            </ p > "
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-9 control-section">
+    <div>
+        <EjsTreeMap @ref="@TreemapRef" WeightValuePath="Percentage" RangeColorValuePath="Percentage" DataSource="@Datasource"
+                    LayoutType="LayoutMode.SliceAndDiceVertical">
+            <TreeMapTitleSettings Text="Top 10 best selling smartphone brands - 2017">
+            </TreeMapTitleSettings>
+            <TreeMapLeafItemSettings LabelPath="Product" Fill="#6699cc" LabelFormat="${Product} (+${Percentage}) %"
+                                     LabelPosition="Syncfusion.EJ2.Blazor.TreeMap.LabelPosition.Center">
+                <TreeMapLeafBorder Color="black" Width="0.5">
+                </TreeMapLeafBorder>
+            </TreeMapLeafItemSettings>
+        </EjsTreeMap>
+    </div>
+    <div style="float: right; margin-right: 10px;">
+        Source:
+        <a href="http://zeenews.india.com/photos/business/worlds-10-best-selling-smartphone-brands-2033958/samsung-2033959" target="_blank">zeenews.india.com</a>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <table title="Properties" style="width: 100%">
+        <tbody>
+
+            <tr style="height: 50px">
+                <td style="width: 40%">
+                    <div class="property-text">
+                        <b>Properties</b>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%">
+                    <div class="property-text">
+                        Export Type
+                    </div>
+                </td>
+                <td style="width: 60%;">
+                    <div>
+                        <EjsDropDownList ID="ranges" Value="@ExportValue" DataSource="@exportType">
+                        </EjsDropDownList>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%">
+                    <div class="property-text">File Name</div>
+                </td>
+                <td style="width: 40%;">
+                    <div class="e-float-input" style='margin-top: 0px;'>
+                        <EjsTextBox Value="@FileName"></EjsTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px" align='center'>
+                <td>
+                    <div style="margin-left: 50%;">
+                        <EjsButton  @onclick="@Export" IsPrimary="true" CssClass="e-info">Export</EjsButton>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td align="center">
+                    <div style="margin-left: 50%;">
+                        <EjsButton @onclick="PrintButton" IsPrimary="true" CssClass="e-info">Print</EjsButton>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+@code {
+    EjsTreeMap<SmartPhoneData> TreemapRef;
+
+    public string FileName { get; set; } = "TreeMap";
+    public string ExportValue { get; set; } = "JPEG";
+    public class FileFormatType
+    {
+        public string id { get; set; }
+        public string text { get; set; }
+    }
+    private List<FileFormatType> exportType = new List<FileFormatType>()
+{
+        new FileFormatType(){ id= "JPEG", text= "JPEG" },
+        new FileFormatType(){ id= "PNG", text= "PNG" },
+        new FileFormatType(){ id= "SVG", text= "SVG" },
+        new FileFormatType(){ id= "PDF", text= "PDF" },
+    };
+    void FileNameChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs text)
+    {
+        this.FileName = text.Value.ToString();
+        this.StateHasChanged();
+    }
+    void ExportTypeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> exports)
+    {
+        this.ExportValue = exports.Value.ToString();
+        this.StateHasChanged();
+    }
+     public void PrintButton()
+    {
+        TreemapRef.Print();
+    }
+
+    public class SmartPhoneData
+    {
+        public string Product;
+        public double Percentage;
+    }
+    public class ColorMap
+    {
+        public double from;
+        public double to;
+        public double minOpacity;
+        public double maxOpacity;
+        public string color;
+    }
+    public List<SmartPhoneData> Datasource = new List<SmartPhoneData> {
+        new SmartPhoneData{ Product= "Samsung", Percentage= 22 },
+        new SmartPhoneData{ Product= "Apple", Percentage= 11.2 },
+        new SmartPhoneData{ Product= "Huawei", Percentage= 10.5},
+        new SmartPhoneData{ Product= "Oppo", Percentage= 8.4 },
+        new SmartPhoneData{ Product= "Vivo", Percentage= 6.6},
+        new SmartPhoneData{ Product= "Xiaomi", Percentage= 6.3 },
+        new SmartPhoneData{ Product= "LG", Percentage= 3.6 },
+        new SmartPhoneData{ Product= "ZTE", Percentage= 3.3},
+        new SmartPhoneData{ Product= "Lenovo", Percentage= 3.2},
+        new SmartPhoneData{ Product= "Alcate", Percentage= 1.3},
+
+    };
+    public void Export()
+    {
+        //this.treeMap.Export(this.exportValue, this.fileName);
+    }
+}
+
+<style>
+    .property-text {
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+        font-size: 13px !important;
+        font-weight: 400 !important;
+    }
+</style>

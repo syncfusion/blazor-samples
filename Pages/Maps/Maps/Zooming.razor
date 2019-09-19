@@ -1,0 +1,153 @@
+@page "/Maps/Zooming"
+
+@using Syncfusion.EJ2.Blazor.Maps
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Zooming & Panning";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+            @"<p>
+            This sample depicts the zooming and panning options in the maps. You can customize these options by changing the Zooming, Mouse wheel zoom, Pinch zoom, Single-click zoom, and Double-click zoom in the Properties panel.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to zoom and pan the map. The support has been provided for zooming with toolbar, rectangle zoom, pinch zoom, mouse wheel zoom, single-click and double-click zoom.
+        </p>"
+    };
+}
+@*End:Hidden*@
+<div class="col-lg-8 control-section sb-property-border">
+        <EjsMaps>
+            <MapsZoomSettings Enable="@zoomCheckedState" Toolbars="@zoomToolbar" PinchZooming="@pinchZoomCheckedState" MouseWheelZoom="@mouseWheelCheckedState" DoubleClickZoom="@doubleClickCheckedState"></MapsZoomSettings>
+            <MapsLayers>
+                <MapsLayer ShapeData="@WorldMap" ShapeDataPath="continent" ShapePropertyPath='@("continent")' AnimationDuration="@animationCheckState" DataSource="@ZoomingDataSource">
+                    <MapsShapeSettings Autofill="true" ColorValuePath="color"></MapsShapeSettings>
+                </MapsLayer>
+            </MapsLayers>
+        </EjsMaps>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Zooming
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@zoomCheckedState" ValueChange="@zoomCheckBox"></EjsCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Mouse Wheel Zoom
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@mouseWheelCheckedState" ValueChange="@mouseWheelCheckBox"></EjsCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Pinch zoom
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@pinchZoomCheckedState" ValueChange="@pinchZoomCheckBox"></EjsCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            DoubleClick Zoom
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@doubleClickCheckedState" ValueChange="@doubleClickCheckBox" Disabled="@doubleClickDisable"></EjsCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Animation duration <span>   @animationCheckState ms</span>
+                        </td>
+                        <td style="width: 50%">
+                            <input type="range" value="@animationCheckState" min="0" max="1000" step="250" @onchange="animationSlider" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    public Boolean doubleClickDisable = false;
+    public double animationCheckState = 500;
+    public string[] zoomToolbar = new string[] { "Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset" };
+    private Boolean zoomCheckedState = true;
+    public Boolean mouseWheelCheckedState = true;
+    public Boolean pinchZoomCheckedState = true;
+    public Boolean doubleClickCheckedState;
+    private Boolean mapsZoom;
+    public MapDataSettings WorldMap = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    public class ZoomData
+    {
+        public string country;
+        public string continent;
+        public string CategoryName;
+        public double Sales;
+        public string color;
+    };
+    public List<ZoomData> ZoomingDataSource = new List<ZoomData>
+{
+        new ZoomData { country="RUS", continent="Europe", CategoryName="Books", Sales=3746, color="#EC9B79" },
+        new ZoomData { country="IND", continent="Asia", CategoryName="Books", Sales=10688, color="#7BC1E8" },
+        new ZoomData { country="CAN", continent="North America", CategoryName="Books", Sales=10882, color="#B5E485" },
+        new ZoomData { country="BRA", continent="South America", CategoryName="Books", Sales=13776, color="#78D0D3" },
+        new ZoomData { country="JPN", continent="Asia", CategoryName="Books", Sales=19390, color="#7BC1E8" },
+        new ZoomData { country="AUS", continent="Australia", CategoryName="Books", Sales=30716, color="#D6D572" },
+        new ZoomData { country="CAF", continent="Africa", CategoryName="Books", Sales=18718.0, color="#DF819C" }
+    };
+    private void animationSlider(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        animationCheckState = Convert.ToDouble(args.Value);
+        this.StateHasChanged();
+    }
+    private void zoomCheckBox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        zoomCheckedState = args.Checked;
+        this.StateHasChanged();
+    }
+    private void mouseWheelCheckBox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        mouseWheelCheckedState = args.Checked;
+        this.StateHasChanged();
+    }
+    private void pinchZoomCheckBox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        pinchZoomCheckedState = args.Checked;
+        this.StateHasChanged();
+    }
+    private void doubleClickCheckBox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        doubleClickCheckedState = args.Checked;
+        this.StateHasChanged();
+    }
+}

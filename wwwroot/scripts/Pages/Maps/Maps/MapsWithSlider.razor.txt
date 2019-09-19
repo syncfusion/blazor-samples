@@ -1,0 +1,150 @@
+@page "/Maps/MapsWithSlider"
+
+@using Syncfusion.EJ2.Blazor.Maps
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Maps with Slider";
+    SampleBrowser.CurrentControlName = "Maps";
+    SampleBrowser.CurrentControlCategory = "Maps";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
+    SampleBrowser.ActionDescription = new string[] {
+            @"<p>
+            This sample depicts the zooming and panning options in the maps. You can customize these options by changing the Zooming, Mouse wheel zoom, Pinch zoom, Single-click zoom, and Double-click zoom in the Properties panel.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this example, you can see how to zoom and pan the map. The support has been provided for zooming with toolbar, rectangle zoom, pinch zoom, mouse wheel zoom, single-click and double-click zoom.
+        </p>
+        <br />
+        </ p >"
+    };
+}
+@*End:Hidden*@
+    <div class="control-section">
+        <EjsMaps Height="400">
+            <MapsMargin Bottom="20"></MapsMargin>
+            <MapsZoomSettings Enable="false"></MapsZoomSettings>
+            <MapsTitleSettings Text="Average annual population growth in North American countries">
+                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+            </MapsTitleSettings>
+            <MapsAnnotations>
+                <MapsAnnotation HorizontalAlignment="AnnotationAlignment.Center" Y="93%">
+                    <ContentTemplate>
+                        <div class="sliderwrap">
+                            <EjsSlider Min="-1.5" Max="3.75" Step="0.75" Type=SliderType.Range Value=@rangeValue >
+                            </EjsSlider>
+                        </div>
+                    </ContentTemplate>
+                </MapsAnnotation>
+            </MapsAnnotations>
+            <MapsLayers>
+                <MapsLayer ShapeData="@NorthAmerica" ShapePropertyPath='@("name")' ShapeDataPath="name" DataSource="@PopulationGrowth">
+                    <MapsShapeSettings ColorValuePath="population">
+                        <MapsShapeColorMappings>
+                            <MapsShapeColorMapping From="-1.5" To="-0.75" Color='@("#7E9CDC")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="-0.75" To="0.1" Color='@("#DCD57E")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="0.2" To="0.75" Color='@("#7EDCA2")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="0.76" To="1.5" Color='@("#6EB5D0")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="1.5" To="2.25" Color='@("#A6DC7E")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="2.25" To="3" Color='@("#DCA87E")'></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="3" To="3.75" Color='@("#d075c6")'></MapsShapeColorMapping>
+                        </MapsShapeColorMappings>
+                    </MapsShapeSettings>
+                    <MapsLayerTooltipSettings Visible="true" Format="${name} : ${population}%"></MapsLayerTooltipSettings>
+                </MapsLayer>
+            </MapsLayers>
+        </EjsMaps>
+    </div>
+
+@code {
+    public int[] rangeValue = { -2, 4 };
+    public MapDataSettings NorthAmerica = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/northamerica.json",
+        type = "GET"
+    };
+
+    public class MapDataSettings
+    {
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    public class Growth
+    {
+        public string name;
+        public double population;
+    };
+    public List<Growth> PopulationGrowth = new List<Growth> {
+                new Growth { name= "United States", population= 0.75},
+                new Growth { name= "Mexico", population= 1.8},
+                new Growth { name= "Canada", population= 0.79},
+                new Growth { name= "Guatemala", population= 2.93},
+                new Growth { name= "Cuba", population= 0.25},
+                new Growth { name= "Haiti", population= 2.31},
+                new Growth { name= "Dominican Rep.", population= 0.98},
+                new Growth { name= "Honduras", population= 2.29},
+                new Growth { name= "El Salvador", population= 0.92},
+                new Growth { name= "Nicaragua", population= 2.37},
+                new Growth { name= "Costa Rica", population= 1.63},
+                new Growth { name= "Panama", population= 1.37},
+                new Growth { name= "Puerto Rico", population= -1.13},
+                new Growth { name= "Jamaica", population= 0.26},
+                new Growth { name= "Trinidad and Tobago", population= 0.52},
+                new Growth { name= "Bahamas", population= 1.34},
+                new Growth { name= "Belize", population= 2.50},
+                new Growth { name= "Barbados", population= 0.35},
+                new Growth { name= "Saint Lucia", population= 0.58},
+                new Growth { name= "Saint Vincent and the Grenadines", population= 0.1},
+                new Growth { name= "U.S. Virgin Is.", population= 0.1},
+                new Growth { name= "Grenada", population= 0.1},
+                new Growth { name= "Antigua and Barbuda", population= 1.14},
+                new Growth { name= "Dominica", population= 0.1},
+                new Growth { name= "Bermuda", population= 0.1},
+                new Growth { name= "Cayman Is.", population= 3.51},
+                new Growth { name= "Greenland", population= 0.1},
+                new Growth { name= "St. Kitts and Nevis", population= 0.1},
+                new Growth { name= "Sint Maarten", population= 2.63},
+                new Growth { name= "British Virgin Is.", population= 3.33},
+                new Growth { name= "Anguilla", population= 0.1},
+                new Growth { name= "St-Barthélemy", population= 0.1},
+                new Growth { name= "St. Pierre and Miquelon", population= 0.1},
+                new Growth { name= "Montserrat", population= 0.1}
+            };
+
+}
+<style>
+    .content-wrapper {
+        width: 52%;
+        margin: 0 auto;
+        min-width: 185px;
+    }
+
+    .sliderwrap {
+        margin-top: 45px;
+    }
+
+    .e-bigger .content-wrapper {
+        width: 80%;
+    }
+
+    .sliderwrap label {
+        padding-bottom: 50px;
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 15px;
+    }
+
+    .userselect {
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none; /* Standard syntax */
+    }
+</style>

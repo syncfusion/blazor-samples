@@ -392,16 +392,8 @@ namespace ej2_blazor_samples
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/ObservableBinding",
-                FileName = "ObservableBinding.razor",
-                Type = SampleType.New
-                //SourceFiles = new List<SourceCollection>
-                //{
-                //    new SourceCollection()
-                //    {
-                //        Id = "ObservableData1",
-                //        FileName = "ObservableData.cs"
-                //    }
-                //}
+                FileName="ObservableBinding.razor",
+				Type = SampleType.New
             }
         };
     }
