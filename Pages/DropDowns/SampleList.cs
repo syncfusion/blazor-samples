@@ -317,9 +317,27 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
             },
-			new Sample
+            new Sample
             {
-                Name = "CheckBox",
+                Name = "Dual ListBox",
+                Category = "ListBox",
+                Directory = "DropDowns/ListBox",
+                Url = "ListBox/DualListBox",
+                FileName = "DualListBox.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Drag And Drop",
+                Category = "ListBox",
+                Directory = "DropDowns/ListBox",
+                Url = "ListBox/DragDrop",
+                FileName = "DragDrop.razor",
+                Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "Checkbox",
                 Category = "ListBox",
                 Directory = "DropDowns/ListBox",
                 Url = "ListBox/Checkbox",

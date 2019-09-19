@@ -2,11 +2,13 @@
 
 
 @using Syncfusion.EJ2.Blazor.TreeMap
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
 @{
-    SampleBrowser.CurrentSampleName = "selection";
+    SampleBrowser.CurrentSampleName = "Selection";
     SampleBrowser.CurrentControlName = "TreeMap";
     SampleBrowser.CurrentControlCategory = "TreeMap";
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeMap;
@@ -22,42 +24,176 @@
     <br />
     <p style=""font-weight: 500"">Injecting Module</p>
     <p>
-            TreeMap component features are segregated into individual feature-wise modules. To use highlight and selection, inject the <code>Selection</code> module using the <code>TreeMap.Inject(TreeMapSelection)</code>inject the <code>Highlight</code> module using the <code>TreeMap.Inject(TreeMapHighlight)</code> method.
+         TreeMap component features are segregated into individual feature-wise modules. To use highlight and selection, inject the <code>Selection</code> module using the <code>TreeMap.Inject(TreeMapSelection)</code>inject the <code>Highlight</code> module using the <code>TreeMap.Inject(TreeMapHighlight)</code> method.
     </ p > "
     };
 }
 @*End:Hidden*@
 
-<div class="control-section">
-    <div>
-        <EjsTreeMap WeightValuePath="sales"
-                    DataSource="@Datasource">
-            <TreeMapTitleSettings Text="Import and Export details of US">
-            </TreeMapTitleSettings>
-            <TreeMapLevels>
-                <TreeMapLevel GroupPath="dataType" Fill="#c5e2f7" GroupGap="5" HeaderAlignment="@Syncfusion.EJ2.Blazor.TreeMap.Alignment.Center">
-                    <TreeMapHeaderStyle Size="16px"></TreeMapHeaderStyle>
-                </TreeMapLevel>
-                <TreeMapLevel GroupPath="product" Fill="#a4d1f2" GroupGap="2" HeaderAlignment="@Syncfusion.EJ2.Blazor.TreeMap.Alignment.Center">
-                </TreeMapLevel>
-            </TreeMapLevels>
-            <TreeMapLeafItemSettings LabelPath="type" Fill="#8ebfe2" LabelPosition="@Syncfusion.EJ2.Blazor.TreeMap.LabelPosition.Center"
-                                     Gap="10">
-            </TreeMapLeafItemSettings>
-            <TreeMapSelectionSettings Enable="true" Fill="#58a0d3" Opacity="1">
-                <TreeMapSelectionBorder Width="0.3" Color="Black"></TreeMapSelectionBorder>
-            </TreeMapSelectionSettings>
-            <TreeMapHighlightSettings Enable="true" Fill="#71b0dd" Opacity="1">
-                <TreeMapHighlightBorder Width="0.3" Color="Black"></TreeMapHighlightBorder>
-            </TreeMapHighlightSettings>
-        </EjsTreeMap>
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="control-section">
+        <div>
+            <EjsTreeMap ID="container" WeightValuePath="sales"
+                        DataSource="@Datasource" TValue="ImportExportData">
+                <TreeMapTitleSettings Text="Import and Export details of US">
+                </TreeMapTitleSettings>
+                <TreeMapLevels>
+                    <TreeMapLevel GroupPath="dataType" Fill="#c5e2f7" GroupGap="5" HeaderAlignment="@Syncfusion.EJ2.Blazor.TreeMap.Alignment.Center">
+                        <TreeMapHeaderStyle Size="16px"></TreeMapHeaderStyle>
+                    </TreeMapLevel>
+                    <TreeMapLevel GroupPath="product" Fill="#a4d1f2" GroupGap="2" HeaderAlignment="@Syncfusion.EJ2.Blazor.TreeMap.Alignment.Center">
+                    </TreeMapLevel>
+                </TreeMapLevels>
+                <TreeMapLeafItemSettings LabelPath="type" Fill="#8ebfe2" LabelPosition="@Syncfusion.EJ2.Blazor.TreeMap.LabelPosition.Center"
+                                         Gap="10">
+                </TreeMapLeafItemSettings>
+                <TreeMapSelectionSettings Enable="@selectioncheckbox" Fill="#58a0d3" Opacity="1" Mode="@selectionModeValue">
+                    <TreeMapSelectionBorder Width="0.3" Color="Black"></TreeMapSelectionBorder>
+                </TreeMapSelectionSettings>
+                <TreeMapHighlightSettings Enable="@highlightcheckboxvalue" Fill="#71b0dd" Opacity="1" Mode="@highlightModeValue">
+                    <TreeMapHighlightBorder Width="0.3" Color="Black"></TreeMapHighlightBorder>
+                </TreeMapHighlightSettings>
+            </EjsTreeMap>
+        </div>
     </div>
     <div style="float: right; margin-right: 10px;">
         Source:
         <a href="https://www.indexmundi.com/united_states/imports_commodities.html" target="_blank">Swww.indexmundi.com</a>
     </div>
 </div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr style="height: 35px">
+                        <td style="width: 50%">
+                            <div class="property-text"><b>Highlight</b></div>
+                        </td>
+
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Enable
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@highlightcheckboxvalue" ValueChange="highlightValue"></EjsCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Mode
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList Placeholder="Select smartlabel mode" DataSource="@HighlightMode" Value="@highlight" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="highlightModeValueChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 50%">
+                            <div class="property-text"><b>Selection</b></div>
+                        </td>
+
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Enable
+                        </td>
+                        <td style="width: 50%">
+                            <EjsCheckBox Checked="@selectioncheckbox" ValueChange="selectionValueChange"></EjsCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Mode
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList Placeholder="Select smartlabel mode" DataSource="@HighlightMode" Value="@selectionValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="selectionModeValueChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @code{
+    public Boolean highlightcheckboxvalue = true;
+    public HighLightMode highlightModeValue = HighLightMode.Item;
+    public string highlight = "Item";
+    public Boolean selectioncheckbox = true;
+    public Syncfusion.EJ2.Blazor.TreeMap.SelectionMode selectionModeValue = Syncfusion.EJ2.Blazor.TreeMap.SelectionMode.Item;
+    public string selectionValue = "Item";
+    public void highlightValue(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        highlightcheckboxvalue = args.Checked;
+        this.StateHasChanged();
+    }
+    public void selectionValueChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        selectioncheckbox = args.Checked;
+        this.StateHasChanged();
+    }
+    public class DropdownList
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<DropdownList> HighlightMode = new List<DropdownList> {
+        new DropdownList { Value="Item", Name="Item" },
+        new DropdownList { Value="Child", Name="Child" },
+        new DropdownList { Value="Parent", Name="Parent" },
+        new DropdownList { Value="All", Name="All" }
+    };
+    public void highlightModeValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        highlight = args.Value;
+        if (args.Value == "Item")
+        {
+            highlightModeValue = HighLightMode.Item;
+        }
+        else if (args.Value == "Child")
+        {
+            highlightModeValue = HighLightMode.Child;
+        }
+        else if (args.Value == "Parent")
+        {
+            highlightModeValue = HighLightMode.Parent;
+        }
+        else
+        {
+            highlightModeValue = HighLightMode.All;
+        }
+        this.StateHasChanged();
+    }
+    public void selectionModeValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        selectionValue = args.Value;
+        if (args.Value == "Item")
+        {
+            selectionModeValue = Syncfusion.EJ2.Blazor.TreeMap.SelectionMode.Item;
+        }
+        else if (args.Value == "Child")
+        {
+            selectionModeValue = Syncfusion.EJ2.Blazor.TreeMap.SelectionMode.Child;
+        }
+        else if (args.Value == "Parent")
+        {
+            selectionModeValue = Syncfusion.EJ2.Blazor.TreeMap.SelectionMode.Parent;
+        }
+        else
+        {
+            selectionModeValue = Syncfusion.EJ2.Blazor.TreeMap.SelectionMode.All;
+        }
+        this.StateHasChanged();
+    }
+
     public class ImportExportData
     {
         public string dataType;
@@ -84,5 +220,4 @@
         new ImportExportData{ dataType= "Export", type="Textile articles",product="2010" ,  sales=20982380561  },
         new ImportExportData{ dataType= "Export", type="Textile articles",product="2011",  sales=26016143783   },
     };
-
 }

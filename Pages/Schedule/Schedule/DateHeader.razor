@@ -1,0 +1,111 @@
+﻿@page "/Schedule/DateHeader"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+@using System.Globalization
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "DateHeader";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+    This demo depicts the way to add images and custom text to the date header bar by making use of the date header template
+    option.
+</p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+    In this demo, the
+    <code>DateHeaderTemplate</code> option is used to customize the date header cells of day, week and workweek views. In month view, the date header
+    is not applicable.
+</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsSchedule TValue="ScheduleData.AppointmentData" Width="100%" CssClass="schedule-date-header-template" ModelType="@Model" Height="650px" SelectedDate="new DateTime(2019, 1, 10)">
+            <ScheduleTemplates>
+                <DateHeaderTemplate>
+                    <div class="date-text">@(getDateHeaderText((context as TemplateArgs).Date))</div>
+                    @{
+                        @switch ((int)(context as TemplateArgs).Date.DayOfWeek)
+                        {
+                            case 0:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-clear.svg")" /><div class="weather-text">25&deg;C</div>
+                                break;
+                            case 1:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-clouds.svg")" /><div class="weather-text">18&deg;C</div>
+                                break;
+                            case 2:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-rain.svg")" /><div class="weather-text">10&deg;C</div>
+                                break;
+                            case 3:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-clouds.svg")" /><div class="weather-text">16&deg;C</div>
+                                break;
+                            case 4:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-rain.svg")" /><div class="weather-text">8&deg;C</div>
+                                break;
+                            case 5:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-clear.svg")" /><div class="weather-text">27&deg;C</div>
+                                break;
+                            case 6:
+                                <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-clouds.svg")" /><div class="weather-text">17&deg;C</div>
+                                break;
+                        }
+                    }
+                </DateHeaderTemplate>
+            </ScheduleTemplates>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            </ScheduleViews>
+        </EjsSchedule>
+    </div>
+</div>
+
+@code {
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+    public class TemplateArgs
+    {
+        public DateTime Date { get; set; }
+    }
+    public TemplateArgs Model = new TemplateArgs();
+    public static string getDateHeaderText(DateTime date)
+    {
+        return date.ToString("dd ddd", CultureInfo.InvariantCulture);
+    }
+}
+<style>
+    .schedule-date-header-template.e-schedule .e-vertical-view .e-header-cells {
+        padding: 0;
+        text-align: center !important;
+    }
+
+    .schedule-date-header-template.e-schedule .date-text {
+        font-size: 14px;
+    }
+
+    .schedule-date-header-template.e-schedule.e-device .date-text {
+        font-size: 12px;
+    }
+
+    .schedule-date-header-template.e-schedule .weather-image {
+        width: 20px;
+        height: 20px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .schedule-date-header-template.e-schedule .weather-text {
+        font-size: 11px;
+    }
+</style>

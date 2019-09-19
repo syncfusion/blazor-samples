@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="~/scripts/bootstrap.min.css" rel="stylesheet" />
     <link href="~/styles/roboto.css" rel="stylesheet" />
-    <link href="https://cdn.syncfusion.com/ej2/17.2.49/material.css" rel="stylesheet" />
+    <link href="https://cdn.syncfusion.com/ej2/17.2.52/material.css" rel="stylesheet" />
     <link href="~/styles/highlight.css" rel="stylesheet" />
     <script src="~/scripts/highlight.min.js"></script>
     <script src="~/scripts/index.js"></script>
-    <script src="https://cdn.syncfusion.com/ej2/17.2.50/dist/ej2.min.js"></script>
-    <script src="https://cdn.syncfusion.com/ej2/17.2.50/dist/ejs.interop.min.js"></script>
+    <script src="https://cdn.syncfusion.com/ej2/17.2.52/dist/ej2.min.js"></script>
+    <script src="~/scripts/ejs.interop.min.js"></script>
+    @*<script src="https://cdn.syncfusion.com/ej2/17.2.52/dist/ejs.interop.min.js"></script>*@
     <script type="text/javascript">
         var themeName = getParameterByName("theme");
         if (themeName === 'material') {
@@ -29,18 +30,30 @@
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
             document.write('<script src="' + baseurl + 'scripts/bluebird.min.js"><\/script>');
         }
+
+        var timeOutVar;
+        function timeOutFunction() {
+            timeOutVar = setTimeout(showPageAfterLoad, 500);
+        }
+
+        function showPageAfterLoad() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("app").style.opacity = "1";
+        }
     </script>
 </head>
-<body class="ej2-new e-view">
-    @*<div class="sb-loading">
-            <svg class="circular" height="40" width="40">
-                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10"></circle>
-            </svg>
-        </div>*@
+<body onload="timeOutFunction()">
+    <div id="loader" class="sb-loading">
+        <svg class="circular" height="40" width="40">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10"></circle>
+        </svg>
+    </div>
 
-    <app>
-        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
-    </app>
+    <div style="opacity: 0;" id="app">
+        <app>
+            @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+        </app>
+    </div>
 
     <script src="_framework/blazor.server.js"></script>
 </body>

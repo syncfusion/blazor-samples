@@ -43,6 +43,15 @@ namespace ej2_blazor_samples
                 Url = "TreeMap/Legend",
                 FileName = "Legend.razor",
                 Type = SampleType.New
+            },
+                new Sample
+            {
+                Name = "RTL",
+                Category = "TreeMap",
+                Directory = "TreeMap/TreeMap",
+                Url = "TreeMap/Rtl",
+                FileName = "Rtl.razor",
+                Type = SampleType.New
             }
         };      
     }

@@ -91,6 +91,15 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Resizable Editor",
+                Category = "RichTextEditor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "RichTextEditor/Resize-Editor",
+                FileName = "Resize-Editor.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "API",
                 Category = "RichTextEditor",
                 Directory = "RichTextEditor/RichTextEditor",

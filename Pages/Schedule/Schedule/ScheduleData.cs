@@ -4094,6 +4094,211 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             });
             return fifaEventsData;
         }
+        public List<DoctorsEventData> GetDoctorsEventData()
+        {
+            List<DoctorsEventData> doctorsEventData = new List<DoctorsEventData>();
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 1,
+                Subject = "Surgery - Andrew",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 12, 9, 0, 0, 0),
+                EndTime = new DateTime(2018, 2, 12, 10, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 2,
+                Subject = "Consulting - John",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 12, 10, 0, 0),
+                EndTime = new DateTime(2018, 2, 12, 11, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 3,
+                Subject = "Therapy - Robert",
+                EventType = "Requested",
+                StartTime = new DateTime(2018, 2, 12, 11, 30, 0),
+                EndTime = new DateTime(2018, 2, 12, 12, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 4,
+                Subject = "Observation - Steven",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 12, 12, 30, 0),
+                EndTime = new DateTime(2018, 2, 12, 13, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 5,
+                Subject = "Extraction - Nancy",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 12, 13, 30, 0),
+                EndTime = new DateTime(2018, 2, 12, 15, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 6,
+                Subject = "Surgery - Paul",
+                EventType = "New",
+                StartTime = new DateTime(2018, 2, 13, 9, 0, 0),
+                EndTime = new DateTime(2018, 2, 13, 10, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 7,
+                Subject = "Extraction - Josephs",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 13, 10, 0, 0),
+                EndTime = new DateTime(2018, 2, 13, 11, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 8,
+                Subject = "Consulting - Mario",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 13, 11, 0, 0),
+                EndTime = new DateTime(2018, 2, 13, 12, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 9,
+                Subject = "Therapy - Saveley",
+                EventType = "Requested",
+                StartTime = new DateTime(2018, 2, 13, 12, 0, 0),
+                EndTime = new DateTime(2018, 2, 13, 13, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 10,
+                Subject = "Observation - Cartrain",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 13, 13, 30, 0),
+                EndTime = new DateTime(2018, 2, 13, 15, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 11,
+                Subject = "Consulting - Yang",
+                EventType = "New",
+                StartTime = new DateTime(2018, 2, 14, 9, 0, 0),
+                EndTime = new DateTime(2018, 2, 14, 10, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 12,
+                Subject = "Observation - Michael",
+                EventType = "New",
+                StartTime = new DateTime(2018, 2, 14, 10, 0, 0),
+                EndTime = new DateTime(2018, 2, 14, 11, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 13,
+                Subject = "Surgery - Roland",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 14, 11, 30, 0),
+                EndTime = new DateTime(2018, 2, 14, 12, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 14,
+                Subject = "Extraction - Francisco",
+                EventType = "Requested",
+                StartTime = new DateTime(2018, 2, 14, 12, 30, 0),
+                EndTime = new DateTime(2018, 2, 14, 13, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 15,
+                Subject = "Therapy - Henriette",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 14, 13, 30, 0),
+                EndTime = new DateTime(2018, 2, 14, 15, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 16,
+                Subject = "Observation - Bernardo",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 15, 9, 0, 0),
+                EndTime = new DateTime(2018, 2, 15, 10, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 17,
+                Subject = "Therapy - Wilson",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 15, 10, 0, 0),
+                EndTime = new DateTime(2018, 2, 15, 11, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 18,
+                Subject = "Consulting - Horst",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 15, 11, 0, 0),
+                EndTime = new DateTime(2018, 2, 15, 12, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 19,
+                Subject = "Surgery - Limeira",
+                EventType = "Requested",
+                StartTime = new DateTime(2018, 2, 15, 12, 0, 0),
+                EndTime = new DateTime(2018, 2, 15, 13, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 20,
+                Subject = "Observation - Victoria",
+                EventType = "Requested",
+                StartTime = new DateTime(2018, 2, 15, 13, 30, 0),
+                EndTime = new DateTime(2018, 2, 15, 15, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 21,
+                Subject = "Extraction - Afonso",
+                EventType = "Confirmed",
+                StartTime = new DateTime(2018, 2, 16, 9, 0, 0),
+                EndTime = new DateTime(2018, 2, 16, 10, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 22,
+                Subject = "Extraction - Paula",
+                EventType = "New",
+                StartTime = new DateTime(2018, 2, 16, 10, 0, 0),
+                EndTime = new DateTime(2018, 2, 16, 11, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 23,
+                Subject = "Observation - George",
+                EventType = "Requested",
+                StartTime = new DateTime(2018, 2, 16, 11, 0, 0),
+                EndTime = new DateTime(2018, 2, 16, 12, 0, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 24,
+                Subject = "Therapy - Smith",
+                EventType = "New",
+                StartTime = new DateTime(2018, 2, 16, 12, 0, 0),
+                EndTime = new DateTime(2018, 2, 16, 13, 30, 0)
+            });
+            doctorsEventData.Add(new DoctorsEventData
+            {
+                Id = 25,
+                Subject = "Surgery - Jennifer",
+                EventType = "New",
+                StartTime = new DateTime(2018, 2, 16, 13, 30, 0),
+                EndTime = new DateTime(2018, 2, 16, 15, 30, 0, 0)
+            });
+            return doctorsEventData;
+        }
         public List<WebinarData> GetWebinarData()
         {
             List<WebinarData> webinarData = new List<WebinarData>();
@@ -6366,6 +6571,14 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public Nullable<bool> IsAllDay { get; set; }
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
+        }
+        public class DoctorsEventData
+        {
+            public int Id { get; set; }
+            public string Subject { get; set; }
+            public DateTime StartTime { get; set; }
+            public DateTime EndTime { get; set; }
+            public string EventType { get; set; }
         }
 
     }

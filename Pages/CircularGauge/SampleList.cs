@@ -49,15 +49,24 @@ namespace ej2_blazor_samples
                 FileName = "Semicirculargauge.razor",
                 Type = SampleType.New
             },	
-			//  new Sample
-			// {
-			//     Name = "Arc Gauge",
-			//     Category = "CircularGauge",
-			//     Directory = "CircularGauge/CircularGauge",
-			//     Url = "CircularGauge/Arcgauge",
-			//     FileName = "Arcgauge.razor",
-			//     Type = SampleType.New
-			// },			 
+			 new Sample
+			{
+			    Name = "Arc Gauge",
+			    Category = "CircularGauge",
+			    Directory = "CircularGauge/CircularGauge",
+			    Url = "CircularGauge/ArcGauges",
+			    FileName = "ArcGauges.razor",
+			    Type = SampleType.New
+			},
+             new Sample
+            {
+                Name = "Direction Compass",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/Compass",
+                FileName = "Compass.razor",
+                Type = SampleType.New
+            },			 
 			 new Sample
             {
                 Name = "Pointer Image",
@@ -69,11 +78,29 @@ namespace ej2_blazor_samples
             },
              new Sample
             {
+                Name = "Multiple Axis",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/MultipleAxis",
+                FileName = "MultipleAxis.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
                 Name = "Tooltip",
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/Tooltip",
                 FileName = "Tooltip.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Apple Watch Rings",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/AppleWatchRings",
+                FileName = "AppleWatchRings.razor",
                 Type = SampleType.New
             }
         };

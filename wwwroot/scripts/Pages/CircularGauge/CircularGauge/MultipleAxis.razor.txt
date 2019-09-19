@@ -1,0 +1,202 @@
+@page "/CircularGauge/MultipleAxis"
+
+@using Syncfusion.EJ2.Blazor.CircularGauge
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Inputs
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+	SampleBrowser.CurrentSampleName = "Multiple Axis";
+	SampleBrowser.CurrentControlName = "CircularGauge";
+	SampleBrowser.CurrentControlCategory = "CircularGauge";
+	SampleBrowser.CurrentControl = SampleBrowser.Config.CircularGauge;
+	SampleBrowser.ActionDescription = new string[] {
+		@" <p>
+			This sample visualizes the multiple axes in the gauge and options are available to change the direction, start, and end angle of an axis.
+		</p>"
+	};
+	SampleBrowser.Description = new string[] {
+		@"<p>
+			In this example, you can see how to render and configure multipe axes in gauge. Use axes collection to render multiple axis in gauge. Each axis can be customized with its own <code>pointer</code> and <code>scales</code>.
+		</p>
+		<p>
+			More information on the gauge can be found in this
+			<a target=""_blank"" href=""http://ej2.syncfusion.com/documentation"">documentation section</a>.
+		</p>"
+	};
+}
+@*End:Hidden*@
+<div class="col-lg-8 control-section sb-property-border">
+        <EjsCircularGauge Title="Gauge with Multiple Axes">
+            <CircularGaugeTitleStyle Color="grey"></CircularGaugeTitleStyle>
+            <CircularGaugeAxes>
+                <CircularGaugeAxis Radius="95%" Minimum="0" Maximum="160" StartAngle="@firstAxisStartangle" EndAngle="@firstAxisEndangle" Direction="@firstaAxisDirection">
+                    <CircularGaugeAxisLineStyle Width="1.5" Color="#9E9E9E">
+                    </CircularGaugeAxisLineStyle>
+                    <CircularGaugeAxisLabelStyle Position="Position.Inside" AutoAngle="true">
+                    </CircularGaugeAxisLabelStyle>
+                    <CircularGaugeAxisMajorTicks Position="Position.Inside" Width="2" Height="10" Color="#757575">
+                    </CircularGaugeAxisMajorTicks>
+                    <CircularGaugeAxisMinorTicks Position="Position.Inside" Width="2" Height="5" Color="#757575">
+                    </CircularGaugeAxisMinorTicks>
+                    <CircularGaugePointers>
+                        <CircularGaugePointer Value="80" Radius="100%" Color="#333333" MarkerHeight="15" MarkerWidth="15" Type="PointerType.Marker" MarkerShape="GaugeShape.Triangle">
+                            <CircularGaugePointerAnimation Enable="true">
+                            </CircularGaugePointerAnimation>
+                        </CircularGaugePointer>
+                    </CircularGaugePointers>
+                </CircularGaugeAxis>
+                <CircularGaugeAxis Radius="95%" Minimum="0" Maximum="240" StartAngle="@secondAxisStartangle" EndAngle="@secondAxisEndangle" Direction="@secondAxisDirection">
+                    <CircularGaugeAxisLineStyle Width="1.5" Color="#E84011">
+                    </CircularGaugeAxisLineStyle>
+                    <CircularGaugeAxisLabelStyle Position="Position.Outside" AutoAngle="true">
+                        <CircularGaugeAxisLabelFont Color="#E84011"></CircularGaugeAxisLabelFont>
+                    </CircularGaugeAxisLabelStyle>
+                    <CircularGaugeAxisMajorTicks Position="Position.Outside" Width="2" Height="10" Color="#E84011">
+                    </CircularGaugeAxisMajorTicks>
+                    <CircularGaugeAxisMinorTicks Position="Position.Outside" Width="2" Height="5" Color="#E84011">
+                    </CircularGaugeAxisMinorTicks>
+                    <CircularGaugePointers>
+                        <CircularGaugePointer Value="120" Radius="100%" Color="#C62E0A" MarkerHeight="15" MarkerWidth="15" Type="PointerType.Marker" MarkerShape="GaugeShape.InvertedTriangle">
+                            <CircularGaugePointerAnimation Enable="true">
+                            </CircularGaugePointerAnimation>
+                        </CircularGaugePointer>
+                    </CircularGaugePointers>
+                </CircularGaugeAxis>
+            </CircularGaugeAxes>
+        </EjsCircularGauge>
+    </div>
+<div class="col-md-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table title="Properties" style="width: 100%">
+                <tr>
+                    <td>
+                        <div> Axis </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsDropDownList DataSource="@axisData" Value="@axisValue">
+                                <DropDownListEvents TValue="string" ValueChange="@axisChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div> Direction </div>
+                    </td>
+                    <td>
+                        <div>
+                            <EjsDropDownList DataSource="@AxisDirectionData" Value="@axisDirectionValue">
+                                <DropDownListEvents TValue="string" ValueChange="@axisDirectionChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div>Start Angle <span> &nbsp;&nbsp;&nbsp;@startAngleValue</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@startAngleValue" min="0" max="360" @oninput="startAngleChange" />
+                        </div>
+                    </td>
+                </tr>&nbsp;
+                <tr>
+                    <td>
+                        <div>End Angle <span> &nbsp;&nbsp;&nbsp;@endAngleValue</span> </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="range" value="@endAngleValue" min="0" max="360" @oninput="endAngleChange" />
+                        </div>
+                    </td>
+                </tr>&nbsp;
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    td {
+        width: 40%;
+    }
+</style>
+
+@code{
+    private Double firstAxisStartangle = 220;
+    private Double secondAxisStartangle = 220;
+    private Double firstAxisEndangle = 140;
+    private Double secondAxisEndangle = 140;
+    private GaugeDirection firstaAxisDirection = GaugeDirection.ClockWise;
+    private GaugeDirection secondAxisDirection = GaugeDirection.ClockWise;
+    private String axisValue = "Axis1";
+    private String axisDirectionValue = "ClockWise";
+    private Double startAngleValue = 220;
+    private Double endAngleValue = 140;
+    public class Axis
+    {
+        public string Name { get; set; }
+    }
+    private List<Axis> axisData = new List<Axis>
+{
+        new Axis{ Name = "Axis1"},
+        new Axis{ Name = "Axis2"},
+    };
+    private List<Axis> AxisDirectionData = new List<Axis>
+{
+        new Axis{ Name = "ClockWise"},
+        new Axis{ Name = "AntiClockWise"},
+    };
+    private void axisChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        axisValue = (args.Value).ToString();
+        if (axisValue == "Axis1")
+        {
+            axisDirectionValue = firstaAxisDirection == GaugeDirection.ClockWise ? "ClockWise" : "AntiClockWise";
+            startAngleValue = firstAxisStartangle;
+            endAngleValue = firstAxisEndangle;
+        }
+        else
+        {
+            axisDirectionValue = secondAxisDirection == GaugeDirection.ClockWise ? "ClockWise" : "AntiClockWise";
+            startAngleValue = secondAxisStartangle;
+            endAngleValue = secondAxisEndangle;
+        }
+        this.StateHasChanged();
+    }
+    private void axisDirectionChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        axisDirectionValue = (args.Value).ToString();
+        if (axisDirectionValue == "ClockWise")
+        {
+            if (axisValue == "Axis1") { firstaAxisDirection = GaugeDirection.ClockWise; }
+            else { secondAxisDirection = GaugeDirection.ClockWise; }
+        }
+        else
+        {
+            if (axisValue == "Axis1") { firstaAxisDirection = GaugeDirection.AntiClockWise; }
+            else { secondAxisDirection = GaugeDirection.AntiClockWise; }
+        }
+        this.StateHasChanged();
+    }
+    private void startAngleChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        startAngleValue = Convert.ToDouble(args.Value);
+        if (axisValue == "Axis1") { firstAxisStartangle = startAngleValue; }
+        else { secondAxisStartangle = startAngleValue; }
+        this.StateHasChanged();
+    }
+    private void endAngleChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        endAngleValue = Convert.ToDouble(args.Value);
+        if (axisValue == "Axis1") { firstAxisEndangle = endAngleValue; }
+        else { secondAxisEndangle = endAngleValue; }
+        this.StateHasChanged();
+    }
+}

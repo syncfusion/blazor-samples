@@ -13,15 +13,15 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
             },
-            // new Sample
-            // {
-            //     Name = "Projection",
-            //     Category = "Maps",
-            //     Directory = "Maps/Maps",
-            //     Url = "Maps/Projection",
-            //     FileName = "Projection.razor",
-            //     Type = SampleType.New
-            // },
+            new Sample
+            {
+                Name = "Projection",
+                Category = "Maps",
+                Directory = "Maps/Maps",
+                Url = "Maps/Projection",
+                FileName = "Projection.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Marker",
@@ -47,6 +47,15 @@ namespace ej2_blazor_samples
                 Directory = "Maps/Maps",
                 Url = "Maps/Label",
                 FileName = "Label.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Bubble",
+                Category = "Maps",
+                Directory = "Maps/Maps",
+                Url = "Maps/Bubble",
+                FileName = "Bubble.razor",
                 Type = SampleType.New
             },                   
             //new Sample
@@ -78,11 +87,29 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Zooming & Panning",
+                Category = "Maps",
+                Directory = "Maps/Maps",
+                Url = "Maps/Zooming",
+                FileName = "Zooming.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Print",
                 Category = "Maps",
                 Directory = "Maps/Maps",
                 Url = "Maps/Print",
                 FileName = "Print.razor",
+               Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Export",
+                Category = "Maps",
+                Directory = "Maps/Maps",
+                Url = "Maps/Export",
+                FileName = "Export.razor",
                Type = SampleType.New
             },
             new Sample

@@ -15,6 +15,15 @@ namespace ej2_blazor_samples
                 Directory = "Viewer/PdfViewer",
                 Url = "Viewer/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated
+            },
+            new Sample
+            {
+                Name = "Form Filling",
+                Category = "PdfViewer",
+                Directory = "Viewer/PdfViewer",
+                Url = "Viewer/FormFilling",
+                FileName = "FormFilling.razor",
                 Type = SampleType.New
             },
         };
