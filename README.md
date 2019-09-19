@@ -15,8 +15,8 @@ The below topics can help you to use the Syncfusion Blazor Components and run th
 
 The samples requires the below requirements to run.
 
-* [Visual Studio 2019 Preview](https://visualstudio.microsoft.com/vs/preview/)
-* [.NET Core SDK 3.0.100-preview7-012821](https://dotnet.microsoft.com/download/dotnet-core/3.0)
+* [Visual Studio 2019 16.3 Preview 4 or later](https://visualstudio.microsoft.com/vs/preview/)
+* [.NET Core SDK 3.0 RC1](https://dotnet.microsoft.com/download/dotnet-core/3.0)
 
 ## Using the demos
 
