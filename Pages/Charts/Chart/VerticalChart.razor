@@ -1,0 +1,103 @@
+﻿@page "/Charts/VerticalChart"
+@using Syncfusion.EJ2.Blazor.Charts
+@using System.Collections.ObjectModel;
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Vertical Chart";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+       This sample illustrates the vertical chart by changing the orientation of x-axis to vertical and y-axis to horizontal.
+
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+       In this example, you can see how to render and configure the vertical type charts. To render a chart in vertical manner, you can use isTransposed in chart.
+    </p>
+    <p>
+    More information on the vertical chart can be found in this
+        <a target='_blank' href='http://ej2.syncfusion.com/documentation/chart/api-series.html#type-chartseriestype'>documentation section</a>.
+
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section" align="center">
+    <EjsChart IsTransposed="true" Title="Indonesia - Seismograph Analysis">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis Title="Time (s)">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Velocity (m/s)">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChangeData" XName="x" YName="y" Type="ChartSeriesType.Line">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
+    </EjsChart>
+</div>
+
+@code{
+    Random random = new Random();
+    public ObservableCollection<Data> DataSource;
+    public ObservableCollection<Data> ChangeData { get; set; }
+    int Count = 0;
+    double value = 0;
+    private static System.Timers.Timer syncTimer;
+    public class Data
+    {
+        public double x { get; set; }
+        public double y { get; set; }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        DataSource = new ObservableCollection<Data> {
+            new Data
+            {
+                  x = 0,
+                  y = random.Next()
+            }
+        };
+        this.Count++;
+        ChangeData = this.GetData(0, 50);
+        syncTimer = new System.Timers.Timer(500);
+        syncTimer.Elapsed += AddNewChartData;
+        syncTimer.AutoReset = true;
+        syncTimer.Enabled = true;
+    }
+    ObservableCollection<Data> GetData(int start, int count)
+    {
+        ObservableCollection<Data> data = new ObservableCollection<Data>();
+
+        for (double i = start; i < start + count; i++)
+        {
+            value += ((random.Next(0, 10)) - 5);
+            data.Add(new Data
+            {
+                x = i,
+                y = random.Next(100, 250)
+            });
+            this.Count++;
+        }
+        return data;
+    }
+    public void AddNewChartData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        value += ((random.Next(0, 10)) - 5);
+        this.ChangeData.Add(new Data
+        {
+            x = Count + 10,
+            y = random.Next(100, 250)
+        });
+        Count = Count + 10;
+        InvokeAsync(this.StateHasChanged);
+    }
+}
+

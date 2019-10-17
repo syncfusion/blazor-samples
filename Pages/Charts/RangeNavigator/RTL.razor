@@ -31,7 +31,8 @@ else
     <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;text-align:center">Inflation - Consumer Price</h4>
     <div id="container">
         <EjsRangeNavigator IntervalType="RangeIntervalType.Years" EnableRtl="true" Value="@value" LabelPosition="AxisPosition.Outside" ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
-            <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+            <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+			<RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
             <RangeNavigatorSeriesCollection>
                 <RangeNavigatorSeries Fill="url(#material-gradient-chart)" DataSource="@rtlData" XName="x" Type="RangeNavigatorType.Area" YName="high">
                 </RangeNavigatorSeries>
@@ -41,7 +42,7 @@ else
     <div id="chartcontainer">
         <EjsChart>
             <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
             </ChartPrimaryXAxis>
@@ -61,17 +62,25 @@ else
 }
 @code{
     private ChartData[] rtlData;
+    double ZF = 1;
+    double ZP = 0;
     protected override async Task OnInitializedAsync()
-        {
-        
-			rtlData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/axesdata.json"));
-        }
-        public class ChartData
-        {
-            public DateTime x { get; set; }
-            public double high { get; set; }
-        }
-        private DateTime[] value = new DateTime[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
+    {
+
+        rtlData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/axesdata.json"));
+    }
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double high { get; set; }
+    }
+    private DateTime[] value = new DateTime[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
+    public void onRangeChanged(IChangedEventArgs args)
+    {
+        ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
+    }
 }
 <style>
     #control-container {

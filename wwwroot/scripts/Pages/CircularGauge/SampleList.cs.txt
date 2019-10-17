@@ -31,6 +31,15 @@ namespace ej2_blazor_samples
                 FileName = "Labels.razor",
                 Type = SampleType.New
             },
+            //  new Sample
+            // {
+            //     Name = "Annotation",
+            //     Category = "CircularGauge",
+            //     Directory = "CircularGauge/CircularGauge",
+            //     Url = "CircularGauge/Annotation",
+            //     FileName = "Annotation.razor",
+            //     Type = SampleType.New
+            // },
              new Sample
             {
                 Name = "Gauge Customization",
@@ -78,11 +87,29 @@ namespace ej2_blazor_samples
             },
              new Sample
             {
+                Name = "Pointer Customization",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/PointerCustomization",
+                FileName = "PointerCustomization.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
                 Name = "Multiple Axis",
                 Category = "CircularGauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/MultipleAxis",
                 FileName = "MultipleAxis.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Pointer Drag",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/PointerDrag",
+                FileName = "PointerDrag.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -94,6 +121,15 @@ namespace ej2_blazor_samples
                 FileName = "Tooltip.razor",
                 Type = SampleType.New
             },
+             new Sample
+            {
+                Name = "Data Sample",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/DataSample",
+                FileName = "DataSample.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Apple Watch Rings",
@@ -101,6 +137,15 @@ namespace ej2_blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "CircularGauge/AppleWatchRings",
                 FileName = "AppleWatchRings.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Speedometer",
+                Category = "CircularGauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "CircularGauge/Speedometer",
+                FileName = "Speedometer.razor",
                 Type = SampleType.New
             }
         };

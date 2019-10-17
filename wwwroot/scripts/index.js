@@ -123,7 +123,7 @@ function homeButtonClick() {
 }
 
 function refreshTab(code, s, id) {
-  //setTimeout(function () {
+  setTimeout(function () {
       if (s.sourceFiles.length !== 0) {
         document.querySelector("#" + id[ik]).innerHTML = code[ik];
       if (s.sourceFiles[ik].fileName.split(".")[1] === "cs") {
@@ -136,7 +136,7 @@ function refreshTab(code, s, id) {
       hljs.highlightBlock(document.querySelector("#code"), { language: "cshtml" });
     }
     document.querySelector("#right-pane").scrollTo(0, 0);
- // }, 300);
+  }, 100);
 }
 
 function tabClicked(arg, sourceResponse) {

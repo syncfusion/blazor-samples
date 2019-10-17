@@ -1,0 +1,115 @@
+﻿@page "/Charts/EmptyPoint"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Empty Point";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+       This sample illustrates the empty point functionality in chart series. The mode of empty point can be changed by using Empty Point Mode in property panel.
+
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+       In this example, you can see how to render and configure the empty points. You can use border, fill, mode properties to customize the empty points.
+
+    </p>
+    <p>
+        Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+    </p>
+	<p>
+		More information on the empty points can be found in this documentation section.
+	</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="row">
+    <div class="col-lg-8 control-section">
+        <EjsChart @ref="chartObj" Title="Annual Product-Wise Profit Analysis">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis Title="Product" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Profit" Minimum="0" Maximum="100" Interval="20" LabelFormat="{value}%">
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@dataSource" XName="x" YName="y" Type="@seriesType">
+                    <ChartMarker Visible="true" Height="10" Width="10">
+                    </ChartMarker>
+                    <ChartEmptyPointSettings Fill="#e6e6e6" Mode="@mode"></ChartEmptyPointSettings>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        </EjsChart>
+    </div>
+    <div class="col-lg-4 property-section">
+        <table id="property" style="width: 100%;">
+            <tr style="height: 50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Series Type:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <select @onchange="changeType">
+                        <option value="Column">Column</option>
+                        <option value="Area">Area</option>
+                        <option value="Spline">Spline</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Empty Point Mode:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <select @onchange="changeMode">
+                        <option value="Gap">Gap</option>
+                        <option value="Drop">Drop</option>
+                        <option value="Average">Average</option>
+                        <option value="Zero">Zero</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+@code{
+    EjsChart chartObj;
+    ChartSeriesType seriesType = ChartSeriesType.Column;
+    EmptyPointMode mode = EmptyPointMode.Gap;
+    public void changeType(ChangeEventArgs args)
+    {
+        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+    public void changeMode(ChangeEventArgs args)
+    {
+        this.mode = (EmptyPointMode)Enum.Parse(typeof(EmptyPointMode), args.Value.ToString(), true);
+    }
+    public class EmptyPointData
+    {
+        public string x { get; set; }
+        public Nullable<double> y { get; set; }
+    }
+    public List<EmptyPointData> dataSource = new List<EmptyPointData>
+    {
+       new EmptyPointData { x = "Rice",  y = 80 },
+       new EmptyPointData { x = "Wheat", y = null },
+       new EmptyPointData { x = "Oil",   y = 70 },
+       new EmptyPointData { x = "Corn",  y = 60 },
+       new EmptyPointData { x = "Gram",  y = null },
+       new EmptyPointData { x = "Milk",  y = 70 },
+       new EmptyPointData { x = "Peas",  y = 80 },
+       new EmptyPointData { x = "Fruit", y = 60 },
+       new EmptyPointData { x = "Butter",y = null }
+    };
+}

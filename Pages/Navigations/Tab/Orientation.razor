@@ -148,10 +148,9 @@
                             </td>
                             <td style="width: 50%;">
                                 <div>
-                                    <EjsDropDownList DataSource="@OrientationData" Index="0" TValue="string">
-                                        <DropDownListEvents ValueChange="OnHeaderPositionChange"
-                                                            TValue="HeaderPosition"></DropDownListEvents>
-                                        <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                                    <EjsDropDownList DataSource="@OrientationData" Value="@HeaderValue" TValue="HeaderPosition">
+                                        <DropDownListEvents ValueChange="OnHeaderPositionChange" TValue="HeaderPosition"></DropDownListEvents>
+                                        <DropDownListFieldSettings Value="Value" Text="Text"></DropDownListFieldSettings>
                                     </EjsDropDownList>
                                 </div>
                             </td>
@@ -162,10 +161,9 @@
                             </td>
                             <td style="width: 50%;">
                                 <div>
-                                    <EjsDropDownList DataSource="@HeaderStylesData" Index="0" TValue="string">
-                                        <DropDownListEvents ValueChange="OnHeaderStyleChange" TValue="string">
-                                        </DropDownListEvents>
-                                        <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                                    <EjsDropDownList DataSource="@HeaderStylesData" Value="@HeaderStyles" TValue="string">
+                                        <DropDownListEvents ValueChange="OnHeaderStyleChange" TValue="string"></DropDownListEvents>
+                                        <DropDownListFieldSettings Value="Value" Text="Text"></DropDownListFieldSettings>
                                     </EjsDropDownList>
                                 </div>
                             </td>
@@ -178,21 +176,20 @@
 </div>
 
 @code {
+    public HeaderPosition HeaderValue { get; set; } = HeaderPosition.Top;
+    public string HeaderStyles { get; set; } = "";
 
-    public HeaderPosition HeaderValue { get; set; }
-    public String HeaderStyles { get; set; } = "";
-
-    List<DropdownFileds> OrientationData = new List<DropdownFileds>() {
-            new DropdownFileds() { ID= "Top", Text= "Top" },
-            new DropdownFileds() { ID= "Bottom", Text= "Bottom" },
-            new DropdownFileds() { ID= "Left", Text= "Left" },
-            new DropdownFileds() { ID= "Right", Text= "Right" }
+    List<DropdownFields> OrientationData = new List<DropdownFields>() {
+            new DropdownFields() { Value= "Top", Text= "Top" },
+            new DropdownFields() { Value= "Bottom", Text= "Bottom" },
+            new DropdownFields() { Value= "Left", Text= "Left" },
+            new DropdownFields() { Value= "Right", Text= "Right" }
         };
 
-    List<DropdownFileds> HeaderStylesData = new List<DropdownFileds>() {
-            new DropdownFileds() { ID= "Default", Text= "Default" },
-            new DropdownFileds() { ID= "Accent", Text= "Accent" },
-            new DropdownFileds() { ID= "Fill", Text= "Fill" }
+    List<DropdownFields> HeaderStylesData = new List<DropdownFields>() {
+            new DropdownFields() { Value= "", Text= "Default" },
+            new DropdownFields() { Value= "e-background e-accent", Text= "Accent" },
+            new DropdownFields() { Value= "e-fill", Text= "Fill" }
         };
 
     DataModel Model = new DataModel();
@@ -219,23 +216,12 @@
     }
     public void OnHeaderStyleChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        if (args.Value as string == "Fill")
-        {
-            this.HeaderStyles = "e-fill";
-        }
-        else if (args.Value as string == "Accent")
-        {
-            this.HeaderStyles = "e-background e-accent";
-        }
-        else
-        {
-            this.HeaderStyles = "";
-        }
+        this.HeaderStyles = args.Value;
     }
 
-    public class DropdownFileds
+    public class DropdownFields
     {
-        public string ID { get; set; }
+        public string Value { get; set; }
         public string Text { get; set; }
     }
 

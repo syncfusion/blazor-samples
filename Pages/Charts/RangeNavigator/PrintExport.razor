@@ -27,39 +27,65 @@
 }
 else
 {
-    <div class="control-section">
-        <div class="row" align="center">
-            <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>           
-            <div id="container">
-                <EjsRangeNavigator Value="@value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
-                                   DataSource="@exportData" XName="xDate" YName="Close" ValueType="Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime">
-                </EjsRangeNavigator>
-            </div> <br>
-            <div id="chartcontainer">
-                <EjsChart>
-                    <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-                        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                    </ChartPrimaryXAxis>
-                    <ChartPrimaryYAxis Minimum="81" Maximum="87" Interval="2" Title="Million in USD"
-                                       LabelFormat="{value}M">
-                        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                    </ChartPrimaryYAxis>
-                    <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-                    <ChartArea>
-                        <ChartAreaBorder Color="Transparent"></ChartAreaBorder>
-                    </ChartArea>
-                    <ChartSeriesCollection>
-                        <ChartSeries Fill="rgba(255, 64, 129, 0.3)" DataSource="@exportData" XName="xDate" Name="Close" Width="2" YName="Close" Type="ChartSeriesType.SplineArea"></ChartSeries>
-                    </ChartSeriesCollection>
-                    <ChartLegendSettings Visible="false"></ChartLegendSettings>
-                </EjsChart>
-            </div>
+<div class="row">
+    <div class="col-lg-9 control-section" align="center">
+        <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>
+        <div id="container">
+            <EjsRangeNavigator ID="range" @ref="rangeObj" Value="@value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
+                               DataSource="@exportData" XName="xDate" YName="Close" ValueType="Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime">
+                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+            </EjsRangeNavigator>
+        </div> <br>
+        <div id="chartcontainer">
+            <EjsChart ID="chart" @ref="chartObj">
+                <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="81" Maximum="87" Interval="2" Title="Million in USD"
+                                   LabelFormat="{value}M">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+                <ChartArea>
+                    <ChartAreaBorder Color="Transparent"></ChartAreaBorder>
+                </ChartArea>
+                <ChartSeriesCollection>
+                    <ChartSeries Fill="rgba(255, 64, 129, 0.3)" DataSource="@exportData" XName="xDate" Name="Close" Width="2" YName="Close" Type="ChartSeriesType.SplineArea"></ChartSeries>
+                </ChartSeriesCollection>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            </EjsChart>
         </div>
     </div>
+    <div class="col-lg-3 property-section" style="margin-top:40px">
+        <table id="property">
+            <tbody>
+                <tr id="button-control" align="center">
+                    <td>
+                        <div>
+                            <Syncfusion.EJ2.Blazor.Buttons.EjsButton IconCss="e-icons e-print-icon" ID="button1" Content="Print" @onclick="PrintChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.EJ2.Blazor.Buttons.EjsButton>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="button-control" align='center'>
+                    <td colspan="2">
+                        <div>
+                            <Syncfusion.EJ2.Blazor.Buttons.EjsButton IconCss="e-icons e-export-icon" ID="button2" Content="Export" @onclick="ExportChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.EJ2.Blazor.Buttons.EjsButton>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 }
 @code{
     private ChartData[] exportData;
+    EjsChart chartObj;
+    EjsRangeNavigator rangeObj;
+    double ZF = 1;
+    double ZP = 0;
+    List<String> containerID = new List<String>() {"range", "chart"};
     protected override async Task OnInitializedAsync()
     {
         exportData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/exportdata.json"));
@@ -73,18 +99,19 @@ else
         public double Close { get; set; }
     }
     private DateTime[] value = new DateTime[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
-    protected void onRangeLoad(IRangeLoadedEventArgs args)
-    {
-
-    }
     protected void onRangeChanged(IChangedEventArgs args)
     {
-        double zoomFactor = args.ZoomFactor;
-
+        ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
     }
-    protected void onChartLoad(ILoadedEventArgs args)
+    public void PrintChart(MouseEventArgs args)
     {
-
+        rangeObj.Print(containerID.ToArray());
+    }
+    public void ExportChart(MouseEventArgs args)
+    {
+        chartObj.Export(ExportType.PNG, "Chart");
     }
 }
 <style>

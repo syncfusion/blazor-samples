@@ -1,0 +1,92 @@
+﻿@page "/Charts/EmptyPoints"
+@using Syncfusion.EJ2.Blazor.Charts
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Empty Points";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"This sample illustrates an organization’s annual product-wise profit analysis with the empty point functionality in pie series."
+    };
+    SampleBrowser.Description = new string[] {
+        @"In this example, you can see how to render and configure the empty points. You can use <code>Border</code>, <code>Fill</code>, <code>Mode</code> properties to customize the empty points.
+
+        Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+    };
+}
+@*End:Hidden*@
+
+<div class="row">
+    <div class="col-lg-8 control-section">
+        <EjsAccumulationChart Title="Annual Product-Wise Profit Analysis">
+            <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}</b>"></AccumulationChartTooltipSettings>
+
+            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+
+            <AccumulationChartSeriesCollection>
+                <AccumulationChartSeries DataSource="@DataSource" Name="Profit" XName="XValue" YName="YValue" Type="AccumulationType.Pie">
+                    <AccumulationChartEmptyPointSettings Mode="@Mode" Fill="#e6e6e6"></AccumulationChartEmptyPointSettings>
+                    <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Inside"></AccumulationDataLabelSettings>
+                </AccumulationChartSeries>
+            </AccumulationChartSeriesCollection>
+        </EjsAccumulationChart>
+    </div>
+    <div class="col-lg-4 property-section">
+        <table id="property" title="Properties" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height:50px">
+                <td style="font-size:14px">
+                    Empty Point Mode:
+                </td>
+                <td>
+                    <select @onchange="ChangeEmptyPointMode" style="font-size:14px">
+                        <option value="Drop">Drop</option>
+                        <option value="Average">Average</option>
+                        <option value="Zero">Zero</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+@code{
+
+    AccEmptyPointMode Mode = AccEmptyPointMode.Drop;
+    private void ChangeEmptyPointMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value.ToString() == "Zero")
+        {
+            Mode = AccEmptyPointMode.Zero;
+        }
+        else if (args.Value.ToString() == "Average")
+        {
+            Mode = AccEmptyPointMode.Average;
+        }
+        else
+        {
+            Mode = AccEmptyPointMode.Drop;
+        }
+    }
+
+    public class ChartData
+    {
+        public string XValue;
+        public double YValue;
+        public string Text;
+    }
+
+    public List<ChartData> DataSource = new List<ChartData>
+{
+        new ChartData { XValue = "Rice", YValue = 80 },
+        new ChartData { XValue = "Wheat", YValue = Double.NaN },
+        new ChartData { XValue = "Oil", YValue = 70 },
+        new ChartData { XValue = "Corn", YValue = 60 },
+        new ChartData { XValue = "Gram", YValue = Double.NaN },
+        new ChartData { XValue = "Milk", YValue = 70 },
+        new ChartData { XValue = "Peas", YValue = 80 },
+        new ChartData { XValue = "Fruit", YValue = 60 },
+        new ChartData { XValue = "Butter", YValue = Double.NaN }
+    };
+}

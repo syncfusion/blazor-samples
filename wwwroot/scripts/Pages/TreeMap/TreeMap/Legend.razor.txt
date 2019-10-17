@@ -2,6 +2,7 @@
 
 
 @using Syncfusion.EJ2.Blazor.TreeMap
+@using Syncfusion.EJ2.Blazor.DropDowns
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -12,12 +13,12 @@
         SampleBrowser.CurrentControl = SampleBrowser.Config.TreeMap;
         SampleBrowser.ActionDescription = new string[] {
         @"<p>
-        This sample visualizes USA president election results in the year 2016.
+        This sample visualizes the 2016 United States presidential election results. The type and position of the legends can be changed using the Type and Position options in the properties panel.
     </p>"
     };
         SampleBrowser.Description = new string[] {
         @"<p>
-        In this example, you can see the type of legend available in treemap. And we have applied equal color mapping based on certain value.
+        In this example, you can see the type of legend available in TreeMap. The equal color mapping is applied based on certain value.
     </p>
     <p>
         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item in touch enabled devices
@@ -26,7 +27,7 @@
 }
 @*End:Hidden*@
 
-<div class="control-section">
+<div class="col-lg-9 control-section sb-property-border">
     <div>
         <EjsTreeMap TValue="USAElectionResult" WeightValuePath="Population" Format="n" UseGroupingSeparator="true"
                     EqualColorValuePath="Winner" RangeColorValuePath="WinPercentage" DataSource="@DataSource">
@@ -40,8 +41,8 @@
                 <TreeMapLeafBorder Color="white" Width="0.5">
                 </TreeMapLeafBorder>
             </TreeMapLeafItemSettings>
-            <TreeMapLegendSettings Visible="true"
-                                   Position="@Syncfusion.EJ2.Blazor.TreeMap.LegendPosition.Top"
+            <TreeMapLegendSettings Visible="true" Mode="@legendMode"
+                                   Position="@legendPosition"
                                    Shape="@Syncfusion.EJ2.Blazor.TreeMap.LegendShape.Rectangle">
             </TreeMapLegendSettings>
             <TreeMapTooltipSettings Visible="true" Format="<b>${Winner}</b><br>State : ${State}<br>Trump : ${Trump} %<br>Clinton : ${Clinton} %"></TreeMapTooltipSettings>
@@ -52,9 +53,100 @@
         <a href=" https://en.wikipedia.org/wiki/United_States_presidential_election,_2016" target="_blank">en.wikipedia.org</a>
     </div>
 </div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" title="Properties">
+                <tbody>
+
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Legend Type
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList Placeholder="Select smartlabel mode" DataSource="@LegendType" Value="@legendTypeValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="legendTypeChange"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Legend Position
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList Placeholder="Select intersect action" DataSource="@LegendPositionList" Value="@legendPositionValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="legendPositionChange"></DropDownListEvents>
+                                <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @code {
+    public LegendMode legendMode = LegendMode.Default;
+    public LegendPosition legendPosition = LegendPosition.Top;
+    public string legendTypeValue = "Default";
+    public string legendPositionValue = "Top";
+    public class DropdownList
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<DropdownList> LegendType = new List<DropdownList> {
+        new DropdownList { Value="Default", Name="Default" },
+        new DropdownList { Value="Interactive", Name="Interactive" }
+    };
+    public List<DropdownList> LegendPositionList = new List<DropdownList> {
+        new DropdownList { Value="Top", Name="Top" },
+        new DropdownList { Value="Bottom", Name="Bottom" },
+        new DropdownList { Value="Left", Name="Left" },
+        new DropdownList { Value="Right", Name="Right" },
+        new DropdownList { Value="Auto", Name="Auto" }
+    };
+    public void legendTypeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        legendTypeValue = args.Value;
+        if (args.Value == "Default")
+        {
+            legendMode = LegendMode.Default;
+        }
+        else
+        {
+            legendMode = LegendMode.Interactive;
+        }
+    }
 
+    public void legendPositionChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        legendPositionValue = args.Value;
+        if (args.Value == "Top")
+        {
+            legendPosition = LegendPosition.Top;
+        }
+        else if (args.Value == "Bottom")
+        {
+            legendPosition = LegendPosition.Bottom;
+        }
+        else if (args.Value == "Left")
+        {
+            legendPosition = LegendPosition.Left;
+        }
+        else if (args.Value == "Right")
+        {
+            legendPosition = LegendPosition.Right;
+        }
+        else
+        {
+            legendPosition = LegendPosition.Auto;
+        }
+    }
     public class USAElectionResult
     {
         public string State;
@@ -118,4 +210,4 @@
         new USAElectionResult { State= "West Virginia", Trump=47.9,Clinton=46.9,  WinPercentage=47.9,Winner="Clinton",  Population = 1853011 },
         new USAElectionResult { State= "Wyoming", Trump=70.1,Clinton=22.5,  WinPercentage=70.1,Winner="Trump",  Population = 583767 }
     };
-} 
+}

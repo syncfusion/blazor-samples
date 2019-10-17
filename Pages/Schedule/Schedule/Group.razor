@@ -1,6 +1,7 @@
 ﻿@page "/Schedule/Group"
 
 @using Syncfusion.EJ2.Blazor.Schedule
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -46,11 +47,26 @@
         <div class="schedule-demo-heading">
             Flight timings between Barcelona and Los Angeles
         </div>
-        <EjsSchedule TValue="AppointmentData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 3, 4))">
+        <EjsSchedule TValue="AppointmentData" ModelType="@Model" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 3, 4))">
             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
                 <ScheduleResource DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
+            <ScheduleTemplates>
+                <ResourceHeaderTemplate>
+                    @{
+                        var airlineData = (context as TemplateArgs).ResourceData;
+                        <div class='template-wrap'>
+                            <div class="airline-image"><img src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{airlineData.AirlineImage}.svg")" /></div>
+                            <div class="airline-details">
+                                <div class="airline-name">@(airlineData.AirlineName)</div>
+                                <div class="airline-model">Model no: @(airlineData.AirlineModel)</div>
+                                <div class="airline-seats">No.of seats: @(airlineData.AirlineSeats)</div>
+                            </div>
+                        </div>
+                    }
+                </ResourceHeaderTemplate>
+            </ScheduleTemplates>
             <ScheduleEventSettings DataSource="@DataSource">
                 <ScheduleField>
                     <FieldSubject Title="Travel Summary" Name="Subject"></FieldSubject>
@@ -66,13 +82,23 @@
 
 @code{
     public List<AppointmentData> DataSource = GenerateEvents();
-    public class AppointmentData
+    public string[] GroupData = new string[] { "Airlines" };
+    private List<object> ResourceData { get; set; } = new List<object> {
+        new { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50, AirlineImage = "airways-1" },
+        new { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75, AirlineImage = "airways-2" },
+        new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100, AirlineImage = "airways-3" }
+    };
+    public TemplateArgs Model = new TemplateArgs();
+    public class TemplateArgs
     {
-        public int Id { get; set; }
-        public string Subject { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public int AirlineId { get; set; }
+        public ResourceDataModel ResourceData { get; set; }
+    }
+    public class ResourceDataModel
+    {
+        public string AirlineImage { get; set; }
+        public string AirlineName { get; set; }
+        public string AirlineModel { get; set; }
+        public int AirlineSeats { get; set; }
     }
     private static List<AppointmentData> GenerateEvents()
     {
@@ -109,25 +135,89 @@
         }
         return collections;
     }
-    public string[] GroupData = new string[] { "Airlines" };
-    private List<object> ResourceData { get; set; } = new List<object> {
-        new { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50 },
-        new { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75},
-        new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100}
-    };
+     public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int AirlineId { get; set; }
+    }
 }
 
 <style>
+    .e-schedule .template-wrap {
+        display: flex;
+        text-align: left;
+    }
 
-    .schedule-demo-heading {
-        font-size: 16px;
-        padding-bottom: 15px;
+    .e-schedule .e-agenda-view .template-wrap {
+        display: table;
+        width: inherit;
         text-align: center;
-        font-weight: 500;
+        padding-top: 10px;
     }
 
     .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
         width: 110px;
+    }
+
+    .e-schedule .template-wrap .airline-image {
+        width: 30px;
+        margin-top: 15px;
+        background-repeat: no-repeat;
+    }
+
+    .e-schedule.e-device .template-wrap .airline-image {
+        margin-top: 5px;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap .airline-image {
+        height: 30px;
+        margin-top: 0;
+        margin-left: 35%;
+    }
+
+    .e-schedule .e-vertical-view .e-resource-cells {
+        height: 76px;
+    }
+
+    .e-bigger .e-schedule .e-vertical-view .e-resource-cells {
+        height: 80px;
+    }
+
+    .e-schedule .template-wrap .airline-details {
+        padding-left: 15px;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap .airline-details {
+        padding: 0;
+    }
+
+    .e-schedule .template-wrap .airline-details .airline-name {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .e-schedule.e-device .template-wrap .airline-details .airline-name {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap .airline-model,
+    .e-schedule .e-agenda-view .template-wrap .airline-seats {
+        display: none;
+    }
+
+    .e-schedule.e-device .template-wrap .airline-model,
+    .e-schedule.e-device .template-wrap .airline-seats {
+        display: none;
+    }
+
+    .schedule-demo-heading {
+        font-size: 16px;
+        padding-bottom: 15px;
+        font-weight: 500;
     }
 
     @@media (max-width: 550px) {

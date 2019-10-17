@@ -16,7 +16,7 @@ namespace ej2_blazor_samples
                 Url = "HeatMapChart/DefaultFunctionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New
-            },            
+            }, 
             new Sample
             {
                 Name = "Calendar Heatmap",
@@ -33,6 +33,51 @@ namespace ej2_blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "HeatMapChart/BubbleTypes",
                 FileName = "BubbleTypes.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Color and Size",
+                Category = "Bubble HeatMap",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/ColorAndSize",
+                FileName = "ColorAndSize.razor",
+                Type = SampleType.New
+            },
+                new Sample
+            {
+                Name = "Row",
+                Category = "Data Binding",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/Row",
+                FileName = "Row.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Cell",
+                Category = "Data Binding",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/Cell",
+                FileName = "Cell.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Json Row",
+                Category = "Data Binding",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/JsonRow",
+                FileName = "JsonRow.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Json Cell",
+                Category = "Data Binding",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "HeatMapChart/JsonCell",
+                FileName = "JsonCell.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -109,8 +154,4 @@ namespace ej2_blazor_samples
             }
         };    
     }
-
-   
-
-
 }

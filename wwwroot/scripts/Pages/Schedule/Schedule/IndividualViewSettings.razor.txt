@@ -1,0 +1,116 @@
+﻿@page "/Schedule/IndividualViewSettings"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+@using System.Globalization
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Basic Views";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This demo illustrates how to customize each view with specific configurations like applying event template on agenda view,
+            setting different start/end hour to day and week views and enabling grouping in month view. It also shows how to
+            hide the weekend days and to set different time intervals on week view.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this demo, the
+            <code>views</code> property is defined to accept the array of view options and therefore for each view, it is possible to set different
+            configurations. In day view, the
+            <code>startHour</code> is set to 7 and
+            <code>endHour</code> set to 18 whereas in week view, the same is set as 9 and 19 respectively. Also, the
+            <code>showWeekend</code> property is set to false only on week view along with different timescale interval. The customized template is applied
+            to the events on Agenda view and on month view, the grouping functionality is enabled by setting
+            <code>group</code> property.
+
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="schedule-wrapper">
+        <EjsSchedule TValue="ScheduleData.FifaEventsData" ModelType="Model" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 6, 20))">
+            <ScheduleResources>
+                <ScheduleResource DataSource="@ResourceData" Field="GroupId" Title="Owner" Name="Owners" TextField="GroupText" IdField="GroupId" ColorField="GroupColor"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleViews>
+                <ScheduleView Option="@View.Day" StartHour="07:00" EndHour="18:00"></ScheduleView>
+                <ScheduleView Option="@View.Week" StartHour="09:00" EndHour="19:00" ShowWeekend="false">
+                    <ScheduleViewTimeScale Interval="60" SlotCount="4"></ScheduleViewTimeScale>
+                </ScheduleView>
+                <ScheduleView Option="@View.Month">
+                    <EventTemplate>
+                        <div class='subject'>@((context as TemplateArgs).Subject)</div>
+                    </EventTemplate>
+                    <ChildContent>
+                        <ScheduleViewGroup Resources="@GroupData"></ScheduleViewGroup>
+                    </ChildContent>
+                </ScheduleView>
+                <ScheduleView Option="@View.Agenda">
+                    <EventTemplate>
+                        <div class='subject'>@((context as TemplateArgs).Subject)</div>
+                        <div>
+                            @if (((context as TemplateArgs).Description) != null)
+                            {
+                                <div class='group'>@((context as TemplateArgs).Description)</div>
+                            }
+                        </div>
+                        <div class='location'>@(getTimeString((context as TemplateArgs).StartTime)), @((context as TemplateArgs).City)</div>
+                    </EventTemplate>
+                </ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </EjsSchedule>
+    </div>
+</div>
+
+@code{
+    public List<ScheduleData.FifaEventsData> DataSource = new ScheduleData().GetFifaEventsData();
+    public static string getTimeString(DateTime date)
+    {
+        return date.ToString("HH:mm", CultureInfo.InvariantCulture);
+    }
+    public string[] GroupData = new string[] { "Owners" };
+    private List<object> ResourceData { get; set; } = new List<object> {
+        new {GroupText = "Group A", GroupId = 1, GroupColor = "#1aaa55"},
+        new {GroupText = "Group B", GroupId = 2, GroupColor = "#357cd2"}
+    };
+    public class TemplateArgs
+    {
+        public string Subject { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public string City { get; set; }
+    }
+    public TemplateArgs Model = new TemplateArgs();
+}
+
+<style>
+    .e-schedule .e-agenda-view .e-appointment .subject {
+        font-size: 14px;
+    }
+
+    .e-schedule .e-agenda-view .e-appointment .group {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .e-schedule .e-month-view .e-appointment .e-appointment-details {
+        padding: 1px;
+        padding-left: 3px;
+    }
+
+    .e-schedule .e-agenda-view .e-appointment .location {
+        font-size: 12px;
+    }
+
+    .e-schedule .e-date-header-wrap .e-resource-cells {
+        font-weight: 500;
+    }
+</style>

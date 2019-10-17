@@ -108,6 +108,15 @@ namespace ej2_blazor_samples
                 Url = "Tooltip/HtmlTemplate",
                 FileName = "HtmlTemplate.razor",
                 Type = SampleType.New,
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Tooltip",
+                Directory = "Popups/Tooltip",
+                Url = "Tooltip/Api",
+                FileName = "Api.razor",
+                Type = SampleType.New,
             }
         };   
     }

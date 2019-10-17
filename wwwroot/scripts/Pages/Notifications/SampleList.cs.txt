@@ -45,5 +45,16 @@ namespace ej2_blazor_samples
                 Type = SampleType.New
             }
         };
+        public List<Sample> Spinner { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Spinner",
+                Directory = "Notifications/Spinner",
+                Url = "Spinner/DefaultFunctionalities",
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.New
+            }
+        };
     }
 }

@@ -3,6 +3,7 @@
 
 @using Syncfusion.EJ2.Blazor.TreeMap
 @using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Charts
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -13,36 +14,44 @@
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeMap;
     SampleBrowser.ActionDescription = new string[] {
         @"<p>
-        This sample visualizes the car sales of various countries in 2017 by rendering the countries at top level and car manufacturing companies as leaf items.
+        This sample visualizes the population level of various continents in 2011 based on the gender and age group.
     </p>"
     };
     SampleBrowser.Description = new string[] {
         @"<p>
-        In this example, you can see how to render a treemap with the provided data source. Palette color is applied for the items in treemap. Default legend is enabled in this example to represent the items in top level.
+        In this example, you can see how to render a pie chart as a template for leaf items in TreeMap. Any custom HTML element can be rendered as label template.
     </p>
     <p>
         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item in touch enabled devices.
-    </p>
-    <br />
-    <p style=""font-weight: 500"">Injecting Module</p>
-    <p>
-        Treemap component features are segregated into individual feature-wise modules. To use a tooltip, inject the
-        <code>Tooltip</code> module using the < code > Treemap.Inject(TreeMapTooltip) </ code > method, and use a legend by injecting the<code> Legend</ code > module using the < code > Treemap.Inject(TreeMapLegend) </ code > method.
-    </ p > "
+    </p> "
     };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div>
-        <EjsTreeMap  Format="n" UseGroupingSeparator="true" WeightValuePath="Population"
-                    DataSource="@Datasource">
+        <EjsTreeMap Format="n" UseGroupingSeparator="true" WeightValuePath="Population"
+                    DataSource="@Datasource" ModelType="@Datasource">
             <TreeMapTitleSettings Text="'Population of the continents based on gender and age group - 2011'">
                 <TreeMapTitleTextStyle Size="15px"></TreeMapTitleTextStyle>
             </TreeMapTitleSettings>
-            <TreeMapLeafItemSettings LabelPath="Gender" Fill="#A1317D" ShowLabels="false" LabelFormat="${Gender} : ${Population}" >
-                <TreeMapLeafBorder Color="Black" Width="0.5">
-                </TreeMapLeafBorder>
+            <TreeMapLeafItemSettings LabelPath="Gender" Fill="#A1317D" ShowLabels="false" LabelFormat="${Gender} : ${Population}" Border="@border">
+                @*<TreeMapLeafBorder Color="Black" Width="0.5">
+                    </TreeMapLeafBorder>*@
+                <LabelTemplate>
+                    @{
+                        var chart = (context as Data);
+                        <div style="margin-top:-40px;margin-left:-30px;">
+                            <EjsAccumulationChart Background="transparent" Height="@chart.PieHeight" Width="@chart.PieWidth">
+                                <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+                                <AccumulationChartSeriesCollection>
+                                    <AccumulationChartSeries Explode="true" ExplodeIndex="0" ExplodeOffset="20%" Name="name" DataSource="@datas[firstDataIndex++]" XName="x" YName="y" Palettes='new string[] { "#1E1E1E", "#00BDAE", "#FFFFFF" }'>
+                                    </AccumulationChartSeries>
+                                </AccumulationChartSeriesCollection>
+                            </EjsAccumulationChart>
+                        </div>
+                    }
+                </LabelTemplate>
             </TreeMapLeafItemSettings>
             <TreeMapLevels>
                 <TreeMapLevel GroupPath="Continent">
@@ -51,7 +60,7 @@
                 </TreeMapLevel>
             </TreeMapLevels>
             <TreeMapLevels>
-                <TreeMapLevel GroupPath="Continent" Fill="#7E2361"  GroupGap="0">
+                <TreeMapLevel GroupPath="Continent" Fill="#7E2361" GroupGap="0">
                     <TreeMapHeaderStyle Size="14px"></TreeMapHeaderStyle>
                     <TreeMapLevelBorder Color="Black" Width="1"></TreeMapLevelBorder>
                 </TreeMapLevel>
@@ -65,17 +74,40 @@
     </div>
 </div>
 @functions {
-   public class Data
-{
-public string Continent;
-public string Gender;
-public double Population;
-public string Id;
-public string PieHeight;
-public string PieWidth;
-}
-public List<Data> Datasource = new List<Data> {
-        new Data { Continent= "Africa", Gender=  "Male", Population= 518636010, Id= "AfricaMale", PieHeight= "90px", PieWidth = "90px" },
+    private int firstDataIndex = 0;
+    public double count = 0;
+    public class Pie
+    {
+        public string x;
+        public double y;
+    }
+    Syncfusion.EJ2.Blazor.TreeMap.TreeMapLeafBorder border = new Syncfusion.EJ2.Blazor.TreeMap.TreeMapLeafBorder() { Color = "black", Width = 0.5 };
+    public List<List<Pie>> datas = new List<List<Pie>> {
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 40.8}, new Pie{ x= "'15-64 years", y= 56.2 }, new Pie{ x= "Above 64 years", y= 3.0} },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 12.9 }, new Pie{ x= "Above 64 years", y= 41.4} },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 25.1 }, new Pie{ x= "'15-64 years", y= 67.8  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.3 }, new Pie{ x= "'15-64 years", y= 68.4  }, new Pie{ x= "Above 64 years", y= 16.3 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 22.8 }, new Pie{ x= "'15-64 years", y= 12.9 }, new Pie{ x= "Above 64 years", y= 41.4} },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 26.8 }, new Pie{ x= "'15-64 years", y= 12.9 }, new Pie{ x= "Above 64 years", y= 41.4} },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+        new List<Pie>{  new Pie{ x= "0-15 years", y= 15.5}, new Pie{ x= "'15-64 years", y= 66.1  }, new Pie{ x= "Above 64 years", y= 7.1 } },
+    };
+    public class Data
+    {
+        public string Continent;
+        public string Gender;
+        public double Population;
+        public string Id;
+        public string PieHeight;
+        public string PieWidth;
+    }
+    public List<Data> Datasource = new List<Data> {
+        new Data { Continent= "Africa", Gender=  "Male", Population= 518636010, Id= "AfricaMale", PieHeight= "90px", PieWidth = "90px", },
         new Data { Continent= "Africa", Gender= "Female", Population= 519058499, Id= "AfricaFemale", PieHeight= "90px", PieWidth = "90px" },
         new Data { Continent= "Asia", Gender=  "Male", Population= 2131947122, Id= "AsiaMale", PieHeight= "160px", PieWidth = "160px" },
         new Data { Continent= "Asia", Gender= "Female", Population= 2043385632, Id= "AsiaFemale", PieHeight= "160px", PieWidth = "160px" },

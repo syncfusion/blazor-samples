@@ -1,0 +1,96 @@
+﻿@page "/TreeGrid/ToolBarTemplate"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Data
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Navigations
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_treedata
+@{
+    SampleBrowser.CurrentSampleName = "Toolbar Template";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample explains the way of rendering custom template element Quick Filter in a toolbar and while click on the icon filters the Task Name column in TreeGrid using API.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+           Custom toolbar items can be added by defining the toolbar as a collection of ItemModels. Actions for this customized toolbar items are defined in the <code>OnToolbarClick</code> event.
+        </p>
+        <p>In this sample, rendered the custom template element Quick Filter along with predefined toolbar items ExpandAll and CollapseAll. While click on the Quick Filter button then the filtering is applied for Task Name column.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+@{
+    List<ItemModel> Toolbaritems = new List<ItemModel>();
+    Toolbaritems.Add(new  ItemModel() { Text = "Expand all", TooltipText = "Expand all", PrefixIcon = "e-expand" });
+    Toolbaritems.Add(new  ItemModel() { Text = "Collapse all", TooltipText = "Collapse all", PrefixIcon = "e-collapse" });
+    Toolbaritems.Add(new  ItemModel() { Text = "Quick Filter", TooltipText = "Quick Filter", Id = "toolbarfilter" });
+}
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid AllowFiltering="true" @ref="TreeGrid" TValue="BusinessObject"  ChildMapping="Children" TreeColumnIndex="1" Toolbar="Toolbaritems" Height="350">
+                <EjsDataManager Json="@TreeGridData" Adaptor="Adaptors.JsonAdaptor"></EjsDataManager>
+                <TreeGridEvents TValue="string" OnToolbarClick="ToolBarClick"></TreeGridEvents>
+               
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="79" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="186"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="87" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="84" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="Approved" HeaderText="Approved" Width="84" DisplayAsCheckBox="true" TextAlign="TextAlign.Center"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-expand::before {
+        content: '\e82e';
+    }
+
+    .e-collapse::before {
+        content: '\e834';
+    }
+</style>
+
+
+@code{
+    EjsTreeGrid<BusinessObject> TreeGrid;
+
+    public BusinessObject[] TreeGridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = TreeData.GetDefaultData().Cast<BusinessObject>().ToArray();
+    }
+    public void ToolBarClick(Syncfusion.EJ2.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Text == "Expand all")
+        {
+            this.TreeGrid.ExpandAll();
+            
+        }
+        if (args.Item.Text == "Collapse all")
+        {
+            this.TreeGrid.CollapseAll();
+           
+        }
+        if (args.Item.Text == "Quick Filter")
+        {
+            this.TreeGrid.FilterByColumn("TaskName", "StartsWith", "Testing");
+        }
+    }
+}

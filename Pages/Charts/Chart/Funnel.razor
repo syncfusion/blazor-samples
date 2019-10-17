@@ -18,34 +18,103 @@
 }
 @*End:Hidden*@
 
-    <div class="control-section">
-        <EjsAccumulationChart Title="Project Cost Breakdown" EnableAnimation="false">
-            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
-            <AccumulationChartLegendSettings Visible="false">
-            </AccumulationChartLegendSettings>
-            <AccumulationChartSeriesCollection>
-                <AccumulationChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Type="AccumulationType.Funnel"  Height="80%" neckWidth="15%" neckHeight="18%">
-                    <AccumulationDataLabelSettings Visible="true" Name="text">
-                      
-                    </AccumulationDataLabelSettings>
-                </AccumulationChartSeries>
-            </AccumulationChartSeriesCollection>
-        </EjsAccumulationChart>
+<div class="row">
+    <div class="col-lg-8 control-section">
+        <div class="control-section">
+            <EjsAccumulationChart Title="Top populated countries in 2017" EnableAnimation="false">
+                <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+
+                <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+
+                <AccumulationChartSeriesCollection>
+                    <AccumulationChartSeries DataSource="@StatisticsDetails" XName="Country" YName="Users"
+                                             Type="AccumulationType.Funnel" Explode="false" NeckWidth="@NeckWidth" NeckHeight="@NeckHeight">
+                        <AccumulationDataLabelSettings Visible="true" Name="Country" Position="AccumulationLabelPosition.Outside">
+                            <AccumulationChartConnector Length="6%"></AccumulationChartConnector>
+                        </AccumulationDataLabelSettings>
+                    </AccumulationChartSeries>
+                </AccumulationChartSeriesCollection>
+            </EjsAccumulationChart>
+        </div>
     </div>
+    <div class="col-lg-4 property-section">
+        <table id="property" title="Properties" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Neck Width:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div data-role="rangeslider">
+                        <input type="range" @onchange="ChangeNeckWidth" value="@NeckWidthValue" min="0" max="50" style="width:90%" />
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div data-role="rangeslider">
+                        <p id="xvalue" style="font-weight: normal;padding-top:10px;"><span>@NeckWidthValue</span></p>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Neck Height:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div data-role="rangeslider">
+                        <input type="range" @onchange="ChangeNeckHeight" value="@NeckHeightValue" min="0" max="50" style="width:90%" />
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div data-role="rangeslider">
+                        <p id="yvalue" style="font-weight: normal;padding-top:10px;"><span>@NeckHeightValue</span></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 @code{
-    public class FunnelData
+    EjsAccumulationChart ChartObj;
+    public int NeckWidthValue = 10, NeckHeightValue = 18;
+    public string NeckWidth = "10%", NeckHeight = "18%";
+    private void ChangeNeckWidth(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        public string xValue { get; set; }
-        public double yValue { get; set; }
-        public string text { get; set; }
+        NeckWidthValue = Convert.ToInt32(args.Value);
+        NeckWidth = NeckWidthValue + "%";
     }
-    public List<FunnelData> dataSource = new List<FunnelData>
+    private void ChangeNeckHeight(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-           new FunnelData { xValue =  "Renewed", yValue = 18.20, text = "18.20%" },
-           new FunnelData { xValue =  "Subscribed", yValue = 27.3, text = "27.3%" },
-           new FunnelData { xValue =  "Support", yValue = 55.9, text = "55.9%" },
-           new FunnelData { xValue =  "Dowmloaded", yValue = 76.8, text = "76.8%" },
-           new FunnelData { xValue =  "Visited", yValue = 100, text = "100%" },
+        NeckHeightValue = Convert.ToInt32(args.Value);
+        NeckHeight = args.Value + "%";
+    }
+
+    public class Statistics
+    {
+        public string Country;
+        public double Users;
+    }
+    public List<Statistics> StatisticsDetails = new List<Statistics>
+  {
+            new Statistics { Country = "China", Users = 1409517397 },
+            new Statistics { Country = "India", Users = 1339180127 },
+            new Statistics { Country = "United States", Users = 324459463 },
+            new Statistics { Country = "Indonesia", Users = 263991379  },
+            new Statistics { Country = "Brazil", Users = 209288278 },
+            new Statistics { Country = "Pakistan", Users = 197015955 },
+            new Statistics { Country = "Nigeria", Users = 190886311 },
+            new Statistics { Country = "Bangladesh", Users = 164669751 },
+            new Statistics { Country = "Russia", Users = 143989754 },
+            new Statistics { Country = "Mexico", Users = 129163276 },
+            new Statistics { Country = "Japan", Users = 127484450 },
+            new Statistics { Country = "Ethiopia", Users = 104957438 },
+            new Statistics { Country = "Philippines", Users = 104918090 },
+            new Statistics { Country = "Egypt", Users = 97553151 },
+            new Statistics { Country = "Vietnam", Users = 95540800 },
+            new Statistics { Country = "Germany", Users = 82114224 },
     };
 }
 

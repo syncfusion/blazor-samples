@@ -1,0 +1,72 @@
+﻿@page "/TreeGrid/TreeGridDetailTemplate"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_templatedata
+
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@{
+    SampleBrowser.CurrentSampleName = "Detail Template";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates the TreeGrid component with the detail template feature.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>The detail row template provides an additional information about a data row. The template can be provided with the 
+        <code>DetailTemplate</code> sub component.</p>
+        <p>In this demo, we have presented Employee Information with image in the detail row.</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid ModelType="@model" Height="400" DataSource="@TreeGridData" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="0">
+                <TreeGridTemplates>
+                    <DetailTemplate>
+                        <div style="position: relative; display: inline-block; float: left; font-weight: bold; width: 10%;padding:5px 4px 2px 27px;;">
+                            <img src="@UriHelper.ToAbsoluteUri($"images/TreeGrid/" + (context as Employee).Name + ".png")" />
+                        </div>
+                        <div style="padding-left: 10px; display: inline-block; width: 66%; text-wrap: normal;font-size:13px;font-family:'Segoe UI';">
+                            <div class="e-description" style="word-wrap: break-word;">
+                                <b>@((context as Employee).Name)</b> was lives at @((context as Employee).Address), @((context as Employee).Country). @((context as Employee).Name) holds a position of <b>@((context as Employee).Designation)</b> in our WA department, (Seattle USA).
+                            </div>
+                            <div class="e-description" style="word-wrap: break-word;margin-top:5px;">
+                                <b style="margin-right:10px;">Contact:</b>@((context as Employee).Contact)
+                            </div>
+                        </div>
+                    </DetailTemplate>
+                </TreeGridTemplates>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="Name" HeaderText="Name" Width="160">                     
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="DOB" HeaderText="DOB" Width="80" Type=ColumnType.Date Format="yMd" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" HeaderText="Designation" Width="120"></TreeGridColumn>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" Width="80" TextAlign="TextAlign.Left"></TreeGridColumn>
+                    <TreeGridColumn Field="Country" HeaderText="Country" Width="100"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public IEnumerable<Employee> TreeGridData { get; set; }
+
+    public Employee model = new Employee();
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = Employee.GetTemplateData();
+    }
+}

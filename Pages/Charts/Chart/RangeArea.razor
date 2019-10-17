@@ -1,0 +1,79 @@
+﻿@page "/Charts/RangeArea"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Range Area";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+        This sample visualizes the maximum and minimum temperatures of different months with default range area series in the chart. Zoom the chart to check the temperature for week or day.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        In this example, you can see how to render and configure the range area type chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <EjsChart Title="Temperature Variation">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}˚C">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@SeriesData" Name="India" XName="X" High="High" Low="Low" Opacity="0.4" Type="ChartSeriesType.RangeArea">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </EjsChart>
+</div>
+
+@code{
+
+    Random random = new Random();
+    DateTime date = new DateTime(2015, 1, 1);
+    public class ChartData
+    {
+        public DateTime X { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+    }
+    List<ChartData> SeriesData;
+    protected override async Task OnInitializedAsync()
+    {
+        SeriesData = this.GetData();
+    }
+    
+    List <ChartData> GetData()
+    {
+        List<ChartData> data = new List<ChartData>();
+        double value = 35;
+        for (var i = 0; i < 359; i++)
+        {
+            if (random.NextDouble() > .5)
+            {
+                value += random.NextDouble();
+            }
+            else
+            {
+                value -= random.NextDouble();
+            }
+            data.Add(new ChartData() { X = date.AddDays(i), High = value, Low = (value - 10) });
+        }
+        return data;
+    }
+}

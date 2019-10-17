@@ -1,0 +1,131 @@
+@page "/PivotTable/OLAP"
+
+@using Syncfusion.EJ2.Blazor.PivotView
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_productdetails
+@{
+    SampleBrowser.CurrentSampleName = "OLAP";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
+@"<p>
+    This sample demonstrates the rendering of a pivot table bound to an online SSAS OLAP cube as its data source.
+        OLAP cube elements like dimension, hierarchy, measure, and others can be arranged in row, column, value, and
+        slicer axes to create desired views at runtime.
+</p>"
+};
+    SampleBrowser.Description = new string[] {
+@"      <p>
+        In this example, users can explore all of an OLAP cube and its elements and view the resultant report in a pivot
+        table or pivot chart at runtime. Grouping bar and field list options are included for exploring the data. Along
+        with these, toolbar options are included for switching to the pivot chart and more:
+    </p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Pivot Table:</code>
+            </td>
+            <td>Allows user to view data in cross-tabulation format.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Pivot Chart and its types:</code>
+            </td>
+            <td>Allows user to view data in graphical format. The chart types include column, bar, line, area, etc.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Show MDX query:</code>
+            </td>
+            <td>View the MDX query of the current pivot table that is used to fetch the data from the cube.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Export:</code>
+            </td>
+            <td>Provides options to save data in PDF, Excel, and CSV document types.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Hide subtotals and grand totals:</code>
+            </td>
+            <td>Hide grand totals and subtotals based on hierarchies in rows and columns.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Conditional formatting:</code>
+            </td>
+            <td>Allows user to customize cells base on certain conditions.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Field List:</code>
+            </td>
+            <td>Provides option to alter the report dynamically through UI.</td>
+        </tr>
+    </table>
+"
+};
+}
+@*End:Hidden*@
+
+    <div class="control-section">
+        <div class="content-wrapper">
+            <EjsPivotView TValue="ProductDetails" ShowGroupingBar="true" Width="800" Height="400" ShowFieldList=true ShowToolbar=true Toolbar="@olap" AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true>
+                <PivotViewDisplayOption Primary=Primary.Table View=View.Both></PivotViewDisplayOption>
+                <PivotViewDataSourceSettings TValue="ProductDetails" ProviderType="ProviderType.SSAS" Catalog="Adventure Works DW 2008 SE" Cube="Adventure Works" Url="https://bi.syncfusion.com/olap/msmdpump.dll" LocaleIdentifier="1033" EnableSorting="true">
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="[Product].[Product Categories]" Caption="Product Category"></PivotViewColumn>
+                        <PivotViewColumn Name="[Measures]" Caption="Measure"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="[Customer].[Customer Geography]" Caption="Customer Geography"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="[Measures].[Customer Count]" Caption="Customer Count"></PivotViewValue>
+                        <PivotViewValue Name="[Measures].[Internet Sales Amount]" Caption="Internet Sales Amount"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFilters>
+                        <PivotViewFilter Name="[Date].[Fiscal]" Caption="Date Fiscal"></PivotViewFilter>
+                    </PivotViewFilters>
+                    <PivotViewFilterSettings>
+                        <PivotViewFilterSetting Name="[Date].[Fiscal]" Items="items" LevelCount="3"></PivotViewFilterSetting>
+                    </PivotViewFilterSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="160"></PivotViewGridSettings>
+            </EjsPivotView>
+        </div>
+    </div>
+
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+   
+</style>
+
+@code{
+    public List<ToolbarItems> olap = new List<ToolbarItems> {
+        ToolbarItems.Grid,
+        ToolbarItems.Chart,
+        ToolbarItems.MDX,
+        ToolbarItems.Export,
+        ToolbarItems.SubTotal,
+        ToolbarItems.GrandTotal,
+        ToolbarItems.ConditionalFormatting,
+        ToolbarItems.FieldList
+    };
+    public int levelCount = 3;
+    public string[] items = new string[] { "[Date].[Fiscal].[Fiscal Quarter].&[2002]&[4]","[Date].[Fiscal].[Fiscal Year].&[2005]" } ;
+    public List<ProductDetails> data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
+}

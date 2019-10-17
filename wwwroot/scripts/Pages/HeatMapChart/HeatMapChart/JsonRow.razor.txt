@@ -1,0 +1,76 @@
+﻿@page "/HeatMapChart/JsonRow"
+@using Syncfusion.EJ2.Blazor.HeatMap
+@using Newtonsoft.Json;
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_heatmapdata
+@{
+    SampleBrowser.CurrentSampleName = "Json Row";
+    SampleBrowser.CurrentControlName = "HeatMapChart";
+    SampleBrowser.CurrentControlCategory = "HeatMapChart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.HeatMapChart;
+    SampleBrowser.ActionDescription = new string[] {
+    @"<p>
+          This sample visualizes the overall Olympic medals won by the countries in all the summer Olympic events from the year 2000 to 2016.
+    </p>"
+    };
+
+}
+@*End:Hidden*@
+
+    <div class="control-section">
+        <div class="row">
+            <div class="col-md-12">
+                <EjsHeatMap DataSource="@Data">
+                    <HeatMapEvents TooltipRendering="@OnRendering"></HeatMapEvents>
+                    <HeatMapTitle Text="Olympic Medal Achievements of most Successful Countries" TextStyle="@TextStyle"></HeatMapTitle>
+                    <HeatMapDataSourceSettings IsJsonData="true" AdaptorType="AdaptorType.Table" XDataMapping="Region"></HeatMapDataSourceSettings>
+                   <HeatMapXAxis Labels="@XLabels" LabelRotation="45" LabelIntersectAction="LabelIntersectAction.None"></HeatMapXAxis>
+                   <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+                    <HeatMapPaletteSettings>
+                        <HeatMapPalettes>
+                            <HeatMapPalette Color="#F0C27B"></HeatMapPalette>
+                            <HeatMapPalette Color="#4B1248"></HeatMapPalette>
+                        </HeatMapPalettes>
+                    </HeatMapPaletteSettings>
+                    <HeatMapCellSettings Border="@CellBorder"></HeatMapCellSettings>
+                </EjsHeatMap>
+            </div>
+        </div>
+        <div style="float: right; margin-right: 10px;">
+            Source:
+            <a href="https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table" target="_blank">https://en.wikipedia.org/</a>
+        </div>
+    </div>
+@code
+{
+    string[] XLabels = new string[] { "China", "France", "GBR", "Germany", "Italy", "Japan", "KOR", "Russia", "USA" };
+    string[] YLabels = new string[] { "Jan_2000", "Jan_2004", "Jan_2008", "Jan_2012", "Jan_2016"};
+    FontModel TextStyle = new FontModel() { Size = "15px", FontWeight = "500", FontStyle = "Normal", FontFamily="Segoe UI" };
+    BorderModel CellBorder = new BorderModel() { Width = 1, Radius = 4, Color = "white" };
+    class HeatmapData
+    {
+        public string Region { get; set; }
+        public int? Jan_2000 { get; set; }
+        public int? Jan_2004 { get; set; }
+        public int? Jan_2008 { get; set; }
+        public int? Jan_2012 { get; set; }
+        public int? Jan_2016 { get; set; }
+    }
+
+    HeatmapData[] Data = new HeatmapData[]{
+                new HeatmapData {Region = "USA", Jan_2000 = 93,Jan_2004 = 101,Jan_2008 = 112,Jan_2012 = 103,Jan_2016 = 121 },
+                new HeatmapData {Region = "GBR", Jan_2000 = 28,Jan_2004 = 30,Jan_2008 = 49,Jan_2012 = 65,Jan_2016 = 67 },
+                new HeatmapData {Region = "China", Jan_2000 = 58,Jan_2004 = 63,Jan_2008 = 100,Jan_2012 = 91,Jan_2016 = 70 },
+                new HeatmapData {Region = "Russia", Jan_2000 = 89,Jan_2004 = 90,Jan_2008 = 60,Jan_2012 = 69,Jan_2016 = 55 },
+                new HeatmapData {Region = "Germany", Jan_2000 = 56,Jan_2004 = 49,Jan_2008 = 41,Jan_2012 = 44,Jan_2016 = 42 },
+                new HeatmapData {Region = "Japan", Jan_2000 = 18,Jan_2004 = 37,Jan_2008 = 25,Jan_2012 = 38,Jan_2016 = 41 },
+                new HeatmapData {Region = "France", Jan_2000 = 38,Jan_2004 = 33,Jan_2008 = 43,Jan_2012 = 35,Jan_2016 = 42 },
+                new HeatmapData {Region = "KOR", Jan_2000 = 28,Jan_2004 = 30,Jan_2008 = 32,Jan_2012 = 30,Jan_2016 = 21 },
+                new HeatmapData {Region = "Italy", Jan_2000 = 34,Jan_2004 = 32,Jan_2008 = 27,Jan_2012 = 28,Jan_2016 = 28 }
+       };
+    public void OnRendering(ITooltipEventArgs args)
+    {
+        args.Content = new string[] {args.YLabel + " | " + args.XLabel + " : " + args.Value + " Medals "};
+    }
+}

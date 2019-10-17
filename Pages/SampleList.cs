@@ -24,7 +24,7 @@ namespace ej2_blazor_samples
             {
                 Name = "TreeGrid",
                 Category = "Grids",
-                Directory = "Grids/TreeGrid",
+                Directory = "TreeGrid/TreeGrid",
                 Type = SampleType.New,
                 UID = 006,
                 Order = 02,
@@ -90,16 +90,16 @@ namespace ej2_blazor_samples
                 Order = 05,
                 Samples = Diagram
             });
-            //SampleBrowser.SampleList.Add(new SampleList
-            //{
-            //    Name = "Sparkline",
-            //    Category = "Data Visualization",
-            //    Directory = "Charts/Sparkline",
-            //    Type = SampleType.New,
-            //    UID = 010,
-            //    Order = 10,
-            //    Samples = Sparkline
-            //});
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Sparkline",
+                Category = "Data Visualization",
+                Directory = "Charts/Sparkline",
+                Type = SampleType.New,
+                UID = 010,
+                Order = 10,
+                Samples = Sparkline
+            });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "TreeMap",
@@ -312,6 +312,16 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Spinner",
+                Category = "Notifications",
+                Directory = "Notifications/Spinner",
+                Type = SampleType.New,
+                UID = 011,
+                Order = 02,
+                Samples = Spinner
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "TextBox",
                 Category = "Inputs",
                 Directory = "Inputs",
@@ -340,7 +350,7 @@ namespace ej2_blazor_samples
                 Order = 02,
                 Samples = Dialog
             });
-            SampleBrowser.SampleList.Add(new SampleList
+			SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Listview",
                 Category = "Layout",

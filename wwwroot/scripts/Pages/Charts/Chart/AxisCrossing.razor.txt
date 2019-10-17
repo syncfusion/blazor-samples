@@ -1,5 +1,6 @@
 ﻿@page "/Charts/AxisCrossing"
 @using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -24,71 +25,149 @@
 }
 @*End:Hidden*@
 
-<div class="control-section">
-    <EjsChart Title="Spline Interpolation" >
-        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis Minimum="-8" Maximum="8" Interval="2" CrossesAt="0" MinorTicksPerInterval="3">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Minimum="-8" Maximum="8" Interval="2" CrossesAt="0" MinorTicksPerInterval="3">
-            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-        </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        <ChartSeriesCollection>
-            <ChartSeries DataSource="@lineData" Name="Line Interpolation" XName="xValue" Width="2"
-                         Opacity="1" YName="yValue1" Type="ChartSeriesType.Line">              
-            </ChartSeries>
-            <ChartSeries DataSource="@splineData" Name="Cubic Spline Interpolation" XName="xValue" Width="2"
-                         Opacity="1" YName="yValue1" Type="ChartSeriesType.Spline">
-            </ChartSeries>
-            <ChartSeries DataSource="@scatterData" Name="Data points" XName="xValue" Width="2"
-                         Opacity="1" YName="yValue1" Type="ChartSeriesType.Scatter">
-                <ChartMarker Visible="true" Width="12" Height="12">
-                </ChartMarker>
-            </ChartSeries>
-        </ChartSeriesCollection>
-    </EjsChart>
+<div class="row">
+    <div class="col-lg-8 control-section">
+        <EjsChart Title="Spline Interpolation">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis Minimum="-8" Maximum="8" Interval="2" CrossesAt="@XCrossesAt" MinorTicksPerInterval="3" PlaceNextToAxisLine="@PlaceX">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="-8" Maximum="8" Interval="2" CrossesAt="@YCrossesAt" MinorTicksPerInterval="3" PlaceNextToAxisLine="@PlaceY">
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@lineData" Name="Line Interpolation" XName="xValue" Width="2"
+                             Opacity="1" YName="yValue1" Type="ChartSeriesType.Line" Fill="Blue">
+                </ChartSeries>
+                <ChartSeries DataSource="@splineData" Name="Cubic Spline Interpolation" XName="xValue" Width="2"
+                             Opacity="1" YName="yValue1" Type="ChartSeriesType.Spline" Fill="Green">
+                </ChartSeries>
+                <ChartSeries DataSource="@scatterData" Name="Data points" XName="xValue" Width="2"
+                             Opacity="1" YName="yValue1" Type="ChartSeriesType.Scatter" Fill="Red">
+                    <ChartMarker Visible="true" Width="12" Height="12">
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </EjsChart>
+    </div>
+    <div class="col-lg-4 property-section">
+        <table id="property" title="Properties" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height:50px">
+                <td style="font-size:14px">
+                    Axis:
+                </td>
+                <td>
+                    <select @onchange="ChangeAxis" style="font-size:14px">
+                        <option value="X">X</option>
+                        <option value="Y">Y</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Crosses Value:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div style='margin-top: 0px;'>
+                        <input type="number" value="@CrossValue" @onchange="ChangeCrossValue" min="-8" max="8" step=2 />
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>Placing Label Near to Axis Line: </div>
+                </td>
+                <td style="width: 50%;">
+                    <div>
+                        <EjsCheckBox Checked="@IsChecked" ValueChange="@CheckValue"></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
-
 @code{
+    public bool PlaceX = true, PlaceY = true, IsChecked = true;
+    public string Value = "X";
+    public int CrossValue = 0, XCrossesAt = 0, YCrossesAt = 0;
+
+
+    private void CheckValue(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        IsChecked = args.Checked;
+        if (Value == "X")
+        {
+            PlaceX = args.Checked;
+        }
+        else
+        {
+            PlaceY = args.Checked;
+        }
+    }
+
+    private void ChangeAxis(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        Value = Convert.ToString(args.Value);
+        if (Value == "X")
+        {
+            IsChecked = PlaceX;
+            CrossValue = +XCrossesAt;
+        }
+        else
+        {
+            IsChecked = PlaceY;
+            CrossValue = +YCrossesAt;
+        }
+    }
+
+    private void ChangeCrossValue(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (Value == "X")
+        {
+            XCrossesAt = Convert.ToInt32(args.Value);
+        }
+        else
+        {
+            YCrossesAt = Convert.ToInt32(args.Value);
+        }
+    }
 
     public class AxisData
     {
         public Nullable<double> xValue { get; set; }
         public Nullable<double> yValue1 { get; set; }
-
     }
     public List<AxisData> scatterData = new List<AxisData>
-            {
+{
                 new AxisData { xValue = -6, yValue1 = 2},
                 new AxisData { xValue = -3, yValue1 = -4 },
                 new AxisData { xValue = 1.5, yValue1 = 3.5 },
                 new AxisData { xValue = 6, yValue1 = 4.5}
             };
-
     public List<AxisData> splineData = new List<AxisData>
-            {
+{
                 new AxisData { xValue = -6, yValue1 = 2},
-                new AxisData { xValue = -5.291, yValue1 = 0.1 },
-                new AxisData { xValue = -5, yValue1 = -0.77},
+                new AxisData { xValue = -5.291, yValue1 = 0 },
+                new AxisData { xValue = -5, yValue1 = -0.774},
                 new AxisData { xValue = -3, yValue1 = -4},
                 new AxisData { xValue = -0.6, yValue1 = -0.965},
                 new AxisData { xValue = -0.175, yValue1 = 0.1},
-                new AxisData { xValue = 0.1, yValue1 = 0.404},
+                new AxisData { xValue = 0, yValue1 = 0.404},
                 new AxisData { xValue = 1.5, yValue1 = 3.5},
                 new AxisData { xValue = 3.863, yValue1 = 5.163},
                 new AxisData { xValue = 6, yValue1 = 4.5}
             };
-
     public List<AxisData> lineData = new List<AxisData>
-            {
+{
                 new AxisData { xValue = -6, yValue1 = 2},
-                new AxisData { xValue = -5, yValue1 = 0.1 },
+                new AxisData { xValue = -5, yValue1 = 0 },
                 new AxisData { xValue = -4.511, yValue1 = -0.977},
                 new AxisData { xValue = -3, yValue1 = -4},
                 new AxisData { xValue = -1.348, yValue1 = -1.247},
-                new AxisData { xValue = -0.6, yValue1 = 0.11},
-                new AxisData { xValue = 0.1, yValue1 = 1},
+                new AxisData { xValue = -0.6, yValue1 = 0},
+                new AxisData { xValue = 0, yValue1 = 1},
                 new AxisData { xValue = 1.5, yValue1 = 3.5},
                 new AxisData { xValue = 6, yValue1 = 4.5}
             };

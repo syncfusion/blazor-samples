@@ -3219,7 +3219,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3232,7 +3232,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3245,7 +3245,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3258,7 +3258,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3271,7 +3271,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3284,7 +3284,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3297,7 +3297,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3310,7 +3310,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3323,7 +3323,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3336,7 +3336,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3349,7 +3349,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3362,7 +3362,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3427,7 +3427,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3440,7 +3440,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3453,7 +3453,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3466,7 +3466,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3479,7 +3479,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3492,7 +3492,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3505,7 +3505,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3518,7 +3518,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3531,7 +3531,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3544,7 +3544,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3557,7 +3557,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3570,7 +3570,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3635,7 +3635,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3648,7 +3648,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3661,7 +3661,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3674,7 +3674,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3687,7 +3687,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3700,7 +3700,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3713,7 +3713,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3726,7 +3726,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3739,7 +3739,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3752,7 +3752,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3765,7 +3765,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3778,7 +3778,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3843,7 +3843,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3856,7 +3856,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3869,7 +3869,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3882,7 +3882,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3895,7 +3895,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3908,7 +3908,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3921,7 +3921,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3934,7 +3934,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
                 CategoryColor = "#f57f17",
-                GroupId = 6
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3947,7 +3947,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3960,7 +3960,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
                 CategoryColor = "#8e24aa",
-                GroupId = 7
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3973,7 +3973,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
                 CategoryColor = "#7fa900",
-                GroupId = 8
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -3986,7 +3986,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
                 CategoryColor = "#7fa900",
-                GroupId = 7
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -4051,7 +4051,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
                 CategoryColor = "#7fa900",
-                GroupId = 3
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -4064,7 +4064,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 2
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -4077,7 +4077,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
                 CategoryColor = "#ea7a57",
-                GroupId = 4
+                GroupId = 1
             });
             fifaEventsData.Add(new FifaEventsData
             {
@@ -4090,7 +4090,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
                 CategoryColor = "#00bdae",
-                GroupId = 5
+                GroupId = 2
             });
             return fifaEventsData;
         }

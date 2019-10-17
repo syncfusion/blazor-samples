@@ -3,6 +3,7 @@
 @using Syncfusion.EJ2.Blazor.Grids
 @using Syncfusion.EJ2.Blazor.Buttons
 @using System.Collections.ObjectModel;
+@using System.ComponentModel;
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -53,14 +54,14 @@
     protected override void OnInitialized()
     {
 
-           Orders = Enumerable.Range(1, 10).Select(x => new ObservableDatas()
-           {
-                OrderID = 10000 + x,
-                CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
-                Freight = 2.1 * x,
-                OrderDate = DateTime.Now.AddDays(-x),
-           }).ToList();
-           ObservableData  = new ObservableCollection<ObservableDatas>(Orders);
+        Orders = Enumerable.Range(1, 10).Select(x => new ObservableDatas()
+        {
+            OrderID = 10000 + x,
+            CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
+            Freight = 2.1 * x,
+            OrderDate = DateTime.Now.AddDays(-x),
+        }).ToList();
+        ObservableData  = new ObservableCollection<ObservableDatas>(Orders);
     }
 
     public void AddRecord()
@@ -79,12 +80,32 @@
         name.CustomerID = "Record Updated";
     }
 
-    public class ObservableDatas
+    public class ObservableDatas : INotifyPropertyChanged
     {
         public int OrderID { get; set; }
-        public string CustomerID { get; set; }
+        private string customerID { get; set; }
+        public string CustomerID
+        {
+            get { return customerID; }
+            set
+            {
+                this.customerID = value;
+                NotifyPropertyChanged("CustomerID");
+            }
+        }
+
+
         public DateTime OrderDate { get; set; }
         public double Freight { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
 

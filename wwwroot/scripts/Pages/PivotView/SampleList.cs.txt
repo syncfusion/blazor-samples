@@ -28,11 +28,29 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "OLAP",
+                Category = "Data Binding",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/OLAP",
+                FileName = "OLAP.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Pivot Chart",
                 Category = "Integration",
                 Directory = "PivotView/PivotTable",
                 Url = "PivotTable/Chart",
                 FileName = "Chart.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "FieldList",
+                Category = "User Interaction",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/FieldList",
+                FileName = "FieldList.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -51,6 +69,15 @@ namespace ej2_blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "PivotTable/ConditionalFormatting",
                 FileName = "ConditionalFormatting.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Selection",
+                Category = "User Interaction",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/Selection",
+                FileName = "Selection.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -145,6 +172,24 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Virtual Scrolling",
+                Category = "Scrolling",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/VirtualScrolling",
+                FileName = "VirtualScrolling.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Cell Template",
+                Category = "Customization",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/PivotCellTemplate",
+                FileName = "PivotCellTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Editing",
                 Category = "Miscellaneous",
                 Directory = "PivotView/PivotTable",
@@ -168,6 +213,15 @@ namespace ej2_blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "PivotTable/HyperLink",
                 FileName = "HyperLink.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "DeferUpdate",
+                Category = "Miscellaneous",
+                Directory = "PivotView/PivotTable",
+                Url = "PivotTable/DeferUpdate",
+                FileName = "DeferUpdate.razor",
                 Type = SampleType.New
             },
             new Sample

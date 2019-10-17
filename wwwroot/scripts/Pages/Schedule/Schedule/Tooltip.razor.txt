@@ -1,7 +1,7 @@
 @page "/Schedule/Tooltip"
 
 @using Syncfusion.EJ2.Blazor.Schedule
-@using System.Globalization
+@using Syncfusion.EJ2.Blazor.Buttons
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
 @*Hidden:Lines*@
@@ -32,10 +32,10 @@
 }
 @*End:Hidden*@
 
-<div class="control-section">
+<div class="col-lg-9 control-section">
     <div class="content-wrapper">
         <EjsSchedule TValue="ScheduleData.EventsData" ModelType="@Model" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 2, 15)">
-            <ScheduleEventSettings TValue="ScheduleData.EventsData" DataSource="@DataSource" EnableTooltip="true">
+            <ScheduleEventSettings TValue="ScheduleData.EventsData" DataSource="@DataSource" EnableTooltip="@EnableTooltip">
                 <TooltipTemplate>
                     @{
                         var eventData = (context as TemplateArgs);
@@ -45,8 +45,6 @@
                                 <div class="name">@eventData.Subject</div>
                                 @if (@eventData.City != null)
                                 {<div class="city">@eventData.City</div>}
-                                <div class="time">From&nbsp;:&nbsp;@eventData.StartTime.ToLocalTime() </div>
-                                <div class="time">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;@eventData.EndTime.ToLocalTime() </div>
                             </div>
                         </div>
                     }
@@ -55,14 +53,28 @@
         </EjsSchedule>
     </div>
 </div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+            <tbody>
+                <tr style="height: 50%">
+                    <td style="width: 100%">
+                        <EjsCheckBox @bind-Checked="@EnableTooltip" Label="Enable Tooltip"></EjsCheckBox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 @code{
     List<ScheduleData.EventsData> DataSource = new ScheduleData().GetEventsData();
+    public bool EnableTooltip = true;
     public class TemplateArgs
     {
         public string Subject { get; set; }
         public string EventType { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
         public string City { get; set; }
     }
     public TemplateArgs Model = new TemplateArgs();

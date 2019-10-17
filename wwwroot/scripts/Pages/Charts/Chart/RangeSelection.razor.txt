@@ -1,5 +1,6 @@
 ﻿@page "/Charts/RangeSelection"
 @using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -26,38 +27,75 @@
     };
 }
 @*End:Hidden*@
-<div class="control-section">
-    <EjsChart Title="Profit Comparison of A and B" SelectionMode="SelectionMode.DragXY">
-        <ChartPrimaryXAxis Minimum="1970" Maximum="2016">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="25" Title="Sales" LabelFormat="{value}%">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryYAxis>
-        <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Name="Product A" XName="x" Opacity="1" YName="y1" Type="ChartSeriesType.Scatter">
-                <ChartMarker Height="10" Width="10" Shape="ChartShape.Triangle"></ChartMarker>
-            </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="Product B" XName="x" Opacity="1" YName="y2" Type="ChartSeriesType.Scatter">
-                <ChartMarker Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
-            </ChartSeries>
-        </ChartSeriesCollection>
-        <ChartArea>
-            <ChartAreaBorder Width="0"></ChartAreaBorder>
-        </ChartArea>
-        <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
-    </EjsChart>
-</div>
-
-@code{ 
-         public class RangeSelectionData
-        {            
-            public double x { get; set; }
-            public double y1 { get; set; }
-            public double y2 { get; set; }
-        }
-       public List<RangeSelectionData> dataSource = new List<RangeSelectionData>
-                  {
+    <div class="row">
+        <div class="control-section col-md-8">
+            <EjsChart Title="Profit Comparison of A and B" SelectionMode="@mode" AllowMultiSelection="@allowMultiSelect">
+                <ChartPrimaryXAxis Minimum="1970" Maximum="2016">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="25" Title="Sales" LabelFormat="{value}%">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryYAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@dataSource" Name="Product A" XName="x" Opacity="1" YName="y1" Type="ChartSeriesType.Scatter">
+                        <ChartMarker Height="10" Width="10" Shape="ChartShape.Triangle"></ChartMarker>
+                    </ChartSeries>
+                    <ChartSeries DataSource="@dataSource" Name="Product B" XName="x" Opacity="1" YName="y2" Type="ChartSeriesType.Scatter">
+                        <ChartMarker Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartArea>
+                    <ChartAreaBorder Width="0"></ChartAreaBorder>
+                </ChartArea>
+                <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
+            </EjsChart>
+        </div>
+        <div class="col-md-4 property-section">
+            <table id="property" style="width: 100%">
+                <tr style="height:50px"><th>Properties</th></tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        Selection Mode:
+                    </td>
+                    <td style="width: 40%;">
+                        <select name="selectIndex" @onchange="changeMode" autocomplete="off" id="selmode" style="margin-left: -25px">
+                            <option value="DragXY">DragXY</option>
+                            <option value="DragX">DragX</option>
+                            <option value="DragY">DragY</option>
+                            <option value="Lasso">Lasso</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr id='' style="height: 50px">
+                    <td style="width: 80%">
+                        Enable Multi Selection:
+                    </td>
+                    <td>
+                        <EjsCheckBox Checked="@isMultiSelect" ValueChange="@changeSelection"></EjsCheckBox>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+@code{
+    SelectionMode mode = SelectionMode.DragXY;
+    public void changeMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        this.mode = (SelectionMode)Enum.Parse(typeof(SelectionMode), args.Value.ToString(), true);
+    }
+    private Boolean allowMultiSelect = false, isMultiSelect = false;
+    private void changeSelection(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        allowMultiSelect = isMultiSelect = args.Checked;
+    }
+    public class RangeSelectionData
+    {
+        public double x { get; set; }
+        public double y1 { get; set; }
+        public double y2 { get; set; }
+    }
+    public List<RangeSelectionData> dataSource = new List<RangeSelectionData>
+          {
                new RangeSelectionData { x = 1971, y1 = 50, y2 = 23},
                new RangeSelectionData { x = 1972, y1 = 20, y2 = 63},
                new RangeSelectionData { x = 1973, y1 = 63, y2 = 83},

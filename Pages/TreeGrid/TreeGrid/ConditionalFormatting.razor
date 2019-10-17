@@ -1,0 +1,68 @@
+﻿@page "/TreeGrid/ConditionalFormatting"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_selfdata
+
+@{
+    SampleBrowser.CurrentSampleName = "ConditionalFormatting";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This samples demonstrates the way of customizing the cells by highlighting the cells of Duration column based on certain condition using <code>QueryCellInfo</code> event.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>The appearance of cells can be customized by using the <code>QueryCellInfo</code> event. The QueryCellInfo event triggers for every cell. In that event handler, you can get <code>QueryCellInfoEventArgs</code> that contains the details of the cell.
+    </p>
+<p>More information about conditional formatting can be found in this <code><a target='_blank' class='code' href='https://ej2.syncfusion.com/blazor/documentation/treegrid/cell/#customize-cell-styles'> documentation</a></code>section.</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true">
+                <TreeGridEvents QueryCellInfo="QueryCellInfoHandler" TValue="SelfReferenceData"></TreeGridEvents>
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" IsPrimaryKey="true" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="yMd" Type="ColumnType.Date" Width="80" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="yMd" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Format="C2" Width="80" TextAlign="@TextAlign.Right"></TreeGridColumn>                    
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<SelfReferenceData> TreeData { get; set; }
+
+    public void QueryCellInfoHandler(QueryCellInfoEventArgs<SelfReferenceData> args)
+        {
+            if (args.Column.Field == "Duration" && args.Data.Duration < 15 )
+            {
+                args.Cell.SetAttribute("style", "background-color:#336c12;color:white;");
+            }
+            else if (args.Column.Field == "Duration" && args.Data.Duration >= 15)
+            {
+                args.Cell.SetAttribute("style", "background-color:#7b2b1d;color:white;");
+            }
+        }
+
+    protected override void OnInitialized()
+    {
+        this.TreeData = SelfReferenceData.GetTree().ToList();
+    }
+}

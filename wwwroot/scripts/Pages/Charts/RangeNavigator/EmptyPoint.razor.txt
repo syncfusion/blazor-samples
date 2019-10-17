@@ -29,7 +29,8 @@ else
     <div class="control-section" align="center">
         <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">AAPL 2012-17</h4>
         <div id="container">
-            <EjsRangeNavigator Value="@value" LabelPosition="AxisPosition.Outside" valueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
+            <EjsRangeNavigator Value="@value" LabelPosition="AxisPosition.Outside" ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
+                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
                 <RangeNavigatorMajorTickLines Width="0"></RangeNavigatorMajorTickLines>
                 <RangeNavigatorBorder Width="0"></RangeNavigatorBorder>
@@ -43,7 +44,7 @@ else
         <div id="chartcontainer">
             <EjsChart>
                 <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-                <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                     <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
                 </ChartPrimaryXAxis>
@@ -62,17 +63,49 @@ else
     </div>
 }
 @code{
+    double ZF = 1;
+    double ZP = 0;
     private ChartData[] emptyData;
     protected override async Task OnInitializedAsync()
     {
 		emptyData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/chartdata.json"));
+        int max = 250;
+        for (int i = 0; i <= max; i++)
+        {
+            if (i > 45 && 50 > i)
+            {
+                emptyData[i].open = null;
+            }
+            else if (i > 95 && 100 > i)
+            {
+                emptyData[i].open = null;
+            }
+            else if (i > 145 && 150 > i)
+            {
+                emptyData[i].open = null;
+            }
+            else if (i > 195 && 200 > i)
+            {
+                emptyData[i].open = null;
+            }
+            else if (i > 245 && 250 > i)
+            {
+                emptyData[i].open = null;
+            }
+        }
     }
     public class ChartData
     {
         public DateTime x;
-        public double open;
+        public Nullable<Double> open;
     }
     private DateTime[] value = new DateTime[] { new DateTime(2013, 12, 27), new DateTime(2015, 03, 23) };
+    public void onRangeChanged(IChangedEventArgs args)
+    {
+         ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
+    }
 }
 <style>
     #control-container {

@@ -1,0 +1,154 @@
+﻿@page "/Tooltip/Api"
+
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Popups
+@using  Syncfusion.EJ2.Blazor.DropDowns
+@using EJ2Tooltip = Syncfusion.EJ2.Blazor.Popups
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "API";
+    SampleBrowser.CurrentControlName = "Tooltip";
+    SampleBrowser.CurrentControlCategory = "Popups";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Tooltip;
+}
+@*End:Hidden*@
+@using Syncfusion.EJ2
+<div class="col-lg-8 control-section">
+    <!-- Tooltip element -->
+    <EjsTooltip @ref="Tooltip" Target="#default" Content="@TooltipContent" OpensOn="@OpensOn"  IsSticky="@IsSticky">
+        <EjsButton ID="default" Content="Show Tooltip"></EjsButton>
+    </EjsTooltip>
+</div>
+<div class="col-lg-4 property-section">
+    <table id="property" title="Properties">
+        <div><h5>Properties</h5> </div>
+        <tbody>
+            <tr>
+                <td style="width: 50%">
+                    <div class="userselect">Content</div>
+                </td>
+                <td style="width: 50%;padding-right: 10px">
+                    <div>
+                        <EjsTextBox Type="text" Placeholder="Tooltip Content" @bind-Value="@TooltipContent">
+                        </EjsTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div class="userselect">Height</div>
+                </td>
+                <td style="width: 50%;padding-right: 10px">
+                    <div>
+                        <EjsNumericTextBox TValue="int" Value="@HeightValue">
+                            <NumericTextBoxEvents TValue="int" ValueChange="@OnHeightChange"></NumericTextBoxEvents>
+                        </EjsNumericTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div class="userselect">Width</div>
+                </td>
+                <td style="width: 50%;padding-right: 10px">
+                    <div>
+                        <EjsNumericTextBox Value="@WidthValue" TValue="int" CssClass="e-input">
+                            <NumericTextBoxEvents TValue="int" ValueChange="@OnWidthChange"></NumericTextBoxEvents>
+                        </EjsNumericTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div class="userselect">Open Mode</div>
+                </td>
+                <td style="width: 50%;padding-right: 10px">
+                    <div>
+                        <EjsDropDownList TValue="string" DataSource="@TooltipMode" >
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" ValueChange="@TooltipOpenMode"></DropDownListEvents>
+                        </EjsDropDownList>
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%">
+                    <div class="userselect">Sticky Mode</div>
+                </td>
+                <td style="width: 50%;padding-right: 10px">
+                    <div>
+                        <EjsCheckBox @bind-Checked="@IsSticky" Label="IsSticky"></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+@code
+{
+    EjsTooltip Tooltip;
+    int HeightValue = 50;
+    int WidthValue = 100;
+    bool IsSticky = false;
+    string OpensOn="Click";
+    string TooltipContent = "Toolttip Content";
+
+    public void OnHeightChange(Syncfusion.EJ2.Blazor.Inputs.ChangeEventArgs args)
+    {
+        HeightValue = (int)args.Value;
+        Tooltip.Height = HeightValue.ToString();
+
+    }
+    public void OnWidthChange(Syncfusion.EJ2.Blazor.Inputs.ChangeEventArgs args)
+    {
+        WidthValue = (int)args.Value;
+        Tooltip.Width = WidthValue.ToString();
+    }
+    public void TooltipOpenMode(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        OpensOn = args.Value;
+        Tooltip.OpensOn = OpensOn;
+    }
+
+        List<DropDownModel> TooltipMode = new List<DropDownModel>()
+    {
+        new DropDownModel { Text = "Click", Value = "Click" },
+        new DropDownModel { Text = "Auto", Value = "Auto" },
+        new DropDownModel { Text = "Hover", Value = "Hover" },
+    };
+
+    class DropDownModel
+    {
+
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+}
+
+<style>
+    .userselect {
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+        /* Standard syntax */
+    }
+
+    #property {
+        padding-top: 200px;
+    }
+
+    #default {
+        position: absolute;
+        left: calc( 50% - 60px);
+        top: 35%;
+    }
+</style>
