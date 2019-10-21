@@ -1,0 +1,172 @@
+﻿@page "/TreeGrid/SelectionAPI"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Data
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor
+
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_selfdata
+
+@{
+    SampleBrowser.CurrentSampleName = "Selection API";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates the selection functionality of the TreeGrid,you can select multiple row by entering start and end index then click the select row button. To clear all selected rows, click clear selection button.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        Selection provides an interactive support to highlight the row or cell that you select. 
+        Selection can be done through a simple Mouse down or Keyboard interaction. 
+        To enable selection, set <code>
+        AllowSelection
+        </code> as true.
+    </p>
+    <p>TreeGrid supports two types of selection which can be set using 
+        <code>TreeGridSelectionSettings->type
+        </code> property. They are,</p>
+    <ul>
+        <li><code>single</code> - Enabled by default. Allows the user to select single row/cell at a time.</li>
+        <li><code>multiple</code> - Allows the user to select more than one row/cell at a time.</li>
+    </ul>
+    <p>Also, supports three modes of selection which can be set using 
+        <code>TreeGridSelectionSettings->mode
+        </code> property. They are,
+    </p>
+    <ul>
+        <li><code>Row</code> - Enabled by default. Enables row selection in TreeGrid.</li>
+        <li><code>Cell</code> - Enables cell selection in TreeGrid.</li>
+        <li><code>Both</code> - Enables both row and cell selection in TreeGrid. 
+        Clicking any cell will select both the row and cell simultaneously.
+        </li>
+    </ul>
+    <p>The treegrid supports two types of cell selection mode that can be set by using the  
+            <code>
+            TreeGridSelectionSettings->CellSelectionMode
+            </code> property. They are,</p>
+        <ul>
+            <li><code>Flow</code> - The Flow value is set by default. The range of cells are selected between the start index
+                and end index that includes in between cells of rows.</li>
+            <li><code>Box</code> - Range of cells are selected from the start and 
+                end column indexes that includes in between cells of rows within the range.</li>
+        </ul>
+    <p>To perform the multi-selection, hold <strong>CTRL</strong> key and click the desired rows/cells. 
+    To select range of rows/cells, hold <strong>SHIFT</strong> key and click the rows/cells.</p>
+    <p>While using the TreeGrid in a touch device environment, there is an option for multi-selection 
+        through single tap on the row and it will show a popup with the multi-selection symbol. 
+        Tap the icon to enable multi-selection in a single tap.
+    </p>
+    <p>In this demo you can select the multiple rows by hold CTRL Key and click the desired rows.
+    </p>
+
+    <p>
+        More information on the selection configuration can be found in the <code><a target='_blank' class='code'
+        href='https://ej2.syncfusion.com/blazor/documentation/treegrid/selection/'>
+        documentation
+        </a></code> section.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid @ref="TreeGrid" DataSource="@TreeGridData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true" AllowSelection="true">
+                <TreeGridSelectionSettings Type="Syncfusion.EJ2.Blazor.Grids.SelectionType.Multiple" Mode="Syncfusion.EJ2.Blazor.Grids.SelectionMode.Row"></TreeGridSelectionSettings>
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="yMd" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="80"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 property-section">
+    <h4 style="margin-top:38px;">Properties</h4>
+
+    <table id="property" style="width: 73%; height: 300px;">
+        <tr>
+            <td class="left-side" style="padding-right:15px;"><b>Select Rows</b></td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Start</td>
+            <td>
+                <EjsNumericTextBox @ref="start" TValue="int" Min="0" Format="##"></EjsNumericTextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;">To</td>
+            <td>
+                <EjsNumericTextBox @ref="to" TValue="int" Min="1" Format="##"></EjsNumericTextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;"><b>Select Row</b></td>
+            <td>
+                <EjsButton OnClick="Select" IsPrimary="true">Select Row</EjsButton>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;"><b>Clear Selection</b></td>
+            <td>
+                <EjsButton OnClick="Clear" IsPrimary="true">Clear Selection</EjsButton>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code{
+
+    EjsTreeGrid<SelfReferenceData> TreeGrid;
+
+    EjsNumericTextBox<int> start;
+
+    EjsNumericTextBox<int> to;
+
+    public List<int> Rows { get; set; } = new List<int>();
+
+    public List<SelfReferenceData> TreeGridData { get; set; }
+
+
+    public void Select(MouseEventArgs Args)
+    {
+
+        int startrow = this.start.Value;
+        int torow = this.to.Value;
+        for(int i = startrow; i <= torow; i++)
+        {
+            this.Rows.Add(i);
+        }
+
+        this.TreeGrid.SelectRows(Rows.ToArray());
+        this.Rows.Clear();
+
+    }
+
+    public void Clear(MouseEventArgs Args)
+    {
+        this.TreeGrid.ClearSelection();
+		this.Rows.Clear();
+    }
+
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = SelfReferenceData.GetTree().ToList();
+    }
+}

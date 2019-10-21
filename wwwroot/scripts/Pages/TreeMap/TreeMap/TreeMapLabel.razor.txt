@@ -2,6 +2,7 @@
 
 
 @using Syncfusion.EJ2.Blazor.TreeMap
+@using Syncfusion.EJ2.Blazor.DropDowns
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -12,7 +13,7 @@
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeMap;
     SampleBrowser.ActionDescription = new string[] {
         @"<p>
-        This sample illustrates the population level of various countries in 2017.
+       This sample illustrates the population level of various countries in 2017. The leaf item’s labels intersect action can be changed by using the Label Intersect Action in properties panel.
     </p>"
     };
     SampleBrowser.Description = new string[] {
@@ -26,29 +27,85 @@
 }
 @*End:Hidden*@
 
-<div class="control-section">
-    <EjsTreeMap TValue="PopulationDetails" WeightValuePath="Population" Format='n' UseGroupingSeparator="true"
-                RangeColorValuePath="Population" DataSource="@DataSource">
-        <TreeMapTitleSettings Text="Countries ordered based on Population - 2017">
-        </TreeMapTitleSettings>
-        <TreeMapLeafItemSettings ShowLabels="true" LabelPath="Country" Fill="red">
-            <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping From="100000000" To="10000000000" Label="200M - 1.3M" Color="@("#4B134F")"></TreeMapLeafColorMapping>
-                <TreeMapLeafColorMapping From="20000000" To="100000000" Label="20M - 200M" Color="@("#8C304D")"></TreeMapLeafColorMapping>
-                <TreeMapLeafColorMapping From="100000" To="20000000" Label="0.1M - 20M" Color="@("#C84B4B")"></TreeMapLeafColorMapping>
-            </TreeMapLeafColorMappings>
-        </TreeMapLeafItemSettings>
-        <TreeMapLegendSettings Visible="true"
-                               Mode="@Syncfusion.EJ2.Blazor.TreeMap.LegendMode.Interactive"
-                               Width="300px" height="10"
-                               Position="@Syncfusion.EJ2.Blazor.TreeMap.LegendPosition.Top">
-        </TreeMapLegendSettings>
-        <TreeMapTooltipSettings Visible="true" Format="${Country} : ${Population}"></TreeMapTooltipSettings>
-    </EjsTreeMap>
+<div class="col-lg-9 control-section sb-property-border">
+        <EjsTreeMap TValue="PopulationDetails" WeightValuePath="Population" Format='n' UseGroupingSeparator="true"
+                    RangeColorValuePath="Population" DataSource="@DataSource">
+            <TreeMapTitleSettings Text="Countries ordered based on Population - 2017">
+            </TreeMapTitleSettings>
+            <TreeMapLeafItemSettings ShowLabels="true" LabelPath="Country" Fill="red" InterSectAction="@labelAction">
+                <TreeMapLeafColorMappings>
+                    <TreeMapLeafColorMapping From="100000000" To="10000000000" Label="200M - 1.3M" Color="@("#4B134F")"></TreeMapLeafColorMapping>
+                    <TreeMapLeafColorMapping From="20000000" To="100000000" Label="20M - 200M" Color="@("#8C304D")"></TreeMapLeafColorMapping>
+                    <TreeMapLeafColorMapping From="100000" To="20000000" Label="0.1M - 20M" Color="@("#C84B4B")"></TreeMapLeafColorMapping>
+                </TreeMapLeafColorMappings>
+            </TreeMapLeafItemSettings>
+            <TreeMapLegendSettings Visible="true"
+                                   Mode="@Syncfusion.EJ2.Blazor.TreeMap.LegendMode.Interactive"
+                                   Width="300px" Height="10"
+                                   Position="@Syncfusion.EJ2.Blazor.TreeMap.LegendPosition.Top">
+            </TreeMapLegendSettings>
+            <TreeMapTooltipSettings Visible="true" Format="${Country} : ${Population}"></TreeMapTooltipSettings>
+        </EjsTreeMap>
+    </div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" title="Properties">
+                <tbody>
+                     <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Label Intersect Action
+                        </td>
+                        <td style="width: 50%">
+                            <EjsDropDownList  DataSource="@labelActionList" Value="@labelActionValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="labelActionechange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-@code {
 
+@code {
+    public LabelAlignment labelAction = LabelAlignment.Trim;
+    public string labelActionValue = "Trim";
+    public class DropdownList
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<DropdownList> labelActionList = new List<DropdownList> {
+        new DropdownList { Value="Trim", Name="Trim" },
+        new DropdownList { Value="Hide", Name="Hide" },
+        new DropdownList { Value="Wrap", Name="Wrap" },
+        new DropdownList { Value="WrapByWord", Name="WrapByWord" }
+    };
+    public void labelActionechange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        labelActionValue = args.Value;
+        if (args.Value == "Trim")
+        {
+            labelAction = LabelAlignment.Trim;
+        }
+        else if (args.Value == "Hide")
+        {
+            labelAction = LabelAlignment.Hide;
+        }
+        else if (args.Value == "Wrap")
+        {
+            labelAction = LabelAlignment.Wrap;
+        }
+        else
+        {
+            labelAction = LabelAlignment.WrapByWord;
+        }
+    }
     public class PopulationDetails
     {
         public string Country;

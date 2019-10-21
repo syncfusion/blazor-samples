@@ -1,0 +1,141 @@
+@page "/PivotTable/Selection"
+
+@using Syncfusion.EJ2.Blazor.PivotView
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_productdetails
+@{
+    SampleBrowser.CurrentSampleName = "Selection";
+    SampleBrowser.CurrentControlName = "PivotTable";
+    SampleBrowser.CurrentControlCategory = "PivotTable";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
+    SampleBrowser.ActionDescription = new string[] {
+    @" <p>This sample demonstrates different types of grid cell selection options and an event for getting complete
+        information about the selection. The selection of headers, value cells, and summary cells can be done through
+        mouse and keyboard actions.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+    @"<p>
+        This feature provides interactive support to highlight rows, columns, values, and summary cells that you select.
+        Selection can be done through either mouse or keyboard interaction.
+        To enable selection, set <code>AllowSelection</code>property in <code>PivotViewGridSettings</code> as true.
+    </p>
+    <p>The pivot table supports two types of selection which can be set using
+        <code>PivotViewSelectionSettings -> Type</code> property in  <code>PivotViewGridSettings</code>. They are:</p>
+    <ul>
+        <li><code>Single</code> - Enabled by default. Allows the user to select single row or column or cell at a time.
+        </li>
+        <li><code>Multiple</code> - Allows the user to select more than one row or column or cell at the same time.</li>
+    </ul>
+    <p>Also, there are three modes of selection which can be set using
+        <code>PivotViewSelectionSettings -> Mode</code> property in  <code>PivotViewGridSettings</code>Mode. They are:
+    </p>
+    <ul>
+        <li><code>Row</code> - Enabled by default. Enables the complete row selection in a pivot table.</li>
+        <li><code>Column</code> - Enables the complete column selection in a pivot table.</li>
+        <li><code>Cell</code> - Enables the cell selection in pivot table.</li>
+        <li><code>Both</code> - Enables both the row and column selection in pivot table.</li>
+    </ul>
+    <p>To perform the multiselection, hold <strong>CTRL</strong> key and click the desired cells.
+        To select range of cells, hold <strong>SHIFT</strong> key and click the cells.</p>
+    <p>While using the pivot table in a touch device environment, tap over a row, column, or other cells.
+        This results in a pop-up with a multiselect icon. Now tap the icon to proceed with multiselection.
+    </p>
+    <p>In this demo, pick the selection type and selection mode from the properties panel in order to perform the
+        desired selection process.
+        The selected cell information can be seen in the Event Trace part with the help of the <code>CellSelected</code>
+        event.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+
+    <div class="control-section">
+        <div class="content-wrapper">
+            <div class="column-8">
+            <EjsPivotView TValue="ProductDetails" Height="340">
+                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=true EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year"></PivotViewColumn>
+                        <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Country"></PivotViewRow>
+                        <PivotViewRow Name="Products"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                        <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="140" AllowSelection="true">
+                    <PivotViewSelectionSettings Mode="SelectionMode.Cell" Type="PivotSelectionType.Multiple" CellSelectionMode="PivotCellSelectionMode.Box"></PivotViewSelectionSettings>
+                </PivotViewGridSettings>
+                <PivotViewEvents TValue="ProductDetails" CellSelected="cellselected"></PivotViewEvents>
+            </EjsPivotView>
+            </div>
+            <div class="column-4">
+                <div style="height:300px; overflow:auto;">
+                    <h5>Event Trace:</h5> <br>
+                    @if (SelectedCells != null)
+                    {
+                        @if (SelectedCells.SelectedCellsInfo != null)
+                        {
+                            @foreach (var cell in SelectedCells.SelectedCellsInfo)
+                            {
+                                <p>
+                                    <b>ColumnHeader:</b> @cell.ColumnHeaders<br>
+                                    <b>RowHeader:</b> @cell.RowHeaders<br>
+                                    <b>Value:</b> @cell.Value<br>
+                                    <b>Measure:</b> @cell.Measure
+                                </p>
+                                <br>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+    .e-font{
+        font-size:12px;
+        font-style:normal;
+        font-weight:100;
+    }
+    .column-8{
+        width: 70% !important;
+        float: left !important;
+    }
+    .column-4{
+        width: 27% !important;
+        float: right !important;
+    }
+    
+</style>
+
+@code{
+    public PivotCellSelectedEventArgs SelectedCells;
+
+    public List<ProductDetails> data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.data = ProductDetails.GetProductData();
+    }
+    public void cellselected(PivotCellSelectedEventArgs args)
+    {
+        SelectedCells = args;
+    }
+}

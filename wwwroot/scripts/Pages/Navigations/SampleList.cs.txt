@@ -214,15 +214,15 @@ namespace ej2_blazor_samples
                 Type = SampleType.New,
                 Url = "Tab/DefaultFunctionalities"
             },
-            // new Sample
-            // {
-            //     Name = "Orientation",
-            //     Category = "Tab",
-            //     Directory = "Navigations/Tab",
-            //     FileName = "Orientation.razor",
-            //     Type = SampleType.New,
-            //     Url = "Tab/Orientation"
-            // },
+             new Sample
+             {
+                 Name = "Orientation",
+                 Category = "Tab",
+                 Directory = "Navigations/Tab",
+                 FileName = "Orientation.razor",
+                 Type = SampleType.New,
+                 Url = "Tab/Orientation"
+             },
             new Sample
             {
                 Name = "Responsive Modes",

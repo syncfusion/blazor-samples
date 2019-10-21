@@ -1,0 +1,58 @@
+﻿@page "/Charts/Hilo"
+@using Syncfusion.EJ2.Blazor.Charts
+@using Newtonsoft.Json
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Hilo";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"This sample visualizes the AAPL historical data with default HILO series in the chart. Tooltip and crosshair show the information about the data and period."
+    };
+    SampleBrowser.Description = new string[] {
+        @"In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
+
+        Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <EjsChart Title="AAPL Historical">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime">
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" Minimum="10" Maximum="180" Interval="20" LabelFormat="${value}">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+        </ChartCrosshairSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@StockDetails" Name="Apple Inc" XName="x" High="high" Low="low" Type="ChartSeriesType.Hilo">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </EjsChart>
+</div>
+@code{
+    private ChartData[] StockDetails;
+    protected override async Task OnInitializedAsync()
+    {
+        StockDetails = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/chart/financial-data.json"));
+    }
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double high { get; set; }
+        public double low { get; set; }
+    }
+}
+

@@ -1,6 +1,8 @@
 @page "/Schedule/BlockEvents"
 
 @using Syncfusion.EJ2.Blazor.Schedule
+@using System.Globalization
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -27,11 +29,25 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsSchedule TValue="ScheduleData.BlockData" Width="100%" Height="650px" CssClass="block-events" CurrentView="View.TimelineDay" SelectedDate="@(new DateTime(2018, 8, 1))">
+        <EjsSchedule TValue="ScheduleData.BlockData" ModelType="@Model" Width="100%" Height="650px" CssClass="block-events" CurrentView="View.TimelineDay" SelectedDate="@(new DateTime(2018, 8, 1))">
             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
                 <ScheduleResource DataSource="@ResourceData" Field="EmployeeId" Title="Employees" Name="Employee" TextField="text" IdField="id" ColorField="color" AllowMultiple="false"></ScheduleResource>
             </ScheduleResources>
+            <ScheduleTemplates>
+                <ResourceHeaderTemplate>
+                    @{
+                        var resourceData = (context as TemplateArgs).ResourceData;
+                        <div class="template-wrap">
+                            <div class="employee-category">
+                                <img class="employee-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{resourceData.Text}.png")" />
+                                <div class="employee-name">@(resourceData.Text)</div>
+                                <div class="employee-designation">@(resourceData.Designation)</div>
+                            </div>
+                        </div>
+                    }
+                </ResourceHeaderTemplate>
+            </ScheduleTemplates>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
@@ -53,4 +69,56 @@
         new { text = "Laura", id = 5, groupId = 1, color = "#bbdc00", designation = "Human Resource" },
         new { text = "Margaret", id = 6, groupId = 2, color = "#9e5fff", designation = "Content Analyst" }
     };
+    public class TemplateArgs
+    {
+        public ResourceDataModel ResourceData { get; set; }
+    }
+    public class ResourceDataModel
+    {
+        public string Text { get; set; }
+        public string Designation { get; set; }
+    }
+    public TemplateArgs Model = new TemplateArgs(); 
 }
+<style>
+
+    .e-schedule .template-wrap {
+        width: 100%;
+    }
+
+    .e-schedule .e-vertical-view .e-resource-cells {
+        height: 58px;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-left-td,
+    .e-schedule .e-timeline-month-view .e-resource-left-td {
+        width: 170px;
+    }
+
+    .e-schedule .e-resource-cells.e-child-node .employee-category,
+    .e-schedule .e-resource-cells.e-child-node .employee-name {
+        padding: 5px
+    }
+
+    .e-schedule .employee-image {
+        width: 45px;
+        height: 40px;
+        float: left;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .e-schedule .employee-name {
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+
+    .e-schedule .employee-designation {
+        font-size: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+</style>

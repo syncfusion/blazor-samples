@@ -1,0 +1,151 @@
+﻿@page "/RangeSelector/Logarithmic"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Logarithmic Axis";
+    SampleBrowser.CurrentControlName = "RangeNavigator";
+    SampleBrowser.CurrentControlCategory = "RangeNavigator";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        This sample demonstrates the rendering of logarithmic axis in the range navigator.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        Logarithmic axis uses logarithmic scale and it is very useful in visualizing when the data has values with both lower order of magnitude (eg: 10^-6) and higher order of magnitude (eg: 10^6). To render Logarithmic axis, set valueType to Logarithmic. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.
+    </p>"
+    };
+}
+@*End:Hidden*@
+@if (logarithmicData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Inflation vs Goods Consumers</h4>
+        <div id="container">
+            <EjsRangeNavigator Value="@value" ValueType="Syncfusion.EJ2.Blazor.Charts.RangeValueType.Logarithmic" LabelIntersectAction="RangeLabelIntersectAction.None" LabelPosition="AxisPosition.Outside" Interval="1">
+                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorRangeTooltipSettings Enable="true"></RangeNavigatorRangeTooltipSettings>
+                <RangeNavigatorSeriesCollection>
+                    <RangeNavigatorSeries Fill="url(#material-gradient-chart)" DataSource="@logarithmicData" Width="2" XName="x" Type="RangeNavigatorType.StepLine" YName="y">
+                    </RangeNavigatorSeries>
+                </RangeNavigatorSeriesCollection>
+            </EjsRangeNavigator>
+        </div>
+        <div id="chartcontainer">
+            <EjsChart>
+                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis Interval="1" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Logarithmic" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Numers of Goods Consumers" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="0" Maximum="600" Interval="100" LabelFormat="{value}%" Title="Inflation">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries Fill="url(#material-gradient-chart)" DataSource="@logarithmicData" XName="x" YName="y" Width="2" Type="ChartSeriesType.StepArea">
+                        <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                        <ChartMarker Visible="true"></ChartMarker>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartTooltipSettings Enable="false" Shared="false"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            </EjsChart>
+        </div>
+    </div>
+}
+@code{
+    double ZF = 1;
+    double ZP = 0;
+    int[] value = new int[] { 4, 6 };
+    List<RangeData> logarithmicData;
+    protected override async Task OnInitializedAsync()
+    {
+         List<RangeData> data = new List<RangeData>();
+         int max = 100;
+         Random rand = new Random();
+         double value;
+         for (int i = 0; i < max; i++)
+         {
+             value = rand.Next(1, 10);
+             data.Add(new RangeData { x = Math.Pow(10, i * 0.1), y = Math.Floor(value * (80 - 30 + 1)) + 30 });
+         }
+         logarithmicData = data;
+    }
+   
+    public class RangeData
+    {
+        public Double x { get; set; }
+        public Double y { get; set; }
+    }
+    public void onRangeChanged(IChangedEventArgs args)
+    {
+        ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
+    }
+
+}
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #material-gradient-chart stop {
+        stop-color: #00bdae;
+    }
+
+    #fabric-gradient-chart stop {
+        stop-color: #4472c4;
+    }
+
+    #bootstrap-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #bootstrap4-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #highcontrast-gradient-chart stop {
+        stop-color: #79ECE4;
+    }
+
+    .chart-gradient stop[offset="0"] {
+        stop-opacity: 0.9;
+    }
+
+    .chart-gradient stop[offset="1"] {
+        stop-opacity: 0.3;
+    }
+</style>
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="material-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fabric-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap4-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="highcontrast-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>

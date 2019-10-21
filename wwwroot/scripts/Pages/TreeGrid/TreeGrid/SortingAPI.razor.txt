@@ -1,0 +1,133 @@
+﻿@page "/TreeGrid/SortingAPI"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Data
+@using Syncfusion.EJ2.Blazor
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_treedata
+
+@{
+    SampleBrowser.CurrentSampleName = "Sorting API";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates the usage of sorting API in TreeGrid. Through property panel, we can sort/unsort the columns using corresponding sorting API.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code>AllowSorting</code> as true.
+         </p>
+          <p class='e-treegrid' style='border:none'>To sort a TreeGrid column simply click the column header. The icons <span class='e-icons e-icon-ascending'></span>(ascending)
+        and <span class='e-icons e-icon-descending'></span>(descending) specifies the sort direction of a column.</p>
+    <p>By default, multi-sorting is enabled in TreeGrid, to sort multiple column hold <strong>CTRL</strong> key and click the column
+        header. To clear sort for a column, hold <strong>SHIFT</strong> key and click the column header.</p>
+    <p>
+        While using TreeGrid in a touch device, you have an option for multi sorting in single tap on the treegrid header. By tapping on
+        the treegrid header, it will show the toggle button in small popup with sort icon. Now tap the button to enable the multi-sorting
+        in single tap.
+    </p>
+    <p>In this demo, select the column and direction from the properties panel then click the Sort button. Use the Clear button
+        to remove sort for the selected column.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            @*<EjsTreeGrid ref="treeGrid" ChildMapping="Children" TreeColumnIndex="1" DataSource="@treeData" Columns="@treecolumns" AllowPaging="true" EnableHierarchySelection="true"></EjsTreeGrid>*@
+
+            <EjsTreeGrid TValue="BusinessObject" height="380" ChildMapping="Children" AllowPaging="true" TreeColumnIndex="1" AllowSorting="true">
+                <EjsDataManager Json="@TreeGridData" Adaptor="Adaptors.JsonAdaptor"></EjsDataManager>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskId" HeaderText="Order Name" Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Category" Width="120"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Priority" Width="135" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="yMd" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+
+        </div>
+    </div>
+</div>
+
+@*<div class="col-lg-3 property-section">
+    <h4 style="margin-top:38px;">Properties</h4>
+
+    <table id="property" style="width: 73%; height: 180px;">
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Column</td>
+            <td>
+                <EjsDropDownList ID="names" Index="0" PopupWidth="110px" DataSource="@names">
+                    <DropDownListFieldSettings text="id" value="name"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Direction</td>
+            <td>
+                <EjsDropDownList ID="direction" Index="0" PopupWidth="110px" DataSource="@direction">
+                    <DropDownListFieldSettings text="id" value="name"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <EjsButton id="sort" IsPrimary="true">Sort</EjsButton>
+            </td>
+            <td style="padding-left:18px;">
+                <EjsButton id="clear" IsPrimary="true">Clear</EjsButton>
+            </td>
+        </tr>
+    </table>
+</div>*@
+
+@code{
+
+    public class ColumnNames
+    {
+        public string id { get; set; }
+
+        public string name { get; set; }
+    }
+
+    public class Direction
+    {
+        public string id { get; set; }
+
+        public string name { get; set; }
+    }
+
+    List<ColumnNames> names = new List<ColumnNames>()
+    {
+        new ColumnNames(){ id= "TaskId", name= "Task Id" },
+        new ColumnNames(){ id= "TaskName", name= "Task Name" },
+        new ColumnNames(){ id= "Duration", name= "Duration" },
+        new ColumnNames(){ id= "Progress", name= "Progress" },
+    };
+
+    List<Direction> direction = new List<Direction>()
+    {
+        new Direction(){ id= "Ascending", name= "Ascending" },
+        new Direction(){ id= "Descending", name= "Descending" },
+    };
+
+    public BusinessObject[] TreeGridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = TreeData.GetDefaultData().Cast<BusinessObject>().ToArray();
+    }
+}

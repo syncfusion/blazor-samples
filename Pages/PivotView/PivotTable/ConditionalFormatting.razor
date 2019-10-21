@@ -1,6 +1,7 @@
 ﻿@page "/PivotTable/ConditionalFormatting"
 
 @using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -58,49 +59,57 @@
     </table>
 
     <p>
-    Also, we have applied conditional formatting for the fields <b>Sold Amount</b> and <b>Units Sold</b> in code behind</p>
-    
-    <p>In this sample, we can also invoke conditional formatting dialog via toolbar by defining toolbar option(s) and setting the <code>ShowToolbar</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>"
+    Also, we have applied conditional formatting for the fields <b>Sold Amount</b> and <b>Units Sold</b> in code behind</p>"
 };
 }
 @*End:Hidden*@
 
+
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView Width="100%" Height="340" AllowConditionalFormatting=true ShowToolbar="true" Toolbar="@toolbar">
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
-                <PivotViewColumns>
-                    <PivotViewColumn Name="Year"></PivotViewColumn>
-                    <PivotViewColumn Name="Quarter"></PivotViewColumn>
-                </PivotViewColumns>
-                <PivotViewRows>
-                    <PivotViewRow Name="Country"></PivotViewRow>
-                    <PivotViewRow Name="Products"></PivotViewRow>
-                </PivotViewRows>
-                <PivotViewValues>
-                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
-                </PivotViewValues>
-                <PivotViewFilters>
-                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
-                </PivotViewFilters>
-                <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
-                </PivotViewFormatSettings>
-                <PivotViewConditionalFormatSettings>
-                    <PivotViewConditionalFormatSetting Measure="Amount" Conditions=Condition.GreaterThan Value1=1000>
-                        <PivotViewStyle BackgroundColor="#80cbc4" Color="black" FontFamily="Tahoma" FontSize="12px">
-                        </PivotViewStyle>
-                    </PivotViewConditionalFormatSetting>
-                    <PivotViewConditionalFormatSetting Measure="Sold" Conditions=Condition.Between Value1=500 Value2=40000>
-                        <PivotViewStyle BackgroundColor="#f48fb1" Color="black" FontFamily="Tahoma" FontSize="12px">
-                        </PivotViewStyle>
-                    </PivotViewConditionalFormatSetting>
-                </PivotViewConditionalFormatSettings>
-            </PivotViewDataSourceSettings>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-        </EjsPivotView>
+        <div class="column-8">
+            <EjsPivotView TValue="ProductDetails" @ref="pivot" Width="100%" Height="340" AllowConditionalFormatting=true>
+                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year"></PivotViewColumn>
+                        <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Country"></PivotViewRow>
+                        <PivotViewRow Name="Products"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFilters>
+                        <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                    </PivotViewFilters>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                        <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                    <PivotViewConditionalFormatSettings>
+                        <PivotViewConditionalFormatSetting Measure="Amount" Conditions=Condition.GreaterThan Value1=1000>
+                            <PivotViewStyle BackgroundColor="#80cbc4" Color="black" FontFamily="Tahoma" FontSize="12px">
+                            </PivotViewStyle>
+                        </PivotViewConditionalFormatSetting>
+                        <PivotViewConditionalFormatSetting Measure="Sold" Conditions=Condition.Between Value1=500 Value2=40000>
+                            <PivotViewStyle BackgroundColor="#f48fb1" Color="black" FontFamily="Tahoma" FontSize="12px">
+                            </PivotViewStyle>
+                        </PivotViewConditionalFormatSetting>
+                    </PivotViewConditionalFormatSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
+            </EjsPivotView>
+        </div>
+        <div class="column-4">
+            <div style="height:300px; overflow:auto;">
+                <h5>Properties:</h5> <br>
+                  <EjsButton ID="conditional" IsPrimary="true" OnClick="conditionformat">APPLY FORMAT</EjsButton>
+            </div>
+            
+        </div>
     </div>
 </div>
 
@@ -108,19 +117,26 @@
     .e-pivotview {
         min-height: 200px;
     }
+    .column-8{
+        width: 70% !important;
+        float: left !important;
+    }
+    .column-4{
+        width: 27% !important;
+        float: right !important;
+    }
 </style>
 
 @code{
-
-    public List<ToolbarItems> toolbar = new List<ToolbarItems> {
-      ToolbarItems.ConditionalFormatting
-    };
-
+    EjsPivotView<ProductDetails> pivot;
     public List<ProductDetails> data { get; set; }
 
     protected override void OnInitialized()
     {
         this.data = ProductDetails.GetProductData();
     }
-
+    public void conditionformat(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        this.pivot.ShowConditionalFormattingDialog();
+    }
 }

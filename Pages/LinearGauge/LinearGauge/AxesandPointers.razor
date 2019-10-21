@@ -14,15 +14,12 @@
     SampleBrowser.CurrentControl = SampleBrowser.Config.LinearGauge;
     SampleBrowser.ActionDescription = new string[] {
         @" <p>
-            This sample illustrates the default rendering of linear gauge.
+            This sample illustrates the axis and pointers feature in the linear gauge. Axis and pointers can be customized by using options available in the panel.
         </p>"
     };
     SampleBrowser.Description = new string[] {
         @"<p>
-            This sample demonstrates the default linear gauge. The linear gauge component indicates the values of scales in horizontal
-            or vertical sliding meter. You can use <code>axes</code>,
-            <code>ranges</code>, <code>pointers</code> and <code>container</code> properties to customize the appearance of the
-            gauge. an axis, annotation and a pointer has been used.
+           In this example, you can see how to customize the axes and pointers. Use format of labelStyle property to customize the <code>axis labels and use type, markerType and placement</code> properties to customize the pointers in linear gauge.
         </p>
         <br>
         <p>
@@ -33,9 +30,9 @@
 }
 @*End:Hidden*@
 
-<div class="col-lg-8 control-section sb-property-border">
-    <div class="control-section">
-        <EjsLinearGauge Orientation="Orientation.Horizontal" @ref="@gaugeRef">
+
+<div class="col-lg-9 control-section sb-property-border">
+        <EjsLinearGauge Orientation="Orientation.Horizontal" >
             <LinearGaugeAxes>
                 <LinearGaugeAxis Minimum="@gaugeMinimumValue" Maximum="@gaugeMaximumValue" IsInversed="@gaugeInversed" OpposedPosition="@gaugeOpposed">
                     <LinearGaugeAxisLabelStyle Offset="@gaugeLabelOffset" Format="@gaugeLabelFormat">
@@ -45,21 +42,21 @@
                     <LinearGaugeMinorTicks Color="#9E9E9E" Interval="2" Height="10">
                     </LinearGaugeMinorTicks>
                     <LinearGaugePointers>
-                        <LinearGaugePointer Value="10" Height="15" Width="15" Placement="@gaugePointerPlacement" offset="@gaugePointerOffset" MarkerType="@gaugeMarkerType" Type="@gaugePointerType" Color="#757575">
+                        <LinearGaugePointer Value="10" Height="15" Width="15" Placement="@gaugePointerPlacement" Offset="@gaugePointerOffset" MarkerType="@gaugeMarkerType" Type="@gaugePointerType" Color="#757575">
                         </LinearGaugePointer>
                     </LinearGaugePointers>
                 </LinearGaugeAxis>
             </LinearGaugeAxes>
             <LinearGaugeAnnotations>
-                <LinearGaugeAnnotation Content="@annotationText"
-                                       AxisIndex="0" AxisValue="@annotationAxisvalue" X="@gaugeAnnotationX" Y="@gaugeAnnotationY" ZIndex="1">
-                    <LinearGaugeAnnotationFont Size="14px"></LinearGaugeAnnotationFont>
+                <LinearGaugeAnnotation AxisIndex="0" AxisValue="@annotationAxisvalue" X="@gaugeAnnotationX" Y="@gaugeAnnotationY" ZIndex="1">
+                   <ContentTemplate>
+                       <div style="margin-left:-25px;font-size:14px;margin-top:-7px;width:60px">@annotationText</div>
+                   </ContentTemplate>
                 </LinearGaugeAnnotation>
             </LinearGaugeAnnotations>
         </EjsLinearGauge>
     </div>
-</div>
-<div class="col-md-4 property-section">
+<div class="col-md-3 property-section">
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
@@ -73,7 +70,7 @@
                     </td>
                     <td style="width:40%">
                         <div style="padding-left: 10px; padding-top: 10px;">
-                            <input type="range" value="@minimumValue" min="0" max="100" @onchange="minimumChange" />
+                            <input type="range" value="@minimumValue" min="0" max="100" @oninput="minimumChange" />
                         </div>
                     </td>
                 </tr>
@@ -86,7 +83,7 @@
                     </td>
                     <td style="width:40%">
                         <div style="padding-left: 10px; padding-top: 10px;">
-                            <input type="range" value="@maximumValue" min="0" max="100" @onchange="maximumChange" />
+                            <input type="range" value="@maximumValue" min="0" max="100" @oninput="maximumChange" />
                         </div>
                     </td>
                 </tr>
@@ -116,7 +113,7 @@
                     </td>
                     <td style="width:40%">
                         <div class="e-float-input" style="margin-top: 0px; padding-left: 10px; padding-top: 10px;">
-                            <EjsTextBox Value="@labelFormatValue" ValueChange='@labelFormatChange' @ref="@textboxRef"></EjsTextBox>
+                            <EjsTextBox Value="@labelFormatValue" ValueChange='@labelFormatChange' ></EjsTextBox>
                         </div>
                     </td>
                 </tr>
@@ -162,8 +159,6 @@
 </style>
 
 @code {
-    EjsLinearGauge gaugeRef;
-    EjsTextBox textboxRef;
     private Double gaugePointerOffset = 30;
     private Double gaugeLabelOffset = 48;
     private Double gaugeAnnotationX = 10;
@@ -208,24 +203,21 @@
     {
         minimumValue = Convert.ToDouble(args.Value);
         gaugeMinimumValue = minimumValueText = minimumValue;
+        annotationAxisvalue = minimumValue;
+        annotationText = (minimumValue + "MPH").ToString();
         gaugeMaximumValue = maximumValue;
-        gaugeRef.Refresh();
-        annotationAxisvalue = gaugeRef.Axes[0].Pointers[0].Value;
-        this.StateHasChanged();
     }
     private void maximumChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
         maximumValue = Convert.ToDouble(args.Value);
-        gaugeMinimumValue = minimumValue;
+        gaugeMinimumValue = minimumValue;        
+        annotationAxisvalue = minimumValue;
+        annotationText = (minimumValue + " MPH").ToString();
         gaugeMaximumValue = maximumValueText = maximumValue;
-        gaugeRef.Refresh();
-        annotationAxisvalue = gaugeRef.Axes[0].Pointers[0].Value;
-        this.StateHasChanged();
     }
     private void inversedChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
         inveredChecked = gaugeInversed = args.Checked;
-        this.StateHasChanged();
     }
     private void opposedChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
@@ -248,20 +240,17 @@
             gaugeAnnotationX = 10;
             gaugeAnnotationY = 60;
         }
-        this.StateHasChanged();
     }
     private void labelFormatChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs args)
     {
         labelFormatValue = (args.Value).ToString();
         gaugeLabelFormat = labelFormatValue;
-        this.StateHasChanged();
     }
     private void pointerTypeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         pointerTypeValue = (args.Value).ToString();
         if (pointerTypeValue == "Marker") { gaugePointerType = Point.Marker; placementListEnable = true; }
         else { gaugePointerType = Point.Bar; placementListEnable = false; }
-        this.StateHasChanged();
     }
     private void placementTypeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
@@ -269,6 +258,5 @@
         if (placementValue == "Far") { gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Far; }
         else if (placementValue == "Near") { gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Near; }
         else { gaugePointerPlacement = Syncfusion.EJ2.Blazor.LinearGauge.Placement.Center; }
-        this.StateHasChanged();
     }
 }

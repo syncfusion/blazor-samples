@@ -1,0 +1,64 @@
+﻿@page "/Schedule/ExcelExport"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+@using Syncfusion.EJ2.Blazor.Buttons
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Excel Exporting";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This example demonstrates how to export the Scheduler events to an Excel file format at client-side.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @" <p>In this example, the Scheduler events data are exported to an Excel file by making use of the public method
+        <code>ExportToExcel</code>. By default, the whole event collection bound to the Scheduler gets exported as an excel file. To
+        export only specific events of Scheduler, you need to pass the custom data collection as a parameter to the
+        <code>ExportToExcel</code> method. This method accepts the export options as its arguments such as FileName, ExportType,
+        Fields, CustomData, and IncludeOccurrences. The FileName denotes the name to be given for the exported file and
+        the <code>ExportType</code> allows you to set the format of the excel file to be exported either as .xlsx or .csv. The custom
+        or specific field collection of event dataSource to be exported can be provided through <code>Fields</code> option and the
+        custom data collection can be exported by passing them through the <code>CustomData</code> option. There also exists option
+        to export individual instances of the recurring events to an excel file, by setting true or false to the
+        <code>IncludeOccurrences</code> option, denoting either to include or exclude the occurrences as separate instances on an
+        exported excel file.
+        </p>"
+    };
+}
+@*End:Hidden*@
+<div class="col-lg-9 control-section">
+    <EjsSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2019, 1, 10))">
+        <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Week"></ScheduleView>
+        </ScheduleViews>
+    </EjsSchedule>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+            <tbody>
+                <tr style="height: 50px">
+                    <td style="width: 100%;text-align:center">
+                        <EjsButton Content="Excel Export" OnClick="OnExportToExcel"></EjsButton>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code{
+    EjsSchedule<ScheduleData.AppointmentData> ScheduleRef;
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+    public void OnExportToExcel()
+    {
+        ExportOptions Options = new ExportOptions() { ExportType = ExcelFormat.Xlsx, Fields = new string[] { "Id", "Subject", "StartTime", "EndTime", "Location" } };
+        ScheduleRef.ExportToExcel(Options);
+    }
+}

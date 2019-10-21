@@ -1,6 +1,8 @@
 ﻿@page "/Schedule/GroupEditing"
 
 @using Syncfusion.EJ2.Blazor.Schedule
+@using System.Globalization
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -33,11 +35,25 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsSchedule TValue="ScheduleData.ResourceConferenceData" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="@(new DateTime(2018, 6, 5))">
+        <EjsSchedule TValue="ScheduleData.ResourceConferenceData" ModelType="@Model" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="@(new DateTime(2018, 6, 5))">
             <ScheduleGroup AllowGroupEdit="true" Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
                 <ScheduleResource DataSource="@Conferences" Field="ConferenceId" Title="Attendees" Name="Conferences" TextField="text" IdField="id" ColorField="color" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
+            <ScheduleTemplates>
+                <ResourceHeaderTemplate>
+                    @{
+                        var resourceData = (context as TemplateArgs).ResourceData;
+                        <div class='template-wrap'>
+                            <div class="resource-image"><img src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{resourceData.Text.ToLower()}.png")" /></div>
+                            <div class="resource-details">
+                                <div class="resource-name">@(resourceData.Text)</div>
+                                <div class="resource-designation">@(resourceData.Designation)</div>
+                            </div>
+                        </div>
+                    }
+                </ResourceHeaderTemplate>
+            </ScheduleTemplates>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.WorkWeek"></ScheduleView>
@@ -60,26 +76,70 @@
     public List<ScheduleData.ResourceConferenceData> DataSource = new ScheduleData().GetResourceConferenceData();
     public string[] GroupData = new string[] { "Conferences" };
     private List<object> Conferences { get; set; } = new List<object> {
-        new { text = "Margaret", id = 1, color = "#1aaa55" },
-        new { text = "Robert", id = 2, color = "#357cd2" },
-        new { text = "Laura", id = 3, color = "#7fa900" }
+        new { text = "Margaret", id = 1, color = "#1aaa55", Designation = "Sales Representative" },
+        new { text = "Robert", id = 2, color = "#357cd2", Designation = "Vice President, Sales" },
+        new { text = "Laura", id = 3, color = "#7fa900", Designation = "Inside Sales Coordinator" }
     };
+    public TemplateArgs Model = new TemplateArgs();
+    public class TemplateArgs
+    {
+        public ResourceDataModel ResourceData { get; set; }
+    }
+    public class ResourceDataModel
+    {
+        public string Text { get; set; }
+        public string Designation { get; set; }
+    }
 }
 <style>
-    .schedule-demo-heading {
-        font-size: 16px;
-        padding-bottom: 15px;
-        text-align: center;
-        font-weight: 500;
-    }
-       
-    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
-        width: 110px;
+    .e-schedule .e-month-view .e-appointment .e-appointment-details {
+        padding: 1px;
+        padding-left: 3px;
     }
 
-    @@media (max-width: 550px) {
-        .schedule-demo-heading {
-            font-size: 14px;
+    .e-schedule .e-vertical-view .e-resource-cells {
+        height: 64px;
+    }
+
+    .e-schedule .template-wrap {
+        display: flex;
+        text-align: left;
+    }
+
+        .e-schedule .template-wrap .resource-image {
+            width: 45px;
+            height: 45px;
+            background-size: 45px;
+            background-repeat: no-repeat;
         }
+
+        .e-schedule .template-wrap .resource-details {
+            padding-left: 10px;
+        }
+
+            .e-schedule .template-wrap .resource-details .resource-name {
+                font-size: 16px;
+                font-weight: 500;
+                padding-right: 10px;
+            }
+
+    .e-schedule.e-device .template-wrap .resource-details .resource-name {
+        font-size: inherit;
+        font-weight: inherit;
+        padding-top: 5px;
+    }
+
+    .e-schedule.e-device .e-resource-tree-popup .e-fullrow {
+        height: 50px;
+    }
+
+    .e-schedule.e-device .template-wrap .resource-details .resource-designation {
+        display: none;
+    }
+
+    .e-schedule .template-wrap .resource-image img {
+        height: 45px;
+        width: 45px;
     }
 </style>
+

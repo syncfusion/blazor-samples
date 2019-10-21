@@ -25,48 +25,74 @@
     };
 }
 @*End:Hidden*@
-
-    <div class="control-section ">
-        <EjsChart Title="Top 10 Mobile Markets by Number of Subscriptions">
-            <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
-            <ChartPrimaryYAxis LabelFormat="{value}M"></ChartPrimaryYAxis>
-            <ChartTooltipSettings Enable="true">
-            </ChartTooltipSettings>
-            <ChartLegendSettings Visible="true">
-            </ChartLegendSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@dataSource" Name="Mobile Subscriptions" XName="x" Width="2" YName="y" Type="ChartSeriesType.Radar" DrawType="ChartDrawType.Column">
-                    <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>                   
-                    <ChartMarker>
-                        <ChartDataLabel Name="text"></ChartDataLabel>
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource="@dataSource" Name="Population in Millions" XName="x" Width="2" YName="y1" Type="ChartSeriesType.Radar" DrawType="ChartDrawType.Column">
-                    <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
-                    <ChartMarker>
-                        <ChartDataLabel Name="text"></ChartDataLabel>
-                    </ChartMarker>
-                </ChartSeries>
-                <ChartSeries DataSource="@dataSource" Name="3G/4G Subscriptions" XName="x" Width="2" YName="y2" Type="ChartSeriesType.Radar" DrawType="ChartDrawType.Column">
-                    <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
-                    <ChartMarker>
-                        <ChartDataLabel Name="text"></ChartDataLabel>
-                    </ChartMarker>
-                </ChartSeries>
-            </ChartSeriesCollection>
-        </EjsChart>
+<div class="row">
+<div class="col-lg-9 control-section">
+    <EjsChart Title="Top 10 Mobile Markets by Number of Subscriptions">
+        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}M"></ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true">
+        </ChartTooltipSettings>
+        <ChartLegendSettings Visible="true">
+        </ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@dataSource" Name="Mobile Subscriptions" XName="x" Width="2" YName="y" Type="@seriesType" DrawType="ChartDrawType.Column">
+                <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Name="text"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@dataSource" Name="Population in Millions" XName="x" Width="2" YName="y1" Type="@seriesType" DrawType="ChartDrawType.Column">
+                <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Name="text"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@dataSource" Name="3G/4G Subscriptions" XName="x" Width="2" YName="y2" Type="@seriesType" DrawType="ChartDrawType.Column">
+                <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Name="text"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </EjsChart>
+</div>
+    <div class="col-lg-3 property-section">
+        <table id="property" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Series Type:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div>
+                        <select id="SelectSeriesType" @onchange="changeSeriesType">
+                            <option value="Polar">Polar</option>
+                            <option value="Radar">Radar</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
+</div>
 @code{
-        public class PolarColumnData
+    ChartSeriesType seriesType = ChartSeriesType.Polar;
+    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+    public class PolarColumnData
+    {
+        public string text { get; set; }
+        public string x { get; set; }
+        public double y { get; set; }
+        public double y1 { get; set; }
+        public double y2 { get; set; }
+    }
+    public List<PolarColumnData> dataSource = new List<PolarColumnData>
         {
-            public string text { get; set; }
-            public string x { get; set; }
-            public double y { get; set; }
-            public double y1 { get; set; }
-            public double y2 { get; set; }
-        }
-        public List<PolarColumnData> dataSource = new List<PolarColumnData>
-            {
                 new PolarColumnData { text= "Japan", x= "JPN", y= 137.9, y1= 127.6, y2= 108.8 },
                 new PolarColumnData { text= "Indonesia", x= "IDN", y= 85.0, y1= 246.9, y2= 45.5 },
                 new PolarColumnData { text= "Russia", x= "RUS", y= 237.1, y1= 143.5, y2= 41.2 },

@@ -98,6 +98,15 @@ namespace ej2_blazor_samples
                 Url = "Gantt/Timeline",
                 FileName = "Timeline.razor",
                 Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Exporting",
+                Category = "Gantt",
+                Directory = "Gantt/Gantt",
+                Url = "Gantt/Exporting",
+                FileName = "Exporting.razor",
+                Type = SampleType.New
             }
         };
     }

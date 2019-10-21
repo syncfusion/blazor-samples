@@ -1,5 +1,6 @@
 ﻿@page "/Charts/PolarLine"
 @using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -25,45 +26,119 @@
     };
 }
 @*End:Hidden*@
-<div class="control-section">
-    <EjsChart Title="Alaska Weather Statistics - 2016">
-        <ChartTooltipSettings Enable="true">
-        </ChartTooltipSettings>
-        <ChartPrimaryXAxis Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Title="Months"></ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Temperature (Celsius)" Minimum="-25" Maximum="25" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C"></ChartPrimaryYAxis>
-        <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Name="Germany" XName="xValue" Width="2" Opacity="1" YName="yValue" Type="ChartSeriesType.Polar">
-                <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
-            </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="England" XName="xValue" Width="2" Opacity="1" YName="yValue1" Type="ChartSeriesType.Polar">
-                <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
-            </ChartSeries>
-        </ChartSeriesCollection>
-    </EjsChart>
+<div class="row">
+    <div class="col-lg-9 control-section">
+        <EjsChart Title="Alaska Weather Statistics - 2016">
+            <ChartTooltipSettings Enable="true">
+            </ChartTooltipSettings>
+            <ChartPrimaryXAxis IsInversed="@isInversed" StartAngle="@startAngle" Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Title="Months"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="@isInversed" Title="Temperature (Celsius)" Minimum="-25" Maximum="25" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C"></ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries IsClosed="@isClosed" DataSource="@dataSource" Name="Germany" XName="xValue" Width="2" Opacity="1" YName="yValue" Type="@seriesType">
+                    <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
+                </ChartSeries>
+                <ChartSeries IsClosed="@isClosed" DataSource="@dataSource" Name="England" XName="xValue" Width="2" Opacity="1" YName="yValue1" Type="@seriesType">
+                    <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </EjsChart>
     </div>
+    <div class="col-lg-3 property-section">
+        <table id="property" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Series Type:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div>
+                        <select id="SelectSeriesType" @onchange="changeSeriesType">
+                            <option value="Polar">Polar</option>
+                            <option value="Radar">Radar</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>Closed: </div>
+                </td>
+                <td style="width: 50%;">
+                    <div>
+                        <EjsCheckBox Checked="@closed" ValueChange="@checkClosed"></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 30%">
+                    <div>
+                        Start Angle:
+                        <p id="startAngleValue" style="font-weight: normal;"><span>@value</span></p>
+                    </div>
+                </td>
+                <td style="width: 70%;">
+                    <div class="">
+                        <input type="range" @onchange="changeAngle" value="@value" min="0" max="360" style="width:90%"/>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>Inversed: </div>
+                </td>
+                <td style="width: 50%;">
+                    <div>
+                        <EjsCheckBox Checked="@inversed" ValueChange="@checkInversed"></EjsCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-    @code{
-        public class PolarLineChartData
-        {
-            public string xValue { get; set; }
-            public double yValue { get; set; }
-            public double yValue1 { get; set; }
-        }
-        public List<PolarLineChartData> dataSource =  new List<PolarLineChartData>
-        {
-               new PolarLineChartData { xValue = "Jan", yValue = -7.1, yValue1 = -17.4 },
-                new PolarLineChartData { xValue = "Feb", yValue = -3.7, yValue1 = -15.6  },
-                new PolarLineChartData { xValue = "Mar", yValue = 0.8, yValue1 = -12.3  },
-                new PolarLineChartData { xValue = "Apr", yValue = 6.3, yValue1 = -5.3 },
-                new PolarLineChartData { xValue = "May", yValue = 13.3, yValue1 = 1.0 },
-                new PolarLineChartData { xValue = "Jun", yValue = 18.0, yValue1 =  6.9  },
-                new PolarLineChartData { xValue = "Jul", yValue = 19.8 , yValue1 = 9.4 },
-                new PolarLineChartData { xValue = "Aug", yValue = 18.1, yValue1 = 7.6 },
-                new PolarLineChartData { xValue = "Sep", yValue = 13.1 , yValue1 = 2.6 },
-                new PolarLineChartData { xValue = "Oct", yValue = 4.1, yValue1 = -4.9},
-                new PolarLineChartData { xValue = "Nov", yValue = -3.8, yValue1 = -13.4 },
-                new PolarLineChartData { xValue = "Dec", yValue = -6.8, yValue1 = -16.4 },
-        };
-
+@code{
+    private Boolean inversed = false, isInversed = false;
+    private Boolean closed = true, isClosed = true;
+    public int startAngle = 0, value = 0;
+    public void checkInversed(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        inversed = isInversed = args.Checked;
     }
-    
+    public void checkClosed(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        closed = isClosed = args.Checked;
+    }   
+    private void changeAngle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        value = startAngle = Convert.ToInt32(args.Value);
+    }
+
+    ChartSeriesType seriesType = ChartSeriesType.Polar;
+    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+    public class PolarLineChartData
+    {
+        public string xValue { get; set; }
+        public double yValue { get; set; }
+        public double yValue1 { get; set; }
+    }
+    public List<PolarLineChartData> dataSource = new List<PolarLineChartData>
+    {
+        new PolarLineChartData { xValue = "Jan", yValue = -7.1, yValue1 = -17.4 },
+        new PolarLineChartData { xValue = "Feb", yValue = -3.7, yValue1 = -15.6  },
+        new PolarLineChartData { xValue = "Mar", yValue = 0.8, yValue1 = -12.3  },
+        new PolarLineChartData { xValue = "Apr", yValue = 6.3, yValue1 = -5.3 },
+        new PolarLineChartData { xValue = "May", yValue = 13.3, yValue1 = 1.0 },
+        new PolarLineChartData { xValue = "Jun", yValue = 18.0, yValue1 =  6.9  },
+        new PolarLineChartData { xValue = "Jul", yValue = 19.8 , yValue1 = 9.4 },
+        new PolarLineChartData { xValue = "Aug", yValue = 18.1, yValue1 = 7.6 },
+        new PolarLineChartData { xValue = "Sep", yValue = 13.1 , yValue1 = 2.6 },
+        new PolarLineChartData { xValue = "Oct", yValue = 4.1, yValue1 = -4.9},
+        new PolarLineChartData { xValue = "Nov", yValue = -3.8, yValue1 = -13.4 },
+        new PolarLineChartData { xValue = "Dec", yValue = -6.8, yValue1 = -16.4 },
+    };
+}

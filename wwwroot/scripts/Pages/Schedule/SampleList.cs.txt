@@ -55,6 +55,25 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "External Drag And Drop",
+                Category = "Appointments",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/ExternalDragDrop",
+                FileName = "ExternalDragDrop.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Virtual Scrolling",
+                Category = "Scrolling",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/VirtualScrolling",
+                FileName = "VirtualScrolling.razor",
+                Type = SampleType.New
+            },
+
+            new Sample
+            {
                 Name = "Basic Views",
                 Category = "Views",
                 Directory = "Schedule/Schedule",
@@ -89,6 +108,15 @@ namespace ej2_blazor_samples
                 FileName = "MonthAgenda.razor",
                 Type = SampleType.New
             },
+            //new Sample
+            //{
+            //    Name = "Individual View Settings",
+            //    Category = "Views",
+            //    Directory = "Schedule/Schedule",
+            //    Url = "Schedule/IndividualViewSettings",
+            //    FileName = "IndividualViewSettings.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "View Intervals",
@@ -96,6 +124,15 @@ namespace ej2_blazor_samples
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/ExtendedViews",
                 FileName = "ExtendedViews.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Room Scheduler",
+                Category = "Multiple Resources",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/TimelineResource",
+                FileName = "TimelineResource.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -161,33 +198,24 @@ namespace ej2_blazor_samples
                 FileName = "GroupByChild.razor",
                 Type = SampleType.New
             },
-            new Sample
-            {
-                Name = "Date Header",
-                Category = "Templates",
-                Directory = "Schedule/Schedule",
-                Url = "Schedule/DateHeader",
-                FileName = "DateHeader.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Cell",
-                Category = "Templates",
-                Directory = "Schedule/Schedule",
-                Url = "Schedule/CustomCell",
-                FileName = "CustomCell.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Editor Template",
-                Category = "Templates",
-                Directory = "Schedule/Schedule",
-                Url = "Schedule/EditorPopupTemplate",
-                FileName = "EditorPopupTemplate.razor",
-                Type = SampleType.New
-            },
+            //new Sample
+            //{
+            //    Name = "Date Header",
+            //    Category = "Templates",
+            //    Directory = "Schedule/Schedule",
+            //    Url = "Schedule/DateHeader",
+            //    FileName = "DateHeader.razor",
+            //    Type = SampleType.New
+            //},
+            //new Sample
+            //{
+            //    Name = "Cell",
+            //    Category = "Templates",
+            //    Directory = "Schedule/Schedule",
+            //    Url = "Schedule/CustomCell",
+            //    FileName = "CustomCell.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Event Template",
@@ -208,6 +236,24 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Field Validation",
+                Category = "Editor Window",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/EditorValidation",
+                FileName = "EditorValidation.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Editor Template",
+                Category = "Editor Window",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/EditorPopupTemplate",
+                FileName = "EditorPopupTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Header Rows",
                 Category = "Customization",
                 Directory = "Schedule/Schedule",
@@ -224,6 +270,15 @@ namespace ej2_blazor_samples
                 FileName = "Timescale.razor",
                 Type = SampleType.New
             },
+            // new Sample
+            // {
+            //     Name = "Scroll Time",
+            //     Category = "Customization",
+            //     Directory = "Schedule/Schedule",
+            //     Url = "Schedule/ScrollTime",
+            //     FileName = "ScrollTime.razor",
+            //     Type = SampleType.New
+            // },
             new Sample
             {
                 Name = "Work Days",
@@ -276,6 +331,60 @@ namespace ej2_blazor_samples
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/ReadonlyEvents",
                 FileName = "ReadonlyEvents.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Excel Exporting",
+                Category = "Exporting",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/ExcelExport",
+                FileName = "ExcelExport.razor",
+                Type = SampleType.New
+            },
+            //new Sample
+            //{
+            //    Name = "Export and Import ICS",
+            //    Category = "Exporting",
+            //    Directory = "Schedule/Schedule",
+            //    Url = "Schedule/CalendarExportImport",
+            //    FileName = "CalendarExportImport.razor",
+            //    Type = SampleType.New
+            //},
+            new Sample
+            {
+                Name = "Print",
+                Category = "Exporting",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/Print",
+                FileName = "Print.razor",
+                Type = SampleType.New
+            },
+            //new Sample
+            //{
+            //    Name = "Rule Generator",
+            //    Category = "Recurrence Editor",
+            //    Directory = "Schedule/Schedule",
+            //    Url = "Schedule/RecurrenceRuleGenerator",
+            //    FileName = "RecurrenceRuleGenerator.razor",
+            //    Type = SampleType.New
+            //},
+            //new Sample
+            //{
+            //    Name = "Populate Rule",
+            //    Category = "Recurrence Editor",
+            //    Directory = "Schedule/Schedule",
+            //    Url = "Schedule/RecurrencePopulateRule",
+            //    FileName = "RecurrencePopulateRule.razor",
+            //    Type = SampleType.New
+            //},
+            new Sample
+            {
+                Name = "Keyboard Interaction",
+                Category = "Miscellaneous",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/KeyboardInteraction",
+                FileName = "KeyboardInteraction.razor",
                 Type = SampleType.New
             }
         };

@@ -1,0 +1,52 @@
+﻿@page "/HeatMapChart/Cell"
+@using Syncfusion.EJ2.Blazor.HeatMap
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_heatmapdata
+@{
+    SampleBrowser.CurrentSampleName = "Cell";
+    SampleBrowser.CurrentControlName = "HeatMapChart";
+    SampleBrowser.CurrentControlCategory = "HeatMapChart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.HeatMapChart;
+    SampleBrowser.ActionDescription = new string[] {
+    @"<p>
+         This sample visualizes the percentage growth rate of individuals using the internet in a country compared to the overall population to the country.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="row">
+        <div class="col-md-12">
+            <EjsHeatMap DataSource="@DataSource">
+                <HeatMapEvents TooltipRendering="@OnRendering"></HeatMapEvents>
+                <HeatMapTitle Text="Percentage of Individuals Using Internet by Country" TextStyle="@TextStyle"></HeatMapTitle>
+                <HeatMapDataSourceSettings  IsJsonData="false" AdaptorType="AdaptorType.Cell"></HeatMapDataSourceSettings>
+                <HeatMapXAxis Labels="@XLabels" LabelRotation="45" LabelIntersectAction="LabelIntersectAction.None"></HeatMapXAxis>
+                <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+                <HeatMapPaletteSettings>
+                    <HeatMapPalettes>
+                        <HeatMapPalette Color="#3498DB"></HeatMapPalette>
+                        <HeatMapPalette Color="#2C3E50"></HeatMapPalette>
+                    </HeatMapPalettes>
+                </HeatMapPaletteSettings>
+                <HeatMapCellSettings Border="@CellBorder" TextStyle="@CellTextStyle" Format="{value} %"></HeatMapCellSettings>
+                <HeatMapLegendSettings Visible="false"></HeatMapLegendSettings>
+            </EjsHeatMap>
+        </div>
+    </div>
+</div>
+@code
+{
+    string[] XLabels = new string[] { "China", "Australia", "Mexico", "Canada", "Brazil", "USA", "UK", "Germany", "Russia", "France", "Japan" };
+    string[] YLabels = new string[] { "2000", "2005", "2010", "2011", "2012", "2013", "2014"};
+    FontModel TextStyle = new FontModel() { Size = "15px", FontWeight = "500", FontStyle = "Normal" };
+    FontModel CellTextStyle = new FontModel() { Size = "15px", FontWeight = "500", FontStyle = "Normal" };
+    BorderModel CellBorder = new BorderModel() { Color = "White" };
+    double[,] DataSource = HeatMapData.CellData();
+    public void OnRendering(ITooltipEventArgs args)
+    {
+        args.Content = new string[] {args.YLabel + " | " + args.XLabel + " : " + args.Value + " % "};
+    }
+}

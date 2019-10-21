@@ -1,0 +1,66 @@
+﻿@page "/TreeGrid/DialogEditing"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_selfdata
+
+@{
+    SampleBrowser.CurrentSampleName = "Dialog Editing";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>This sample demonstrates the Dialog Editing</p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        The TreeGrid supports CRUD operations. This CRUD operations can be configured in TreeGrid using <code>TreeGridEditSettings</code>. Also, it has different modes to manipulate the datasource.
+    </p>
+    <p>
+        The available modes are,
+    </p>
+    <ul>
+        <li><code>EditMode.Row</code></li>
+        <li><code>EditMode.Cell</code></li>
+        <li><code>EditMode.Dialog</code></li>
+    </ul>
+    <p>
+        In this demo, Dialog mode is enabled for editing by defining <code>Mode</code> as <code>EditMode.Dialog</code>. You can start editing by double clicking a row or clicking on toolbar's Edit button, then the currently selected row will be shown on a dialog and you can change the row values and save edited data to the datasource.</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })" Height="400">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" IsPrimaryKey="true" Width="60" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="yMd" Type=Syncfusion.EJ2.Blazor.Grids.ColumnType.Date Width="90" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right" EditType=Syncfusion.EJ2.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="60" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right" EditType="Syncfusion.EJ2.Blazor.Grids.EditType.NumericEdit" Edit="@NumericParams"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="80"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<SelfReferenceData> TreeData { get; set; }
+
+    public object NumericParams = new
+    {
+        @@params = new Syncfusion.EJ2.Blazor.Inputs.EjsNumericTextBox<int> { Format = "#####" }
+    };
+
+protected override void OnInitialized()
+{
+    this.TreeData = SelfReferenceData.GetTree().ToList();
+}
+}

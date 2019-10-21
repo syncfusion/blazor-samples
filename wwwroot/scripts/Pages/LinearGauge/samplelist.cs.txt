@@ -31,15 +31,15 @@ namespace ej2_blazor_samples
                 FileName = "Ranges.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Data Sample",
-            //    Category = "LinearGauge",
-            //    Directory = "LinearGauge/LinearGauge",
-            //    Url = "LinearGauge/DataSample",
-            //    FileName = "DataSample.razor",
-            //    Type = SampleType.New
-            //},
+            new Sample
+            {
+               Name = "Data Sample",
+               Category = "LinearGauge",
+               Directory = "LinearGauge/LinearGauge",
+               Url = "LinearGauge/DataSample",
+               FileName = "DataSample.razor",
+               Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Axes and Pointers",
@@ -49,24 +49,24 @@ namespace ej2_blazor_samples
                 FileName = "AxesandPointers.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Annotation",
-            //    Category = "LinearGauge",
-            //    Directory = "LinearGauge/LinearGauge",
-            //    Url = "LinearGauge/Annotation",
-            //    FileName = "Annotation.razor",
-            //    Type = SampleType.New
-            //},
-            //new Sample
-            //{
-            //    Name = "Tooltip",
-            //    Category = "LinearGauge",
-            //    Directory = "LinearGauge/LinearGauge",
-            //    Url = "LinearGauge/Tooltip",
-            //    FileName = "Tooltip.razor",
-            //    Type = SampleType.New
-            //},
+            new Sample
+            {
+                Name = "Annotation",
+                Category = "LinearGauge",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "LinearGauge/Annotation",
+                FileName = "Annotation.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+               Name = "Tooltip",
+               Category = "LinearGauge",
+               Directory = "LinearGauge/LinearGauge",
+               Url = "LinearGauge/Tooltip",
+               FileName = "Tooltip.razor",
+               Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Styles",

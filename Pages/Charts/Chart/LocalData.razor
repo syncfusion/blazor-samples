@@ -1,0 +1,92 @@
+﻿@page "/Charts/LocalData"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Local Data";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+        This sample illustrates plotting of local data about stock price analysis of two products for a certain period.
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+        For fetching data for chart, local data can be used.
+    </p>
+    <p>
+        Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+    </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <EjsChart Title="Stock Price Analysis">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis Title="Years" Skeleton="y" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" LabelFormat="${value}" RangePadding="ChartRangePadding.None">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@series1" XName="X" YName="Y" Width="2" Name="Product X">
+                <ChartMarker Visible="false"></ChartMarker>
+                <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
+            </ChartSeries>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@series2" XName="X" YName="Y" Width="2" Name="Product Y">
+                <ChartMarker Visible="false"></ChartMarker>
+                <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+            <ChartCrosshairLine Color="rgba(204,214,235,0.25)" Width="20"></ChartCrosshairLine>
+        </ChartCrosshairSettings>
+        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+    </EjsChart>
+</div>
+
+@code{
+
+    Random random = new Random();
+    List<LineChartData> series1 = new List<LineChartData>();
+    List<LineChartData> series2 = new List<LineChartData>();
+    public double Value1 = 80;
+    public double Value2 = 90;
+    public class LineChartData
+    {
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        for (int i = 1; i < 500; i++) {
+            if (random.NextDouble() > .5) {
+                this.Value1 += random.NextDouble();
+                this.Value2 += random.NextDouble();
+            } else {
+                this.Value1 -= random.NextDouble();
+                this.Value2 -= random.NextDouble();
+            }
+            series1.Add(new LineChartData
+            {
+                X = new DateTime(1960, 1, 1).AddMonths(i+1).AddDays(i),
+                Y = Math.Round(this.Value1)
+            });
+            series2.Add(new LineChartData
+            {
+                X = new DateTime(1960, 1, 1).AddMonths(i+1).AddDays(i),
+                Y = Math.Round(this.Value2)
+            });
+        }
+    } 
+}

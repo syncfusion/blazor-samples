@@ -1,0 +1,112 @@
+﻿@page "/TreeGrid/Editing"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_wrapdata
+
+@{
+    SampleBrowser.CurrentSampleName = "Inline Editing";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates CRUD operations in TreeGrid. You can perform CRUD operations as follows,
+        </p>
+        <ul>
+           <li><code>Add </code> - To add new record, click Add toolbar button.</li>
+           <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row.</li>
+           <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row.</li>
+           <li><code>Update, Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively.</li>
+       </ul>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            The Tree Grid supports CRUD operations. This CRUD operations can be configured in TreeGrid using <code>TreeGridEditSettings</code>. Also, it has different modes to manipulate the datasource.
+        </p>
+        <p>
+           The available modes are,
+        </p>
+        <ul>
+           <li><code>EditMode.Row </code></li>
+           <li><code>EditMode.Cell</code></li>
+           <li><code>EditMode.Dialog</code></li>
+        </ul>
+        <p>
+          In this demo, Row mode is enabled for editing by default. You can start editing any row by double clicking on it or clicking on toolbar’s Edit button, then the currently selected row will be changed to edited state. You can change the row values and save edited data to the datasource.
+        </p>
+        <p>
+            More information about Edit Modes can be found in the<code><a target='_blank' class='code' href='https://ej2.syncfusion.com/blazor/documentation/treegrid/edit/?no-cache=1#edit-modes' >Edit modes</a></code> documentation section.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid DataSource="TreeData" IdMapping="TaskId" ParentIdMapping="ParentId" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="@GridEditingmode"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="60" IsPrimaryKey="true" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="155"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="yMd" Type=Syncfusion.EJ2.Blazor.Grids.ColumnType.Date Width="85" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right" EditType=Syncfusion.EJ2.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="70" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <table id="property" title="Properties" style="width: 100%;">
+        <tr style="height: 50px">
+            <td class="left-side" style="width: 10% !important; padding: 8px 8px 8px 8px">Edit Mode</td>
+            <td>
+                <EjsDropDownList TValue="string" @ref="DropDown" DataSource="@DropDownEditmode" @bind-Value="@Editmodes" >
+                    <DropDownListEvents TValue="string" ValueChange="ModeChange"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </td>
+        </tr>
+    </table>
+ </div>
+
+        @code{
+            EjsTreeGrid<WrapData> TreeGrid;
+
+            EjsDropDownList<string> DropDown;
+
+            public List<WrapData> TreeData { get; set; }
+
+            public string Editmodes { get; set; } = "Cell Editing" ;
+
+            public EditMode GridEditingmode { get; set; }
+
+            public List<object> DropDownEditmode = new List<object>();
+
+            protected override void OnInitialized()
+            {
+                this.TreeData = WrapData.GetWrapData().ToList();
+                this.DropDownEditmode.Add(new {ID="Cell Editing", Name="Cell Editing"});
+                this.DropDownEditmode.Add(new {ID="Row Editing", Name="Row Editing"});
+            }
+
+            public void ModeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+
+            {
+                if(args.Value == "Cell Editing")
+                {
+                    GridEditingmode = EditMode.Cell;
+                }
+                if(args.Value == "Row Editing")
+                {
+                    GridEditingmode = EditMode.Row;
+                }
+            }
+        }

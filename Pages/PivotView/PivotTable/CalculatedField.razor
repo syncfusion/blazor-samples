@@ -1,6 +1,7 @@
 ﻿@page "/PivotTable/CalculatedField"
 
 @using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -46,35 +47,44 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView ShowFieldList=true AllowCalculatedField=true >
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
-                <PivotViewColumns>
-                    <PivotViewColumn Name="Year"></PivotViewColumn>
-                    <PivotViewColumn Name="Quarter"></PivotViewColumn>
-                </PivotViewColumns>
-                <PivotViewRows>
-                    <PivotViewRow Name="Country"></PivotViewRow>
-                    <PivotViewRow Name="Products"></PivotViewRow>
-                </PivotViewRows>
-                <PivotViewValues>
-                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
-					<PivotViewValue Name="Total" Caption="Total Amount" Type=SummaryTypes.CalculatedField></PivotViewValue>
-                </PivotViewValues>
-                <PivotViewFilters>
-                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
-                </PivotViewFilters>
-                <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
-                </PivotViewFormatSettings>
-				<PivotViewCalculatedFieldSettings>
-                    <PivotViewCalculatedFieldSetting Name="Total" Formula="@totalPrice">
-                    </PivotViewCalculatedFieldSetting>
-                </PivotViewCalculatedFieldSettings>
-            </PivotViewDataSourceSettings>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-        </EjsPivotView>
+        <div class="column-8">
+            <EjsPivotView @ref="pivot" TValue="ProductDetails" ShowFieldList=true AllowCalculatedField=true>
+                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year"></PivotViewColumn>
+                        <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Country"></PivotViewRow>
+                        <PivotViewRow Name="Products"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                        <PivotViewValue Name="Total" Caption="Total Amount" Type=SummaryTypes.CalculatedField></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFilters>
+                        <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                    </PivotViewFilters>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                        <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                    <PivotViewCalculatedFieldSettings>
+                        <PivotViewCalculatedFieldSetting Name="Total" Formula="@totalPrice">
+                        </PivotViewCalculatedFieldSetting>
+                    </PivotViewCalculatedFieldSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
+            </EjsPivotView>
+        </div>
+        <div class="column-4">
+            <div style="height:300px; overflow:auto;">
+                <h5>Properties:</h5> <br>
+                <EjsButton ID="calculated" IsPrimary="true" OnClick="calculated">CALCULATED FIELD</EjsButton>
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -82,9 +92,18 @@
     .e-pivotview {
         min-height: 200px;
     }
+    .column-8{
+        width: 75% !important;
+        float: left !important;
+    }
+    .column-4{
+        width: 22% !important;
+        float: right !important;
+    }
 </style>
 
 @code{
+    EjsPivotView<ProductDetails> pivot;
     public String totalPrice = "\"" + "Sum(Amount)" + "\"" + "+" + "\"" + "Sum(Sold)" + "\"";
 
     public List<ProductDetails> data { get; set; }
@@ -93,5 +112,8 @@
     {
         this.data = ProductDetails.GetProductData();
     }
-   
+    public void calculated(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        this.pivot.CreateCalculatedFieldDialog();
+    }
 }

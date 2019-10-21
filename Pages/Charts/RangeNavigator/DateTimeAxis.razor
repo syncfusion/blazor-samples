@@ -28,12 +28,12 @@
 }
 else
 {
-    <div class="control-section">
-        <div class="row" align="center">
+    <div class="control-section" align="center">
             <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">EUR Exchange Rate from USD</h4>
             <div id="container">
                 <EjsRangeNavigator Value="@value" LabelPosition="AxisPosition.Outside" ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
-                    <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
+                    <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+					<RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
                     <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
                     <RangeNavigatorSeriesCollection>
                         <RangeNavigatorSeries Fill="url(#material-gradient-chart)" DataSource="@dateTimeData" Width="2" XName="x" Type="RangeNavigatorType.Area" YName="y">
@@ -44,7 +44,7 @@ else
             <div id="chartcontainer">
                 <EjsChart Title="Average Sales Comparison">
                     <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-                    <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                    <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                     </ChartPrimaryXAxis>
                     <ChartPrimaryYAxis Interval="0.1" Minimum="0.6" Maximum="1" LabelFormat="n1">
@@ -56,18 +56,18 @@ else
                         </ChartSeries>
                     </ChartSeriesCollection>
                     <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
-                        <CharCrosshairLine Color="transparent" Width="0"></CharCrosshairLine>
+                        <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
                     </ChartCrosshairSettings>
                     <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
                     <ChartLegendSettings Visible="false"></ChartLegendSettings>
                 </EjsChart>
             </div>
         </div>
-
-    </div>
 }
     @code{
         private ChartData[] dateTimeData;
+		double ZF = 1;
+        double ZP = 0;
         protected override async Task OnInitializedAsync()
         {
 			dateTimeData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/stock-data.json"));
@@ -80,11 +80,12 @@ else
         }      
         private DateTime[] value = new DateTime[] { new DateTime(2011, 01, 01), new DateTime(2013, 12, 31) };
       
-        protected void onRangeChanged(IChangedEventArgs args)
+        public void onRangeChanged(IChangedEventArgs args)
         {
-            double zoomFactor = args.ZoomFactor;
-            
-        }      
+            ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
+        }       
 }
     <style>
         #control-container {

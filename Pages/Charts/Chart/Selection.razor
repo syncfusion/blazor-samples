@@ -1,5 +1,6 @@
 ﻿@page "/Charts/Selection"
 @using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Buttons
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -36,13 +37,13 @@
     };
 }
 @*End:Hidden*@
-
-<div class="control-section">
-    <EjsChart Title="Age Distribution by Country" SelectionMode="SelectionMode.Point">
+<div class="row">
+<div class="control-section col-md-8">
+    <EjsChart Title="Age Distribution by Country" SelectionMode="@mode" IsMultiSelect="@enableMultiSelect">
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
         </ChartArea>
-        <ChartPrimaryXAxis Title="Countries" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">            
+        <ChartPrimaryXAxis Title="Countries" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Distribution" Interval="20" LabelFormat="{value}%"></ChartPrimaryYAxis>
         <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
@@ -54,22 +55,61 @@
         <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
     </EjsChart>
 </div>
+<div class="col-md-4 property-section">
+    <table id="property" style="width: 100%">        
+        <tbody>
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td>
+                    <div>Selection Mode:</div>
+                </td>
+                <td>
+                    <select @onchange="changeMode">
+                        <option value="Point">Point</option>
+                        <option value="Series">Series</option>
+                        <option value="Cluster">Cluster</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="" style="height: 50px">
+                <td>
+                    <div> Enable Multi Selection:</div>
+                </td>
+                <td>
+                    <EjsCheckBox Checked="@isMultiSelect" ValueChange="@changeSelection"></EjsCheckBox>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
 
 @code{
-         public class SelectionData
+    SelectionMode mode = SelectionMode.Point;
+    private Boolean enableMultiSelect = false, isMultiSelect = false;
+    public void changeMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        this.mode = (SelectionMode)Enum.Parse(typeof(SelectionMode), args.Value.ToString(), true);
+    }
+    private void changeSelection(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        enableMultiSelect = isMultiSelect = args.Checked;
+    }
+        
+    public class SelectionData
+    {
+        public string x;
+        public double y1;
+        public double y2;
+        public double y3;
+    }
+    public List<SelectionData> dataSource = new List<SelectionData>
         {
-            public string x { get; set; }
-            public double y1 { get; set; }
-            public double y2{ get; set; }
-            public double y3 { get; set; }
-        }
-     public List<SelectionData> dataSource = new List<SelectionData>
-            {
                 new SelectionData { x = "CHN", y1 = 17, y2 = 54, y3 = 9 },
                 new SelectionData { x = "USA", y1 = 19, y2 = 67, y3 = 14 },
                 new SelectionData { x = "IDN", y1 = 29, y2 = 65, y3 = 6 },
                 new SelectionData { x = "JAP", y1 = 13, y2 = 61, y3 = 26 },
                 new SelectionData { x = "BRZ", y1 = 24, y2 = 68, y3 = 8 },
-       
+
              };
 }

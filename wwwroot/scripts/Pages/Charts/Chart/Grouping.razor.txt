@@ -1,0 +1,119 @@
+﻿@page "/Charts/Grouping"
+@using Syncfusion.EJ2.Blazor.Charts
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Grouping";
+    SampleBrowser.CurrentControlName = "Chart";
+    SampleBrowser.CurrentControlCategory = "Chart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
+    SampleBrowser.ActionDescription = new string[] {
+        @"This sample illustrates the grouping functionality in pie series. The grouping value can be changed by using <code>GroupTo</code> property."
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p> In this example, you can see how to <code>Group</code> points in pie chart.</p>
+
+         <p> <code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+         <p>DataLabel is used to represent individual data and its value.</p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="row">
+    <div class="col-lg-8 control-section">
+        <EjsAccumulationChart @ref="@ChartObj" Title="RIO Olympics Gold" EnableSmartLabels="true">
+            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+            <AccumulationChartSeriesCollection>
+                <AccumulationChartSeries DataSource="@DataSource" XName="XValue" YName="YValue" Name="RIO" Explode="true" GroupTo="@GroupChange" Radius="70%"
+                                         GroupMode="@Mode" StartAngle="0" EndAngle="360" InnerRadius="0%">
+                    <AccumulationDataLabelSettings Visible="true" Name="Text" Position="AccumulationLabelPosition.Outside">
+                        <AccumulationChartConnector Type="ConnectorType.Line" Length="5%"></AccumulationChartConnector>
+                        <AccumulationChartDataLabelFont Size="14px"></AccumulationChartDataLabelFont>
+                    </AccumulationDataLabelSettings>
+                </AccumulationChartSeries>
+            </AccumulationChartSeriesCollection>
+        </EjsAccumulationChart>
+    </div>
+    <div class="col-lg-4 property-section">
+        <table id="property" title="Properties" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height:50px">
+                <td style="font-size:14px">
+                    Group Modes:
+                </td>
+                <td>
+                    <select @onchange="ChangeGroupMode" style="font-size:14px">
+                        <option value="Point">Point</option>
+                        <option value="Value">Value</option>
+                    </select>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div>
+                        Group To:
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div data-role="rangeslider">
+                        <input type="range" @onchange="ClubChange" value="@GroupToValue" min="0" max="27" style="width:90%" />
+                    </div>
+                </td>
+                <td style="width: 50%;">
+                    <div data-role="rangeslider">
+                        <p id="yvalue" style="font-weight: normal;padding-top:10px;"><span>@GroupToValue</span></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+@code{
+    EjsAccumulationChart ChartObj;
+    public int GroupToValue = 9;
+    public string GroupChange = "9";
+    GroupModes Mode = GroupModes.Point;
+    private void ChangeGroupMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value.ToString() == "Value")
+        {
+            Mode = GroupModes.Value;
+        }
+        else if (args.Value.ToString() == "Point")
+        {
+            Mode = GroupModes.Point;
+        }
+    }
+    private void ClubChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        GroupToValue = Convert.ToInt32(args.Value);
+        GroupChange = Convert.ToString(args.Value);
+    }
+
+    public class ChartData
+    {
+        public string XValue;
+        public double YValue;
+        public string Text;
+    }
+
+    public List<ChartData> DataSource = new List<ChartData>
+{
+       new ChartData { XValue = "China", YValue = 26, Text= "China: 26" },
+       new ChartData { XValue = "Russia", YValue = 19, Text= "Russia: 19" },
+       new ChartData { XValue = "Germany", YValue = 17, Text= "Germany: 17" },
+       new ChartData { XValue = "Japan", YValue = 12, Text= "Japan: 12" },
+       new ChartData { XValue = "France", YValue = 10, Text= "France: 10" },
+       new ChartData { XValue = "South Korea", YValue = 9, Text= "South Korea: 9" },
+       new ChartData { XValue = "Great Britain", YValue = 27, Text= "Great Britain: 27" },
+       new ChartData { XValue = "Italy", YValue = 8, Text= "Italy: 8" },
+       new ChartData { XValue = "Australia", YValue = 8, Text= "Australia: 8" },
+       new ChartData { XValue = "Netherlands", YValue = 8, Text= "Netherlands: 8" },
+       new ChartData { XValue = "Hungary", YValue = 8, Text= "Hungary: 8" },
+       new ChartData { XValue = "Brazil", YValue = 7, Text= "Brazil: 7" },
+       new ChartData { XValue = "Spain", YValue = 7, Text= "Spain: 7" },
+       new ChartData { XValue = "Kenya", YValue = 6, Text= "Kenya: 6" }
+   };
+}

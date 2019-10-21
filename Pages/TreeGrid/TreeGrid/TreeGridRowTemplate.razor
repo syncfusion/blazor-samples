@@ -1,0 +1,93 @@
+﻿@page "/TreeGrid/TreeGridRowTemplate"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_templatedata
+
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@{
+    SampleBrowser.CurrentSampleName = "Row Template";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates the TreeGrid component with the row template feature. In this sample, we have rendered each TreeGrid
+        row using the template.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>The TreeGrid provides a way to use a custom layout for its rows using template feature. The template can be provided with the 
+        <code>RowTemplate</code> sub component.</p>
+         <p>In this demo, we have presented Employee Information with Employee Photo and employee details like Name, Address etc.</p>"
+    };
+}
+@*End:Hidden*@
+
+<style>
+    img {
+        width: 60px;
+        height: 60px;
+        vertical-align: baseline;
+        margin-left: 20px;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid ModelType="@model" Height="335" DataSource="@TreeGridData" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="0" RowHeight="83" GridLines="@GridLine.Vertical">
+                <TreeGridTemplates>
+                    <RowTemplate>
+                        <td style='padding-left:18px; border-bottom: 0.5px solid #e0e0e0;'>
+                            <div>@((context as Employee).EmpID)</div>
+                        </td>
+                        <td style='padding: 10px 0px 0px 20px; border-bottom: 0.5px solid #e0e0e0;'>
+                            <div style="font-size:14px;">
+                                @((context as Employee).FullName)
+                            </div>
+                        </td>
+                        <td style="border-bottom: 0.5px solid #e0e0e0;">
+                            <div>
+                                <div style="position:relative;display:inline-block;">
+                                    <img src="@UriHelper.ToAbsoluteUri($"images/TreeGrid/"+ (context as Employee).Name +".png")" alt=@((context as Employee).Name) />
+                                </div>
+                                <div style="display:inline-block;">
+                                    <div style="padding:5px;">@((context as Employee).Address)</div>
+                                    <div style="padding:5px;">@((context as Employee).Country)</div>
+                                    <div style="padding:5px;font-size:12px;">@((context as Employee).Contact)</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style='padding-left: 20px; border-bottom: 0.5px solid #e0e0e0;'>
+                            <div>@((context as Employee).Designation)</div>
+                        </td>
+                    </RowTemplate>
+                </TreeGridTemplates>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" Width="160"></TreeGridColumn>
+                    <TreeGridColumn Field="Name" HeaderText="Employee Name"></TreeGridColumn>
+                    <TreeGridColumn Field="Address" HeaderText="Employee Details" Width="340"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" HeaderText="Designation"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public Employee model = new Employee();
+
+    public IEnumerable<Employee> TreeGridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = Employee.GetTemplateData();
+    }
+}

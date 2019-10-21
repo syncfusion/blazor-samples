@@ -29,7 +29,7 @@
 @*End:Hidden*@
     <div class="col-lg-9 control-section sb-property-border">
         <div>
-            <EjsTreeMap WeightValuePath=Population Format="n" UseGroupingSeparator="true" EnableDrillDown="true" DrillDownView="@drilldowncheckboxvalue" EnableBreadcrumb="@breadcheckboxvalue"  Palette="@palette"
+            <EjsTreeMap WeightValuePath=Population Format="n" UseGroupingSeparator="true" EnableDrillDown="true" DrillDownView="@drilldowncheckboxvalue" EnableBreadcrumb="@breadcheckboxvalue" BreadcrumbConnector="@breadcrumbConnector" Palette="@palette"
                         DataSource="@DataSource">
                 <TreeMapTitleSettings Text="List of countries by population">
                     <TreeMapTitleTextStyle Size="15px"></TreeMapTitleTextStyle>
@@ -40,13 +40,13 @@
                     </TreeMapLeafBorder>
                 </TreeMapLeafItemSettings>
                 <TreeMapLevels>
-                    <TreeMapLevel GroupPath="Continent">
+                    <TreeMapLevel GroupPath="Continent" HeaderAlignment="@header">
                         <TreeMapLevelBorder Color="Black" Width="0.5" ></TreeMapLevelBorder>
                     </TreeMapLevel>
-                    <TreeMapLevel GroupPath=States>
+                    <TreeMapLevel GroupPath=States HeaderAlignment="@header">
                         <TreeMapLevelBorder Color="Black" Width="0.5"></TreeMapLevelBorder>
                     </TreeMapLevel>
-                    <TreeMapLevel GroupPath="Region" ShowHeader="false">
+                    <TreeMapLevel GroupPath="Region" ShowHeader="false" HeaderAlignment="@label">
                         <TreeMapLevelBorder Color="Black" Width="0.5"></TreeMapLevelBorder>
                     </TreeMapLevel>
                 </TreeMapLevels>
@@ -54,7 +54,7 @@
                 <TreeMapTooltipSettings Visible="true" Format="${Name} = ${Population}"></TreeMapTooltipSettings>
             </EjsTreeMap>
         </div>
-        <div style="float= right; margin-right= 10px;">
+        <div style="float:right; margin-right:10px;">
             Source:
             <a href=" https=//en.wikipedia.org/wiki/United_States_presidential_election,_2016" target="_blank">en.wikipedia.org</a>
         </div>
@@ -88,7 +88,7 @@
                             </td>
                             <td style="width: 70%;">
                                 <div>
-                                    <input type="text" value=' - ' disabled=@disabled style="width:70px;margin-left:10px" />
+                                    <input type="text" value=' - ' disabled=@disabled @onchange="breadcrumbChange" style="width:70px;margin-left:10px" />
                                 </div>
                             </td>
                         </tr>
@@ -121,6 +121,7 @@
     </div>
 @code {
     public Boolean drilldowncheckboxvalue;
+    public string breadcrumbConnector = "-";
     public Boolean disabled = true;
     public Boolean breadcheckboxvalue;
     public Syncfusion.EJ2.Blazor.TreeMap.Alignment label = Syncfusion.EJ2.Blazor.TreeMap.Alignment.Near;
@@ -129,7 +130,7 @@
     public string headerAlignmentValue = "Near";
     public void headerAlignmentvaluechange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        labelAlignmentValue = args.Value;
+        headerAlignmentValue = args.Value;
         if (args.Value == "Near")
         {
             header = Syncfusion.EJ2.Blazor.TreeMap.Alignment.Near;
@@ -142,7 +143,9 @@
         {
             header = Syncfusion.EJ2.Blazor.TreeMap.Alignment.Center;
         }
-        this.StateHasChanged();
+    }
+    public void breadcrumbChange(Microsoft.AspNetCore.Components.ChangeEventArgs args) {
+        breadcrumbConnector = args.Value.ToString();
     }
     public void labelAlignmentvaluechange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
@@ -159,7 +162,6 @@
         {
             label = Syncfusion.EJ2.Blazor.TreeMap.Alignment.Center;
         }
-        this.StateHasChanged();
     }
     public class DropDownList
     {
@@ -179,13 +181,11 @@
     public void drilldownEnable(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
         drilldowncheckboxvalue = args.Checked;
-        this.StateHasChanged();
     }
     public void breadEnable(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
         breadcheckboxvalue = args.Checked;
-         disabled = (breadcheckboxvalue == true) ? false: true;
-        this.StateHasChanged();
+        disabled = (breadcheckboxvalue == true) ? false: true;
     }
     public String[] palette = new String[] { "#9999ff", "#CCFF99", "#FFFF99", "#FF9999", "#FF99FF", "#FFCC66" };
     public List<object> DataSource { get; set; } = new List<object> {

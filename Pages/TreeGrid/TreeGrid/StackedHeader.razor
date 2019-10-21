@@ -1,0 +1,78 @@
+﻿@page "/TreeGrid/StackedHeader"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_shipmentdata
+@{
+    SampleBrowser.CurrentSampleName = "Stacked Header";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates the TreeGrid component with the stacked header feature. In this sample, we have shown multiple levels of column header.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>The TreeGrid columns can be stacked/grouped in order to show multiple levels of column header.
+        It can be done by setting the <code>TreeGridColumns</code> property.
+    </p>
+    <p>
+        In this demo, the columns <strong>Order ID, Order Name, Order Date</strong> are grouped under Order Details, the columns <strong>Shipment Category, Shipped Date, Units</strong> are grouped under Shipment Details and <strong>Price per Unit, Total Price</strong> are grouped under Price details.
+    </p>"
+
+    };
+}
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid Height="350" Width="907" AllowResizing="true" DataSource="@TreeGridData" IdMapping="ID" ParentIdMapping="ParentID" TreeColumnIndex="1">
+                <TreeGridColumns>
+                    <TreeGridColumn HeaderText="Order Details" TextAlign="TextAlign.Center" Columns="@(ColumnOne )"></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Shipment Details" TextAlign="TextAlign.Center" Columns="@(ColumnTwo )"></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Price Details" TextAlign="TextAlign.Center" Columns="@( ColumnThree )"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<ShipmentData> TreeGridData { get; set; }
+    public List<TreeGridColumn> ColumnOne { get; set; }
+    public List<TreeGridColumn> ColumnTwo { get; set; }
+    public List<TreeGridColumn> ColumnThree { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = ShipmentData.GetShipmentData().ToList();
+         
+        this.ColumnOne = new List<TreeGridColumn>() { 
+            new TreeGridColumn { Field = "ID", Width = "110", 
+                HeaderText = "Order ID", TextAlign= TextAlign.Right  },
+            new TreeGridColumn { Field = "Name", Width = "220", 
+                HeaderText = "Order Name",  TextAlign= TextAlign.Left  },
+            new TreeGridColumn { Field = "OrderDate", Width = "120", HeaderText = "Order Date", 
+                TextAlign= TextAlign.Right, Format="yMd", Type=ColumnType.Date } 
+        };
+        this.ColumnTwo = new List<TreeGridColumn>() { 
+            new TreeGridColumn { Field = "ShipmentCategory", Width = "170", 
+                HeaderText = "Shipment Category", TextAlign= TextAlign.Left  },
+            new TreeGridColumn { Field = "ShippedDate", Width = "140", Format="yMd", 
+                Type=ColumnType.Date, HeaderText = "Shipment Date", TextAlign= TextAlign.Right  },
+            new TreeGridColumn { Field = "Units", Width = "90", HeaderText = "Units", TextAlign= TextAlign.Right }
+        };
+        this.ColumnThree = new List<TreeGridColumn>() { 
+            new TreeGridColumn { Field = "UnitPrice", Width = "180", HeaderText = "Price per unit", 
+                Type=ColumnType.Number, Format="c2", TextAlign= TextAlign.Right  },
+            new TreeGridColumn { Field = "Price", Width = "160", HeaderText = "Total Price", 
+                Format="c", Type=ColumnType.Number, TextAlign= TextAlign.Right } 
+        };
+    }
+}

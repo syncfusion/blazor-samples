@@ -57,7 +57,16 @@ namespace ej2_blazor_samples
                 Url = "Maps/Bubble",
                 FileName = "Bubble.razor",
                 Type = SampleType.New
-            },                   
+            },
+            // new Sample
+            // {
+            //     Name = "Color Mapping",
+            //     Category = "Maps",
+            //     Directory = "Maps/Maps",
+            //     Url = "Maps/ColorMapping",
+            //     FileName = "ColorMapping.razor",
+            //     Type = SampleType.New
+            // },                   
             //new Sample
             //{
             //    Name = "Legend",

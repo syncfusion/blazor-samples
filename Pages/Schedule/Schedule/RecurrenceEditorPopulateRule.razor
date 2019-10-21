@@ -1,0 +1,61 @@
+﻿@page "/Schedule/RecurrenceEditorPopulateRule"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+@using Syncfusion.EJ2.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Populate Rule";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This demo showcases how to fill the recurrence editor fields with appropriate values based on the user-provided recurrence
+            rule string.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+           In this demo, the <code>SetRecurrenceRule</code> method is used to populate the fields of recurrence editor based on the static rule options selected from the dropdown list.
+        </p>"
+    };
+}
+@*End:Hidden*@
+<div class="control-section">
+    <div class="content-wrapper recurrence-editor-wrap">
+        <div style="padding-bottom:15px;">
+            Select Rule
+            <EjsDropDownList DataSource="@DropdownData" TValue="string" Value="@RecurrenceValue" PopupHeight="200" PopupWidth="auto">
+                <DropDownListEvents ValueChange="OnRuleChange" TValue="string"></DropDownListEvents>
+                <DropDownListFieldSettings Value="Value" Text="Value"></DropDownListFieldSettings>
+            </EjsDropDownList>
+        </div>
+        <div>
+            <EjsRecurrenceEditor @ref="RecurrenceEditor" Value="@RecurrenceValue"></EjsRecurrenceEditor>
+        </div>
+    </div>
+</div>
+@code {
+    EjsRecurrenceEditor RecurrenceEditor;
+    string RecurrenceValue = "FREQ=DAILY;INTERVAL=2;COUNT=8";
+
+    List<DropDownFields> DropdownData = new List<DropDownFields>() {
+        new DropDownFields() { Value = "FREQ=DAILY;INTERVAL=1" },
+        new DropDownFields() { Value = "FREQ=DAILY;INTERVAL=2;UNTIL=20410606T000000Z" },
+        new DropDownFields() { Value = "FREQ=DAILY;INTERVAL=2;COUNT=8" },
+        new DropDownFields() { Value = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;UNTIL=20410729T000000Z" },
+        new DropDownFields() { Value = "FREQ=MONTHLY;BYDAY=FR;BYSETPOS=2;INTERVAL=1;UNTIL=20410729T000000Z" },
+        new DropDownFields() { Value = "FREQ=MONTHLY;BYDAY=FR;BYSETPOS=2;INTERVAL=1" },
+        new DropDownFields() { Value = "FREQ=YEARLY;BYDAY=MO;BYSETPOS=-1;INTERVAL=1;COUNT=5" }
+    };
+    public void OnRuleChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        RecurrenceEditor.SetRecurrenceRule(args.Value, DateTime.Today);
+    }
+    public class DropDownFields
+    {
+        public string Value { get; set; }
+    }
+}

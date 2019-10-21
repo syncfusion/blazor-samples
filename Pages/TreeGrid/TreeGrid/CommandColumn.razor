@@ -1,0 +1,80 @@
+﻿@page "/TreeGrid/CommandColumn"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.Grids;
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@using ej2_blazor_selfdata
+
+@{
+    SampleBrowser.CurrentSampleName = "Command Column";
+    SampleBrowser.CurrentControlName = "TreeGrid";
+    SampleBrowser.CurrentControlCategory = "TreeGrid";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This sample demonstrates CRUD operations in TreeGrid using command column. You can perform CRUD operations as follows,
+        </p>
+        <ul>
+            <li><code>Edit</code> - To edit record, double click a row or click Edit button from command column after selected a row.</li>
+            <li><code>Delete</code> - To delete record, click Delete button from command column after selected a row.</li>
+            <li><code>Update, Cancel</code> -You can save or discard changes by click Update and Cancel button from command column respectively.</li>
+        </ul>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            The TreeGrid provides an option to render CRUD action buttons in a column by using the CommandColumn feature. The <code>Commands</code> property accepts array of CommandModel object. The predefined command button can be defined by using Type property.
+        </p>
+        <p>
+            The built-in command button are,
+        </p>
+        <ul>
+            <li><code>CommandButtonType.Edit </code></li>
+            <li><code>CommandButtonType.Delete</code></li>
+            <li><code>CommandButtonType.Cancel</code></li>
+            <li><code>CommandButtonType.Save</code></li>
+        </ul>
+        <p>
+        More information on the command column configuration can be found in this <code><a target='_blank' class='code' href='https://ej2.syncfusion.com/blazor/documentation/treegrid/edit/#command-column'>command column</a></code> documentation section.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+@{
+   List<CommandModel> commands = new List<CommandModel>();
+    commands.Add(new CommandModel() { Type = CommandButtonType.Edit, ButtonOption = new CommandButtonOptions() { IconCss = "e-icons e-edit", CssClass = "e-flat" } });
+    commands.Add(new CommandModel() { Type = CommandButtonType.Delete, ButtonOption = new CommandButtonOptions() { IconCss = "e-icons e-delete", CssClass = "e-flat" } });
+    commands.Add(new CommandModel() { Type = CommandButtonType.Save, ButtonOption = new CommandButtonOptions() { IconCss = "e-icons e-update", CssClass = "e-flat" } });
+    commands.Add(new CommandModel() { Type = CommandButtonType.Cancel, ButtonOption = new CommandButtonOptions() { IconCss = "e-icons e-cancel-icon", CssClass = "e-flat" } });
+}
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true" Height="400">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.EJ2.Blazor.TreeGrid.EditMode.Row"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" IsPrimaryKey="true" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="yMd" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right" EditType=EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="80"></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Manage Records" Width="135" Commands="commands"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<SelfReferenceData> TreeData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeData = SelfReferenceData.GetTree().ToList();
+    }
+}

@@ -1,0 +1,190 @@
+﻿@page "/Schedule/TimelineResource"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Room Scheduler";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This demo showcases the scheduler that lists out the meeting rooms of an office and its availability. The slots which are
+            already booked and the lunch time can’t be allowed for any new bookings. Also, the existing bookings which were made
+            on past dates were not allowed to edit as well as the new bookings on those past dates will also be not allowed.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+             Here, the timeline view is grouped with single level of resources by making use of the
+            <code>Group</code> property. Also, the lunch time blocking is done by applying styles on those cells through the
+            <code>renderCell</code> event. The event editor and popup is prevented to open on those blocked time slots as well
+            as on the past bookings by making use of the
+            <code>popupOpen</code> event. The
+            <code>eventRendered</code> event is utilized in order to make the bookings done on past dates as read-only. To block
+            more than one bookings per slot, the
+            <code>isSlotAvailable</code> method is used. Also, the resource header displayed at the left panel is customized
+            to render as columns with the help of
+            <code>resourceHeaderTemplate</code>. The tooltip for resource header is customized by defining the
+            <code>headerTooltipTemplate</code> property within the
+            <code>group</code> API.
+        </p>
+        <p>
+            <b>Note:</b> The dates which lies beyond the current date set to scheduler through
+            <code>selectedDate</code> property is considered as the past dates here in this sample.
+        </p>"
+    };
+}
+@*End:Hidden*@
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsSchedule TValue="ScheduleData.RoomData" ModelType="@Model" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 8, 1))" CurrentView="View.TimelineWeek">
+            <ScheduleWorkHours Start="08:00" End="18:00"></ScheduleWorkHours>
+            <ScheduleTimeScale SlotCount="1" Interval="60"></ScheduleTimeScale>
+            <ScheduleViews>
+                <ScheduleView Option="View.TimelineDay"></ScheduleView>
+                <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleGroup EnableCompactView="false" Resources="@GroupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource DataSource="@ResourceData" Field="RoomId" Title="Room Type" Name="MeetingRoom" TextField="name" IdField="id" ColorField="color" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleTemplates>
+                <ResourceHeaderTemplate>
+                    <div class='template-wrap'>
+                        <div class="room-name">@((context as TemplateArgs).ResourceData.Name)</div>
+                        <div class="room-type">@((context as TemplateArgs).ResourceData.Capacity)</div>
+                        <div class="room-capacity">@((context as TemplateArgs).ResourceData.Type)</div>
+                    </div>
+                </ResourceHeaderTemplate>
+            </ScheduleTemplates>
+            <ScheduleEventSettings DataSource="@DataSource">
+                <ScheduleField>
+                    <FieldSubject Title="Travel Summary" Name="Subject"></FieldSubject>
+                    <FieldLocation Title="Source" Name="Location"></FieldLocation>
+                    <FieldDescription Title="Comments" Name="Description"></FieldDescription>
+                    <FieldStartTime Title="Departure Time" Name="StartTime"></FieldStartTime>
+                    <FieldEndTime Title="Arrival Time" Name="EndTime"></FieldEndTime>
+                </ScheduleField>
+            </ScheduleEventSettings>
+        </EjsSchedule>
+    </div>
+</div>
+
+@code{
+    public List<ScheduleData.RoomData> DataSource = new ScheduleData().GetRoomData();
+    public string[] GroupData = new string[] { "MeetingRoom" };
+    private List<object> ResourceData { get; set; } = new List<object> {
+        new { name = "Jammy", id = 1, color = "#ea7a57", capacity = 20, type = "Conference" },
+        new { name = "Tweety", id = 2, color = "#7fa900", capacity = 7, type = "Cabin" },
+        new { name = "Nestle", id = 3, color = "#5978ee", capacity = 5, type = "Cabin" },
+        new { name = "Phoenix", id = 4, color = "#fec200", capacity = 15, type = "Conference" },
+        new { name = "Mission", id = 5, color = "#df5286", capacity = 25, type = "Conference" },
+        new { name = "Hangout", id = 6, color = "#00bdae", capacity = 10, type = "Cabin" },
+        new { name = "Rick Roll", id = 7, color = "#865fcf", capacity = 20, type = "Conference" },
+        new { name = "Rainbow", id = 8, color = "#1aaa55", capacity = 8, type = "Cabin" },
+        new { name = "Swarm", id = 9, color = "#df5286", capacity = 30, type = "Conference" },
+        new { name = "Photogenic", id = 10, color = "#710193", capacity = 25, type = "Conference" }
+    };
+    public TemplateArgs Model = new TemplateArgs();
+    public class TemplateArgs
+    {
+        public ResourceDataModel ResourceData { get; set; }
+    }
+    public class ResourceDataModel
+    {
+        public string Type { get; set; }
+        public string Name { get; set; }
+        public int Capacity { get; set; }
+    }
+}
+<style>
+    .e-schedule .e-timeline-view .e-resource-left-td {
+        vertical-align: bottom;
+    }
+
+    .e-schedule.e-device .e-timeline-view .e-resource-left-td {
+        width: 75px;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text {
+        display: flex;
+        font-weight: 500;
+        padding: 0;
+    }
+
+        .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text > div {
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
+            flex: 0 0 33.3%;
+            font-weight: 500;
+            height: 36px;
+            line-height: 34px;
+            padding-left: 5px;
+        }
+
+            .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text > div:last-child {
+                border-right: 0;
+            }
+
+    .e-schedule .template-wrap {
+        display: flex;
+        height: 100%;
+        text-align: left;
+    }
+
+        .e-schedule .template-wrap > div {
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            flex: 0 0 33.3%;
+            font-weight: 500;
+            line-height: 58px;
+            overflow: hidden;
+            padding-left: 5px;
+            text-overflow: ellipsis;
+        }
+
+            .e-schedule .template-wrap > div:last-child {
+                border-right: 0;
+            }
+
+    .e-schedule .e-timeline-view .e-resource-cells,
+    .e-schedule .e-timeline-month-view .e-resource-cells {
+        padding-left: 0;
+    }
+
+    .e-schedule .e-timeline-view .e-date-header-wrap table col,
+    .e-schedule .e-timeline-view .e-content-wrap table col {
+        width: 100px;
+    }
+
+    .e-schedule .e-read-only {
+        opacity: .8;
+    }
+
+    @@media (max-width: 550px) {
+        .e-schedule .e-timeline-view .e-resource-left-td {
+            width: 100px;
+        }
+
+            .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text > div,
+            .e-schedule .template-wrap > div {
+                flex: 0 0 100%;
+            }
+
+                .e-schedule .template-wrap > div:first-child {
+                    border-right: 0;
+                }
+
+                .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text > div:first-child {
+                    border-right: 0;
+                }
+
+        .e-schedule .room-type,
+        .e-schedule .room-capacity {
+            display: none;
+        }
+    }
+</style>

@@ -27,20 +27,19 @@
 }
 else
 {
-    <div class="control-section">
-        <div class="row" align="center">
+    <div class="control-section" align="center">       
             <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
-            <br>
             <div id="container">
                 <EjsRangeNavigator ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime
-                                   AllowSnapping="true" intervalType="RangeIntervalType.Quarter"
+                                   AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
                                    EnableGrouping="true" GroupBy="RangeIntervalType.Years"
                                    EnableDeferredUpdate="true" Value="@value" DataSource="@filterData"
                                    XName="HireDate" YName="yValue">
+                    <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
                 </EjsRangeNavigator>
             </div> <br>
             <div id="gridcontainer">
-                <EjsGrid Width="80%" DataSource="@filterData" AllowPaging="true">
+                <EjsGrid Width="80%" @ref="gridObj" TValue="ChartData" AllowPaging="true">
                     <GridColumns>
                         <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
                         <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
@@ -49,14 +48,13 @@ else
                     </GridColumns>
                 </EjsGrid>
             </div>
-        </div>
     </div>
 }
 @code{
+    EjsGrid<ChartData> gridObj;
     private ChartData[] filterData;
     protected override async Task OnInitializedAsync()
-    {
-        //filterData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/employee-data.json");
+    {       
 		filterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/employee-data.json"));
     }
     public class ChartData
@@ -69,20 +67,18 @@ else
 
     }
     private DateTime[] value = new DateTime[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
-    protected void onRangeLoad(IRangeLoadedEventArgs args)
+   protected void onRangeChanged(IChangedEventArgs args)
     {
-
+        List<ChartData> filterData1 = new List<ChartData>();
+        for(int i =0; i<filterData.Length; i++)
+        {
+            if(filterData[i].HireDate >= Convert.ToDateTime(args.Start) && filterData[i].HireDate <= Convert.ToDateTime(args.End))
+            {
+                filterData1.Add(filterData[i]);
+            }            
+        }
+        gridObj.DataSource = filterData1.ToArray();
+        gridObj.Refresh();
+       
     }
-    protected void onRangeChanged(IChangedEventArgs args)
-    {
-        double zoomFactor = args.ZoomFactor;
-
-    }
-    protected void onChartLoad(ILoadedEventArgs args)
-    {
-
-    }
-    //protected void labelRender(IAxisLabelRenderEventArgs args) {
-
-    //}
 }

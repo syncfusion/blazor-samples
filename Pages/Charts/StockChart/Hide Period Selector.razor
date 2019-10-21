@@ -1,0 +1,64 @@
+﻿@page "/StockChart/HidePeriodSelector"
+@using Syncfusion.EJ2.Blazor.Charts
+@using Newtonsoft.Json
+@{
+    SampleBrowser.CurrentSampleName = "Hide Period Selector";
+    SampleBrowser.CurrentControlName = "StockChart";
+    SampleBrowser.CurrentControlCategory = "StockChart";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.StockChart;
+    SampleBrowser.ActionDescription = new string[] {
+         @"<p>
+        This sample visualizes the Stock Chart
+    </p>"
+    };
+    SampleBrowser.Description = new string[] {
+         @"<p>
+        In this example, you can see how to render and configure the Stock Chart
+    </p>"
+    };
+}
+
+@if (dataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <EjsStockChart Title="AAPL Stock Price" EnablePeriodSelector="false">
+        <StockChartPrimaryXAxis>
+            <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+            <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+        </StockChartPrimaryXAxis>
+        <StockChartPrimaryYAxis>
+            <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+            <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+        </StockChartPrimaryYAxis>
+        <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+        <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+        <StockChartSeriesCollection>
+            <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Area"></StockChartSeries>
+        </StockChartSeriesCollection>
+        <StockChartChartArea>
+            <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+        </StockChartChartArea>
+    </EjsStockChart>
+}
+
+@code{
+    public List<ChartSeriesType> nulldata = new List<ChartSeriesType>();
+    private ChartData[] dataSource;
+    protected override async Task OnInitializedAsync()
+    {
+        dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/chartdata.json"));
+    }
+    public class ChartData
+    {
+        public DateTime date { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+}

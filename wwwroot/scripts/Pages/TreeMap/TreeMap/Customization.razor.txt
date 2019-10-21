@@ -2,6 +2,7 @@
 
 
 @using Syncfusion.EJ2.Blazor.TreeMap
+@inject NavigationManager UriHelper
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -18,20 +19,29 @@
     SampleBrowser.Description = new string[] {
         @"<p>
             In this example, you can see how to place custom HTML templates in the treemap items. Also we have formatted the labels default text.
-        </p>"
+        </p>
+        <p>
+            Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item in touch enabled devices.
+            </p>"
     };
 }
 @*End:Hidden*@
 
 <div class="control-section">
     <div>
-        <EjsTreeMap  WeightValuePath="Gold" RangeColorValuePath="Sales" DataSource="@DataSource" TValue="TreeMapData">
+        <EjsTreeMap WeightValuePath="Gold" RangeColorValuePath="Sales" DataSource="@DataSource" TValue="TreeMapData" ModelType="@DataSource">
             <TreeMapTitleSettings Text="US Gold medal categories in Summer Olympics - 2016">
             </TreeMapTitleSettings>
             <TreeMapLeafItemSettings LabelPath="Sport" Fill="#993399" LabelFormat="${Sport} - ${Gold}"
                                      TemplatePosition="@Syncfusion.EJ2.Blazor.TreeMap.LabelPosition.Center">
-                <TreeMapLeafBorder Color="black" Width="0.5">
-                </TreeMapLeafBorder>
+                <LabelTemplate>
+                    @{
+                        var employee = (context as TreeMapData);
+                            <div style="margin-left:-20px">
+                                <img src="styles/images/treemap/@employee.GameImage" style="height:@employee.ItemHeight;width:@employee.ItemWidth;" />
+                            </div>
+                    }
+                </LabelTemplate>
             </TreeMapLeafItemSettings>
             <TreeMapTooltipSettings Visible="true" Format="${Sport} : ${Gold}"></TreeMapTooltipSettings>
         </EjsTreeMap>
@@ -46,13 +56,13 @@
 
     public class TreeMapData
     {
-        public string Sport;
-        public double Gold;
-        public string GameImage;
-        public string ItemHeight;
-        public string ItemWidth;
+        public string Sport { get; set; }
+        public double Gold { get; set; }
+        public string GameImage { get; set; }
+        public string ItemHeight{ get; set; }
+        public string ItemWidth { get; set; }
     }
-    public List<TreeMapData> DataSource = new List<TreeMapData> {
+    public static List<TreeMapData> DataSource = new List<TreeMapData> {
         new TreeMapData { Sport= "Swimming", Gold= 16, GameImage= "Swimming.svg", ItemHeight= "180px", ItemWidth= "180px" },
         new TreeMapData { Sport= "Athletics", Gold= 13, GameImage= "Athletics.svg", ItemHeight= "70px", ItemWidth= "70px" },
         new TreeMapData { Sport= "Gymnastics", Gold= 4, GameImage= "Gymnastics.svg", ItemHeight= "80px", ItemWidth= "80px" },
