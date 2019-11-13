@@ -312,11 +312,11 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "TrendLines",
+                Name = "Trendlines",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/TrendLines",
-                FileName = "TrendLines.razor",
+                Url = "Charts/Trendlines",
+                FileName = "Trendlines.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -582,7 +582,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Radar Column",
+                Name = "Polar Column",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarColumn",
@@ -600,7 +600,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Radar RangeColumn",
+                Name = "Polar RangeColumn",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "Charts/PolarRangeColumn",

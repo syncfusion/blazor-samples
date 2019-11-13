@@ -128,6 +128,15 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Year",
+                Category = "Views",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/Year",
+                FileName = "Year.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Room Scheduler",
                 Category = "Multiple Resources",
                 Directory = "Schedule/Schedule",
@@ -151,6 +160,15 @@ namespace ej2_blazor_samples
                 Directory = "Schedule/Schedule",
                 Url = "Schedule/GroupCustomWorkdays",
                 FileName = "GroupCustomWorkdays.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Show/Hide Resources",
+                Category = "Multiple Resources",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/AddRemoveResources",
+                FileName = "AddRemoveResources.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -198,24 +216,24 @@ namespace ej2_blazor_samples
                 FileName = "GroupByChild.razor",
                 Type = SampleType.New
             },
-            //new Sample
-            //{
-            //    Name = "Date Header",
-            //    Category = "Templates",
-            //    Directory = "Schedule/Schedule",
-            //    Url = "Schedule/DateHeader",
-            //    FileName = "DateHeader.razor",
-            //    Type = SampleType.New
-            //},
-            //new Sample
-            //{
-            //    Name = "Cell",
-            //    Category = "Templates",
-            //    Directory = "Schedule/Schedule",
-            //    Url = "Schedule/CustomCell",
-            //    FileName = "CustomCell.razor",
-            //    Type = SampleType.New
-            //},
+            new Sample
+            {
+                Name = "Date Header",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/DateHeader",
+                FileName = "DateHeader.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Cell",
+                Category = "Templates",
+                Directory = "Schedule/Schedule",
+                Url = "Schedule/CustomCell",
+                FileName = "CustomCell.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Event Template",

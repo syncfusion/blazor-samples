@@ -51,7 +51,7 @@
     <ChartLegendSettings Visible="false"></ChartLegendSettings>
     <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
     <ChartSeriesCollection>
-        <ChartSeries DataSource="@dataSource" Name="Warmest" XName="xValue" Width="2" Opacity="1" YName="yValue" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
+        <ChartSeries DataSource="@dataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
            <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>          
         </ChartSeries>
     </ChartSeriesCollection>
@@ -62,29 +62,29 @@
 </div>
 
 @code {
-
+    Random random = new Random();
+    List<ZoomingandPanningData> dataSource = new List<ZoomingandPanningData>();
+    public double Value = 80;
     public class ZoomingandPanningData
     {
-        public DateTime xValue { get; set; }
-        public double yValue { get; set; }
+        public DateTime X { get; set; }
+        public double Y { get; set; }
     }
-    public List<ZoomingandPanningData> dataSource = new List<ZoomingandPanningData>
-	{
-        new ZoomingandPanningData { xValue = new DateTime(2000, 02, 11), yValue = 14 },
-        new ZoomingandPanningData { xValue = new DateTime(2000, 09, 04), yValue = 20 },
-        new ZoomingandPanningData { xValue = new DateTime(2001, 02, 11), yValue = 25 },
-        new ZoomingandPanningData { xValue = new DateTime(2001, 09, 16), yValue = 21 },
-        new ZoomingandPanningData { xValue = new DateTime(2002, 02, 07), yValue = 13 },
-        new ZoomingandPanningData { xValue = new DateTime(2002, 09, 07), yValue = 18 },
-        new ZoomingandPanningData { xValue = new DateTime(2003, 02, 11), yValue = 24 },
-        new ZoomingandPanningData { xValue = new DateTime(2003, 09, 14), yValue = 23 },
-        new ZoomingandPanningData { xValue = new DateTime(2004, 02, 06), yValue = 19 },
-        new ZoomingandPanningData { xValue = new DateTime(2004, 09, 06), yValue = 31, },
-        new ZoomingandPanningData { xValue = new DateTime(2005, 02, 11), yValue = 39 },
-        new ZoomingandPanningData { xValue = new DateTime(2005, 09, 11), yValue = 50 },
-        new ZoomingandPanningData { xValue = new DateTime(2006, 02, 11), yValue = 24 },
-    };
-
+    protected override async Task OnInitializedAsync()
+    {
+        for (int i = 1; i < 500; i++) {
+            if (random.NextDouble() > .5) {
+                this.Value += random.NextDouble();
+            } else {
+                this.Value -= random.NextDouble();
+            }
+            dataSource.Add(new ZoomingandPanningData
+            {
+                X = new DateTime(1960, 1, 1).AddMonths(i+1).AddDays(i),
+                Y = Math.Round(this.Value)
+            });
+        }
+    }
 }
 <svg style="height: 0">
     <defs>

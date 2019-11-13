@@ -82,7 +82,7 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
-                Name = "Conditional Formatting",
+                Name = "ConditionalFormatting",
                 Category = "TreeGrid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "TreeGrid/ConditionalFormatting",

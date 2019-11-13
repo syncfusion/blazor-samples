@@ -5019,6 +5019,771 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 IsAllDay = true,
                 CalendarId = 4
             });
+             holidayData.Add(new ResourceEventsData
+            {
+                Id = 201,
+                Subject = "Conference meeting",
+                StartTime = new DateTime(2018, 3, 1),
+                EndTime = new DateTime(2018, 3, 2),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 202,
+                Subject = "Product discussion",
+                StartTime = new DateTime(2018, 3, 4),
+                EndTime = new DateTime(2018, 3, 5),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 203,
+                Subject = "Companys growth related discussion",
+                StartTime = new DateTime(2018, 3, 8),
+                EndTime = new DateTime(2018, 3, 9),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 204,
+                Subject = "Customer issues",
+                StartTime = new DateTime(2018, 3, 11),
+                EndTime = new DateTime(2018, 3, 12),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 205,
+                Subject = "Development related chat",
+                StartTime = new DateTime(2018, 3, 13),
+                EndTime = new DateTime(2018, 3, 14),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 206,
+                Subject = "Product meeting",
+                StartTime = new DateTime(2018, 3, 18),
+                EndTime = new DateTime(2018, 3, 19),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 207,
+                Subject = "General discussion",
+                StartTime = new DateTime(2018, 3, 21),
+                EndTime = new DateTime(2018, 3, 22),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 208,
+                Subject = "Hike discussion",
+                StartTime = new DateTime(2018, 3, 24),
+                EndTime = new DateTime(2018, 3, 25),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 209,
+                Subject = "Customer meeting",
+                StartTime = new DateTime(2018, 3, 28),
+                EndTime = new DateTime(2018, 3, 29),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 210,
+                Subject = "New launch discussion",
+                StartTime = new DateTime(2018, 3, 30),
+                EndTime = new DateTime(2018, 3, 31),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 211,
+                Subject = "Conference Meeting",
+                StartTime = new DateTime(2018, 4, 1),
+                EndTime = new DateTime(2018, 4, 2),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 212,
+                Subject = "Product Discussion",
+                StartTime = new DateTime(2018, 4, 3),
+                EndTime = new DateTime(2018, 4, 4),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 213,
+                Subject = "Companys growth related issues",
+                StartTime = new DateTime(2018, 4, 7),
+                EndTime = new DateTime(2018, 4, 8),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 214,
+                Subject = "Customer issues",
+                StartTime = new DateTime(2018, 4, 12),
+                EndTime = new DateTime(2018, 4, 13),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 215,
+                Subject = "Development related chat",
+                StartTime = new DateTime(2018, 4, 15),
+                EndTime = new DateTime(2018, 4, 16),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 216,
+                Subject = "Product meeting",
+                StartTime = new DateTime(2018, 4, 18),
+                EndTime = new DateTime(2018, 4, 19),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 217,
+                Subject = "General discussion",
+                StartTime = new DateTime(2018, 4, 21),
+                EndTime = new DateTime(2018, 4, 22),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 218,
+                Subject = "Hike discussion",
+                StartTime = new DateTime(2018, 4, 24),
+                EndTime = new DateTime(2018, 4, 25),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 219,
+                Subject = "Customer meeting",
+                StartTime = new DateTime(2018, 4, 26),
+                EndTime = new DateTime(2018, 4, 27),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 220,
+                Subject = "New launch discussion",
+                StartTime = new DateTime(2018, 4, 29),
+                EndTime = new DateTime(2018, 4, 30),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 221,
+                Subject = "Conference Meeting",
+                StartTime = new DateTime(2018, 5, 1),
+                EndTime = new DateTime(2018, 5, 2),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 222,
+                Subject = "Product Discussion",
+                StartTime = new DateTime(2018, 5, 3),
+                EndTime = new DateTime(2018, 5, 4),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 223,
+                Subject = "Companys growth related issues",
+                StartTime = new DateTime(2018, 5, 9),
+                EndTime = new DateTime(2018, 5, 10),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 224,
+                Subject = "Customer issues",
+                StartTime = new DateTime(2018, 5, 13),
+                EndTime = new DateTime(2018, 5, 14),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 225,
+                Subject = "Development related chat",
+                StartTime = new DateTime(2018, 5, 15),
+                EndTime = new DateTime(2018, 5, 16),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 226,
+                Subject = "Product meeting",
+                StartTime = new DateTime(2018, 5, 18),
+                EndTime = new DateTime(2018, 5, 19),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 227,
+                Subject = "General discussion",
+                StartTime = new DateTime(2018, 5, 21),
+                EndTime = new DateTime(2018, 5, 22),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 228,
+                Subject = "Hike discussion",
+                StartTime = new DateTime(2018, 5, 24),
+                EndTime = new DateTime(2018, 5, 25),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 229,
+                Subject = "Customer meeting",
+                StartTime = new DateTime(2018, 5, 26),
+                EndTime = new DateTime(2018, 5, 27),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 230,
+                Subject = "New launch discussion",
+                StartTime = new DateTime(2018, 5, 29),
+                EndTime = new DateTime(2018, 5, 30),
+                IsAllDay = true,
+                CalendarId = 2
+            });
+                        holidayData.Add(new ResourceEventsData
+            {
+                Id = 301,
+                Subject = "Gladys Spellman",
+                StartTime = new DateTime(2018, 3, 1),
+                EndTime = new DateTime(2018, 3, 2),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 302,
+                Subject = "Susanna Salter",
+                StartTime = new DateTime(2018, 3, 2),
+                EndTime = new DateTime(2018, 3, 3),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 303,
+                Subject = "Dora Marsden",
+                StartTime = new DateTime(2018, 3, 5),
+                EndTime = new DateTime(2018, 3, 6),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 304,
+                Subject = "Anne Bonny",
+                StartTime = new DateTime(2018, 3, 8),
+                EndTime = new DateTime(2018, 3, 9),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 305,
+                Subject = "Clare Boothe Luce",
+                StartTime = new DateTime(2018, 3, 10),
+                EndTime = new DateTime(2018, 3, 11),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 306,
+                Subject = "Ethel Anderson",
+                StartTime = new DateTime(2018, 3, 16),
+                EndTime = new DateTime(2018, 3, 17),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 307,
+                Subject = "Louise Otto-Peters",
+                StartTime = new DateTime(2018, 3, 26),
+                EndTime = new DateTime(2018, 3, 27),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 308,
+                Subject = "Faith Leech",
+                StartTime = new DateTime(2018, 3, 31),
+                EndTime = new DateTime(2018, 3, 1),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 309,
+                Subject = "Wilhelmine Reichard",
+                StartTime = new DateTime(2018, 4, 2),
+                EndTime = new DateTime(2018, 4, 3),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 310,
+                Subject = "Janet Rowley",
+                StartTime = new DateTime(2018, 4, 5),
+                EndTime = new DateTime(2018, 4, 6),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 311,
+                Subject = "Kathleen Major",
+                StartTime = new DateTime(2018, 4, 10),
+                EndTime = new DateTime(2018, 4, 11),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 312,
+                Subject = "Kasturba Gandhi",
+                StartTime = new DateTime(2018, 4, 11),
+                EndTime = new DateTime(2018, 4, 12),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 313,
+                Subject = "Elizabeth Huckaby",
+                StartTime = new DateTime(2018, 4, 14),
+                EndTime = new DateTime(2018, 4, 15),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 314,
+                Subject = "Helene Hanff",
+                StartTime = new DateTime(2018, 4, 15),
+                EndTime = new DateTime(2018, 4, 16),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 315,
+                Subject = "Caresse Crosby",
+                StartTime = new DateTime(2018, 4, 20),
+                EndTime = new DateTime(2018, 4, 21),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 316,
+                Subject = "Angela Burdett-Coutts",
+                StartTime = new DateTime(2018, 4, 21),
+                EndTime = new DateTime(2018, 4, 22),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 317,
+                Subject = "Pandita Ramabai",
+                StartTime = new DateTime(2018, 4, 23),
+                EndTime = new DateTime(2018, 4, 24),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 318,
+                Subject = "Melissa Hayden",
+                StartTime = new DateTime(2018, 4, 25),
+                EndTime = new DateTime(2018, 4, 26),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 319,
+                Subject = "Mary Wollstonecraft",
+                StartTime = new DateTime(2018, 4, 27),
+                EndTime = new DateTime(2018, 4, 28),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 320,
+                Subject = "Mary Petty",
+                StartTime = new DateTime(2018, 4, 29),
+                EndTime = new DateTime(2018, 4, 30),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 321,
+                Subject = "Doris Fisher",
+                StartTime = new DateTime(2018, 5, 2),
+                EndTime = new DateTime(2018, 5, 3),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 322,
+                Subject = "Kay Petre",
+                StartTime = new DateTime(2018, 5, 10),
+                EndTime = new DateTime(2018, 5, 11),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 323,
+                Subject = "Williamina Fleming",
+                StartTime = new DateTime(2018, 5, 15),
+                EndTime = new DateTime(2018, 5, 16),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 324,
+                Subject = "Ondina Valla",
+                StartTime = new DateTime(2018, 5, 20),
+                EndTime = new DateTime(2018, 5, 21),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 325,
+                Subject = "Marie Menken",
+                StartTime = new DateTime(2018, 5, 25),
+                EndTime = new DateTime(2018, 5, 26),
+                IsAllDay = true,
+                CalendarId = 3
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 101,
+                Subject = "Father Birthday",
+                StartTime = new DateTime(2018, 3, 1),
+                EndTime = new DateTime(2018, 3, 2),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 102,
+                Subject = "Engagement day",
+                StartTime = new DateTime(2018, 3, 4),
+                EndTime = new DateTime(2018, 3, 5),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 103,
+                Subject = "Wedding day",
+                StartTime = new DateTime(2018, 3, 8),
+                EndTime = new DateTime(2018, 3, 9),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 104,
+                Subject = "Mother Birthday",
+                StartTime = new DateTime(2018, 3, 11),
+                EndTime = new DateTime(2018, 3, 12),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 105,
+                Subject = "Peter`s Wedding Day",
+                StartTime = new DateTime(2018, 3, 13),
+                EndTime = new DateTime(2018, 3, 14),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 106,
+                Subject = "Family Trip",
+                StartTime = new DateTime(2018, 3, 18),
+                EndTime = new DateTime(2018, 3, 19),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 107,
+                Subject = "Cousin Wedding Ceremony",
+                StartTime = new DateTime(2018, 3, 21),
+                EndTime = new DateTime(2018, 3, 22),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 108,
+                Subject = "Family Meetup",
+                StartTime = new DateTime(2018, 3, 24),
+                EndTime = new DateTime(2018, 3, 25),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 109,
+                Subject = "Grandfather Birthday",
+                StartTime = new DateTime(2018, 3, 28),
+                EndTime = new DateTime(2018, 3, 29),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 110,
+                Subject = "Sister-in-law Wedding Ceremony",
+                StartTime = new DateTime(2018, 3, 30),
+                EndTime = new DateTime(2018, 3, 31),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 111,
+                Subject = "Family Meetup",
+                StartTime = new DateTime(2018, 4, 1),
+                EndTime = new DateTime(2018, 4, 2),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 112,
+                Subject = "Grandparent Wedding day",
+                StartTime = new DateTime(2018, 4, 3),
+                EndTime = new DateTime(2018, 4, 4),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 113,
+                Subject = "Cousin Wedding Ceremony",
+                StartTime = new DateTime(2018, 4, 7),
+                EndTime = new DateTime(2018, 4, 8),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 114,
+                Subject = "Family Vacation Trip",
+                StartTime = new DateTime(2018, 4, 12),
+                EndTime = new DateTime(2018, 4, 13),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 115,
+                Subject = "Brother-in-law Birthday",
+                StartTime = new DateTime(2018, 4, 15),
+                EndTime = new DateTime(2018, 4, 16),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 116,
+                Subject = "Brother`s Birthday",
+                StartTime = new DateTime(2018, 4, 18),
+                EndTime = new DateTime(2018, 4, 19),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 117,
+                Subject = "Sister Wedding Anniversary",
+                StartTime = new DateTime(2018, 4, 21),
+                EndTime = new DateTime(2018, 4, 22),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 118,
+                Subject = "Family Vacation Trip",
+                StartTime = new DateTime(2018, 4, 24),
+                EndTime = new DateTime(2018, 4, 25),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 119,
+                Subject = "Wedding Anniversary",
+                StartTime = new DateTime(2018, 4, 26),
+                EndTime = new DateTime(2018, 4, 27),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 120,
+                Subject = "Month End-trip",
+                StartTime = new DateTime(2018, 4, 29),
+                EndTime = new DateTime(2018, 4, 30),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 121,
+                Subject = "John Birthday",
+                StartTime = new DateTime(2018, 5, 1),
+                EndTime = new DateTime(2018, 5, 2),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 122,
+                Subject = "Vishnu Birthday",
+                StartTime = new DateTime(2018, 5, 3),
+                EndTime = new DateTime(2018, 5, 4),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 123,
+                Subject = "Family Trip",
+                StartTime = new DateTime(2018, 5, 9),
+                EndTime = new DateTime(2018, 5, 10),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 124,
+                Subject = "Revanth Wedding Anniversary",
+                StartTime = new DateTime(2018, 5, 13),
+                EndTime = new DateTime(2018, 5, 14),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 125,
+                Subject = "Family Meetup",
+                StartTime = new DateTime(2018, 5, 15),
+                EndTime = new DateTime(2018, 5, 16),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 126,
+                Subject = "Family get-together",
+                StartTime = new DateTime(2018, 5, 18),
+                EndTime = new DateTime(2018, 5, 19),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 127,
+                Subject = "Friends Reunion",
+                StartTime = new DateTime(2018, 5, 21),
+                EndTime = new DateTime(2018, 5, 22),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 128,
+                Subject = "Rahul Wedding Anniversary Celebration",
+                StartTime = new DateTime(2018, 5, 24),
+                EndTime = new DateTime(2018, 5, 25),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 129,
+                Subject = "Vacation Trip with friends",
+                StartTime = new DateTime(2018, 5, 26),
+                EndTime = new DateTime(2018, 5, 27),
+                IsAllDay = true,
+                CalendarId = 1
+            });
+            holidayData.Add(new ResourceEventsData
+            {
+                Id = 130,
+                Subject = "Friends Reunion",
+                StartTime = new DateTime(2018, 5, 29),
+                EndTime = new DateTime(2018, 5, 30),
+                IsAllDay = true,
+                CalendarId = 1
+            });
             return holidayData;
         }
 

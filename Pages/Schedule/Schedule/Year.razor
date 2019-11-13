@@ -1,0 +1,118 @@
+@page "/Schedule/Year"
+
+@using Syncfusion.EJ2.Blazor.Schedule
+@using Syncfusion.EJ2.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Year";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+            This demo showcases how the scheduler looks like in Year view with its default set of configurations.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            This demo showcases how the scheduler looks like in Year view with its default set of configurations. In this demo, the active view of Scheduler is set to
+            <code>Vertical Year</code> and <code>Horizontal Year</code> view options are provided to
+            <code>Schedule Views</code>
+        </p>"
+    };
+}
+@*End:Hidden*@
+<div class="col-lg-9 control-section">
+    <EjsSchedule TValue="EventData" Width="100%" Height="555px" @ref="ScheduleObj" SelectedDate="@CurrentDate">
+        <ScheduleEventSettings DataSource="@AppointmentData"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.TimelineYear" Orientation="YearOrientation" DisplayName="Horizontal year"></ScheduleView>
+        </ScheduleViews>
+    </EjsSchedule>
+</div>
+
+<div class="col-lg-3 control-section">
+    <div class="control_wrapper">
+        <EjsDropDownList TValue="string" Index="1" PopupWidth="180" DataSource="@Align">
+            <DropDownListEvents TValue="string" ValueChange="OnValueChange"></DropDownListEvents>
+            <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+        </EjsDropDownList>
+    </div>
+</div>
+<style>
+    .control_wrapper {
+        width: 200px;
+        padding-bottom: 70px;
+    }
+</style>
+
+@code{
+    public static List<EventData> AppointmentData = GenerateEvents();
+    EjsSchedule<EventData> ScheduleObj;
+    public Orientation YearOrientation = Orientation.Horizontal;
+    public void OnValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.YearOrientation = (Orientation)Enum.Parse(typeof(Orientation), args.Value);
+    }
+    public DateTime CurrentDate = DateTime.Today;
+
+    public static List<EventData> GenerateEvents()
+    {
+        List<EventData> dataCollections = new List<EventData>(360);
+        int count = 250;
+        int year = DateTime.Now.Year;
+        var names = new string[] { "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration", "Wedding Aniversary", "Alaska: The Last Frontier", "Deadest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell", "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico", "Opening ceremony", "Final presentation" };
+        DateTime startDate = new DateTime(year - 2, 1, 1);
+        DateTime endDate = new DateTime(year + 2, 12, 31);
+        var id = 1;
+
+        for (var a = 0; a < count; a++)
+        {
+            Random random = new Random();
+            double num = random.NextDouble();
+
+            DateTimeOffset sdate = new DateTimeOffset(startDate).ToUniversalTime();
+            long startDateMilliSeconds = sdate.ToUnixTimeMilliseconds();
+
+            DateTimeOffset edate = new DateTimeOffset(endDate).ToUniversalTime();
+            long endDateMilliSeconds = edate.ToUnixTimeMilliseconds();
+
+            long Operations = (long)(num * (endDateMilliSeconds - startDateMilliSeconds) + startDateMilliSeconds);
+            DateTime start = DateTimeOffset.FromUnixTimeMilliseconds(Operations).UtcDateTime;
+            DateTime end = start.AddHours(1);
+            int ncount = (int)Math.Floor(Convert.ToDecimal(num * names.Length));
+            dataCollections.Add(new EventData
+            {
+                Id = id,
+                Subject = names[ncount],
+                StartTime = start,
+                EndTime = end,
+                IsAllDay = (id % 10 == 0) ? true : false
+            });
+            id++;
+        }
+        return dataCollections;
+    }
+
+    public class EventData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public bool IsAllDay { get; set; }
+    }
+
+
+    public class Alignment
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    public List<Alignment> Align = new List<Alignment>() {
+        new Alignment(){ ID= "Vertical", Text= "Vertical"},
+        new Alignment(){ ID= "Horizontal", Text= "Horizontal"},
+    };
+}

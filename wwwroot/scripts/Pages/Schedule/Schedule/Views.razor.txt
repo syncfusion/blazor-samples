@@ -1,6 +1,7 @@
 ﻿@page "/Schedule/Views"
 
 @using Syncfusion.EJ2.Blazor.Schedule
+@using Syncfusion.EJ2.Blazor.DropDowns
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
@@ -36,9 +37,9 @@
 }
 @*End:Hidden*@
 
-<div class="col-lg-12 control-section">
+<div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <EjsSchedule TValue="ScheduleData.ZooEventData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 2, 11))" CurrentView="View.Week">
+        <EjsSchedule TValue="ScheduleData.ZooEventData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 2, 11))" @bind-CurrentView="ViewNow">
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
@@ -49,7 +50,51 @@
         </EjsSchedule>
     </div>
 </div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 30%">
+                            <div>
+                                Current View
+                            </div>
+                        </td>
+                        <td style="width: 70%;">
+                            <div>
+                                <EjsDropDownList TValue="string" Index="1" DataSource="@ViewData" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" ValueChange="OnValueChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </EjsDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @code{
     public List<ScheduleData.ZooEventData> DataSource = new ScheduleData().GetZooEventData();
+    public View ViewNow = View.Week;
+    public void OnValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.ViewNow = (View)Enum.Parse(typeof(View), args.Value);
+    }
+    List<DropDownData> ViewData = new List<DropDownData>() {
+        new DropDownData { Name = "Day", Value = "Day" },
+        new DropDownData { Name = "Week", Value = "Week" },
+        new DropDownData { Name = "Work Week", Value = "WorkWeek" },
+        new DropDownData { Name = "Month", Value = "Month" }
+    };
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+
 }

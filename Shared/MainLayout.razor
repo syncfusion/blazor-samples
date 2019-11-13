@@ -1,6 +1,5 @@
 @inherits LayoutComponentBase
 @using System.Text.RegularExpressions;
-@using Newtonsoft.Json;
 @using ej2_blazor_samples
 @using Syncfusion.EJ2.Blazor.Navigations;
 @using Syncfusion.EJ2.Blazor.SplitButtons;
@@ -8,10 +7,6 @@
 @using Microsoft.AspNetCore.Components;
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
 @inject IJSRuntime JsRuntime;
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WLQL39J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-<div hiddenid="sync-analytics" data-queue="EJ2 - ASP.NET Core Blazor - Demos"></div>
 <div class="sample-browser e-view ej2-new">
     <div class="sb-mobile-overlay sb-hide"></div>
     <div id='sample-header' class="sb-header e-view" role="banner">
@@ -119,7 +114,11 @@
                     <h1 class='sb-sample-text'>@controlName</h1>
                 </div>
                 <div id='sample-bread-crumb' class='sb-bread-crumb sb-rightpane-padding'>
-                    <div class='sb-bread-crumb-text'></div>
+                    <div class='sb-bread-crumb-text'>
+                        <div class="bread-ctext">
+                          @breadcrumb
+                        </div>
+                    </div>
                 </div>
                 <div class='sb-action-description sb-rightpane-padding'>
                 </div>
@@ -209,14 +208,14 @@
                 </svg>
             </div>
         </div>
-        <div class="e-search-overlay sb-hide">
+        @*<div class="e-search-overlay sb-hide">
             <div class='sb-search-input' id='search-input-wrapper' data-value=''>
                 <input type='text' aria-required="true" id='search-input' onkeyup='this.parentElement.setAttribute("data-value",this.value)' class='e-icons' placeholder="Search here..." aria-label="search samples" />
                 <span class='e-icons sb-reset-icon'></span>
                 <span class='e-icons  sb-search-icon'></span>
             </div>
             <div id='search-popup' class='sb-search-result'></div>
-        </div>
+        </div>*@
         <div class='sb-mobilefooter e-view sample-navigation' id='mobile-footer'>
             <button id='mobile-prev-sample' class="sb-navigation-prev sb-left" @onclick="OnPrevSampleClick" aria-label="previous sample">
                 PREVIOUS
@@ -230,10 +229,10 @@
 
 @code {
 
-     EjsTab sourceTab;
-     EjsSidebar sidebar;
-     EjsSidebar sidebarRight;
-     EjsMenu menuBar;
+    EjsTab sourceTab;
+    EjsSidebar sidebar;
+    EjsSidebar sidebarRight;
+    EjsMenu menuBar;
 
     public SidebarPosition Position { get; set; } = SidebarPosition.Right;
 
@@ -242,6 +241,9 @@
 
     [Parameter]
     public string controlName { get; set; } = "ControlName";
+
+    [Parameter]
+    public string breadcrumb { get; set; } = "";
 
     public string[] sourceResponse { get; set; } = new string[5];
 
@@ -380,7 +382,7 @@
         sourceCodeItems = new List<TabItem>();
         if (arg.SelectedIndex == 1)
         {
-            SampleBrowser.CurrentControl.ForEach(async (control) =>
+            SampleBrowser.CurrentControl.ForEach((control) =>
             {
                 if (control.Name == SampleBrowser.CurrentSampleName)
                 {
@@ -449,7 +451,12 @@
             }
             SamplePath[Index] = SampleBrowser.CurrentSampleName;
             this.controlName = SampleBrowser.CurrentControlName;
-            JsRuntime.InvokeAsync<Object>("updateBreadCrumb", new String[] { this.controlName }, SamplePath);
+            this.breadcrumb =  this.controlName +"    >    " +SamplePath[1];
+            if(SamplePath[2] != null)
+            {
+              this.breadcrumb =  this.controlName +"    >    " +SamplePath[1] + "    >    " + SamplePath[2];
+            }
+            this.StateHasChanged();
             List<string> ActionDescription = new List<string>();
             List<string> Description = new List<string>();
             if (SampleBrowser.ActionDescription != null)

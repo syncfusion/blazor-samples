@@ -1,0 +1,155 @@
+@page "/Schedule/AddRemoveResources"
+
+@using Syncfusion.EJ2.Blazor
+@using Syncfusion.EJ2.Blazor.Schedule
+@using Syncfusion.EJ2.Blazor.Calendars
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Buttons
+@using System.Globalization
+
+@*Hidden:Lines*@
+@using ej2_blazor_samples
+@{
+    SampleBrowser.CurrentSampleName = "Show/Hide Resources";
+    SampleBrowser.CurrentControlName = "Scheduler";
+    SampleBrowser.CurrentControlCategory = "Scheduler";
+    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
+    SampleBrowser.ActionDescription = new string[] {
+        @"<p>
+             This demo illustrates how to dynamically add or remove resources to and from the Scheduler layout.
+        </p>"
+    };
+    SampleBrowser.Description = new string[] {
+        @"<p>
+            In this demo, Scheduler is initially displayed with single resource with its related set of appointments. When the additional
+            checkboxes given are checked and unchecked, the respective resources gets added up or removed from the scheduler layout.
+            To add new resources dynamically,
+            <code>AddResource</code> method is used which accepts the arguments such as resource object, resource name (within which level, the resource
+            object to be added) and index (position where the resource needs to be added). To remove the resources dynamically,
+            <code>RemoveResource</code> method is used which accepts the index (position from where the resource to be removed) and resource name (within
+            which level, the resource object presents) as parameters.
+        </p>"
+    };
+}
+@*End:Hidden*@
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <EjsSchedule @ref="ScheduleObj" TValue="ScheduleData.ResourceEventsData" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 4, 1)">
+            <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource DataSource="@Calendars" Field="CalendarId" Title="Calendars" Name="Calendars" TextField="CalendarName" IdField="CalendarId" ColorField="CalendarColor" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleViews>
+                <ScheduleView Option="@View.Month"></ScheduleView>
+                <ScheduleView Option="@View.TimelineWeek"></ScheduleView>
+                <ScheduleView Option="@View.TimelineMonth"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </EjsSchedule>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <table id="property" title="Show / Hide Resource" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <EjsCheckBox ValueChange="@(e => OnChange(e, 1))" Checked="true" Disabled="true" Label="My Calendar" CssClass="personal"></EjsCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <EjsCheckBox ValueChange="@(e => OnChange(e, 2))" Checked="false" Label="Company" CssClass="company"></EjsCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <EjsCheckBox ValueChange="@(e => OnChange(e, 3))" Checked="false" Label="Birthdays" CssClass="birthday"></EjsCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 100%">
+                    <EjsCheckBox ValueChange="@(e => OnChange(e, 4))" Checked="false" Label="Holidays" CssClass="holiday"></EjsCheckBox>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@code{
+    EjsSchedule<ScheduleData.ResourceEventsData> ScheduleObj;
+    public List<ScheduleData.ResourceEventsData> DataSource = new ScheduleData().GetHolidayData();
+    public class CalendarData
+    {
+        public string CalendarName { get; set; }
+        public string CalendarColor { get; set; }
+        public int CalendarId { get; set; }
+    }
+    public void OnChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args, int value)
+    {
+        List<CalendarData> CalendarCollections = new List<CalendarData> {
+        new CalendarData { CalendarName = "My Calendar", CalendarId = 1, CalendarColor = "#c43081" },
+        new CalendarData { CalendarName= "Company", CalendarId= 2, CalendarColor= "#ff7f50" },
+        new CalendarData { CalendarName= "Birthday", CalendarId= 3, CalendarColor= "#AF27CD" },
+        new CalendarData { CalendarName= "Holiday", CalendarId= 4, CalendarColor= "#808000" }
+      };
+        var resourceData = CalendarCollections.Find(v => v.CalendarId == value);
+        if (args.Checked)
+        {
+            ScheduleObj.AddResource(resourceData, "Calendars", value - 1);
+        }
+        else {
+            ScheduleObj.RemoveResource(value, "Calendars");
+        }
+    }
+    public string[] GroupData = new string[] { "Calendars" };
+    public List<object> Calendars { get; set; } = new List<object> {
+        new { CalendarName = "My Calendar", CalendarId = 1, CalendarColor = "#c43081" }
+    };
+}
+
+@*custom code start*@
+<style>
+    .e-checkbox-wrapper.personal .e-label {
+        color: #808080;
+    }
+
+    .e-checkbox-wrapper.personal.e-checkbox-disabled.personal .e-frame {
+        background-color: #c43081;
+        border-color: transparent;
+    }
+
+    .e-checkbox-wrapper.company .e-frame {
+        background-color: #ff7f50;
+        border-color: transparent;
+    }
+
+    .e-checkbox-wrapper.birthday .e-frame {
+        background-color: #AF27CD;
+        border-color: transparent;
+    }
+
+    .e-checkbox-wrapper.holiday .e-frame {
+        background-color: #808000;
+        border-color: transparent;
+    }
+
+    .highcontrast .e-checkbox-wrapper .e-frame.e-check,
+    .bootstrap .property-panel-content .e-checkbox-wrapper .e-frame.e-check {
+        color: #fff;
+    }
+
+    .e-schedule .e-month-view .e-appointment {
+        border-color: transparent;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-left-td,
+    .e-schedule .e-timeline-month-view .e-resource-left-td {
+        width: 110px;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-text,
+    .e-schedule .e-timeline-month-view .e-resource-text {
+        padding: 0;
+    }
+</style>
+@*custom code end*@

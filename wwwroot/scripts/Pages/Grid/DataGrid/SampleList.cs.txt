@@ -95,7 +95,7 @@ namespace ej2_blazor_samples
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
                 Url = "Grid/StackedHeader",
-                FileName = "Stackedheader.razor",
+                FileName = "GridStackedHeader.razor",
                 Type = SampleType.New
             },
             new Sample
