@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ej2_blazor_samples;
 namespace ej2_blazor_virtualdata
 {
-    public class VirtualData
+    public class PivotVirtualData
     {
         public string id { get; set; }
         public string year { get; set; }
@@ -14,13 +14,13 @@ namespace ej2_blazor_virtualdata
         public double amount { get; set; }
         public DateTime date { get; set; }
 
-        public static List<VirtualData> GetVirtualData()
+        public static List<PivotVirtualData> GetVirtualData()
         {
-            List<VirtualData> VirtualData = new List<VirtualData>();
+            List<PivotVirtualData> VirtualData = new List<PivotVirtualData>();
 
             for (int i = 1; i <= 50000; i++)
             {
-                VirtualData p = new VirtualData
+                PivotVirtualData p = new PivotVirtualData
                 {
                     id = "PRO-" +(10000+i),
                     year = (new string[] { "FY 2015", "FY 2016", "FY 2017", "FY 2018", "FY 2019" })[new Random().Next(5)],

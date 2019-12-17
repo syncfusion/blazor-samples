@@ -4,33 +4,7 @@
 @using Syncfusion.EJ2.Blazor.DropDowns
 @using Syncfusion.EJ2.Blazor.Buttons
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Legend";
-    SampleBrowser.CurrentControlName = "Maps";
-    SampleBrowser.CurrentControlCategory = "Maps";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
-    SampleBrowser.ActionDescription = new string[] {
-            @"<p>
-            This sample visualizes the continents in the world by rendering these in a map layer. Also marks the office locations of YouTube in the world using markers.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this example, you can see how to render a map with the provided GeoJSON data. Group of shapes can be combined to form a layer of the map. You can bind the desired colors from the data source to the map shapes. The marker templates are used to display the names for shapes and mark specific locations. Legend is enabled in this example to represent each continent.
-        </p>
-        <p>
-            Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
-        </p>
-        <br />
-        <p style=""font-weight: 500"">Injecting Module</p>
-        <p>
-            Maps component features are segregated into individual feature-wise modules. To use a marker, inject the <code>Marker</code> module using the < code > Maps.Inject(Marker) </ code > method, and use a legend by injecting the<code> Legend</ code > module.
-        </ p > "
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
         <EjsMaps>
@@ -38,7 +12,9 @@
             <MapsTitleSettings Text="Population density (per square kilometers) - 2015">
                 <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
             </MapsTitleSettings>
-            <MapsLegendSettings Visible="true" Mode="@legendTypeValue" Position="@legendPositionValue"></MapsLegendSettings>
+            <MapsLegendSettings Visible="true" Mode="@legendTypeValue" Position="@legendPositionValue">
+                <MapsToggleLegendSettings Enable="@toggleCheck"></MapsToggleLegendSettings>
+            </MapsLegendSettings>
             <MapsLayers>
                 <MapsLayer ShapeData="@MapShapeData" ShapeDataPath="name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData">
                     <MapsLayerTooltipSettings Visible="true" ValuePath="name" Format="${name} : ${density} per square kms"></MapsLayerTooltipSettings>
@@ -48,8 +24,7 @@
                             <MapsShapeColorMapping From="100" To="200" Color="@("rgb(115,143,199)")" Label="100-200"></MapsShapeColorMapping>
                             <MapsShapeColorMapping From="200" To="300" Color="@("rgb(77,112,184)")" Label="200-300"></MapsShapeColorMapping>
                             <MapsShapeColorMapping From="300" To="500" Color="@("rgb(38,82,168)")" Label="300-500"></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="500" To="19000" Color="@("rgb(0,51,153)")" Label=">500"></MapsShapeColorMapping>
-                            <MapsShapeColorMapping Color="@fifthColor" Label="@fifthLabel"></MapsShapeColorMapping>
+                            <MapsShapeColorMapping From="500" To="19000" Color="@("rgb(0,51,153)")" Label=">500"></MapsShapeColorMapping>                            
                         </MapsShapeColorMappings>
                     </MapsShapeSettings>
                 </MapsLayer>
@@ -89,12 +64,12 @@
                             </EjsDropDownList>
                         </td>
                     </tr>
-                    <tr style="height: 35px">
+                    <tr style="height: 80px">
                         <td style="width: 70%">
-                            Remaining Items in DataSource
+                            Show population density when the legend item is toggled
                         </td>
                         <td style="width: 50%">
-                            <EjsCheckBox Checked="@remainingDataCheck" ValueChange="remainingData"></EjsCheckBox>
+                            <EjsCheckBox Checked="@toggleCheck" ValueChange="remainingData"></EjsCheckBox>
                         </td>
                     </tr>
                 </tbody>
@@ -109,9 +84,7 @@
     public string legendTypeDropDownValue = "Default";
     public string legendPositionDropDownValue = "Top";
     public string ShapePropertyPath = "name";
-    public string fifthColor = "null";
-    public string fifthLabel = "null";
-    public Boolean remainingDataCheck;
+    public Boolean toggleCheck = false;
     public MapDataSettings MapShapeData = new MapDataSettings
     {
         async = true,
@@ -354,16 +327,6 @@
     }
     public void remainingData(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
-        remainingDataCheck = args.Checked;
-        if (remainingDataCheck == true)
-        {
-            fifthColor = "lightgrey";
-            fifthLabel = "No Data";
-        }
-        else
-        {
-            fifthColor = "null";
-            fifthLabel = "null";
-        }
+        toggleCheck = args.Checked;        
     }
 }

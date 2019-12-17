@@ -1,39 +1,14 @@
 ﻿@page "/Grid/Aggregate"
 
 @using Syncfusion.EJ2.Blazor.Grids
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
 @using ej2_blazor_griddata
-@{
-    SampleBrowser.CurrentSampleName = "Default Aggregate";
-    SampleBrowser.CurrentControlName = "DataGrid";
-    SampleBrowser.CurrentControlCategory = "DataGrid";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>This sample demonstrates aggregate functionality of the Grid. In this sample, the aggregate value for the column Freight is displayed in column footer.</p>"
-    };
-    SampleBrowser.Description = new string[]{
-        @"<p>The Grid supports aggregates which will be displayed at the footer, group footer and group caption of the Grid. The aggregate configurations can be provided in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregates.html'>GridAggregates</a></code> component</p>
-        <p>The built-in aggregates are, </p>
-        <ul>
-           <li><code>Sum</code></li>     
-           <li><code>Average</code></li>     
-           <li><code>Min</code></li>     
-           <li><code>Max</code></li>     
-           <li><code>Count</code></li>     
-           <li><code>TrueCount</code></li>     
-           <li><code>FalseCount</code></li>
-        </ul>   
-        <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~FooterTemplate.html'>FooterTemplate</a></code> is used to display four different aggregates in the Grid footer. In the first aggregate row, the <code>Sum</code> aggregate type is used by setting it in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>Freight</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~FooterTemplate.html'>FooterTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<code>@sumvalue.Sum</code>) where <b>sumvalue</b> is an implicit named parameter - <b>context</b>. The aggregate value will be formatted based on its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Format.html'>Format</a></code> value(<strong><i>C2</i></strong>) before being displayed.</p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGrid DataSource="@GridData" AllowPaging="true">
+            <EjsGrid DataSource="@GridData">
                 <GridAggregates>
                     <GridAggregate>
                         <GridAggregateColumns>
@@ -42,7 +17,7 @@
                                     @{
                                         var sumvalue = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Sum: @sumvalue.Sum</p>
+                                            Sum: @sumvalue.Sum
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -56,7 +31,7 @@
                                     @{
                                         var avgvalue = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Average: @avgvalue.Average</p>
+                                            Average: @avgvalue.Average
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -64,11 +39,10 @@
                         </GridAggregateColumns>
                     </GridAggregate>
                 </GridAggregates>
-                <GridPageSettings PageCount="5"></GridPageSettings>
                 <GridColumns>
                     <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right"  Width="160"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="yMd" Type="ColumnType.Date" TextAlign="TextAlign.Right"  Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right"  Width="130"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140"></GridColumn>
                 </GridColumns>
             </EjsGrid>
@@ -83,6 +57,6 @@
 
     protected override void OnInitialized()
     {
-        GridData = OrdersDetails.GetAllRecords();
+        GridData = OrdersDetails.GetAllRecords().Take(12).ToList();
     }
 }

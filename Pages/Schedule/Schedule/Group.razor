@@ -2,60 +2,23 @@
 
 @using Syncfusion.EJ2.Blazor.Schedule
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Horizontal Grouping";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-            This demo illustrates the timings of different flight services on a specific route say between Barcelona and Los Angeles,
-            on a daily basis. Here, the Scheduler is grouped based on the 3 Airline services.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this demo, the scheduler has been grouped with multiple resources by making use of the property
-            <code>Group</code>. The resources to be grouped depends on the values of
-            <code>Resources</code> option within the
-            <code>Group</code> property, which accepts the array of resource names.
-        </p>
-        <p>
-            In mobile mode, when the grouping is enabled, the resources will be listed out in a treeview as a side-panel which opens
-            or closes, on clicking the hamburger icon at the resource header. Only a single resource will be viewable at a time,
-            due to the space constraints on mobile. If in case, the users want to view the grouped layout on mobile with scrolling
-            content, then it is necessary to set
-            <code>false</code> to the
-            <code>EnableCompactView</code> option within the
-            <code>Group</code> property which is set to
-            <code>true</code> by default. This option is not applicable on desktop mode.
-        </p>
-        <p>
-            Note: If the
-            <code>Group</code> property is not defined, then the default scheduler will be rendered with no grouping on layout, but the appointments
-            of all the resources will be displayed on a single scheduler.
-        </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div class="content-wrapper">
         <div class="schedule-demo-heading">
             Flight timings between Barcelona and Los Angeles
         </div>
-        <EjsSchedule TValue="AppointmentData" ModelType="@Model" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 3, 4))">
-            <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+        <EjsSchedule TValue="AppointmentData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 3, 4))">
+            <ScheduleGroup EnableCompactView="false" Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
+                <ScheduleResource TValue="AirlinesData" DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
             <ScheduleTemplates>
                 <ResourceHeaderTemplate>
                     @{
-                        var airlineData = (context as TemplateArgs).ResourceData;
+                        var airlineData = (context as AppointmentData).ResourceData as AirlinesData;
                         <div class='template-wrap'>
                             <div class="airline-image"><img src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{airlineData.AirlineImage}.svg")" /></div>
                             <div class="airline-details">
@@ -83,22 +46,19 @@
 @code{
     public List<AppointmentData> DataSource = GenerateEvents();
     public string[] GroupData = new string[] { "Airlines" };
-    private List<object> ResourceData { get; set; } = new List<object> {
-        new { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50, AirlineImage = "airways-1" },
-        new { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75, AirlineImage = "airways-2" },
-        new { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100, AirlineImage = "airways-3" }
+    private List<AirlinesData> ResourceData { get; set; } = new List<AirlinesData> {
+        new AirlinesData { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50, AirlineImage = "airways-1" },
+        new AirlinesData { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75, AirlineImage = "airways-2" },
+        new AirlinesData { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100, AirlineImage = "airways-3" }
     };
-    public TemplateArgs Model = new TemplateArgs();
-    public class TemplateArgs
+    public class AirlinesData
     {
-        public ResourceDataModel ResourceData { get; set; }
-    }
-    public class ResourceDataModel
-    {
-        public string AirlineImage { get; set; }
         public string AirlineName { get; set; }
-        public string AirlineModel { get; set; }
+        public int AirlineId { get; set; }
         public int AirlineSeats { get; set; }
+        public string AirlineColor { get; set; }
+        public string AirlineModel { get; set; }
+        public string AirlineImage { get; set; }
     }
     private static List<AppointmentData> GenerateEvents()
     {
@@ -135,13 +95,14 @@
         }
         return collections;
     }
-     public class AppointmentData
+    public class AppointmentData
     {
         public int Id { get; set; }
         public string Subject { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public int AirlineId { get; set; }
+        public AirlinesData ResourceData { get; set; }
     }
 }
 

@@ -3,45 +3,25 @@
 @using Syncfusion.EJ2.Blazor.Schedule
 @using System.Globalization
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Event Template";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-           This demo showcases the way of customizing the look of events that are displayed on Schedule. Any kind of text, images
-            and links can be added to customize the look of the events. Here, the webinar sessions on specific topic that are
-            scheduled on respective week days have been displayed on scheduler across its respective time duration.
-</p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            With the usage of template, the user can format and change the default appearance of the events by making use of the
-            <code>Template</code> option which is available within the
-            <code>EventSettings</code> property. Here, the HTML template design is compiled and then the resultant output will be displayed directly on
-            the events.
-</p>"
-    };
-}
-@*End:Hidden*@
+
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsSchedule TValue="ScheduleData.WebinarData" ModelType="@Model" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 2, 15))">
+        <EjsSchedule TValue="ScheduleData.WebinarData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 2, 15))">
             <ScheduleViews>
                 <ScheduleView Option="View.Week">
                     <EventTemplate>
                         @{
-                            var webinarData = (context as TemplateArgs);
+                            var webinarData = (context as ScheduleData.WebinarData);
                                                 <div class='template-wrap' style='background:@(webinarData.SecondaryColor)'>
                                                     <div class="subject" style='background:@(webinarData.PrimaryColor)'>@(webinarData.Subject)</div>
                                                     <div class="time" style='background:@(webinarData.PrimaryColor)'>Time: @(getTimeString(webinarData.StartTime)) - @(getTimeString(webinarData.EndTime))</div>
                                                     <div class="image">
-                                                        <img src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{webinarData.ImageName}.svg")" alt="@webinarData.ImageName" />
+                                                        @if (webinarData.ImageName != null) {
+                                                            <img src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{webinarData.ImageName}.svg")" alt="@webinarData.ImageName" />
+                                                        }
                                                     </div>
                                                     <div class="description">@(webinarData.Description)</div>
                                                     <div class="footer" style='background:@(webinarData.PrimaryColor)'></div>
@@ -52,7 +32,7 @@
                 <ScheduleView Option="View.TimelineWeek">
                     <EventTemplate>
                         @{
-                            var webinarData = (context as TemplateArgs);
+                            var webinarData = (context as ScheduleData.WebinarData);
                             <div class='template-wrap' style='background:@(webinarData.PrimaryColor)'>
                                 <div class="subject" style='background:@(webinarData.SecondaryColor); border-left: 15px solid @(webinarData.PrimaryColor);border-right: 15px solid @(webinarData.PrimaryColor);'>@(webinarData.Subject)</div>
                             </div>
@@ -72,17 +52,6 @@
     {
     return date.ToUniversalTime().ToString("HH:mm", CultureInfo.InvariantCulture);
     }
-    public class TemplateArgs
-    {
-        public string Subject { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public string Description { get; set; }
-        public string ImageName { get; set; }
-        public string PrimaryColor { get; set; }
-        public string SecondaryColor { get; set; }
-    }
-    public TemplateArgs Model = new TemplateArgs();
 }
 <style>
     .e-schedule .e-vertical-view .e-content-wrap .e-appointment,

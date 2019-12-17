@@ -1,0 +1,90 @@
+﻿@page "/Charts/Performance"
+@using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Buttons
+
+@inherits SampleBaseComponent;
+
+<div class="control-section col-md-8">
+    <EjsChart EnableCanvas="true" @ref="ChartInstance">
+        <ChartEvents Loaded="@ChartLoaded"></ChartEvents>
+        <ChartPrimaryXAxis>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries Name="Series" XName="@nameof(LineChartData.XValue)" YName="@nameof(LineChartData.YValue)" DataSource="@DataChart">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </EjsChart>
+</div>
+<div class="property-section col-md-4">
+    <table id="property" title="Properties" style="width: 100%">
+        <tr style="height:50px"><th>Properties</th></tr>
+        <tr>
+            <EjsButton CssClass="e-info" IsPrimary="true" @onclick="LoadChart">Load 100K Points</EjsButton>
+           
+        </tr>
+        <tr>
+            <td>
+                <div style="margin-top:10px">@Data</div>
+            </td>            
+            
+        </tr>
+        </table>
+        
+
+       
+</div>
+
+@code{
+    EjsChart ChartInstance;
+    String Data = "";
+    public class LineChartData
+    {
+        public double XValue { get; set; }
+        public double YValue { get; set; }
+    }
+    public Random random = new Random();
+    List<LineChartData> DataChart = new List<LineChartData>();
+    DateTime Start;
+    DateTime End;
+    double value = 0;
+    Boolean FindPerformance;
+    void LoadChart()
+    {
+        DataChart.Clear();
+        Start = DateTime.Now;
+        for (int i = 0; i < 100000; i++)
+        {
+
+            if (i % 3 == 0)
+            {
+                this.value = this.value - (random.Next(0, 100) / 3) * 4;
+            }
+            else if (i % 2 == 0)
+            {
+                this.value = this.value + (random.Next(0, 100) / 3) * 4;
+            }
+            DataChart.Add(new LineChartData() { XValue = i, YValue = this.value });
+        }
+
+        ChartInstance.Refresh();
+        FindPerformance = true;
+
+    }
+
+    void ChartLoaded(ILoadedEventArgs args)
+    {
+        End = DateTime.Now;
+        if (FindPerformance)
+        {
+            TimeSpan diff = End - Start;
+            String TimeValue = ((int)diff.TotalMilliseconds).ToString();
+            String TimeString =  "Time Taken     " + TimeValue + " ms";
+            Data = TimeString;
+        }
+
+    }
+
+}

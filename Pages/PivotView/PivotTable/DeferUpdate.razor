@@ -1,106 +1,81 @@
 ﻿@page "/PivotTable/DeferUpdate"
 
 @using Syncfusion.EJ2.Blazor.PivotView
-
-@*Hidden:Lines*@
+@inherits SampleBaseComponent;
 @using ej2_blazor_samples
 @using ej2_blazor_productdetails
-@{
-    SampleBrowser.CurrentSampleName = "Defer Update";
-    SampleBrowser.CurrentControlName = "PivotTable";
-    SampleBrowser.CurrentControlCategory = "PivotTable";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.PivotTable;
-    SampleBrowser.ActionDescription = new string[] {
-@"<p>
-    This sample demonstrates the defer layout update feature of the pivot table. The defer layout update allows users
-        to refresh the pivot table on-demand instead of during every UI interaction.
-</p>"
-};
-    SampleBrowser.Description = new string[] {
-@"<p>
-        Deferring a layout update can be useful when you need to remove or add multiple fields in a report and you don't want to
-        update the pivot table after each change. Now, you can update a pivot table after performing all changes at the report level
-        in the field list resulting in better performance.
-    </p>
-    <p>
-        In this sample, the <b>Defer Layout Update</b> option can be enabled or disabled via field list UI.
-    </p>
-    <p>
-        In general, this feature can be enabled by setting  <code>AllowDeferLayoutUpdate</code> as true.
-    </p>"
-};
-}
-@*End:Hidden*@
-    <div class="control-section">
-        <div class="content-wrapper">
-            <EjsPivotView ID="pivotview" TValue="ProductDetails" @ref="pivotView" Height="530" AllowDeferLayoutUpdate="true">
-                <PivotViewEvents TValue="ProductDetails" EnginePopulated="pivotenginepopulated"></PivotViewEvents>
-            </EjsPivotView>
-            <EjsPivotFieldList TValue="ProductDetails" ID="fieldlist" @ref="fieldList" RenderMode="Mode.Fixed" AllowDeferLayoutUpdate="true">
-                <PivotFieldListDataSourceSettings DataSource="@data" EnableSorting=true>
-                    <PivotFieldListColumns>
-                        <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
-                        <PivotFieldListColumn Name="Quarter"></PivotFieldListColumn>
-                    </PivotFieldListColumns>
-                    <PivotFieldListRows>
-                        <PivotFieldListRow Name="Country"></PivotFieldListRow>
-                        <PivotFieldListRow Name="Products"></PivotFieldListRow>
-                    </PivotFieldListRows>
-                    <PivotFieldListValues>
-                        <PivotFieldListValue Name="Sold" Caption="Unit Sold"></PivotFieldListValue>
-                        <PivotFieldListValue Name="Amount" Caption="Sold Amount"></PivotFieldListValue>
-                    </PivotFieldListValues>
-                </PivotFieldListDataSourceSettings>
-                <PivotFieldListEvents TValue="ProductDetails" EnginePopulated="enginepopulated"></PivotFieldListEvents>
-            </EjsPivotFieldList>
-        </div>
+<div class="control-section">
+    <div class="content-wrapper">
+        <EjsPivotView ID="pivotview" TValue="PivotProductDetails" @ref="pivotView" Height="530" AllowDeferLayoutUpdate="true">
+            <PivotViewEvents TValue="PivotProductDetails" EnginePopulated="pivotenginepopulated"></PivotViewEvents>
+        </EjsPivotView>
+        <EjsPivotFieldList TValue="PivotProductDetails" ID="fieldlist" @ref="fieldList" RenderMode="Mode.Fixed" AllowDeferLayoutUpdate="true">
+            <PivotFieldListDataSourceSettings DataSource="@data" EnableSorting=true>
+                <PivotFieldListColumns>
+                    <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
+                    <PivotFieldListColumn Name="Quarter"></PivotFieldListColumn>
+                </PivotFieldListColumns>
+                <PivotFieldListRows>
+                    <PivotFieldListRow Name="Country"></PivotFieldListRow>
+                    <PivotFieldListRow Name="Products"></PivotFieldListRow>
+                </PivotFieldListRows>
+                <PivotFieldListValues>
+                    <PivotFieldListValue Name="Sold" Caption="Unit Sold"></PivotFieldListValue>
+                    <PivotFieldListValue Name="Amount" Caption="Sold Amount"></PivotFieldListValue>
+                </PivotFieldListValues>
+            </PivotFieldListDataSourceSettings>
+            <PivotFieldListEvents TValue="PivotProductDetails" EnginePopulated="enginepopulated"></PivotFieldListEvents>
+        </EjsPivotFieldList>
     </div>
+</div>
 
-    <style>
-        #pivotview {
-            width: 57% !important;
-            height: 100%;
-        }
+<style>
+    #pivotview {
+        width: 57% !important;
+        height: 100%;
+    }
 
-        #pivotfieldlist {
-            width: 42% !important;
-            height: 100%;
-        }
-        .e-pivotview {
-            float: left;
-            width: 57% !important;
-        }
+    #pivotfieldlist {
+        width: 42% !important;
+        height: 100%;
+    }
 
-        .e-pivotfieldlist {
-            float: right;
-            width: 42% !important;
-        }
+    .e-pivotview {
+        float: left;
+        width: 57% !important;
+    }
+
+    .e-pivotfieldlist {
+        float: right;
+        width: 42% !important;
+    }
 
         .e-pivotfieldlist .e-static {
             width: 100% !important;
         }
-        .e-pivotview {
-            min-height: 200px;
-        }
-    </style>
 
-    @code{
+    .e-pivotview {
+        min-height: 200px;
+    }
+</style>
 
-        EjsPivotFieldList<ProductDetails> fieldList;
-        EjsPivotView<ProductDetails> pivotView;
+@code{
 
-        public List<ProductDetails> data { get; set; }
+    EjsPivotFieldList<PivotProductDetails> fieldList;
+    EjsPivotView<PivotProductDetails> pivotView;
 
-        protected override void OnInitialized()
-        {
-            this.data = ProductDetails.GetProductData();
-        }
-        public void pivotenginepopulated(EnginePopulatedEventArgs args)
-        {
-            this.fieldList.Update(this.pivotView);
-        }
-        public void enginepopulated(EnginePopulatedEventArgs args)
-        {
-            this.fieldList.UpdateView(this.pivotView);
-        }
-   }
+    public List<PivotProductDetails> data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.data = PivotProductDetails.GetProductData();
+    }
+    public void pivotenginepopulated(EnginePopulatedEventArgs args)
+    {
+        this.fieldList.Update(this.pivotView);
+    }
+    public void enginepopulated(EnginePopulatedEventArgs args)
+    {
+        this.fieldList.UpdateView(this.pivotView);
+    }
+}

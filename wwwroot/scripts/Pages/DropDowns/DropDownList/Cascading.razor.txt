@@ -1,47 +1,21 @@
 @page "/DropDownList/Cascading"
 
 @using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.EJ2.Blazor.Data
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Cascading";
-    SampleBrowser.CurrentControlName = "DropDownList";
-    SampleBrowser.CurrentControlCategory = "DropDownList";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.DropDownList;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-            This sample demonstrates the cascading functionalities of the DropDownList. Choose a country from
-            the countries DropDownList, then respective states will be loaded in the second DropDownList
-            and the same has to be done between states and cities DropDownList.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            The <code>Cascading</code> DropDownList is the series of DropDownList, where the value of one DropDownList depends on
-            the another DropDownList value. This can be configured by using the <code>ValueChange</code> event of parent DropDownList.
-            Within that change event handler, you should load the data to child DropDownList based on the selected value of parent
-            DropDownList.
-        </p>
-        <p>
-            In this sample, if a country is selected from countries DropDownList, the respective states will be loaded in the second DropDownList
-            and the same has to be done between states and cities DropDownList.
-        </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 
 <div class="col-lg-12 control-section">
     <div class='control-wrapper'>
         <div class="padding-top">
-            <EjsDropDownList TValue="string" Placeholder="Select a country" PopupHeight="auto" DataSource="@Country">
+            <EjsDropDownList TItem="Countries" TValue="string" Placeholder="Select a country" PopupHeight="auto" DataSource="@Country">
                 <DropDownListEvents TValue="string" ValueChange="ChangeCountry"></DropDownListEvents>
                 <DropDownListFieldSettings Text="CountryName" Value="CountryId"></DropDownListFieldSettings>
             </EjsDropDownList>
         </div>
         <div class="padding-top">
-            <EjsDropDownList Enabled="@EnableStateDropDown" Value="@StateValue" Placeholder="Select a state" Query="@StateQuery" PopupHeight="auto" DataSource="@States">
+            <EjsDropDownList Enabled="@EnableStateDropDown" TValue="string" TItem="State" Value="@StateValue" Placeholder="Select a state" Query="@StateQuery" PopupHeight="auto" DataSource="@States">
                 <DropDownListFieldSettings Text="StateName" Value="StateId"></DropDownListFieldSettings>
             </EjsDropDownList>
         </div>
@@ -64,12 +38,12 @@
 @code {
     public bool EnableStateDropDown = false;
     public string StateValue { get; set; } = null;
-    public string StateQuery { get; set; } = null;
+    public Query StateQuery { get; set; } = null;
 
     public void ChangeCountry(@Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         this.EnableStateDropDown = true;
-        this.StateQuery = "new ej.data.Query().where('CountryId', 'equal', '" + args.Value + "')";
+        this.StateQuery = new Query().Where(new WhereFilter() { Field = "CountryId", Operator = "equal", value =  args.Value, IgnoreCase = false, IgnoreAccent = false });
         this.StateValue = null;
         this.StateHasChanged();
     }

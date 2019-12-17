@@ -4,33 +4,11 @@
 @using Syncfusion.EJ2.Blazor.DropDowns
 @using Syncfusion.EJ2.Blazor.Buttons
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Gauge Customization";
-    SampleBrowser.CurrentControlName = "CircularGauge";
-    SampleBrowser.CurrentControlCategory = "CircularGauge";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.CircularGauge;
-    SampleBrowser.ActionDescription = new string[] {
-        @" <p>
-            This sample illustrates how to customize the gauge with pointers. Options to change the color and type of the pointer are available in the property panel.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this example, you can see how to customize the gauge elements such as <code> pointers </code> and <code> range </code>. Here a needle and range bar are added to show the current value and its appearance can be customized here.
-        </p>
-        <p>
-            More information on the range and pointer customization can be found in this
-            <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section</a>.
-        </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
     <div style="display:@gauge1">
-        <EjsCircularGauge >
+        <EjsCircularGauge>
             <CircularGaugeEvents></CircularGaugeEvents>
             <CircularGaugeAxes>
                 <CircularGaugeAxis StartAngle="300" EndAngle="60" Minimum="999" Maximum="2000" Radius="80%">
@@ -88,10 +66,10 @@
                         </CircularGaugeAxisLabelFont>
                     </CircularGaugeAxisLabelStyle>
                     <CircularGaugePointers>
-                        <CircularGaugePointer Type="PointerType.RangeBar" Value=@tickValue2 Radius="80%" Color="@rangeBarColorValue" PointerWidth="30">
+                        <CircularGaugePointer Type="PointerType.RangeBar" Value=@tickValue2 Radius="80%" Color="@rangeBarColorValueTwo" PointerWidth="30">
                         </CircularGaugePointer>
                         <CircularGaugeRanges>
-                            <CircularGaugeRange Start="0" End="100" Radius="80%" StartWidth="30" EndWidth="30" Color="@rangeColorValue">
+                            <CircularGaugeRange Start="0" End="100" Radius="80%" StartWidth="30" EndWidth="30" Color="@rangeColorValueTwo">
                             </CircularGaugeRange>
                         </CircularGaugeRanges>
                     </CircularGaugePointers>
@@ -138,28 +116,51 @@
                         </td>
                         <td>
                             <div>
-                                <input type="range" value="@tick" min="@min" max="@max" @oninput="tickChange" />
+                                <input type="range" value="@tick" min="@min" max="@max" @onchange="tickChange" />
                             </div>
                         </td>
                     </tr>&nbsp;
-                    <tr style="height: 35px">
+                    <tr style="height: 35px; ">
                         <td style="width: 70%" class="property-text">
                             RangeBar Color
                         </td>
-                        <td style="width: 50%">
+                        <td style="width: 50%;display:@gauge1">
                             <EjsDropDownList DataSource="@rangeBarColor" Value="@rangeBarColorValue" Width="120px">
                                 <DropDownListEvents TValue="string" ValueChange="rangeBarColorchange"></DropDownListEvents>
                                 <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                             </EjsDropDownList>
                         </td>
+                        <td style="width: 50%;display:@gauge2">
+                            <EjsDropDownList DataSource="@rangeBarColorTwo" Value="@rangeBarColorValueTwo" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="rangeBarColorTwochange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
                     </tr>
-                    <tr style="height: 35px">
+                    <tr style="height: 35px;">
                         <td style="width: 70%" class="property-text">
                             Range Color
                         </td>
-                        <td style="width: 50%">
+                        <td style="width: 50%;display:@gauge1">
                             <EjsDropDownList DataSource="@rangeColor" Value="@rangeColorValue" Width="120px">
                                 <DropDownListEvents TValue="string" ValueChange="rangeColorchange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                        <td style="width: 50%;display:@gauge2">
+                            <EjsDropDownList DataSource="@rangeColorTwo" Value="@rangeColorValueTwo" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="rangeColorTwochange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="height: 35px;">
+                        <td style="width: 70%;" class="property-text">
+                            Pointer Color
+                        </td>
+                        <td style="width: 50%;">
+                            <EjsDropDownList DataSource="@PointerColor" Value="@pointerColorValue" Width="120px" Enabled="@pointerColorDisable">
+                                <DropDownListEvents TValue="string" ValueChange="pointerColorchange"></DropDownListEvents>
                                 <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                             </EjsDropDownList>
                         </td>
@@ -170,36 +171,41 @@
     </div>
 </div>
 
+
 @code{
     public string gauge1 = "block";
     public string gauge2 = "none";
+    public string visible = "visible";
+    public Boolean pointerColorDisable = true;
     public double min = 1000;
     public double max = 2000;
     public double tick = 1800;
     public double tickValue2 = 50.5;
     public string rangeBarColorValue = "#FFDD00";
     public string rangeColorValue = "#E0E0E0";
+    public string rangeBarColorValueTwo = "#FF2680";
+    public string rangeColorValueTwo = "#E0E0E0";
     public string pointerColorValue = "#424242";
     public double tickValue = 1800;
     public void gaugeClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         gauge2 = "none";
         gauge1 = "block";
+        pointerColorDisable = true;
         min = 1000;
         max = 2000;
         tick = (tickValue == 1800) ? 1800 : tickValue;
-        rangeBarColorValue = "#FFDD00";
     }
     public void netClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         gauge1 = "none";
         gauge2 = "block";
+        pointerColorDisable = false;
         min = 0;
         max = 100;
         tick = (tickValue2 == 50.5) ? 50.5 : tickValue2;
         tickValue2 = (tickValue2 == 50.5) ? 50.5 : tickValue2;
-        rangeBarColorValue = "#FF2680";
-    }  
+    }
 
     private void tickChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
@@ -233,13 +239,41 @@
         new DropdownList { Value="#6f6fe2", Name="#6f6fe2" },
         new DropdownList { Value="#9e480e", Name="#9e480e" }
     };
+    public List<DropdownList> rangeBarColorTwo = new List<DropdownList> {
+        new DropdownList { Value="#FF2680", Name="#FF2680" },
+        new DropdownList { Value="#00bdae", Name="#00bdae" },
+        new DropdownList { Value="#FFDD00", Name="#FFDD00" },
+    };
+    public List<DropdownList> rangeColorTwo = new List<DropdownList> {
+        new DropdownList { Value="#E0E0E0", Name="#E0E0E0" },
+        new DropdownList { Value="#7bb4eb", Name="#7bb4eb" },
+        new DropdownList { Value="#ea7a57", Name="#ea7a57" }
+    };
+    public List<DropdownList> PointerColorTwo = new List<DropdownList> {
+        new DropdownList { Value="#424242", Name="#424242" },
+        new DropdownList { Value="#6f6fe2", Name="#6f6fe2" },
+        new DropdownList { Value="#9e480e", Name="#9e480e" }
+    };
     public void rangeBarColorchange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
 
         rangeBarColorValue = args.Value;
     }
+    public void rangeBarColorTwochange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+
+        rangeBarColorValueTwo = args.Value;
+    }
     public void rangeColorchange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> rangeArgs)
     {
         rangeColorValue = rangeArgs.Value;
+    }
+    public void rangeColorTwochange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> rangeArgs)
+    {
+        rangeColorValueTwo = rangeArgs.Value;
+    }
+    public void pointerColorchange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> rangeArgs)
+    {
+        pointerColorValue = rangeArgs.Value;
     }
 }

@@ -2,33 +2,10 @@
 @using Syncfusion.EJ2.Blazor.Charts
 @using Syncfusion.EJ2.Blazor.Buttons
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Line";
-    SampleBrowser.CurrentControlName = "Chart";
-    SampleBrowser.CurrentControlCategory = "Chart";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-        This sample visualizes the data about Alaska Weather Statistics - 2016 with default polar line series in the chart.
-        Data points values are showed by using data label.
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-        In this example, you can see how to render and configure the polar line type charts. Similar to column charts, but the orientation of y axis is horizontal instead of vertical.
-        You can use <code>Border</code>, <code>Fill</code> properties to customize the data appearance. <code>DataLabel</code> is used to represent individual data and its value.
-    </p>
-    <p>
-        Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-    </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 <div class="row">
     <div class="col-lg-9 control-section">
-        <EjsChart Title="Alaska Weather Statistics - 2016">
+        <EjsChart @ref="@chartObj" Title="Alaska Weather Statistics - 2016">
             <ChartTooltipSettings Enable="true">
             </ChartTooltipSettings>
             <ChartPrimaryXAxis IsInversed="@isInversed" StartAngle="@startAngle" Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Title="Months"></ChartPrimaryXAxis>
@@ -67,7 +44,7 @@
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@closed" ValueChange="@checkClosed"></EjsCheckBox>
+                        <EjsCheckBox Checked="@isClosed" ValueChange="@checkClosed"></EjsCheckBox>
                     </div>
                 </td>
             </tr>
@@ -75,12 +52,12 @@
                 <td style="width: 30%">
                     <div>
                         Start Angle:
-                        <p id="startAngleValue" style="font-weight: normal;"><span>@value</span></p>
+                        <p id="startAngleValue" style="font-weight: normal;"><span>@startAngle</span></p>
                     </div>
                 </td>
                 <td style="width: 70%;">
                     <div class="">
-                        <input type="range" @onchange="changeAngle" value="@value" min="0" max="360" style="width:90%"/>
+                        <input type="range" @onchange="changeAngle" value="@startAngle" min="0" max="360" style="width:90%"/>
                     </div>
                 </td>
             </tr>
@@ -90,7 +67,7 @@
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@inversed" ValueChange="@checkInversed"></EjsCheckBox>
+                        <EjsCheckBox Checked="@isInversed" ValueChange="@checkInversed"></EjsCheckBox>
                     </div>
                 </td>
             </tr>
@@ -99,20 +76,22 @@
 </div>
 
 @code{
-    private Boolean inversed = false, isInversed = false;
-    private Boolean closed = true, isClosed = true;
-    public int startAngle = 0, value = 0;
+    EjsChart chartObj;
+    private Boolean isInversed = false;
+    private Boolean isClosed = true;
+    public int startAngle = 0;
     public void checkInversed(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
-        inversed = isInversed = args.Checked;
+       isInversed = args.Checked;
     }
     public void checkClosed(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
-        closed = isClosed = args.Checked;
-    }   
+        isClosed = args.Checked;
+        chartObj.Refresh();
+    }
     private void changeAngle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        value = startAngle = Convert.ToInt32(args.Value);
+       startAngle = Convert.ToInt32(args.Value);
     }
 
     ChartSeriesType seriesType = ChartSeriesType.Polar;

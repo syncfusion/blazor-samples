@@ -4,24 +4,9 @@
 @using Syncfusion.EJ2.Blazor.Buttons
 @using System.Collections.ObjectModel;
 @using System.ComponentModel;
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Observable Collection";
-    SampleBrowser.CurrentControlName = "DataGrid";
-    SampleBrowser.CurrentControlCategory = "DataGrid";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>This sample demonstrates the usage of Observable data binding in Grid component.
-        </p>"
-    };
-    SampleBrowser.Description = new string[]{
-        @"<p> Using Observable Collections Objects can be added, removed or be updated with an automatic notification of actions. 
-    The UI is automatically updated, when an object is added to or removed from an <strong>observable collection<strong>.</p>"
-    };
-}
-@*End:Hidden*@
+@using ej2_blazor_griddata
+@inherits SampleBaseComponent;
 
 
 <div class="col-lg-12 control-section">
@@ -36,7 +21,7 @@
                     <GridColumn Field=@nameof(ObservableDatas.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
                     <GridColumn Field=@nameof(ObservableDatas.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
                     <GridColumn Field=@nameof(ObservableDatas.Freight) HeaderText="Freight" EditType="EditType.NumericEdit" Format="C2" Width="140" TextAlign="@TextAlign.Right" HeaderTextAlign="@TextAlign.Right"></GridColumn>
-                    <GridColumn Field=@nameof(ObservableDatas.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="yMd" Type="ColumnType.Date" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(ObservableDatas.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="d" TextAlign="TextAlign.Right" Type="ColumnType.Date" Width="160"></GridColumn>
                 </GridColumns>
             </EjsGrid>
         </div>
@@ -54,14 +39,14 @@
     protected override void OnInitialized()
     {
 
-        Orders = Enumerable.Range(1, 10).Select(x => new ObservableDatas()
-        {
-            OrderID = 10000 + x,
-            CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
-            Freight = 2.1 * x,
-            OrderDate = DateTime.Now.AddDays(-x),
-        }).ToList();
-        ObservableData  = new ObservableCollection<ObservableDatas>(Orders);
+           Orders = Enumerable.Range(1, 10).Select(x => new ObservableDatas()
+           {
+                OrderID = 10000 + x,
+                CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
+                Freight = 2.1 * x,
+                OrderDate = DateTime.Now.AddDays(-x),
+           }).ToList();
+           ObservableData  = new ObservableCollection<ObservableDatas>(Orders);
     }
 
     public void AddRecord()
@@ -71,13 +56,19 @@
 
     public void DeleteRecord()
     {
-        ObservableData.Remove(ObservableData.First());
+        if (ObservableData.Count() != 0)
+        {
+            ObservableData.Remove(ObservableData.First());
+        }
     }
 
     public void UpdateRecord()
     {
-        var name = ObservableData.First();
-        name.CustomerID = "Record Updated";
+        if (ObservableData.Count() != 0)
+        {
+            var name = ObservableData.First();
+            name.CustomerID = "Record Updated";
+        }
     }
 
     public class ObservableDatas : INotifyPropertyChanged

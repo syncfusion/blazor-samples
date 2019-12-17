@@ -8,12 +8,14 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
-@using ej2_blazor_treedata
+@using ej2_blazor_selfdata
 @{
     SampleBrowser.CurrentSampleName = "Toolbar Template";
     SampleBrowser.CurrentControlName = "TreeGrid";
     SampleBrowser.CurrentControlCategory = "TreeGrid";
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.TitleTag = "Tree Grid . Toolbar Template . Syncfusion Blazor Components - Preview";
+    SampleBrowser.MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how to render custom template elements in a toolbar by which any custom operation can be performed in TreeGrid.";
     SampleBrowser.ActionDescription = new string[] {
         @"<p>
             This sample explains the way of rendering custom template element Quick Filter in a toolbar and while click on the icon filters the Task Name column in TreeGrid using API.
@@ -39,17 +41,14 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsTreeGrid AllowFiltering="true" @ref="TreeGrid" TValue="BusinessObject"  ChildMapping="Children" TreeColumnIndex="1" Toolbar="Toolbaritems" Height="350">
-                <EjsDataManager Json="@TreeGridData" Adaptor="Adaptors.JsonAdaptor"></EjsDataManager>
-                <TreeGridEvents TValue="string" OnToolbarClick="ToolBarClick"></TreeGridEvents>
-               
+            <EjsTreeGrid AllowFiltering="true" @ref="TreeGrid" DataSource="TreeData"  IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" Toolbar="Toolbaritems" Height="350">
+                <TreeGridEvents TValue="string" OnToolbarClick="ToolBarClick"></TreeGridEvents>               
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="79" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="186"></TreeGridColumn>
-                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="87" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="84" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
-                    <TreeGridColumn Field="Approved" HeaderText="Approved" Width="84" DisplayAsCheckBox="true" TextAlign="TextAlign.Center"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="d" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="80"></TreeGridColumn>
                 </TreeGridColumns>
             </EjsTreeGrid>
         </div>
@@ -68,13 +67,13 @@
 
 
 @code{
-    EjsTreeGrid<BusinessObject> TreeGrid;
+    EjsTreeGrid<SelfReferenceData> TreeGrid;
 
-    public BusinessObject[] TreeGridData { get; set; }
+    public List<SelfReferenceData> TreeData { get; set; }
 
     protected override void OnInitialized()
     {
-        this.TreeGridData = TreeData.GetDefaultData().Cast<BusinessObject>().ToArray();
+        this.TreeData = SelfReferenceData.GetTree().Take(12).ToList();
     }
     public void ToolBarClick(Syncfusion.EJ2.Blazor.Navigations.ClickEventArgs args)
     {
@@ -90,7 +89,7 @@
         }
         if (args.Item.Text == "Quick Filter")
         {
-            this.TreeGrid.FilterByColumn("TaskName", "StartsWith", "Testing");
+            this.TreeGrid.FilterByColumn("TaskName", "StartsWith", "Child");
         }
     }
 }

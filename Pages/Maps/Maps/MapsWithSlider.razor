@@ -4,65 +4,107 @@
 @using Syncfusion.EJ2.Blazor.Inputs
 @using Syncfusion.EJ2.Blazor.Buttons
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Maps with Slider";
-    SampleBrowser.CurrentControlName = "Maps";
-    SampleBrowser.CurrentControlCategory = "Maps";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
-    SampleBrowser.ActionDescription = new string[] {
-            @"<p>
-            This sample depicts the zooming and panning options in the maps. You can customize these options by changing the Zooming, Mouse wheel zoom, Pinch zoom, Single-click zoom, and Double-click zoom in the Properties panel.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this example, you can see how to zoom and pan the map. The support has been provided for zooming with toolbar, rectangle zoom, pinch zoom, mouse wheel zoom, single-click and double-click zoom.
-        </p>
-        <br />
-        </ p >"
-    };
-}
-@*End:Hidden*@
-    <div class="control-section">
-        <EjsMaps Height="400">
-            <MapsMargin Bottom="20"></MapsMargin>
-            <MapsZoomSettings Enable="false"></MapsZoomSettings>
-            <MapsTitleSettings Text="Average annual population growth in North American countries">
-                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
-            </MapsTitleSettings>
-            <MapsAnnotations>
-                <MapsAnnotation HorizontalAlignment="AnnotationAlignment.Center" Y="93%">
-                    <ContentTemplate>
-                        <div class="sliderwrap">
-                            <EjsSlider Min="-1.5" Max="3.75" Step="0.75" Type=SliderType.Range Value=@rangeValue >
-                            </EjsSlider>
+@inherits SampleBaseComponent;
+
+<div class="control-section">
+    <EjsMaps Height="400">
+        <MapsMargin Bottom="20"></MapsMargin>
+        <MapsZoomSettings Enable="false"></MapsZoomSettings>
+        <MapsTitleSettings Text="Average annual population growth in North American countries">
+            <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+        </MapsTitleSettings>
+        <MapsAnnotations>
+            <MapsAnnotation HorizontalAlignment="AnnotationAlignment.Center" Y="93%">
+                <ContentTemplate>
+                    <div style="height:70px;width:250px; margin-left: -50px">
+                        <div style="width: 60%;">
+                            <div>
+                                <input type="range" value="@sliderPointerValue" min="-1.5" max="3.75" step="0.75" @onchange="rangeStartChange" style="width:250px; height: 48px" />
+                            </div>
                         </div>
-                    </ContentTemplate>
-                </MapsAnnotation>
-            </MapsAnnotations>
-            <MapsLayers>
-                <MapsLayer ShapeData="@NorthAmerica" ShapePropertyPath='@("name")' ShapeDataPath="name" DataSource="@PopulationGrowth">
-                    <MapsShapeSettings ColorValuePath="population">
-                        <MapsShapeColorMappings>
-                            <MapsShapeColorMapping From="-1.5" To="-0.75" Color='@("#7E9CDC")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="-0.75" To="0.1" Color='@("#DCD57E")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="0.2" To="0.75" Color='@("#7EDCA2")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="0.76" To="1.5" Color='@("#6EB5D0")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="1.5" To="2.25" Color='@("#A6DC7E")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="2.25" To="3" Color='@("#DCA87E")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping From="3" To="3.75" Color='@("#d075c6")'></MapsShapeColorMapping>
-                        </MapsShapeColorMappings>
-                    </MapsShapeSettings>
-                    <MapsLayerTooltipSettings Visible="true" Format="${name} : ${population}%"></MapsLayerTooltipSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </EjsMaps>
-    </div>
+                    </div>
+                </ContentTemplate>
+            </MapsAnnotation>
+        </MapsAnnotations>
+        <MapsLayers>
+            <MapsLayer ShapeData="@NorthAmerica" ShapePropertyPath='@("name")' ShapeDataPath="name" DataSource="@PopulationGrowth">
+                <MapsShapeBorder Width="1" Color="black"></MapsShapeBorder>
+                <MapsShapeSettings ColorValuePath="population">
+                    <MapsShapeColorMappings>
+                        <MapsShapeColorMapping From="-1.5" To="-0.75" Color='@colorMappingColorOne'></MapsShapeColorMapping>
+                        <MapsShapeColorMapping From="-0.75" To="0.1" Color='@colorMappingColorTwo'></MapsShapeColorMapping>
+                        <MapsShapeColorMapping From="0.2" To="0.75" Color='@colorMappingColorThree'></MapsShapeColorMapping>
+                        <MapsShapeColorMapping From="0.76" To="1.5" Color='@colorMappingColorFour'></MapsShapeColorMapping>
+                        <MapsShapeColorMapping From="1.5" To="2.25" Color='@colorMappingColorFive'></MapsShapeColorMapping>
+                        <MapsShapeColorMapping From="2.25" To="3" Color='@colorMappingColorSix'></MapsShapeColorMapping>
+                        <MapsShapeColorMapping From="3" To="3.75" Color='@colorMappingColorSeven'></MapsShapeColorMapping>
+                    </MapsShapeColorMappings>
+                </MapsShapeSettings>
+                <MapsLayerTooltipSettings Visible="true" Format="${name} : ${population}%"></MapsLayerTooltipSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </EjsMaps>
+</div>
 
 @code {
-    public int[] rangeValue = { -2, 4 };
+    public string[] colorMappingColorOne = { "#7E9CDC" };
+    public string[] colorMappingColorTwo = { "#DCD57E" };
+    public string[] colorMappingColorThree = { "#7EDCA2" };
+    public string[] colorMappingColorFour = { "#6EB5D0" };
+    public string[] colorMappingColorFive = { "#A6DC7E" };
+    public string[] colorMappingColorSix = { "#DCA87E" };
+    public string[] colorMappingColorSeven = { "#d075c6" };
+    public double sliderPointerValue = 3;
+    public Boolean opacityChecked;
+    public double minRange;
+    private void rangeStartChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        minRange = Convert.ToDouble(args.Value);
+        if (minRange >= -1.5 && minRange <= -0.75)
+        {
+            colorSet("#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+        }
+        if (minRange >= -0.75 && minRange <= 0)
+        {
+            colorSet("#7E9CDC", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+        }
+        if (minRange >= 0 && minRange <= 0.75)
+        {
+            colorSet("#7E9CDC", "#DCD57E", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+        }
+        if (minRange >= 0.75 && minRange <= 1.5)
+        {
+            colorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+        }
+        if (minRange >= 1.5 && minRange <= 2.25)
+        {
+            colorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+        }
+        if (minRange >= 2.25 && minRange <= 3)
+        {
+            colorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#E5E5E5", "#E5E5E5");
+        }
+        if (minRange >= 3 && minRange <= 3.75)
+        {
+            colorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#DCA87E", "#E5E5E5");
+        }
+        if (minRange >= 3.75)
+        {
+            colorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#DCA87E", "#d075c6");
+        }
+
+    }
+
+    private void colorSet(string color1, string color2, string color3, string color4, string color5, string color6, string color7)
+    {
+        colorMappingColorOne = new string[] { color1 };
+        colorMappingColorTwo = new string[] { color2 };
+        colorMappingColorThree = new string[] { color3 };
+        colorMappingColorFour = new string[] { color4 };
+        colorMappingColorFive = new string[] { color5 };
+        colorMappingColorSix = new string[] { color6 };
+        colorMappingColorSeven = new string[] { color7 };
+    }
     public MapDataSettings NorthAmerica = new MapDataSettings
     {
         async = true,

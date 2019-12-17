@@ -3,41 +3,19 @@
 @using Syncfusion.EJ2.Blazor.CircularGauge
 @using Syncfusion.EJ2.Blazor.Buttons
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Semi-circular Gauge";
-    SampleBrowser.CurrentControlName = "CircularGauge";
-    SampleBrowser.CurrentControlCategory = "CircularGauge";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.CircularGauge;
-    SampleBrowser.ActionDescription = new string[] {
-        @" <p>
-            This sample visualizes the rendering of circular gauge with modified start and end angles. The radius, start angle, end angle, center X, and center Y of the circular gauge can be customized using the options in properties panel.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this example, you can see how to render the circular gauge with modified start and end angles to form semi or quarter circular gauges. By enabling the radius based on angle option, the radius of circular gauge will be calculated based on the start and end angles.
-        </p>
-        <p>
-            More information on the gauge can be found in this
-            <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section</a>.
-        </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
         <EjsCircularGauge CenterX="@gaugeCenterx" CenterY="@gaugeCentery" MoveToCenter="@gaugeMoveToCenter">
             <CircularGaugeAxes>
-                <CircularGaugeAxis StartAngle="@gaugeStartAngle" EndAngle="@gaugeEndAngle" Minimum="0" Maximum="100" Radius="@gaugeRadius">
+                <CircularGaugeAxis HideIntersectingLabel="@hideLabelCheck" StartAngle="@gaugeStartAngle" EndAngle="@gaugeEndAngle" Minimum="0" Maximum="100" Radius="@gaugeRadius">
                     <CircularGaugeAxisLineStyle Width="0.01" Color="#0450C2">
                     </CircularGaugeAxisLineStyle>
                     <CircularGaugeAxisLabelStyle Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Outside" AutoAngle=true>
                         <CircularGaugeAxisLabelFont FontWeight="Normal">
                         </CircularGaugeAxisLabelFont>
                     </CircularGaugeAxisLabelStyle>
-                    <CircularGaugeAxisMajorTicks Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside" Width="2" Height="12" Interval="20">
+                    <CircularGaugeAxisMajorTicks Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside" Width="2" Height="12" Interval="4">
                     </CircularGaugeAxisMajorTicks>
                     <CircularGaugeAxisMinorTicks Position="Syncfusion.EJ2.Blazor.CircularGauge.Position.Inside" Height="5" Width="1" Interval="2">
                     </CircularGaugeAxisMinorTicks>
@@ -68,7 +46,7 @@
                     </td>
                     <td>
                         <div>
-                            <input type="range" value="@gaugeStartAngle" min="0" max="360" @oninput="startSlider" />
+                            <input type="range" value="@gaugeStartAngle" min="0" max="360" @onchange="startSlider" />
                         </div>
                     </td>
                 </tr>
@@ -78,7 +56,7 @@
                     </td>
                     <td>
                         <div>
-                            <input type="range" value="@gaugeEndAngle" min="0" max="360" @oninput="endSlider" />
+                            <input type="range" value="@gaugeEndAngle" min="0" max="360" @onchange="endSlider" />
                         </div>
                     </td>
                 </tr>
@@ -88,7 +66,7 @@
                     </td>
                     <td>
                         <div>
-                            <input type="range" value="@sliderRadius" min="0" max="100" @oninput="radiusSlider" />
+                            <input type="range" value="@sliderRadius" min="0" max="100" @onchange="radiusSlider" />
                         </div>
                     </td>
                 </tr>
@@ -108,7 +86,7 @@
                     </td>
                     <td>
                         <div>
-                            <input disabled="@centerSliderEnable" type="range" value="@sliderCenterx" min="0" max="100" @oninput="centerxSlider" />
+                            <input disabled="@centerSliderEnable" type="range" value="@sliderCenterx" min="0" max="100" @onchange="centerxSlider" />
                         </div>
                     </td>
                 </tr>
@@ -118,7 +96,17 @@
                     </td>
                     <td>
                         <div>
-                            <input disabled="@centerSliderEnable" type="range" value="@sliderCentery" min="0" max="100" @oninput="centerySlider" />
+                            <input disabled="@centerSliderEnable" type="range" value="@sliderCentery" min="0" max="100" @onchange="centerySlider" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td>
+                        <div class="property-text">Hide intersecting label</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsCheckBox ValueChange="@labelCheck" Checked="@intersectLabelChecked"></EjsCheckBox>
                         </div>
                     </td>
                 </tr>
@@ -137,6 +125,8 @@
     private double sliderCenterx = 50;
     private double sliderCentery = 50;
     private Boolean gaugeMoveToCenter = false;
+    private Boolean intersectLabelChecked = true;
+    private Boolean hideLabelCheck = true;
     private Boolean centerSliderEnable = false;
     private void radiusAngleCheckbox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
     {
@@ -151,6 +141,11 @@
             gaugeCentery = sliderCentery.ToString() + "%";
         }
         centerSliderEnable = gaugeMoveToCenter;
+    }
+    private void labelCheck(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    {
+        intersectLabelChecked = args.Checked;
+        hideLabelCheck = intersectLabelChecked;
     }
     private void startSlider(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {

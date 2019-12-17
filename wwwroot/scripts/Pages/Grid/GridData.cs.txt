@@ -48,13 +48,13 @@ namespace ej2_blazor_griddata
         public double? Freight { get; set; }
         public string ShipCity { get; set; }
         public bool Verified { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
 
         public string ShipName { get; set; }
 
         public string ShipCountry { get; set; }
 
-        public DateTime ShippedDate { get; set; }
+        public DateTime? ShippedDate { get; set; }
         public string ShipAddress { get; set; }
     }
     public class Orders

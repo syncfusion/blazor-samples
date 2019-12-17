@@ -2,27 +2,7 @@
 
 @using Syncfusion.EJ2.Blazor.Maps
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Tooltip";
-    SampleBrowser.CurrentControlName = "Maps";
-    SampleBrowser.CurrentControlCategory = "Maps";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Maps;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-        This sample depicts the countries that were appeared in the finals of Cricket World Cup and their counts. By hovering the mouse over the shapes, county name, finalist count, and winning count will be displayed in the tooltip template.
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this example, you can see how to render the custom HTML element as tooltip. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. Also, the interactive legend has been placed at the left of the map.
-        </p>
-        <br/>
-        </ p > "
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div>
@@ -36,10 +16,10 @@
                                 Orientation="Syncfusion.EJ2.Blazor.Maps.LegendArrangement.Vertical" Height='70%' Width='10'>
             </MapsLegendSettings>
             <MapsLayers>
-                <MapsLayer ShapeData='new {dataOptions= "https://cdn.syncfusion.com/maps/map-data/world-map.json"}' DataSource='@PerformanceReport'
-                        ShapePropertyPath='@("Name")' ShapeDataPath='@("name")'>
+                <MapsLayer ShapeData='@MapShapeData' DataSource='@PerformanceReport'
+                           ShapePropertyPath='@("name")' ShapeDataPath="Name">
                     <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}"></MapsLayerTooltipSettings>
-                    <MapsShapeSettings Fill='@("#E5E5E5")' ColorValuePath='@("Winner")'>
+                    <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Winner">
                         <MapsShapeColorMappings>
                             <MapsShapeColorMapping Value="1" Color='@("#b3daff")'></MapsShapeColorMapping>
                             <MapsShapeColorMapping Value="2" Color='@("#80c1ff")'></MapsShapeColorMapping>
@@ -58,6 +38,18 @@
 </div>
 
 @code {
+    public MapDataSettings MapShapeData = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
     public List<Country> PerformanceReport = new List<Country> {
         new Country { Name="India", Winner="3", Runner="2", City="India" },
         new Country { Name="Dominican Rep.", Winner="3", Runner="2", City="West Indies" },

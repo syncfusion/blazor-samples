@@ -13,6 +13,8 @@
     SampleBrowser.CurrentControlName = "TreeGrid";
     SampleBrowser.CurrentControlCategory = "TreeGrid";
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.TitleTag = "Tree Grid . ConditionalFormatting . Syncfusion Blazor Components - Preview";
+    SampleBrowser.MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how to display the content of TreeGrid columns based on the specified format.";
     SampleBrowser.ActionDescription = new string[] {
         @"<p>
             This samples demonstrates the way of customizing the cells by highlighting the cells of Duration column based on certain condition using <code>QueryCellInfo</code> event.
@@ -25,7 +27,14 @@
     };
 }
 @*End:Hidden*@
-
+<style>
+    .lessduration{
+        background-color:#336c12;color:white!important;
+    }
+    .highduration{
+        background-color:#7b2b1d;color:white!important;
+    }
+</style>
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
@@ -33,12 +42,12 @@
                 <TreeGridEvents QueryCellInfo="QueryCellInfoHandler" TValue="SelfReferenceData"></TreeGridEvents>
                 <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" IsPrimaryKey="true" TextAlign="@TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="100"></TreeGridColumn>
-                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="yMd" Type="ColumnType.Date" Width="80" TextAlign="@TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="yMd" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Duration" HeaderText="Duration" Format="C2" Width="80" TextAlign="@TextAlign.Right"></TreeGridColumn>                    
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" IsPrimaryKey="true" Width="80" TextAlign=" Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="170"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" TextAlign=" Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="100" EditType="Syncfusion.EJ2.Blazor.Grids.EditType.NumericEdit" ></TreeGridColumn> 
                     <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="Approved" HeaderText="Approved" Width="100" Type="Syncfusion.EJ2.Blazor.Grids.ColumnType.Boolean"  DisplayAsCheckBox="true" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Center" EditType="Syncfusion.EJ2.Blazor.Grids.EditType.BooleanEdit"></TreeGridColumn>
                 </TreeGridColumns>
             </EjsTreeGrid>
         </div>
@@ -50,16 +59,17 @@
     public List<SelfReferenceData> TreeData { get; set; }
 
     public void QueryCellInfoHandler(QueryCellInfoEventArgs<SelfReferenceData> args)
+    {
+        if (args.Column.Field == "Duration" && args.Data.Duration < 15 )
         {
-            if (args.Column.Field == "Duration" && args.Data.Duration < 15 )
-            {
-                args.Cell.SetAttribute("style", "background-color:#336c12;color:white;");
-            }
-            else if (args.Column.Field == "Duration" && args.Data.Duration >= 15)
-            {
-                args.Cell.SetAttribute("style", "background-color:#7b2b1d;color:white;");
-            }
+            
+            args.Cell.AddClass(new string[] { "lessduration" });
         }
+        else if (args.Column.Field == "Duration" && args.Data.Duration >= 15)
+        {
+            args.Cell.AddClass(new string[] { "highduration" });
+        }
+    }
 
     protected override void OnInitialized()
     {

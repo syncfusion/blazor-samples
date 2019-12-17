@@ -2,33 +2,10 @@
 
 
 @using Syncfusion.EJ2.Blazor.Lists
-@using Syncfusion.EJ2.Blazor.DropDowns
-@using EJ2DropDowns = Syncfusion.EJ2.Blazor.DropDowns
 
 @using Newtonsoft.Json
 
-@*Hidden:Lines*@
-
-@using ej2_blazor_samples
-
-@{
-    SampleBrowser.CurrentSampleName = "Virtualization";
-    SampleBrowser.CurrentControlName = "Listview";
-    SampleBrowser.CurrentControlCategory = "Listview";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Listview;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>This sample demonstrates the default functionalities of UI virtualization. Scroll list item to experience UI virtualization.
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-        UI virtualization is an optimization technique to avoid unnecessarily constructing and rendering objects for list items by loading only visible list items in a view port. This helps improve list view performance when loading a large number of items. The
-        list items are updated dynamically while users scroll the list. The virtualization can be enabled by using <code>Enablevirtualization</code> API in Listview.
-    </p>"
-    };
-
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-12 control-section sb-property-border">
     <EjsListView ID="ui-list"
@@ -40,49 +17,11 @@
                  ShowHeader="true"
                  Template="@Template"
                  >
-        <ListViewEvents TValue="DataModel" OnActionComplete="@((e) => { TimeDifference(); })"></ListViewEvents>
     </EjsListView>
-</div>
-
-<div class="col-lg-4 property-section" style="display: none">
-
-    <div class="property-panel-section">
-        <div class="property-panel-header">Properties</div><div class="property-panel-content">
-            <table id="property" title="Properties" class="property-panel-table">
-                <tbody>
-                    <tr>
-                        <td style="width: 50%">
-                            <div class="userselect">Load data</div>
-                        </td>
-                        <td style="width: 50%;padding-right: 10px">
-                            <div>
-                                <EjsDropDownList TValue="int" DataSource="@DropDownData" Placeholder="Select a value">
-                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
-                                    <DropDownListEvents TValue="int" OnValueSelect="@OnSelect"></DropDownListEvents>
-                                </EjsDropDownList>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 50%">
-                            <div class="userselect">Time taken</div>
-                        </td>
-                        <td style="width: 50%;padding-right: 10px">
-                            <div style="padding-left: 10px;padding-top: 0">
-                                <span id="time">@Time</span>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
 
 
 @code {
-    string Time;
-    DateTime StartTime;
     List<DataModel> CommonData = new List<DataModel>();
     List<DataModel> DataSource = new List<DataModel>();
 
@@ -98,14 +37,6 @@
                  "<span id=\"${$ImgUrl ? \'hideUI\' : \'showUI\' }\" class='e-avatar e-avatar-circle' icon='${Icon}'> " +
             "${Icon}</span> <img id=\"${$ImgUrl ? \'showUI\' : \'hideUI\' }\" class='e-avatar e-avatar-circle' src=\"${$ImgUrl ?  $ImgUrl : \' \' }\" />" +
             "<span class='e-list-content'>${Name}</span></div>";
-
-    void OnSelect(EJ2DropDowns.SelectEventArgs selectEventArgs)
-    {
-        DataModel data = JsonConvert.DeserializeObject<DataModel>(selectEventArgs.ItemData.ToString());
-
-        DataSource = GenerateData(data.Value);
-        StartTime = DateTime.Now;
-    }
 
     protected override void OnInitialized()
     {
@@ -125,15 +56,6 @@
         DataSource = GenerateData(500);
     }
 
-    protected override void OnAfterRender(bool intial)
-    {
-        StartTime = DateTime.Now;
-    }
-
-    void TimeDifference()
-    {
-        Time = (DateTime.Now - StartTime).TotalMilliseconds.ToString().Split('.')[0] + "ms";
-    }
 
     List<DataModel> GenerateData(int no)
     {

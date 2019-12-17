@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ej2_blazor_samples.Data;
+using Syncfusion.Licensing;
+using Syncfusion.EJ2.Blazor;
+using System.IO;
 
 namespace ej2_blazor_samples
 {
@@ -17,6 +20,12 @@ namespace ej2_blazor_samples
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            if (File.Exists(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt"))
+            {
+                string licenseKey = System.IO.File.ReadAllText(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt");
+                SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+            }
+
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +36,7 @@ namespace ej2_blazor_samples
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSyncfusionBlazor();
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
             services.AddServerSideBlazor().AddHubOptions(o =>
             {
