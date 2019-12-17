@@ -8,7 +8,7 @@ namespace ej2_blazor_groupdata
     public class GroupData
     {
         public int Id { get; set; }
-        public string Date { get; set; }
+        public string TimeLine { get; set; }
         public string Sector { get; set; }
         public string EnerType { get; set; }
         public string EneSource { get; set; }
@@ -23,7 +23,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1001,
-                Date = "1/1/2015",
+                TimeLine = "1/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -33,7 +33,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1002,
-                Date = "2/1/2015",
+                TimeLine = "2/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -43,7 +43,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1003,
-                Date = "3/1/2015",
+                TimeLine = "3/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -53,7 +53,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1004,
-                Date = "4/1/2015",
+                TimeLine = "4/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -63,7 +63,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1005,
-                Date = "5/1/2015",
+                TimeLine = "5/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -73,7 +73,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1006,
-                Date = "6/1/2015",
+                TimeLine = "6/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -83,7 +83,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1007,
-                Date = "7/1/2015",
+                TimeLine = "7/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -93,7 +93,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1008,
-                Date = "8/1/2015",
+                TimeLine = "8/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -103,7 +103,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1009,
-                Date = "9/1/2015",
+                TimeLine = "9/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -113,7 +113,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1010,
-                Date = "10/1/2015",
+                TimeLine = "10/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -123,7 +123,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1011,
-                Date = "11/1/2015",
+                TimeLine = "11/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -133,7 +133,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1012,
-                Date = "12/1/2015",
+                TimeLine = "12/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -143,7 +143,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1013,
-                Date = "1/1/2016",
+                TimeLine = "1/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -153,7 +153,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1014,
-                Date = "2/1/2016",
+                TimeLine = "2/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -163,7 +163,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1015,
-                Date = "3/1/2016",
+                TimeLine = "3/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -173,7 +173,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1016,
-                Date = "4/1/2016",
+                TimeLine = "4/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -183,7 +183,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1017,
-                Date = "5/1/2016",
+                TimeLine = "5/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -193,7 +193,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1018,
-                Date = "6/1/2016",
+                TimeLine = "6/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -203,7 +203,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1019,
-                Date = "7/1/2016",
+                TimeLine = "7/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -213,7 +213,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1020,
-                Date = "8/1/2016",
+                TimeLine = "8/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -223,7 +223,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1021,
-                Date = "9/1/2016",
+                TimeLine = "9/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -233,7 +233,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1022,
-                Date = "10/1/2016",
+                TimeLine = "10/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -243,7 +243,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1023,
-                Date = "11/1/2016",
+                TimeLine = "11/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -253,7 +253,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1024,
-                Date = "12/1/2016",
+                TimeLine = "12/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -263,7 +263,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1025,
-                Date = "1/1/2017",
+                TimeLine = "1/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -273,7 +273,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1026,
-                Date = "2/1/2017",
+                TimeLine = "2/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -283,7 +283,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1027,
-                Date = "3/1/2017",
+                TimeLine = "3/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -293,7 +293,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1028,
-                Date = "4/1/2017",
+                TimeLine = "4/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -303,7 +303,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1029,
-                Date = "5/1/2017",
+                TimeLine = "5/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -313,7 +313,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1030,
-                Date = "6/1/2017",
+                TimeLine = "6/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -323,7 +323,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1031,
-                Date = "7/1/2017",
+                TimeLine = "7/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -333,7 +333,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1032,
-                Date = "8/1/2017",
+                TimeLine = "8/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -343,7 +343,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1033,
-                Date = "9/1/2017",
+                TimeLine = "9/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -353,7 +353,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1034,
-                Date = "10/1/2017",
+                TimeLine = "10/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -363,7 +363,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1035,
-                Date = "11/1/2017",
+                TimeLine = "11/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -373,7 +373,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1036,
-                Date = "12/1/2017",
+                TimeLine = "12/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -383,7 +383,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1037,
-                Date = "1/1/2018",
+                TimeLine = "1/1/2018",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -393,7 +393,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1038,
-                Date = "2/1/2018",
+                TimeLine = "2/1/2018",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -403,7 +403,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1039,
-                Date = "1/1/2015",
+                TimeLine = "1/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -413,7 +413,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1040,
-                Date = "2/1/2015",
+                TimeLine = "2/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -423,7 +423,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1041,
-                Date = "3/1/2015",
+                TimeLine = "3/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -433,7 +433,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1042,
-                Date = "4/1/2015",
+                TimeLine = "4/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -443,7 +443,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1043,
-                Date = "5/1/2015",
+                TimeLine = "5/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -453,7 +453,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1044,
-                Date = "6/1/2015",
+                TimeLine = "6/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -463,7 +463,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1045,
-                Date = "7/1/2015",
+                TimeLine = "7/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -473,7 +473,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1046,
-                Date = "8/1/2015",
+                TimeLine = "8/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -483,7 +483,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1047,
-                Date = "9/1/2015",
+                TimeLine = "9/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -493,7 +493,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1048,
-                Date = "10/1/2015",
+                TimeLine = "10/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -503,7 +503,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1049,
-                Date = "11/1/2015",
+                TimeLine = "11/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -513,7 +513,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1050,
-                Date = "12/1/2015",
+                TimeLine = "12/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -523,7 +523,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1051,
-                Date = "1/1/2016",
+                TimeLine = "1/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -533,7 +533,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1052,
-                Date = "2/1/2016",
+                TimeLine = "2/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -543,7 +543,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1053,
-                Date = "3/1/2016",
+                TimeLine = "3/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -553,7 +553,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1054,
-                Date = "4/1/2016",
+                TimeLine = "4/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -563,7 +563,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1055,
-                Date = "5/1/2016",
+                TimeLine = "5/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -573,7 +573,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1056,
-                Date = "6/1/2016",
+                TimeLine = "6/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -583,7 +583,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1057,
-                Date = "7/1/2016",
+                TimeLine = "7/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -593,7 +593,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1058,
-                Date = "8/1/2016",
+                TimeLine = "8/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -603,7 +603,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1059,
-                Date = "9/1/2016",
+                TimeLine = "9/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -613,7 +613,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1060,
-                Date = "10/1/2016",
+                TimeLine = "10/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -623,7 +623,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1061,
-                Date = "11/1/2016",
+                TimeLine = "11/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -633,7 +633,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1062,
-                Date = "12/1/2016",
+                TimeLine = "12/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -643,7 +643,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1063,
-                Date = "1/1/2017",
+                TimeLine = "1/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -653,7 +653,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1064,
-                Date = "2/1/2017",
+                TimeLine = "2/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -663,7 +663,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1065,
-                Date = "3/1/2017",
+                TimeLine = "3/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -673,7 +673,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1066,
-                Date = "4/1/2017",
+                TimeLine = "4/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -683,7 +683,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1067,
-                Date = "5/1/2017",
+                TimeLine = "5/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -693,7 +693,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1068,
-                Date = "6/1/2017",
+                TimeLine = "6/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -703,7 +703,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1069,
-                Date = "7/1/2017",
+                TimeLine = "7/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -713,7 +713,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1070,
-                Date = "8/1/2017",
+                TimeLine = "8/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -723,7 +723,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1071,
-                Date = "9/1/2017",
+                TimeLine = "9/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -733,7 +733,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1072,
-                Date = "10/1/2017",
+                TimeLine = "10/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -743,7 +743,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1073,
-                Date = "11/1/2017",
+                TimeLine = "11/1/2017",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -753,7 +753,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1074,
-                Date = "12/1/2017",
+                TimeLine = "12/1/2017",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -763,7 +763,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1075,
-                Date = "1/1/2018",
+                TimeLine = "1/1/2018",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -773,7 +773,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1076,
-                Date = "2/1/2018",
+                TimeLine = "2/1/2018",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -783,7 +783,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1077,
-                Date = "1/1/2015",
+                TimeLine = "1/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -793,7 +793,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1078,
-                Date = "2/1/2015",
+                TimeLine = "2/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -803,7 +803,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1079,
-                Date = "3/1/2015",
+                TimeLine = "3/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -813,7 +813,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1080,
-                Date = "4/1/2015",
+                TimeLine = "4/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -823,7 +823,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1081,
-                Date = "5/1/2015",
+                TimeLine = "5/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -833,7 +833,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1082,
-                Date = "6/1/2015",
+                TimeLine = "6/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -843,7 +843,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1083,
-                Date = "7/1/2015",
+                TimeLine = "7/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -853,7 +853,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1084,
-                Date = "8/1/2015",
+                TimeLine = "8/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -863,7 +863,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1085,
-                Date = "9/1/2015",
+                TimeLine = "9/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -873,7 +873,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1086,
-                Date = "10/1/2015",
+                TimeLine = "10/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -883,7 +883,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1087,
-                Date = "11/1/2015",
+                TimeLine = "11/1/2015",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -893,7 +893,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1088,
-                Date = "12/1/2015",
+                TimeLine = "12/1/2015",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -903,7 +903,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1089,
-                Date = "1/1/2016",
+                TimeLine = "1/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -913,7 +913,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1090,
-                Date = "2/1/2016",
+                TimeLine = "2/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -923,7 +923,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1091,
-                Date = "3/1/2016",
+                TimeLine = "3/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -933,7 +933,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1092,
-                Date = "4/1/2016",
+                TimeLine = "4/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -943,7 +943,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1093,
-                Date = "5/1/2016",
+                TimeLine = "5/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -953,7 +953,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1094,
-                Date = "6/1/2016",
+                TimeLine = "6/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -963,7 +963,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1095,
-                Date = "7/1/2016",
+                TimeLine = "7/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -973,7 +973,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1096,
-                Date = "8/1/2016",
+                TimeLine = "8/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -983,7 +983,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1097,
-                Date = "9/1/2016",
+                TimeLine = "9/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -993,7 +993,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1098,
-                Date = "10/1/2016",
+                TimeLine = "10/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -1003,7 +1003,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1099,
-                Date = "11/1/2016",
+                TimeLine = "11/1/2016",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -1013,7 +1013,7 @@ namespace ej2_blazor_groupdata
             groupData.Add(new GroupData
             {
                 Id = 1100,
-                Date = "12/1/2016",
+                TimeLine = "12/1/2016",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",

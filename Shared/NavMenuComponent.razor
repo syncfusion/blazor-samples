@@ -1,0 +1,226 @@
+﻿@using ej2_blazor_samples
+@using ej2_blazor_samples.Shared
+@using Newtonsoft.Json
+@using Syncfusion.EJ2.Blazor.Lists
+@using Syncfusion.EJ2.Blazor.Navigations
+@using System.Reflection
+@using Microsoft.AspNetCore.Components
+
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject IJSRuntime JsRuntime;
+
+
+@typeparam TValue
+@*<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
+        <TreeViewEvents NodeSelected="OnNodeClick" TValue="SampleListType"></TreeViewEvents>
+        <TreeViewTemplates>
+            <NodeTemplate>
+                <div>
+                    <span class="tree-text">@((context as SampleListType).Name)</span>
+                    @if ((context as SampleListType).Type != SampleType.None)
+                    {
+                        <span class="e-badge sb-badge e-samplestatus @((context as SampleListType).Type) tree tree-badge">@((context as SampleListType).Type)</span>
+                    }
+                </div>
+            </NodeTemplate>
+        </TreeViewTemplates>
+    </EjsTreeView>*@
+<CascadingValue Value="@this">
+    @*@(await Html.RenderComponentAsync<TreeviewComponent>(RenderMode.ServerPrerendered, new { treeviewClass = @treeviewClass }))*@
+
+    @*<component type="typeof(TreeviewComponent)" render-mode="ServerPrerendered" param-treeviewClass="@treeviewClass" />*@
+    <TreeviewComponent treeviewClass="@treeviewClass" @ref="TreeviewObj"></TreeviewComponent>
+
+    <div id="controlSamples" class="time-duration">
+        <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnToggle">
+            <div class="e-icons sb-icons back-icon"></div>
+            <div class='control-name'>All Controls</div>
+        </div>
+        <EjsListView id="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="object">
+            <ListViewEvents Selected="OnSampleSelect" TValue="object"></ListViewEvents>
+        </EjsListView>
+    </div>
+</CascadingValue>
+@code {
+
+    EjsListView<object> SampleList;
+
+    public string treeviewClass { get; set; } = "e-view time-duration sb-hide";
+
+    public TreeviewComponent TreeviewObj { get; set; }
+
+    public string listClass { get; set; } = "e-view sb-control-list-top";
+
+    internal List<Sample> ListDataSource { get; set; } = new List<Sample>();
+    
+    [CascadingParameter]
+    public MainLayout BaseParent { get; set; }
+
+    public void OnToggle()
+    {
+        TreeviewObj.OnToggle();
+    }
+
+    private void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs<object> args)
+    {
+        string argsString = JsonConvert.SerializeObject(args);
+        ListViewEvent sampleData = JsonConvert.DeserializeObject<ListViewEvent>(argsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+        if (UriHelper.Uri.IndexOf("/"+ sampleData.data.Url) < 0)
+        {
+            string compareUrl = string.Empty;
+            List<string> ActionDescriptionItems = new List<string>();
+            List<string> DescriptionItems = new List<string>();
+            if (SampleBrowser.CurrentUrl != sampleData.data.Url || sampleData.data.Url != compareUrl)
+            {
+                compareUrl = SampleBrowser.CurrentUrl;
+                if (SampleBrowser.ActionDescription != null)
+                {
+                    foreach (string Element in SampleBrowser.ActionDescription)
+                    {
+                        ActionDescriptionItems.Add(Element);
+                    }
+                    JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
+                }
+                else
+                {
+                    JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
+                }
+                if (SampleBrowser.Description != null)
+                {
+                    foreach (string Element in SampleBrowser.Description)
+                    {
+                        DescriptionItems.Add(Element);
+                    }
+                    JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+                }
+                else
+                {
+                    JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
+                }
+                this.BaseParent.UpdateBreadCrumb(SampleBrowser.CurrentControlName, sampleData.data.Category, sampleData.data.Name);
+                //JsRuntime.InvokeAsync<Object>("titleDescription", sampleData.data.TitleTag, sampleData.data.MetaDescription);
+                JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+
+
+                JsRuntime.InvokeAsync<Object>("persistTheme");
+                this.NavigatePage(sampleData.data.Url);
+                //UriHelper.NavigateTo();
+                SampleBrowser.CurrentUrl = sampleData.data.Url;
+                JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
+                JsRuntime.InvokeAsync<string>("callResizeEvent");
+            }
+
+
+        }
+    }
+
+    public void NavigatePage(string url)
+    {      
+        if (UriHelper.Uri.IndexOf("?") >= 0 && url.IndexOf("?") < 0)
+        {
+            string[] themeurl = UriHelper.Uri.Split("?");
+            url += themeurl.Length > 0 ? "?" + themeurl[themeurl.Length - 1] : string.Empty;
+        }
+        else if (url.IndexOf("?") < 0)
+        {
+            url += "?theme=bootstrap4";
+        }
+        UriHelper.NavigateTo(url);
+    }
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UriHelper.LocationChanged += new EventHandler<LocationChangedEventArgs>(this.UrlChange);
+    }
+
+    protected void Dispose()
+    {
+        UriHelper.LocationChanged -= new EventHandler<LocationChangedEventArgs>(this.UrlChange);
+    }
+
+    public void UrlChange(object sender, LocationChangedEventArgs args)
+    {
+
+        SampleBrowser.UpdateSampleData(args.Location);
+        this.UpdateNavMenu();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                SampleBrowser.UpdateSampleData(UriHelper.Uri);
+                this.UpdateNavMenu();
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
+    }
+
+    public void UpdateNavMenu()
+    {
+        //this.listClass = "e-view sb-control-list-top";
+        //TreeviewObj.treeviewClass = "e-view time-duration sb-hide";
+        this.ListDataSource = SampleBrowser.CurrentControl;
+        //this.SampleList.DataSource = this.ListDataSource;
+        this.StateHasChanged();
+        List<string> ActionDescriptionItems = new List<string>();
+        List<string> DescriptionItems = new List<string>();
+        foreach (var sample in SampleBrowser.CurrentControl)
+        {
+            if (SampleBrowser.CurrentSampleName == sample.Name)
+            {
+                this.BaseParent.UpdateBreadCrumb(SampleBrowser.CurrentControlName, sample.Category, sample.Name);
+                //JsRuntime.InvokeAsync<Object>("titleDescription", sample.TitleTag, sample.MetaDescription);
+                break;
+            }
+        }
+
+        if (SampleBrowser.ActionDescription != null)
+        {
+            foreach (string Element in SampleBrowser.ActionDescription)
+            {
+                ActionDescriptionItems.Add(Element);
+            }
+            JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
+        }
+        else
+        {
+            JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
+        }
+        if (SampleBrowser.Description != null)
+        {
+            foreach (string Element in SampleBrowser.Description)
+            {
+                DescriptionItems.Add(Element);
+            }
+            JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+        }
+        else
+        {
+            JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
+        }
+
+        JsRuntime.InvokeAsync<string>("callResizeEvent");
+        //JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
+    }
+
+    public void UpdateState()
+    {
+        this.StateHasChanged();
+    }
+    
+    Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings
+    {
+        Id = "UID",
+        GroupBy = "Category",
+        Text = "Name",
+        SortBy = "Order"
+    };
+}

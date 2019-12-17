@@ -1,78 +1,44 @@
 @page "/Charts/ZoomingandPanning"
 @using Syncfusion.EJ2.Blazor.Charts
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Zooming and Panning";
-    SampleBrowser.CurrentControlName = "Chart";
-    SampleBrowser.CurrentControlCategory = "Chart";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Chart;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-        This sample illustrates zooming feature in chart. The change can be zoomed by pinching or by mouse wheel.
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-        This sample demonstrates the zooming and panning behavior in chart.
-    </p>
-    <ul>
-            <li>Click and drag the mouse on a chart area to enable selection zooming.</li>
-            <li>Hover the mouse on the toolbar at the top right corner of chart area to switch between zooming and panning.</li>
-            <li>Pinch in and pinch out the chart area to zoom in or zoom out the chart in touch enabled devices.</li>
-            <li>Touch and drag to pan the chart.</li>
-            <li>Double tap to reset the zoomed chart.</li>
-    </ul>
-    <p>
-        Chart component supports four types of zooming which can be set using <code>EnableSelectionZooming</code>, <code>EnablePinchZooming</code>, <code>EnableMouseWheelZooming</code>, <code>EnableDeferredZooming</code> property.
-    </p>
-    <p>
-    Chart supports two mode of zooming which can be set using <code>mode</code> property.
-    </p>
-    <ul>
-            <li><code>XY</code> - Zoom the chart with respect to both the axis.</li>
-            <li><code>X</code> - Zoom the chart with respect to horizontal axis.</li>
-            <li><code>Y</code> - Zoom the chart with respect to vertical axis.</li>
-    </ul>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <EjsChart Title="Sales History of Product X">
-    <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-    </ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
-        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-        <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-    </ChartPrimaryYAxis>
-    <ChartLegendSettings Visible="false"></ChartLegendSettings>
-    <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
-    <ChartSeriesCollection>
-        <ChartSeries DataSource="@dataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
-           <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>          
-        </ChartSeries>
-    </ChartSeriesCollection>
-    <ChartArea>
-        <ChartAreaBorder Width="0"></ChartAreaBorder>
-    </ChartArea>
-</EjsChart>
+        <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@dataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
+                <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+    </EjsChart>
 </div>
 
 @code {
     Random random = new Random();
     List<ZoomingandPanningData> dataSource = new List<ZoomingandPanningData>();
-    public double Value = 80;
-    public class ZoomingandPanningData
+public double Value = 80;
+public class ZoomingandPanningData
+{
+    public DateTime X { get; set; }
+    public double Y { get; set; }
+}
+protected override async Task OnInitializedAsync()
+{
+    await Task.Run(() =>
     {
-        public DateTime X { get; set; }
-        public double Y { get; set; }
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        for (int i = 1; i < 500; i++) {
+        for (int i = 1; i< 500; i++) {
             if (random.NextDouble() > .5) {
                 this.Value += random.NextDouble();
             } else {
@@ -84,7 +50,8 @@
                 Y = Math.Round(this.Value)
             });
         }
-    }
+    });
+}
 }
 <svg style="height: 0">
     <defs>

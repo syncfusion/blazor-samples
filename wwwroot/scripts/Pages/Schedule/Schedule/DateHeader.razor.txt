@@ -3,38 +3,17 @@
 @using Syncfusion.EJ2.Blazor.Schedule
 @using System.Globalization
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Date Header";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-    This demo depicts the way to add images and custom text to the date header bar by making use of the date header template
-    option.
-</p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-    In this demo, the
-    <code>DateHeaderTemplate</code> option is used to customize the date header cells of day, week and workweek views. In month view, the date header
-    is not applicable.
-</p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsSchedule TValue="ScheduleData.AppointmentData" Width="100%" CssClass="schedule-date-header-template" ModelType="@Model" Height="650px" SelectedDate="@(new DateTime(2019, 1, 10))">
+        <EjsSchedule TValue="ScheduleData.AppointmentData" Width="100%" CssClass="schedule-date-header-template" Height="650px" SelectedDate="@(new DateTime(2019, 1, 10))">
             <ScheduleTemplates>
                 <DateHeaderTemplate>
-                    <div class="date-text">@(getDateHeaderText((context as TemplateArgs).Date))</div>
+                    <div class="date-text">@(getDateHeaderText((context as TemplateContext).Date))</div>
                     @{
-                        @switch ((int)(context as TemplateArgs).Date.DayOfWeek)
+                        @switch ((int)(context as TemplateContext).Date.DayOfWeek)
                         {
                             case 0:
                                 <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/weather-clear.svg")" /><div class="weather-text">25&deg;C</div>
@@ -73,11 +52,6 @@
 
 @code {
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
-    public class TemplateArgs
-    {
-        public DateTime Date { get; set; }
-    }
-    public TemplateArgs Model = new TemplateArgs();
     public static string getDateHeaderText(DateTime date)
     {
         return date.ToString("dd ddd", CultureInfo.InvariantCulture);

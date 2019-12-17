@@ -1,0 +1,83 @@
+﻿@page "/TreeGrid/InlineEditing"
+
+@using Syncfusion.EJ2.Blazor.TreeGrid
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using ej2_blazor_samples
+@using ej2_blazor_wrapdata
+
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsTreeGrid DataSource="TreeData" IdMapping="TaskId" ParentIdMapping="ParentId" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="@GridEditingmode"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="60" IsPrimaryKey="true" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="155"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="d" Type=Syncfusion.EJ2.Blazor.Grids.ColumnType.Date Width="85" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right" EditType=Syncfusion.EJ2.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="70" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                </TreeGridColumns>
+            </EjsTreeGrid>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <table id="property" title="Properties" style="width: 100%;">
+        <tr style="height: 50px">
+            <td class="left-side" style="width: 10% !important; padding: 8px 8px 8px 8px">Edit Mode</td>
+            <td>
+                <EjsDropDownList TValue="string" TItem="DropDownData" @ref="DropDown" DataSource="@DropDownEditmode" @bind-Value="@Editmodes" >
+                    <DropDownListEvents TValue="string" ValueChange="ModeChange"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
+                </EjsDropDownList>
+            </td>
+        </tr>
+    </table>
+ </div>
+
+        @code{
+
+            EjsDropDownList<string, DropDownData> DropDown;
+
+            public List<WrapData> TreeData { get; set; }
+
+            public string Editmodes { get; set; } = "Cell Editing" ;
+
+            public EditMode GridEditingmode { get; set; }
+
+            public List<DropDownData> DropDownEditmode = new List<DropDownData>();
+
+            protected override void OnInitialized()
+            {
+                this.TreeData = WrapData.GetWrapData().ToList();
+                this.DropDownEditmode.Add(new DropDownData() {ID="Cell Editing", Name="Cell Editing"});
+                this.DropDownEditmode.Add(new DropDownData() {ID="Row Editing", Name="Row Editing"});
+            }
+
+            public class DropDownData {
+                public string ID { get; set; }
+                public string Name { get; set; }
+            }
+
+            public void ModeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+
+            {
+                if(args.Value == "Cell Editing")
+                {
+                    GridEditingmode = EditMode.Cell;
+                }
+                if(args.Value == "Row Editing")
+                {
+                    GridEditingmode = EditMode.Row;
+                }
+            }
+            public class TreeEditModes
+            {
+                public string ID { get; set; }
+                public string Name { get; set; }
+            }
+        }

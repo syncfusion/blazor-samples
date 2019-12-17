@@ -1,0 +1,110 @@
+﻿@using Syncfusion.EJ2.Blazor.Navigations;
+@using Syncfusion.EJ2.Blazor.SplitButtons;
+@using Microsoft.AspNetCore.Components;
+@using ej2_blazor_samples
+@inject IJSRuntime JsRuntime;
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+<div id='sample-header' class="sb-header e-view" role="banner">
+    <div class='sb-header-left sb-left sb-table'>
+        <div class='sb-header-item sb-table-cell'>
+            <div id="sb-toggle-left" @onclick="OnToggleClick" role="button" tabindex="0" class="sb-slide-nav sb-icons toggle-active sb-icon-Hamburger" aria-label="toggle all controls navigation"
+                 title='toggle leftpane'></div>
+        </div>
+        <div class='sb-header-item sb-table-cell' id="sb-header-text" style="padding-left:20px">
+            @*<span>Essential JS 2 for </span>*@
+            <EjsDropDownButton ID="platform-switch" Content="Essential Studio for Blazor" Items="@platforms"></EjsDropDownButton>
+        </div>
+            </div>
+    <div class='sb-header-right sb-right sb-table'>
+        <div class="sb-header-item sb-table-cell">
+            <div id="header-theme-switcher" role="button" tabindex="0" title='Change theme of sample browser'>
+                <EjsMenu ID='theme-menu' ShowItemOnClick="true" Items='@menuItems' @ref="MenuBar" CssClass="e-sample-theme-menu">
+                    <MenuEvents Created="ThemeMenuCreated" ItemSelected="OnThemeChange"></MenuEvents>
+                </EjsMenu>
+            </div>
+        </div>
+        <div class='sb-header-item sb-table-cell sb-download-wrapper'>
+            <a href='https://github.com/syncfusion/ej2-blazor-samples/' target="_blank">
+                <button id='github' class='sb-github-btn'>
+                    <div class="github-image">
+                        <img src='styles/images/mark.svg'>
+                    </div>
+                </button>
+            </a>
+        </div>
+        <div class="sb-header-item sb-table-cell sb-header-settings sb-icons" @onclick="@OnRightToggleClick" role="button"></div>
+    </div>
+</div>
+
+@code {
+
+        public EjsMenu MenuBar;
+
+        [Parameter]
+        public EventCallback OnToggleClick { get; set; }
+
+        [Parameter]
+        public EventCallback OnRightToggleClick { get; set; }
+
+        public List<Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem> platforms { get; set; } = new List<Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem>
+{
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem{ Text = "JavaScript", Url="https://ej2.syncfusion.com/demos/" },
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem{ Text = "JavaScript (ES5)", Url="https://ej2.syncfusion.com/javascript/demos/" },
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem { Text = "React", Url="https://ej2.syncfusion.com/react/demos/" },
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem { Text = "Angular", Url="https://ej2.syncfusion.com/angular/demos/" },
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem { Text = "ASP.NET Core", Url="https://ej2.syncfusion.com/aspnetcore/" },
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem { Text = "ASP.NET MVC", Url="https://ej2.syncfusion.com/aspnetmvc/" },
+        new Syncfusion.EJ2.Blazor.SplitButtons.DropDownButtonItem { Text = "Vue", Url="https://ej2.syncfusion.com/vue/demos/" }
+    };
+        public List<MenuItem> menuItems = new List<MenuItem>
+{
+        new MenuItem{ Text = "CHOOSE THEME",
+            Items = new List<MenuItem>
+{
+                new MenuItem { Id= "materialmenu", Text= "Material"},
+                new MenuItem { Id= "fabricmenu", Text= "Fabric"},
+                new  MenuItem{ Id= "bootstrapmenu", Text= "Bootstrap"},
+                new MenuItem { Id= "highcontrastmenu", Text= "High Contrast"},
+                new MenuItem { Id= "bootstrap4menu", Text= "Bootstrap V4"},
+            }
+        }
+    };
+
+        private Dictionary<string, string> ThemeMap = new Dictionary<string, string>()
+    {
+        {"Material", "material" },
+        {"Fabric", "fabric" },
+        {"Bootstrap", "bootstrap" },
+        {"High Contrast", "highcontrast" },
+        {"Bootstrap V4", "bootstrap4" }
+    };
+
+        protected void OnThemeChange(Syncfusion.EJ2.Blazor.Navigations.MenuEventArgs args)
+        {
+            if (args.Item.Text != "CHOOSE THEME")
+            {
+                string url = UriHelper.Uri;
+                if (url.IndexOf("?theme=") >= 0)
+                {
+                    string[] splittedUrl = url.Split("?theme=");
+                    url = splittedUrl[0];
+                }
+                if (ThemeMap.ContainsKey(args.Item.Text))
+                {
+                   url+= "?theme="+ ThemeMap[args.Item.Text];
+                }
+                //UriHelper.NavigateTo(url);
+                  JsRuntime.InvokeAsync<Object>("switchTheme", url);
+            }           
+           
+          
+        
+        }
+
+    protected void ThemeMenuCreated(object args)
+    {
+        JsRuntime.InvokeAsync<Object>("getTheme", args);
+    }
+
+}

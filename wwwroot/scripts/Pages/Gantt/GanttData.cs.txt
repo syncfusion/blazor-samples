@@ -5,11 +5,6 @@ using System.Threading.Tasks;
 using ej2_blazor_samples;
 namespace ej2_blazor_ganttdata
 {
-    public class GanttTemplateModel
-    {
-        public string TaskName { get; set; }
-    }
-
     public class GanttData
     {
         public class TaskData
@@ -24,7 +19,7 @@ namespace ej2_blazor_ganttdata
             public int Progress { get; set; }
             public string Predecessor { get; set; }
             public List<TaskData> SubTasks { get; set; }
-            public int[] ResourceId { get; set; }
+            public object ResourceId { get; set; }
             public string Notes { get; set; }
             public string TaskType { get; set; }
         }
@@ -33,11 +28,17 @@ namespace ej2_blazor_ganttdata
             public int ResourceId { get; set; }
             public string ResourceName { get; set; }
         }
+        public class TaskProperties
+        {
+            public string TaskName { get; set; }
+            public double Duration { get; set; }
+        }
         public class TaskbarData : TaskData
         {
             public string Performance { get; set; }
             public string Winner { get; set; }
             public string Movie { get; set; }
+            public TaskProperties GanttProperties { get; set; }
 
         }
         public static List<TaskData> ZoomingData()

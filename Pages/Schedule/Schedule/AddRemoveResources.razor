@@ -6,38 +6,15 @@
 @using Syncfusion.EJ2.Blazor.DropDowns
 @using Syncfusion.EJ2.Blazor.Buttons
 @using System.Globalization
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Show/Hide Resources";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-             This demo illustrates how to dynamically add or remove resources to and from the Scheduler layout.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-            In this demo, Scheduler is initially displayed with single resource with its related set of appointments. When the additional
-            checkboxes given are checked and unchecked, the respective resources gets added up or removed from the scheduler layout.
-            To add new resources dynamically,
-            <code>AddResource</code> method is used which accepts the arguments such as resource object, resource name (within which level, the resource
-            object to be added) and index (position where the resource needs to be added). To remove the resources dynamically,
-            <code>RemoveResource</code> method is used which accepts the index (position from where the resource to be removed) and resource name (within
-            which level, the resource object presents) as parameters.
-        </p>"
-    };
-}
-@*End:Hidden*@
+
+@inherits SampleBaseComponent;
 <div class="col-lg-9 control-section">
     <div class="content-wrapper">
         <EjsSchedule @ref="ScheduleObj" TValue="ScheduleData.ResourceEventsData" Width="100%" Height="650px" SelectedDate="new DateTime(2018, 4, 1)">
             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource DataSource="@Calendars" Field="CalendarId" Title="Calendars" Name="Calendars" TextField="CalendarName" IdField="CalendarId" ColorField="CalendarColor" AllowMultiple="true"></ScheduleResource>
+                <ScheduleResource TValue="CalendarData" DataSource="@Calendars" Field="CalendarId" Title="Calendars" Name="Calendars" TextField="CalendarName" IdField="CalendarId" ColorField="CalendarColor" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
             <ScheduleViews>
                 <ScheduleView Option="@View.Month"></ScheduleView>
@@ -95,15 +72,15 @@
         var resourceData = CalendarCollections.Find(v => v.CalendarId == value);
         if (args.Checked)
         {
-            ScheduleObj.AddResource(resourceData, "Calendars", value - 1);
+            ScheduleObj.AddResource(new List<object> { resourceData }, "Calendars", value - 1);
         }
         else {
-            ScheduleObj.RemoveResource(value, "Calendars");
+            ScheduleObj.RemoveResource(new List<object> { value }, "Calendars");
         }
     }
     public string[] GroupData = new string[] { "Calendars" };
-    public List<object> Calendars { get; set; } = new List<object> {
-        new { CalendarName = "My Calendar", CalendarId = 1, CalendarColor = "#c43081" }
+    public List<CalendarData> Calendars { get; set; } = new List<CalendarData> {
+        new CalendarData { CalendarName = "My Calendar", CalendarId = 1, CalendarColor = "#c43081" }
     };
 }
 

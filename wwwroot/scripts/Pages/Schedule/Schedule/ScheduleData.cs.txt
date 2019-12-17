@@ -5019,7 +5019,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 IsAllDay = true,
                 CalendarId = 4
             });
-             holidayData.Add(new ResourceEventsData
+            holidayData.Add(new ResourceEventsData
             {
                 Id = 201,
                 Subject = "Conference meeting",
@@ -5289,7 +5289,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 IsAllDay = true,
                 CalendarId = 2
             });
-                        holidayData.Add(new ResourceEventsData
+            holidayData.Add(new ResourceEventsData
             {
                 Id = 301,
                 Subject = "Gladys Spellman",
@@ -7066,6 +7066,15 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string RecurrenceException { get; set; }
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
+            public EmployeeData ResourceData { get; set; }
+        }
+        public class EmployeeData
+        {
+            public string Text { get; set; }
+            public int Id { get; set; }
+            public int GroupId { get; set; }
+            public string Color { get; set; }
+            public string Designation { get; set; }
         }
 
         public class AppointmentData
@@ -7149,6 +7158,14 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string RecurrenceException { get; set; }
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
+            public ConferenceData ResourceData { get; set; }
+        }
+        public class ConferenceData
+        {
+            public string Text { get; set; }
+            public int Id { get; set; }
+            public string Color { get; set; }
+            public string Designation { get; set; }
         }
         public class RecurrenceData
         {
@@ -7266,6 +7283,15 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string RecurrenceException { get; set; }
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
+            public RoomsData ResourceData { get; set; }
+        }
+        public class RoomsData
+        {
+            public string Name { get; set; }
+            public int Id { get; set; }
+            public int Capacity { get; set; }
+            public string Color { get; set; }
+            public string Type { get; set; }
         }
 
         public class ResourceEventsData
@@ -7344,6 +7370,7 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public DateTime StartTime { get; set; }
             public DateTime EndTime { get; set; }
             public string EventType { get; set; }
+            public string Description { get; set; }
         }
 
     }

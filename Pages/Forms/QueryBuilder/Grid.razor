@@ -1,0 +1,115 @@
+﻿@page "/QueryBuilder/Grid"
+
+@using Syncfusion.EJ2.Blazor.QueryBuilder
+@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.EJ2.Blazor.Data
+@using Syncfusion.EJ2.Blazor
+@using ej2_blazor_samples
+@using ej2_blazor_querybuilderdata
+@using Newtonsoft.Json.Linq;
+
+@inherits SampleBaseComponent;
+
+<div class="col-lg-12 control-section">
+    <EjsQueryBuilder @ref="Querybuilder" DataSource="@GridData" Rule="@ImportRules">
+        <QueryBuilderEvents RuleChanged="UpdateRule"></QueryBuilderEvents>
+        <QueryBuilderColumns>
+            <QueryBuilderColumn Field="TaskID" Label="Task ID" Type="number"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Name" Label="Name" Type="string"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Category" Label="Category" Type="string"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="SerialNo" Label="Serial No" Type="string"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="InvoiceNo" Label="Invoice No" Type="string"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Status" Label="Status" Type="string"></QueryBuilderColumn>
+        </QueryBuilderColumns>
+    </EjsQueryBuilder>
+</div>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <EjsGrid DataSource="@GridData" AllowPaging="true">
+                <GridEvents Created="Created" TValue="HardWareDetails"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(HardWareDetails.TaskID) HeaderText="TaskID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(HardWareDetails.Name) HeaderText="Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(HardWareDetails.Category) HeaderText="Category" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(HardWareDetails.SerialNo) HeaderText="Serial No" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(HardWareDetails.InvoiceNo) HeaderText="Invoice No" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(HardWareDetails.Status) HeaderText="Status" Width="150"></GridColumn>
+                </GridColumns>
+            </EjsGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+    EjsQueryBuilder Querybuilder;
+    public IEnumerable<HardWareDetails> GridData { get; set; }
+    public IEnumerable<HardWareDetails> FilterData { get; set; }
+    public Object QueryData;
+    public WhereData FilterQuery;
+    public RuleModel GetRule { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = HardWareDetails.GetAllRecords().AsEnumerable();
+        FilterData = HardWareDetails.GetAllRecords().AsEnumerable();
+    }
+
+    private async void Created()
+    {
+        RuleModel Rule = new RuleModel()
+        {
+            Condition = "or",
+            Rules = new List<RuleModel> {
+            new RuleModel { Field = "Category", Value = "Laptop", Operator = "equal"  } },
+
+        };
+        this.GetRule = await Querybuilder.GetValidRules(Rule);
+        this.UpdateRule(new RuleChangeEventArgs() { Name = "", PreviousRule = null, Type = "", Rule = this.GetRule });
+    }
+
+    public QueryBuilderRule ImportRules { get; set; } = new QueryBuilderRule
+    {
+        Condition = "or",
+        Rules = new List<RuleModel> { new RuleModel { Field = "Category", Value = "Laptop", Operator = "equal" } }
+    };
+
+    private async void UpdateRule(RuleChangeEventArgs args)
+    {
+
+        this.QueryData = await Querybuilder.GetFilteredRecords();
+        if (this.QueryData != null)
+        {
+            this.FilterQuery = ((JObject)this.QueryData).ToObject<WhereData>();
+            if (this.FilterQuery.Where != null && this.FilterQuery.Where.Count > 0)
+            {
+                this.GridData = DataOperations.PerformFiltering(this.FilterData, this.FilterQuery.Where, this.FilterQuery.Where[0].Operator).AsEnumerable();
+            }
+            this.StateHasChanged();
+        }
+        else
+        {
+            this.GridData = this.FilterData;
+            this.StateHasChanged();
+        }
+    }
+
+
+    public class WhereData
+    {
+        public List<WhereFilter> Where { get; set; }
+    }
+
+}
+
+<style>
+
+    .e-grid {
+        margin: 0 auto;
+    }
+
+    .control-section {
+        min-height: auto;
+    }
+</style>

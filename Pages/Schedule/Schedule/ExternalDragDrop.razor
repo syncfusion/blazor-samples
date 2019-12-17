@@ -3,30 +3,9 @@
 @using Syncfusion.EJ2.Blazor.Schedule
 @using Syncfusion.EJ2.Blazor.Navigations
 @using Newtonsoft.Json;
-
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "External Drag And Drop";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-            This example illustrates how to drag and drop the events from an external source into scheduler. Here, you can drag and drop the items from TreeView control into scheduler.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-           In this example, <code>ResourceHeaderTemplate</code> is used to change the default appearance of the resource header
-            column. Within the <code>actionBegin</code> event of scheduler, the dragged item from the TreeView control is removed,
-            when it is being dragged and dropped onto the scheduler. When the item is being dropped onto the scheduler, the event editor is
-            explicitly made to open with the target details by invoking the <code>openEditor</code> method of scheduler within the <code>nodeDragStop</code> event of TreeView.
-        </p>"
-    };
-}
-@*End:Hidden*@
+
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div class="content-wrapper">
@@ -37,8 +16,8 @@
             <EjsSchedule TValue="ScheduleData.HospitalData" @ref="ScheduleRef" Width="100%" Height="650px" CssClass="schedule-drag-drop" SelectedDate="@(new DateTime(2018, 7, 1))">
                 <ScheduleGroup EnableCompactView="false" Resources="@Resources"></ScheduleGroup>
                 <ScheduleResources>
-                    <ScheduleResource DataSource="@Departments" Field="DepartmentID" Title="Department" Name="Departments" TextField="text" IdField="id" ColorField="color"></ScheduleResource>
-                    <ScheduleResource DataSource="@Consultants" Field="ConsultantID" Title="Consultant" Name="Consultants" TextField="text" IdField="id" ColorField="color" GroupIDField="groupId" AllowMultiple="false"></ScheduleResource>
+                    <ScheduleResource TValue="ResourceData" DataSource="@Departments" Field="DepartmentID" Title="Department" Name="Departments" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+                    <ScheduleResource TValue="ResourceData" DataSource="@Consultants" Field="ConsultantID" Title="Consultant" Name="Consultants" TextField="Text" IdField="Id" ColorField="Color" GroupIDField="GroupId" AllowMultiple="false"></ScheduleResource>
                 </ScheduleResources>
                 <ScheduleViews>
                     <ScheduleView Option="View.TimelineDay"></ScheduleView>
@@ -72,18 +51,26 @@
     public List<ScheduleData.HospitalData> DataSource = new ScheduleData().GetHospitalData();
     public List<ScheduleData.HospitalData> TreeViewData = new ScheduleData().GetWaitingListData();
     public string[] Resources = new string[] { "Departments", "Consultants" };
-    private List<object> Departments { get; set; } = new List<object> {
-        new { text = "GENERAL", id = 1, color = "#bbdc00" },
-        new { text = "DENTAL", id = 2, color = "#9e5fff" }
+    private List<ResourceData> Departments { get; set; } = new List<ResourceData> {
+        new ResourceData { Text = "GENERAL", Id = 1, Color = "#bbdc00" },
+        new ResourceData { Text = "DENTAL", Id = 2, Color = "#9e5fff" }
     };
-    private List<object> Consultants { get; set; } = new List<object> {
-        new { text = "Alice", id = 1, groupId = 1, color = "#bbdc00", designation = "Cardiologist" },
-        new { text = "Nancy", id = 2, groupId = 2, color = "#9e5fff", designation = "Orthodontist" },
-        new { text = "Robert", id = 3, groupId = 1, color = "#bbdc00", designation = "Optometrist" },
-        new { text = "Robson", id = 4, groupId = 2, color = "#9e5fff", designation = "Periodontist" },
-        new { text = "Laura", id = 5, groupId = 1, color = "#bbdc00", designation = "Orthopedic" },
-        new  { text = "Margaret", id = 6, groupId = 2, color = "#9e5fff", designation = "Endodontist" }
+    private List<ResourceData> Consultants { get; set; } = new List<ResourceData> {
+        new ResourceData { Text = "Alice", Id = 1, GroupId = 1, Color = "#bbdc00", Designation = "Cardiologist" },
+        new ResourceData { Text = "Nancy", Id = 2, GroupId = 2, Color = "#9e5fff", Designation = "Orthodontist" },
+        new ResourceData { Text = "Robert", Id = 3, GroupId = 1, Color = "#bbdc00", Designation = "Optometrist" },
+        new ResourceData { Text = "Robson", Id = 4, GroupId = 2, Color = "#9e5fff", Designation = "Periodontist" },
+        new ResourceData { Text = "Laura", Id = 5, GroupId = 1, Color = "#bbdc00", Designation = "Orthopedic" },
+        new ResourceData { Text = "Margaret", Id = 6, GroupId = 2, Color = "#9e5fff", Designation = "Endodontist" }
     };
+    public class ResourceData
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+        public int GroupId { get; set; }
+        public string Color { get; set; }
+        public string Designation { get; set; }
+    }
     class GroupData
     {
         public int DepartmentID { get; set; }

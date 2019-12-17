@@ -2,48 +2,26 @@
 
 @using Syncfusion.EJ2.Blazor.Grids
 @using Syncfusion.EJ2.Blazor.Buttons
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
 @using ej2_blazor_griddata
-@{
-    SampleBrowser.CurrentSampleName = "Multi Sorting";
-    SampleBrowser.CurrentControlName = "DataGrid";
-    SampleBrowser.CurrentControlCategory = "DataGrid";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-            This sample demonstrates the Grid multi sorting feature. To sort two or more columns, hold the CTRL key and click the column header.
-        </p>"
-    };
-    SampleBrowser.Description = new string[]{
-        @"<p>Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings~Mode.html '>AllowSorting</a></code> property as true.</p>
-        <p>To sort a Grid column simply click the column header. The icons <span class=""e-icons e-icon-ascending""></span>(ascending) and <span class=""e-icons e-icon-descending""></span>(descending) specifies the sort direction of a column.</p>
-        <p>By default, multi-sorting is enabled in Grid, to sort multiple columns hold the <strong> CTRL</strong> key and click the column header. To clear sort for a column, hold the <strong> SHIFT</strong> key and click the column header.</p>
-        <p>While using Grid in a touch device, you have an option for multi sorting in single tap on the grid header. By tapping on the grid header, it will show the toggle button in small popup with sort icon. Now tap the button to enable the multi-sorting in a single tap.</p>
-        <p>In this demo, simply click the column header to sort them.</p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGrid DataSource="@GridData" AllowMultiSorting="true" AllowSorting="true" AllowPaging="true">
-                <GridPageSettings PageCount="2"></GridPageSettings>
+            <EjsGrid DataSource="@Orders" AllowMultiSorting="true" AllowSorting="true" AllowPaging="true">
                 <GridSortSettings>
                     <GridSortColumns>
-                        <GridSortColumn Field="OrderDate" Direction="SortDirection.Ascending"></GridSortColumn>
-                        <GridSortColumn Field="Freight" Direction="SortDirection.Descending"></GridSortColumn>
+                        <GridSortColumn Field="CustomerID" Direction="SortDirection.Ascending"></GridSortColumn>
+                        <GridSortColumn Field="OrderDate" Direction="SortDirection.Descending"></GridSortColumn>
                     </GridSortColumns>
                 </GridSortSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="yMd" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Order.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Order.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Order.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(Order.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                 </GridColumns>
             </EjsGrid>
 
@@ -94,10 +72,23 @@
 
 @code{
 
-    public List<OrdersDetails> GridData { get; set; }
+    public List<Order> Orders { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        GridData = OrdersDetails.GetAllRecords();
+        Orders = Enumerable.Range(1, 25).Select(x => new Order()
+        {
+            OrderID = 1000 + x,
+            CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID", "Michael", "Carlos", "Ronald", "Fransico", "Peter", "Bernado", "Christiano" })[new Random().Next(12)],
+            Freight = 2.1 * x,
+            OrderDate = DateTime.Now.AddDays(-x),
+        }).ToList();
+    }
+
+    public class Order {
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public double? Freight { get; set; }
     }
 }

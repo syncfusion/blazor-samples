@@ -1,0 +1,156 @@
+﻿@page "/BulletChart/BarCustomization"
+@using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.EJ2.Blazor.DropDowns
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+
+@inherits SampleBaseComponent;
+    <div class="row">
+        <div class="control-section col-md-8">
+            <EjsBulletChart DataSource="@BulletChartData" Type="@type" ValueField="ActualValue" TargetField="Targetvalue" Minimum="0" Maximum="300" Interval="50"
+                            ValueFill="@ValueFillColor" TargetColor="@TargetFillColor" Title="New Customers" Subtitle="in Thousands" TitlePosition="TextPosition.Left">
+                <BulletChartAnimation Enable="false"></BulletChartAnimation>
+                <BulletChartTooltip Enable="true"></BulletChartTooltip>
+                <BulletChartRangeCollection>
+                    <BulletChartRange End=150> </BulletChartRange>
+                    <BulletChartRange End=250></BulletChartRange>
+                    <BulletChartRange End=300></BulletChartRange>
+                </BulletChartRangeCollection>
+            </EjsBulletChart>
+        </div>
+        <div class="col-md-4 property-section">
+            <table id="property" style="width: 100%">
+                <tr style="height:50px"><th>Properties</th></tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Actual Value:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsSlider Value="270" Min="0" Max="300" Step="10">
+                                <SliderTooltipData IsVisible="true"></SliderTooltipData>
+                                <SliderEvents TValue="double" OnChange="ChangeActualValue"></SliderEvents>
+                            </EjsSlider>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Target Value:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsSlider Value="250" Min="0" Max="300" Step="10">
+                                <SliderTooltipData IsVisible="true"></SliderTooltipData>
+                                <SliderEvents TValue="double" OnChange="ChangeTagetValue"></SliderEvents>
+                            </EjsSlider>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        Feature Bar Type:
+                    </td>
+                    <td style="width: 40%;">
+                        <EjsDropDownList TValue="string" Placeholder="Rect" TItem="Data" DataSource="@DropDowmData">
+                            <DropDownListFieldSettings Value="ID"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" ValueChange="ChangeType"></DropDownListEvents>
+                        </EjsDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Feature Bar Color:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsColorPicker Value="#000000" Mode="ColorPickerMode.Palette" ValueChange="FeatureBarColor"></EjsColorPicker>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Target Color:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <EjsColorPicker Value="#000000" Mode="ColorPickerMode.Palette" ValueChange="TargetColor"></EjsColorPicker>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+        @code{
+
+            FeatureType type;
+
+            public string ValueFillColor = "#000000", TargetFillColor = "#000000";
+            public GetCurrentValue ColorValue { get; set; }
+            public class GetCurrentValue
+            {
+                public string hex { get; set; }
+                public string rgba { get; set; }
+            }
+
+            public void FeatureBarColor(ColorPickerEventArgs args)
+            {
+                this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
+                this.ValueFillColor = this.ColorValue.hex;
+            }
+
+            public void TargetColor(ColorPickerEventArgs args)
+            {
+                this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
+                this.TargetFillColor = this.ColorValue.hex;
+            }   
+
+
+            public void ChangeActualValue(SliderChangeEventArgs<double> args)
+            {
+
+                BulletChartData = new List<ChartData>
+                {
+                    new ChartData { ActualValue = args.Value, Targetvalue = this.BulletChartData[0].Targetvalue }
+                };
+            }
+
+            public void ChangeTagetValue(SliderChangeEventArgs<double> args)
+            {
+
+                BulletChartData = new List<ChartData>
+                {
+                    new ChartData { ActualValue = this.BulletChartData[0].ActualValue, Targetvalue = args.Value }
+                };
+            }
+
+            public class Data
+            {
+                public string ID { get; set; }
+            }
+
+            private List<Data> DropDowmData = new List<Data>() 
+            {
+                new Data(){ ID= "Rect"},
+                new Data(){ ID= "Dot"}
+            };
+
+            private void ChangeType(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+            {
+                this.type = (FeatureType)Enum.Parse(typeof(FeatureType), args.Value, true);
+                StateHasChanged();
+            }
+
+            public class ChartData
+            {
+                public double ActualValue { get; set; }
+                public double Targetvalue { get; set; }
+            }
+            public List<ChartData> BulletChartData = new List<ChartData>
+{
+            new ChartData { ActualValue = 270, Targetvalue = 250 }
+        };
+        }

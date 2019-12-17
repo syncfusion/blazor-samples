@@ -1,43 +1,15 @@
 ﻿@page "/Grid/GroupAndCaptionAggregate"
 
 @using Syncfusion.EJ2.Blazor.Grids
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@using ej2_blazor_categorydata
-@{
-    SampleBrowser.CurrentSampleName = "Group And Caption Aggregate";
-    SampleBrowser.CurrentControlName = "DataGrid";
-    SampleBrowser.CurrentControlCategory = "DataGrid";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.DataGrid;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>This sample demonstrates Aggregate functionality of the Grid. In this sample, both Unit In Stock column are displayed their aggregate value in group footer.
-            Unit In Stock column displayed its aggregate value in group caption also.</p>"
-    };
-    SampleBrowser.Description = new string[]{
-        @"<p>The Grid supports aggregates which will be displayed at the footer, group footer and group caption of the Grid. The aggregate configurations can be provided by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregates.html'>GridAggregates</a></code> component.</p>
-        <p>The built-in aggregates are,</p>
-        <ul>
-            <li><code>Sum</code></li>     
-            <li><code>Average</code></li>     
-            <li><code>Min</code></li>     
-            <li><code>Max</code></li>     
-            <li><code>Count</code></li>     
-            <li><code>TrueCount</code></li>     
-            <li><code>FalseCount</code></li>
-        </ul>    
-        <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupFooterTemplate.html'>GroupFooterTemplate</a></code> is used for displaying the group footer aggregation for the <strong><i>Unit In Stocks</i></strong> and <strong><i>Discontinued</i></strong> columns and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupCaptionTemplate.html'>GroupCaptionTemplate</a></code> is used for displaying the group caption aggregation for the <strong><i>Unit In Stocks</i></strong> column.</p>    
-        <p>To enable group footer aggregation for <strong><i>Unit In Stocks</i></strong> column, the <code>Sum</code> aggregate type is used by setting it in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> property and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>UnitsInStock</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupFooterTemplate.html'>GroupFooterTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<code>@unit.Sum</code>) where <b>unit</b> is an implicit named parameter - <b>context</b>.</p>
-        <p>To enable group caption aggregation for <strong><i>Unit In Stocks</i></strong> column, the <code>Max</code> aggregate type is used by setting it in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> property and the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>UnitsInStock</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupCaptionTemplate.html'>GroupCaptionTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<code>@unit.Max</code>) where <b>unit</b> is an implicit named parameter - <b>context</b>.</p>"
-    };
-}
-@*End:Hidden*@
+@using ej2_blazor_griddata
+@inherits SampleBaseComponent;
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
             <EjsGrid DataSource="@GridData" AllowPaging="true" AllowGrouping="true">
-                <GridGroupSettings ShowDropArea="false" Columns="@(new string[] { "CategoryName" })"></GridGroupSettings>
+                <GridGroupSettings ShowDropArea="false" Columns=@GroupedColumn></GridGroupSettings>
                 <GridPageSettings PageCount="5"></GridPageSettings>
                 <GridAggregates>
                     <GridAggregate>
@@ -47,7 +19,7 @@
                                     @{
                                         var unit = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Total units: @unit.Sum</p>
+                                            Total units: @unit.Sum
                                         </div>
                                     }
                                 </GroupFooterTemplate>
@@ -57,7 +29,7 @@
                                     @{
                                         var count = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Discontinued: @count.TrueCount</p>
+                                            Discontinued: @count.TrueCount
                                         </div>
                                     }
                                 </GroupFooterTemplate>
@@ -67,7 +39,7 @@
                                     @{
                                         var maxcount = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Maximum: @maxcount.Max</p>
+                                            Maximum: @maxcount.Max
                                         </div>
                                     }
                                 </GroupCaptionTemplate>
@@ -90,6 +62,8 @@
 
 @code{
 
+    private string[] GroupedColumn = new string[] { "CategoryName" };
+    
     public List<Category> GridData { get; set; }
 
     protected override void OnInitialized()

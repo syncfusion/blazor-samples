@@ -9,10 +9,10 @@ namespace ej2_blazor_wrapdata
     {
         public int TaskId { get; set; }
         public string TaskName { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public int Duration { get; set; }
-        public int Progress { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public int? Duration { get; set; }
+        public int? Progress { get; set; }
         public string Priority { get; set; }
         public bool Approved { get; set; }
         public int Resources { get; set; }
@@ -26,7 +26,7 @@ namespace ej2_blazor_wrapdata
                 TaskId = 1,
                 TaskName = "Planning",
                 StartDate = new DateTime(2017, 03, 02),
-                EndDate = new DateTime(2017, 07, 02),
+                EndDate = new DateTime(2017, 07, 03),
                 Progress = 100,
                 Duration = 5,
                 Priority = "Normal",
@@ -38,8 +38,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 2,
                 TaskName = "Plan timeline",
-                StartDate = new DateTime(2017, 03, 02),
-                EndDate = new DateTime(2017, 07, 02),
+                StartDate = new DateTime(2017, 03, 04),
+                EndDate = new DateTime(2017, 07, 05),
                 Progress = 100,
                 Duration = 5,
                 Resources = 4,
@@ -51,8 +51,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 3,
                 TaskName = "Plan budget",
-                StartDate = new DateTime(2017, 03, 02),
-                EndDate = new DateTime(2017, 07, 02),
+                StartDate = new DateTime(2017, 03, 06),
+                EndDate = new DateTime(2017, 07, 07),
                 Duration = 5,
                 Progress = 100,
                 Approved = true,
@@ -64,8 +64,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 4,
                 TaskName = "Allocate resources",
-                StartDate = new DateTime(2017, 03, 02),
-                EndDate = new DateTime(2017, 07, 02),
+                StartDate = new DateTime(2017, 03, 08),
+                EndDate = new DateTime(2017, 07, 09),
                 Duration = 5,
                 Progress = 100,
                 Priority = "Critical",
@@ -77,8 +77,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 5,
                 TaskName = "Planning complete",
-                StartDate = new DateTime(2017, 07, 02),
-                EndDate = new DateTime(2017, 07, 02),
+                StartDate = new DateTime(2017, 07, 10),
+                EndDate = new DateTime(2017, 07, 11),
                 Duration = 1,
                 Progress = 1,
                 Priority = "Low",
@@ -90,8 +90,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 6,
                 TaskName = "Design",
-                StartDate = new DateTime(2017, 10, 02),
-                EndDate = new DateTime(2017, 02, 14),
+                StartDate = new DateTime(2017, 10, 12),
+                EndDate = new DateTime(2017, 02, 13),
                 Progress = 86,
                 Duration = 3,
                 Priority = "High",
@@ -103,8 +103,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 7,
                 TaskName = "Software Specification",
-                StartDate = new DateTime(2017, 10, 02),
-                EndDate = new DateTime(2017, 02, 12),
+                StartDate = new DateTime(2017, 10, 14),
+                EndDate = new DateTime(2017, 02, 15),
                 Duration = 3,
                 Progress = 60,
                 Resources = 3,
@@ -116,8 +116,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 8,
                 TaskName = "Develop prototype",
-                StartDate = new DateTime(2017, 10, 02),
-                EndDate = new DateTime(2017, 02, 12),
+                StartDate = new DateTime(2017, 10, 16),
+                EndDate = new DateTime(2017, 02, 17),
                 Duration = 3,
                 Progress = 100,
                 Resources = 2,
@@ -129,8 +129,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 9,
                 TaskName = "Get approval from customer",
-                StartDate = new DateTime(2017, 02, 13),
-                EndDate = new DateTime(2017, 02, 14),
+                StartDate = new DateTime(2017, 02, 18),
+                EndDate = new DateTime(2017, 02, 19),
                 Duration = 2,
                 Progress = 100,
                 Resources = 3,
@@ -142,8 +142,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 10,
                 TaskName = "Design complete",
-                StartDate = new DateTime(2017, 02, 14),
-                EndDate = new DateTime(2017, 02, 14),
+                StartDate = new DateTime(2017, 02, 20),
+                EndDate = new DateTime(2017, 02, 21),
                 Duration = 1,
                 Progress = 1,
                 Resources = 6,
@@ -155,8 +155,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 12,
                 TaskName = "Implementation Phase",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 17),
+                StartDate = new DateTime(2017, 02, 22),
+                EndDate = new DateTime(2017, 02, 23),
                 Priority = "Normal",
                 Approved = false,
                 Duration = 11,
@@ -168,8 +168,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 13,
                 TaskName = "Phase 1",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 02, 24),
+                EndDate = new DateTime(2017, 02, 25),
                 Priority = "High",
                 Approved = false,
                 Duration = 11,
@@ -181,7 +181,7 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 14,
                 TaskName = "Implementation Module 1",
-                StartDate = new DateTime(2017, 02, 17),
+                StartDate = new DateTime(2017, 02, 26),
                 EndDate = new DateTime(2017, 02, 27),
                 Priority = "Normal",
                 Duration = 11,
@@ -194,38 +194,38 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 15,
                 TaskName = "Development Task 1",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 19),
+                StartDate = new DateTime(2017, 06, 18),
+                EndDate = new DateTime(2017, 06, 19),
                 Duration = 3,
                 Progress = 50,
                 Priority = "High",
                 Resources = 2,
-                ParentId = 15,
+                ParentId = 14,
                 Approved = false
             });
             BusinessObjectCollection.Add(new WrapData()
             {
-                TaskId = 10,
+                TaskId = 16,
                 TaskName = "Development Task 2",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 19),
+                StartDate = new DateTime(2017, 02, 13),
+                EndDate = new DateTime(2017, 03, 01),
                 Duration = 3,
                 Progress = 50,
                 Priority = "Low",
                 Resources = 5,
-                ParentId = 15,
+                ParentId = 14,
                 Approved = true
             });
             BusinessObjectCollection.Add(new WrapData()
             {
                 TaskId = 17,
                 TaskName = "Testing",
-                StartDate = new DateTime(2017, 02, 20),
-                EndDate = new DateTime(2017, 02, 21),
+                StartDate = new DateTime(2017, 03, 02),
+                EndDate = new DateTime(2017, 03, 03),
                 Duration = 2,
                 Progress = 1,
                 Priority = "Normal",
-                ParentId = 15,
+                ParentId = 14,
                 Resources = 1,
                 Approved = true
             });
@@ -233,12 +233,12 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 18,
                 TaskName = "Bug fix",
-                StartDate = new DateTime(2017, 02, 24),
-                EndDate = new DateTime(2017, 02, 25),
+                StartDate = new DateTime(2017, 03, 04),
+                EndDate = new DateTime(2017, 03, 05),
                 Duration = 2,
                 Progress = 1,
                 Priority = "Critical",
-                ParentId = 15,
+                ParentId = 14,
                 Resources = 6,
                 Approved = false
             });
@@ -246,12 +246,12 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 19,
                 TaskName = "Customer review meeting",
-                StartDate = new DateTime(2017, 02, 26),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 03, 06),
+                EndDate = new DateTime(2017, 03, 07),
                 Duration = 2,
                 Progress = 1,
                 Priority = "High",
-                ParentId = 15,
+                ParentId = 14,
                 Resources = 6,
                 Approved = false
             });
@@ -259,12 +259,12 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 20,
                 TaskName = "Phase 1 complete",
-                StartDate = new DateTime(2017, 02, 27),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 04, 27),
+                EndDate = new DateTime(2017, 07, 27),
                 Duration = 2,
                 Progress = 50,
                 Priority = "Low",
-                ParentId = 15,
+                ParentId = 14,
                 Resources = 5,
                 Approved = true
             });
@@ -272,8 +272,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 21,
                 TaskName = "Phase 2",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 28),
+                StartDate = new DateTime(2017, 07, 17),
+                EndDate = new DateTime(2017, 09, 28),
                 Priority = "High",
                 Approved = false,
                 Progress = 60,
@@ -285,7 +285,7 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 22,
                 TaskName = "Implementation Module 2",
-                StartDate = new DateTime(2017, 02, 17),
+                StartDate = new DateTime(2017, 01, 17),
                 EndDate = new DateTime(2017, 02, 28),
                 Priority = "Critical",
                 Approved = false,
@@ -298,8 +298,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 23,
                 TaskName = "Development Task 1",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 20),
+                StartDate = new DateTime(2017, 08, 17),
+                EndDate = new DateTime(2017, 09, 20),
                 Duration = 4,
                 Progress = 50,
                 Priority = "Normal",
@@ -311,8 +311,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 24,
                 TaskName = "Development Task 2",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 20),
+                StartDate = new DateTime(2017, 04, 17),
+                EndDate = new DateTime(2017, 03, 20),
                 Duration = 4,
                 Progress = 50,
                 Priority = "Critical",
@@ -324,8 +324,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 25,
                 TaskName = "Testing",
-                StartDate = new DateTime(2017, 02, 21),
-                EndDate = new DateTime(2017, 02, 24),
+                StartDate = new DateTime(2017, 01, 21),
+                EndDate = new DateTime(2017, 01, 24),
                 Duration = 2,
                 Progress = 1,
                 Priority = "High",
@@ -337,8 +337,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 26,
                 TaskName = "Bug fix",
-                StartDate = new DateTime(2017, 02, 25),
-                EndDate = new DateTime(2017, 02, 26),
+                StartDate = new DateTime(2017, 03, 25),
+                EndDate = new DateTime(2017, 08, 26),
                 Duration = 2,
                 Progress = 1,
                 Priority = "Low",
@@ -350,8 +350,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 27,
                 TaskName = "Customer review meeting",
-                StartDate = new DateTime(2017, 02, 27),
-                EndDate = new DateTime(2017, 02, 28),
+                StartDate = new DateTime(2017, 07, 27),
+                EndDate = new DateTime(2017, 06, 28),
                 Duration = 2,
                 Progress = 1,
                 Priority = "Critical",
@@ -363,8 +363,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 28,
                 TaskName = "Phase 2 complete",
-                StartDate = new DateTime(2017, 02, 28),
-                EndDate = new DateTime(2017, 02, 28),
+                StartDate = new DateTime(2017, 07, 19),
+                EndDate = new DateTime(2017, 05, 28),
                 Duration = 2,
                 Priority = "Normal",
                 Progress = 50,
@@ -376,8 +376,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 29,
                 TaskName = "Phase 3",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 07, 17),
+                EndDate = new DateTime(2017, 02, 12),
                 Priority = "Normal",
                 Approved = false,
                 Duration = 11,
@@ -389,8 +389,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 30,
                 TaskName = "Implementation Module 3",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 08, 17),
+                EndDate = new DateTime(2017, 09, 27),
                 Priority = "High",
                 Approved = false,
                 Duration = 11,
@@ -402,8 +402,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 31,
                 TaskName = "Development Task 1",
-                StartDate = new DateTime(2017, 02, 17),
-                EndDate = new DateTime(2017, 02, 19),
+                StartDate = new DateTime(2017, 11, 17),
+                EndDate = new DateTime(2017, 12, 19),
                 Duration = 3,
                 Progress = 50,
                 Priority = "Low",
@@ -415,7 +415,7 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 32,
                 TaskName = "Development Task 2",
-                StartDate = new DateTime(2017, 02, 17),
+                StartDate = new DateTime(2017, 12, 17),
                 EndDate = new DateTime(2017, 02, 19),
                 Duration = 3,
                 Progress = 50,
@@ -428,8 +428,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 33,
                 TaskName = "Testing",
-                StartDate = new DateTime(2017, 02, 20),
-                EndDate = new DateTime(2017, 02, 21),
+                StartDate = new DateTime(2017, 01, 01),
+                EndDate = new DateTime(2017, 07, 21),
                 Duration = 2,
                 Progress = 1,
                 Priority = "Critical",
@@ -442,8 +442,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 34,
                 TaskName = "Bug fix",
-                StartDate = new DateTime(2017, 02, 24),
-                EndDate = new DateTime(2017, 02, 25),
+                StartDate = new DateTime(2017, 01, 24),
+                EndDate = new DateTime(2017, 01, 25),
                 Duration = 2,
                 Progress = 1,
                 Priority = "High",
@@ -455,8 +455,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 35,
                 TaskName = "Customer review meeting",
-                StartDate = new DateTime(2017, 02, 26),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 12, 26),
+                EndDate = new DateTime(2017, 12, 27),
                 Duration = 2,
                 Progress = 1,
                 Priority = "Normal",
@@ -468,8 +468,8 @@ namespace ej2_blazor_wrapdata
             {
                 TaskId = 36,
                 TaskName = "Phase 3 complete",
-                StartDate = new DateTime(2017, 02, 27),
-                EndDate = new DateTime(2017, 02, 27),
+                StartDate = new DateTime(2017, 05, 27),
+                EndDate = new DateTime(2017, 05, 27),
                 Duration = 2,
                 Priority = "Critical",
                 Progress = 50,

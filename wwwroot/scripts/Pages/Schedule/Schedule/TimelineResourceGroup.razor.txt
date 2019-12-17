@@ -1,50 +1,16 @@
 ﻿@page "/Schedule/TimelineResourceGroup"
 
 @using Syncfusion.EJ2.Blazor.Schedule
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Timeline Grouping";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-@"<p>
-This demo showcases how the multiple resources are grouped as well as how the events are portrayed in timeline view layouts.
-</p>"
-};
-    SampleBrowser.Description = new string[] {
-@"<p>
-In the timeline view, each row depicts a single resource whereas in vertical views, each resource are grouped parallelly
-as columns. Here, the resource grouping follows the tree-view like hierarchical grouping structure and can contain
-any level of child resources. In this sample, we have used two level hierarchy, where the
-<code>PROJECT 1</code> and
-<code>PROJECT 2</code> are the parent level and the
-<code>development</code> and
-<code>testing</code> are child level resources which are defined using the
-<code>Resources</code> property. They are grouped in layout by making use of the
-<code>Group</code> property and its order of grouping depends on the order of names passed onto the
-<code>Resources</code> option within
-<code>Group</code>.
-</p>
-<p>
-Also, the colors defined for the child level resources will get applied to the events of those resources by default. In case,
-if the colors of parent level needs to be applied to those child events, then it is necessary to define the
-<code>ResourceColorField</code> option within the
-<code>EventSettings</code> property with the parent level resource name value.
-</p>"
-};
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div class="content-wrapper">
         <EjsSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2018, 4, 4))" CurrentView="View.TimelineWeek">
             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource DataSource="@ProjectData" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="text" IdField="id" ColorField="color"></ScheduleResource>
-                <ScheduleResource DataSource="@TaskData" Field="TaskId" Title="Category" Name="Categories" TextField="text" IdField="id" GroupIDField="groupId" ColorField="color" AllowMultiple="true"></ScheduleResource>
+                <ScheduleResource TValue="ResourceData" DataSource="@ProjectData" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+                <ScheduleResource TValue="ResourceData" DataSource="@TaskData" Field="TaskId" Title="Category" Name="Categories" TextField="Text" IdField="Id" GroupIDField="GroupId" ColorField="Color" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
             <ScheduleViews>
                 <ScheduleView Option="View.TimelineDay"></ScheduleView>
@@ -61,17 +27,24 @@ if the colors of parent level needs to be applied to those child events, then it
 @code{
     public List<ScheduleData.ResourceData> DataSource = new ScheduleData().GetResourceData();
     public string[] GroupData = new string[] { "Projects", "Categories" };
-    private List<object> ProjectData { get; set; } = new List<object> {
-        new {text = "PROJECT 1", id= 1, color= "#cb6bb2"},
-        new {text = "PROJECT 2", id= 2, color= "#56ca85"},
-        new {text = "PROJECT 3", id= 3, color= "#df5286"}
+    private List<ResourceData> ProjectData { get; set; } = new List<ResourceData> {
+        new ResourceData {Text = "PROJECT 1", Id= 1, Color= "#cb6bb2"},
+        new ResourceData {Text = "PROJECT 2", Id= 2, Color= "#56ca85"},
+        new ResourceData {Text = "PROJECT 3", Id= 3, Color= "#df5286"}
     };
-    private List<object> TaskData { get; set; } = new List<object> {
-        new { text = "Nancy", id= 1, groupId = 1, color = "#df5286" },
-        new { text = "Steven", id= 2, groupId = 1, color = "#7fa900" },
-        new { text = "Robert", id= 3, groupId = 2, color = "#ea7a57" },
-        new { text = "Smith", id= 4, groupId = 2, color = "#5978ee" },
-        new { text = "Micheal", id= 5, groupId = 3, color = "#df5286" },
-        new { text = "Root", id= 6, groupId = 3, color = "#00bdae" }
+    private List<ResourceData> TaskData { get; set; } = new List<ResourceData> {
+        new ResourceData { Text = "Nancy", Id= 1, GroupId = 1, Color = "#df5286" },
+        new ResourceData { Text = "Steven", Id= 2, GroupId = 1, Color = "#7fa900" },
+        new ResourceData { Text = "Robert", Id= 3, GroupId = 2, Color = "#ea7a57" },
+        new ResourceData { Text = "Smith", Id= 4, GroupId = 2, Color = "#5978ee" },
+        new ResourceData { Text = "Micheal", Id= 5, GroupId = 3, Color = "#df5286" },
+        new ResourceData { Text = "Root", Id= 6, GroupId = 3, Color = "#00bdae" }
     };
+    public class ResourceData
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+        public int GroupId { get; set; }
+        public string Color { get; set; }
+    }
 }

@@ -4,40 +4,14 @@
 @using Syncfusion.EJ2.Blazor.Inputs
 @using Syncfusion.EJ2.Blazor.Buttons;
 @using Syncfusion.EJ2.Blazor.DropDowns;
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
 @using ej2_blazor_ganttdata
-@{
-    SampleBrowser.CurrentSampleName = "Timeline";
-    SampleBrowser.CurrentControlName = "Gantt";
-    SampleBrowser.CurrentControlCategory = "Gantt";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Gantt;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-            This sample illustrates the different phases from planning to delivery, involved in a software development lifecycle. It demonstrates the different timeline modes available in the Gantt chart. Options are available to change the unit, format, and count of the header texts for both top and bottom timeline headers
-        </p>"
-    };
-    SampleBrowser.Description = new string[]{
-        @"<p>
-            In this example, you can see how to change the timeline settings in Gantt chart. The top and bottom timeline
-            header texts can be customized by using the <code>TimelineSettings.TopTier</code> and <code>TimelineSettings.BottomTier</code> properties.
-            Using these properties, you can change the format, count, and units of the timeline header texts.
-        </p>
-        <p></p>
-        Gantt chart has built-in support for many timeline modes such as minutes, hour, day, week, month and year.
-        </p>
-        <p>
-            Tooltip is enabled by default for the timeline headers, to see the tooltip in action, hover a point or tap on a
-            point in touch enabled devices.
-        </p>"
-    };
-}
-@*End:Hidden*@
+
+@inherits SampleBaseComponent;
 <div class="col-lg-8 control-section sb-property-border">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt @ref="GanttObject" ModelType="@TemplateModel" DataSource="@TaskCollection" Height="450px" Width="100%" Resources="@ResourceCollection"
+            <EjsGantt @ref="GanttObject" DataSource="@TaskCollection" Height="450px" Width="100%" Resources="@ResourceCollection"
                       ResourceNameMapping="ResourceName" ResourceIDMapping="ResourceId" ProjectStartDate="02/03/2019" ProjectEndDate="03/23/2019">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  Dependency="Predecessor" Child="SubTasks" Notes="Notes" ResourceInfo="ResourceId">
@@ -48,7 +22,7 @@
                 <GanttLabelSettings>
                     <RightLabelTemplate>
                         <div class="e-right-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@((context as GanttTemplateModel).TaskName)</span>
+                            <span class="e-label">@((context as GanttData.TaskData).TaskName)</span>
                         </div>
                     </RightLabelTemplate>
                 </GanttLabelSettings>
@@ -103,7 +77,7 @@
                         <td style="width:30%;"><div>Unit</div></td>
                         <td style="width: 70%">
                             <div>
-                                <EjsDropDownList Enabled="@EnableTopUnitDropDown" TValue="string" Placeholder="Week" DataSource="@TimelineUnits">
+                                <EjsDropDownList Enabled="@EnableTopUnitDropDown" TValue="string" TItem="TimelineUnit" Placeholder="Week" DataSource="@TimelineUnits">
                                     <DropDownListFieldSettings Text="Unit" Value="Id"></DropDownListFieldSettings>
                                     <DropDownListEvents TValue="string" ValueChange="@TopUnitChange"></DropDownListEvents>
                                 </EjsDropDownList>
@@ -115,7 +89,7 @@
                         <td style="width:30%;"><div>Format</div></td>
                         <td style="width: 70%">
                             <div>
-                                <EjsDropDownList Enabled="@EnableTopFormatDropDown" TValue="string" DataSource="@WeekFormatValue">
+                                <EjsDropDownList Enabled="@EnableTopFormatDropDown" TValue="string" TItem="DayFormat" DataSource="@WeekFormatValue">
                                     <DropDownListFieldSettings Text="Format" Value="Id"></DropDownListFieldSettings>
                                     <DropDownListEvents TValue="string" ValueChange="@TopFormatChange"></DropDownListEvents>
                                 </EjsDropDownList>
@@ -148,7 +122,7 @@
                         <td style="width:30%;"><div>Unit</div></td>
                         <td style="width: 70%">
                             <div>
-                                <EjsDropDownList Enabled="@EnableBottomUnitDropDown" TValue="string" Placeholder="Day" DataSource="@TimelineUnits">
+                                <EjsDropDownList Enabled="@EnableBottomUnitDropDown" TValue="string" TItem="TimelineUnit" Placeholder="Day" DataSource="@TimelineUnits">
                                     <DropDownListFieldSettings Text="Unit" Value="Id"></DropDownListFieldSettings>
                                     <DropDownListEvents TValue="string" ValueChange="@BottomUnitChange"></DropDownListEvents>
                                 </EjsDropDownList>
@@ -160,7 +134,7 @@
                         <td style="width:30%;"><div>Format</div></td>
                         <td style="width: 70%">
                             <div>
-                                <EjsDropDownList Enabled="@EnableBottomFormatDropDown" TValue="string" DataSource="@DayFormatValue">
+                                <EjsDropDownList Enabled="@EnableBottomFormatDropDown" TValue="string" TItem="DayFormat" DataSource="@DayFormatValue">
                                     <DropDownListFieldSettings Text="Format" Value="Id"></DropDownListFieldSettings>
                                     <DropDownListEvents TValue="string" ValueChange="@BottomFormatChange"></DropDownListEvents>
                                 </EjsDropDownList>
@@ -175,7 +149,6 @@
 
 @code{
     public List<GanttData.TaskData> TaskCollection { get; set; }
-    public GanttTemplateModel TemplateModel = new GanttTemplateModel();
     public List<GanttData.TaskResources> ResourceCollection { get; set; }
     public int DefaultUnitWidth = 33;
     public int TopTierCount = 1;

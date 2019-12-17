@@ -3,47 +3,20 @@
 @using Syncfusion.EJ2.Blazor.Schedule
 @using System.Globalization
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Shared Events";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-           This demo illustrates the usage of single event that are shared by multiple resources.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-           In this demo,
-            <code>AllowGroupEdit</code> option is set to true within the
-            <code>Group</code> property to enable the same event to be shared with multiple resources. With this property enabled, a single appointment
-            object will be maintained within the appointment collection, even if it is shared by more than one resource - whereas
-            the resource fields of such appointment object will hold the IDs of the multiple resources separated by commas. Any
-            actions such as create, edit or delete held on any one of the event, will be reflected on all other related instances
-            visible on the UI. The
-            <code>AllowMultiple</code> option when set as true within the
-            <code>Resource</code> property, will allow the user to select multiple resources from the resource field of editor window, while trying
-            to create appointments.
-        </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsSchedule TValue="ScheduleData.ResourceConferenceData" ModelType="@Model" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="@(new DateTime(2018, 6, 5))">
-            <ScheduleGroup AllowGroupEdit="true" Resources="@GroupData"></ScheduleGroup>
+        <EjsSchedule TValue="ScheduleData.ResourceConferenceData" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="@(new DateTime(2018, 6, 5))">
+            <ScheduleGroup EnableCompactView="false" AllowGroupEdit="true" Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource DataSource="@Conferences" Field="ConferenceId" Title="Attendees" Name="Conferences" TextField="text" IdField="id" ColorField="color" AllowMultiple="true"></ScheduleResource>
+                <ScheduleResource TValue="ScheduleData.ConferenceData" DataSource="@Conferences" Field="ConferenceId" Title="Attendees" Name="Conferences" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
             <ScheduleTemplates>
                 <ResourceHeaderTemplate>
                     @{
-                        var resourceData = (context as TemplateArgs).ResourceData;
+                        var resourceData = (context as ScheduleData.ResourceConferenceData).ResourceData as ScheduleData.ConferenceData;
                         <div class='template-wrap'>
                             <div class="resource-image"><img src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{resourceData.Text.ToLower()}.png")" /></div>
                             <div class="resource-details">
@@ -75,21 +48,11 @@
 @code{
     public List<ScheduleData.ResourceConferenceData> DataSource = new ScheduleData().GetResourceConferenceData();
     public string[] GroupData = new string[] { "Conferences" };
-    private List<object> Conferences { get; set; } = new List<object> {
-        new { text = "Margaret", id = 1, color = "#1aaa55", Designation = "Sales Representative" },
-        new { text = "Robert", id = 2, color = "#357cd2", Designation = "Vice President, Sales" },
-        new { text = "Laura", id = 3, color = "#7fa900", Designation = "Inside Sales Coordinator" }
+    private List<ScheduleData.ConferenceData> Conferences { get; set; } = new List<ScheduleData.ConferenceData> {
+        new ScheduleData.ConferenceData { Text = "Margaret", Id = 1, Color = "#1aaa55", Designation = "Sales Representative" },
+        new ScheduleData.ConferenceData { Text = "Robert", Id = 2, Color = "#357cd2", Designation = "Vice President, Sales" },
+        new ScheduleData.ConferenceData { Text = "Laura", Id = 3, Color = "#7fa900", Designation = "Inside Sales Coordinator" }
     };
-    public TemplateArgs Model = new TemplateArgs();
-    public class TemplateArgs
-    {
-        public ResourceDataModel ResourceData { get; set; }
-    }
-    public class ResourceDataModel
-    {
-        public string Text { get; set; }
-        public string Designation { get; set; }
-    }
 }
 <style>
     .e-schedule .e-month-view .e-appointment .e-appointment-details {

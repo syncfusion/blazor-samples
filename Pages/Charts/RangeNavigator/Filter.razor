@@ -2,25 +2,7 @@
 @using Syncfusion.EJ2.Blazor.Charts
 @using Syncfusion.EJ2.Blazor.Grids
 @using Newtonsoft.Json
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Filter";
-    SampleBrowser.CurrentControlName = "RangeNavigator";
-    SampleBrowser.CurrentControlCategory = "RangeNavigator";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.RangeNavigator;
-    SampleBrowser.ActionDescription = new string[] {
-         @"<p>
-        This sample filters the data by hire date using date-time axis.
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-         @"<p>
-        In this example, you can see how to bind the value of the range navigator to the grid control using the changed event.
-    </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 @if (filterData == null)
 {
     <div class="stockchartloader"></div>
@@ -39,7 +21,7 @@ else
                 </EjsRangeNavigator>
             </div> <br>
             <div id="gridcontainer">
-                <EjsGrid Width="80%" @ref="gridObj" TValue="ChartData" AllowPaging="true">
+                <EjsGrid Width="80%" @ref="gridObj" DataSource="@Data" TValue="ChartData" AllowPaging="true">
                     <GridColumns>
                         <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
                         <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
@@ -53,9 +35,13 @@ else
 @code{
     EjsGrid<ChartData> gridObj;
     private ChartData[] filterData;
+    private ChartData[] Data;
     protected override async Task OnInitializedAsync()
-    {       
-		filterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/employee-data.json"));
+    {
+        await Task.Run(() =>
+        {
+		    filterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/employee-data.json"));
+        });
     }
     public class ChartData
     {
@@ -77,7 +63,7 @@ else
                 filterData1.Add(filterData[i]);
             }            
         }
-        gridObj.DataSource = filterData1.ToArray();
+        Data = filterData1.ToArray();
         gridObj.Refresh();
        
     }

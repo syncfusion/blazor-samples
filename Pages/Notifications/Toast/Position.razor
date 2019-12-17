@@ -6,29 +6,7 @@
 @using Syncfusion.EJ2.Blazor.Buttons
 @using Syncfusion.EJ2.Blazor.Inputs
 
-@*Hidden:Lines*@
-@using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Position";
-    SampleBrowser.CurrentControlName = "Toast";
-    SampleBrowser.CurrentControlCategory = "Toast";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Toast;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>This sample demonstrates the different positioning of the Toast based on the target given.</p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>Based on the use case toast can take the body element or any specific element as target. In this sample, with help of custom inputs toast can be positioned based on the target.</p>
-<ul>
-    <li>Toast can be positioned in the 8 pre-defined places.</li>
-    <li>Custom option will enable to give X and Y values to align the toast based on the given inputs.</li>
-</ul>
-<p>
-    More information about Toast can be found in this
-    <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
-</p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-12 control-section toast-pos-section">
     <div class="control_wrapper" id="toast_pos_target">
@@ -54,7 +32,7 @@
                     <tr>
                         <td id="dropdownChoose" colspan="1">
                             <div id="dropdown" style="padding:14px;">
-                                <EjsDropDownList @ref="DropdownObj" ID="position" TValue="string" Placeholder="Select a position" PopupHeight="200px" Enabled="@DropdownEnable" DataSource="@Positioning">
+                                <EjsDropDownList @ref="DropdownObj" TItem="Positions" ID="position" TValue="string" Placeholder="Select a position" PopupHeight="200px" Enabled="@DropdownEnable" DataSource="@Positioning">
                                     <DropDownListEvents TValue="string" ValueChange="@OnChangeHandler"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
                                 </EjsDropDownList>
@@ -65,11 +43,11 @@
                             <form id="formId" class="form-horizontal">
                                 <label>X Position</label>
                                 <div class="e-row">
-                                    <EjsTextBox @ref="TextboxObj" @bind-Value="@Defaultvalue" Placeholder="Please enter digits only." Enabled="@TextboxEnabled" ValueChange="@HideToast"></EjsTextBox>
+                                    <EjsTextBox @ref="TextboxObj" @bind-Value="@Defaultvalue" Placeholder="Please enter digits only." Enabled="@TextboxEnabled" ValueChange="@HideToast" Focus="@HideToast"></EjsTextBox>
                                 </div>
                                 <label>Y Position</label>
                                 <div class="e-row">
-                                    <EjsTextBox @ref="TextboxObj2" @bind-Value="@Defaultvalue1" Placeholder="Please enter digits only." Enabled="@TextboxEnabled" ValueChange="@HideToast"></EjsTextBox>
+                                    <EjsTextBox @ref="TextboxObj2" @bind-Value="@Defaultvalue1" Placeholder="Please enter digits only." Enabled="@TextboxEnabled" ValueChange="@HideToast" Focus="@HideToast"></EjsTextBox>
                                 </div>
                             </form>
                         </td>
@@ -101,6 +79,7 @@
         width: 50%;
         padding-top: 12px;
     }
+
     .e-toast-icon.e-laura.e-icons {
         border-radius: 50%;
         background-image: url(https://ej2.syncfusion.com/vue/demos/src/toast/resource/laura.png);
@@ -111,11 +90,13 @@
         background-size: 50px 50px;
         margin: 0;
     }
+
     @@media (min-width: 740px) {
         #toast_pos_property {
             width: 570px;
         }
     }
+
     .toast-pos-section #toast_pos_property {
         height: 500px;
         border: none;
@@ -127,7 +108,7 @@
     EjsToast ToastObj;
     EjsTextBox TextboxObj;
     EjsTextBox TextboxObj2;
-    EjsDropDownList<string> DropdownObj;
+    EjsDropDownList<string, Positions> DropdownObj;
 
     public string ToastTarget { get; set; }
     public string Xvalue { get; set; } = "50";
@@ -142,10 +123,14 @@
     public string ToastTitle { get; set; } = "Matt sent you a friend request";
     public bool Checked { get; set; } = true;
     public bool Checked2 { get; set; } = true;
+    public string PositionX { get; set; } = "Left";
+    public string PositionY { get; set; } = "Top";
     private void OnChangeHandler(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> arg)
     {
+        this.HideToast();
         this.ToastWidth = "auto";
-        switch (arg.Value) {
+        switch (arg.Value)
+        {
             case "topleft":
                 this.Xvalue = "Left"; this.Yvalue = "Top"; break;
             case "topright":
@@ -163,7 +148,8 @@
             case "bottomfullwidth":
                 this.ToastWidth = "100%"; this.Xvalue = "Center"; this.Yvalue = "Bottom"; break;
         }
-        this.ToastObj.Hide("All");
+        this.PositionX = this.Xvalue;
+        this.PositionY = this.Yvalue;
         this.StateHasChanged();
     }
     public class Positions
@@ -172,7 +158,7 @@
         public string text { get; set; }
     }
     List<Positions> Positioning = new List<Positions>()
-    {
+{
         new Positions(){ value= "topleft", text= "Top Left" },
         new Positions(){ value= "topright", text= "Top Right" },
         new Positions(){ value= "topcenter", text= "Top Center" },
@@ -182,27 +168,31 @@
         new Positions(){ value= "bottomcenter", text= "Bottom Center" },
         new Positions(){ value= "bottomfullwidth", text= "Bottom Full Width" }
     };
-    private void OnBtnClicked()
+    private async void OnBtnClicked()
     {
         if (this.CustomFlag)
         {
             setcustomPosValue();
         }
-        else {
+        else
+        {
+            await Task.Delay(200);
             this.ToastObj.Show();
         }
     }
     private void checkboxChange(Syncfusion.EJ2.Blazor.Buttons.ChangeArgs arg)
     {
-        this.ToastObj.Hide("All");
+        this.HideToast();
         this.CustomFlag = false;
         this.TextboxEnabled = false;
         this.DropdownEnable = true;
+        this.Xvalue = this.PositionX;
+        this.Yvalue = this.PositionY;
         this.StateHasChanged();
     }
     private void checkboxChange1(Syncfusion.EJ2.Blazor.Buttons.ChangeArgs arg)
     {
-        this.ToastObj.Hide("All");
+        this.HideToast();
         this.CustomFlag = true;
         this.TextboxEnabled = true;
         this.DropdownEnable = false;
@@ -210,7 +200,7 @@
     }
     private void checkboxChange2(Syncfusion.EJ2.Blazor.Buttons.ChangeArgs arg)
     {
-        this.ToastObj.Hide("All");
+        this.HideToast();
         this.ToastTarget = "#toast_pos_target";
         this.StateHasChanged();
     }
@@ -220,15 +210,16 @@
     }
     private void checkboxChange3(Syncfusion.EJ2.Blazor.Buttons.ChangeArgs arg)
     {
-        this.ToastObj.Hide("All");
+        this.HideToast();
         this.ToastTarget = "body";
         this.StateHasChanged();
     }
-    private void setcustomPosValue()
+    private async void setcustomPosValue()
     {
         this.Xvalue = this.TextboxObj.Value;
         this.Yvalue = this.TextboxObj2.Value;
         this.StateHasChanged();
+        await Task.Delay(200);
         this.ToastObj.Show();
     }
 }

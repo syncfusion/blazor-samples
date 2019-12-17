@@ -2,40 +2,15 @@
 
 @using Syncfusion.EJ2.Blazor.Gantt
 @using Syncfusion.EJ2.Blazor.Navigations
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
 @using ej2_blazor_ganttdata
-@{
-    SampleBrowser.CurrentSampleName = "Unscheduled Task";
-    SampleBrowser.CurrentControlName = "Gantt";
-    SampleBrowser.CurrentControlCategory = "Gantt";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Gantt;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>This sample visualize the various types of unscheduled taskbars in Gantt with quick add support of task with custom toolbar in Gantt.</p>"
-    };
-    SampleBrowser.Description = new string[]{
-        @"<p>
-        Unscheduled tasks are tasks in a project that are not scheduled with proper dates or duration at the commencement
-        of the project.  These tasks can be scheduled properly at any time during project implementation based on factors
-        such as resource availability, dependent tasks, and more.
-        </p>
-        <p>
-        This example shows how to display the unscheduled tasks in Gantt by enabling the <code>AllowUnscheuldedTask</code> property.
-        This also shows how to add an empty row in Gantt by using a custom toolbar button click action.
-        </p>
-        <p>
-        By using the <code>OnToolbarClick</code> event and <code>AddRecord</code> method, an empty row can be added at the
-        top of the rows with undefined task details.
-        </p>"
-    };
-}
-@*End:Hidden*@
+
+@inherits SampleBaseComponent;
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsGantt @ref="GanttObject" ModelType="@TemplateModel" Toolbar="Toolbaritems" AllowUnscheduledTasks="true" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" ProjectStartDate="01/01/2019" ProjectEndDate="01/20/2019">
+            <EjsGantt @ref="GanttObject" ID="Unscheduled" Toolbar="Toolbaritems" AllowUnscheduledTasks="true" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" ProjectStartDate="01/01/2019" ProjectEndDate="01/20/2019">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  Dependency="Predecessor"></GanttTaskFields>
                 <GanttEvents OnToolbarClick="ToolbarClick" TValue=GanttData.TaskData></GanttEvents>
@@ -51,12 +26,12 @@
                 <GanttLabelSettings>
                     <LeftLabelTemplate>
                         <div class="e-left-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@((context as GanttLabelTemplateModel).TaskName)</span>
+                            <span class="e-label">@((context as GanttData.TaskData).TaskName)</span>
                         </div>
                     </LeftLabelTemplate>
                     <RightLabelTemplate>
                         <div class="e-right-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@((context as GanttLabelTemplateModel).TaskType)</span>
+                            <span class="e-label">@((context as GanttData.TaskData).TaskType)</span>
                         </div>
                     </RightLabelTemplate>
                 </GanttLabelSettings>
@@ -67,14 +42,6 @@
 
 @code{
     
-     public class GanttLabelTemplateModel
-    {
-        public string TaskName { get; set; }
-        public string TaskType { get; set; }
-        
-       
-    }
-    public GanttLabelTemplateModel TemplateModel = new GanttLabelTemplateModel();
     public List<ItemModel> Toolbaritems = new List<ItemModel>() { new ItemModel() { Text = "Insert task", PrefixIcon = "e-add-icon tb-icons", TooltipText = "Insert task at top", Id = "ToolbarAdd" } };
     public List<GanttData.TaskData> TaskCollection { get; set; }
     public EjsGantt<GanttData.TaskData> GanttObject;
@@ -94,7 +61,13 @@
 
 
 <style>
-    .e-add-icon:before {
+    
+    #Unscheduled .e-add-icon:before {
         content: "\e506"
     }
+
+    .bootstrap4 #Unscheduled .e-add-icon:before {
+        content: "\e783"
+    }
+
 </style>

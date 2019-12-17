@@ -9,20 +9,22 @@
 
 @*Hidden:Lines*@
 @using ej2_blazor_samples
-@using ej2_blazor_treedata
+@using ej2_blazor_selfdata
 
 @{
     SampleBrowser.CurrentSampleName = "Filterbar Template";
     SampleBrowser.CurrentControlName = "TreeGrid";
     SampleBrowser.CurrentControlCategory = "TreeGrid";
     SampleBrowser.CurrentControl = SampleBrowser.Config.TreeGrid;
+    SampleBrowser.TitleTag = "Tree Grid . Filterbar Template . Syncfusion Blazor Components - Preview";
+    SampleBrowser.MetaDescription = "This demo for Syncfusion Blazor TreeGrid component shows how to define the template for filter bar in TreeGrid component.";
     SampleBrowser.ActionDescription = new string[] {
         @"<p>
             This sample demonstrates the template support of filterbar in TreeGrid.
         </p>"
     };
     SampleBrowser.Description = new string[] {
-        @"<p>The Tree Grid provides a way to use custom control for filterbar using filter template feature. 
+        @"<p>The Tree Grid provides a way to use custom control for filterbar using filter template feature.
             </p>
             <p>In this demo, using FilterTemplate, we have rendered dropdownlist for Duration Column, from which a value can be selected to filter the column.</p>"
     };
@@ -32,22 +34,21 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <EjsTreeGrid @ref="TreeGrid"  Height=400 ModelType="@model" TValue="BusinessObject" IdMapping="TaskId" ParentIdMapping="ParentId" TreeColumnIndex="1" AllowFiltering="true">
-                <EjsDataManager Json="@TreeGridData" Adaptor="Syncfusion.EJ2.Blazor.Adaptors.JsonAdaptor"></EjsDataManager>
+            <EjsTreeGrid @ref="TreeGrid" Height=400 DataSource="TreeGridData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowFiltering="true">
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="81" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="199">                        
-                    </TreeGridColumn>
-                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="85" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right">
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="60" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="d" Type=ColumnType.Date Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="80">
                         <FilterTemplate>
-                           <EjsDropDownList ID="Duration" TValue="string" DataSource="@dropdowndata" @bind-Value="@FilterValue">
-								<DropDownListEvents ValueChange="change" TValue="string"></DropDownListEvents>
-							</EjsDropDownList>
+                            <EjsDropDownList ID="Duration" TValue="string" TItem="DDLData" DataSource="@dropdowndata">
+                                <DropDownListEvents ValueChange="change" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                            </EjsDropDownList>
                         </FilterTemplate>
                     </TreeGridColumn>
-                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="89" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Approved" HeaderText="Approved" Width="90" DisplayAsCheckBox="true" TextAlign="TextAlign.Center"></TreeGridColumn>
-                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="85" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="89" TextAlign="Syncfusion.EJ2.Blazor.Grids.TextAlign.Right"></TreeGridColumn>                    
                 </TreeGridColumns>
             </EjsTreeGrid>
         </div>
@@ -57,31 +58,40 @@
 
 
 @code{
-    EjsTreeGrid<BusinessObject> TreeGrid;
+    EjsTreeGrid<SelfReferenceData> TreeGrid;
 
-    public BusinessObject[] TreeGridData { get; set; }
+    public List<SelfReferenceData> TreeGridData { get; set; }
 
-    public BusinessObject model = new BusinessObject();
-
-    public List<string> dropdowndata { get; set; } = new List<string>() { "5", "1", "3", "2", "11", "12", "All"};
+    public List<DDLData> dropdowndata { get; set; } =  new List<DDLData> {
+        new DDLData { text = "In Progress", value = "In Progress" },
+        new DDLData { text = "Open", value = "Open" },
+        new DDLData { text = "Validated", value = "Validated" },
+        new DDLData { text = "Closed", value = "Closed" },
+        new DDLData { text = "All", value = "All" }
+    };
 
     public string FilterValue { get; set; } = "All";
 
     protected override void OnInitialized()
     {
-        this.TreeGridData = TreeData.GetDefaultData().ToList().Cast<BusinessObject>().ToArray();
+        this.TreeGridData = SelfReferenceData.GetTree().Take(12).ToList();
+    }
+
+    public class DDLData
+    {
+        public string text { get; set; }
+        public string value { get; set; }
     }
 
     public void change(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         if (args.Value == "All")
         {
-            TreeGrid.ClearFiltering();
+            this.TreeGrid.ClearFiltering();
         }
         else
         {
-            int val = Convert.ToInt32(args.Value);
-            TreeGrid.FilterByColumn("Duration", "equal", val);
+            this.TreeGrid.FilterByColumn("Progress", "equal", args.Value);
         }
     }
 }

@@ -1,54 +1,64 @@
 ﻿@page "/StockChart/OHLC"
 @using Syncfusion.EJ2.Blazor.Charts
-@using Newtonsoft.Json 
-@{
-    SampleBrowser.CurrentSampleName = "OHLC";
-    SampleBrowser.CurrentControlName = "StockChart";
-    SampleBrowser.CurrentControlCategory = "StockChart";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.StockChart;
-    SampleBrowser.ActionDescription = new string[] {
-         @"<p>
-        This sample visualizes the Stock Chart with OHLC series.
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-         @"<p>
-        In this example, you can see how to render and configure the Stock chart. HILO Open Close series is used to represent selected data value.
-    </p>"
-    };
-}
+@using Newtonsoft.Json
+@inherits SampleBaseComponent;
 
 @if (dataSource == null)
 {
-   <div class="stockchartloader"></div>
+    <div class="stockchartloader"></div>
 }
 else
 {
-<EjsStockChart Title="AAPL Stock Price">
-    <StockChartPrimaryXAxis>
-        <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
-        <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
-    </StockChartPrimaryXAxis>
-    <StockChartPrimaryYAxis>
-        <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
-        <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
-    </StockChartPrimaryYAxis>
-    <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
-    <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
-    <StockChartSeriesCollection>
-        <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.HiloOpenClose" XName="x"></StockChartSeries>
-    </StockChartSeriesCollection>
-    <StockChartChartArea>
-        <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
-    </StockChartChartArea>
-</EjsStockChart>
+    <div class="@loadClass"></div>
+    <div class="@loadDiv">
+        <EjsStockChart Title="AAPL Stock Price">
+            <StockChartEvents Loaded="@ChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis>
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+            </StockChartPrimaryYAxis>
+            <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.HiloOpenClose" XName="x"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </EjsStockChart>
+    </div>
+    <style>
+        .stockchartloader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchartdiv {
+            visibility: hidden;
+        }
+    </style>
 }
 @code{
 
     private ChartData[] dataSource;
     protected override async Task OnInitializedAsync()
     {
-        dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
+        await Task.Run(() =>
+        {
+            dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
+        });
     }
     public class ChartData
     {
@@ -58,6 +68,14 @@ else
         public double close { get; set; }
         public double high { get; set; }
         public double volume { get; set; }
+    }
+
+    string loadClass = "stockchartloader";
+    string loadDiv = "stockchartdiv";
+    void ChartLoaded(IStockChartEventArgs args)
+    {
+        loadClass = "";
+        loadDiv = "";
     }
 
 }

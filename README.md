@@ -1,6 +1,6 @@
 # Syncfusion Blazor Components Demos
 
-This repository contains the demos of [Syncfusion Blazor Components](https://ej2.syncfusion.com/home/blazor.html).
+This repository contains the demos of [Syncfusion Blazor Components](https://blazor.syncfusion.com/).
 
 The below topics can help you to use the Syncfusion Blazor Components and run this application in your local.
 
@@ -15,8 +15,8 @@ The below topics can help you to use the Syncfusion Blazor Components and run th
 
 The samples requires the below requirements to run.
 
-* [Visual Studio 2019 16.4 Preview 4 or later](https://visualstudio.microsoft.com/vs/preview/)
-* [.NET Core SDK 3.1.0-Preview 2](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+* [Visual Studio 2019 16.4 or later](https://visualstudio.microsoft.com/vs/preview/)
+* [.NET Core SDK 3.1.0](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 
 ## Using the demos
 
@@ -26,7 +26,7 @@ The samples requires the below requirements to run.
 
 ## Documentation
 
-All components documentation for the `Syncfusion Blazor Components` can be found on [Syncfusion Help](https://ej2.syncfusion.com/aspnet-core-blazor/documentation/introduction/).
+All components documentation for the `Syncfusion Blazor Components` can be found on [Syncfusion Help](https://ej2.syncfusion.com/blazor/documentation/introduction/).
 
 ## License
 

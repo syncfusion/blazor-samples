@@ -2,44 +2,25 @@
 
 @using Syncfusion.EJ2.Blazor.Schedule
 @using Syncfusion.EJ2.Blazor.DropDowns
-
-@*Hidden:Lines*@
 @using ej2_blazor_samples
-@{
-    SampleBrowser.CurrentSampleName = "Timescale";
-    SampleBrowser.CurrentControlName = "Scheduler";
-    SampleBrowser.CurrentControlCategory = "Scheduler";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.Schedule;
-    SampleBrowser.ActionDescription = new string[] {
-        @"<p>
-            This demo depicts how to customize the grid lines of scheduler with different duration, count and also, how to
-            apply template customizations on it.
-        </p>"
-    };
-    SampleBrowser.Description = new string[] {
-        @"<p>
-          In this demo, schedule has been allowed to display different number of grid lines per hour assigned with different duration
-            to each cell, by making use of the
-            <code>Interval</code> and
-            <code>SlotCount</code> properties. The grid lines can also be disabled on schedule, by setting <code>false</code> to the
-            <code>Enable</code> property available within
-            <code>TimeScale</code>. The time header text can be customized by making use of the
-            <code>MajorSlotTemplate</code> and
-            <code>MinorSlotTemplate</code> properties.
-        </p>"
-    };
-}
-@*End:Hidden*@
+@inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
         <EjsSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleObj" Width="100%" Height="650px" SelectedDate="@(new DateTime(2019, 1, 10))">
-            <ScheduleTimeScale Enable="@GridLine" Interval="@IntervalValue" SlotCount="@SlotValue"></ScheduleTimeScale>
             <ScheduleViews>
-                <ScheduleView Option="View.Day"></ScheduleView>
-                <ScheduleView Option="View.Week"></ScheduleView>
-                <ScheduleView Option="View.TimelineDay"></ScheduleView>
-                <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+                <ScheduleView Option="View.Day">
+                    <ScheduleViewTimeScale Enable="@GridLine" Interval="@IntervalValue" SlotCount="@SlotValue"></ScheduleViewTimeScale>
+                </ScheduleView>
+                <ScheduleView Option="View.Week">
+                    <ScheduleViewTimeScale Enable="@GridLine" Interval="@IntervalValue" SlotCount="@SlotValue"></ScheduleViewTimeScale>
+                </ScheduleView>
+                <ScheduleView Option="View.TimelineDay">
+                    <ScheduleViewTimeScale Enable="@GridLine" Interval="@IntervalValue" SlotCount="@SlotValue"></ScheduleViewTimeScale>
+                </ScheduleView>
+                <ScheduleView Option="View.TimelineWeek">
+                    <ScheduleViewTimeScale Enable="@GridLine" Interval="@IntervalValue" SlotCount="@SlotValue"></ScheduleViewTimeScale>
+                </ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </EjsSchedule>
@@ -60,8 +41,8 @@
                         </td>
                         <td style="width: 70%;">
                             <div>
-                                    <EjsDropDownList TValue="int" Value="@IntervalValue" DataSource="@IntervalData">
-                                        <DropDownListEvents TValue="int" ValueChange="IntervalChanged"></DropDownListEvents>
+                                    <EjsDropDownList TValue="string" TItem="TimeScaleDropDownModel" Value="@(IntervalValue.ToString())" DataSource="@IntervalData">
+                                        <DropDownListEvents TValue="string" ValueChange="IntervalChanged"></DropDownListEvents>
                                         <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
                                     </EjsDropDownList>
                             </div>
@@ -75,8 +56,8 @@
                         </td>
                         <td style="width: 70%;">
                             <div>
-                                    <EjsDropDownList TValue="int" Value="@SlotValue" DataSource="@SlotCountsData">
-                                        <DropDownListEvents TValue="int" ValueChange="SlotCountChange"></DropDownListEvents>
+                                    <EjsDropDownList TValue="string" TItem="TimeScaleDropDownModel" Value="@(SlotValue.ToString())" DataSource="@SlotCountsData">
+                                        <DropDownListEvents TValue="string" ValueChange="SlotCountChange"></DropDownListEvents>
                                         <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
                                     </EjsDropDownList>
                             </div>
@@ -90,7 +71,7 @@
                         </td>
                         <td style="width: 70%;">
                             <div>
-                                    <EjsDropDownList TValue="string" Value="@GridStatus" DataSource="@TimeScaleOption">
+                                    <EjsDropDownList TValue="string" TItem="TimeScaleDropDownModelOption" Value="@GridStatus" DataSource="@TimeScaleOption">
                                         <DropDownListEvents TValue="string" ValueChange="TimeScaleOptionChange"></DropDownListEvents>
                                         <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
                                     </EjsDropDownList>
@@ -111,13 +92,13 @@
     public int SlotValue { get; set; } =  6 ;
     public bool GridLine { get; set; } =  true ;
     public string GridStatus { get; set; } = "enable" ;
-    public void IntervalChanged (ChangeEventArgs<int> args)
+    public void IntervalChanged (ChangeEventArgs<string> args)
     {
-        this.IntervalValue = args.Value;
+        this.IntervalValue = Convert.ToInt32(args.Value);
     }
-    public void SlotCountChange (ChangeEventArgs<int> args)
+    public void SlotCountChange (ChangeEventArgs<string> args)
     {
-        this.SlotValue = args.Value;
+        this.SlotValue = Convert.ToInt32(args.Value);
     }
     public void TimeScaleOptionChange (ChangeEventArgs<string> args)
     {
@@ -125,24 +106,24 @@
     }
     public List<TimeScaleDropDownModel> IntervalData = new List<TimeScaleDropDownModel>()
     {
-       new TimeScaleDropDownModel { Text = "30", Value = 30 },
-       new TimeScaleDropDownModel { Text = "60", Value = 60 },
-       new TimeScaleDropDownModel { Text = "90", Value = 90 },
-       new TimeScaleDropDownModel { Text = "120", Value = 120 },
-       new TimeScaleDropDownModel { Text = "150", Value = 150 },
-       new TimeScaleDropDownModel { Text = "180", Value = 180 },
-       new TimeScaleDropDownModel { Text = "240", Value = 240 },
-       new TimeScaleDropDownModel { Text = "300", Value = 300 },
-       new TimeScaleDropDownModel { Text = "720", Value = 720 }
+       new TimeScaleDropDownModel { Text = "30", Value = "30" },
+       new TimeScaleDropDownModel { Text = "60", Value = "60" },
+       new TimeScaleDropDownModel { Text = "90", Value = "90" },
+       new TimeScaleDropDownModel { Text = "120", Value = "120" },
+       new TimeScaleDropDownModel { Text = "150", Value = "150" },
+       new TimeScaleDropDownModel { Text = "180", Value = "180" },
+       new TimeScaleDropDownModel { Text = "240", Value = "240" },
+       new TimeScaleDropDownModel { Text = "300", Value = "300" },
+       new TimeScaleDropDownModel { Text = "720", Value = "720" }
     };
     public List<TimeScaleDropDownModel> SlotCountsData = new List<TimeScaleDropDownModel>()
     {
-        new TimeScaleDropDownModel { Text = "1", Value = 1 },
-        new TimeScaleDropDownModel { Text = "2", Value = 2 },
-        new TimeScaleDropDownModel { Text = "3", Value = 3 },
-        new TimeScaleDropDownModel { Text = "4", Value = 4 },
-        new TimeScaleDropDownModel { Text = "5", Value = 5 },
-        new TimeScaleDropDownModel { Text = "6", Value = 6 }
+        new TimeScaleDropDownModel { Text = "1", Value = "1" },
+        new TimeScaleDropDownModel { Text = "2", Value = "2" },
+        new TimeScaleDropDownModel { Text = "3", Value = "3" },
+        new TimeScaleDropDownModel { Text = "4", Value = "4" },
+        new TimeScaleDropDownModel { Text = "5", Value = "5" },
+        new TimeScaleDropDownModel { Text = "6", Value = "6" }
     };
     public List<TimeScaleDropDownModelOption> TimeScaleOption = new List<TimeScaleDropDownModelOption>()
     {
@@ -152,7 +133,7 @@
     public class TimeScaleDropDownModel
     {
         public string Text { get; set; }
-        public int Value { get; set; }
+        public string Value { get; set; }
     }
     public class TimeScaleDropDownModelOption
     {
