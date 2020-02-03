@@ -158,9 +158,9 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         <ul>
-                        <li>Choose float label types either 'Never', 'Always', or 'Auto' to float the placeholder text.</li>
+                        <li>Choose float label types either 'Always', or 'Auto' to float the placeholder text.</li>
                         <li>To make a read-only multiline textbox, check the 'read-only' option.</li>
-                        <li>Disable the textbox by unchecking an 'enabled' option.</li>
+                        <li>Disable the textbox by checking 'disabled' option.</li>
                         <li>Change the number of rows count to restrict the length of the input..</li>
                         </ul>
                     </p>
@@ -203,7 +203,7 @@ namespace ej2_blazor_samples
                     <li>By clicking the mode switching icon at the left bottom of the popup, switch between picker and palette type.</li>
                     <li>Using the
                         <code>
-                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Value.html"">Value</a>
+                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Value.html"">Value</a>
                         </code> property, set the color value to picker and palette initially.</li>
                 </ul>
                 <p>
@@ -211,7 +211,7 @@ namespace ej2_blazor_samples
                 <p>
                 <p>
                     More information about ColorPicker can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -239,23 +239,23 @@ namespace ej2_blazor_samples
                 <ul>
                     <li>Color picker/palette is rendered inline by using the inline
                         <code>
-                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Inline.html"">Inline</a>
+                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Inline.html"">Inline</a>
                         </code> property set to
                         <i>true</i>.</li>
                     <li>Using the
                         <code>
-                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Mode.html"">Mode</a>
+                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Mode.html"">Mode</a>
                         </code> property, you can specify the mode
                         <i>(Picker/ Palette)</i> of the ColorPicker.</li>
                     <li>Using the
                         <code>
-                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~ShowButtons.html"">ShowButtons</a>
+                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~ShowButtons.html"">ShowButtons</a>
                         </code> property, you can enable or disable the control
                         <i>(apply/cancel)</i> buttons.</li>
                 </ul>
                 <p>
                     More information about ColorPicker can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
 
@@ -288,12 +288,12 @@ namespace ej2_blazor_samples
                     </li>
                     <li>Using the
                         <code>
-                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Value.html"">Value</a>
+                            <a target=""_blank"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.EjsColorPicker~Value.html"">Value</a>
                         </code> property, set the color value to picker and palette initially.</li>
                 </ul>
                 <p>
                     More information about ColorPicker can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
 
@@ -337,7 +337,7 @@ namespace ej2_blazor_samples
                 </ul>
                 <p>
                     More information about ColorPicker can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -395,7 +395,7 @@ namespace ej2_blazor_samples
                         <b>Custom characters:</b>
                     </p>
                     <p>
-                        You can form the mask with any non-mask elements (literals), and you can configure the behavior of that non-mask element as mask element through the customCharacters property.
+                        You can form the mask with any non-mask elements (literals), and you can configure the behavior of that non-mask element as mask element through the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.MaskedTextBoxModel~CustomCharacters.html"" target=""_blank""> CustomCharacters</a> property.
                     </p>
                     <p>
                         In this demo, the “Time” mask '99 : 99 >PM' contains the literals P and M, where it is configured to allow the inputs as 'P', 'A', 'p', 'a', and 'M', 'm'.
@@ -468,7 +468,7 @@ namespace ej2_blazor_samples
                                 },
                 Description = new string[] {
                     @"<p>
-                        The NumericTextBox provides an option to customize the display format of the numeric value using the format property. It accepts the standard numeric format string and custom numeric format string as specified in MSDN. The formatted value displays when the component is not focused.
+                        The NumericTextBox provides an option to customize the display format of the numeric value using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.NumericTextBoxModel%601~Format.html"" target=""_blank""> Format</a> property. It accepts the standard numeric format string and custom numeric format string as specified in <a target=""_blank""href=""https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings"">MSDN</a>. The formatted value displays when the component is not focused.
                     </p>
                     <p>
                         In this demo, NumericTextBox control renders with the custom format ###.## km.
@@ -498,7 +498,7 @@ namespace ej2_blazor_samples
                         Description = new string[]
                 {
                     @" <p>
-                        The NumericTextBox provides an option to restrict the number of decimal values, by using the decimals property. To restrict the number of decimal values on typing, use the decimals and validateDecimalOnType properties.
+                        The NumericTextBox provides an option to restrict the number of decimal values, by using the Decimals property. To restrict the number of decimal values on typing, use the <a target=""_blank""href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.NumericTextBoxModel%601~Decimals.html"">Decimals</a>. and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.NumericTextBoxModel%601~ValidateDecimalOnType.html"" target=""_blank""> ValidateDecimalOnType</a> properties.
                     </p>
                     <p>
                         More information about NumericTextBox can be found in this
@@ -519,18 +519,18 @@ namespace ej2_blazor_samples
                 TitleTag = "NumericTextBox . RangeValidation . Syncfusion Blazor Components",
                 MetaDescription = "This sample demonstrates the range validation functionalities of the Numeric TextBox. Change the min, max and step values and click on apply button to change the property values in Numeric TextBox.",
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the range validation functionalities of the Numeric TextBox. Change the min, max and step values and click on apply button to change the property values in Numeric TextBox.</p>"
+                    @"<p>This sample demonstrates the range validation functionalities of the Numeric TextBox. Change the Min, Max and Step values and click on apply button to change the property values in Numeric TextBox.</p>"
                 },
                 Description = new string[] {
                     @" <p>
-                        The NumericTextBox has the options to restrict the input value between a specific range using the min, max, and strictMode properties.
+                        The NumericTextBox has the options to restrict the input value between a specific range using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.NumericTextBoxModel%601~Min.html"" target=""_blank""> Min</a>, <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.NumericTextBoxModel%601~Max.html"" target=""_blank""> Max</a>, and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.NumericTextBoxModel%601~StrictMode.html"" target=""_blank""> StrictMode</a> properties.
                     </p>
                     <p>
-                        When you enable the strictMode property, the value will automatically change within a range on passing the out-of-range values. When you disable the strictMode property, the NumericTextBox component allows
+                        When you enable the StrictMode property, the value will automatically change within a range on passing the out-of-range values. When you disable the StrictMode property, the NumericTextBox component allows
                         the out-of-range value with the highlighted textbox to indicate the given value is wrong.
                     </p>
                     <p>
-                        In this demo, numeric textbox is restricted between 10 to 100 through the min and max properties. So you can enter only the value between this range.
+                        In this demo, numeric textbox is restricted between 10 to 100 through the Min and Max properties. So you can enter only the value between this range.
                     </p>
                     <p>
                         More information about NumericTextBox can be found in this
@@ -639,8 +639,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The Uploader component allows to validate the file’s type, and limit the file size using AllowedExtensions, MinFileSize, and MaxFileSize properties.
-                        You can also achieve limit the files count before uploading it using select event.
+                        The Uploader component allows to validate the file’s type, and limit the file size using <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.UploaderModel~AllowedExtensions.html"" target=""_blank""> AllowedExtensions</a>, <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.UploaderModel~MinFileSize.html"" target=""_blank""> MinFileSize</a>, and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.UploaderModel~MaxFileSize.html"" target=""_blank""> MaxFileSize</a> properties.
+                        You can also achieve limit the files count before uploading it using <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Inputs.UploaderEvents~FileSelected.html"" target=""_blank""> FileSelected</a> event.
                     </p>
 
                     <p>For more information, you can refer to the Validation section from this

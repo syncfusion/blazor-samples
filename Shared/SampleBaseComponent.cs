@@ -12,27 +12,18 @@ namespace ej2_blazor_samples.Shared
         [Inject]
         protected IJSRuntime jsRuntime { get; set; }
 
+        [Inject]
+        protected SampleService Service { get; set; }
+
         internal SampleData SampleDetails { get; set; } = new SampleData();
-        protected override void OnAfterRender(bool FirstRender)
+        protected  override void OnAfterRender(bool FirstRender)
         {
-            if (FirstRender)
-            {
-                this.jsRuntime.InvokeVoidAsync("hideSpinner");
-                //SampleBrowser.CurrentControl = SampleDetails.CurrentControl;
-                //SampleBrowser.CurrentSampleName = SampleDetails.CurrentSampleName;
-                //SampleBrowser.CurrentControlName = SampleDetails.CurrentControlName;
-                //SampleBrowser.CurrentControlCategory = SampleDetails.CurrentControlCategory;
-                //SampleBrowser.TitleTag = SampleDetails.TitleTag;
-                //SampleBrowser.MetaDescription = SampleDetails.MetaDescription;
-                //SampleBrowser.ActionDescription = SampleDetails.ActionDescription;
-                //SampleBrowser.Description = SampleDetails.Description;
-                //this.StateHasChanged();
-            }
+            Service.Update(new NotifyProperties() { HideSpinner = true, RestricMouseEvents = true});
         }
 
         public void Dispose()
         {
-           // jsRuntime.InvokeAsync<string>("contentDispose");
+
         }
     }
 }

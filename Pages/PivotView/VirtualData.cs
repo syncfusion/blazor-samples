@@ -18,7 +18,7 @@ namespace ej2_blazor_virtualdata
         {
             List<PivotVirtualData> VirtualData = new List<PivotVirtualData>();
 
-            for (int i = 1; i <= 50000; i++)
+            for (int i = 1; i <= 100000; i++)
             {
                 PivotVirtualData p = new PivotVirtualData
                 {

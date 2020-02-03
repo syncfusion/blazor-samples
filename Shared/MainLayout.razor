@@ -9,6 +9,7 @@
 @using Syncfusion.EJ2.Blazor;
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
 @inject IJSRuntime JsRuntime;
+@inject SampleService Service;
 
 
 <CascadingValue Value="@this">
@@ -38,7 +39,7 @@
                     <div class="sb-setting-item sb-setting-theme-section">
                         <div class="sb-icons sb-setting-icons sb-icon-Palette"></div>
                         <div class="sb-setting-text">Theme Selection</div>
-                        
+
                         <EjsDropDownList ID="mobileTheme" TValue="string" TItem="typeData" PopupWidth="180px" DataSource="@data">
                             <DropDownListEvents ValueChange="ThemeChange" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
@@ -133,8 +134,6 @@
         JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
     }
 
-
-
     public List<TabItem> sourceCodeItems;
 
     private void OnToggleClick()
@@ -151,14 +150,6 @@
         JsRuntime.InvokeAsync<Object>("mobileThemePersist");
     }
 
-
-
-
-
-
-
-
-
     protected override bool ShouldRender()
     {
         return true;
@@ -167,7 +158,20 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        //Spinner.PropertyChanged = this.OnPropertyChanged;
+        Service.Notify += OnNotify;
         //UriHelper.NavigateTo("Buttons/DefaultFunctionalities?theme=material");
+    }
+
+    public async Task OnNotify(NotifyProperties prop)
+    {
+        await InvokeAsync(() =>
+        {
+            this.SpinnerObj.Hide();
+            this.Service.Prop.HideSpinner = false;
+            this.Service.Prop.RestricMouseEvents = false;
+
+        });
     }
 
     public void UpdateBreadCrumb(string control, string category, string sample)
@@ -180,7 +184,7 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        if(UriHelper.Uri.IndexOf("material") > 0)
+        if (UriHelper.Uri.IndexOf("material") > 0)
         {
             JsRuntime.Ejs().EnableRipple(true);
         }
@@ -188,6 +192,20 @@
         {
             JsRuntime.Ejs().EnableRipple(false);
         }
+        if(this.SpinnerObj.TransClass == "sb-trans")
+        {
+            this.SpinnerObj.Hide();
+            this.Service.Prop.HideSpinner = false;
+            this.Service.Prop.RestricMouseEvents = false;
+        }
+    }
 
+
+
+
+
+    public void Dispose()
+    {
+        Service.Notify -= OnNotify;
     }
 }

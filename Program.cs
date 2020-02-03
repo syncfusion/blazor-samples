@@ -41,7 +41,7 @@ namespace ej2_blazor_samples
 
         public List<Sample> Samples { get; set; } 
     }
-    internal class SampleList
+    public class SampleList
     {
 
         public string Name { get; set; }
@@ -58,7 +58,7 @@ namespace ej2_blazor_samples
         public String ControllerName { get; set; }
     }
 
-    internal class Sample
+    public class Sample
     {
         public string Name { get; set; }
         public string Directory { get; set; }
@@ -77,7 +77,7 @@ namespace ej2_blazor_samples
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
     }
-    internal class SourceCollection
+    public class SourceCollection
     {
         public string FileName { get; set; }
         public string Id { get; set; }
@@ -88,6 +88,7 @@ namespace ej2_blazor_samples
         public static List<SampleList> SampleList { get; set; } = new List<SampleList>();
         internal static SampleConfig Config = new SampleConfig();
         internal static string CurrentSampleName;
+        internal static string CurrentFileName;
         internal static List<Sample> CurrentControl = new List<Sample>();
         internal static string CurrentControlName;
         internal static string CurrentControlCategory;
@@ -98,39 +99,75 @@ namespace ej2_blazor_samples
         internal static string[] ActionDescription;
         internal static string[] Description;
         internal static List<String> SampleUrls = new List<String>();
+        //internal static List<SourceCollection> CurrentSourceFiles { get; set; } = new List<SourceCollection>();
+        //internal static string CurrentSampleDirectory { get; set; }
+        //internal static void UpdateSampleData(string url, string baseUrl)
+        //{
+        //    string updatedUrl = url.Replace(baseUrl, "").Trim();
+        //    if (updatedUrl.IndexOf("?") >= 0)
+        //    {
+        //        updatedUrl = updatedUrl.Substring(0, updatedUrl.IndexOf("?"));
+        //    }
+        //    if (updatedUrl != "")
+        //    {                
+        //        if (updatedUrl.LastIndexOf("/") == updatedUrl.Length - 1)
+        //        {
+        //            updatedUrl = updatedUrl.Substring(0, updatedUrl.LastIndexOf("/"));
+        //        }
 
-        internal static void UpdateSampleData(string url)
-        {
-            string[] splittedUrl = url.Substring(0, url.IndexOf("?") >= 0 ? url.IndexOf("?") : url.Length).Split("/");
-            string CategoryName = splittedUrl[splittedUrl.Length - 2];
-            string SampleName = splittedUrl[splittedUrl.Length - 1];
+        //        string[] splittedUrl = updatedUrl.Split("/");
+        //        if (splittedUrl.Length >= 2)
+        //        {
+        //            string CategoryName = splittedUrl[splittedUrl.Length - 2];
+        //            string SampleName = splittedUrl[splittedUrl.Length - 1];
+        //            foreach (var Control in SampleBrowser.SampleList)
+        //            {
+        //                if (Control.ControllerName == CategoryName)
+        //                {
+        //                    SampleBrowser.CurrentControl = Control.Samples;
+        //                    SampleBrowser.CurrentControlName = Control.Name;
+        //                    SampleBrowser.CurrentControlCategory = Control.Category;                            
+        //                    break;
+        //                }
+        //            }
 
-            foreach (var Control in SampleBrowser.SampleList)
-            {
-                if (Control.ControllerName == CategoryName)
-                {
-                    SampleBrowser.CurrentControl = Control.Samples;
-                    SampleBrowser.CurrentControlName = Control.Name;
-                    SampleBrowser.CurrentControlCategory = Control.Category;
-                    break;
-                }
-            }
-
-            foreach (var sample in SampleBrowser.CurrentControl)
-            {
-                if (sample.Url.IndexOf(SampleName) >= 0)
-                {
-                    SampleBrowser.CurrentSampleName = sample.Name;
-                    SampleBrowser.TitleTag = sample.TitleTag;
-                    SampleBrowser.MetaDescription = sample.MetaDescription;
-                    SampleBrowser.ActionDescription = sample.ActionDescription;
-                    SampleBrowser.Description = sample.Description;
-                    break;
-                }
-            }
+        //            foreach (var sample in SampleBrowser.CurrentControl)
+        //            {
+        //                if (sample.Url.IndexOf(SampleName) >= 0)
+        //                {
+        //                    SampleBrowser.CurrentSampleName = sample.Name;
+        //                    SampleBrowser.TitleTag = sample.TitleTag;
+        //                    SampleBrowser.MetaDescription = sample.MetaDescription;
+        //                    SampleBrowser.ActionDescription = sample.ActionDescription;
+        //                    SampleBrowser.Description = sample.Description;
+        //                    SampleBrowser.CurrentSourceFiles = sample.SourceFiles;
+        //                    SampleBrowser.CurrentSampleDirectory = sample.Directory;
+        //                    SampleBrowser.CurrentFileName = sample.FileName;
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
 
 
-        }
+
+
+        //}
+        //internal static void Refresh()
+        //{
+        //    SampleBrowser.ActionDescription = null;
+        //    SampleBrowser.CurrentControl = new List<Sample>(); ;
+        //    SampleBrowser.CurrentControlCategory = null;
+        //    SampleBrowser.CurrentControlName = null;
+        //    SampleBrowser.CurrentSampleName = null;
+        //    SampleBrowser.Description = null;
+        //    SampleBrowser.TitleTag = null;
+        //    SampleBrowser.MetaDescription = null;
+        //    SampleBrowser.CurrentSourceFiles = new List<SourceCollection>();
+        //    SampleBrowser.CurrentSampleDirectory = null;
+        //    SampleBrowser.CurrentFileName = null;
+
+        //}
     }
 
     internal class SampleData
@@ -150,7 +187,7 @@ namespace ej2_blazor_samples
         internal List<String> SampleUrls = new List<String>();
     }
 
-    enum SampleType
+    public enum SampleType
     {
         None,
         New,

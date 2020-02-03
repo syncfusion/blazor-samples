@@ -12,6 +12,7 @@ using ej2_blazor_samples.Data;
 using Syncfusion.Licensing;
 using Syncfusion.EJ2.Blazor;
 using System.IO;
+using ej2_blazor_samples.Shared;
 
 namespace ej2_blazor_samples
 {
@@ -20,11 +21,6 @@ namespace ej2_blazor_samples
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            if (File.Exists(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt"))
-            {
-                string licenseKey = System.IO.File.ReadAllText(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt");
-                SyncfusionLicenseProvider.RegisterLicense(licenseKey);
-            }
 
         }
 
@@ -42,6 +38,7 @@ namespace ej2_blazor_samples
             {
                 o.MaximumReceiveMessageSize = 102400000;
             });
+            services.AddScoped<SampleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

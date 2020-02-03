@@ -6,6 +6,8 @@ var themeCollection = ['material', 'fabric', 'bootstrap', 'bootstrap4', 'highcon
 var isMobile = window.matchMedia('(max-width:550px)').matches;
 var previous;
 var Title;
+var ControlName;
+var FileName;
 var Descript;
 function viewSwitch(list) {
   var componentsList = ej.base.select("#components-tree");
@@ -21,6 +23,13 @@ function viewSwitch(list) {
   }
 }
 
+// function titleDescription(control, sample) {    
+//     document.getElementsByTagName('title')[0].innerHTML = control;    
+//     Title = control;
+//     Descript = sample;
+// }
+
+
 function loadTheme(theme) {
   var body = document.body;
   if (body.classList.length > 0) {
@@ -31,11 +40,22 @@ function loadTheme(theme) {
   body.classList.add(theme);
 }
 
+function titleDescription(control, filename) {
+  //Controlname = control.split('/')[1];
+  //Filename = filename.substring(0, filename.indexOf('.razor'));
+    Title = "Blazor " + control + " " + filename + " Example - Syncfusion Demos";
+  document.getElementsByTagName('title')[0].innerHTML = Title;
+    Descript = "This example demonstrates the " + filename + " in Blazor " + control + " Component. Explore here for more details.";
+  document.querySelector('meta[name="description"]').setAttribute("content", Descript);
+}
+
 function hideSpinner() {
-    var loader = document.querySelector(".sb-loading");
-    loader.classList.add("e-hide");
-    var bodyOverlay = document.querySelector(".sb-body-overlay");
-    bodyOverlay.classList.add("e-hide");
+  var loader = document.querySelector(".sb-loading");
+  loader.classList.add("sb-hide");
+  loader.classList.remove("sb-trans");
+  var bodyOverlay = document.querySelector(".sb-body-overlay");
+  bodyOverlay.classList.add("sb-hide");
+  bodyOverlay.classList.remove("sb-trans");
 }
 
 function getTheme() {
@@ -88,7 +108,7 @@ function mobileThemePersist(){
 }
 
 function persistURL(navUrl) {
-  history.pushState("", "", navUrl + "?theme=" + currentTheme);
+  //history.pushState("", "", navUrl + "?theme=" + currentTheme);
 }
 
 function homeButtonClick() {
@@ -131,7 +151,7 @@ function updateDescription(content) {
 }
 
 function destroyControl() {
-  document.querySelectorAll("#content-tab .e-control").forEach(function (e) {
+  document.querySelectorAll("#control-content .e-control").forEach(function (e) {
     try {
       e.ej2_instances[0].destroy();
     }
@@ -147,7 +167,7 @@ function updateActionDescription(content) {
       a += content[i];
     }
   }
-    document.querySelector(".sb-action-description").innerHTML = "<p>" + a + "</p>";
+    document.querySelector(".sb-action-description").innerHTML =  a ;
 }
 
 

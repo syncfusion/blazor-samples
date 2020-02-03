@@ -1263,7 +1263,7 @@ namespace ej2_blazor_samples
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to check performance in Chart.",
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample demonstrates the performance of EJ2 chart to render 100K points in canvas mode.
+                    This sample demonstrates the performance of Blazor chart to render 100K points in canvas mode.
                 </p>"
                 },
                 Description = new string[] {
