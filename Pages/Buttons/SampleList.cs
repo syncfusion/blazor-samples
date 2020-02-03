@@ -29,13 +29,13 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     In this sample, Play button is a toggle button and it can be enabled by using the <code><a target=""_blank"" class=""code""
-                    href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsButton~IsToggle.html"">IsToggle
+                    href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsButton~IsToggle.html"">IsToggle
                     </a></code> property. To change the text and icon you should handle click event.
                 </p>
                 <p>
                     More information about Button can be found in this
                     <a target=""_blank""
-                    href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/button/getting-started/"">
+                    href=""https://ej2.syncfusion.com/blazor/documentation/button/getting-started/"">
                     documentation section</a>.
                 </p>"
                 }
@@ -61,15 +61,15 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         In this sample, checked state is achieved by using the
-                        <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsCheckBox~Checked.html'>
+                        <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsCheckBox~Checked.html'>
                             <code>
                                 Checked
                             </code>
-                        </a> property, indeterminate state is achieved by using the <a target = '_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsCheckBox~Indeterminate.html'>
+                        </a> property, indeterminate state is achieved by using the <a target = '_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsCheckBox~Indeterminate.html'>
                             <code>
                                 Indeterminate
                             </code>
-                        </a> property, and disabled state is achieved by using the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsCheckBox~Disabled.html'>
+                        </a> property, and disabled state is achieved by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsCheckBox~Disabled.html'>
                             <code>
                                 Disabled
                             </code>
@@ -77,7 +77,7 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         More information about CheckBox can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/check-box/getting-started/"">
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/check-box/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -101,7 +101,7 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         In this sample, Credit/Debit Card option is checked by default, and it can be achieved by using the <a target=""_blank"" class=""code""
-                                                                                                                            href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsRadioButton~Checked.html"">
+                                                                                                                            href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsRadioButton~Checked.html"">
                             <code>
                                 Checked
                             </code>
@@ -109,7 +109,7 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         More information about RadioButton can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/radio-button/getting-started/"">
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/radio-button/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -135,21 +135,21 @@ namespace ej2_blazor_samples
                 <p>
                     In this sample, DropDownButton contains icon, content and list of action items, and can be added using
                     <code>
-                        <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsDropDownButton~IconCss.html"">IconCss,
+                        <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsDropDownButton~IconCss.html"">IconCss,
                         </a>
                     </code>
                     <code>
-                        <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsDropDownButton~Content.html"">Content
+                        <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsDropDownButton~Content.html"">Content
                         </a>
                     </code> and
                     <code>
-                        <a target = ""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsDropDownButton~Items.html"">Items
+                        <a target = ""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsDropDownButton~Items.html"">Items
                         </a>
                     </code> property.
                 </p>
                 <p>
                     More information about DropDownButton can be found in this
-                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/drop-down-button/getting-started/"">
+                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/drop-down-button/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -172,16 +172,16 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     In this sample, SplitButton contains icon, content and list of action items, and can be added using
-                    <code><a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsSplitButton~IconCss.html"">IconCss
+                    <code><a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsSplitButton~IconCss.html"">IconCss
                     </a></code>,
-                    <code><a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsSplitButton~Content.html"">Content
+                    <code><a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsSplitButton~Content.html"">Content
                     </a></code>and
-                    <code><a target = ""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsSplitButton~Items.html"">Items
+                    <code><a target = ""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsSplitButton~Items.html"">Items
                     </a></code> property.
                 </p>
                 <p>
                     More information about SplitButton can be found in this
-                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/split-button/getting-started/"">
+                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/split-button/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -206,12 +206,12 @@ namespace ej2_blazor_samples
                     <p>
                         In this sample, checked state is achieved by using the
                         <a target=""_blank"" class=""code""
-                        href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsSwitch~Checked.html"">
+                        href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsSwitch~Checked.html"">
                             <code>
                                 Checked
                             </code>
                         </a> property, and disabled state is achieved by using the <a target = ""_blank"" class=""code""
-                        href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsSwitch~Disabled.html"">
+                        href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Buttons.EjsSwitch~Disabled.html"">
                             <code>
                                 Disabled
                             </code>
@@ -219,7 +219,7 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         More information on Switch can be found in this
-                        <a target = ""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/switch/getting-started/"">
+                        <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/switch/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -247,21 +247,21 @@ namespace ej2_blazor_samples
                     In this sample, the progress button contains the content, spinner, progress indicator, and a list of related features that
                     can be achieved using
                     <code>
-                                <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsProgressButton~Content.html"">Content,
+                                <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsProgressButton~Content.html"">Content,
                                 </a>
                     </code>
                     <code>
-                                <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsProgressButton~CssClass.htmll"">CssClass,
+                                <a target=""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsProgressButton~CssClass.htmll"">CssClass,
                                 </a>
                     </code>and
                     <code>
-                            <a target = ""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsProgressButton~EnableProgress.html"">EnableProgress
+                            <a target = ""_blank"" class=""code"" href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.SplitButtons.EjsProgressButton~EnableProgress.html"">EnableProgress
                             </a>
                     </code>property.
                 </p>
                 <p>
                     More information about progress button can be found in this
-                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/progress-button/getting-started/"">
+                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/progress-button/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }

@@ -3,6 +3,8 @@
 @using Syncfusion.EJ2.Blazor.Navigations;
 @using Microsoft.AspNetCore.Components;
 @inject IJSRuntime JsRuntime;
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
+@inject SampleService Service;
 
 
 <div class='sb-source-section'>
@@ -21,20 +23,62 @@
     protected void OnSourceClicked(Syncfusion.EJ2.Blazor.Navigations.SelectEventArgs arg)
     {
         string response = string.Empty;
-        SampleBrowser.CurrentControl.ForEach((control) =>
+        this.GetSourceData((int)arg.SelectedIndex);
+    }
+
+    public Sample SampleData
+    {
+        get
         {
-            if (control.Name == SampleBrowser.CurrentSampleName)
+            return Service.Data.CurrentSample;
+        }
+
+    }
+
+    public SampleList Control
+    {
+        get
+        {
+            return Service.Data.CurrentControl;
+        }
+
+    }
+
+    protected void GetSourceData(int index)
+    {
+        InvokeAsync(() =>
+        {
+            string response = string.Empty;
+            string fileName = string.Empty;
+            if (SampleData.SourceFiles.Count > index && SampleData.Directory != null)
             {
-                if (control.SourceFiles.Count != 0)
+                fileName = SampleData.SourceFiles[index].FileName;
+                try
                 {
-                    int index = (int)arg.SelectedIndex;
-                    response = System.IO.File.ReadAllText("./wwwroot/scripts/Pages/" + control.Directory + "/" + control.SourceFiles[index].FileName + ".txt");
-                    response = this.FormatSourceCode(response);
-                    JsRuntime.InvokeAsync<Object>("refreshTab", response, control.SourceFiles[index].FileName);
+                    response = System.IO.File.ReadAllText("Pages/" + SampleData.Directory + "/" + SampleData.SourceFiles[index].FileName);
                 }
+                catch (Exception e)
+                {
+                    string directory = SampleData.Directory;
+                    if (SampleData.Directory.LastIndexOf("/") > 0)
+                    {
+                        directory = directory.Substring(0, SampleData.Directory.LastIndexOf("/"));
+                    }
+
+                    response = System.IO.File.ReadAllText("Pages/" + directory + "/" + SampleData.SourceFiles[index].FileName);
+                }
+
             }
+            else
+            {
+                response = System.IO.File.ReadAllText("Pages/" + SampleData.Directory + "/" + SampleData.FileName);
+                fileName = SampleData.FileName;
+            }
+            response = this.FormatSourceCode(response);
+            JsRuntime.InvokeAsync<Object>("refreshTab", response, fileName);
         });
-        
+
+
     }
 
     public string[] sourceResponse { get; set; } = new string[5];
@@ -56,7 +100,7 @@
         }
     }
 
-    public string FormatSourceCode (string response)
+    public string FormatSourceCode(string response)
     {
         response = response.Replace("<", "&lt;");
         response = response.Replace(">", "&gt;");
@@ -74,42 +118,38 @@
         sourceCodeItems = new List<TabItem>();
         if (arg.SelectedIndex == 1)
         {
-            SampleBrowser.CurrentControl.ForEach((control) =>
+
+            if (SampleData.SourceFiles.Count != 0)
             {
-                if (control.Name == SampleBrowser.CurrentSampleName)
+                for (var i = 0; i < SampleData.SourceFiles.Count; i++)
                 {
-                    if (control.SourceFiles.Count != 0) {
-                        string Response = System.IO.File.ReadAllText("./wwwroot/scripts/Pages/" + control.Directory + "/" + control.SourceFiles[0].FileName + ".txt");
-                        for (var i = 0; i < control.SourceFiles.Count; i++) {
-                            sourceCodeItems.Add (
-                                new TabItem() { Header = new TabHeader() { Text = control.SourceFiles[i].FileName },
-                                    ContentTemplate = @<pre class='sb-src-code'><code></code></pre>
-                                 }
-                            );}
-                        
-                        Response = this.FormatSourceCode(Response);
-                        this.StateHasChanged();
-                        JsRuntime.InvokeAsync<Object>("refreshTab", Response, control.SourceFiles[0].FileName );
-                    } else {
-                        String Response = System.IO.File.ReadAllText("./wwwroot/scripts/Pages/" + control.Directory + "/" + control.FileName + ".txt");
-                        Response = Response.Replace("<", "&lt;");
-                        Response = Response.Replace(">", "&gt;");
-                        while (Response.IndexOf("@*Hidden:Lines*@") > -1)
+                    sourceCodeItems.Add(
+                        new TabItem()
                         {
-                            Response = RemoveString(Response);
+                            Header = new TabHeader() { Text = SampleData.SourceFiles[i].FileName },
+                            ContentTemplate =@<pre class='sb-src-code'><code></code></pre>
                         }
-                        Response = Regex.Replace(Response, @"^(?:[\t ]*(?:\r?\n|\r))+", string.Empty, RegexOptions.Multiline);
-                        sourceCodeItems = new List<TabItem>() {
-                            new TabItem() { Header = new TabHeader() { Text = control.FileName },  
-                            ContentTemplate = @<pre id='code' class='sb-src-code'><code></code></pre>
-                            }
-                        };
-                        this.StateHasChanged();
-                        JsRuntime.InvokeAsync<Object>("refreshTab", Response, control.FileName);
-                    }
+                    );
                 }
-            });
+                this.GetSourceData(0);
+                this.StateHasChanged();
+
+            }
+            else
+            {
+                sourceCodeItems = new List<TabItem>() {
+                    new TabItem() { Header = new TabHeader() { Text = SampleData.FileName},
+                    ContentTemplate = @<pre id='code' class='sb-src-code'><code></code></pre>
+                    }
+                };
+                this.GetSourceData(0);
+                this.StateHasChanged();
+                    
+
+
+                }
+
+            }
         }
-    }
 
 }

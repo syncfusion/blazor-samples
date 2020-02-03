@@ -21,7 +21,6 @@ namespace ej2_blazor_samples
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the default functionalities of the DropDownList in Blazor application. Click the DropDownList element and select an item from the <code>options</code> list.
-                        The selected item's <code>Value</code> and <code>Text</code> property values will be shown the in property panel.
                     </p>"
                 },
                 Description = new string[] {
@@ -30,8 +29,7 @@ namespace ej2_blazor_samples
                         value.
                     </p>
                     <p>
-                        The default sample illustrates the use of DropDownList that allows the end-users to select an item from the <code>options</code> list. The selected item's <code>Value</code> and <code>Text</code> property values will be displayed in the property
-                        panel.
+                        The default sample illustrates the use of DropDownList that allows the end-users to select an item from the <code>options</code> list.
                     </p>
                     <p>
                         More information on the DropDownList instantiation can be found in the
@@ -57,7 +55,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The DropDownList loads the data either from the local data sources, or remote data services that is is through the <code>DataSource</code> property. It supports the data type of <code>array</code> or <code>DataManager</code>.
+                        The DropDownList loads the data either from the local data sources, or remote data services that is is through the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.IDropDownBase%601~DataSource.html"" target=""_blank""> DataSource</a> property. It supports the data type of <code>array</code> or <code>DataManager</code>.
                     </p>
                     <p>
                         The DataManager that act as an interface between service endpoint and DropDownList, will require the below minimal
@@ -110,8 +108,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The DropDownList has built-in support to filter the data source, when <code>AllowFiltering</code> is enabled. It performs
-                        when characters are typed in the search box. In the <code>Filtering</code> event, you can filter down the data source and
+                        The DropDownList has built-in support to filter the data source, when <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.IDropDownList~AllowFiltering.html"" target=""_blank""> AllowFiltering</a> is enabled. It performs
+                        when characters are typed in the search box. In the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListEvents%601~Filtering.html"" target=""_blank""> Filtering</a> event, you can filter down the data source and
                         return the resulted data to DropDownList via <code>UpdateData</code> method to display its list items.
                     </p>
                     <p>
@@ -133,14 +131,13 @@ namespace ej2_blazor_samples
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the cascading functionalities of the DropDownList. Choose a country from
-                        the countries DropDownList, then respective states will be loaded in the second DropDownList
-                        and the same has to be done between states and cities DropDownList.
+                        the countries DropDownList, then respective states will be loaded in the second DropDownList.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
                         The <code>Cascading</code> DropDownList is the series of DropDownList, where the value of one DropDownList depends on
-                        the another DropDownList value. This can be configured by using the <code>ValueChange</code> event of parent DropDownList.
+                        the another DropDownList value. This can be configured by using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListEvents%601~ValueChange.html"" target=""_blank""> ValueChange</a> event of parent DropDownList.
                         Within that change event handler, you should load the data to child DropDownList based on the selected value of parent
                         DropDownList.
                     </p>
@@ -167,13 +164,13 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The DropDownList allows to group the relevant items under a corresponding category by mapping the <code>GroupBy</code> field, and allows to load the list items with icons.
+                        The DropDownList allows to group the relevant items under a corresponding category by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListFieldSettings~GroupBy.html"" target=""_blank""> GroupBy</a> field, and allows to load the list items with icons.
                     </p>
                     <p>
                         The grouping sample illustrates how the vegetables are grouped based on its category.
                     </p>
                     <p>
-                        The 2nd DropDownList is populated with icons that is rendered by mapping the <code>IconCss</code> field.
+                        The 2nd DropDownList is populated with icons that is rendered by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListFieldSettings~IconCss.html"" target=""_blank""> IconCss</a> field.
                     </p>
                     <p>
                         More information on the grouping feature configuration can be found in the
@@ -218,7 +215,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                 @"<p>
-                        The DropDownList filtering will ignore the diacritics which makes it easier to filter the results in international characters lists when the <code>IgnoreAccent</code> is enabled.
+                        The DropDownList filtering will ignore the diacritics which makes it easier to filter the results in international characters lists when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.IDropDownBase%601~IgnoreAccent.html"" target=""_blank""> IgnoreAccent</a> is enabled.
                     </p>
                     <p>
                         This sample illustrates using the international characters data.
@@ -250,9 +247,9 @@ namespace ej2_blazor_samples
                         This sample uses the following list of templates in DropDownList
                     </p>
                     <ul>
-                        <li><code>ItemTemplate </code> - To customize the list item's content.</li>
-                        <li><code>HeaderTemplate </code> - To customize the header element.</li>
-                        <li><code>ValueTemplate  </code> - To customize the value element content that holds the selected item's text.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListTemplates%601~ItemTemplate.html"" target=""_blank""> ItemTemplate</a> - To customize the list item's content.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListTemplates%601~HeaderTemplate.html"" target=""_blank""> HeaderTemplate</a> - To customize the header element.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListTemplates%601~ValueTemplate.html"" target=""_blank""> ValueTemplate</a> - To customize the value element content that holds the selected item's text.</li>
                     </ul>
                     <p>
                         More information on the template feature configuration can be found in the
@@ -272,10 +269,10 @@ namespace ej2_blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
                 TitleTag = "ComboBox . DefaultFunctionalities . Syncfusion Blazor Components",
-                MetaDescription = "This sample demonstrates the default functionalities of the ComboBox in Blazor application. Type a character in the ComboBox element or click the drodown icon to choose an item from the options list.",
+                MetaDescription = "This sample demonstrates the default functionalities of the ComboBox in Blazor application. Type a character in the ComboBox element or click the dropdown icon to choose an item from the options list.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the default functionalities of the ComboBox in Blazor application. Type a character in the ComboBox element or click the drodown icon to choose an item from the <code>options</code> list.
+                        This sample demonstrates the default functionalities of the ComboBox in Blazor application. Type a character in the ComboBox element or click the dropdown icon to choose an item from the <code>options</code> list.
                     </p>"
                 },
                 Description = new string[] {
@@ -302,7 +299,7 @@ namespace ej2_blazor_samples
                     </p>"
                 },
                 Description = new string[] {
-                    @"<p>The ComboBox loads the data either from local data sources or remote data services through the <code>DataSource</code> property. It supports the data type of <code>array</code> or <code>DataManager</code>.</p>
+                    @"<p>The ComboBox loads the data either from local data sources or remote data services through the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.IDropDownBase%601~DataSource.html"" target=""_blank""> DataSource</a> property. It supports the data type of <code>array</code> or <code>DataManager</code>.</p>
                     <p>
                         The DataManager, that act as an interface between service endpoint and ComboBox will require the following minimal
                         information to interact with the service endpoint properly.
@@ -348,13 +345,12 @@ namespace ej2_blazor_samples
                 MetaDescription = "This sample demonstrates the cascading functionalities of the ComboBox. Choose a country from countries ComboBox, then respective states will be loaded in the second ComboBox.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the cascading functionalities of the ComboBox. Choose a country from countries ComboBox, then respective states will be loaded in the second ComboBox
-                        and the same has to done between states and cities ComboBox.
+                        This sample demonstrates the cascading functionalities of the ComboBox. Choose a country from countries ComboBox, then respective states will be loaded in the second ComboBox.
                     </p>"
                 },
                 Description = new string[] {
                         @"<p>The <code>Cascading</code> ComboBox is the series of ComboBox, where the value of one ComboBox depends on the another
-                        ComboBox value. This can be configured by using the <code>ValueChange</code> event of parent ComboBox. Within
+                        ComboBox value. This can be configured by using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxEvents%601~ValueChange.html"" target=""_blank""> ValueChange</a> event of parent ComboBox. Within
                         that change event handler, you should load the data to child ComboBox based on the selected value of parent ComboBox.</p>"
                 }
             },
@@ -376,8 +372,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The ComboBox has built-in support to filter the data source when <code>AllowFiltering</code> is enabled. It performs
-                        when characters are typed in the search box. In <code>Filtering</code> event, you can filter down the data source and
+                        The ComboBox has built-in support to filter the data source when <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.IComboBox~AllowFiltering.html"" target=""_blank""> AllowFiltering</a> is enabled. It performs
+                        when characters are typed in the search box. In <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxEvents%601~Filtering.html"" target=""_blank""> Filtering</a> event, you can filter down the data source and
                         return the resulted data to ComboBox via <code>UpdateData</code> method to display its list items.
                     </p>
                     <p>
@@ -403,13 +399,13 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The ComboBox allows to group the relevant items under a corresponding category by mapping the <code>GroupBy</code> field, and allows to load the list items with icons.
+                        The ComboBox allows to group the relevant items under a corresponding category by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxFieldSettings~GroupBy.html"" target=""_blank""> GroupBy</a> field, and allows to load the list items with icons.
                     </p>
                     <p>
                         The grouping sample illustrates how the vegetables are grouped based on its category.
                     </p>
                     <p>
-                        The 2nd ComboBox is populated with icons that is rendered by mapping the <code>IconCss</code> field.
+                        The 2nd ComboBox is populated with icons that is rendered by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxFieldSettings~IconCss.html"" target=""_blank""> IconCss</a> field.
                     </p>
                     <p>
                         More information on the grouping feature configuration can be found in the
@@ -432,7 +428,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                 @" <p>
-                        The ComboBox filtering will ignore the diacritics which makies it easier to filter the results in international characters lists when the <code>IgnoreAccent</code> is enabled.
+                        The ComboBox filtering will ignore the diacritics which makies it easier to filter the results in international characters lists when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.IComboBox~IgnoreAccent.html"" target=""_blank""> IgnoreAccent</a> is enabled.
                     </p>
                     <p>
                         This sample illustrates the international characters data.
@@ -464,8 +460,8 @@ namespace ej2_blazor_samples
                         This sample uses the following list of templates in ComboBox
                     </p>
                     <ul>
-                        <li><code>ItemTemplate </code> - To customize the list item's content.</li>
-                        <li><code>HeaderTemplate </code> - To customize the header element.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxTemplates~ItemTemplate.html"" target=""_blank""> ItemTemplate</a> - To customize the list item's content.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxTemplates~HeaderTemplate.html"" target=""_blank""> HeaderTemplate</a> - To customize the header element.</li>
                     </ul>
                     <p>
                         More information on the template feature configuration can be found in the
@@ -492,8 +488,8 @@ namespace ej2_blazor_samples
                     @"<p>The ComboBox has an option to display the data in a multicolumn layout using the following templates.</p>
                     <p>
                     <ul>
-                        <li><code>Header Template </code> - Displays the column names in the grid layout header.</li>
-                        <li><code>Item Template </code> - Binds the data value by row wise.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxTemplates~HeaderTemplate.html"" target=""_blank""> HeaderTemplate</a> - Displays the column names in the grid layout header.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ComboBoxTemplates~ItemTemplate.html"" target=""_blank""> ItemTemplate</a> - Binds the data value by row wise.</li>
                     </ul>
                     </p>"
                 }
@@ -518,7 +514,7 @@ namespace ej2_blazor_samples
                 @"<p>
                         The <code>AutoComplete</code> component provides the matched suggestion list when a character is typed in the input, from that the
                         user can select one.
-                    </p> By default, the filter type value is <code>Contains</code>.
+                    </p> By default, the filter type value is <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteModel%601~FilterType.html"" target=""_blank""> Contains</a>.
                     <p>
                         The default sample illustrates the use of AutoComplete that allows the end-users to select an item from the suggestion list.
                     </p>
@@ -544,7 +540,7 @@ namespace ej2_blazor_samples
                     </p>"
                 },
                 Description = new string[] {
-                    @"<p>The AutoComplete loads the data either from local data sources or remote data services through the <code>DataSource</code> property. It supports the data type of <code>array</code> or <code>DataManager</code>.</p>
+                    @"<p>The AutoComplete loads the data either from local data sources or remote data services through the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteModel%601~DataSource.html"" target=""_blank""> DataSource</a> property. It supports the data type of <code>array</code> or <code>DataManager</code>.</p>
                     <p>
                         The DataManager, that act as an interface between service endpoint and AutoComplete, will require the follwoing minimal
                         information to interact with the service endpoint properly.
@@ -595,14 +591,14 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The AutoComplete allows to group the relevant items under a corresponding category by mapping the <code>GroupBy</code> field, and allows to
-                        load the list items with icons. And also enabled the <code>ShowPopupButton</code> property to show the all suggestion items while clicking on popup button.
+                        The AutoComplete allows to group the relevant items under a corresponding category by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteFieldSettings~GroupBy.html"" target=""_blank""> GroupBy</a> field, and allows to
+                        load the list items with icons. And also enabled the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteModel%601~ShowPopupButton.html"" target=""_blank""> ShowPopupButton</a> property to show the all suggestion items while clicking on popup button.
                     </p>
                     <p>
                         The grouping sample illustrates how the vegetables are grouped based on its category.
                     </p>
                     <p>
-                        The 2nd AutoComplete is populated with icons which is rendered by mapping the <code>IconCss</code> field.
+                        The 2nd AutoComplete is populated with icons which is rendered by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteFieldSettings~IconCss.html"" target=""_blank""> IconCss</a> field.
                     </p>
                     <p>
                         More information on the grouping feature configuration can be found in the
@@ -625,7 +621,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                 @"<p>
-                        The AutoComplete filtering will ignore the diacritics which makes it easier to filter the results in international characters lists when the <code>IgnoreAccent</code> is enabled.
+                        The AutoComplete filtering will ignore the diacritics which makes it easier to filter the results in international characters lists when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteModel%601~IgnoreAccent.html"" target=""_blank""> IgnoreAccent</a> is enabled.
                     </p>
                     <p>
                         This sample illustrates using the international characters data
@@ -657,8 +653,8 @@ namespace ej2_blazor_samples
                         This sample uses the following list of templates in AutoComplete
                     </p>
                     <ul>
-                        <li><code>ItemTemplate </code> - To customize the list item's content.</li>
-                        <li><code>HeaderTemplate </code> - To customize the header element.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteTemplates~ItemTemplate.html"" target=""_blank""> ItemTemplate</a> - To customize the list item's content.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteTemplates~HeaderTemplate.html"" target=""_blank""> HeaderTemplate</a> - To customize the header element.</li>
                     </ul>
                     <p>
                         More information on the template feature configuration can be found in the
@@ -677,11 +673,11 @@ namespace ej2_blazor_samples
                 TitleTag = "AutoComplete . Highlight . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates an AutoComplete has built-in support to highlight the searched characters on the suggested list items when Highlight is enabled.",
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the highlight functionalities of the AutoComplete. Type a character(s) in the AutoComplete element and the typed characters are highlighted in the suggestion list. By default, <code>Contains</code> filter type is set in this sample and provided with the options to choose different filter type in the property panel.</p>"
+                    @"<p>This sample demonstrates the highlight functionalities of the AutoComplete. Type a character(s) in the AutoComplete element and the typed characters are highlighted in the suggestion list. By default, <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteModel%601~FilterType.html"" target=""_blank""> Contains</a> filter type is set in this sample and provided with the options to choose different filter type in the property panel.</p>"
                 },
                 Description = new string[] {
                     @" <p>
-                        The AutoComplete has built-in support to highlight the searched characters on the suggested list items when <code>Highlight</code> is enabled.
+                        The AutoComplete has built-in support to highlight the searched characters on the suggested list items when <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.AutoCompleteModel%601~Highlight.html"" target=""_blank""> Highlight</a> is enabled.
                     </p>
                     <p>This sample illustrates that, the searched characters on the country suggestion list items are highlighted.</p>"
                 }
@@ -739,7 +735,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         The MultiSelect loads the data either from local data sources or remote data services through the
-                        <code>DataSource</code> property. It supports the data type of
+                        <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectModel%601~DataSource.html"" target=""_blank""> DataSource</a> property. It supports the data type of
                         <code>array</code> or
                         <code>DataManager</code>.
                     </p>
@@ -809,8 +805,8 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         The MultiSelect has built-in support to filter the data source when
-                        <code>AllowFiltering</code> is enabled. It performs when characters are typed in the component. In
-                        <code>Filtering</code> event, you can filter down the data source and return the resulted data to MultiSelect via
+                        <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectEvents%601~Filtering.html"" target=""_blank""> AllowFiltering</a> is enabled. It performs when characters are typed in the component. In
+                        <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.DropDownListTemplates%601~ItemTemplate.html"" target=""_blank""> Filtering</a> event, you can filter down the data source and return the resulted data to MultiSelect via
                         <code>UpdateData</code> method to display its list items.
                     </p>
                     <p>
@@ -866,8 +862,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The MultiSelect allows the user to add a non-present option to the component value when the <code>AllowCustomValue</code> is enabled. While selecting
-                        new custom value the <code>CustomValueSelection</code> event will be triggered.
+                        The MultiSelect allows the user to add a non-present option to the component value when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectModel%601~AllowCustomValue.html"" target=""_blank""> AllowCustomValue</a> is enabled. While selecting
+                        new custom value the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectEvents%601~CustomValueSpecifier.html"" target=""_blank""> CustomValueSelection</a> event will be triggered.
                     </p>
                     <p>
                         More information on the custom value feature can be found in the
@@ -890,7 +886,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                 @"<p>
-                        The MultiSelect filtering will ignore the diacritics which makes it easier to filter the results in international characters lists when the ignoreAccent is enabled.
+                        The MultiSelect filtering will ignore the diacritics which makes it easier to filter the results in international characters lists when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectModel%601~IgnoreAccent.html"" target=""_blank""> IgnoreAccent</a> is enabled.
                     </p>
                     <p>
                         This sample illustrates using the international characters data.
@@ -918,7 +914,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The MultiSelect allows to group the relevant items under a corresponding category by mapping the <code>GroupBy</code> field, and allows to load the list items.
+                        The MultiSelect allows to group the relevant items under a corresponding category by mapping the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectFieldSettings~GroupBy.html"" target=""_blank""> GroupBy</a> field, and allows to load the list items.
                     </p>
                     <p>
                         The grouping sample illustrates how the vegetables are grouped based on its category.
@@ -948,7 +944,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The MultiSelect has built-in support to select the multiple values through the checkbox, when the <code>Mode</code> property is set to
+                        The MultiSelect has built-in support to select the multiple values through the checkbox, when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectModel%601~Mode.html"" target=""_blank""> Mode</a> property is set to
                         <code>CheckBox</code>. To perform the checkbox feature in MultiSelect, the <code>CheckBoxSelection</code> module should be injected in the
                         application end.
                     </p>
@@ -972,7 +968,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @" <p>
-                        The MultiSelect has built-in support to limit the value selected in Multiselect component, when the <code>MaximumSelectionLength</code> property is set as 3, maximum of only 3 value will be  selected in the MultiSelect.
+                        The MultiSelect has built-in support to limit the value selected in Multiselect component, when the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectModel%601~MaximumSelectionLength.html"" target=""_blank""> MaximumSelectionLength</a> property is set as 3, maximum of only 3 value will be  selected in the MultiSelect.
                     </p>
                     <p>The selection limit sample illustrates  using the countries data. </p>"
                 }
@@ -998,9 +994,9 @@ namespace ej2_blazor_samples
                         This sample uses the following list of templates in MultiSelect.
                     </p>
                     <ul>
-                        <li><code>ItemTemplate </code> - To customize the list item's content.</li>
-                        <li><code>HeaderTemplate </code> - To customize the header element.</li>
-                        <li><code>ValueTemplate  </code> - To customize the value element content that holds the selected item's text.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectTemplates~ItemTemplate.html"" target=""_blank""> ItemTemplate</a> - To customize the list item's content.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectTemplates~HeaderTemplate.html"" target=""_blank""> HeaderTemplate</a> - To customize the header element.</li>
+                        <li><a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.MultiSelectTemplates~ValueTemplate.html"" target=""_blank""> ValueTemplate</a> - To customize the value element content that holds the selected item's text.</li>
                     </ul>
                     <p>
                         More information on the template feature configuration can be found in the
@@ -1029,7 +1025,7 @@ namespace ej2_blazor_samples
                     It supports sorting, grouping, reordering, and drag and drop of items.</p>
                 <p>In this sample, data is bound to the ListBox using the <code>DataSource</code> property. You can select your favorite cars from the ListBox.</p>
                 <p> More information about the ListBox can be found in the
-                    <a href=""https://ej2.syncfusion.com/aspnet-core-razor-components/documentation/listbox/getting-started/"" target=""_blank""> documentation section</a>.
+                    <a href=""https://ej2.syncfusion.com/blazor/documentation/listbox/getting-started/"" target=""_blank""> documentation section</a>.
                 </p>"
                 }
             },
@@ -1048,7 +1044,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>The dual list box allows the user to move items between two list boxes. Dual list box can be created by listing items in the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxToolbarSettings.html'><code>ListBoxToolbarSettings</code></a> property along with
-                    <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.EjsListBox~Scope.html'><code>Scope</code></a> property. The supported operations are,</p>
+                    <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.EjsListBox~Scope.html'><code>Scope</code></a> property. The supported operations are,</p>
                 <ul>
                     <li><code>moveUp</code> -  Moves the selected item in the upward direction.</li>
                     <li><code>moveDown</code> -  Moves the selected item in the downward direction.</li>
@@ -1092,8 +1088,8 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         The <code>ListBox</code> component has built-in support to select multiple items from the list. The Checkbox selection can be enabled by setting the
-                        <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxSelectionSettings~ShowCheckbox.html'><code>ShowCheckbox</code></a> as
-                        <code>true</code> in the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxSelectionSettings.html'><code>SelectionSettings</code></a> property.
+                        <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxSelectionSettings~ShowCheckbox.html'><code>ShowCheckbox</code></a> as
+                        <code>true</code> in the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxSelectionSettings.html'><code>SelectionSettings</code></a> property.
                     </p>
                     <p>To perform the checkbox feature in the ListBox, the <code>CheckBoxSelection</code> module has to be injected at the application level.</p>"
                 }
@@ -1113,8 +1109,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this demo, a ListBox is rendered with grouping feature by setting the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxFieldSettings~GroupBy.html'><code>GroupBy</code></a> property
-                        in <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.EjsListBox~Fields.html'><code>ListBoxFieldSettings</code></a> property. This sample has been showcased with following set of properties,
+                        In this demo, a ListBox is rendered with grouping feature by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.ListBoxFieldSettings~GroupBy.html'><code>GroupBy</code></a> property
+                        in <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.DropDowns.EjsListBox~Fields.html'><code>ListBoxFieldSettings</code></a> property. This sample has been showcased with following set of properties,
                     </p>
             <ul>
                         <li>You can switch to <code>Single</code> or <code>Multiple</code> selection mode by selecting the mode from the selection mode dropdown list.</li>

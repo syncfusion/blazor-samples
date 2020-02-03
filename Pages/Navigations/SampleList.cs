@@ -184,7 +184,7 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         More information about menu can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/menu/getting-started/"">
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/"">
                             documentation
                         </a> section.
                     </p>"
@@ -206,7 +206,7 @@ namespace ej2_blazor_samples
             {
                 Name = "Hamburger Mode",
                 Category = "Menu Bar",
-                Directory = "Navigations/Hamburger",
+                Directory = "Navigations/MenuBar",
                 FileName = "Hamburger.razor",
                 Url = "MenuBar/Hamburger",
 				TitleTag = "MenuBar . Hamburger . Syncfusion Blazor Components",
@@ -248,7 +248,7 @@ namespace ej2_blazor_samples
                     </ul>
                     <p>
                         More information about Menu can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/menu/getting-started/"">
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/"">
                             documentation section
                         </a>.
                     </p>"

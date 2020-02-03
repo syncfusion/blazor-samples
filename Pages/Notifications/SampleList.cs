@@ -62,6 +62,34 @@ namespace ej2_blazor_samples
             },
             new Sample
             {
+                Name = "Template",
+                Category = "Toast",
+                Directory = "Notifications/Template",
+                Url = "Toast/Template",
+                FileName = "Template.razor",
+                Type = SampleType.New,
+                TitleTag = "Toast . Template . Syncfusion Blazor Components - Preview",
+                MetaDescription = "The example demonstrates how to render Blazor toast notification using Templates whether it may be an HTML as string or HTML elements.",
+                ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the Template rendering of the Toast. Static HTML toast to display an alarm notification which can be snoozed or dismissed and Dynamic template rendered using template engine to display mail remainders."
+                },
+                Description = new string[] {
+                    @"<p>This sample illustrates the way to display the template content on the toast. With the usage of Template, the user can format and structure the HTML content to be displayed on the toast as per their application needs.
+                </p>
+                <p>
+                    <ul>
+                        <li>Alarm toast is integrated with button and drop-down list that allows to set timeOut for toast and close it.</li>
+                        <li>Dynamic toast opened based on the data source given to add mail reminder notifications and it can be hidden using the close button available</li>
+                    </ul>
+                </p>
+                <p>
+                    More information about Toast can be found in this
+                    <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
+                </p>"
+                }
+            },
+            new Sample
+            {
                 Name = "Position",
                 Category = "Toast",
                 Directory = "Notifications/Toast",

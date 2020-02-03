@@ -24,7 +24,7 @@ namespace ej2_blazor_samples
                     @"The Query Builder component is used to create or edit filters. You can edit filters by changing the fields.",
                     @"In mobile mode, the component is shown vertically.",
                     @"More information about Query Builder can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/query-builder/getting-started/"">
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/query-builder/getting-started/"">
                             documentation section
                         </a>."
                 }
@@ -33,7 +33,7 @@ namespace ej2_blazor_samples
             {
                 Name = "Integration with Data Grid",
                 Category = "QueryBuilder",
-                Directory = "Forms/Grid",
+                Directory = "Forms/QueryBuilder",
                 Url = "QueryBuilder/Grid",
                 FileName = "Grid.razor",
                 TitleTag = "QueryBuilder . Integration with Data Grid . Syncfusion Blazor Components - Preview",
@@ -45,7 +45,7 @@ namespace ej2_blazor_samples
                     @"This sample illustrates how to integrate the Data Grid component with the Query Builder.",
                     @"The Data Grid component will be refreshed while editing the filters in Query Builder.",
                     @"More information about Query Builder can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/aspnet-core-blazor/documentation/query-builder/getting-started/"">
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/query-builder/getting-started/"">
                             documentation section
                         </a>."
                 }

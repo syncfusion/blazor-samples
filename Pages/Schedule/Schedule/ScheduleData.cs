@@ -15,8 +15,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 1,
                 Subject = "Explosion of Betelgeuse Star",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 6, 9, 30, 0),
-                EndTime = new DateTime(2019, 1, 6, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 5, 11, 0, 0),
                 CategoryColor = "#1aaa55"
             });
             appData.Add(new AppointmentData
@@ -24,8 +24,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 2,
                 Subject = "Thule Air Crash Report",
                 Location = "Newyork City",
-                StartTime = new DateTime(2019, 1, 7, 12, 0, 0),
-                EndTime = new DateTime(2019, 1, 7, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 14, 0, 0),
                 CategoryColor = "#357cd2"
             });
             appData.Add(new AppointmentData
@@ -33,8 +33,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 3,
                 Subject = "Blue Moon Eclipse",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 8, 9, 30, 0),
-                EndTime = new DateTime(2019, 1, 8, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 11, 0, 0),
                 CategoryColor = "#7fa900"
             });
             appData.Add(new AppointmentData
@@ -42,8 +42,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 4,
                 Subject = "Meteor Showers in 2018",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 9, 13, 0, 0),
-                EndTime = new DateTime(2019, 1, 9, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 14, 30, 0),
                 CategoryColor = "#ea7a57"
             });
             appData.Add(new AppointmentData
@@ -51,8 +51,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 5,
                 Subject = "Milky Way as Melting pot",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 10, 12, 0, 0),
-                EndTime = new DateTime(2019, 1, 10, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 14, 0, 0),
                 CategoryColor = "#00bdae"
             });
             appData.Add(new AppointmentData
@@ -60,8 +60,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 6,
                 Subject = "Mysteries of Bermuda Triangle",
                 Location = "Bermuda",
-                StartTime = new DateTime(2019, 1, 10, 9, 30, 0),
-                EndTime = new DateTime(2019, 1, 10, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 9, 11, 0, 0),
                 CategoryColor = "#f57f17"
             });
             appData.Add(new AppointmentData
@@ -69,8 +69,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 7,
                 Subject = "Glaciers and Snowflakes",
                 Location = "Himalayas",
-                StartTime = new DateTime(2019, 1, 11, 11, 0, 0),
-                EndTime = new DateTime(2019, 1, 11, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 12, 30, 0),
                 CategoryColor = "#1aaa55"
             });
             appData.Add(new AppointmentData
@@ -78,8 +78,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 8,
                 Subject = "Life on Mars",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 12, 9, 0, 0),
-                EndTime = new DateTime(2019, 1, 12, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 11, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 10, 0, 0),
                 CategoryColor = "#357cd2"
             });
             appData.Add(new AppointmentData
@@ -87,8 +87,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 9,
                 Subject = "Alien Civilization",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 14, 11, 0, 0),
-                EndTime = new DateTime(2019, 1, 14, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 13, 0, 0),
                 CategoryColor = "#7fa900"
             });
             appData.Add(new AppointmentData
@@ -96,8 +96,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 10,
                 Subject = "Wildlife Galleries",
                 Location = "Africa",
-                StartTime = new DateTime(2019, 1, 16, 11, 0, 0),
-                EndTime = new DateTime(2019, 1, 16, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 13, 0, 0),
                 CategoryColor = "#ea7a57"
             });
             appData.Add(new AppointmentData
@@ -105,8 +105,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 11,
                 Subject = "Best Photography 2018",
                 Location = "London",
-                StartTime = new DateTime(2019, 1, 17, 9, 30, 0),
-                EndTime = new DateTime(2019, 1, 17, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 16, 11, 0, 0),
                 CategoryColor = "#00bdae"
             });
             appData.Add(new AppointmentData
@@ -114,8 +114,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 12,
                 Subject = "Smarter Puppies",
                 Location = "Sweden",
-                StartTime = new DateTime(2019, 1, 4, 10, 0, 0),
-                EndTime = new DateTime(2019, 1, 4, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 3, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 11, 30, 0),
                 CategoryColor = "#f57f17"
             });
             appData.Add(new AppointmentData
@@ -123,8 +123,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 13,
                 Subject = "Myths of Andromeda Galaxy",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 2, 10, 30, 0),
-                EndTime = new DateTime(2019, 1, 2, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 30, 0),
                 CategoryColor = "#1aaa55"
             });
             appData.Add(new AppointmentData
@@ -132,8 +132,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 14,
                 Subject = "Aliens vs Humans",
                 Location = "Research Centre of USA",
-                StartTime = new DateTime(2019, 1, 1, 10, 0, 0),
-                EndTime = new DateTime(2019, 1, 1, 11, 30, 0),
+                StartTime = new DateTime(2019, 12, 31, 10, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 11, 30, 0),
                 CategoryColor = "#357cd2"
             });
             appData.Add(new AppointmentData
@@ -141,8 +141,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 15,
                 Subject = "Facts of Humming Birds",
                 Location = "California",
-                StartTime = new DateTime(2019, 1, 15, 9, 30, 0),
-                EndTime = new DateTime(2019, 1, 15, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 11, 0, 0),
                 CategoryColor = "#7fa900"
             });
             appData.Add(new AppointmentData
@@ -150,8 +150,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 16,
                 Subject = "Sky Gazers",
                 Location = "Alaska",
-                StartTime = new DateTime(2019, 1, 18, 11, 0, 0),
-                EndTime = new DateTime(2019, 1, 18, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 13, 0, 0),
                 CategoryColor = "#ea7a57"
             });
             appData.Add(new AppointmentData
@@ -159,8 +159,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 17,
                 Subject = "The Cycle of Seasons",
                 Location = "Research Centre of USA",
-                StartTime = new DateTime(2019, 1, 7, 5, 30, 0),
-                EndTime = new DateTime(2019, 1, 7, 7, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 5, 30, 0),
+                EndTime = new DateTime(2020, 1, 6, 7, 30, 0),
                 CategoryColor = "#00bdae"
             });
             appData.Add(new AppointmentData
@@ -168,8 +168,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 18,
                 Subject = "Space Galaxies and Planets",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 7, 17, 0, 0),
-                EndTime = new DateTime(2019, 1, 7, 18, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 17, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 18, 30, 0),
                 CategoryColor = "#f57f17"
             });
             appData.Add(new AppointmentData
@@ -177,8 +177,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 19,
                 Subject = "Lifecycle of Bumblebee",
                 Location = "San Fransisco",
-                StartTime = new DateTime(2019, 1, 10, 6, 0, 0),
-                EndTime = new DateTime(2019, 1, 10, 7, 30, 0),
+                StartTime = new DateTime(2020, 1, 9, 6, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 7, 30, 0),
                 CategoryColor = "#7fa900"
             });
             appData.Add(new AppointmentData
@@ -186,8 +186,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 20,
                 Subject = "Alien Civilization",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 10, 16, 0, 0),
-                EndTime = new DateTime(2019, 1, 10, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 18, 0, 0),
                 CategoryColor = "#ea7a57"
             });
             appData.Add(new AppointmentData
@@ -195,8 +195,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 21,
                 Subject = "Alien Civilization",
                 Location = "Space Centre USA",
-                StartTime = new DateTime(2019, 1, 6, 14, 0, 0),
-                EndTime = new DateTime(2019, 1, 6, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 16, 0, 0),
                 CategoryColor = "#ea7a57"
             });
             appData.Add(new AppointmentData
@@ -204,8 +204,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 22,
                 Subject = "The Cycle of Seasons",
                 Location = "Research Centre of USA",
-                StartTime = new DateTime(2019, 1, 8, 14, 30, 0),
-                EndTime = new DateTime(2019, 1, 8, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 16, 0, 0),
                 CategoryColor = "#00bdae"
             });
             appData.Add(new AppointmentData
@@ -213,8 +213,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 23,
                 Subject = "Sky Gazers",
                 Location = "Greenland",
-                StartTime = new DateTime(2019, 1, 11, 14, 30, 0),
-                EndTime = new DateTime(2019, 1, 11, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 10, 16, 0, 0),
                 CategoryColor = "#ea7a57"
             });
             appData.Add(new AppointmentData
@@ -222,158 +222,158 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 24,
                 Subject = "Facts of Humming Birds",
                 Location = "California",
-                StartTime = new DateTime(2019, 1, 12, 12, 30, 0),
-                EndTime = new DateTime(2019, 1, 12, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 11, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 11, 14, 30, 0),
                 CategoryColor = "#7fa900"
             });
             return appData;
         }
 
-        public List<ZooEventData> GetZooEventData()
+        public List<AppointmentData> GetZooEventData()
         {
-            List<ZooEventData> zooEventData = new List<ZooEventData>();
-            zooEventData.Add(new ZooEventData
+            List<AppointmentData> zooEventData = new List<AppointmentData>();
+            zooEventData.Add(new AppointmentData
             {
                 Id = 1,
                 Subject = "Story Time for Kids",
-                StartTime = new DateTime(2018, 2, 11, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 11, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 12, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 11, 30, 0),
                 CategoryColor = "#1aaa55"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 2,
                 Subject = "Camping with Turtles",
-                StartTime = new DateTime(2018, 2, 12, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 14, 0, 0),
                 CategoryColor = "#357cd2"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 3,
                 Subject = "Wildlife Warriors",
-                StartTime = new DateTime(2018, 2, 13, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 14, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 11, 30, 0),
                 CategoryColor = "#7fa900"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 4,
                 Subject = "Parrot Talk",
-                StartTime = new DateTime(2018, 2, 14, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 10, 0, 0),
                 CategoryColor = "#ea7a57"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 5,
                 Subject = "Birds of Prey",
-                StartTime = new DateTime(2018, 2, 15, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 16, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 11, 30, 0),
                 CategoryColor = "#00bdae"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 6,
                 Subject = "Croco World",
-                StartTime = new DateTime(2018, 2, 16, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 14, 0, 0),
                 CategoryColor = "#f57f17"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 7,
                 Subject = "Venomous Snake Hunt",
-                StartTime = new DateTime(2018, 2, 17, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 17, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 18, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 11, 30, 0),
                 CategoryColor = "#1aaa55"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 8,
                 Subject = "Face Painting & Drawing events",
-                StartTime = new DateTime(2018, 2, 19, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 19, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 20, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 20, 11, 0, 0),
                 CategoryColor = "#357cd2"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 9,
                 Subject = "Pony Rides",
-                StartTime = new DateTime(2018, 2, 21, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 21, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 22, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 13, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 10,
                 Subject = "Feed the Giants",
-                StartTime = new DateTime(2018, 2, 22, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 22, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 23, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 23, 11, 0, 0),
                 CategoryColor = "#ea7a57"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 11,
                 Subject = "Jungle Treasure Hunt",
-                StartTime = new DateTime(2018, 2, 9, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 9, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 11, 30, 0),
                 CategoryColor = "#00bdae"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 12,
                 Subject = "Endangered Species Program",
-                StartTime = new DateTime(2018, 2, 7, 10, 30, 0),
-                EndTime = new DateTime(2018, 2, 7, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 12, 30, 0),
                 CategoryColor = "#f57f17"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 13,
                 Subject = "Black Cockatoos Playtime",
-                StartTime = new DateTime(2018, 2, 5, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 5, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 11, 30, 0),
                 CategoryColor = "#1aaa55"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 14,
                 Subject = "Walk with Jungle King",
-                StartTime = new DateTime(2018, 2, 14, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 14, 0, 0),
                 CategoryColor = "#357cd2"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 15,
                 Subject = "Trained Climbers",
-                StartTime = new DateTime(2018, 2, 19, 13, 0, 0),
-                EndTime = new DateTime(2018, 2, 19, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 20, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 14, 30, 0),
                 CategoryColor = "#7fa900"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 16,
                 Subject = "Playtime with Chimpanzees",
-                StartTime = new DateTime(2018, 2, 22, 13, 0, 0),
-                EndTime = new DateTime(2018, 2, 22, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 23, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 14, 30, 0),
                 CategoryColor = "#ea7a57"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 17,
                 Subject = "Story Time for Kids",
-                StartTime = new DateTime(2018, 2, 13, 14, 30, 0),
-                EndTime = new DateTime(2018, 2, 13, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 16, 0, 0),
                 CategoryColor = "#1aaa55"
             });
-            zooEventData.Add(new ZooEventData
+            zooEventData.Add(new AppointmentData
             {
                 Id = 18,
                 Subject = "Black Cockatoos Playtime",
-                StartTime = new DateTime(2018, 2, 15, 14, 30, 0),
-                EndTime = new DateTime(2018, 2, 15, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 16, 16, 0, 0),
                 CategoryColor = "#7fa900"
             });
             return zooEventData;
@@ -472,8 +472,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Workflow Analysis",
-                StartTime = new DateTime(2018, 4, 1, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 1, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 5, 12, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -482,8 +482,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 2,
                 Subject = "Requirement planning",
-                StartTime = new DateTime(2018, 4, 1, 12, 30, 0),
-                EndTime = new DateTime(2018, 4, 1, 14, 45, 0),
+                StartTime = new DateTime(2020, 1, 5, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 5, 14, 45, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -492,8 +492,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 3,
                 Subject = "Quality Analysis",
-                StartTime = new DateTime(2018, 4, 2, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 2, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -502,8 +502,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 4,
                 Subject = "Resource planning",
-                StartTime = new DateTime(2018, 4, 2, 13, 0, 0),
-                EndTime = new DateTime(2018, 4, 2, 15, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 15, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -512,8 +512,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 5,
                 Subject = "Timeline estimation",
-                StartTime = new DateTime(2018, 4, 3, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 3, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 7, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -522,8 +522,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 6,
                 Subject = "Developers Meeting",
-                StartTime = new DateTime(2018, 4, 3, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 3, 16, 45, 0),
+                StartTime = new DateTime(2020, 1, 7, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 16, 45, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -532,8 +532,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 7,
                 Subject = "Project Review",
-                StartTime = new DateTime(2018, 4, 4, 11, 15, 0),
-                EndTime = new DateTime(2018, 4, 4, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 11, 15, 0),
+                EndTime = new DateTime(2020, 1, 8, 13, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -542,8 +542,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 8,
                 Subject = "Manual testing",
-                StartTime = new DateTime(2018, 4, 4, 9, 15, 0),
-                EndTime = new DateTime(2018, 4, 4, 11, 45, 0),
+                StartTime = new DateTime(2020, 1, 8, 9, 15, 0),
+                EndTime = new DateTime(2020, 1, 8, 11, 45, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -552,8 +552,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 9,
                 Subject = "Project Preview",
-                StartTime = new DateTime(2018, 4, 5, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 5, 12, 45, 0),
+                StartTime = new DateTime(2020, 1, 9, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 9, 12, 45, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -562,8 +562,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 10,
                 Subject = "Cross-browser testing",
-                StartTime = new DateTime(2018, 4, 5, 13, 45, 0),
-                EndTime = new DateTime(2018, 4, 5, 16, 30, 0),
+                StartTime = new DateTime(2020, 1, 9, 13, 45, 0),
+                EndTime = new DateTime(2020, 1, 9, 16, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -572,8 +572,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 11,
                 Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 6, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 6, 12, 15, 0),
+                StartTime = new DateTime(2020, 1, 10, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 12, 15, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -582,8 +582,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 12,
                 Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 4, 6, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 6, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -592,8 +592,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 13,
                 Subject = "Resolution-based testing",
-                StartTime = new DateTime(2018, 4, 7, 13, 0, 0),
-                EndTime = new DateTime(2018, 4, 7, 15, 15, 0),
+                StartTime = new DateTime(2020, 1, 11, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 15, 15, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -602,8 +602,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 14,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 4, 7, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 7, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 11, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -612,8 +612,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 15,
                 Subject = "Test case correction",
-                StartTime = new DateTime(2018, 4, 8, 9, 45, 0),
-                EndTime = new DateTime(2018, 4, 8, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 12, 9, 45, 0),
+                EndTime = new DateTime(2020, 1, 12, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -622,8 +622,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 16,
                 Subject = "Run test cases",
-                StartTime = new DateTime(2018, 4, 8, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 8, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 12, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 12, 13, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -632,8 +632,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 17,
                 Subject = "Quality Analysis",
-                StartTime = new DateTime(2018, 4, 9, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 9, 15, 30, 0),
+                StartTime = new DateTime(2020, 1, 13, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 15, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -642,8 +642,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 18,
                 Subject = "Debugging",
-                StartTime = new DateTime(2018, 4, 9, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 9, 11, 15, 0),
+                StartTime = new DateTime(2020, 1, 13, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 11, 15, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -652,8 +652,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 19,
                 Subject = "Exception handling",
-                StartTime = new DateTime(2018, 4, 10, 10, 10, 0),
-                EndTime = new DateTime(2018, 4, 10, 13, 30, 0),
+                StartTime = new DateTime(2020, 1, 14, 10, 10, 0),
+                EndTime = new DateTime(2020, 1, 14, 13, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -662,8 +662,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 20,
                 Subject = "Decoding",
-                StartTime = new DateTime(2018, 4, 10, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 10, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 14, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -672,8 +672,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 21,
                 Subject = "workflow Analysis",
-                StartTime = new DateTime(2018, 4, 11, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 11, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 15, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -682,8 +682,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 22,
                 Subject = "Requirement planning",
-                StartTime = new DateTime(2018, 4, 11, 12, 30, 0),
-                EndTime = new DateTime(2018, 4, 11, 14, 45, 0),
+                StartTime = new DateTime(2020, 1, 15, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 14, 45, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -692,8 +692,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 23,
                 Subject = "Quality Analysis",
-                StartTime = new DateTime(2018, 4, 12, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 12, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 16, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -702,8 +702,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 24,
                 Subject = "Resource planning",
-                StartTime = new DateTime(2018, 4, 12, 13, 0, 0),
-                EndTime = new DateTime(2018, 4, 12, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 16, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 14, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -712,8 +712,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 25,
                 Subject = "Timeline estimation",
-                StartTime = new DateTime(2018, 4, 13, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 13, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -722,8 +722,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 26,
                 Subject = "Developers Meeting",
-                StartTime = new DateTime(2018, 4, 13, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 13, 15, 45, 0),
+                StartTime = new DateTime(2020, 1, 17, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 15, 45, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -732,8 +732,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 27,
                 Subject = "Project Review",
-                StartTime = new DateTime(2018, 4, 14, 11, 0, 0),
-                EndTime = new DateTime(2018, 4, 14, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 18, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 13, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -742,8 +742,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 28,
                 Subject = "Manual testing",
-                StartTime = new DateTime(2018, 4, 14, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 14, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 18, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -752,8 +752,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 29,
                 Subject = "Project Preview",
-                StartTime = new DateTime(2018, 4, 15, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 15, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 19, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 19, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -762,8 +762,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 30,
                 Subject = "Cross-browser testing",
-                StartTime = new DateTime(2018, 4, 15, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 15, 16, 30, 0),
+                StartTime = new DateTime(2020, 1, 19, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 19, 16, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -772,8 +772,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 31,
                 Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 16, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 16, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 20, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -782,8 +782,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 32,
                 Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 4, 16, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 16, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 20, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -792,8 +792,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 33,
                 Subject = "Resolution-based testing",
-                StartTime = new DateTime(2018, 4, 17, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 17, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 21, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 21, 15, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -802,8 +802,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 34,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 4, 17, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 17, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 21, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 21, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -812,8 +812,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 35,
                 Subject = "Test case correction",
-                StartTime = new DateTime(2018, 4, 18, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 18, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 22, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -822,8 +822,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 36,
                 Subject = "Run test cases",
-                StartTime = new DateTime(2018, 4, 18, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 18, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 22, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -832,8 +832,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 37,
                 Subject = "Bug fixing",
-                StartTime = new DateTime(2018, 4, 9, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 9, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 13, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -842,8 +842,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 38,
                 Subject = "Debugging",
-                StartTime = new DateTime(2018, 4, 19, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 19, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 23, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -852,8 +852,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 39,
                 Subject = "Exception handling",
-                StartTime = new DateTime(2018, 4, 20, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 20, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 24, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 24, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -862,8 +862,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 40,
                 Subject = "Decoding",
-                StartTime = new DateTime(2018, 4, 20, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 20, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 24, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 24, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -872,8 +872,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 41,
                 Subject = "workflow Analysis",
-                StartTime = new DateTime(2018, 4, 21, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 21, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 25, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 25, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -882,8 +882,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 42,
                 Subject = "Requirement planning",
-                StartTime = new DateTime(2018, 4, 21, 12, 30, 0),
-                EndTime = new DateTime(2018, 4, 21, 13, 45, 0),
+                StartTime = new DateTime(2020, 1, 25, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 25, 13, 45, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -892,8 +892,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 43,
                 Subject = "Quality Analysis",
-                StartTime = new DateTime(2018, 4, 22, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 22, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 26, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 26, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -902,8 +902,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 44,
                 Subject = "Resource planning",
-                StartTime = new DateTime(2018, 4, 4, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 2
@@ -912,8 +912,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 45,
                 Subject = "Timeline estimation",
-                StartTime = new DateTime(2018, 4, 4, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 1
@@ -922,8 +922,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 46,
                 Subject = "Developers Meeting",
-                StartTime = new DateTime(2018, 4, 4, 14, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 16, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 16, 30, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 2
@@ -932,8 +932,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 47,
                 Subject = "Project Review",
-                StartTime = new DateTime(2018, 4, 4, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 16, 0, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 1
@@ -942,8 +942,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 48,
                 Subject = "Manual testing",
-                StartTime = new DateTime(2018, 4, 4, 17, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 19, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 17, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 19, 30, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 2
@@ -952,8 +952,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 49,
                 Subject = "Project Preview",
-                StartTime = new DateTime(2018, 4, 4, 18, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 20, 0, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 1
@@ -962,8 +962,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 50,
                 Subject = "Cross-browser testing",
-                StartTime = new DateTime(2018, 4, 25, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 25, 15, 30, 0),
+                StartTime = new DateTime(2020, 1, 29, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 29, 15, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -972,8 +972,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 51,
                 Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 26, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 26, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 30, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -982,8 +982,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 52,
                 Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 4, 26, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 26, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 30, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -992,8 +992,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 53,
                 Subject = "Resolution-based testing",
-                StartTime = new DateTime(2018, 4, 27, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 27, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 31, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 31, 15, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -1002,8 +1002,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 54,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 4, 27, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 27, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 31, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 31, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -1012,8 +1012,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 55,
                 Subject = "Test case correction",
-                StartTime = new DateTime(2018, 4, 28, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 28, 11, 30, 0),
+                StartTime = new DateTime(2020, 2, 1, 10, 0, 0),
+                EndTime = new DateTime(2020, 2, 1, 11, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -1022,8 +1022,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 56,
                 Subject = "Run test cases",
-                StartTime = new DateTime(2018, 4, 28, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 28, 10, 30, 0),
+                StartTime = new DateTime(2020, 2, 1, 10, 0, 0),
+                EndTime = new DateTime(2020, 2, 1, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -1032,8 +1032,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 57,
                 Subject = "Bug fixing",
-                StartTime = new DateTime(2018, 4, 29, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 29, 12, 30, 0),
+                StartTime = new DateTime(2020, 2, 2, 12, 0, 0),
+                EndTime = new DateTime(2020, 2, 2, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -1042,8 +1042,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 58,
                 Subject = "Debugging",
-                StartTime = new DateTime(2018, 4, 29, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 29, 10, 30, 0),
+                StartTime = new DateTime(2020, 2, 2, 9, 0, 0),
+                EndTime = new DateTime(2020, 2, 2, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -1052,8 +1052,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 59,
                 Subject = "Exception handling",
-                StartTime = new DateTime(2018, 4, 30, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 30, 11, 0, 0),
+                StartTime = new DateTime(2020, 2, 3, 10, 0, 0),
+                EndTime = new DateTime(2020, 2, 3, 11, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -1062,8 +1062,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 60,
                 Subject = "Decoding",
-                StartTime = new DateTime(2018, 4, 30, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 30, 12, 30, 0),
+                StartTime = new DateTime(2020, 2, 3, 10, 30, 0),
+                EndTime = new DateTime(2020, 2, 3, 12, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -1072,8 +1072,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 61,
                 Subject = "Decoding",
-                StartTime = new DateTime(2018, 4, 4, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 2
@@ -1082,8 +1082,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 62,
                 Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 4, 16, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 20, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 1
@@ -1092,8 +1092,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 63,
                 Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 4, 4, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 10, 30, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 1
@@ -1102,8 +1102,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 64,
                 Subject = "Resolution-based testing",
-                StartTime = new DateTime(2018, 4, 4, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 15, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 4
@@ -1112,8 +1112,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 65,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 4, 4, 15, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 18, 0, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 6
@@ -1122,8 +1122,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 66,
                 Subject = "Test case correction",
-                StartTime = new DateTime(2018, 4, 4, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 16, 0, 0),
                 IsAllDay = false,
                 ProjectId = 1,
                 TaskId = 2
@@ -1132,8 +1132,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 67,
                 Subject = "Bug fixing",
-                StartTime = new DateTime(2018, 4, 4, 14, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 18, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 18, 30, 0),
                 IsAllDay = false,
                 ProjectId = 3,
                 TaskId = 5
@@ -1142,8 +1142,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 68,
                 Subject = "Run test cases",
-                StartTime = new DateTime(2018, 4, 4, 18, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 21, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 18, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 21, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 4
@@ -1152,109 +1152,13 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 69,
                 Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 4, 16, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 20, 0, 0),
                 IsAllDay = false,
                 ProjectId = 2,
                 TaskId = 3
             });
             return resourceData;
-        }
-
-        public List<ResourceData> GetTimelineResourceData()
-        {
-            List<ResourceData> timelineResourceData = new List<ResourceData>();
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 61,
-                Subject = "Decoding",
-                StartTime = new DateTime(2018, 4, 4, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 10, 30, 0),
-                IsAllDay = false,
-                ProjectId = 2,
-                TaskId = 2
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 62,
-                Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 4, 16, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 20, 0, 0),
-                IsAllDay = false,
-                ProjectId = 2,
-                TaskId = 1
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 63,
-                Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 4, 4, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 10, 30, 0),
-                IsAllDay = false,
-                ProjectId = 1,
-                TaskId = 1
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 64,
-                Subject = "Resolution-based testing",
-                StartTime = new DateTime(2018, 4, 4, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 15, 0, 0),
-                IsAllDay = false,
-                ProjectId = 2,
-                TaskId = 4
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 65,
-                Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 4, 4, 15, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 18, 0, 0),
-                IsAllDay = false,
-                ProjectId = 3,
-                TaskId = 6
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 66,
-                Subject = "Test case correction",
-                StartTime = new DateTime(2018, 4, 4, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 16, 0, 0),
-                IsAllDay = false,
-                ProjectId = 1,
-                TaskId = 2
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 67,
-                Subject = "Bug fixing",
-                StartTime = new DateTime(2018, 4, 4, 14, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 18, 30, 0),
-                IsAllDay = false,
-                ProjectId = 3,
-                TaskId = 5
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 68,
-                Subject = "Run test cases",
-                StartTime = new DateTime(2018, 4, 4, 18, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 21, 0, 0),
-                IsAllDay = false,
-                ProjectId = 2,
-                TaskId = 4
-            });
-            timelineResourceData.Add(new ResourceData
-            {
-                Id = 69,
-                Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 4, 4, 16, 0, 0),
-                EndTime = new DateTime(2018, 4, 4, 20, 0, 0),
-                IsAllDay = false,
-                ProjectId = 2,
-                TaskId = 3
-            });
-            return timelineResourceData;
         }
         public List<ResourceConferenceData> GetResourceConferenceData()
         {
@@ -1263,384 +1167,384 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Burning Man",
-                StartTime = new DateTime(2018, 6, 1, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 1, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 3, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 17, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 2,
                 Subject = "Data-Driven Economy",
-                StartTime = new DateTime(2018, 6, 2, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 2, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 4, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 4, 14, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 3,
                 Subject = "Techweek",
-                StartTime = new DateTime(2018, 6, 2, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 2, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 4, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 4, 17, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 4,
                 Subject = "Content Marketing World",
-                StartTime = new DateTime(2018, 6, 2, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 2, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 4, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 4, 20, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 5,
                 Subject = "B2B Marketing Forum",
-                StartTime = new DateTime(2018, 6, 3, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 12, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 6,
                 Subject = "Business Innovation Factory",
-                StartTime = new DateTime(2018, 6, 3, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 15, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 7,
                 Subject = "Grow Conference",
-                StartTime = new DateTime(2018, 6, 3, 16, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 18, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 8,
                 Subject = "Journalism Interactive",
-                StartTime = new DateTime(2018, 6, 3, 19, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 21, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 19, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 21, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 9,
                 Subject = "Blogcademy",
-                StartTime = new DateTime(2018, 6, 4, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 4, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 11, 30, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 10,
                 Subject = "Sustainable Brands",
-                StartTime = new DateTime(2018, 6, 4, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 4, 15, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 15, 30, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 11,
                 Subject = "Fashion Confidential",
-                StartTime = new DateTime(2018, 6, 4, 9, 0, 0),
-                EndTime = new DateTime(2018, 6, 4, 9, 45, 0),
+                StartTime = new DateTime(2020, 1, 6, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 9, 45, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 12,
                 Subject = "Mobile World Conference",
-                StartTime = new DateTime(2018, 6, 5, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 14, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 13,
                 Subject = "The Human Gathering",
-                StartTime = new DateTime(2018, 6, 5, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 17, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 14,
                 Subject = "Web Summit",
-                StartTime = new DateTime(2018, 6, 5, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 15,
                 Subject = "Funnel Hacking Live",
-                StartTime = new DateTime(2018, 6, 6, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 6, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 14, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 16,
                 Subject = "Data Science Conference",
-                StartTime = new DateTime(2018, 6, 6, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 6, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 17, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 17,
                 Subject = "Powerful Living Experience",
-                StartTime = new DateTime(2018, 6, 6, 21, 0, 0),
-                EndTime = new DateTime(2018, 6, 6, 23, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 21, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 23, 30, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 18,
                 Subject = "World Domination Summit",
-                StartTime = new DateTime(2018, 6, 7, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 7, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 14, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 19,
                 Subject = "Burning Man",
-                StartTime = new DateTime(2018, 6, 7, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 7, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 17, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 20,
                 Subject = "Data-Driven Economy",
-                StartTime = new DateTime(2018, 6, 7, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 7, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 21,
                 Subject = "Techweek",
-                StartTime = new DateTime(2018, 6, 8, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 8, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 14, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 22,
                 Subject = "Content Marketing World",
-                StartTime = new DateTime(2018, 6, 8, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 8, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 17, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 23,
                 Subject = "B2B Marketing Forum",
-                StartTime = new DateTime(2018, 6, 8, 20, 30, 0),
-                EndTime = new DateTime(2018, 6, 8, 21, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 20, 30, 0),
+                EndTime = new DateTime(2020, 1, 10, 21, 30, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 24,
                 Subject = "Business Innovation Factory",
-                StartTime = new DateTime(2018, 6, 9, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 9, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 11, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 14, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 25,
                 Subject = "Grow Conference",
-                StartTime = new DateTime(2018, 6, 9, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 9, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 11, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 17, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 26,
                 Subject = "Journalism Interactive",
-                StartTime = new DateTime(2018, 6, 9, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 9, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 11, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 27,
                 Subject = "Blogcademy",
-                StartTime = new DateTime(2018, 6, 10, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 10, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 12, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 14, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 28,
                 Subject = "Sustainable Brands",
-                StartTime = new DateTime(2018, 6, 10, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 10, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 12, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 17, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 29,
                 Subject = "Fashion Confidential",
-                StartTime = new DateTime(2018, 6, 10, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 10, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 12, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 30,
                 Subject = "Mobile World Conference",
-                StartTime = new DateTime(2018, 6, 11, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 11, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 14, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 31,
                 Subject = "The Human Gathering",
-                StartTime = new DateTime(2018, 6, 11, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 11, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 17, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 32,
                 Subject = "Web Summit",
-                StartTime = new DateTime(2018, 6, 11, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 11, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 20, 0, 0),
                 ConferenceId = new int[] { 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 33,
                 Subject = "Funnel Hacking Live",
-                StartTime = new DateTime(2018, 6, 12, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 12, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 16, 0, 0),
                 ConferenceId = new int[] { 1 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 34,
                 Subject = "Data Science Conference",
-                StartTime = new DateTime(2018, 6, 12, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 12, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 16, 0, 0),
                 ConferenceId = new int[] { 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 35,
                 Subject = "Powerful Living Experience",
-                StartTime = new DateTime(2018, 6, 12, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 12, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 36,
                 Subject = "World Domination Summit",
-                StartTime = new DateTime(2018, 6, 12, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 12, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 20, 0, 0),
                 ConferenceId = new int[] { 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 37,
                 Subject = "Burning Man",
-                StartTime = new DateTime(2018, 6, 13, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 13, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 16, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 38,
                 Subject = "Data-Driven Economy",
-                StartTime = new DateTime(2018, 6, 13, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 13, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 16, 0, 0),
                 ConferenceId = new int[] { 1 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 39,
                 Subject = "Techweek",
-                StartTime = new DateTime(2018, 6, 13, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 13, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 20, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 40,
                 Subject = "Content Marketing World",
-                StartTime = new DateTime(2018, 6, 13, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 13, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 41,
                 Subject = "B2B Marketing Forum",
-                StartTime = new DateTime(2018, 6, 14, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 14, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 16, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 42,
                 Subject = "Business Innovation Factory",
-                StartTime = new DateTime(2018, 6, 14, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 14, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 16, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 43,
                 Subject = "Grow Conference",
-                StartTime = new DateTime(2018, 6, 14, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 14, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 20, 0, 0),
                 ConferenceId = new int[] { 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 44,
                 Subject = "Journalism Interactive",
-                StartTime = new DateTime(2018, 6, 14, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 14, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 45,
                 Subject = "Blogcademy",
-                StartTime = new DateTime(2018, 6, 15, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 16, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 46,
                 Subject = "Sustainable Brands",
-                StartTime = new DateTime(2018, 6, 15, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 16, 0, 0),
                 ConferenceId = new int[] { 1, 3 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 47,
                 Subject = "Fashion Confidential",
-                StartTime = new DateTime(2018, 6, 15, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 20, 0, 0),
                 ConferenceId = new int[] { 1, 2 }
             });
             resourceConferenceData.Add(new ResourceConferenceData
             {
                 Id = 48,
                 Subject = "Mobile World Conference",
-                StartTime = new DateTime(2018, 6, 15, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 20, 0, 0),
                 ConferenceId = new int[] { 2, 3 }
             });
             return resourceConferenceData;
@@ -1652,8 +1556,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Developers Meeting",
-                StartTime = new DateTime(2018, 6, 1, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 1, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 3, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 11, 0, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
                 ProjectId = 1,
                 CategoryId = 1
@@ -1662,8 +1566,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 2,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 6, 2, 10, 30, 0),
-                EndTime = new DateTime(2018, 6, 2, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 4, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 4, 13, 0, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR",
                 ProjectId = 1,
                 CategoryId = 2
@@ -1672,8 +1576,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 3,
                 Subject = "Requirement planning",
-                StartTime = new DateTime(2018, 6, 4, 9, 30, 0),
-                EndTime = new DateTime(2018, 6, 4, 10, 45, 0),
+                StartTime = new DateTime(2020, 1, 6, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 6, 10, 45, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
                 ProjectId = 2,
                 CategoryId = 1
@@ -1682,8 +1586,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 4,
                 Subject = "Bug Automation",
-                StartTime = new DateTime(2018, 6, 2, 11, 0, 0),
-                EndTime = new DateTime(2018, 6, 2, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 4, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 4, 13, 0, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,FR",
                 ProjectId = 2,
                 CategoryId = 2
@@ -1692,8 +1596,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 5,
                 Subject = "Timeline estimation",
-                StartTime = new DateTime(2018, 6, 3, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 12, 0, 0),
                 ProjectId = 1,
                 CategoryId = 1
             });
@@ -1701,8 +1605,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 6,
                 Subject = "Timeline estimation",
-                StartTime = new DateTime(2018, 6, 3, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 5, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 15, 0, 0),
                 ProjectId = 2,
                 CategoryId = 1
             });
@@ -1710,8 +1614,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 7,
                 Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 6, 4, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 4, 15, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 15, 30, 0),
                 ProjectId = 1,
                 CategoryId = 2
             });
@@ -1719,8 +1623,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 8,
                 Subject = "Functionality testing",
-                StartTime = new DateTime(2018, 6, 4, 19, 0, 0),
-                EndTime = new DateTime(2018, 6, 4, 21, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 19, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 21, 0, 0),
                 ProjectId = 2,
                 CategoryId = 2
             });
@@ -1728,8 +1632,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 9,
                 Subject = "Workflow Analysis",
-                StartTime = new DateTime(2018, 6, 5, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 15, 30, 0),
+                StartTime = new DateTime(2020, 1, 7, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 15, 30, 0),
                 ProjectId = 1,
                 CategoryId = 1
             });
@@ -1737,8 +1641,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 10,
                 Subject = "Quality Analysis",
-                StartTime = new DateTime(2018, 6, 5, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 16, 0, 0),
                 ProjectId = 2,
                 CategoryId = 1
             });
@@ -1746,8 +1650,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 11,
                 Subject = "Cross-browser testing",
-                StartTime = new DateTime(2018, 6, 5, 14, 45, 0),
-                EndTime = new DateTime(2018, 6, 5, 16, 15, 0),
+                StartTime = new DateTime(2020, 1, 7, 14, 45, 0),
+                EndTime = new DateTime(2020, 1, 7, 16, 15, 0),
                 ProjectId = 1,
                 CategoryId = 2
             });
@@ -1755,8 +1659,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 12,
                 Subject = "Resolution-based testing",
-                StartTime = new DateTime(2018, 6, 5, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 17, 30, 0),
+                StartTime = new DateTime(2020, 1, 7, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 17, 30, 0),
                 ProjectId = 2,
                 CategoryId = 2
             });
@@ -1764,8 +1668,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 13,
                 Subject = "Project Preview",
-                StartTime = new DateTime(2018, 6, 8, 16, 0, 0),
-                EndTime = new DateTime(2018, 6, 8, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 18, 0, 0),
                 ProjectId = 1,
                 CategoryId = 1
             });
@@ -1773,8 +1677,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 14,
                 Subject = "Project Preview",
-                StartTime = new DateTime(2018, 6, 8, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 8, 17, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 17, 30, 0),
                 ProjectId = 2,
                 CategoryId = 1
             });
@@ -1782,8 +1686,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 15,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 6, 8, 15, 30, 0),
-                EndTime = new DateTime(2018, 6, 8, 17, 45, 0),
+                StartTime = new DateTime(2020, 1, 10, 15, 30, 0),
+                EndTime = new DateTime(2020, 1, 10, 17, 45, 0),
                 ProjectId = 1,
                 CategoryId = 2
             });
@@ -1791,8 +1695,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 16,
                 Subject = "Test report Validation",
-                StartTime = new DateTime(2018, 6, 8, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 8, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 17, 0, 0),
                 ProjectId = 2,
                 CategoryId = 2
             });
@@ -1800,8 +1704,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 17,
                 Subject = "Resource planning",
-                StartTime = new DateTime(2018, 6, 6, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 6, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 18, 0, 0),
                 ProjectId = 1,
                 CategoryId = 1
             });
@@ -1809,8 +1713,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 18,
                 Subject = "Resource planning",
-                StartTime = new DateTime(2018, 6, 7, 16, 0, 0),
-                EndTime = new DateTime(2018, 6, 7, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 17, 0, 0),
                 ProjectId = 2,
                 CategoryId = 1
             });
@@ -1818,8 +1722,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 19,
                 Subject = "Run test cases",
-                StartTime = new DateTime(2018, 6, 7, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 7, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 9, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 18, 0, 0),
                 ProjectId = 1,
                 CategoryId = 2
             });
@@ -1827,8 +1731,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 20,
                 Subject = "Run test cases",
-                StartTime = new DateTime(2018, 6, 6, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 6, 17, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 17, 30, 0),
                 ProjectId = 2,
                 CategoryId = 2
             });
@@ -1836,8 +1740,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 21,
                 Subject = "Resource planning",
-                StartTime = new DateTime(2018, 6, 7, 9, 30, 0),
-                EndTime = new DateTime(2018, 6, 7, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 9, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 9, 11, 30, 0),
                 ProjectId = 2,
                 CategoryId = 1
             });
@@ -1845,122 +1749,13 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 22,
                 Subject = "Developers Meeting",
-                StartTime = new DateTime(2018, 5, 1, 12, 0, 0),
-                EndTime = new DateTime(2018, 5, 1, 13, 0, 0),
+                StartTime = new DateTime(2019, 12, 1, 12, 0, 0),
+                EndTime = new DateTime(2019, 12, 1, 13, 0, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR",
                 ProjectId = 2,
                 CategoryId = 1
             });
             return resourceTeamData;
-        }
-        public List<ResourceSampleData> GetResourceSampleData()
-        {
-            List<ResourceSampleData> resourceSampleData = new List<ResourceSampleData>();
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 1,
-                Subject = "Burning Man",
-                StartTime = new DateTime(2018, 6, 1, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 1, 17, 30, 0),
-                OwnerId = 1
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 2,
-                Subject = "Marketing Forum",
-                StartTime = new DateTime(2018, 6, 3, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 3, 11, 30, 0),
-                OwnerId = 2
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 3,
-                Subject = "Business Factory",
-                StartTime = new DateTime(2018, 6, 3, 13, 30, 0),
-                EndTime = new DateTime(2018, 6, 3, 15, 0, 0),
-                OwnerId = 3
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 4,
-                Subject = "Burning Man",
-                StartTime = new DateTime(2018, 6, 4, 11, 30, 0),
-                EndTime = new DateTime(2018, 6, 4, 13, 0, 0),
-                OwnerId = 1
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 5,
-                Subject = "Funnel Hacking",
-                StartTime = new DateTime(2018, 6, 5, 9, 30, 0),
-                EndTime = new DateTime(2018, 6, 5, 11, 0, 0),
-                OwnerId = 3
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 6,
-                Subject = "The human gathering",
-                StartTime = new DateTime(2018, 6, 5, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 5, 14, 30, 0),
-                OwnerId = 2
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 7,
-                Subject = "Techweek",
-                StartTime = new DateTime(2018, 6, 6, 11, 0, 0),
-                EndTime = new DateTime(2018, 6, 6, 12, 30, 0),
-                OwnerId = 2
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 8,
-                Subject = "Grow Conference",
-                StartTime = new DateTime(2018, 6, 7, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 7, 11, 30, 0),
-                OwnerId = 1
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 9,
-                Subject = "Data Science Conference",
-                StartTime = new DateTime(2018, 6, 7, 13, 30, 0),
-                EndTime = new DateTime(2018, 6, 7, 15, 0, 0),
-                OwnerId = 1
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 10,
-                Subject = "Blogcademy",
-                StartTime = new DateTime(2018, 6, 8, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 8, 13, 30, 0),
-                OwnerId = 3
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 11,
-                Subject = "World Domination Summit",
-                StartTime = new DateTime(2018, 6, 9, 9, 30, 0),
-                EndTime = new DateTime(2018, 6, 9, 11, 0, 0),
-                OwnerId = 2
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 12,
-                Subject = "Content Marketing",
-                StartTime = new DateTime(2018, 6, 9, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 9, 14, 30, 0),
-                OwnerId = 1
-            });
-            resourceSampleData.Add(new ResourceSampleData
-            {
-                Id = 13,
-                Subject = "Mobile World Conference",
-                StartTime = new DateTime(2018, 6, 15, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 20, 0, 0),
-                OwnerId = 1
-            });
-            return resourceSampleData;
         }
         public List<RoomData> GetRoomData()
         {
@@ -1969,9 +1764,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Board Meeting",
-                Description = "Meeting to discuss business goal of 2018.",
-                StartTime = new DateTime(2018, 7, 30, 9, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 11, 0, 0),
+                Description = "Meeting to discuss business goal of 2020.",
+                StartTime = new DateTime(2019, 12, 30, 9, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 11, 0, 0),
                 RoomId = 1
             });
             roomData.Add(new RoomData
@@ -1979,8 +1774,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 2,
                 Subject = "Training session on JSP",
                 Description = "Knowledge sharing on JSP topics.",
-                StartTime = new DateTime(2018, 7, 30, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 17, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 15, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 17, 0, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -1988,8 +1783,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 3,
                 Subject = "Sprint Planning with Team members",
                 Description = "Planning tasks for sprint.",
-                StartTime = new DateTime(2018, 7, 30, 9, 30, 0),
-                EndTime = new DateTime(2018, 7, 30, 11, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 9, 30, 0),
+                EndTime = new DateTime(2019, 12, 30, 11, 0, 0),
                 RoomId = 3
             });
             roomData.Add(new RoomData
@@ -1997,8 +1792,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 4,
                 Subject = "Meeting with Client",
                 Description = "Customer meeting to discuss features.",
-                StartTime = new DateTime(2018, 7, 30, 11, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 13, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 11, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 13, 0, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2006,8 +1801,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 5,
                 Subject = "Support Meeting with Managers",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 7, 30, 16, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 17, 30, 0),
+                StartTime = new DateTime(2019, 12, 30, 16, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 17, 30, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2015,8 +1810,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 6,
                 Subject = "Client Meeting",
                 Description = "Meeting to discuss client requirements.",
-                StartTime = new DateTime(2018, 7, 30, 10, 30, 0),
-                EndTime = new DateTime(2018, 7, 30, 13, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 10, 30, 0),
+                EndTime = new DateTime(2019, 12, 30, 13, 0, 0),
                 RoomId = 6
             });
             roomData.Add(new RoomData
@@ -2024,8 +1819,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 7,
                 Subject = "Appraisal Meeting",
                 Description = "Meeting to discuss employee appraisals.",
-                StartTime = new DateTime(2018, 7, 30, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 16, 30, 0),
+                StartTime = new DateTime(2019, 12, 30, 15, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 16, 30, 0),
                 RoomId = 7
             });
             roomData.Add(new RoomData
@@ -2033,8 +1828,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 8,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 7, 30, 8, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 9, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 8, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 9, 0, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2042,8 +1837,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 9,
                 Subject = "Customer Meeting",
                 Description = "Meeting to discuss customer reported issues.",
-                StartTime = new DateTime(2018, 7, 30, 10, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 12, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 10, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 12, 0, 0),
                 RoomId = 8
             });
             roomData.Add(new RoomData
@@ -2051,8 +1846,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 10,
                 Subject = "Board Meeting",
                 Description = "Meeting to discuss business plans.",
-                StartTime = new DateTime(2018, 7, 30, 14, 30, 0),
-                EndTime = new DateTime(2018, 7, 30, 17, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 14, 30, 0),
+                EndTime = new DateTime(2019, 12, 30, 17, 0, 0),
                 RoomId = 9
             });
             roomData.Add(new RoomData
@@ -2060,8 +1855,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 11,
                 Subject = "Training session on Vue",
                 Description = "Knowledge sharing on Vue concepts.",
-                StartTime = new DateTime(2018, 7, 30, 9, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 10, 30, 0),
+                StartTime = new DateTime(2019, 12, 30, 9, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 10, 30, 0),
                 RoomId = 10
             });
             roomData.Add(new RoomData
@@ -2069,8 +1864,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 12,
                 Subject = "Meeting with Team members",
                 Description = "Meeting to discuss on work report.",
-                StartTime = new DateTime(2018, 7, 30, 11, 30, 0),
-                EndTime = new DateTime(2018, 7, 30, 12, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 11, 30, 0),
+                EndTime = new DateTime(2019, 12, 30, 12, 0, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2078,17 +1873,17 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 13,
                 Subject = "Meeting with General Manager",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 7, 30, 14, 0, 0),
-                EndTime = new DateTime(2018, 7, 30, 16, 0, 0),
+                StartTime = new DateTime(2019, 12, 30, 14, 0, 0),
+                EndTime = new DateTime(2019, 12, 30, 16, 0, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
             {
                 Id = 14,
                 Subject = "Board Meeting",
-                Description = "Meeting to discuss business goal of 2018.",
-                StartTime = new DateTime(2018, 7, 31, 9, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 11, 0, 0),
+                Description = "Meeting to discuss business goal of 2020.",
+                StartTime = new DateTime(2019, 12, 31, 9, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 11, 0, 0),
                 RoomId = 1
             });
             roomData.Add(new RoomData
@@ -2096,8 +1891,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 15,
                 Subject = "Training session on JSP",
                 Description = "Knowledge sharing on JSP topics.",
-                StartTime = new DateTime(2018, 7, 31, 14, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 17, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 14, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 17, 0, 0),
                 RoomId = 6
             });
             roomData.Add(new RoomData
@@ -2105,8 +1900,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 16,
                 Subject = "Sprint Planning with Team members",
                 Description = "Planning tasks for sprint.",
-                StartTime = new DateTime(2018, 7, 31, 9, 30, 0),
-                EndTime = new DateTime(2018, 7, 31, 11, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 9, 30, 0),
+                EndTime = new DateTime(2019, 12, 31, 11, 0, 0),
                 RoomId = 2
             });
             roomData.Add(new RoomData
@@ -2114,8 +1909,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 17,
                 Subject = "Meeting with Client",
                 Description = "Customer meeting to discuss features.",
-                StartTime = new DateTime(2018, 7, 31, 11, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 13, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 11, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 13, 0, 0),
                 RoomId = 7
             });
             roomData.Add(new RoomData
@@ -2123,8 +1918,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 18,
                 Subject = "Support Meeting with Managers",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 7, 31, 16, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 17, 30, 0),
+                StartTime = new DateTime(2019, 12, 31, 16, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 17, 30, 0),
                 RoomId = 2
             });
             roomData.Add(new RoomData
@@ -2132,8 +1927,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 19,
                 Subject = "Training session on C#",
                 Description = "Training session",
-                StartTime = new DateTime(2018, 7, 31, 14, 30, 0),
-                EndTime = new DateTime(2018, 7, 31, 16, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 14, 30, 0),
+                EndTime = new DateTime(2019, 12, 31, 16, 0, 0),
                 RoomId = 9
             });
             roomData.Add(new RoomData
@@ -2141,8 +1936,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 20,
                 Subject = "Client Meeting",
                 Description = "Meeting to discuss client requirements.",
-                StartTime = new DateTime(2018, 7, 31, 10, 30, 0),
-                EndTime = new DateTime(2018, 7, 31, 13, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 10, 30, 0),
+                EndTime = new DateTime(2019, 12, 31, 13, 0, 0),
                 RoomId = 3
             });
             roomData.Add(new RoomData
@@ -2150,8 +1945,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 21,
                 Subject = "Appraisal Meeting",
                 Description = "Meeting to discuss employee appraisals.",
-                StartTime = new DateTime(2018, 7, 31, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 16, 30, 0),
+                StartTime = new DateTime(2019, 12, 31, 15, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 16, 30, 0),
                 RoomId = 3
             });
             roomData.Add(new RoomData
@@ -2159,8 +1954,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 22,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 7, 31, 8, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 9, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 8, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 9, 0, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2168,8 +1963,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 23,
                 Subject = "Customer Meeting",
                 Description = "Meeting to discuss customer reported issues.",
-                StartTime = new DateTime(2018, 7, 31, 10, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 12, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 10, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 12, 0, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2177,8 +1972,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 24,
                 Subject = "Board Meeting",
                 Description = "Meeting to discuss business plans.",
-                StartTime = new DateTime(2018, 8, 1, 16, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 16, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 18, 0, 0),
                 RoomId = 10
             });
             roomData.Add(new RoomData
@@ -2186,8 +1981,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 25,
                 Subject = "Training session on Vue",
                 Description = "Knowledge sharing on Vue concepts.",
-                StartTime = new DateTime(2018, 7, 31, 9, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 10, 30, 0),
+                StartTime = new DateTime(2019, 12, 31, 9, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 10, 30, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2195,8 +1990,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 26,
                 Subject = "Meeting with Team members",
                 Description = "Meeting to discuss on work report.",
-                StartTime = new DateTime(2018, 7, 31, 11, 30, 0),
-                EndTime = new DateTime(2018, 7, 31, 12, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 11, 30, 0),
+                EndTime = new DateTime(2019, 12, 31, 12, 0, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2204,8 +1999,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 27,
                 Subject = "Meeting with General Manager",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 7, 31, 14, 0, 0),
-                EndTime = new DateTime(2018, 7, 31, 16, 0, 0),
+                StartTime = new DateTime(2019, 12, 31, 14, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 16, 0, 0),
                 RoomId = 10
             });
 
@@ -2213,9 +2008,9 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 28,
                 Subject = "Board Meeting",
-                Description = "Meeting to discuss business goal of 2018.",
-                StartTime = new DateTime(2018, 8, 1, 9, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 11, 0, 0),
+                Description = "Meeting to discuss business goal of 2020.",
+                StartTime = new DateTime(2020, 1, 1, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 11, 0, 0),
                 RoomId = 1
             });
             roomData.Add(new RoomData
@@ -2223,8 +2018,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 29,
                 Subject = "Training session on JSP",
                 Description = "Knowledge sharing on JSP topics.",
-                StartTime = new DateTime(2018, 8, 1, 17, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 17, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 20, 0, 0),
                 RoomId = 6
             });
             roomData.Add(new RoomData
@@ -2232,8 +2027,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 30,
                 Subject = "Sprint Planning with Team members",
                 Description = "Planning tasks for sprint.",
-                StartTime = new DateTime(2018, 8, 1, 10, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 0, 0),
                 RoomId = 2
             });
             roomData.Add(new RoomData
@@ -2241,8 +2036,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 31,
                 Subject = "Meeting with Client",
                 Description = "Customer meeting to discuss features.",
-                StartTime = new DateTime(2018, 8, 1, 18, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 20, 0, 0),
                 RoomId = 8
             });
             roomData.Add(new RoomData
@@ -2250,8 +2045,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 32,
                 Subject = "Support Meeting with Managers",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 8, 1, 16, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 17, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 17, 30, 0),
                 RoomId = 7
             });
             roomData.Add(new RoomData
@@ -2260,8 +2055,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Subject = "Training session on C#",
                 Location = "Office",
                 Description = "Training session",
-                StartTime = new DateTime(2018, 8, 1, 14, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 16, 0, 0),
                 RoomId = 2
             });
             roomData.Add(new RoomData
@@ -2269,8 +2064,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 34,
                 Subject = "Client Meeting",
                 Description = "Meeting to discuss client requirements.",
-                StartTime = new DateTime(2018, 8, 1, 10, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 13, 0, 0),
                 RoomId = 3
             });
             roomData.Add(new RoomData
@@ -2278,8 +2073,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 35,
                 Subject = "Appraisal Meeting",
                 Description = "Meeting to discuss employee appraisals.",
-                StartTime = new DateTime(2018, 8, 1, 15, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 16, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 16, 30, 0),
                 RoomId = 8
             });
             roomData.Add(new RoomData
@@ -2287,8 +2082,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 36,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 8, 1, 9, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 11, 30, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2296,8 +2091,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 37,
                 Subject = "Customer Meeting",
                 Description = "Meeting to discuss customer reported issues.",
-                StartTime = new DateTime(2018, 8, 1, 10, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 0, 0),
                 RoomId = 9
             });
             roomData.Add(new RoomData
@@ -2305,8 +2100,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 38,
                 Subject = "Board Meeting",
                 Description = "Meeting to discuss business plans.",
-                StartTime = new DateTime(2018, 8, 1, 15, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 17, 0, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2314,8 +2109,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 39,
                 Subject = "Training session on Vue",
                 Description = "Knowledge sharing on Vue concepts.",
-                StartTime = new DateTime(2018, 8, 1, 9, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 10, 30, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2323,8 +2118,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 40,
                 Subject = "Meeting with Team members",
                 Description = "Meeting to discuss on work report.",
-                StartTime = new DateTime(2018, 8, 1, 11, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 30, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2332,8 +2127,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 41,
                 Subject = "Meeting with General Manager",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 8, 1, 14, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 16, 0, 0),
                 RoomId = 10
             });
             roomData.Add(new RoomData
@@ -2341,8 +2136,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 43,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 8, 1, 18, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 20, 0, 0),
                 RoomId = 2
             });
             roomData.Add(new RoomData
@@ -2350,8 +2145,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 44,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 8, 1, 19, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 21, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 19, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 21, 0, 0),
                 RoomId = 1
             });
             roomData.Add(new RoomData
@@ -2359,8 +2154,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 45,
                 Subject = "Client Meeting",
                 Description = "Meeting to discuss client requirements.",
-                StartTime = new DateTime(2018, 8, 1, 16, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 16, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 18, 0, 0),
                 RoomId = 3
             });
             roomData.Add(new RoomData
@@ -2368,8 +2163,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 46,
                 Subject = "Board Meeting",
                 Description = "Meeting to discuss business plans.",
-                StartTime = new DateTime(2018, 8, 1, 18, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 20, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 18, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 20, 30, 0),
                 RoomId = 4
             });
             roomData.Add(new RoomData
@@ -2377,8 +2172,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 47,
                 Subject = "Board Meeting",
                 Description = "Meeting to discuss business plans.",
-                StartTime = new DateTime(2018, 8, 1, 15, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 15, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 18, 0, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2386,8 +2181,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 48,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 8, 1, 19, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 22, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 19, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 22, 0, 0),
                 RoomId = 5
             });
             roomData.Add(new RoomData
@@ -2395,8 +2190,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 49,
                 Subject = "HR Meeting",
                 Description = "Meeting to discuss HR plans.",
-                StartTime = new DateTime(2018, 8, 1, 14, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 16, 0, 0),
                 RoomId = 6
             });
             roomData.Add(new RoomData
@@ -2404,8 +2199,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 50,
                 Subject = "Board Meeting",
                 Description = "Meeting to discuss business plans.",
-                StartTime = new DateTime(2018, 8, 1, 9, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 0, 0),
                 RoomId = 6
             });
             roomData.Add(new RoomData
@@ -2413,8 +2208,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 51,
                 Subject = "Client Meeting",
                 Description = "Meeting to discuss client requirements.",
-                StartTime = new DateTime(2018, 8, 1, 10, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 0, 0),
                 RoomId = 7
             });
             roomData.Add(new RoomData
@@ -2422,8 +2217,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 52,
                 Subject = "Appraisal Meeting",
                 Description = "Meeting to discuss employee appraisals.",
-                StartTime = new DateTime(2018, 8, 1, 20, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 21, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 20, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 21, 30, 0),
                 RoomId = 7
             });
             roomData.Add(new RoomData
@@ -2431,8 +2226,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 53,
                 Subject = "Support Meeting with Managers",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 8, 1, 15, 30, 0),
-                EndTime = new DateTime(2018, 8, 1, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 15, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 17, 0, 0),
                 RoomId = 9
             });
             roomData.Add(new RoomData
@@ -2440,8 +2235,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 54,
                 Subject = "Support Meeting with Managers",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 8, 1, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 30, 0),
                 RoomId = 8
             });
             roomData.Add(new RoomData
@@ -2449,16 +2244,16 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 55,
                 Subject = "Support Meeting with Managers",
                 Description = "Meeting to discuss support plan.",
-                StartTime = new DateTime(2018, 8, 1, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 1, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 30, 0),
                 RoomId = 10
             });
             roomData.Add(new RoomData
             {
                 Id = 56,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 1
@@ -2467,8 +2262,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 57,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 2
@@ -2477,8 +2272,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 58,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 3
@@ -2487,8 +2282,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 59,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 4
@@ -2497,8 +2292,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 60,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 5
@@ -2507,8 +2302,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 61,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 6
@@ -2517,8 +2312,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 62,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 7
@@ -2527,8 +2322,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 63,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 8
@@ -2537,8 +2332,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 64,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 9
@@ -2547,8 +2342,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 65,
                 Subject = "Lunch Break",
-                StartTime = new DateTime(2018, 8, 1, 13, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 RecurrenceRule = "FREQ=DAILY;INTERVAL=1;",
                 IsBlock = true,
                 RoomId = 10
@@ -2562,8 +2357,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 10,
                 Name = "David",
-                StartTime = new DateTime(2018, 7, 1, 9, 0, 0),
-                EndTime = new DateTime(2018, 7, 1, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 10, 0, 0),
                 Description = "Health Checkup",
                 DepartmentID = 1,
                 ConsultantID = 1,
@@ -2573,8 +2368,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 11,
                 Name = "John",
-                StartTime = new DateTime(2018, 7, 1, 10, 30, 0),
-                EndTime = new DateTime(2018, 7, 1, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 6, 11, 30, 0),
                 Description = "Tooth Erosion",
                 DepartmentID = 2,
                 ConsultantID = 2,
@@ -2584,8 +2379,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 12,
                 Name = "Peter",
-                StartTime = new DateTime(2018, 7, 1, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 1, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 13, 0, 0),
                 Description = "Eye and Spectacles Checkup",
                 DepartmentID = 1,
                 ConsultantID = 3,
@@ -2595,8 +2390,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 13,
                 Name = "Starc",
-                StartTime = new DateTime(2018, 7, 1, 14, 0, 0),
-                EndTime = new DateTime(2018, 7, 1, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 15, 0, 0),
                 Description = "Toothaches",
                 DepartmentID = 2,
                 ConsultantID = 4,
@@ -2606,8 +2401,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 14,
                 Name = "James",
-                StartTime = new DateTime(2018, 7, 1, 10, 0, 0),
-                EndTime = new DateTime(2018, 7, 1, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 11, 0, 0),
                 Description = "Surgery Appointment",
                 DepartmentID = 1,
                 ConsultantID = 5,
@@ -2617,8 +2412,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 15,
                 Name = "Jercy",
-                StartTime = new DateTime(2018, 7, 1, 9, 30, 0),
-                EndTime = new DateTime(2018, 7, 1, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 6, 10, 30, 0),
                 Description = "Tooth Sensitivity",
                 DepartmentID = 2,
                 ConsultantID = 6,
@@ -2628,8 +2423,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 16,
                 Name = "Albert",
-                StartTime = new DateTime(2018, 7, 2, 10, 0, 0),
-                EndTime = new DateTime(2018, 7, 2, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 7, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 11, 30, 0),
                 Description = "Skin care treatment",
                 DepartmentID = 1,
                 ConsultantID = 7,
@@ -2639,8 +2434,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 17,
                 Name = "Louis",
-                StartTime = new DateTime(2018, 7, 2, 12, 30, 0),
-                EndTime = new DateTime(2018, 7, 2, 13, 30, 0),
+                StartTime = new DateTime(2020, 1, 7, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 13, 30, 0),
                 Description = "General Checkup",
                 DepartmentID = 1,
                 ConsultantID = 9,
@@ -2650,8 +2445,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 18,
                 Name = "Williams",
-                StartTime = new DateTime(2018, 7, 2, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 2, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 7, 14, 0, 0),
                 Description = "Mouth Sores",
                 DepartmentID = 2,
                 ConsultantID = 10,
@@ -2661,8 +2456,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 19,
                 Name = "David",
-                StartTime = new DateTime(2018, 7, 2, 16, 30, 0),
-                EndTime = new DateTime(2018, 7, 2, 18, 45, 0),
+                StartTime = new DateTime(2020, 1, 7, 16, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 18, 45, 0),
                 Description = "Eye checkup and Treatment",
                 DepartmentID = 1,
                 ConsultantID = 1,
@@ -2672,8 +2467,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 20,
                 Name = "John",
-                StartTime = new DateTime(2018, 7, 2, 19, 30, 0),
-                EndTime = new DateTime(2018, 7, 2, 21, 45, 0),
+                StartTime = new DateTime(2020, 1, 7, 19, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 21, 45, 0),
                 Description = "Tooth Decay",
                 DepartmentID = 2,
                 ConsultantID = 2,
@@ -2689,8 +2484,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Name = "Steven",
-                StartTime = new DateTime(2018, 8, 3, 7, 30, 0),
-                EndTime = new DateTime(2018, 8, 3, 9, 30, 0),
+                StartTime = new DateTime(2020, 1, 3, 7, 30, 0),
+                EndTime = new DateTime(2020, 1, 3, 9, 30, 0),
                 Description = "Consulting",
                 DepartmentName = "GENERAL"
             });
@@ -2698,8 +2493,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 2,
                 Name = "Milan",
-                StartTime = new DateTime(2018, 8, 4, 8, 30, 0),
-                EndTime = new DateTime(2018, 8, 4, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 4, 8, 30, 0),
+                EndTime = new DateTime(2020, 1, 4, 10, 30, 0),
                 Description = "Bad Breath",
                 DepartmentName = "DENTAL"
             });
@@ -2707,8 +2502,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 3,
                 Name = "Laura",
-                StartTime = new DateTime(2018, 8, 4, 9, 30, 0),
-                EndTime = new DateTime(2018, 8, 4, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 4, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 4, 10, 30, 0),
                 Description = "Extraction",
                 DepartmentName = "GENERAL"
             });
@@ -2716,8 +2511,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 4,
                 Name = "Janet",
-                StartTime = new DateTime(2018, 8, 3, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 3, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 3, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 12, 30, 0),
                 Description = "Gum Disease",
                 DepartmentName = "DENTAL"
             });
@@ -2725,8 +2520,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 5,
                 Name = "Adams",
-                StartTime = new DateTime(2018, 8, 3, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 3, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 3, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 12, 30, 0),
                 Description = "Observation",
                 DepartmentName = "GENERAL"
             });
@@ -2734,236 +2529,236 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 6,
                 Name = "John",
-                StartTime = new DateTime(2018, 8, 3, 11, 30, 0),
-                EndTime = new DateTime(2018, 8, 3, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 3, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 3, 12, 30, 0),
                 Description = "Mouth Sores",
                 DepartmentName = "DENTAL"
             });
             return waitingData;
         }
-        public List<HeaderRowData> GetHeaderRowData()
+        public List<AppointmentData> GetHeaderRowData()
         {
-            List<HeaderRowData> headerRowData = new List<HeaderRowData>();
-            headerRowData.Add(new HeaderRowData
+            List<AppointmentData> headerRowData = new List<AppointmentData>();
+            headerRowData.Add(new AppointmentData
             {
                 Id = 1,
                 Subject = "Story Time for Kids",
-                StartTime = new DateTime(2018, 1, 1, 9, 0, 0),
-                EndTime = new DateTime(2018, 1, 3, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 6, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 11, 0, 0),
                 CategoryColor = "#df5286"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 2,
                 Subject = "Camping with Turtles",
-                StartTime = new DateTime(2018, 1, 2, 15, 0, 0),
-                EndTime = new DateTime(2018, 1, 3, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 7, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 17, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 3,
                 Subject = "Wildlife Warriors",
-                StartTime = new DateTime(2018, 1, 3, 9, 30, 0),
-                EndTime = new DateTime(2018, 1, 4, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 9, 11, 0, 0),
                 CategoryColor = "#ea7a57"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 4,
                 Subject = "Parrot Talk",
-                StartTime = new DateTime(2018, 1, 4, 11, 0, 0),
-                EndTime = new DateTime(2018, 1, 6, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 13, 0, 0),
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 5,
                 Subject = "Croco World",
-                StartTime = new DateTime(2018, 1, 5, 16, 0, 0),
-                EndTime = new DateTime(2018, 1, 8, 17, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 17, 30, 0),
                 CategoryColor = "#fec200"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 6,
                 Subject = "Venomous Snake Hunt",
-                StartTime = new DateTime(2018, 1, 6, 15, 0, 0),
-                EndTime = new DateTime(2018, 1, 7, 16, 30, 0),
+                StartTime = new DateTime(2020, 1, 11, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 16, 30, 0),
                 CategoryColor = "#5978ee"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 7,
                 Subject = "Face Painting & Drawing events",
-                StartTime = new DateTime(2018, 1, 7, 8, 0, 0),
-                EndTime = new DateTime(2018, 1, 10, 9, 0, 0),
+                StartTime = new DateTime(2020, 1, 12, 8, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 9, 0, 0),
                 IsAllDay = true,
                 CategoryColor = "#00bdae"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 8,
                 Subject = "Jungle Treasure Hunt",
-                StartTime = new DateTime(2018, 1, 11),
-                EndTime = new DateTime(2018, 1, 14),
+                StartTime = new DateTime(2020, 1, 16),
+                EndTime = new DateTime(2020, 1, 19),
                 IsAllDay = true,
                 CategoryColor = "#7FA900"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 9,
                 Subject = "Endangered Species Program",
-                StartTime = new DateTime(2018, 1, 12, 11, 30, 0),
-                EndTime = new DateTime(2018, 1, 15, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 20, 12, 0, 0),
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 10,
                 Subject = "Black Cockatoos Playtime",
-                StartTime = new DateTime(2018, 1, 13),
-                EndTime = new DateTime(2018, 1, 17),
+                StartTime = new DateTime(2020, 1, 18),
+                EndTime = new DateTime(2020, 1, 22),
                 IsAllDay = true,
                 CategoryColor = "#ea7a57"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 11,
                 Subject = "Walk with Jungle King",
-                StartTime = new DateTime(2018, 1, 17, 9, 0, 0),
-                EndTime = new DateTime(2018, 1, 21, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 22, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 26, 11, 0, 0),
                 CategoryColor = "#fec200"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 12,
                 Subject = "Trained Climbers",
-                StartTime = new DateTime(2018, 1, 20),
-                EndTime = new DateTime(2018, 1, 22),
+                StartTime = new DateTime(2020, 1, 25),
+                EndTime = new DateTime(2020, 1, 27),
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 13,
                 Subject = "Playtime with Chimpanzees",
-                StartTime = new DateTime(2018, 1, 18, 9, 30, 0),
-                EndTime = new DateTime(2018, 1, 20, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 23, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 25, 11, 0, 0),
                 CategoryColor = "#df5286"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 14,
                 Subject = "Meet a small Mammal",
-                StartTime = new DateTime(2018, 1, 23, 11, 0, 0),
-                EndTime = new DateTime(2018, 1, 25, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 28, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 13, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 15,
                 Subject = "Amazon Fish Feeding",
-                StartTime = new DateTime(2018, 1, 22),
-                EndTime = new DateTime(2018, 1, 24),
+                StartTime = new DateTime(2020, 1, 27),
+                EndTime = new DateTime(2020, 1, 29),
                 IsAllDay = true,
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 16,
                 Subject = "Elephant Ride",
-                StartTime = new DateTime(2018, 1, 24, 14, 30, 0),
-                EndTime = new DateTime(2018, 1, 27, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 29, 14, 30, 0),
+                EndTime = new DateTime(2020, 2, 1, 16, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 17,
                 Subject = "Black Cockatoos Playtime",
-                StartTime = new DateTime(2018, 1, 26),
-                EndTime = new DateTime(2018, 1, 30),
+                StartTime = new DateTime(2020, 1, 31),
+                EndTime = new DateTime(2020, 2, 4),
                 IsAllDay = true,
                 CategoryColor = "#ea7a57"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 18,
                 Subject = "Endangered Species Program",
-                StartTime = new DateTime(2018, 1, 27, 11, 30, 0),
-                EndTime = new DateTime(2018, 1, 29, 12, 0, 0),
+                StartTime = new DateTime(2020, 2, 1, 11, 30, 0),
+                EndTime = new DateTime(2020, 2, 3, 12, 0, 0),
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 19,
                 Subject = "Feed the Giants",
-                StartTime = new DateTime(2018, 1, 28, 14, 30, 0),
-                EndTime = new DateTime(2018, 1, 31, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 2, 14, 30, 0),
+                EndTime = new DateTime(2020, 2, 5, 17, 0, 0),
                 CategoryColor = "#00bdae"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 20,
                 Subject = "Birds of Prey",
-                StartTime = new DateTime(2018, 2, 4, 16, 0, 0),
-                EndTime = new DateTime(2018, 2, 7, 17, 30, 0),
+                StartTime = new DateTime(2020, 2, 9, 16, 0, 0),
+                EndTime = new DateTime(2020, 2, 12, 17, 30, 0),
                 CategoryColor = "#865fcf"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 21,
                 Subject = "Trained Climbers",
-                StartTime = new DateTime(2018, 1, 31),
-                EndTime = new DateTime(2018, 2, 3),
+                StartTime = new DateTime(2020, 2, 5),
+                EndTime = new DateTime(2020, 2, 8),
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 22,
                 Subject = "Venomous Snake Hunt",
-                StartTime = new DateTime(2018, 2, 2, 15, 0, 0),
-                EndTime = new DateTime(2018, 2, 5, 16, 30, 0),
+                StartTime = new DateTime(2020, 2, 7, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 10, 16, 30, 0),
                 CategoryColor = "#5978ee"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 23,
                 Subject = "Croco World",
-                StartTime = new DateTime(2018, 2, 6, 16, 0, 0),
-                EndTime = new DateTime(2018, 2, 9, 17, 30, 0),
+                StartTime = new DateTime(2020, 2, 11, 16, 0, 0),
+                EndTime = new DateTime(2020, 2, 14, 17, 30, 0),
                 CategoryColor = "#7fa900"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 24,
                 Subject = "Amazon Fish Feeding",
-                StartTime = new DateTime(2018, 2, 8),
-                EndTime = new DateTime(2018, 2, 11),
+                StartTime = new DateTime(2020, 2, 13),
+                EndTime = new DateTime(2020, 2, 16),
                 IsAllDay = true,
                 CategoryColor = "#1aaa55"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 25,
                 Subject = "Playtime with Chimpanzees",
-                StartTime = new DateTime(2018, 2, 10, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 13, 11, 0, 0),
+                StartTime = new DateTime(2020, 2, 15, 9, 30, 0),
+                EndTime = new DateTime(2020, 2, 18, 11, 0, 0),
                 CategoryColor = "#df5286"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 26,
                 Subject = "Meet a small Mammal",
-                StartTime = new DateTime(2018, 2, 12, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 13, 0, 0),
+                StartTime = new DateTime(2020, 2, 17, 11, 0, 0),
+                EndTime = new DateTime(2020, 2, 20, 13, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            headerRowData.Add(new HeaderRowData
+            headerRowData.Add(new AppointmentData
             {
                 Id = 27,
                 Subject = "Black Cockatoos Playtime",
-                StartTime = new DateTime(2018, 2, 13),
-                EndTime = new DateTime(2018, 2, 17),
+                StartTime = new DateTime(2020, 2, 18),
+                EndTime = new DateTime(2020, 2, 22),
                 IsAllDay = true,
                 CategoryColor = "#ea7a57"
             });
@@ -2976,8 +2771,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 1, 10, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 0, 0),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 1
@@ -2986,8 +2781,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 2,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 1, 16, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 20, 0, 0),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 2
@@ -2996,8 +2791,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 3,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 1, 12, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 14, 0, 0),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 3
@@ -3006,8 +2801,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 4,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 4, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 5, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 4, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 10, 0, 0),
                 IsAllDay = true,
                 IsBlock = true,
                 EmployeeId = 4
@@ -3016,8 +2811,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 5,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 10, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 12, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 10, 0, 0),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 5
@@ -3026,8 +2821,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 6,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 8),
-                EndTime = new DateTime(2018, 8, 11),
+                StartTime = new DateTime(2020, 1, 8),
+                EndTime = new DateTime(2020, 1, 11),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 6
@@ -3036,8 +2831,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 7,
                 Subject = "Client Meeting",
-                StartTime = new DateTime(2018, 8, 3, 8, 0, 0),
-                EndTime = new DateTime(2018, 8, 3, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 3, 8, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 10, 30, 0),
                 IsAllDay = false,
                 EmployeeId = 3
             });
@@ -3045,8 +2840,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 8,
                 Subject = "Conference",
-                StartTime = new DateTime(2018, 8, 2, 13, 30, 0),
-                EndTime = new DateTime(2018, 8, 2, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 2, 13, 30, 0),
+                EndTime = new DateTime(2020, 1, 2, 15, 0, 0),
                 IsAllDay = false,
                 EmployeeId = 4
             });
@@ -3054,8 +2849,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 9,
                 Subject = "Employee Recruitment",
-                StartTime = new DateTime(2018, 8, 1, 10, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 13, 0, 0),
                 IsAllDay = false,
                 EmployeeId = 5
             });
@@ -3063,8 +2858,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 10,
                 Subject = "Data Analyzing",
-                StartTime = new DateTime(2018, 8, 1, 15, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 17, 0, 0),
                 IsAllDay = false,
                 EmployeeId = 6
             });
@@ -3072,8 +2867,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 11,
                 Subject = "Content Writting",
-                StartTime = new DateTime(2018, 8, 2, 14, 0, 0),
-                EndTime = new DateTime(2018, 8, 2, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 2, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 2, 16, 0, 0),
                 IsAllDay = false,
                 EmployeeId = 1
             });
@@ -3081,8 +2876,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 12,
                 Subject = "Meeting",
-                StartTime = new DateTime(2018, 8, 1, 9, 0, 0),
-                EndTime = new DateTime(2018, 8, 1, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 1, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 1, 11, 0, 0),
                 IsAllDay = false,
                 EmployeeId = 4
             });
@@ -3090,8 +2885,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 13,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 29, 11, 0, 0),
-                EndTime = new DateTime(2018, 8, 31, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 29, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 31, 10, 0, 0),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 4
@@ -3100,54 +2895,54 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 14,
                 Subject = "Not Available",
-                StartTime = new DateTime(2018, 8, 12),
-                EndTime = new DateTime(2018, 8, 15),
+                StartTime = new DateTime(2020, 1, 12),
+                EndTime = new DateTime(2020, 1, 15),
                 IsAllDay = false,
                 IsBlock = true,
                 EmployeeId = 3
             });
             return blockData;
         }
-        public List<RecurrenceData> GetRecurrenceData()
+        public List<AppointmentData> GetRecurrenceData()
         {
-            List<RecurrenceData> recurrenceData = new List<RecurrenceData>();
-            recurrenceData.Add(new RecurrenceData
+            List<AppointmentData> recurrenceData = new List<AppointmentData>();
+            recurrenceData.Add(new AppointmentData
             {
                 Id = 1,
                 Subject = "Project demo meeting with Andrew",
                 Location = "Office",
-                StartTime = new DateTime(2018, 2, 14, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 8, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 13, 0, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=2;BYDAY=MO;COUNT=10",
                 CategoryColor = "#1aaa55"
             });
-            recurrenceData.Add(new RecurrenceData
+            recurrenceData.Add(new AppointmentData
             {
                 Id = 2,
                 Subject = "Scrum Meeting",
                 Location = "Office",
-                StartTime = new DateTime(2018, 2, 12, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 12, 10, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 6, 10, 30, 0),
                 RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1",
                 CategoryColor = "#357cd2"
             });
-            recurrenceData.Add(new RecurrenceData
+            recurrenceData.Add(new AppointmentData
             {
                 Id = 3,
                 Subject = "Meeting with Core team",
                 Location = "Office",
-                StartTime = new DateTime(2018, 2, 16, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 10, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 14, 0, 0),
                 RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=FR",
                 CategoryColor = "#7fa900"
             });
-            recurrenceData.Add(new RecurrenceData
+            recurrenceData.Add(new AppointmentData
             {
                 Id = 4,
                 Subject = "Customer meeting – John Mackenzie",
                 Location = "Office",
-                StartTime = new DateTime(2018, 2, 20, 11, 30, 0),
-                EndTime = new DateTime(2018, 2, 20, 13, 30, 0),
+                StartTime = new DateTime(2020, 1, 14, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 13, 30, 0),
                 RecurrenceRule = "FREQ=MONTHLY;BYMONTHDAY=20;INTERVAL=1;COUNT=5",
                 CategoryColor = "#ea7a57"
             });
@@ -3161,8 +2956,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 1,
                 Subject = "RUSSIA vs SAUDI ARABIA",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 14, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 14, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3174,8 +2969,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 2,
                 Subject = "EGYPT vs URUGUAY",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 15, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 14, 0, 0),
                 StartTimezone = "Asia/Yekaterinburg",
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
@@ -3187,8 +2982,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 3,
                 Subject = "MOROCCO vs IR IRAN",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 6, 15, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -3200,8 +2995,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 4,
                 Subject = "PORTUGAL vs SPAIN",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 6, 15, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 15, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
@@ -3213,8 +3008,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 5,
                 Subject = "FRANCE vs AUSTRALIA",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 6, 16, 10, 0, 0),
-                EndTime = new DateTime(2018, 6, 16, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 18, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 12, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
@@ -3226,8 +3021,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 6,
                 Subject = "ARGENTINA vs ICELAND",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 16, 13, 0, 0),
-                EndTime = new DateTime(2018, 6, 16, 15, 0, 0),
+                StartTime = new DateTime(2020, 1, 18, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 15, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3239,8 +3034,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 7,
                 Subject = "PERU vs DENMARK",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 6, 16, 16, 0, 0),
-                EndTime = new DateTime(2018, 6, 16, 18, 0, 0),
+                StartTime = new DateTime(2020, 1, 18, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 18, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
@@ -3252,8 +3047,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 8,
                 Subject = "CROATIA vs NIGERIA",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 16, 19, 0, 0),
-                EndTime = new DateTime(2018, 6, 16, 21, 0, 0),
+                StartTime = new DateTime(2020, 1, 18, 19, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 21, 0, 0),
                 StartTimezone = "Europe/Kaliningrad",
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
@@ -3265,8 +3060,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 9,
                 Subject = "COSTA RICA vs SERBIA",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 6, 17, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 17, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 19, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 19, 14, 0, 0),
                 StartTimezone = "Europe/Samara",
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
@@ -3278,8 +3073,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 10,
                 Subject = "GERMANY vs MEXICO",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 6, 17, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 17, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 19, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 19, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3291,8 +3086,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 11,
                 Subject = "BRAZIL vs SWITZERLAND",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 6, 17, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 17, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 19, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 19, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
@@ -3304,8 +3099,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 12,
                 Subject = "SWEDEN vs KOREA REPUBLIC",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 6, 18, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 18, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 20, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
@@ -3317,8 +3112,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 13,
                 Subject = "BELGIUM vs PANAMA",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 6, 18, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 18, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 20, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
@@ -3330,8 +3125,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 14,
                 Subject = "TUNISIA vs ENGLAND",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 6, 18, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 18, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 20, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 20, 0, 0),
                 StartTimezone = "Europe/Volgograd",
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
@@ -3343,8 +3138,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 15,
                 Subject = "COLOMBIA vs JAPAN",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 6, 19, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 19, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 21, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 21, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
@@ -3356,8 +3151,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 16,
                 Subject = "POLAND vs SENEGAL",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 6, 19, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 19, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 21, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 21, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3369,8 +3164,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 17,
                 Subject = "RUSSIA vs EGYPT",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 19, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 19, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 21, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 21, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -3382,8 +3177,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 18,
                 Subject = "PORTUGAL vs MOROCCO",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 6, 20, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 20, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 22, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
@@ -3395,8 +3190,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 19,
                 Subject = "URUGUAY vs SAUDI ARABIA",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 20, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 20, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 22, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3408,8 +3203,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 20,
                 Subject = "IR IRAN vs SPAIN",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 6, 20, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 20, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 22, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
@@ -3421,8 +3216,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 21,
                 Subject = "DENMARK vs AUSTRALIA",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 6, 21, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 21, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 23, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 14, 0, 0),
                 StartTimezone = "Europe/Samara",
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
@@ -3434,8 +3229,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 22,
                 Subject = "FRANCE vs PERU",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 21, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 21, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 23, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 17, 0, 0),
                 StartTimezone = "Asia/Yekaterinburg",
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
@@ -3447,8 +3242,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 23,
                 Subject = "ARGENTINA vs CROATIA",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 21, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 21, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 23, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
@@ -3460,8 +3255,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 24,
                 Subject = "BRAZIL vs COSTA RICA",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 6, 22, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 22, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 24, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 24, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -3473,8 +3268,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 25,
                 Subject = "NIGERIA vs ICELAND",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 22, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 22, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 24, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 24, 17, 0, 0),
                 StartTimezone = "Europe/Volgograd",
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
@@ -3486,8 +3281,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 26,
                 Subject = "SERBIA vs SWITZERLAND",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 6, 22, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 22, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 24, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 24, 20, 0, 0),
                 StartTimezone = "Europe/Kaliningrad",
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
@@ -3499,8 +3294,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 27,
                 Subject = "BELGIUM vs TUNISIA",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 6, 23, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 23, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 25, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 25, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3512,8 +3307,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 28,
                 Subject = "KOREA REPUBLIC vs MEXICO",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 6, 23, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 23, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 25, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 25, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
@@ -3525,8 +3320,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 29,
                 Subject = "GERMANY vs SWEDEN",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 6, 23, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 23, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 25, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 25, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
@@ -3538,8 +3333,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 30,
                 Subject = "ENGLAND vs PANAMA",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 6, 24, 12, 0, 0),
-                EndTime = new DateTime(2018, 6, 24, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 26, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 26, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
@@ -3551,8 +3346,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 31,
                 Subject = "JAPAN vs SENEGAL",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 6, 24, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 24, 17, 0, 0),
+                StartTime = new DateTime(2020, 1, 26, 15, 0, 0),
+                EndTime = new DateTime(2020, 1, 26, 17, 0, 0),
                 StartTimezone = "Asia/Yekaterinburg",
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
@@ -3564,8 +3359,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 32,
                 Subject = "POLAND vs COLOMBIA",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 6, 24, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 24, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 26, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 26, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
@@ -3577,8 +3372,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 33,
                 Subject = "URUGUAY vs RUSSIA",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 25, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 25, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 27, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 27, 16, 0, 0),
                 StartTimezone = "Europe/Samara",
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
@@ -3590,8 +3385,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 34,
                 Subject = "SAUDI ARABIA vs EGYPT",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 25, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 25, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 27, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 27, 16, 0, 0),
                 StartTimezone = "Europe/Volgograd",
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
@@ -3603,8 +3398,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 35,
                 Subject = "IR IRAN vs PORTUGAL",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 6, 25, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 25, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 27, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 27, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
@@ -3616,8 +3411,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 36,
                 Subject = "SPAIN vs MOROCCO",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 6, 25, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 25, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 27, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 27, 20, 0, 0),
                 StartTimezone = "Europe/Kaliningrad",
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
@@ -3629,8 +3424,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 37,
                 Subject = "DENMARK vs FRANCE",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 6, 26, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 26, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 28, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 28, 16, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3642,8 +3437,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 38,
                 Subject = "AUSTRALIA vs PERU",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 6, 26, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 26, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 28, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 28, 16, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
@@ -3655,8 +3450,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 39,
                 Subject = "NIGERIA vs ARGENTINA",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 26, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 26, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 28, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 28, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -3668,8 +3463,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 40,
                 Subject = "ICELAND vs CROATIA",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 6, 26, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 26, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 28, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 28, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
@@ -3681,8 +3476,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 41,
                 Subject = "MEXICO vs SWEDEN",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 6, 27, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 27, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 29, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 29, 16, 0, 0),
                 StartTimezone = "Asia/Yekaterinburg",
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
@@ -3694,8 +3489,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 42,
                 Subject = "KOREA REPUBLIC vs GERMANY",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 6, 27, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 27, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 29, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 29, 16, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
@@ -3707,8 +3502,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 43,
                 Subject = "SERBIA vs BRAZIL",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 6, 27, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 27, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 29, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 29, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3720,8 +3515,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 44,
                 Subject = "SWITZERLAND vs COSTA RICA",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 6, 27, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 27, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 29, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 29, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
@@ -3733,8 +3528,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 45,
                 Subject = "JAPAN vs POLAND",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 6, 28, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 28, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 30, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 16, 0, 0),
                 StartTimezone = "Europe/Volgograd",
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
@@ -3746,8 +3541,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 46,
                 Subject = "SENEGAL vs COLOMBIA",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 6, 28, 14, 0, 0),
-                EndTime = new DateTime(2018, 6, 28, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 30, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 16, 0, 0),
                 StartTimezone = "Europe/Samara",
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
@@ -3759,8 +3554,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 47,
                 Subject = "PANAMA vs TUNISIA",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 6, 28, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 28, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 30, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
@@ -3772,8 +3567,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 48,
                 Subject = "ENGLAND vs BELGIUM",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 6, 28, 18, 0, 0),
-                EndTime = new DateTime(2018, 6, 28, 20, 0, 0),
+                StartTime = new DateTime(2020, 1, 30, 18, 0, 0),
+                EndTime = new DateTime(2020, 1, 30, 20, 0, 0),
                 StartTimezone = "Europe/Kaliningrad",
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
@@ -3785,8 +3580,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 49,
                 Subject = "RUSSIA vs SAUDI ARABIA",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 6, 30, 15, 0, 0),
-                EndTime = new DateTime(2018, 6, 30, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 1, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 1, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3798,8 +3593,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 50,
                 Subject = "EGYPT vs URUGUAY",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 7, 1, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 1, 14, 0, 0),
+                StartTime = new DateTime(2020, 2, 3, 12, 0, 0),
+                EndTime = new DateTime(2020, 2, 3, 14, 0, 0),
                 StartTimezone = "Asia/Yekaterinburg",
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
@@ -3811,8 +3606,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 51,
                 Subject = "MOROCCO vs IR IRAN",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 7, 2, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 2, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 4, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 4, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -3824,8 +3619,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 52,
                 Subject = "PORTUGAL vs SPAIN",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 7, 3, 18, 0, 0),
-                EndTime = new DateTime(2018, 7, 3, 20, 0, 0),
+                StartTime = new DateTime(2020, 2, 5, 18, 0, 0),
+                EndTime = new DateTime(2020, 2, 5, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
@@ -3837,8 +3632,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 53,
                 Subject = "FRANCE vs AUSTRALIA",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 7, 4, 10, 0, 0),
-                EndTime = new DateTime(2018, 7, 4, 12, 0, 0),
+                StartTime = new DateTime(2020, 2, 6, 10, 0, 0),
+                EndTime = new DateTime(2020, 2, 6, 12, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
@@ -3850,8 +3645,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 54,
                 Subject = "ARGENTINA vs ICELAND",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 7, 5, 13, 0, 0),
-                EndTime = new DateTime(2018, 7, 5, 15, 0, 0),
+                StartTime = new DateTime(2020, 2, 7, 13, 0, 0),
+                EndTime = new DateTime(2020, 2, 7, 15, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3863,8 +3658,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 55,
                 Subject = "PERU vs DENMARK",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 7, 7, 16, 0, 0),
-                EndTime = new DateTime(2018, 7, 7, 18, 0, 0),
+                StartTime = new DateTime(2020, 2, 9, 16, 0, 0),
+                EndTime = new DateTime(2020, 2, 9, 18, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
@@ -3876,8 +3671,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 56,
                 Subject = "CROATIA vs NIGERIA",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 7, 8, 19, 0, 0),
-                EndTime = new DateTime(2018, 7, 8, 21, 0, 0),
+                StartTime = new DateTime(2020, 2, 10, 19, 0, 0),
+                EndTime = new DateTime(2020, 2, 10, 21, 0, 0),
                 StartTimezone = "Europe/Kaliningrad",
                 EndTimezone = "Europe/Kaliningrad",
                 City = "Kaliningrad",
@@ -3889,8 +3684,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 57,
                 Subject = "COSTA RICA vs SERBIA",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 7, 11, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 11, 14, 0, 0),
+                StartTime = new DateTime(2020, 2, 13, 12, 0, 0),
+                EndTime = new DateTime(2020, 2, 13, 14, 0, 0),
                 StartTimezone = "Europe/Samara",
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
@@ -3902,8 +3697,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 58,
                 Subject = "GERMANY vs MEXICO",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 7, 12, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 12, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 14, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 14, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3915,8 +3710,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 59,
                 Subject = "BRAZIL vs SWITZERLAND",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 7, 12, 18, 0, 0),
-                EndTime = new DateTime(2018, 7, 12, 20, 0, 0),
+                StartTime = new DateTime(2020, 2, 14, 18, 0, 0),
+                EndTime = new DateTime(2020, 2, 14, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
@@ -3928,8 +3723,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 60,
                 Subject = "SWEDEN vs KOREA REPUBLIC",
                 Description = "Group F",
-                StartTime = new DateTime(2018, 7, 15, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 15, 14, 0, 0),
+                StartTime = new DateTime(2020, 2, 17, 12, 0, 0),
+                EndTime = new DateTime(2020, 2, 17, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
@@ -3941,8 +3736,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 61,
                 Subject = "BELGIUM vs PANAMA",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 7, 15, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 15, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 17, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 17, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Sochi",
@@ -3954,8 +3749,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 62,
                 Subject = "TUNISIA vs ENGLAND",
                 Description = "Group G",
-                StartTime = new DateTime(2018, 7, 15, 18, 0, 0),
-                EndTime = new DateTime(2018, 7, 15, 20, 0, 0),
+                StartTime = new DateTime(2020, 2, 17, 18, 0, 0),
+                EndTime = new DateTime(2020, 2, 17, 20, 0, 0),
                 StartTimezone = "Europe/Volgograd",
                 EndTimezone = "Europe/Volgograd",
                 City = "Volgograd",
@@ -3967,8 +3762,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 63,
                 Subject = "COLOMBIA vs JAPAN",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 7, 16, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 18, 14, 0, 0),
+                StartTime = new DateTime(2020, 2, 18, 12, 0, 0),
+                EndTime = new DateTime(2020, 2, 18, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saransk",
@@ -3980,8 +3775,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 64,
                 Subject = "POLAND vs SENEGAL",
                 Description = "Group H",
-                StartTime = new DateTime(2018, 7, 19, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 19, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 21, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 21, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -3993,8 +3788,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 65,
                 Subject = "RUSSIA vs EGYPT",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 7, 19, 18, 0, 0),
-                EndTime = new DateTime(2018, 7, 19, 20, 0, 0),
+                StartTime = new DateTime(2020, 2, 21, 18, 0, 0),
+                EndTime = new DateTime(2020, 2, 21, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -4006,8 +3801,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 66,
                 Subject = "PORTUGAL vs MOROCCO",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 7, 20, 12, 0, 0),
-                EndTime = new DateTime(2018, 7, 20, 14, 0, 0),
+                StartTime = new DateTime(2020, 2, 22, 12, 0, 0),
+                EndTime = new DateTime(2020, 2, 22, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Rostov-On-Don",
@@ -4019,8 +3814,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 67,
                 Subject = "URUGUAY vs SAUDI ARABIA",
                 Description = "Group A",
-                StartTime = new DateTime(2018, 7, 20, 15, 0, 0),
-                EndTime = new DateTime(2018, 7, 20, 17, 0, 0),
+                StartTime = new DateTime(2020, 2, 22, 15, 0, 0),
+                EndTime = new DateTime(2020, 2, 22, 17, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Moscow",
@@ -4032,8 +3827,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 68,
                 Subject = "IR IRAN vs SPAIN",
                 Description = "Group B",
-                StartTime = new DateTime(2018, 8, 2, 18, 0, 0),
-                EndTime = new DateTime(2018, 8, 2, 20, 0, 0),
+                StartTime = new DateTime(2020, 3, 4, 18, 0, 0),
+                EndTime = new DateTime(2020, 3, 4, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Kazan",
@@ -4045,8 +3840,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 69,
                 Subject = "DENMARK vs AUSTRALIA",
                 Description = "Group C",
-                StartTime = new DateTime(2018, 8, 3, 12, 0, 0),
-                EndTime = new DateTime(2018, 8, 3, 14, 0, 0),
+                StartTime = new DateTime(2020, 3, 5, 12, 0, 0),
+                EndTime = new DateTime(2020, 3, 5, 14, 0, 0),
                 StartTimezone = "Europe/Samara",
                 EndTimezone = "Europe/Samara",
                 City = "Samara",
@@ -4058,8 +3853,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 70,
                 Subject = "FRANCE vs PERU",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 8, 3, 15, 0, 0),
-                EndTime = new DateTime(2018, 8, 5, 17, 0, 0),
+                StartTime = new DateTime(2020, 3, 5, 15, 0, 0),
+                EndTime = new DateTime(2020, 3, 7, 17, 0, 0),
                 StartTimezone = "Asia/Yekaterinburg",
                 EndTimezone = "Asia/Yekaterinburg",
                 City = "Ekaterinburg",
@@ -4071,8 +3866,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 71,
                 Subject = "ARGENTINA vs CROATIA",
                 Description = "Group D",
-                StartTime = new DateTime(2018, 8, 5, 18, 0, 0),
-                EndTime = new DateTime(2018, 8, 5, 20, 0, 0),
+                StartTime = new DateTime(2020, 3, 7, 18, 0, 0),
+                EndTime = new DateTime(2020, 3, 7, 20, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Nizhny Novgorod",
@@ -4084,8 +3879,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 72,
                 Subject = "BRAZIL vs COSTA RICA",
                 Description = "Group E",
-                StartTime = new DateTime(2018, 8, 22, 12, 0, 0),
-                EndTime = new DateTime(2018, 8, 22, 14, 0, 0),
+                StartTime = new DateTime(2020, 3, 24, 12, 0, 0),
+                EndTime = new DateTime(2020, 3, 24, 14, 0, 0),
                 StartTimezone = "Europe/Moscow",
                 EndTimezone = "Europe/Moscow",
                 City = "Saint Petersburg",
@@ -4102,200 +3897,200 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Id = 1,
                 Subject = "Surgery - Andrew",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 12, 9, 0, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 10, 0, 0)
+                StartTime = new DateTime(2020, 1, 13, 9, 0, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 10, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 2,
                 Subject = "Consulting - John",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 12, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 11, 30, 0)
+                StartTime = new DateTime(2020, 1, 13, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 11, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 3,
                 Subject = "Therapy - Robert",
                 EventType = "Requested",
-                StartTime = new DateTime(2018, 2, 12, 11, 30, 0),
-                EndTime = new DateTime(2018, 2, 12, 12, 30, 0)
+                StartTime = new DateTime(2020, 1, 13, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 13, 12, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 4,
                 Subject = "Observation - Steven",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 12, 12, 30, 0),
-                EndTime = new DateTime(2018, 2, 12, 13, 30, 0)
+                StartTime = new DateTime(2020, 1, 13, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 13, 13, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 5,
                 Subject = "Extraction - Nancy",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 12, 13, 30, 0),
-                EndTime = new DateTime(2018, 2, 12, 15, 0, 0)
+                StartTime = new DateTime(2020, 1, 13, 13, 30, 0),
+                EndTime = new DateTime(2020, 1, 13, 15, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 6,
                 Subject = "Surgery - Paul",
                 EventType = "New",
-                StartTime = new DateTime(2018, 2, 13, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 10, 0, 0)
+                StartTime = new DateTime(2020, 1, 14, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 10, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 7,
                 Subject = "Extraction - Josephs",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 13, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 11, 0, 0)
+                StartTime = new DateTime(2020, 1, 14, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 11, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 8,
                 Subject = "Consulting - Mario",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 13, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 12, 0, 0)
+                StartTime = new DateTime(2020, 1, 14, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 12, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 9,
                 Subject = "Therapy - Saveley",
                 EventType = "Requested",
-                StartTime = new DateTime(2018, 2, 13, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 13, 30, 0)
+                StartTime = new DateTime(2020, 1, 14, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 13, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 10,
                 Subject = "Observation - Cartrain",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 13, 13, 30, 0),
-                EndTime = new DateTime(2018, 2, 13, 15, 30, 0)
+                StartTime = new DateTime(2020, 1, 14, 13, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 15, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 11,
                 Subject = "Consulting - Yang",
                 EventType = "New",
-                StartTime = new DateTime(2018, 2, 14, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 10, 0, 0)
+                StartTime = new DateTime(2020, 1, 15, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 10, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 12,
                 Subject = "Observation - Michael",
                 EventType = "New",
-                StartTime = new DateTime(2018, 2, 14, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 11, 30, 0)
+                StartTime = new DateTime(2020, 1, 15, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 11, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 13,
                 Subject = "Surgery - Roland",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 14, 11, 30, 0),
-                EndTime = new DateTime(2018, 2, 14, 12, 30, 0)
+                StartTime = new DateTime(2020, 1, 15, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 12, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 14,
                 Subject = "Extraction - Francisco",
                 EventType = "Requested",
-                StartTime = new DateTime(2018, 2, 14, 12, 30, 0),
-                EndTime = new DateTime(2018, 2, 14, 13, 30, 0)
+                StartTime = new DateTime(2020, 1, 15, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 13, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 15,
                 Subject = "Therapy - Henriette",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 14, 13, 30, 0),
-                EndTime = new DateTime(2018, 2, 14, 15, 0, 0)
+                StartTime = new DateTime(2020, 1, 15, 13, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 15, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 16,
                 Subject = "Observation - Bernardo",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 15, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 10, 0, 0)
+                StartTime = new DateTime(2020, 1, 16, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 10, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 17,
                 Subject = "Therapy - Wilson",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 15, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 11, 0, 0)
+                StartTime = new DateTime(2020, 1, 16, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 11, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 18,
                 Subject = "Consulting - Horst",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 15, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 12, 0, 0)
+                StartTime = new DateTime(2020, 1, 16, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 12, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 19,
                 Subject = "Surgery - Limeira",
                 EventType = "Requested",
-                StartTime = new DateTime(2018, 2, 15, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 13, 30, 0)
+                StartTime = new DateTime(2020, 1, 16, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 13, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 20,
                 Subject = "Observation - Victoria",
                 EventType = "Requested",
-                StartTime = new DateTime(2018, 2, 15, 13, 30, 0),
-                EndTime = new DateTime(2018, 2, 15, 15, 30, 0)
+                StartTime = new DateTime(2020, 1, 16, 13, 30, 0),
+                EndTime = new DateTime(2020, 1, 16, 15, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 21,
                 Subject = "Extraction - Afonso",
                 EventType = "Confirmed",
-                StartTime = new DateTime(2018, 2, 16, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 10, 0, 0)
+                StartTime = new DateTime(2020, 1, 17, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 10, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 22,
                 Subject = "Extraction - Paula",
                 EventType = "New",
-                StartTime = new DateTime(2018, 2, 16, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 11, 0, 0)
+                StartTime = new DateTime(2020, 1, 17, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 11, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 23,
                 Subject = "Observation - George",
                 EventType = "Requested",
-                StartTime = new DateTime(2018, 2, 16, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 12, 0, 0)
+                StartTime = new DateTime(2020, 1, 17, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 12, 0, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 24,
                 Subject = "Therapy - Smith",
                 EventType = "New",
-                StartTime = new DateTime(2018, 2, 16, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 13, 30, 0)
+                StartTime = new DateTime(2020, 1, 17, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 13, 30, 0)
             });
             doctorsEventData.Add(new DoctorsEventData
             {
                 Id = 25,
                 Subject = "Surgery - Jennifer",
                 EventType = "New",
-                StartTime = new DateTime(2018, 2, 16, 13, 30, 0),
-                EndTime = new DateTime(2018, 2, 16, 15, 30, 0, 0)
+                StartTime = new DateTime(2020, 1, 17, 13, 30, 0),
+                EndTime = new DateTime(2020, 1, 17, 15, 30, 0, 0)
             });
             return doctorsEventData;
         }
@@ -4308,8 +4103,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Subject = "Environment Day",
                 Tags = "Eco day, Forest conserving, Earth & its resources",
                 Description = "A day that creates awareness to promote the healthy planet and reduce the air pollution crisis on nature earth.",
-                StartTime = new DateTime(2018, 2, 12, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 14, 0, 0),
                 ImageName = "environment-day",
                 PrimaryColor = "#1aaa55",
                 SecondaryColor = "#47bb76"
@@ -4320,8 +4115,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Subject = "Health Day",
                 Tags = "Reduce mental stress, Follow good food habits",
                 Description = "A day that raises awareness on different health issues. It marks the anniversary of the foundation of WHO.",
-                StartTime = new DateTime(2018, 2, 13, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 14, 0, 0),
                 ImageName = "health-day",
                 PrimaryColor = "#357cd2",
                 SecondaryColor = "#5d96db"
@@ -4332,8 +4127,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Subject = "Cancer Day",
                 Tags = "Life threatening cancer effects, Palliative care",
                 Description = "A day that raises awareness on cancer and its preventive measures. Early detection saves life.",
-                StartTime = new DateTime(2018, 2, 14, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 14, 0, 0),
                 ImageName = "cancer-day",
                 PrimaryColor = "#7fa900",
                 SecondaryColor = "#a4c932"
@@ -4344,8 +4139,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Subject = "Happiness Day",
                 Tags = "Stress-free, Smile, Resolve frustration and bring happiness",
                 Description = "A general idea is to promote happiness and smile around the world.",
-                StartTime = new DateTime(2018, 2, 15, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 14, 0, 0),
                 ImageName = "happiness-day",
                 PrimaryColor = "#ea7a57",
                 SecondaryColor = "#ee9478"
@@ -4356,8 +4151,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
                 Subject = "Tourism Day",
                 Tags = "Diverse cultural heritage, strengthen peace",
                 Description = "A day that raises awareness on the role of tourism and its effect on social and economic values.",
-                StartTime = new DateTime(2018, 2, 16, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 14, 0, 0),
                 ImageName = "tourism-day",
                 PrimaryColor = "#00bdae",
                 SecondaryColor = "#32cabe"
@@ -4371,8 +4166,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Server Maintenance",
-                StartTime = new DateTime(2018, 2, 11, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 11, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 12, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 12, 11, 30, 0),
                 EventType = "maintenance",
                 City = "Seattle",
                 CategoryColor = "#1aaa55"
@@ -4381,8 +4176,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 2,
                 Subject = "Art & Painting Gallery",
-                StartTime = new DateTime(2018, 2, 12, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 14, 0, 0),
                 EventType = "public-event",
                 City = "Costa Rica",
                 CategoryColor = "#357cd2"
@@ -4391,8 +4186,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 3,
                 Subject = "Dany Birthday Celebration",
-                StartTime = new DateTime(2018, 2, 13, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 14, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 11, 30, 0),
                 EventType = "family-event",
                 City = "Kirkland",
                 CategoryColor = "#7fa900"
@@ -4401,8 +4196,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 4,
                 Subject = "John Wedding Anniversary",
-                StartTime = new DateTime(2018, 2, 14, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 10, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 10, 0, 0),
                 EventType = "family-event",
                 City = "Redmond",
                 CategoryColor = "#ea7a57"
@@ -4411,8 +4206,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 5,
                 Subject = "ISA Annual Conference",
-                StartTime = new DateTime(2018, 2, 15, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 16, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 11, 30, 0),
                 EventType = "commercial-event",
                 City = "USA",
                 CategoryColor = "#00bdae"
@@ -4421,8 +4216,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 6,
                 Subject = "Equipment Maintenance",
-                StartTime = new DateTime(2018, 2, 16, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 14, 0, 0),
                 EventType = "maintenance",
                 City = "Seattle",
                 CategoryColor = "#f57f17"
@@ -4431,8 +4226,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 7,
                 Subject = "Aircraft Maintenance",
-                StartTime = new DateTime(2018, 2, 17, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 17, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 18, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 18, 11, 30, 0),
                 EventType = "maintenance",
                 City = "Seattle",
                 CategoryColor = "#1aaa55"
@@ -4441,8 +4236,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 8,
                 Subject = "Facilities Maintenance",
-                StartTime = new DateTime(2018, 2, 19, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 19, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 20, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 20, 11, 0, 0),
                 EventType = "maintenance",
                 City = "Seattle",
                 CategoryColor = "#357cd2"
@@ -4451,8 +4246,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 9,
                 Subject = "Britto Birthday Celebration",
-                StartTime = new DateTime(2018, 2, 21, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 21, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 22, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 13, 0, 0),
                 EventType = "family-event",
                 City = "Greenland",
                 CategoryColor = "#7fa900"
@@ -4461,8 +4256,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 10,
                 Subject = "Justin Wedding Anniversary",
-                StartTime = new DateTime(2018, 2, 22, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 22, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 23, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 23, 11, 0, 0),
                 EventType = "family-event",
                 City = "Finland",
                 CategoryColor = "#ea7a57"
@@ -4471,8 +4266,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 11,
                 Subject = "AIEA Annual Meet",
-                StartTime = new DateTime(2018, 2, 9, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 9, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 10, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 11, 30, 0),
                 EventType = "commercial-event",
                 City = "USA",
                 CategoryColor = "#00bdae"
@@ -4481,8 +4276,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 12,
                 Subject = "AAN Conference",
-                StartTime = new DateTime(2018, 2, 7, 10, 30, 0),
-                EndTime = new DateTime(2018, 2, 7, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 8, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 8, 12, 30, 0),
                 EventType = "commercial-event",
                 City = "USA",
                 CategoryColor = "#f57f17"
@@ -4491,8 +4286,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 13,
                 Subject = "Photography Gallery",
-                StartTime = new DateTime(2018, 2, 5, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 5, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 6, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 11, 30, 0),
                 EventType = "public-event",
                 City = "Chennai",
                 CategoryColor = "#1aaa55"
@@ -4501,8 +4296,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 14,
                 Subject = "Beach Clean-up",
-                StartTime = new DateTime(2018, 2, 14, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 14, 2, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 2, 0, 0),
                 EventType = "public-event",
                 City = "Mumbai",
                 CategoryColor = "#357cd2"
@@ -4511,8 +4306,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 15,
                 Subject = "Turtle Walk",
-                StartTime = new DateTime(2018, 2, 19, 13, 0, 0),
-                EndTime = new DateTime(2018, 2, 19, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 20, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 14, 30, 0),
                 EventType = "public-event",
                 City = "Costa Rica",
                 CategoryColor = "#7fa900"
@@ -4521,8 +4316,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 16,
                 Subject = "Silent Walk for Cancer day",
-                StartTime = new DateTime(2018, 2, 22, 13, 0, 0),
-                EndTime = new DateTime(2018, 2, 22, 14, 30, 0),
+                StartTime = new DateTime(2020, 1, 23, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 14, 30, 0),
                 EventType = "public-event",
                 City = "Chennai",
                 CategoryColor = "#ea7a57"
@@ -4531,8 +4326,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 17,
                 Subject = "Beach Clean-up",
-                StartTime = new DateTime(2018, 2, 13, 14, 0, 0),
-                EndTime = new DateTime(2018, 2, 13, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 14, 16, 0, 0),
                 EventType = "public-event",
                 City = "Mumbai",
                 CategoryColor = "#357cd2"
@@ -4541,8 +4336,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 18,
                 Subject = "Photography Gallery",
-                StartTime = new DateTime(2018, 2, 15, 14, 0, 0),
-                EndTime = new DateTime(2018, 2, 15, 16, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 16, 16, 0, 0),
                 EventType = "public-event",
                 City = "Chennai",
                 CategoryColor = "#1aaa55"
@@ -4550,135 +4345,135 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
 
             return eventsData;
         }
-        public List<EmployeeEventData> GetEmployeeEventData()
+        public List<AppointmentData> GetEmployeeEventData()
         {
-            List<EmployeeEventData> employeeEventData = new List<EmployeeEventData>();
-            employeeEventData.Add(new EmployeeEventData
+            List<AppointmentData> employeeEventData = new List<AppointmentData>();
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 1,
                 Subject = "Project Workflow Analysis",
-                StartTime = new DateTime(2018, 2, 12, 9, 0, 0),
-                EndTime = new DateTime(2018, 2, 12, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 13, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 11, 0, 0),
                 CategoryColor = "#1aaa55"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 2,
                 Subject = "Project Requirement Planning",
-                StartTime = new DateTime(2018, 2, 13, 11, 30, 0),
-                EndTime = new DateTime(2018, 2, 13, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 14, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 14, 0, 0),
                 CategoryColor = "#357cd2"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 3,
                 Subject = "Quality Analysis",
-                StartTime = new DateTime(2018, 2, 14, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 14, 11, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 11, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 4,
                 Subject = "Timeline Estimation",
-                StartTime = new DateTime(2018, 2, 14, 11, 30, 0),
-                EndTime = new DateTime(2018, 2, 14, 14, 0, 0),
+                StartTime = new DateTime(2020, 1, 15, 11, 30, 0),
+                EndTime = new DateTime(2020, 1, 15, 14, 0, 0),
                 CategoryColor = "#ea7a57"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 5,
                 Subject = "Project Resource planning",
-                StartTime = new DateTime(2018, 2, 15, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 15, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 16, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 16, 12, 0, 0),
                 CategoryColor = "#00bdae"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 6,
                 Subject = "Meeting with Developers",
-                StartTime = new DateTime(2018, 2, 16, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 16, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 17, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 13, 0, 0),
                 CategoryColor = "#f57f17"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 7,
                 Subject = "Task Assignment to Developers",
-                StartTime = new DateTime(2018, 2, 19, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 19, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 20, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 20, 11, 30, 0),
                 CategoryColor = "#1aaa55"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 8,
                 Subject = "Project Review - 1",
-                StartTime = new DateTime(2018, 2, 20, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 20, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 21, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 21, 12, 30, 0),
                 CategoryColor = "#357cd2"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 9,
                 Subject = "Project Review - 2",
-                StartTime = new DateTime(2018, 2, 21, 12, 0, 0),
-                EndTime = new DateTime(2018, 2, 21, 13, 30, 0),
+                StartTime = new DateTime(2020, 1, 22, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 22, 13, 30, 0),
                 CategoryColor = "#7fa900"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 10,
                 Subject = "Project Review - 3",
-                StartTime = new DateTime(2018, 2, 22, 11, 0, 0),
-                EndTime = new DateTime(2018, 2, 22, 12, 30, 0),
+                StartTime = new DateTime(2020, 1, 23, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 23, 12, 30, 0),
                 CategoryColor = "#ea7a57"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 11,
                 Subject = "Project Output Preview",
-                StartTime = new DateTime(2018, 2, 23, 9, 30, 0),
-                EndTime = new DateTime(2018, 2, 23, 12, 0, 0),
+                StartTime = new DateTime(2020, 1, 24, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 24, 12, 0, 0),
                 CategoryColor = "#00bdae"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 12,
                 Subject = "Testing Project Quality",
-                StartTime = new DateTime(2018, 2, 26, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 26, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 27, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 27, 11, 30, 0),
                 CategoryColor = "#f57f17"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 13,
                 Subject = "Draft Technical Documentation",
-                StartTime = new DateTime(2018, 2, 27, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 27, 13, 0, 0),
+                StartTime = new DateTime(2020, 1, 28, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 28, 13, 0, 0),
                 CategoryColor = "#1aaa55"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 14,
                 Subject = "Online Hosting of Project",
-                StartTime = new DateTime(2018, 2, 28, 10, 0, 0),
-                EndTime = new DateTime(2018, 2, 28, 11, 30, 0),
+                StartTime = new DateTime(2020, 1, 29, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 29, 11, 30, 0),
                 CategoryColor = "#357cd2"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 15,
                 Subject = "Project Submission to Client",
-                StartTime = new DateTime(2018, 3, 1, 10, 0, 0),
-                EndTime = new DateTime(2018, 3, 1, 13, 0, 0),
+                StartTime = new DateTime(2020, 2, 2, 10, 0, 0),
+                EndTime = new DateTime(2020, 2, 2, 13, 0, 0),
                 CategoryColor = "#7fa900"
             });
-            employeeEventData.Add(new EmployeeEventData
+            employeeEventData.Add(new AppointmentData
             {
                 Id = 16,
                 Subject = "Review meeting with Client",
-                StartTime = new DateTime(2018, 3, 2, 10, 0, 0),
-                EndTime = new DateTime(2018, 3, 2, 11, 30, 0),
+                StartTime = new DateTime(2020, 2, 3, 10, 0, 0),
+                EndTime = new DateTime(2020, 2, 3, 11, 30, 0),
                 CategoryColor = "#ea7a57"
             });
             return employeeEventData;
@@ -4690,8 +4485,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 401,
                 Subject = "Global Family Day",
-                StartTime = new DateTime(2018, 1, 1),
-                EndTime = new DateTime(2018, 1, 2),
+                StartTime = new DateTime(2020, 1, 1),
+                EndTime = new DateTime(2020, 1, 2),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4699,8 +4494,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 402,
                 Subject = "World Braille Day",
-                StartTime = new DateTime(2018, 1, 4),
-                EndTime = new DateTime(2018, 1, 5),
+                StartTime = new DateTime(2020, 1, 4),
+                EndTime = new DateTime(2020, 1, 5),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4708,8 +4503,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 403,
                 Subject = "World Literary Day",
-                StartTime = new DateTime(2018, 1, 8),
-                EndTime = new DateTime(2018, 1, 9),
+                StartTime = new DateTime(2020, 1, 8),
+                EndTime = new DateTime(2020, 1, 9),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4717,8 +4512,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 404,
                 Subject = "International Thank-You Day",
-                StartTime = new DateTime(2018, 1, 11),
-                EndTime = new DateTime(2018, 1, 12),
+                StartTime = new DateTime(2020, 1, 11),
+                EndTime = new DateTime(2020, 1, 12),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4726,8 +4521,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 405,
                 Subject = "World Leprosy Day",
-                StartTime = new DateTime(2018, 1, 30),
-                EndTime = new DateTime(2018, 1, 31),
+                StartTime = new DateTime(2020, 1, 30),
+                EndTime = new DateTime(2020, 1, 31),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4735,8 +4530,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 406,
                 Subject = "Darwin Day",
-                StartTime = new DateTime(2018, 2, 12),
-                EndTime = new DateTime(2018, 2, 13),
+                StartTime = new DateTime(2020, 2, 12),
+                EndTime = new DateTime(2020, 2, 13),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4744,8 +4539,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 407,
                 Subject = "International Mother Language Day",
-                StartTime = new DateTime(2018, 2, 21),
-                EndTime = new DateTime(2018, 2, 22),
+                StartTime = new DateTime(2020, 2, 21),
+                EndTime = new DateTime(2020, 2, 22),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4753,8 +4548,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 408,
                 Subject = "World Thinking Day",
-                StartTime = new DateTime(2018, 2, 22),
-                EndTime = new DateTime(2018, 2, 23),
+                StartTime = new DateTime(2020, 2, 22),
+                EndTime = new DateTime(2020, 2, 23),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4762,8 +4557,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 409,
                 Subject = "International Day of the Seal",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4771,8 +4566,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 410,
                 Subject = "International Women’s Day",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4780,8 +4575,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 411,
                 Subject = "World Book Day",
-                StartTime = new DateTime(2018, 3, 14),
-                EndTime = new DateTime(2018, 3, 15),
+                StartTime = new DateTime(2020, 3, 14),
+                EndTime = new DateTime(2020, 3, 15),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4789,8 +4584,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 412,
                 Subject = "World Frog Day",
-                StartTime = new DateTime(2018, 3, 20),
-                EndTime = new DateTime(2018, 3, 21),
+                StartTime = new DateTime(2020, 3, 20),
+                EndTime = new DateTime(2020, 3, 21),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4798,8 +4593,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 413,
                 Subject = "World Down Syndrome Day",
-                StartTime = new DateTime(2018, 3, 21),
-                EndTime = new DateTime(2018, 3, 22),
+                StartTime = new DateTime(2020, 3, 21),
+                EndTime = new DateTime(2020, 3, 22),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4807,8 +4602,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 414,
                 Subject = "World Day for Water",
-                StartTime = new DateTime(2018, 3, 22),
-                EndTime = new DateTime(2018, 3, 23),
+                StartTime = new DateTime(2020, 3, 22),
+                EndTime = new DateTime(2020, 3, 23),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4816,8 +4611,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 415,
                 Subject = "World Meteorological Day",
-                StartTime = new DateTime(2018, 3, 23),
-                EndTime = new DateTime(2018, 3, 24),
+                StartTime = new DateTime(2020, 3, 23),
+                EndTime = new DateTime(2020, 3, 24),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4825,8 +4620,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 416,
                 Subject = "International Children’s Book Day",
-                StartTime = new DateTime(2018, 4, 2),
-                EndTime = new DateTime(2018, 4, 3),
+                StartTime = new DateTime(2020, 4, 2),
+                EndTime = new DateTime(2020, 4, 3),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4834,8 +4629,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 417,
                 Subject = "World Health Day",
-                StartTime = new DateTime(2018, 4, 7),
-                EndTime = new DateTime(2018, 4, 8),
+                StartTime = new DateTime(2020, 4, 7),
+                EndTime = new DateTime(2020, 4, 8),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4843,8 +4638,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 418,
                 Subject = "International Special Librarian’s",
-                StartTime = new DateTime(2018, 4, 13),
-                EndTime = new DateTime(2018, 4, 14),
+                StartTime = new DateTime(2020, 4, 13),
+                EndTime = new DateTime(2020, 4, 14),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4852,8 +4647,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 419,
                 Subject = "International Creativity and Innovation Day",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4861,8 +4656,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 420,
                 Subject = "Earth Day",
-                StartTime = new DateTime(2018, 4, 22),
-                EndTime = new DateTime(2018, 4, 23),
+                StartTime = new DateTime(2020, 4, 22),
+                EndTime = new DateTime(2020, 4, 23),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4870,8 +4665,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 421,
                 Subject = "World Copyright Day",
-                StartTime = new DateTime(2018, 4, 23),
-                EndTime = new DateTime(2018, 4, 24),
+                StartTime = new DateTime(2020, 4, 23),
+                EndTime = new DateTime(2020, 4, 24),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4879,8 +4674,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 422,
                 Subject = "World Penguin Day",
-                StartTime = new DateTime(2018, 4, 25),
-                EndTime = new DateTime(2018, 4, 26),
+                StartTime = new DateTime(2020, 4, 25),
+                EndTime = new DateTime(2020, 4, 26),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4888,8 +4683,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 423,
                 Subject = "World Press Freedom Day",
-                StartTime = new DateTime(2018, 5, 3),
-                EndTime = new DateTime(2018, 5, 4),
+                StartTime = new DateTime(2020, 5, 3),
+                EndTime = new DateTime(2020, 5, 4),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4897,8 +4692,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 424,
                 Subject = "International Midwives Day",
-                StartTime = new DateTime(2018, 5, 5),
-                EndTime = new DateTime(2018, 5, 5),
+                StartTime = new DateTime(2020, 5, 5),
+                EndTime = new DateTime(2020, 5, 5),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4906,8 +4701,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 425,
                 Subject = "World Red Cross Day",
-                StartTime = new DateTime(2018, 5, 8),
-                EndTime = new DateTime(2018, 5, 9),
+                StartTime = new DateTime(2020, 5, 8),
+                EndTime = new DateTime(2020, 5, 9),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4915,8 +4710,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 426,
                 Subject = "World Lupus Day",
-                StartTime = new DateTime(2018, 5, 10),
-                EndTime = new DateTime(2018, 5, 11),
+                StartTime = new DateTime(2020, 5, 10),
+                EndTime = new DateTime(2020, 5, 11),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4924,8 +4719,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 427,
                 Subject = "International Nurses Day",
-                StartTime = new DateTime(2018, 5, 12),
-                EndTime = new DateTime(2018, 5, 12),
+                StartTime = new DateTime(2020, 5, 12),
+                EndTime = new DateTime(2020, 5, 12),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4933,8 +4728,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 428,
                 Subject = "IEEE Global Engineering Day",
-                StartTime = new DateTime(2018, 5, 13),
-                EndTime = new DateTime(2018, 5, 14),
+                StartTime = new DateTime(2020, 5, 13),
+                EndTime = new DateTime(2020, 5, 14),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4942,8 +4737,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 429,
                 Subject = "International Day of Families",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4951,8 +4746,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 430,
                 Subject = "International Museum Day",
-                StartTime = new DateTime(2018, 5, 18),
-                EndTime = new DateTime(2018, 5, 19),
+                StartTime = new DateTime(2020, 5, 18),
+                EndTime = new DateTime(2020, 5, 19),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4960,8 +4755,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 431,
                 Subject = "World Turtle Day",
-                StartTime = new DateTime(2018, 5, 23),
-                EndTime = new DateTime(2018, 5, 24),
+                StartTime = new DateTime(2020, 5, 23),
+                EndTime = new DateTime(2020, 5, 24),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4969,8 +4764,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 432,
                 Subject = "World No-Tobacco Day",
-                StartTime = new DateTime(2018, 5, 31),
-                EndTime = new DateTime(2018, 6, 1),
+                StartTime = new DateTime(2020, 5, 31),
+                EndTime = new DateTime(2020, 6, 1),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4978,8 +4773,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 433,
                 Subject = "World Ocean Day",
-                StartTime = new DateTime(2018, 6, 8),
-                EndTime = new DateTime(2018, 6, 9),
+                StartTime = new DateTime(2020, 6, 8),
+                EndTime = new DateTime(2020, 6, 9),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4987,8 +4782,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 434,
                 Subject = "World Blood Donor Day",
-                StartTime = new DateTime(2018, 6, 14),
-                EndTime = new DateTime(2018, 6, 15),
+                StartTime = new DateTime(2020, 6, 14),
+                EndTime = new DateTime(2020, 6, 15),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -4996,8 +4791,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 435,
                 Subject = "World Day to Combat Desertification & Drought",
-                StartTime = new DateTime(2018, 6, 17),
-                EndTime = new DateTime(2018, 6, 18),
+                StartTime = new DateTime(2020, 6, 17),
+                EndTime = new DateTime(2020, 6, 18),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -5005,8 +4800,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 436,
                 Subject = "World Refugee Day",
-                StartTime = new DateTime(2018, 6, 20),
-                EndTime = new DateTime(2018, 6, 21),
+                StartTime = new DateTime(2020, 6, 20),
+                EndTime = new DateTime(2020, 6, 21),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -5014,8 +4809,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 437,
                 Subject = "International Day Against Drug Abuse & Trafficking",
-                StartTime = new DateTime(2018, 6, 26),
-                EndTime = new DateTime(2018, 6, 27),
+                StartTime = new DateTime(2020, 6, 26),
+                EndTime = new DateTime(2020, 6, 27),
                 IsAllDay = true,
                 CalendarId = 4
             });
@@ -5023,8 +4818,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 201,
                 Subject = "Conference meeting",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5032,8 +4827,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 202,
                 Subject = "Product discussion",
-                StartTime = new DateTime(2018, 3, 4),
-                EndTime = new DateTime(2018, 3, 5),
+                StartTime = new DateTime(2020, 3, 4),
+                EndTime = new DateTime(2020, 3, 5),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5041,8 +4836,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 203,
                 Subject = "Companys growth related discussion",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5050,8 +4845,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 204,
                 Subject = "Customer issues",
-                StartTime = new DateTime(2018, 3, 11),
-                EndTime = new DateTime(2018, 3, 12),
+                StartTime = new DateTime(2020, 3, 11),
+                EndTime = new DateTime(2020, 3, 12),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5059,8 +4854,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 205,
                 Subject = "Development related chat",
-                StartTime = new DateTime(2018, 3, 13),
-                EndTime = new DateTime(2018, 3, 14),
+                StartTime = new DateTime(2020, 3, 13),
+                EndTime = new DateTime(2020, 3, 14),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5068,8 +4863,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 206,
                 Subject = "Product meeting",
-                StartTime = new DateTime(2018, 3, 18),
-                EndTime = new DateTime(2018, 3, 19),
+                StartTime = new DateTime(2020, 3, 18),
+                EndTime = new DateTime(2020, 3, 19),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5077,8 +4872,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 207,
                 Subject = "General discussion",
-                StartTime = new DateTime(2018, 3, 21),
-                EndTime = new DateTime(2018, 3, 22),
+                StartTime = new DateTime(2020, 3, 21),
+                EndTime = new DateTime(2020, 3, 22),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5086,8 +4881,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 208,
                 Subject = "Hike discussion",
-                StartTime = new DateTime(2018, 3, 24),
-                EndTime = new DateTime(2018, 3, 25),
+                StartTime = new DateTime(2020, 3, 24),
+                EndTime = new DateTime(2020, 3, 25),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5095,8 +4890,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 209,
                 Subject = "Customer meeting",
-                StartTime = new DateTime(2018, 3, 28),
-                EndTime = new DateTime(2018, 3, 29),
+                StartTime = new DateTime(2020, 3, 28),
+                EndTime = new DateTime(2020, 3, 29),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5104,8 +4899,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 210,
                 Subject = "New launch discussion",
-                StartTime = new DateTime(2018, 3, 30),
-                EndTime = new DateTime(2018, 3, 31),
+                StartTime = new DateTime(2020, 3, 30),
+                EndTime = new DateTime(2020, 3, 31),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5113,8 +4908,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 211,
                 Subject = "Conference Meeting",
-                StartTime = new DateTime(2018, 4, 1),
-                EndTime = new DateTime(2018, 4, 2),
+                StartTime = new DateTime(2020, 4, 1),
+                EndTime = new DateTime(2020, 4, 2),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5122,8 +4917,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 212,
                 Subject = "Product Discussion",
-                StartTime = new DateTime(2018, 4, 3),
-                EndTime = new DateTime(2018, 4, 4),
+                StartTime = new DateTime(2020, 4, 3),
+                EndTime = new DateTime(2020, 4, 4),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5131,8 +4926,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 213,
                 Subject = "Companys growth related issues",
-                StartTime = new DateTime(2018, 4, 7),
-                EndTime = new DateTime(2018, 4, 8),
+                StartTime = new DateTime(2020, 4, 7),
+                EndTime = new DateTime(2020, 4, 8),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5140,8 +4935,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 214,
                 Subject = "Customer issues",
-                StartTime = new DateTime(2018, 4, 12),
-                EndTime = new DateTime(2018, 4, 13),
+                StartTime = new DateTime(2020, 4, 12),
+                EndTime = new DateTime(2020, 4, 13),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5149,8 +4944,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 215,
                 Subject = "Development related chat",
-                StartTime = new DateTime(2018, 4, 15),
-                EndTime = new DateTime(2018, 4, 16),
+                StartTime = new DateTime(2020, 4, 15),
+                EndTime = new DateTime(2020, 4, 16),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5158,8 +4953,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 216,
                 Subject = "Product meeting",
-                StartTime = new DateTime(2018, 4, 18),
-                EndTime = new DateTime(2018, 4, 19),
+                StartTime = new DateTime(2020, 4, 18),
+                EndTime = new DateTime(2020, 4, 19),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5167,8 +4962,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 217,
                 Subject = "General discussion",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5176,8 +4971,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 218,
                 Subject = "Hike discussion",
-                StartTime = new DateTime(2018, 4, 24),
-                EndTime = new DateTime(2018, 4, 25),
+                StartTime = new DateTime(2020, 4, 24),
+                EndTime = new DateTime(2020, 4, 25),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5185,8 +4980,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 219,
                 Subject = "Customer meeting",
-                StartTime = new DateTime(2018, 4, 26),
-                EndTime = new DateTime(2018, 4, 27),
+                StartTime = new DateTime(2020, 4, 26),
+                EndTime = new DateTime(2020, 4, 27),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5194,8 +4989,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 220,
                 Subject = "New launch discussion",
-                StartTime = new DateTime(2018, 4, 29),
-                EndTime = new DateTime(2018, 4, 30),
+                StartTime = new DateTime(2020, 4, 29),
+                EndTime = new DateTime(2020, 4, 30),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5203,8 +4998,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 221,
                 Subject = "Conference Meeting",
-                StartTime = new DateTime(2018, 5, 1),
-                EndTime = new DateTime(2018, 5, 2),
+                StartTime = new DateTime(2020, 5, 1),
+                EndTime = new DateTime(2020, 5, 2),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5212,8 +5007,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 222,
                 Subject = "Product Discussion",
-                StartTime = new DateTime(2018, 5, 3),
-                EndTime = new DateTime(2018, 5, 4),
+                StartTime = new DateTime(2020, 5, 3),
+                EndTime = new DateTime(2020, 5, 4),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5221,8 +5016,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 223,
                 Subject = "Companys growth related issues",
-                StartTime = new DateTime(2018, 5, 9),
-                EndTime = new DateTime(2018, 5, 10),
+                StartTime = new DateTime(2020, 5, 9),
+                EndTime = new DateTime(2020, 5, 10),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5230,8 +5025,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 224,
                 Subject = "Customer issues",
-                StartTime = new DateTime(2018, 5, 13),
-                EndTime = new DateTime(2018, 5, 14),
+                StartTime = new DateTime(2020, 5, 13),
+                EndTime = new DateTime(2020, 5, 14),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5239,8 +5034,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 225,
                 Subject = "Development related chat",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5248,8 +5043,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 226,
                 Subject = "Product meeting",
-                StartTime = new DateTime(2018, 5, 18),
-                EndTime = new DateTime(2018, 5, 19),
+                StartTime = new DateTime(2020, 5, 18),
+                EndTime = new DateTime(2020, 5, 19),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5257,8 +5052,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 227,
                 Subject = "General discussion",
-                StartTime = new DateTime(2018, 5, 21),
-                EndTime = new DateTime(2018, 5, 22),
+                StartTime = new DateTime(2020, 5, 21),
+                EndTime = new DateTime(2020, 5, 22),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5266,8 +5061,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 228,
                 Subject = "Hike discussion",
-                StartTime = new DateTime(2018, 5, 24),
-                EndTime = new DateTime(2018, 5, 25),
+                StartTime = new DateTime(2020, 5, 24),
+                EndTime = new DateTime(2020, 5, 25),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5275,8 +5070,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 229,
                 Subject = "Customer meeting",
-                StartTime = new DateTime(2018, 5, 26),
-                EndTime = new DateTime(2018, 5, 27),
+                StartTime = new DateTime(2020, 5, 26),
+                EndTime = new DateTime(2020, 5, 27),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5284,8 +5079,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 230,
                 Subject = "New launch discussion",
-                StartTime = new DateTime(2018, 5, 29),
-                EndTime = new DateTime(2018, 5, 30),
+                StartTime = new DateTime(2020, 5, 29),
+                EndTime = new DateTime(2020, 5, 30),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -5293,8 +5088,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 301,
                 Subject = "Gladys Spellman",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5302,8 +5097,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 302,
                 Subject = "Susanna Salter",
-                StartTime = new DateTime(2018, 3, 2),
-                EndTime = new DateTime(2018, 3, 3),
+                StartTime = new DateTime(2020, 3, 2),
+                EndTime = new DateTime(2020, 3, 3),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5311,8 +5106,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 303,
                 Subject = "Dora Marsden",
-                StartTime = new DateTime(2018, 3, 5),
-                EndTime = new DateTime(2018, 3, 6),
+                StartTime = new DateTime(2020, 3, 5),
+                EndTime = new DateTime(2020, 3, 6),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5320,8 +5115,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 304,
                 Subject = "Anne Bonny",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5329,8 +5124,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 305,
                 Subject = "Clare Boothe Luce",
-                StartTime = new DateTime(2018, 3, 10),
-                EndTime = new DateTime(2018, 3, 11),
+                StartTime = new DateTime(2020, 3, 10),
+                EndTime = new DateTime(2020, 3, 11),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5338,8 +5133,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 306,
                 Subject = "Ethel Anderson",
-                StartTime = new DateTime(2018, 3, 16),
-                EndTime = new DateTime(2018, 3, 17),
+                StartTime = new DateTime(2020, 3, 16),
+                EndTime = new DateTime(2020, 3, 17),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5347,8 +5142,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 307,
                 Subject = "Louise Otto-Peters",
-                StartTime = new DateTime(2018, 3, 26),
-                EndTime = new DateTime(2018, 3, 27),
+                StartTime = new DateTime(2020, 3, 26),
+                EndTime = new DateTime(2020, 3, 27),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5356,8 +5151,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 308,
                 Subject = "Faith Leech",
-                StartTime = new DateTime(2018, 3, 31),
-                EndTime = new DateTime(2018, 3, 1),
+                StartTime = new DateTime(2020, 3, 31),
+                EndTime = new DateTime(2020, 3, 1),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5365,8 +5160,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 309,
                 Subject = "Wilhelmine Reichard",
-                StartTime = new DateTime(2018, 4, 2),
-                EndTime = new DateTime(2018, 4, 3),
+                StartTime = new DateTime(2020, 4, 2),
+                EndTime = new DateTime(2020, 4, 3),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5374,8 +5169,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 310,
                 Subject = "Janet Rowley",
-                StartTime = new DateTime(2018, 4, 5),
-                EndTime = new DateTime(2018, 4, 6),
+                StartTime = new DateTime(2020, 4, 5),
+                EndTime = new DateTime(2020, 4, 6),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5383,8 +5178,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 311,
                 Subject = "Kathleen Major",
-                StartTime = new DateTime(2018, 4, 10),
-                EndTime = new DateTime(2018, 4, 11),
+                StartTime = new DateTime(2020, 4, 10),
+                EndTime = new DateTime(2020, 4, 11),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5392,8 +5187,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 312,
                 Subject = "Kasturba Gandhi",
-                StartTime = new DateTime(2018, 4, 11),
-                EndTime = new DateTime(2018, 4, 12),
+                StartTime = new DateTime(2020, 4, 11),
+                EndTime = new DateTime(2020, 4, 12),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5401,8 +5196,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 313,
                 Subject = "Elizabeth Huckaby",
-                StartTime = new DateTime(2018, 4, 14),
-                EndTime = new DateTime(2018, 4, 15),
+                StartTime = new DateTime(2020, 4, 14),
+                EndTime = new DateTime(2020, 4, 15),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5410,8 +5205,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 314,
                 Subject = "Helene Hanff",
-                StartTime = new DateTime(2018, 4, 15),
-                EndTime = new DateTime(2018, 4, 16),
+                StartTime = new DateTime(2020, 4, 15),
+                EndTime = new DateTime(2020, 4, 16),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5419,8 +5214,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 315,
                 Subject = "Caresse Crosby",
-                StartTime = new DateTime(2018, 4, 20),
-                EndTime = new DateTime(2018, 4, 21),
+                StartTime = new DateTime(2020, 4, 20),
+                EndTime = new DateTime(2020, 4, 21),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5428,8 +5223,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 316,
                 Subject = "Angela Burdett-Coutts",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5437,8 +5232,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 317,
                 Subject = "Pandita Ramabai",
-                StartTime = new DateTime(2018, 4, 23),
-                EndTime = new DateTime(2018, 4, 24),
+                StartTime = new DateTime(2020, 4, 23),
+                EndTime = new DateTime(2020, 4, 24),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5446,8 +5241,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 318,
                 Subject = "Melissa Hayden",
-                StartTime = new DateTime(2018, 4, 25),
-                EndTime = new DateTime(2018, 4, 26),
+                StartTime = new DateTime(2020, 4, 25),
+                EndTime = new DateTime(2020, 4, 26),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5455,8 +5250,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 319,
                 Subject = "Mary Wollstonecraft",
-                StartTime = new DateTime(2018, 4, 27),
-                EndTime = new DateTime(2018, 4, 28),
+                StartTime = new DateTime(2020, 4, 27),
+                EndTime = new DateTime(2020, 4, 28),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5464,8 +5259,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 320,
                 Subject = "Mary Petty",
-                StartTime = new DateTime(2018, 4, 29),
-                EndTime = new DateTime(2018, 4, 30),
+                StartTime = new DateTime(2020, 4, 29),
+                EndTime = new DateTime(2020, 4, 30),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5473,8 +5268,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 321,
                 Subject = "Doris Fisher",
-                StartTime = new DateTime(2018, 5, 2),
-                EndTime = new DateTime(2018, 5, 3),
+                StartTime = new DateTime(2020, 5, 2),
+                EndTime = new DateTime(2020, 5, 3),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5482,8 +5277,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 322,
                 Subject = "Kay Petre",
-                StartTime = new DateTime(2018, 5, 10),
-                EndTime = new DateTime(2018, 5, 11),
+                StartTime = new DateTime(2020, 5, 10),
+                EndTime = new DateTime(2020, 5, 11),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5491,8 +5286,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 323,
                 Subject = "Williamina Fleming",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5500,8 +5295,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 324,
                 Subject = "Ondina Valla",
-                StartTime = new DateTime(2018, 5, 20),
-                EndTime = new DateTime(2018, 5, 21),
+                StartTime = new DateTime(2020, 5, 20),
+                EndTime = new DateTime(2020, 5, 21),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5509,8 +5304,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 325,
                 Subject = "Marie Menken",
-                StartTime = new DateTime(2018, 5, 25),
-                EndTime = new DateTime(2018, 5, 26),
+                StartTime = new DateTime(2020, 5, 25),
+                EndTime = new DateTime(2020, 5, 26),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5518,8 +5313,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 101,
                 Subject = "Father Birthday",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5527,8 +5322,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 102,
                 Subject = "Engagement day",
-                StartTime = new DateTime(2018, 3, 4),
-                EndTime = new DateTime(2018, 3, 5),
+                StartTime = new DateTime(2020, 3, 4),
+                EndTime = new DateTime(2020, 3, 5),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5536,8 +5331,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 103,
                 Subject = "Wedding day",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5545,8 +5340,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 104,
                 Subject = "Mother Birthday",
-                StartTime = new DateTime(2018, 3, 11),
-                EndTime = new DateTime(2018, 3, 12),
+                StartTime = new DateTime(2020, 3, 11),
+                EndTime = new DateTime(2020, 3, 12),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5554,8 +5349,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 105,
                 Subject = "Peter`s Wedding Day",
-                StartTime = new DateTime(2018, 3, 13),
-                EndTime = new DateTime(2018, 3, 14),
+                StartTime = new DateTime(2020, 3, 13),
+                EndTime = new DateTime(2020, 3, 14),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5563,8 +5358,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 106,
                 Subject = "Family Trip",
-                StartTime = new DateTime(2018, 3, 18),
-                EndTime = new DateTime(2018, 3, 19),
+                StartTime = new DateTime(2020, 3, 18),
+                EndTime = new DateTime(2020, 3, 19),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5572,8 +5367,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 107,
                 Subject = "Cousin Wedding Ceremony",
-                StartTime = new DateTime(2018, 3, 21),
-                EndTime = new DateTime(2018, 3, 22),
+                StartTime = new DateTime(2020, 3, 21),
+                EndTime = new DateTime(2020, 3, 22),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5581,8 +5376,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 108,
                 Subject = "Family Meetup",
-                StartTime = new DateTime(2018, 3, 24),
-                EndTime = new DateTime(2018, 3, 25),
+                StartTime = new DateTime(2020, 3, 24),
+                EndTime = new DateTime(2020, 3, 25),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5590,8 +5385,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 109,
                 Subject = "Grandfather Birthday",
-                StartTime = new DateTime(2018, 3, 28),
-                EndTime = new DateTime(2018, 3, 29),
+                StartTime = new DateTime(2020, 3, 28),
+                EndTime = new DateTime(2020, 3, 29),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5599,8 +5394,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 110,
                 Subject = "Sister-in-law Wedding Ceremony",
-                StartTime = new DateTime(2018, 3, 30),
-                EndTime = new DateTime(2018, 3, 31),
+                StartTime = new DateTime(2020, 3, 30),
+                EndTime = new DateTime(2020, 3, 31),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5608,8 +5403,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 111,
                 Subject = "Family Meetup",
-                StartTime = new DateTime(2018, 4, 1),
-                EndTime = new DateTime(2018, 4, 2),
+                StartTime = new DateTime(2020, 4, 1),
+                EndTime = new DateTime(2020, 4, 2),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5617,8 +5412,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 112,
                 Subject = "Grandparent Wedding day",
-                StartTime = new DateTime(2018, 4, 3),
-                EndTime = new DateTime(2018, 4, 4),
+                StartTime = new DateTime(2020, 4, 3),
+                EndTime = new DateTime(2020, 4, 4),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5626,8 +5421,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 113,
                 Subject = "Cousin Wedding Ceremony",
-                StartTime = new DateTime(2018, 4, 7),
-                EndTime = new DateTime(2018, 4, 8),
+                StartTime = new DateTime(2020, 4, 7),
+                EndTime = new DateTime(2020, 4, 8),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5635,8 +5430,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 114,
                 Subject = "Family Vacation Trip",
-                StartTime = new DateTime(2018, 4, 12),
-                EndTime = new DateTime(2018, 4, 13),
+                StartTime = new DateTime(2020, 4, 12),
+                EndTime = new DateTime(2020, 4, 13),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5644,8 +5439,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 115,
                 Subject = "Brother-in-law Birthday",
-                StartTime = new DateTime(2018, 4, 15),
-                EndTime = new DateTime(2018, 4, 16),
+                StartTime = new DateTime(2020, 4, 15),
+                EndTime = new DateTime(2020, 4, 16),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5653,8 +5448,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 116,
                 Subject = "Brother`s Birthday",
-                StartTime = new DateTime(2018, 4, 18),
-                EndTime = new DateTime(2018, 4, 19),
+                StartTime = new DateTime(2020, 4, 18),
+                EndTime = new DateTime(2020, 4, 19),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5662,8 +5457,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 117,
                 Subject = "Sister Wedding Anniversary",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5671,8 +5466,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 118,
                 Subject = "Family Vacation Trip",
-                StartTime = new DateTime(2018, 4, 24),
-                EndTime = new DateTime(2018, 4, 25),
+                StartTime = new DateTime(2020, 4, 24),
+                EndTime = new DateTime(2020, 4, 25),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5680,8 +5475,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 119,
                 Subject = "Wedding Anniversary",
-                StartTime = new DateTime(2018, 4, 26),
-                EndTime = new DateTime(2018, 4, 27),
+                StartTime = new DateTime(2020, 4, 26),
+                EndTime = new DateTime(2020, 4, 27),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5689,8 +5484,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 120,
                 Subject = "Month End-trip",
-                StartTime = new DateTime(2018, 4, 29),
-                EndTime = new DateTime(2018, 4, 30),
+                StartTime = new DateTime(2020, 4, 29),
+                EndTime = new DateTime(2020, 4, 30),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5698,8 +5493,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 121,
                 Subject = "John Birthday",
-                StartTime = new DateTime(2018, 5, 1),
-                EndTime = new DateTime(2018, 5, 2),
+                StartTime = new DateTime(2020, 5, 1),
+                EndTime = new DateTime(2020, 5, 2),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5707,8 +5502,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 122,
                 Subject = "Vishnu Birthday",
-                StartTime = new DateTime(2018, 5, 3),
-                EndTime = new DateTime(2018, 5, 4),
+                StartTime = new DateTime(2020, 5, 3),
+                EndTime = new DateTime(2020, 5, 4),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5716,8 +5511,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 123,
                 Subject = "Family Trip",
-                StartTime = new DateTime(2018, 5, 9),
-                EndTime = new DateTime(2018, 5, 10),
+                StartTime = new DateTime(2020, 5, 9),
+                EndTime = new DateTime(2020, 5, 10),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5725,8 +5520,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 124,
                 Subject = "Revanth Wedding Anniversary",
-                StartTime = new DateTime(2018, 5, 13),
-                EndTime = new DateTime(2018, 5, 14),
+                StartTime = new DateTime(2020, 5, 13),
+                EndTime = new DateTime(2020, 5, 14),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5734,8 +5529,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 125,
                 Subject = "Family Meetup",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5743,8 +5538,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 126,
                 Subject = "Family get-together",
-                StartTime = new DateTime(2018, 5, 18),
-                EndTime = new DateTime(2018, 5, 19),
+                StartTime = new DateTime(2020, 5, 18),
+                EndTime = new DateTime(2020, 5, 19),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5752,8 +5547,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 127,
                 Subject = "Friends Reunion",
-                StartTime = new DateTime(2018, 5, 21),
-                EndTime = new DateTime(2018, 5, 22),
+                StartTime = new DateTime(2020, 5, 21),
+                EndTime = new DateTime(2020, 5, 22),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5761,8 +5556,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 128,
                 Subject = "Rahul Wedding Anniversary Celebration",
-                StartTime = new DateTime(2018, 5, 24),
-                EndTime = new DateTime(2018, 5, 25),
+                StartTime = new DateTime(2020, 5, 24),
+                EndTime = new DateTime(2020, 5, 25),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5770,8 +5565,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 129,
                 Subject = "Vacation Trip with friends",
-                StartTime = new DateTime(2018, 5, 26),
-                EndTime = new DateTime(2018, 5, 27),
+                StartTime = new DateTime(2020, 5, 26),
+                EndTime = new DateTime(2020, 5, 27),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5779,8 +5574,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 130,
                 Subject = "Friends Reunion",
-                StartTime = new DateTime(2018, 5, 29),
-                EndTime = new DateTime(2018, 5, 30),
+                StartTime = new DateTime(2020, 5, 29),
+                EndTime = new DateTime(2020, 5, 30),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -5794,8 +5589,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 301,
                 Subject = "Gladys Spellman",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5803,8 +5598,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 302,
                 Subject = "Susanna Salter",
-                StartTime = new DateTime(2018, 3, 2),
-                EndTime = new DateTime(2018, 3, 3),
+                StartTime = new DateTime(2020, 3, 2),
+                EndTime = new DateTime(2020, 3, 3),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5812,8 +5607,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 303,
                 Subject = "Dora Marsden",
-                StartTime = new DateTime(2018, 3, 5),
-                EndTime = new DateTime(2018, 3, 6),
+                StartTime = new DateTime(2020, 3, 5),
+                EndTime = new DateTime(2020, 3, 6),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5821,8 +5616,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 304,
                 Subject = "Anne Bonny",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5830,8 +5625,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 305,
                 Subject = "Clare Boothe Luce",
-                StartTime = new DateTime(2018, 3, 10),
-                EndTime = new DateTime(2018, 3, 11),
+                StartTime = new DateTime(2020, 3, 10),
+                EndTime = new DateTime(2020, 3, 11),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5839,8 +5634,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 306,
                 Subject = "Ethel Anderson",
-                StartTime = new DateTime(2018, 3, 16),
-                EndTime = new DateTime(2018, 3, 17),
+                StartTime = new DateTime(2020, 3, 16),
+                EndTime = new DateTime(2020, 3, 17),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5848,8 +5643,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 307,
                 Subject = "Louise Otto-Peters",
-                StartTime = new DateTime(2018, 3, 26),
-                EndTime = new DateTime(2018, 3, 27),
+                StartTime = new DateTime(2020, 3, 26),
+                EndTime = new DateTime(2020, 3, 27),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5857,8 +5652,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 308,
                 Subject = "Faith Leech",
-                StartTime = new DateTime(2018, 3, 31),
-                EndTime = new DateTime(2018, 3, 1),
+                StartTime = new DateTime(2020, 3, 31),
+                EndTime = new DateTime(2020, 3, 1),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5866,8 +5661,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 309,
                 Subject = "Wilhelmine Reichard",
-                StartTime = new DateTime(2018, 4, 2),
-                EndTime = new DateTime(2018, 4, 3),
+                StartTime = new DateTime(2020, 4, 2),
+                EndTime = new DateTime(2020, 4, 3),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5875,8 +5670,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 310,
                 Subject = "Janet Rowley",
-                StartTime = new DateTime(2018, 4, 5),
-                EndTime = new DateTime(2018, 4, 6),
+                StartTime = new DateTime(2020, 4, 5),
+                EndTime = new DateTime(2020, 4, 6),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5884,8 +5679,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 311,
                 Subject = "Kathleen Major",
-                StartTime = new DateTime(2018, 4, 10),
-                EndTime = new DateTime(2018, 4, 11),
+                StartTime = new DateTime(2020, 4, 10),
+                EndTime = new DateTime(2020, 4, 11),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5893,8 +5688,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 312,
                 Subject = "Kasturba Gandhi",
-                StartTime = new DateTime(2018, 4, 11),
-                EndTime = new DateTime(2018, 4, 12),
+                StartTime = new DateTime(2020, 4, 11),
+                EndTime = new DateTime(2020, 4, 12),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5902,8 +5697,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 313,
                 Subject = "Elizabeth Huckaby",
-                StartTime = new DateTime(2018, 4, 14),
-                EndTime = new DateTime(2018, 4, 15),
+                StartTime = new DateTime(2020, 4, 14),
+                EndTime = new DateTime(2020, 4, 15),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5911,8 +5706,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 314,
                 Subject = "Helene Hanff",
-                StartTime = new DateTime(2018, 4, 15),
-                EndTime = new DateTime(2018, 4, 16),
+                StartTime = new DateTime(2020, 4, 15),
+                EndTime = new DateTime(2020, 4, 16),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5920,8 +5715,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 315,
                 Subject = "Caresse Crosby",
-                StartTime = new DateTime(2018, 4, 20),
-                EndTime = new DateTime(2018, 4, 21),
+                StartTime = new DateTime(2020, 4, 20),
+                EndTime = new DateTime(2020, 4, 21),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5929,8 +5724,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 316,
                 Subject = "Angela Burdett-Coutts",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5938,8 +5733,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 317,
                 Subject = "Pandita Ramabai",
-                StartTime = new DateTime(2018, 4, 23),
-                EndTime = new DateTime(2018, 4, 24),
+                StartTime = new DateTime(2020, 4, 23),
+                EndTime = new DateTime(2020, 4, 24),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5947,8 +5742,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 318,
                 Subject = "Melissa Hayden",
-                StartTime = new DateTime(2018, 4, 25),
-                EndTime = new DateTime(2018, 4, 26),
+                StartTime = new DateTime(2020, 4, 25),
+                EndTime = new DateTime(2020, 4, 26),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5956,8 +5751,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 319,
                 Subject = "Mary Wollstonecraft",
-                StartTime = new DateTime(2018, 4, 27),
-                EndTime = new DateTime(2018, 4, 28),
+                StartTime = new DateTime(2020, 4, 27),
+                EndTime = new DateTime(2020, 4, 28),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5965,8 +5760,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 320,
                 Subject = "Mary Petty",
-                StartTime = new DateTime(2018, 4, 29),
-                EndTime = new DateTime(2018, 4, 30),
+                StartTime = new DateTime(2020, 4, 29),
+                EndTime = new DateTime(2020, 4, 30),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5974,8 +5769,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 321,
                 Subject = "Doris Fisher",
-                StartTime = new DateTime(2018, 5, 2),
-                EndTime = new DateTime(2018, 5, 3),
+                StartTime = new DateTime(2020, 5, 2),
+                EndTime = new DateTime(2020, 5, 3),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5983,8 +5778,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 322,
                 Subject = "Kay Petre",
-                StartTime = new DateTime(2018, 5, 10),
-                EndTime = new DateTime(2018, 5, 11),
+                StartTime = new DateTime(2020, 5, 10),
+                EndTime = new DateTime(2020, 5, 11),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -5992,8 +5787,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 323,
                 Subject = "Williamina Fleming",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -6001,8 +5796,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 324,
                 Subject = "Ondina Valla",
-                StartTime = new DateTime(2018, 5, 20),
-                EndTime = new DateTime(2018, 5, 21),
+                StartTime = new DateTime(2020, 5, 20),
+                EndTime = new DateTime(2020, 5, 21),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -6010,8 +5805,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 325,
                 Subject = "Marie Menken",
-                StartTime = new DateTime(2018, 5, 25),
-                EndTime = new DateTime(2018, 5, 26),
+                StartTime = new DateTime(2020, 5, 25),
+                EndTime = new DateTime(2020, 5, 26),
                 IsAllDay = true,
                 CalendarId = 3
             });
@@ -6025,8 +5820,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 201,
                 Subject = "Conference meeting",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6034,8 +5829,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 202,
                 Subject = "Product discussion",
-                StartTime = new DateTime(2018, 3, 4),
-                EndTime = new DateTime(2018, 3, 5),
+                StartTime = new DateTime(2020, 3, 4),
+                EndTime = new DateTime(2020, 3, 5),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6043,8 +5838,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 203,
                 Subject = "Companys growth related discussion",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6052,8 +5847,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 204,
                 Subject = "Customer issues",
-                StartTime = new DateTime(2018, 3, 11),
-                EndTime = new DateTime(2018, 3, 12),
+                StartTime = new DateTime(2020, 3, 11),
+                EndTime = new DateTime(2020, 3, 12),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6061,8 +5856,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 205,
                 Subject = "Development related chat",
-                StartTime = new DateTime(2018, 3, 13),
-                EndTime = new DateTime(2018, 3, 14),
+                StartTime = new DateTime(2020, 3, 13),
+                EndTime = new DateTime(2020, 3, 14),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6070,8 +5865,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 206,
                 Subject = "Product meeting",
-                StartTime = new DateTime(2018, 3, 18),
-                EndTime = new DateTime(2018, 3, 19),
+                StartTime = new DateTime(2020, 3, 18),
+                EndTime = new DateTime(2020, 3, 19),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6079,8 +5874,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 207,
                 Subject = "General discussion",
-                StartTime = new DateTime(2018, 3, 21),
-                EndTime = new DateTime(2018, 3, 22),
+                StartTime = new DateTime(2020, 3, 21),
+                EndTime = new DateTime(2020, 3, 22),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6088,8 +5883,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 208,
                 Subject = "Hike discussion",
-                StartTime = new DateTime(2018, 3, 24),
-                EndTime = new DateTime(2018, 3, 25),
+                StartTime = new DateTime(2020, 3, 24),
+                EndTime = new DateTime(2020, 3, 25),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6097,8 +5892,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 209,
                 Subject = "Customer meeting",
-                StartTime = new DateTime(2018, 3, 28),
-                EndTime = new DateTime(2018, 3, 29),
+                StartTime = new DateTime(2020, 3, 28),
+                EndTime = new DateTime(2020, 3, 29),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6106,8 +5901,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 210,
                 Subject = "New launch discussion",
-                StartTime = new DateTime(2018, 3, 30),
-                EndTime = new DateTime(2018, 3, 31),
+                StartTime = new DateTime(2020, 3, 30),
+                EndTime = new DateTime(2020, 3, 31),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6115,8 +5910,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 211,
                 Subject = "Conference Meeting",
-                StartTime = new DateTime(2018, 4, 1),
-                EndTime = new DateTime(2018, 4, 2),
+                StartTime = new DateTime(2020, 4, 1),
+                EndTime = new DateTime(2020, 4, 2),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6124,8 +5919,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 212,
                 Subject = "Product Discussion",
-                StartTime = new DateTime(2018, 4, 3),
-                EndTime = new DateTime(2018, 4, 4),
+                StartTime = new DateTime(2020, 4, 3),
+                EndTime = new DateTime(2020, 4, 4),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6133,8 +5928,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 213,
                 Subject = "Companys growth related issues",
-                StartTime = new DateTime(2018, 4, 7),
-                EndTime = new DateTime(2018, 4, 8),
+                StartTime = new DateTime(2020, 4, 7),
+                EndTime = new DateTime(2020, 4, 8),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6142,8 +5937,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 214,
                 Subject = "Customer issues",
-                StartTime = new DateTime(2018, 4, 12),
-                EndTime = new DateTime(2018, 4, 13),
+                StartTime = new DateTime(2020, 4, 12),
+                EndTime = new DateTime(2020, 4, 13),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6151,8 +5946,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 215,
                 Subject = "Development related chat",
-                StartTime = new DateTime(2018, 4, 15),
-                EndTime = new DateTime(2018, 4, 16),
+                StartTime = new DateTime(2020, 4, 15),
+                EndTime = new DateTime(2020, 4, 16),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6160,8 +5955,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 216,
                 Subject = "Product meeting",
-                StartTime = new DateTime(2018, 4, 18),
-                EndTime = new DateTime(2018, 4, 19),
+                StartTime = new DateTime(2020, 4, 18),
+                EndTime = new DateTime(2020, 4, 19),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6169,8 +5964,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 217,
                 Subject = "General discussion",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6178,8 +5973,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 218,
                 Subject = "Hike discussion",
-                StartTime = new DateTime(2018, 4, 24),
-                EndTime = new DateTime(2018, 4, 25),
+                StartTime = new DateTime(2020, 4, 24),
+                EndTime = new DateTime(2020, 4, 25),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6187,8 +5982,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 219,
                 Subject = "Customer meeting",
-                StartTime = new DateTime(2018, 4, 26),
-                EndTime = new DateTime(2018, 4, 27),
+                StartTime = new DateTime(2020, 4, 26),
+                EndTime = new DateTime(2020, 4, 27),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6196,8 +5991,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 220,
                 Subject = "New launch discussion",
-                StartTime = new DateTime(2018, 4, 29),
-                EndTime = new DateTime(2018, 4, 30),
+                StartTime = new DateTime(2020, 4, 29),
+                EndTime = new DateTime(2020, 4, 30),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6205,8 +6000,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 221,
                 Subject = "Conference Meeting",
-                StartTime = new DateTime(2018, 5, 1),
-                EndTime = new DateTime(2018, 5, 2),
+                StartTime = new DateTime(2020, 5, 1),
+                EndTime = new DateTime(2020, 5, 2),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6214,8 +6009,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 222,
                 Subject = "Product Discussion",
-                StartTime = new DateTime(2018, 5, 3),
-                EndTime = new DateTime(2018, 5, 4),
+                StartTime = new DateTime(2020, 5, 3),
+                EndTime = new DateTime(2020, 5, 4),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6223,8 +6018,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 223,
                 Subject = "Companys growth related issues",
-                StartTime = new DateTime(2018, 5, 9),
-                EndTime = new DateTime(2018, 5, 10),
+                StartTime = new DateTime(2020, 5, 9),
+                EndTime = new DateTime(2020, 5, 10),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6232,8 +6027,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 224,
                 Subject = "Customer issues",
-                StartTime = new DateTime(2018, 5, 13),
-                EndTime = new DateTime(2018, 5, 14),
+                StartTime = new DateTime(2020, 5, 13),
+                EndTime = new DateTime(2020, 5, 14),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6241,8 +6036,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 225,
                 Subject = "Development related chat",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6250,8 +6045,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 226,
                 Subject = "Product meeting",
-                StartTime = new DateTime(2018, 5, 18),
-                EndTime = new DateTime(2018, 5, 19),
+                StartTime = new DateTime(2020, 5, 18),
+                EndTime = new DateTime(2020, 5, 19),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6259,8 +6054,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 227,
                 Subject = "General discussion",
-                StartTime = new DateTime(2018, 5, 21),
-                EndTime = new DateTime(2018, 5, 22),
+                StartTime = new DateTime(2020, 5, 21),
+                EndTime = new DateTime(2020, 5, 22),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6268,8 +6063,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 228,
                 Subject = "Hike discussion",
-                StartTime = new DateTime(2018, 5, 24),
-                EndTime = new DateTime(2018, 5, 25),
+                StartTime = new DateTime(2020, 5, 24),
+                EndTime = new DateTime(2020, 5, 25),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6277,8 +6072,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 229,
                 Subject = "Customer meeting",
-                StartTime = new DateTime(2018, 5, 26),
-                EndTime = new DateTime(2018, 5, 27),
+                StartTime = new DateTime(2020, 5, 26),
+                EndTime = new DateTime(2020, 5, 27),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6286,8 +6081,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 230,
                 Subject = "New launch discussion",
-                StartTime = new DateTime(2018, 5, 29),
-                EndTime = new DateTime(2018, 5, 30),
+                StartTime = new DateTime(2020, 5, 29),
+                EndTime = new DateTime(2020, 5, 30),
                 IsAllDay = true,
                 CalendarId = 2
             });
@@ -6301,8 +6096,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 101,
                 Subject = "Father Birthday",
-                StartTime = new DateTime(2018, 3, 1),
-                EndTime = new DateTime(2018, 3, 2),
+                StartTime = new DateTime(2020, 3, 1),
+                EndTime = new DateTime(2020, 3, 2),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6310,8 +6105,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 102,
                 Subject = "Engagement day",
-                StartTime = new DateTime(2018, 3, 4),
-                EndTime = new DateTime(2018, 3, 5),
+                StartTime = new DateTime(2020, 3, 4),
+                EndTime = new DateTime(2020, 3, 5),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6319,8 +6114,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 103,
                 Subject = "Wedding day",
-                StartTime = new DateTime(2018, 3, 8),
-                EndTime = new DateTime(2018, 3, 9),
+                StartTime = new DateTime(2020, 3, 8),
+                EndTime = new DateTime(2020, 3, 9),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6328,8 +6123,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 104,
                 Subject = "Mother Birthday",
-                StartTime = new DateTime(2018, 3, 11),
-                EndTime = new DateTime(2018, 3, 12),
+                StartTime = new DateTime(2020, 3, 11),
+                EndTime = new DateTime(2020, 3, 12),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6337,8 +6132,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 105,
                 Subject = "Peter`s Wedding Day",
-                StartTime = new DateTime(2018, 3, 13),
-                EndTime = new DateTime(2018, 3, 14),
+                StartTime = new DateTime(2020, 3, 13),
+                EndTime = new DateTime(2020, 3, 14),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6346,8 +6141,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 106,
                 Subject = "Family Trip",
-                StartTime = new DateTime(2018, 3, 18),
-                EndTime = new DateTime(2018, 3, 19),
+                StartTime = new DateTime(2020, 3, 18),
+                EndTime = new DateTime(2020, 3, 19),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6355,8 +6150,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 107,
                 Subject = "Cousin Wedding Ceremony",
-                StartTime = new DateTime(2018, 3, 21),
-                EndTime = new DateTime(2018, 3, 22),
+                StartTime = new DateTime(2020, 3, 21),
+                EndTime = new DateTime(2020, 3, 22),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6364,8 +6159,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 108,
                 Subject = "Family Meetup",
-                StartTime = new DateTime(2018, 3, 24),
-                EndTime = new DateTime(2018, 3, 25),
+                StartTime = new DateTime(2020, 3, 24),
+                EndTime = new DateTime(2020, 3, 25),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6373,8 +6168,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 109,
                 Subject = "Grandfather Birthday",
-                StartTime = new DateTime(2018, 3, 28),
-                EndTime = new DateTime(2018, 3, 29),
+                StartTime = new DateTime(2020, 3, 28),
+                EndTime = new DateTime(2020, 3, 29),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6382,8 +6177,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 110,
                 Subject = "Sister-in-law Wedding Ceremony",
-                StartTime = new DateTime(2018, 3, 30),
-                EndTime = new DateTime(2018, 3, 31),
+                StartTime = new DateTime(2020, 3, 30),
+                EndTime = new DateTime(2020, 3, 31),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6391,8 +6186,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 111,
                 Subject = "Family Meetup",
-                StartTime = new DateTime(2018, 4, 1),
-                EndTime = new DateTime(2018, 4, 2),
+                StartTime = new DateTime(2020, 4, 1),
+                EndTime = new DateTime(2020, 4, 2),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6400,8 +6195,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 112,
                 Subject = "Grandparent Wedding day",
-                StartTime = new DateTime(2018, 4, 3),
-                EndTime = new DateTime(2018, 4, 4),
+                StartTime = new DateTime(2020, 4, 3),
+                EndTime = new DateTime(2020, 4, 4),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6409,8 +6204,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 113,
                 Subject = "Cousin Wedding Ceremony",
-                StartTime = new DateTime(2018, 4, 7),
-                EndTime = new DateTime(2018, 4, 8),
+                StartTime = new DateTime(2020, 4, 7),
+                EndTime = new DateTime(2020, 4, 8),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6418,8 +6213,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 114,
                 Subject = "Family Vacation Trip",
-                StartTime = new DateTime(2018, 4, 12),
-                EndTime = new DateTime(2018, 4, 13),
+                StartTime = new DateTime(2020, 4, 12),
+                EndTime = new DateTime(2020, 4, 13),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6427,8 +6222,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 115,
                 Subject = "Brother-in-law Birthday",
-                StartTime = new DateTime(2018, 4, 15),
-                EndTime = new DateTime(2018, 4, 16),
+                StartTime = new DateTime(2020, 4, 15),
+                EndTime = new DateTime(2020, 4, 16),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6436,8 +6231,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 116,
                 Subject = "Brother`s Birthday",
-                StartTime = new DateTime(2018, 4, 18),
-                EndTime = new DateTime(2018, 4, 19),
+                StartTime = new DateTime(2020, 4, 18),
+                EndTime = new DateTime(2020, 4, 19),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6445,8 +6240,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 117,
                 Subject = "Sister Wedding Anniversary",
-                StartTime = new DateTime(2018, 4, 21),
-                EndTime = new DateTime(2018, 4, 22),
+                StartTime = new DateTime(2020, 4, 21),
+                EndTime = new DateTime(2020, 4, 22),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6454,8 +6249,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 118,
                 Subject = "Family Vacation Trip",
-                StartTime = new DateTime(2018, 4, 24),
-                EndTime = new DateTime(2018, 4, 25),
+                StartTime = new DateTime(2020, 4, 24),
+                EndTime = new DateTime(2020, 4, 25),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6463,8 +6258,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 119,
                 Subject = "Wedding Anniversary",
-                StartTime = new DateTime(2018, 4, 26),
-                EndTime = new DateTime(2018, 4, 27),
+                StartTime = new DateTime(2020, 4, 26),
+                EndTime = new DateTime(2020, 4, 27),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6472,8 +6267,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 120,
                 Subject = "Month End-trip",
-                StartTime = new DateTime(2018, 4, 29),
-                EndTime = new DateTime(2018, 4, 30),
+                StartTime = new DateTime(2020, 4, 29),
+                EndTime = new DateTime(2020, 4, 30),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6481,8 +6276,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 121,
                 Subject = "John Birthday",
-                StartTime = new DateTime(2018, 5, 1),
-                EndTime = new DateTime(2018, 5, 2),
+                StartTime = new DateTime(2020, 5, 1),
+                EndTime = new DateTime(2020, 5, 2),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6490,8 +6285,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 122,
                 Subject = "Vishnu Birthday",
-                StartTime = new DateTime(2018, 5, 3),
-                EndTime = new DateTime(2018, 5, 4),
+                StartTime = new DateTime(2020, 5, 3),
+                EndTime = new DateTime(2020, 5, 4),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6499,8 +6294,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 123,
                 Subject = "Family Trip",
-                StartTime = new DateTime(2018, 5, 9),
-                EndTime = new DateTime(2018, 5, 10),
+                StartTime = new DateTime(2020, 5, 9),
+                EndTime = new DateTime(2020, 5, 10),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6508,8 +6303,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 124,
                 Subject = "Revanth Wedding Anniversary",
-                StartTime = new DateTime(2018, 5, 13),
-                EndTime = new DateTime(2018, 5, 14),
+                StartTime = new DateTime(2020, 5, 13),
+                EndTime = new DateTime(2020, 5, 14),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6517,8 +6312,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 125,
                 Subject = "Family Meetup",
-                StartTime = new DateTime(2018, 5, 15),
-                EndTime = new DateTime(2018, 5, 16),
+                StartTime = new DateTime(2020, 5, 15),
+                EndTime = new DateTime(2020, 5, 16),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6526,8 +6321,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 126,
                 Subject = "Family get-together",
-                StartTime = new DateTime(2018, 5, 18),
-                EndTime = new DateTime(2018, 5, 19),
+                StartTime = new DateTime(2020, 5, 18),
+                EndTime = new DateTime(2020, 5, 19),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6535,8 +6330,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 127,
                 Subject = "Friends Reunion",
-                StartTime = new DateTime(2018, 5, 21),
-                EndTime = new DateTime(2018, 5, 22),
+                StartTime = new DateTime(2020, 5, 21),
+                EndTime = new DateTime(2020, 5, 22),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6544,8 +6339,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 128,
                 Subject = "Rahul Wedding Anniversary Celebration",
-                StartTime = new DateTime(2018, 5, 24),
-                EndTime = new DateTime(2018, 5, 25),
+                StartTime = new DateTime(2020, 5, 24),
+                EndTime = new DateTime(2020, 5, 25),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6553,8 +6348,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 129,
                 Subject = "Vacation Trip with friends",
-                StartTime = new DateTime(2018, 5, 26),
-                EndTime = new DateTime(2018, 5, 27),
+                StartTime = new DateTime(2020, 5, 26),
+                EndTime = new DateTime(2020, 5, 27),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6562,8 +6357,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 130,
                 Subject = "Friends Reunion",
-                StartTime = new DateTime(2018, 5, 29),
-                EndTime = new DateTime(2018, 5, 30),
+                StartTime = new DateTime(2020, 5, 29),
+                EndTime = new DateTime(2020, 5, 30),
                 IsAllDay = true,
                 CalendarId = 1
             });
@@ -6577,8 +6372,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 1,
                 Subject = "Echocardiogram",
-                StartTime = new DateTime(2018, 4, 2, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 2, 11, 30, 0),
+                StartTime = new DateTime(2020, 3, 2, 9, 30, 0),
+                EndTime = new DateTime(2020, 3, 2, 11, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6586,8 +6381,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 2,
                 Subject = "Lumbar punctures",
-                StartTime = new DateTime(2018, 4, 2, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 2, 10, 45, 0),
+                StartTime = new DateTime(2020, 3, 2, 9, 30, 0),
+                EndTime = new DateTime(2020, 3, 2, 10, 45, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6595,8 +6390,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 3,
                 Subject = "Osteoarthritis",
-                StartTime = new DateTime(2018, 4, 2, 8, 0, 0),
-                EndTime = new DateTime(2018, 4, 2, 10, 30, 0),
+                StartTime = new DateTime(2020, 3, 2, 8, 0, 0),
+                EndTime = new DateTime(2020, 3, 2, 10, 30, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6604,8 +6399,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 4,
                 Subject = "Ambulatory ECG",
-                StartTime = new DateTime(2018, 4, 3, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 3, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 3, 12, 0, 0),
+                EndTime = new DateTime(2020, 3, 3, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6613,8 +6408,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 5,
                 Subject = "Osteoporosis",
-                StartTime = new DateTime(2018, 4, 3, 11, 0, 0),
-                EndTime = new DateTime(2018, 4, 3, 11, 50, 0),
+                StartTime = new DateTime(2020, 3, 3, 11, 0, 0),
+                EndTime = new DateTime(2020, 3, 3, 11, 50, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6622,8 +6417,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 6,
                 Subject = "Neuromuscular",
-                StartTime = new DateTime(2018, 4, 4, 11, 30, 0),
-                EndTime = new DateTime(2018, 4, 4, 13, 30, 0),
+                StartTime = new DateTime(2020, 3, 4, 11, 30, 0),
+                EndTime = new DateTime(2020, 3, 4, 13, 30, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6631,8 +6426,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 7,
                 Subject = "Rheumatoid arthritis",
-                StartTime = new DateTime(2018, 4, 4, 13, 40, 0),
-                EndTime = new DateTime(2018, 4, 4, 14, 40, 0),
+                StartTime = new DateTime(2020, 3, 4, 13, 40, 0),
+                EndTime = new DateTime(2020, 3, 4, 14, 40, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6640,8 +6435,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 8,
                 Subject = "Cardiac Catheterization",
-                StartTime = new DateTime(2018, 4, 5, 11, 30, 0),
-                EndTime = new DateTime(2018, 4, 5, 13, 0, 0),
+                StartTime = new DateTime(2020, 3, 5, 11, 30, 0),
+                EndTime = new DateTime(2020, 3, 5, 13, 0, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6649,8 +6444,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 9,
                 Subject = "Growth abnormalities",
-                StartTime = new DateTime(2018, 4, 5, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 5, 15, 30, 0),
+                StartTime = new DateTime(2020, 3, 5, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 5, 15, 30, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6658,8 +6453,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 10,
                 Subject = "Sleep disorders",
-                StartTime = new DateTime(2018, 4, 6, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 6, 14, 0, 0),
+                StartTime = new DateTime(2020, 3, 6, 12, 0, 0),
+                EndTime = new DateTime(2020, 3, 6, 14, 0, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6667,8 +6462,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 11,
                 Subject = "Torn ligaments",
-                StartTime = new DateTime(2018, 4, 6, 13, 30, 0),
-                EndTime = new DateTime(2018, 4, 6, 14, 45, 0),
+                StartTime = new DateTime(2020, 3, 6, 13, 30, 0),
+                EndTime = new DateTime(2020, 3, 6, 14, 45, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6676,8 +6471,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 12,
                 Subject = "Coronary angiogram",
-                StartTime = new DateTime(2018, 4, 6, 8, 0, 0),
-                EndTime = new DateTime(2018, 4, 6, 9, 30, 0),
+                StartTime = new DateTime(2020, 3, 6, 8, 0, 0),
+                EndTime = new DateTime(2020, 3, 6, 9, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6685,8 +6480,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 13,
                 Subject = "Blood pressure",
-                StartTime = new DateTime(2018, 4, 9, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 9, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 9, 12, 0, 0),
+                EndTime = new DateTime(2020, 3, 9, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6694,8 +6489,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 14,
                 Subject = "Radiculopathy",
-                StartTime = new DateTime(2018, 4, 9, 15, 45, 0),
-                EndTime = new DateTime(2018, 4, 9, 16, 30, 0),
+                StartTime = new DateTime(2020, 3, 9, 15, 45, 0),
+                EndTime = new DateTime(2020, 3, 9, 16, 30, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6703,8 +6498,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 15,
                 Subject = "Sprains and strains",
-                StartTime = new DateTime(2018, 4, 9, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 9, 15, 30, 0),
+                StartTime = new DateTime(2020, 3, 9, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 9, 15, 30, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6712,8 +6507,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 16,
                 Subject = "Cardiac stress testing",
-                StartTime = new DateTime(2018, 4, 10, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 10, 10, 30, 0),
+                StartTime = new DateTime(2020, 3, 10, 10, 0, 0),
+                EndTime = new DateTime(2020, 3, 10, 10, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6721,8 +6516,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 17,
                 Subject = "Tendon injuries",
-                StartTime = new DateTime(2018, 4, 10, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 10, 15, 30, 0),
+                StartTime = new DateTime(2020, 3, 10, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 10, 15, 30, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6730,8 +6525,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 18,
                 Subject = "Dementia",
-                StartTime = new DateTime(2018, 4, 11, 15, 0, 0),
-                EndTime = new DateTime(2018, 4, 11, 17, 0, 0),
+                StartTime = new DateTime(2020, 3, 11, 15, 0, 0),
+                EndTime = new DateTime(2020, 3, 11, 17, 0, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6739,8 +6534,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 19,
                 Subject = "Pulled muscles",
-                StartTime = new DateTime(2018, 4, 11, 13, 30, 0),
-                EndTime = new DateTime(2018, 4, 11, 15, 50, 0),
+                StartTime = new DateTime(2020, 3, 11, 13, 30, 0),
+                EndTime = new DateTime(2020, 3, 11, 15, 50, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6748,8 +6543,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 20,
                 Subject = "Coronary angiogram",
-                StartTime = new DateTime(2018, 4, 12, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 12, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 12, 10, 30, 0),
+                EndTime = new DateTime(2020, 3, 12, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6757,8 +6552,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 21,
                 Subject = "Back pain",
-                StartTime = new DateTime(2018, 4, 12, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 12, 11, 30, 0),
+                StartTime = new DateTime(2020, 3, 12, 10, 30, 0),
+                EndTime = new DateTime(2020, 3, 12, 11, 30, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6766,8 +6561,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 22,
                 Subject = "Neuropathy",
-                StartTime = new DateTime(2018, 4, 13, 12, 30, 0),
-                EndTime = new DateTime(2018, 4, 13, 13, 45, 0),
+                StartTime = new DateTime(2020, 3, 13, 12, 30, 0),
+                EndTime = new DateTime(2020, 3, 13, 13, 45, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6775,8 +6570,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 23,
                 Subject = "Ruptured disks",
-                StartTime = new DateTime(2018, 4, 13, 13, 0, 0),
-                EndTime = new DateTime(2018, 4, 13, 15, 50, 0),
+                StartTime = new DateTime(2020, 3, 13, 13, 0, 0),
+                EndTime = new DateTime(2020, 3, 13, 15, 50, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6784,8 +6579,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 24,
                 Subject = "Atherosclerosis",
-                StartTime = new DateTime(2018, 4, 13, 10, 0, 0),
-                EndTime = new DateTime(2018, 4, 13, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 13, 10, 0, 0),
+                EndTime = new DateTime(2020, 3, 13, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6793,8 +6588,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 25,
                 Subject = "Arthroplasty",
-                StartTime = new DateTime(2018, 4, 16, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 16, 10, 0, 0),
+                StartTime = new DateTime(2020, 3, 16, 9, 0, 0),
+                EndTime = new DateTime(2020, 3, 16, 10, 0, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6802,8 +6597,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 26,
                 Subject = "Hyperactivity disorder",
-                StartTime = new DateTime(2018, 4, 16, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 16, 15, 45, 0),
+                StartTime = new DateTime(2020, 3, 16, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 16, 15, 45, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6811,8 +6606,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 27,
                 Subject = "Muscular dystrophy",
-                StartTime = new DateTime(2018, 4, 16, 13, 10, 0),
-                EndTime = new DateTime(2018, 4, 16, 15, 20, 0),
+                StartTime = new DateTime(2020, 3, 16, 13, 10, 0),
+                EndTime = new DateTime(2020, 3, 16, 15, 20, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6820,8 +6615,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 28,
                 Subject = "Consulting",
-                StartTime = new DateTime(2018, 4, 17, 9, 20, 0),
-                EndTime = new DateTime(2018, 4, 17, 10, 30, 0),
+                StartTime = new DateTime(2020, 3, 17, 9, 20, 0),
+                EndTime = new DateTime(2020, 3, 17, 10, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6829,8 +6624,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 29,
                 Subject = "Hand surgery",
-                StartTime = new DateTime(2018, 4, 17, 13, 20, 0),
-                EndTime = new DateTime(2018, 4, 17, 15, 22, 0),
+                StartTime = new DateTime(2020, 3, 17, 13, 20, 0),
+                EndTime = new DateTime(2020, 3, 17, 15, 22, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6838,8 +6633,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 30,
                 Subject = "Neuromuscular",
-                StartTime = new DateTime(2018, 4, 18, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 18, 15, 40, 0),
+                StartTime = new DateTime(2020, 3, 18, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 18, 15, 40, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6847,8 +6642,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 31,
                 Subject = "Spine surgery",
-                StartTime = new DateTime(2018, 4, 18, 12, 18, 0),
-                EndTime = new DateTime(2018, 4, 18, 14, 23, 0),
+                StartTime = new DateTime(2020, 3, 18, 12, 18, 0),
+                EndTime = new DateTime(2020, 3, 18, 14, 23, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6856,8 +6651,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 32,
                 Subject = "Fibrinogen",
-                StartTime = new DateTime(2018, 4, 19, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 19, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 19, 9, 0, 0),
+                EndTime = new DateTime(2020, 3, 19, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6865,8 +6660,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 33,
                 Subject = "Bone tumors",
-                StartTime = new DateTime(2018, 4, 19, 10, 45, 0),
-                EndTime = new DateTime(2018, 4, 19, 12, 20, 0),
+                StartTime = new DateTime(2020, 3, 19, 10, 45, 0),
+                EndTime = new DateTime(2020, 3, 19, 12, 20, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6874,8 +6669,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 34,
                 Subject = "Neuromuscular",
-                StartTime = new DateTime(2018, 4, 20, 13, 0, 0),
-                EndTime = new DateTime(2018, 4, 20, 17, 0, 0),
+                StartTime = new DateTime(2020, 3, 20, 13, 0, 0),
+                EndTime = new DateTime(2020, 3, 20, 17, 0, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6883,8 +6678,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 35,
                 Subject = "Osteoporosis",
-                StartTime = new DateTime(2018, 4, 20, 11, 45, 0),
-                EndTime = new DateTime(2018, 4, 20, 14, 30, 0),
+                StartTime = new DateTime(2020, 3, 20, 11, 45, 0),
+                EndTime = new DateTime(2020, 3, 20, 14, 30, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6892,8 +6687,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 36,
                 Subject = "Triglyceride",
-                StartTime = new DateTime(2018, 4, 20, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 20, 10, 45, 0),
+                StartTime = new DateTime(2020, 3, 20, 9, 30, 0),
+                EndTime = new DateTime(2020, 3, 20, 10, 45, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6901,8 +6696,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 37,
                 Subject = "Fibrinogen",
-                StartTime = new DateTime(2018, 4, 23, 8, 0, 0),
-                EndTime = new DateTime(2018, 4, 23, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 23, 8, 0, 0),
+                EndTime = new DateTime(2020, 3, 23, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6910,8 +6705,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 38,
                 Subject = "Head trauma",
-                StartTime = new DateTime(2018, 4, 23, 12, 0, 0),
-                EndTime = new DateTime(2018, 4, 23, 15, 0, 0),
+                StartTime = new DateTime(2020, 3, 23, 12, 0, 0),
+                EndTime = new DateTime(2020, 3, 23, 15, 0, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6919,8 +6714,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 39,
                 Subject = "Arthroplasty",
-                StartTime = new DateTime(2018, 4, 23, 12, 18, 0),
-                EndTime = new DateTime(2018, 4, 23, 13, 22, 0),
+                StartTime = new DateTime(2020, 3, 23, 12, 18, 0),
+                EndTime = new DateTime(2020, 3, 23, 13, 22, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6928,8 +6723,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 40,
                 Subject = "Echocardiogram",
-                StartTime = new DateTime(2018, 4, 24, 10, 30, 0),
-                EndTime = new DateTime(2018, 4, 24, 12, 40, 0),
+                StartTime = new DateTime(2020, 3, 24, 10, 30, 0),
+                EndTime = new DateTime(2020, 3, 24, 12, 40, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6937,8 +6732,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 41,
                 Subject = "Skull reconstruction",
-                StartTime = new DateTime(2018, 4, 24, 13, 20, 0),
-                EndTime = new DateTime(2018, 4, 24, 15, 45, 0),
+                StartTime = new DateTime(2020, 3, 24, 13, 20, 0),
+                EndTime = new DateTime(2020, 3, 24, 15, 45, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6946,8 +6741,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 42,
                 Subject = "Dementia",
-                StartTime = new DateTime(2018, 4, 25, 12, 30, 0),
-                EndTime = new DateTime(2018, 4, 25, 16, 45, 0),
+                StartTime = new DateTime(2020, 3, 25, 12, 30, 0),
+                EndTime = new DateTime(2020, 3, 25, 16, 45, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6955,8 +6750,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 43,
                 Subject = "Orthopedic trauma",
-                StartTime = new DateTime(2018, 4, 25, 10, 18, 0),
-                EndTime = new DateTime(2018, 4, 25, 12, 20, 0),
+                StartTime = new DateTime(2020, 3, 25, 10, 18, 0),
+                EndTime = new DateTime(2020, 3, 25, 12, 20, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6964,8 +6759,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 44,
                 Subject = "Blood pressure",
-                StartTime = new DateTime(2018, 4, 26, 10, 50, 0),
-                EndTime = new DateTime(2018, 4, 26, 12, 30, 0),
+                StartTime = new DateTime(2020, 3, 26, 10, 50, 0),
+                EndTime = new DateTime(2020, 3, 26, 12, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -6973,8 +6768,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 45,
                 Subject = "Ruptured disks",
-                StartTime = new DateTime(2018, 4, 26, 12, 50, 0),
-                EndTime = new DateTime(2018, 4, 26, 15, 20, 0),
+                StartTime = new DateTime(2020, 3, 26, 12, 50, 0),
+                EndTime = new DateTime(2020, 3, 26, 15, 20, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -6982,8 +6777,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 46,
                 Subject = "Head trauma",
-                StartTime = new DateTime(2018, 4, 27, 11, 50, 0),
-                EndTime = new DateTime(2018, 4, 27, 12, 45, 0),
+                StartTime = new DateTime(2020, 3, 27, 11, 50, 0),
+                EndTime = new DateTime(2020, 3, 27, 12, 45, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -6991,8 +6786,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 47,
                 Subject = "Cerebral palsy",
-                StartTime = new DateTime(2018, 4, 27, 14, 50, 0),
-                EndTime = new DateTime(2018, 4, 27, 15, 50, 0),
+                StartTime = new DateTime(2020, 3, 27, 14, 50, 0),
+                EndTime = new DateTime(2020, 3, 27, 15, 50, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
@@ -7000,8 +6795,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 48,
                 Subject = "Consulting",
-                StartTime = new DateTime(2018, 4, 27, 9, 0, 0),
-                EndTime = new DateTime(2018, 4, 27, 11, 30, 0),
+                StartTime = new DateTime(2020, 3, 27, 9, 0, 0),
+                EndTime = new DateTime(2020, 3, 27, 11, 30, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -7009,8 +6804,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 49,
                 Subject = "Electrocardiogram",
-                StartTime = new DateTime(2018, 4, 30, 9, 30, 0),
-                EndTime = new DateTime(2018, 4, 30, 11, 50, 0),
+                StartTime = new DateTime(2020, 3, 30, 9, 30, 0),
+                EndTime = new DateTime(2020, 3, 30, 11, 50, 0),
                 IsAllDay = false,
                 DoctorId = 1
             });
@@ -7018,8 +6813,8 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 50,
                 Subject = "Radiculopathy",
-                StartTime = new DateTime(2018, 4, 30, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 30, 15, 30, 0),
+                StartTime = new DateTime(2020, 3, 30, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 30, 15, 30, 0),
                 IsAllDay = false,
                 DoctorId = 2
             });
@@ -7027,54 +6822,12 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             {
                 Id = 51,
                 Subject = "Skull reconstruction",
-                StartTime = new DateTime(2018, 4, 30, 14, 0, 0),
-                EndTime = new DateTime(2018, 4, 30, 16, 0, 0),
+                StartTime = new DateTime(2020, 3, 30, 14, 0, 0),
+                EndTime = new DateTime(2020, 3, 30, 16, 0, 0),
                 IsAllDay = false,
                 DoctorId = 3
             });
             return doctorData;
-        }
-        public class EmployeeEventData
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public string CategoryColor { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-        }
-        public class BlockData
-        {
-            public int Id { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public string Subject { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public bool IsBlock { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public int EmployeeId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-            public EmployeeData ResourceData { get; set; }
-        }
-        public class EmployeeData
-        {
-            public string Text { get; set; }
-            public int Id { get; set; }
-            public int GroupId { get; set; }
-            public string Color { get; set; }
-            public string Designation { get; set; }
         }
 
         public class AppointmentData
@@ -7093,71 +6846,32 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
         }
-        public class ResourceData
+        public class ReadonlyEventsData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
+            public bool IsReadonly { get; set; }
+        }
+        public class ResourceData : AppointmentData
+        {
             public int ProjectId { get; set; }
             public int TaskId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
         }
-        public class ResourceTeamData
+        public class BlockData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public int ProjectId { get; set; }
-            public int CategoryId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
+            public bool IsBlock { get; set; }
+            public int EmployeeId { get; set; }
+            public EmployeeData ResourceData { get; set; }
         }
-        public class HeaderRowData
+        public class EmployeeData
         {
+            public string Text { get; set; }
             public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public string CategoryColor { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
+            public int GroupId { get; set; }
+            public string Color { get; set; }
+            public string Designation { get; set; }
         }
-        public class ResourceConferenceData
+        public class ResourceConferenceData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
             public int[] ConferenceId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
             public ConferenceData ResourceData { get; set; }
         }
         public class ConferenceData
@@ -7167,122 +6881,10 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Color { get; set; }
             public string Designation { get; set; }
         }
-        public class RecurrenceData
+        public class RoomData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public string RecurrenceRule { get; set; }
-            public string CategoryColor { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-        }
-        public class FifaEventsData
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Description { get; set; }
-            public string City { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-            public string CategoryColor { get; set; }
-            public int GroupId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-        }
-        public class HospitalData
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public string Description { get; set; }
-            public string Location { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public int DepartmentID { get; set; }
-            public int ConsultantID { get; set; }
-            public string DepartmentName { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-        }
-        public class ZooEventData
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public string CategoryColor { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-        }
-        public class ReadonlyEventsData
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public bool IsReadonly { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-        }
-
-        public class ResourceSampleData
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public int OwnerId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
-        }
-        public class RoomData
-        {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
             public int RoomId { get; set; }
             public bool IsBlock { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
             public RoomsData ResourceData { get; set; }
         }
         public class RoomsData
@@ -7293,85 +6895,46 @@ namespace ej2_blazor_samples.Pages.Schedule.Schedule
             public string Color { get; set; }
             public string Type { get; set; }
         }
-
-        public class ResourceEventsData
+        public class ResourceTeamData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public int CalendarId { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
+            public int ProjectId { get; set; }
+            public int CategoryId { get; set; }
         }
-
-        public class DoctorData
+        public class HospitalData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public int DoctorId { get; set; }
-            public string Location { get; set; }
-            public string Description { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
+            public string Name { get; set; }
+            public int DepartmentID { get; set; }
+            public int ConsultantID { get; set; }
+            public string DepartmentName { get; set; }
         }
-        public class WebinarData
+        public class FifaEventsData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
+            public string City { get; set; }
+            public int GroupId { get; set; }
+        }
+        public class DoctorsEventData : AppointmentData
+        {
+            public string EventType { get; set; }
+        }
+        public class WebinarData : AppointmentData
+        {
             public string Tags { get; set; }
-            public string Description { get; set; }
-            public string Location { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
             public string ImageName { get; set; }
             public string PrimaryColor { get; set; }
             public string SecondaryColor { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
         }
-        public class EventsData
+        public class EventsData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
             public string EventType { get; set; }
             public string City { get; set; }
-            public string CategoryColor { get; set; }
-            public string RecurrenceRule { get; set; }
-            public Nullable<int> RecurrenceID { get; set; }
-            public string RecurrenceException { get; set; }
-            public string Description { get; set; }
-            public Nullable<bool> IsAllDay { get; set; }
-            public string StartTimezone { get; set; }
-            public string EndTimezone { get; set; }
         }
-        public class DoctorsEventData
+        public class ResourceEventsData : AppointmentData
         {
-            public int Id { get; set; }
-            public string Subject { get; set; }
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public string EventType { get; set; }
-            public string Description { get; set; }
+            public int CalendarId { get; set; }
         }
-
+        public class DoctorData : AppointmentData
+        {
+            public int DoctorId { get; set; }
+        }
     }
 }

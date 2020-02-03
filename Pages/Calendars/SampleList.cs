@@ -20,12 +20,12 @@ namespace ej2_blazor_samples
                 MetaDescription = "This example demonstrates the default functionalities of Syncfusion ASP.NET Core Blazor Calendar component to display the date and days of the week.",
                 ActionDescription = new string[] {
                     @"<p>
-                        The following sample demonstrates the default functionalities of the Calendar. Today's date is always <code>highlighted</code> in the Calendar and it get <code>focused</code> if there is no selected date. Click the desired date from the Calendar and the selected date will be displayed in the below label.
+                        The following sample demonstrates the default functionalities of the Calendar. Today's date is always <code>highlighted</code> in the Calendar and it get <code>focused</code> if there is no selected date. Click the desired date from the Calendar.
                     </p>"
                 },
                 Description = new string[]{
                     @" <p>
-                        The <code>Calendar</code> is a graphical user interface component which provides the multi-view representation to display and select a date. Also, provide options to navigate in different levels of views like month, year, decade.
+                        The <code>Calendar</code> is a graphical user interface component which provides the multi-view representation to display and select a date. Also, provide options to navigate in different levels of views like Month, Year, Decade.
                     </p>
                     <p>
                         More information on the calendar instantiation can be found in this
@@ -50,7 +50,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[]{
                 @"<p>
-                        Date Range sample illustrates the date selection within a specific range in a calendar by using <code>Min</code> and <code>Max</code> properties. Here, the date selection range was resricted within 5th to 27th.
+                        Date Range sample illustrates the date selection within a specific range in a calendar by using <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Min.html"" target=""_blank""> Min</a> and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Max.html"" target=""_blank""> Max</a> properties. Here, the date selection range was resricted within 5th to 27th.
                     </p>
                     <p>
                         More information on the date range restriction can be found in this
@@ -75,7 +75,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[]{
                     @"<p>
-                        Multi selection sample demonstrates, how to enable and select the multiple date in a calendar by using <code>IsMultiSelection</code> and <code>Values</code> properties . Here 10, 15 and 25 date's are selected.
+                        Multi selection sample demonstrates, how to enable and select the multiple date in a calendar by using <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarModel~IsMultiSelection.html"" target=""_blank""> IsMultiSelection</a> and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarModel~Values.html"" target=""_blank""> Values</a> properties . Here 10, 15 and 25 date's are selected.
                     </p>
                     <p>
                         More information on the calendar multi selection can be found in this
@@ -100,7 +100,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[]{
                     @" <p>
-                        The Calendar has the <code>Start</code> and the <code>Depth</code> properties that provide options to restrict users from navigating to any Calendar view (year, month, or decade).
+                        The Calendar has the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Start.html"" target=""_blank""> Start</a> and the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Depth.html"" target=""_blank""> Depth</a> properties that provide options to restrict users from navigating to any Calendar view (year, month, or decade).
                     </p>
                     <p>
                         More information on the Calendar Start/Depth can be found in the
@@ -153,7 +153,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[]{
                     @"<p>
-                        Date Range sample illustrates the date selection within the specific range in a calendar by using min and max properties.
+                        Date Range sample illustrates the date selection within the specific range in a calendar by using <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Min.html"" target=""_blank""> Min</a> and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Max.html"" target=""_blank""> Max</a> properties.
                         Here, the date selection range was restricted within a range from 5th to 27th days in a month.
                     </p>
                     <p>
@@ -174,14 +174,13 @@ namespace ej2_blazor_samples
                 MetaDescription = "The example shows the date value in the text box in different string formats.",
                 ActionDescription = new string[] {
                 @"<p>
-                        In this sample, the DatePicker has been configured with the <code>dd-MMM-yy</code> date format. To change this current date format, go to the properties panel at the right side and select a date format from the dropdown options.
+                        In this sample, the DatePicker has been configured with the <code>dd-MMM-yy</code> date format.
                     </p>"
                 },
                 Description = new string[]{
                 @"<p>
                         Date Formats sample illustrates the support of custom date format in the DatePicker component by
-                        using the <code>Format</code> property. You can also change the date format by selecting it from the format options in the properties
-                        panel.
+                        using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DatePickerModel~Format.html"" target=""_blank""> Format</a> property.
                     </p>
                     <p>
                         More information on the date format configuration can be found in the <a href=""https://ej2.syncfusion.com/blazor/documentation/datepicker/date-format/""
@@ -206,7 +205,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[]{
                 @"<p>
-                        DatePicker has the <code>Start</code> and the <code>Depth</code> properties that provide options to restrict
+                        DatePicker has the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Start.html"" target=""_blank""> Start</a> and the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.CalendarBase%601~Depth.html"" target=""_blank""> Depth</a> properties that provide options to restrict
                         users from navigating to any Calendar view (year, month, or decade).
                     </p>
                     <p>
@@ -260,7 +259,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        Date Range sample illustrates the date selection within the specific range in a calendar and time popup list by using min and max properties.
+                        Date Range sample illustrates the date selection within the specific range in a calendar and time popup list by using <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateTimePickerModel%601~Min.html"" target=""_blank""> Min</a> and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateTimePickerModel%601~Max.html"" target=""_blank""> Max</a> properties.
                         Here, the date selection range was restricted within a range from 7th 10:00 AM to 27th 10:30 PM days in a month.
                     </p>
                     <p>
@@ -287,7 +286,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         Date Formats sample illustrates the support of custom date format in the DateTimePicker component by
-                        using the <code>Format</code> property. By using the <code>TimeFormat</code> property to format the displayed time value in the popup list.
+                        using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateTimePickerModel%601~Format.html"" target=""_blank""> Format</a> property. By using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateTimePickerModel%601~TimeFormat.html"" target=""_blank""> TimeFormat</a> property to format the displayed time value in the popup list.
                     </p>"
                 }
             }
@@ -399,7 +398,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[]{
                     @"<p>
-                        DateRangePicker has <code>Min</code> and <code>Max</code> supports to restrict the user to select a value from the given range.
+                        DateRangePicker has <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~Min.html"" target=""_blank""> Min</a> and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~Max.html"" target=""_blank""> Max</a> supports to restrict the user to select a value from the given range.
                         Only the values in this range will be enabled.
                         In this sample, we have specified <code>Min</code> range as <code>Jan 15, 2017</code> and <code>Max</code> range as <code>Dec 20, 2017</code>. User will be able to select the values between this range only.
                     </p>
@@ -427,13 +426,13 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        DateRangePicker has <code>MinDays</code> and <code>MaxDays</code> supports to force the user to select the minimum and maximum number of days in the range. Only the values in this range will be enabled.
+                        DateRangePicker has <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~MinDays.html"" target=""_blank""> MinDays</a> and <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~MaxDays.html"" target=""_blank""> MaxDays</a> supports to force the user to select the minimum and maximum number of days in the range. Only the values in this range will be enabled.
                     </p>
                     <p>
                         For example, in some hotel booking website, we need to book rooms that includes packages like minimum 3 days to maximum 5 days. For this scenario this feature can be used.
                     </p>
                     <p>
-                        More information on the DateRangePicker minDays/maxDays support can be found in the <a href=""https://ej2.syncfusion.com/blazor/documentation/daterangepicker/range-restriction/#range-span""
+                        More information on the DateRangePicker MinDays/MaxDays support can be found in the <a href=""https://ej2.syncfusion.com/blazor/documentation/daterangepicker/range-restriction/#range-span""
                         target=""_blank"">documentation section</a>."
                 }
             },
@@ -455,7 +454,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         Format sample illustrates the support of custom date time format in the DateRangePicker component by
-                        using the <code>Format</code> property.
+                        using the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~Format.html"" target=""_blank""> Format</a> property.
                     </p>"
                 }
             },
@@ -476,7 +475,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        DatePicker has the <code>Start</code> and the <code>Depth</code> properties that provide options to restrict users from navigating to any Calendar view (year, month, or decade).
+                        DatePicker has the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~Start.html"" target=""_blank""> Start</a> and the <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Calendars.DateRangePickerModel~Depth.html"" target=""_blank""> Depth</a> properties that provide options to restrict users from navigating to any Calendar view (year, month, or decade).
                     </p>"
                 }
             }

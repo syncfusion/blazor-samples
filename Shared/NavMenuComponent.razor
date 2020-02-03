@@ -8,7 +8,7 @@
 
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @inject IJSRuntime JsRuntime;
-
+@inject SampleService Service;
 
 @typeparam TValue
 @*<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
@@ -43,7 +43,7 @@
 </CascadingValue>
 @code {
 
-    EjsListView<object> SampleList;
+        EjsListView<object> SampleList;
 
     public string treeviewClass { get; set; } = "e-view time-duration sb-hide";
 
@@ -52,7 +52,7 @@
     public string listClass { get; set; } = "e-view sb-control-list-top";
 
     internal List<Sample> ListDataSource { get; set; } = new List<Sample>();
-    
+
     [CascadingParameter]
     public MainLayout BaseParent { get; set; }
 
@@ -61,61 +61,81 @@
         TreeviewObj.OnToggle();
     }
 
+    public Sample SampleData
+    {
+        get
+        {
+            return Service.Data.CurrentSample;
+        }
+
+    }
+
+    public SampleList Control
+    {
+        get
+        {
+            return Service.Data.CurrentControl;
+        }
+
+    }
+
     private void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs<object> args)
     {
-        string argsString = JsonConvert.SerializeObject(args);
-        ListViewEvent sampleData = JsonConvert.DeserializeObject<ListViewEvent>(argsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        if (UriHelper.Uri.IndexOf("/"+ sampleData.data.Url) < 0)
+        if (!Service.Prop.RestricMouseEvents)
         {
-            string compareUrl = string.Empty;
-            List<string> ActionDescriptionItems = new List<string>();
-            List<string> DescriptionItems = new List<string>();
-            if (SampleBrowser.CurrentUrl != sampleData.data.Url || sampleData.data.Url != compareUrl)
+            string argsString = JsonConvert.SerializeObject(args);
+            ListViewEvent sampleData = JsonConvert.DeserializeObject<ListViewEvent>(argsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            if (UriHelper.Uri.IndexOf("/" + sampleData.data.Url) < 0)
             {
-                compareUrl = SampleBrowser.CurrentUrl;
-                if (SampleBrowser.ActionDescription != null)
+                string compareUrl = string.Empty;
+                List<string> ActionDescriptionItems = new List<string>();
+                List<string> DescriptionItems = new List<string>();
+                if (SampleData.Url != sampleData.data.Url || sampleData.data.Url != compareUrl)
                 {
-                    foreach (string Element in SampleBrowser.ActionDescription)
+                    compareUrl = SampleData.Url;
+                    if (SampleData.ActionDescription != null)
                     {
-                        ActionDescriptionItems.Add(Element);
+                        foreach (string Element in SampleData.ActionDescription)
+                        {
+                            ActionDescriptionItems.Add(Element);
+                        }
+                        JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
                     }
-                    JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
-                }
-                else
-                {
-                    JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
-                }
-                if (SampleBrowser.Description != null)
-                {
-                    foreach (string Element in SampleBrowser.Description)
+                    else
                     {
-                        DescriptionItems.Add(Element);
+                        JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
                     }
-                    JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+                    if (SampleData.Description != null)
+                    {
+                        foreach (string Element in SampleData.Description)
+                        {
+                            DescriptionItems.Add(Element);
+                        }
+                        JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+                    }
+                    else
+                    {
+                        JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
+                    }
+                    this.BaseParent.UpdateBreadCrumb(Control.Name, sampleData.data.Category, sampleData.data.Name);
+                    JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, sampleData.data.Name);  
+                    
+                    JsRuntime.InvokeAsync<Object>("persistTheme");
+                    this.NavigatePage(sampleData.data.Url);
+                    SampleBrowser.CurrentUrl = sampleData.data.Url;
+                    JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+                    JsRuntime.InvokeAsync<Object>("persistURL", SampleData.Url);
+                    JsRuntime.InvokeAsync<string>("callResizeEvent");
                 }
-                else
-                {
-                    JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
-                }
-                this.BaseParent.UpdateBreadCrumb(SampleBrowser.CurrentControlName, sampleData.data.Category, sampleData.data.Name);
-                //JsRuntime.InvokeAsync<Object>("titleDescription", sampleData.data.TitleTag, sampleData.data.MetaDescription);
-                JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
 
 
-                JsRuntime.InvokeAsync<Object>("persistTheme");
-                this.NavigatePage(sampleData.data.Url);
-                //UriHelper.NavigateTo();
-                SampleBrowser.CurrentUrl = sampleData.data.Url;
-                JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
-                JsRuntime.InvokeAsync<string>("callResizeEvent");
             }
-
-
         }
+
     }
 
     public void NavigatePage(string url)
-    {      
+    {
         if (UriHelper.Uri.IndexOf("?") >= 0 && url.IndexOf("?") < 0)
         {
             string[] themeurl = UriHelper.Uri.Split("?");
@@ -125,6 +145,7 @@
         {
             url += "?theme=bootstrap4";
         }
+        this.BaseParent.SpinnerObj.ShowasTrans();
         UriHelper.NavigateTo(url);
     }
 
@@ -142,9 +163,11 @@
 
     public void UrlChange(object sender, LocationChangedEventArgs args)
     {
-
-        SampleBrowser.UpdateSampleData(args.Location);
-        this.UpdateNavMenu();
+        Service.Data.Update(UriHelper);
+        if (Service.Data.CurrentControl != null)
+        {
+            this.UpdateNavMenu();
+        }
     }
     protected override void OnAfterRender(bool firstRender)
     {
@@ -152,8 +175,11 @@
         {
             if (firstRender)
             {
-                SampleBrowser.UpdateSampleData(UriHelper.Uri);
-                this.UpdateNavMenu();
+                Service.Data.Update(UriHelper);
+                if (Service.Data.CurrentControl != null)
+                {
+                    this.UpdateNavMenu();
+                }
             }
         }
         catch (Exception e)
@@ -165,26 +191,17 @@
 
     public void UpdateNavMenu()
     {
-        //this.listClass = "e-view sb-control-list-top";
-        //TreeviewObj.treeviewClass = "e-view time-duration sb-hide";
-        this.ListDataSource = SampleBrowser.CurrentControl;
-        //this.SampleList.DataSource = this.ListDataSource;
+        this.ListDataSource = Control.Samples;
         this.StateHasChanged();
         List<string> ActionDescriptionItems = new List<string>();
         List<string> DescriptionItems = new List<string>();
-        foreach (var sample in SampleBrowser.CurrentControl)
-        {
-            if (SampleBrowser.CurrentSampleName == sample.Name)
-            {
-                this.BaseParent.UpdateBreadCrumb(SampleBrowser.CurrentControlName, sample.Category, sample.Name);
-                //JsRuntime.InvokeAsync<Object>("titleDescription", sample.TitleTag, sample.MetaDescription);
-                break;
-            }
-        }
 
-        if (SampleBrowser.ActionDescription != null)
+        this.BaseParent.UpdateBreadCrumb(Control.Name, SampleData.Category, SampleData.Name);
+        JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, SampleData.Name);
+
+        if (SampleData.ActionDescription != null)
         {
-            foreach (string Element in SampleBrowser.ActionDescription)
+            foreach (string Element in SampleData.ActionDescription)
             {
                 ActionDescriptionItems.Add(Element);
             }
@@ -194,9 +211,9 @@
         {
             JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
         }
-        if (SampleBrowser.Description != null)
+        if (SampleData.Description != null)
         {
-            foreach (string Element in SampleBrowser.Description)
+            foreach (string Element in SampleData.Description)
             {
                 DescriptionItems.Add(Element);
             }
@@ -215,7 +232,7 @@
     {
         this.StateHasChanged();
     }
-    
+
     Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings
     {
         Id = "UID",

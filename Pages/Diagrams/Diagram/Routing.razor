@@ -1,0 +1,122 @@
+﻿@page "/Diagrams/Routing"
+
+@using Syncfusion.EJ2.Blazor.Diagrams
+@using System.Collections.ObjectModel
+
+@inherits SampleBaseComponent;
+
+
+<div id="diagram-space" class="sb-mobile-diagram">
+
+    <EjsDiagram Width="100%" Height="@Height" Constraints="@Constraints" SnapSettings="@SnapSettings" @ref="@diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
+        <DiagramPageSettings FitOptions="@FitOptions"></DiagramPageSettings>
+    </EjsDiagram>
+</div>
+
+@functions{
+
+    EjsDiagram diagram;
+    public string Height { get; set; } = "580px";
+    public DiagramConstraints Constraints { get; set; }
+    public DiagramSnapSettings SnapSettings { get; set; }
+    DiagramFitOptions FitOptions = new DiagramFitOptions()
+    {
+        CanFit = true,
+        Mode = FitModes.Page
+
+    };
+    public ObservableCollection<DiagramNode> NodeCollection = new ObservableCollection<DiagramNode>();
+
+    public ObservableCollection<DiagramConnector> ConnectorCollection = new ObservableCollection<DiagramConnector>();
+
+    protected override void OnInitialized()
+    {
+        Constraints = DiagramConstraints.Default | DiagramConstraints.LineRouting | DiagramConstraints.Bridging;
+        SnapSettings = new DiagramSnapSettings() { Constraints = SnapConstraints.None };
+        DiagramNode node1 = createNode("start", 115, 110, FlowShapes.Terminator, "Start", "#D5535D");
+        DiagramPort port1 = createPort(node1, "port1", new NodePortOffset() { X = 0.5, Y = 0 });
+        DiagramNode node2 = createNode("process", 115, 255, FlowShapes.Process, "Process", "#65B091");
+        DiagramNode node3 = createNode("document", 115, 400, FlowShapes.Document, "Document", "#5BA5F0");
+        DiagramPort port2 = createPort(node3, "port1", new NodePortOffset() { X = 0, Y = 0.5 });
+        DiagramNode node4 = createNode("decision", 390, 110, FlowShapes.Decision, "Decision", "#9A8AF7");
+        DiagramNode node5 = createNode("document2", 390, 255, FlowShapes.Document, "Document", "#5BA5F0");
+        DiagramNode node6 = createNode("end", 390, 400, FlowShapes.Terminator, "End", "#D5535D");
+        DiagramNode node7 = createNode("process2", 640, 110, FlowShapes.Process, "Process", "#65B091");
+        DiagramNode node8 = createNode("card", 640, 255, FlowShapes.Card, "Card", "#76C3F0");
+        DiagramPort port3 = createPort(node8, "port1", new NodePortOffset() { X = 1, Y = 0.5 });
+        DiagramPort port4 = createPort(node8, "port2", new NodePortOffset() { X = 0.5, Y = 1 });
+
+        createConnector("Connector1", "start", "process");
+        createConnector("Connector2", "process", "document");
+        createConnector("Connector3", "document", "end");
+        createConnector("Connector4", "start", "decision");
+        createConnector("Connector5", "decision", "process2");
+        createConnector("Connector6", "process2", "card");
+        createConnector("Connector7", "process", "document2");
+        createConnector("Connector8", "document2", "card");
+        createConnector("Connector9", "start", "card", "port1", "port1");
+        createConnector("Connector10", "card", "document", "port2", "port1");
+    }
+
+    public DiagramNode createNode(string id, double offx, double offy, FlowShapes shape, string content, string nodefill)
+    {
+        DiagramNode node = new DiagramNode()
+        {
+            Id = id,
+            OffsetX = offx,
+            OffsetY = offy,
+            Height = 50,
+            Width = 120,
+            Shape = new DiagramShape() { Type = Syncfusion.EJ2.Blazor.Diagrams.Shapes.Flow, FlowShape = shape },
+            Style = new NodeShapeStyle() { Fill = nodefill, StrokeColor = "transparent" }
+        };
+        if (node.Id == "decision")
+        {
+            node.Height = 70;
+        }
+        DiagramNodeAnnotation annotation = new DiagramNodeAnnotation()
+        {
+            Content = content,
+            Style = new AnnotationStyle() { Color = "White" }
+        };
+        node.Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+{
+            annotation
+        };
+        NodeCollection.Add(node);
+        return node;
+    }
+
+    public DiagramPort createPort(DiagramNode node, string pid, NodePortOffset offset)
+    {
+        DiagramPort port = new DiagramPort()
+        {
+            Id = pid,
+            Offset = offset,
+            Visibility = PortVisibility.Hidden
+        };
+        if (node.Ports == null)
+        {
+            node.Ports = new ObservableCollection<DiagramPort>();
+        }
+        (node.Ports as ObservableCollection<DiagramPort>).Add(port);
+        return port;
+    }
+
+    public void createConnector(string id, string sourceid, string targetid, string sourceportid = null, string targetportid = null)
+    {
+        DiagramConnector connector = new DiagramConnector()
+        {
+            Id = id,
+            SourceID = sourceid,
+            TargetID = targetid,
+            SourcePortID = sourceportid,
+            TargetPortID = targetportid,
+            Type = Syncfusion.EJ2.Blazor.Diagrams.Segments.Orthogonal,
+            Style = new ConnectorShapeStyle() { StrokeColor = "#707070", StrokeWidth = 1.25 },
+            TargetDecorator = new ConnectorTargetDecorator() { Style = new DecoratorShapeStyle() { Fill = "#707070", StrokeColor = "#707070" } }
+        };
+        ConnectorCollection.Add(connector);
+    }
+
+}
