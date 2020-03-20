@@ -26,11 +26,11 @@ The samples requires the below requirements to run.
 
 ## Documentation
 
-All components documentation for the `Syncfusion Blazor Components` can be found on [Syncfusion Help](https://ej2.syncfusion.com/blazor/documentation/introduction/).
+All components documentation for the `Syncfusion Blazor Components` can be found on [Syncfusion Help](https://blazor.syncfusion.com/documentation/introduction/).
 
 ## License
 
-Syncfusion Blazor Components (Essential JS 2) is available under the Syncfusion Essential Studio program,  and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
+Syncfusion Blazor Components is available under the Syncfusion Essential Studio program,  and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
 
 To be qualified for the Syncfusion Community License Program you must have a gross revenue of less than one (1) million U.S. dollars ($1,000,000.00 USD) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusion’s terms and conditions.
 
@@ -308,6 +308,6 @@ The Syncfusion license that contains the terms and conditions can be found at
 
 ## Support and Feedback
 
-* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples).
+* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing&utm_campaign=blazor-samples) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=blazor-samples).
 
-* To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing&utm_campaign=ej2-blazor-samples) or contact our sales team at <salessupport@syncfusion.com>.
+* To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing&utm_campaign=blazor-samples) or contact our sales team at <salessupport@syncfusion.com>.
