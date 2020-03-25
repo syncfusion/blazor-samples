@@ -1,10 +1,11 @@
-﻿@page "/Charts/Scatter"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/scatter"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Height vs Weight">
+    <SfChart Title="Height vs Weight">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
         <ChartPrimaryXAxis Minimum="90" Maximum="220" Title="Height in inches">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -13,20 +14,20 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true" format="Weight:<b>${point.x} lbs</b> <br/> Height:<b>${point.y}'</b>"></ChartTooltipSettings>
+        <ChartTooltipSettings Enable="true" format="Weight:<b>${point.x} lbs</b> <br/> Height:<b>${point.y}</b>"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Male" XName="x" Width="2" Opacity="0.6"
+            <ChartSeries DataSource="@ChartData" Name="Male" XName="x" Width="2" Opacity="0.6"
                          YName="y" Type="ChartSeriesType.Scatter">
                 <ChartMarker Height="10" Width="10" Shape="ChartShape.Circle">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData1" Name="Female" XName="x" Width="2" Opacity="0.6"
+            <ChartSeries DataSource="@ChartData1" Name="Female" XName="x" Width="2" Opacity="0.6"
                          YName="y" Type="ChartSeriesType.Scatter">
                 <ChartMarker Height="10" Width="10" Shape="ChartShape.Diamond">
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -37,7 +38,7 @@
             public double y{ get; set; }
         }
 
-        public List<ScatterChartData> chartData = new List<ScatterChartData>
+        public List<ScatterChartData> ChartData = new List<ScatterChartData>
             {
                new ScatterChartData { x = 101, y = 50},
                new ScatterChartData { x = 102, y = 20},
@@ -89,7 +90,7 @@
                new ScatterChartData { x = 198, y = 40 },
                new ScatterChartData { x = 199, y = 43 }
             };
-        public List<ScatterChartData> chartData1 = new List<ScatterChartData>
+        public List<ScatterChartData> ChartData1 = new List<ScatterChartData>
             {
                new ScatterChartData { x = 121,  y = 23},
                new ScatterChartData { x = 122,  y = 63},
@@ -142,4 +143,33 @@
                new ScatterChartData { x = 209,  y = 80 },
 
             };
+string CurrentUri;
+            void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
     }

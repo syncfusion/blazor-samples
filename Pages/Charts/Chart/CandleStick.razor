@@ -1,18 +1,20 @@
-﻿@page "/Charts/CandleStick"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/chart/candle-stick"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @using Newtonsoft.Json
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="AAPL Historical">
+    <SfChart Title="AAPL Historical">
+		<ChartEvents Load="ChartLoad"/>
     <ChartArea>
         <ChartAreaBorder Width="0"></ChartAreaBorder>
     </ChartArea>
-    <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" >
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" >
         <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
         <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
     </ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title="Volume" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Logarithmic" OpposedPosition="true" Interval="20" LabelFormat="n0">
+    <ChartPrimaryYAxis Title="Volume" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic" OpposedPosition="true" Interval="20" LabelFormat="n0">
         <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
         <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
@@ -40,7 +42,7 @@
                      BearFillColor="#2ecd71" BullFillColor="#e74c3d" Type="ChartSeriesType.Candle">
         </ChartSeries>
     </ChartSeriesCollection>
-</EjsChart>
+</SfChart>
 </div>
 @code{
     private ChartData[] StockDetails;
@@ -59,6 +61,33 @@
         public double open { get; set; }
         public double close { get; set; }
         public double volume { get; set; }
+    }
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }
 

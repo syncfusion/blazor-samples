@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Components;
 
-namespace ej2_blazor_samples.Shared
+namespace blazor_samples.Shared
 {
 
     public class SampleService
@@ -75,13 +75,22 @@ namespace ej2_blazor_samples.Shared
                     {
                         string CategoryName = splittedUrl[splittedUrl.Length - 2];
                         string SampleName = splittedUrl[splittedUrl.Length - 1];
-                        this.CurrentControl = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.Equals(CategoryName));
-                        this.CurrentSample = this.CurrentControl.Samples.First<Sample>(sample => sample.Url.Equals(updatedUrl));
+                        CategoryName = CategoryName.Replace("-", "");
+                        this.CurrentControl = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(CategoryName));
+                        this.CurrentSample = this.CurrentControl.Samples.First<Sample>(sample => sample.Url.ToLower().Equals(updatedUrl));
                     }
                     catch (Exception e)
                     {
 
                     }
+                }
+                if(splittedUrl.Length < 2 && splittedUrl.Length > 0)
+                {
+                    string CategoryName = splittedUrl[splittedUrl.Length - 1];
+                    // CategoryName = char.ToUpper(CategoryName[0]) + CategoryName.Substring(1);
+                    CategoryName = CategoryName.Replace("-", "");
+                    this.CurrentControl = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(CategoryName));
+                    UriHelper.NavigateTo(CurrentControl.Samples[0].Url.ToLower()+ "?theme=bootstrap4");
                 }
             }
 

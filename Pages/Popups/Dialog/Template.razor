@@ -1,21 +1,27 @@
-﻿@page "/Dialog/Template"
+﻿@page "/dialog/template"
 
-@using Syncfusion.EJ2.Blazor
-@using Syncfusion.EJ2.Blazor.Popups
-@using Syncfusion.EJ2.Blazor.Buttons
-@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
 
 @inherits SampleBaseComponent;
 
 <div id="target" class="col-lg-12 control-section" style="height:100%">
-    <button id="targetButton" class="e-btn" @onclick="@OnBtnclicked">Open Dialog</button>
-    <EjsDialog @ref="DialogObj" height="75%" width="435px" target="#target" ShowCloseIcon="true">
+    <div>
+        @if (this.ShowButton)
+        {
+            <button class="e-btn" @onclick="@OnBtnclicked">Open</button>
+        }
+    </div>
+    <SfDialog height="75%" width="435px" target="#target" ShowCloseIcon="true" @bind-Visible="Visibility">
         <DialogTemplates>
             <Header> <span class='e-avatar template-image e-avatar-xsmall e-avatar-circle'></span><div id='template' title='Nancy' class='e-icon-settings'>Nancy</div></Header>
             <Content> <div class='dialogContent'><span class='dialogText'>@DialogText</span></div></Content>
-            <FooterTemplate><EjsTextBox ID='inVal' @bind-Value="@TextboxValue" @ref="TextboxObj" type='text' placeholder='Enter your message here!' /><button id='sendButton' @onclick="@SendBtnclicked" class='e-control e-btn e-primary' data-ripple='true'>Send</button></FooterTemplate>
+            <FooterTemplate><SfTextBox ID='inVal' @bind-Value="@TextboxValue" @ref="TextboxObj" type='text' placeholder='Enter your message here!' /><button id='sendButton' @onclick="@SendBtnclicked" class='e-control e-btn e-primary' data-ripple='true'>Send</button></FooterTemplate>
         </DialogTemplates>
-    </EjsDialog>
+        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+    </SfDialog>
 </div>
 
 <style>
@@ -24,7 +30,8 @@
         top: 2px;
         position: relative;
     }
-    .e-footer-content .e-input-group{
+
+    .e-footer-content .e-input-group {
         width: 75%;
         float: left;
     }
@@ -35,6 +42,10 @@
 
     .bootstrap button#sendbtn {
         margin-right: 1%;
+    }
+
+    #target {
+        min-height: 400px;
     }
 
     .e-dialog .e-dlg-header-content {
@@ -246,7 +257,8 @@
     }
 
     .e-dialog .e-dlg-header-content .e-dlg-header .e-avatar.template-image {
-        background-image: url("css/Dialog/images/1.png");
+        background-image: url("https://ej2.syncfusion.com/demos/src/dialog/images/1.png");
+     
         vertical-align: middle;
         display: inline-block;
         width: 36px;
@@ -255,18 +267,32 @@
 </style>
 
 @code{
-    EjsDialog DialogObj;
-    EjsTextBox TextboxObj;
+    SfTextBox TextboxObj;
+    public bool Visibility { get; set; } = true;
 
     private string DialogText = "Greetings Nancy! When will you share me the source files of the project?";
     private string TextboxValue;
+
+    public bool ShowButton { get; set; } = false;
+
+    private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+    }
+
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+    }
+
     private void OnBtnclicked()
     {
-        this.DialogObj.Show();
+        this.Visibility = true;
     }
     private void SendBtnclicked()
     {
-        if(this.TextboxObj.Value != "") {
+        if (this.TextboxObj.Value != "")
+        {
             DialogText = this.TextboxObj.Value;
             TextboxValue = "";
             this.StateHasChanged();

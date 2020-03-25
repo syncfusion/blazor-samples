@@ -10,8 +10,8 @@ var ControlName;
 var FileName;
 var Descript;
 function viewSwitch(list) {
-  var componentsList = ej.base.select("#components-tree");
-  var controlList = ej.base.select("#controlSamples");
+  var componentsList = sf.base.select("#components-tree");
+  var controlList = sf.base.select("#controlSamples");
   if (list === "sb-hide") {
     controlList.classList.add("sb-hide");
     if(componentsList.classList.contains("sb-hide")){
@@ -85,7 +85,12 @@ function toInitCap(str) {
 
 function switchTheme(url) {
     window.location.href = url;
-};
+    
+    var themeName = getParameterByName("theme");
+    if (sf && themeName === 'material') {
+        sf.base.enableRipple(true);
+    }
+}
 
 
 function persistTheme(){
@@ -157,7 +162,12 @@ function destroyControl() {
     }
     catch (e) { }
   });
-  document.querySelector("#content-tab").ej2_instances[0].selectedItem = 0;
+  //document.querySelector("#content-tab").ej2_instances[0].selectedItem = 0;
+   var tab = document.querySelector("#content-tab").ej2_instances[0];
+    if (tab.selectedItem != 0) {
+        tab.selectedItem = 0;
+        tab.setActive(tab.selectedItem);
+    }
 }
 
 function updateActionDescription(content) {
@@ -213,8 +223,12 @@ function mobileThemeChange(args){
   }
 }
 
+function isDevice() {
+  return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(navigator.userAgent);
+}
+
 window.addEventListener('load', function () {
-  if (ej.base.Browser.isDevice) { document.body.classList.add("mobile"); }
+  if (isDevice()) { document.body.classList.add("mobile"); }
     var theme = "bootstrap4";
   if (/theme=/g.test(location.search)) {
     theme = location.search.replace("?theme=", "");
@@ -225,7 +239,7 @@ window.addEventListener('load', function () {
 });
 
 document.addEventListener('click', function (event) {
-  if (ej.base.Browser.isDevice) {
+  if (isDevice()) {
     var pan = document.querySelector('#left-sidebar').ej2_instances[0];
     var panRight = document.querySelector('#right-sidebar').ej2_instances[0];
     var ele = document.querySelector('#left-sidebar');
@@ -256,3 +270,8 @@ document.addEventListener('click', function (event) {
     }
   }
 });
+
+(function () {
+    if (typeof NodeList.prototype.forEach === "function") return false;
+    NodeList.prototype.forEach = Array.prototype.forEach;
+})();

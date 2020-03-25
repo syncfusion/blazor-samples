@@ -1,9 +1,10 @@
-﻿@page "/StockChart/OHLC"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/stock-chart/ohlc"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
-@if (dataSource == null)
+@if (DataSource == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -11,8 +12,8 @@ else
 {
     <div class="@loadClass"></div>
     <div class="@loadDiv">
-        <EjsStockChart Title="AAPL Stock Price">
-            <StockChartEvents Loaded="@ChartLoaded"></StockChartEvents>
+        <SfStockChart Title="AAPL Stock Price">
+            <StockChartEvents Loaded="@ChartLoaded" Load="BeforeRender"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -24,12 +25,12 @@ else
             <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.HiloOpenClose" XName="x"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.HiloOpenClose" XName="x"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
             </StockChartChartArea>
-        </EjsStockChart>
+        </SfStockChart>
     </div>
     <style>
         .stockchartloader {
@@ -52,12 +53,12 @@ else
 }
 @code{
 
-    private ChartData[] dataSource;
+    private ChartData[] DataSource;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
+            DataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
         });
     }
     public class ChartData
@@ -76,6 +77,32 @@ else
     {
         loadClass = "";
         loadDiv = "";
+    }
+
+     string CurrentUri;
+    void BeforeRender(IStockChartEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 
 }

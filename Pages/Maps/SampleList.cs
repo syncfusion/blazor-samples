@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -9,10 +9,8 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Maps",
                 Directory = "Maps/Maps",
-                Url = "Maps/DefaultFunctionalities",
+                Url = "maps/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                TitleTag = "Maps . Default . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes the continents in the world by rendering those in a map layer",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -25,6 +23,10 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -33,23 +35,25 @@ namespace ej2_blazor_samples
                 Name = "Projection",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Projection",
+                Url = "maps/projection",
                 FileName = "Projection.razor",
-                TitleTag = "Maps . Projection . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows the details of permanent and non-permanent countries using projection. Projection types can be changed",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                    In this example, you can see how to render a map with various projections. You can use the ColorMapping property to customize the color of the shapes.
+                    In this example, you can see how to render a map with various projections.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render a map with various projections. You can use the <code>ColorMapping</code> property to customize the color of the shapes.
+                    In this example, you can see how to render a map with various projections. You can use the <code>MapsShapeColorMapping</code> property to customize the color of the shapes.
                     </p>
                     <p>
                     Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices.
-                </p>"
+                </p>
+                <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
@@ -57,10 +61,8 @@ namespace ej2_blazor_samples
                 Name = "Multi-layers",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Multilayer",
+                Url = "maps/multi-layer",
                 FileName = "Multilayer.razor",
-                TitleTag = "Maps . Multilayer . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the layer along with sublayers for California and Texas",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -69,8 +71,12 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render a sublayer in map. Sublayers are used to render the desired shapes over the existing layers. Any number of sublayers can be added to a map. You can use the <code>fill</code>, <code>width</code>, and <code>color</code> properties in the border to customize the appearance of the shapes.
+                        In this example, you can see how to render a sublayer in map. Sublayers are used to render the desired shapes over the existing layers. Any number of sublayers can be added to a map. You can use the <code>Fill</code>, <code>Width</code>, and <code>Color</code> properties in the <code>MapsShapeSettings</code> property to customize the appearance of the shapes.
 
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -79,10 +85,8 @@ namespace ej2_blazor_samples
                 Name = "Marker",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Marker",
+                Url = "maps/marker",
                 FileName = "Marker.razor",
-                TitleTag = "Maps . Marker . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows the top 25 populated cities in the world by displaying the markers in their locations",
                 Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
@@ -91,11 +95,15 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render the markers in a map. Markers are used to indicate or mark a particular location on the map with desired symbols.
+                        In this example, you can see how to render the markers in a map. Markers are used to indicate or mark a particular location on the map with desired symbols. Also, options have been provided to bind the shapes and colors to the markers based on the continent from the data source. This is achieved using the <code>ShapeValuePath</code> and <code>ColorValuePath</code> properties of the marker.
 
                     </p>
                     <p>
                         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
             }
             },
@@ -104,10 +112,8 @@ namespace ej2_blazor_samples
                 Name = "Marker template",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/MarkerTemplate",
+                Url = "maps/marker-template",
                 FileName = "MarkerTemplate.razor",
-                TitleTag = "Maps . MarkerTemplate . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows the temperature of various cities of Australia in marker templates.",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                      @"<p>
@@ -122,8 +128,10 @@ namespace ej2_blazor_samples
                      <p>
                          Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
                      </p>
-                 <br />
-                 </ p > "
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p> "
              }
              },
             new Sample
@@ -131,23 +139,25 @@ namespace ej2_blazor_samples
                 Name = "Marker clustering",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/MarkerCluster",
+                Url = "maps/marker-cluster",
                 FileName = "MarkerCluster.razor",
-                TitleTag = "Maps . MarkerCluster . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows the top 50 cities by placing markers in their locations and clustering the markers to avoid intersecting",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample illustrates the world's top 50 cities by showing the markers in their locations and clustering the markers to avoid intersecting.
+                        This sample illustrates the world's top 50 cities by showing the markers in their locations and clustering the markers to avoid intersection.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to display multiple markers in the same region without intersecting each other. If a marker intersects, it will be clustered and the total number of markers will be displayed over the cluster. When zooming in, the number of clusters will be decreased, and the individual marker will be displayed. When zooming out, markers that intersect will again be clustered. You can use the <code>MarkerClusterSettings</code> in 'MapsLayer' to enable marker clustering.
+                        In this example, you can see how to display multiple markers in the same region without intersecting each other. If a marker intersects, it will be clustered and the total number of markers will be displayed over the cluster. When zooming in, the number of clusters will be decreased, and the individual marker will be displayed. When zooming out, markers that intersect will again be clustered. You can use the <code>MapsMarkerClusterSettings</code> in <code>MapsLayer</code> to enable marker clustering.
                         </p>
                         <p>
                             Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch-enabled devices.
-                        </p>"
+                        </p>
+                        <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
@@ -155,10 +165,8 @@ namespace ej2_blazor_samples
                 Name = "Labels",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Label",
+                Url = "maps/label",
                 FileName = "Label.razor",
-                TitleTag = "Maps . DataLabel . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows the names of all the states in USA in data label. Intersect action and smart labels mode can be changed",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
@@ -167,10 +175,14 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render the data labels for each shape in a map. Data labels are used to display the values of the shapes. You can use the <code>autoFill</code> property in the <code>shapeSettings</code> to apply the default palette colors to the shapes.
+                        In this example, you can see how to render the data labels for each shape in a map. Data labels are used to display the values of the shapes. You can use the <code>AutoFill</code> property in the <code>MapsShapeSettings</code> to apply the default palette colors to the shapes.
                     </p>
                     <p>
                     Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -179,10 +191,8 @@ namespace ej2_blazor_samples
                 Name = "Bubble",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Bubble",
+                Url = "maps/bubble",
                 FileName = "Bubble.razor",
-                TitleTag = "Maps . Bubble . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component illustrates the top 30 countries which has highest Internet users in the year 2016 using Bubbles",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
@@ -195,6 +205,10 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                     Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a bubble or tap a bubble in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -203,10 +217,8 @@ namespace ej2_blazor_samples
                 Name = "Navigation Lines",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/NavigationLines",
+                Url = "maps/navigation-lines",
                 FileName = "NavigationLines.razor",
-                TitleTag = "Maps . NavigationLines . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component illustrates the top 30 countries which has highest Internet users in the year 2016 using Bubbles",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -215,11 +227,13 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render lines between two points in map. You can use DashArray, Width and Color properties to customize the appearance of the navigation lines.
+                        In this example, you can see how to render lines between two points in map. You can use <code>DashArray</code>, <code>Width</code> and <code>Color</code> properties to customize the appearance of the navigation lines.
                     </p>
                     </p>
-                    <br />
-                    </ p > "
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
               new Sample
@@ -227,10 +241,8 @@ namespace ej2_blazor_samples
                 Name = "Legend",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Legend",
+                Url = "maps/legend",
                 FileName = "Legend.razor",
-                TitleTag = "Maps . Legend . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes grouping of countries in the legend based on their population density. The type and position of the legend can be changed using the Type and Position options in the properties panel.",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -244,46 +256,45 @@ namespace ej2_blazor_samples
                     <p>
                         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
                     </p>
-                    <br />
-                    <p style=""font-weight: 500"">Injecting Module</p>
                     <p>
-                        Maps component features are segregated into individual feature-wise modules. To use a marker, inject the <code>Marker</code> module using the < code > Maps.Inject(Marker) </ code > method, and use a legend by injecting the<code> Legend</ code > module.
-                    </ p > "
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
-            //  new Sample
-            //  {
-            //      Name = "Color Mapping",
-            //      Category = "Features",
-            //      Directory = "Maps/Maps",
-            //      Url = "Maps/ColorMapping",
-            //      FileName = "ColorMapping.razor",
-            //      TitleTag = "Maps . ColorMapping . Syncfusion Blazor Components",
-            //      MetaDescription = "This demo of Syncfusion Blazor Maps component shows the average amount of rainfall and snowfall in spring season of all the states in the United States. The color mapping is applied to the shapes to differentiate them from other shapes",
-            //      Type = SampleType.None,
-            //      ActionDescription = new string[] {
-            //             @"<p>
-            //             This sample shows the average amount of rainfall and snowfall in spring season of all the states in the United States. The color mapping is applied to the shapes to differentiate them from other shapes.
-            //         </p>"
-            //     },
-            //     Description = new string[] {
-            //         @"<p>
-            //             In this example, you can see how to render a map with color mapping. The range color mapping and desaturation color mapping group the shapes based on the inches value, whereas the equal color mapping groups the shapes based on the category (low, moderate, or high) values. Legend is enabled in this example to represent each color mapping.
-            //         </p>
-            //         <p>
-            //             Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
-            //         </p >"
-            //     }
-            //  },
+             new Sample
+             {
+                 Name = "Color Mapping",
+                 Category = "Features",
+                 Directory = "Maps/Maps",
+                 Url = "maps/color-mapping",
+                 FileName = "ColorMapping.razor",
+                 Type = SampleType.None,
+                 ActionDescription = new string[] {
+                        @"<p>
+                        This sample shows the average amount of rainfall and snowfall in spring season of all the states in the United States. The color mapping is applied to the shapes to differentiate them from other shapes.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                        In this example, you can see how to render a map with color mapping. The range color mapping and desaturation color mapping group the shapes based on the inches value, whereas the equal color mapping groups the shapes based on the category (low, moderate, or high) values. Legend is enabled in this example to represent each color mapping.
+                    </p>
+                    <p>
+                        Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p >
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
+                }
+             },
              new Sample
             {
                 Name = "Annotations",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "Maps/Annotation",
+                Url = "maps/annotation",
                 FileName = "Annotation.razor",
-                TitleTag = "Maps . Annotation . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the facts about Africa continent and a direction compass in an annotation",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -293,6 +304,10 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to place a desired HTML element at desired location in the maps. Any number of annotation can be placed on the maps. In this sample, the gradient fill color has been applied for the shape.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -302,10 +317,8 @@ namespace ej2_blazor_samples
                 Name = "OpenStreetMap",
                 Category = "Map Providers",
                 Directory = "Maps/Maps",
-                Url = "Maps/OpenStreetMap",
+                Url = "maps/open-street-map",
                 FileName = "OpenStreetMap.razor",
-                TitleTag = "Maps . OpenStreetMap . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows how to render the OpenStreetMap. It creates and distributes free geographic data for the world",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -314,7 +327,11 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render the OpenStreetMap. The location of United Nations Headquarters is denoted using marker. The EJ2 Dialog is displayed on the top of the marker and the zooming feature is enabled to zoom and pan the map for detailed analysis.
+                    In this example, you can see how to render the OpenStreetMap. The location of United Nations Headquarters is denoted using marker.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -323,10 +340,8 @@ namespace ej2_blazor_samples
                 Name = "OSM with Navigation Lines",
                 Category = "Map Providers",
                 Directory = "Maps/Maps",
-                Url = "Maps/OSMNavigation",
+                Url = "maps/osm-navigation",
                 FileName = "OSMNavigation.razor",
-                TitleTag = "Maps . OSM with Navigation . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows how to render the geometric layers as sublayer on the OSM. The outline of Africa is rendered on the OSM",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -336,7 +351,11 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                 In this example, you can see how to render the navigation lines in the OpenStreetMap. The source and destination locations have been denoted using the marker template.
-                </p> "
+                </p>
+                <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
@@ -344,10 +363,8 @@ namespace ej2_blazor_samples
                 Name = "OSM with Sublayer",
                 Category = "Map Providers",
                 Directory = "Maps/Maps",
-                Url = "Maps/OSMSublayer",
+                Url = "maps/osm-sublayer",
                 FileName = "OSMSublayer.razor",
-                TitleTag = "Maps . OSM with Sublayer . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component shows how to render the geometric layers as sublayer on the OSM. The outline of Africa is rendered on the OSM",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -357,6 +374,10 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         In this example, you can see how to render the geometric layers as sublayer on the OpenStreetMap. The outline of Africa continent is rendered using GeoJSON data on the top of the OpenStreetMap.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -365,10 +386,8 @@ namespace ej2_blazor_samples
                 Name = "Tooltip",
                 Category = "User Interaction",
                 Directory = "Maps/Maps",
-                Url = "Maps/Tooltip",
+                Url = "maps/tooltip",
                 FileName = "Tooltip.razor",
-                TitleTag = "Maps . Tooltip . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the countries that were appeared in the finals of Cricket World Cup and their counts using Tooltip",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -379,8 +398,10 @@ namespace ej2_blazor_samples
                     @"<p>
                         In this example, you can see how to render the custom HTML element as tooltip. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. Also, the interactive legend has been placed at the left of the map.
                     </p>
-                    <br/>
-                    </ p > "
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
              new Sample
@@ -388,10 +409,8 @@ namespace ej2_blazor_samples
                 Name = "Selection & Highlight",
                 Category = "User Interaction",
                 Directory = "Maps/Maps",
-                Url = "Maps/Selection",
+                Url = "maps/selection",
                 FileName = "Selection.razor",
-                TitleTag = "Maps . Tooltip . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes USA president election results in the year 2016. Vote details of a state will be displayed in a popup on clicking a state. Placed interactive legend at the top of the map.",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -401,6 +420,10 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         In this example, you can see how to apply various styles for a shape in the map, when it is clicked or mouse hovered.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -409,19 +432,22 @@ namespace ej2_blazor_samples
                 Name = "Zooming & Panning",
                 Category = "User Interaction",
                 Directory = "Maps/Maps",
-                Url = "Maps/Zooming",
+                Url = "maps/zooming",
                 FileName = "Zooming.razor",
-                TitleTag = "Maps . Zooming and Panning . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the properties required to zoom and pan the rendered map. Types of Zooming can be selected",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                         @"<p>
-                        This sample depicts the zooming and panning options in the maps. You can customize these options by changing the Zooming, Mouse wheel zoom, Pinch zoom, Single-click zoom, and Double-click zoom in the Properties panel.
+                        This sample depicts the zooming and panning options in the maps. You can customize these options by changing the Zooming, Panning, Mouse wheel zoom, Pinch zoom, Single-click zoom, and Double-click zoom in the Properties panel.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to zoom and pan the map. The support has been provided for zooming with toolbar, rectangle zoom, pinch zoom, mouse wheel zoom, single-click and double-click zoom.
+                        In this example, you can see how to zoom and pan the map. The support has been provided for zooming with the toolbar, rectangle zoom, pinch zoom, mouse wheel zoom, single-click, and double-click zoom.Panning can be enabled or disabled using
+ the Panning option. When it is disabled, the map will switch to zooming mode.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -430,10 +456,8 @@ namespace ej2_blazor_samples
                 Name = "Zoom to fit all markers",
                 Category = "User Interaction",
                 Directory = "Maps/Maps",
-                Url = "Maps/ProgramaticZoom",
+                Url = "maps/programatic-zoom",
                 FileName = "ProgramaticZoom.razor",
-                TitleTag = "Maps . ProgramaticZoom . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes the capital cities in the south america by displaying the markers in their locations.",
                 Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>
@@ -446,6 +470,10 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -454,10 +482,8 @@ namespace ej2_blazor_samples
                 Name = "Drill Down",
                 Category = "User Interaction",
                 Directory = "Maps/Maps",
-                Url = "Maps/Drilldown",
+                Url = "maps/drill-down",
                 FileName = "Drilldown.razor",
-                TitleTag = "Maps . Drill Down . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component demonstrates drill down with all the continents in the initial view and countries on drill",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -467,6 +493,10 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                          In this example, you can see how to display an another layer by clicking a shape in previous layer.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -475,12 +505,10 @@ namespace ej2_blazor_samples
                 Name = "Print",
                 Category = "Print and Export",
                 Directory = "Maps/Maps",
-                Url = "Maps/Print",
+                Url = "maps/print",
                 FileName = "Print.razor",
-                TitleTag = "Maps . Print . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component illustrates the printing functionality in the maps control",
-               Type = SampleType.None,
-               ActionDescription = new string[] {
+                Type = SampleType.None,
+                ActionDescription = new string[] {
                 @"<p>
                     This sample illustrates the print feature in Maps. By clicking the Print button, you can print the maps directly from the browser.
                 </p>"
@@ -492,6 +520,10 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -500,23 +532,24 @@ namespace ej2_blazor_samples
                 Name = "Export",
                 Category = "Print and Export",
                 Directory = "Maps/Maps",
-                Url = "Maps/Export",
+                Url = "maps/export",
                 FileName = "Export.razor",
-                TitleTag = "Maps . Export . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component illustrates the exporting functionality in the maps control. Extension type for file can be selected",
-               Type = SampleType.None,
-               ActionDescription = new string[] {
+                Type = SampleType.Updated,
+                ActionDescription = new string[] {
                         @"<p>
-                        This sample illustrates the exporting feature in Maps. By clicking the Export button, you can export the map in PNG, JPEG, SVG or in PDF formats.
+                        This sample illustrates the exporting feature in Maps. You can modify the map type to geometric or OSM using the Map type dropdown list in this sample. By clicking the Export button, you can export the map in PNG, JPEG, SVG or in PDF formats.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render and configure the export. The rendered map can be exported as either JPEG, PNG, SVG and PDF formats. It can be achieved using Blob and it is supported only in modern browsers. Also this sample visualizes the locations of the wonders in the world using markers.
                     </p>
                     <p>
                     Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
-                    </p> "
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
@@ -524,10 +557,8 @@ namespace ej2_blazor_samples
                 Name = "HeatMap",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
-                Url = "Maps/HeatMap",
+                Url = "maps/heat-map",
                 FileName = "HeatMap.razor",
-                TitleTag = "Maps . HeatMap . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes the state wise population of India in 2011. Color for states will be applied based on its value",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -536,9 +567,13 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                 @"<p>
-                In this example, you can see how to apply the desired colors for the shapes, if its value is within the specified range using the `MapsShapeColorMapping`. Also, the interactive legend has been placed at the bottom of the map.
+                In this example, you can see how to apply the desired colors for the shapes, if its value is within the specified range using the <code>MapsShapeColorMappings</code>. Also, the interactive legend has been placed at the bottom of the map.
                     </p>
                     Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -547,10 +582,8 @@ namespace ej2_blazor_samples
                 Name = "Flight routes",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
-                Url = "Maps/FlightRoute",
+                Url = "maps/flight-route",
                 FileName = "FlightRoute.razor",
-                TitleTag = "Maps . HeatMap . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component demonstrates the flight routes from India to China.",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -559,10 +592,14 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render the curved lines between two points in a map. You can use the dashArray, width, and color properties to customize the appearance of the navigation lines.
+                        In this example, you can see how to render the curved lines between two points in a map. You can use the DashArray, Width, and Color properties to customize the appearance of the navigation lines.
                     </p>
                     <p>
                         Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -571,10 +608,8 @@ namespace ej2_blazor_samples
                 Name = "Earthquake indication",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
-                Url = "Maps/Earthquake",
+                Url = "maps/earth-quake",
                 FileName = "Earthquake.razor",
-                TitleTag = "Maps . Earthquake . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component demonstrates the earth quack occurred in Sumatra, Indonesia in the year 2009",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -584,38 +619,42 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render a custom HTML element as marker and place it on a specific location.
-                    </p>        
-                    </ p > "
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
-            //  new Sample
-            // {
-            //     Name = "HighlightedRegion",
-            //     Category = "Use Cases",
-            //     Directory = "Maps/Maps",
-            //     Url = "Maps/HighlightedRegion",
-            //     FileName = "HighlightedRegion.razor",
-            //     TitleTag = "Maps . HighlightedRegion . Syncfusion Blazor Components",
-            //     MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the ATM populated areas in Oklahoma by highlighting the regions",
-            //     Type = SampleType.None,
-            //     ActionDescription = new string[] {
-            //             @"<p>
-            //             This sample depicts the ATM populated areas in Oklahoma by highlighting the regions.
-            //         </p>"
-            //     },
-            //     Description = new string[] {
-            //         @"<p>
-            //             In this example, you can see how to highlight some specific region by rendering circles. Any custom HTML element can be used as a marker.
-            //         </p>
-            //         </ p > "
-            //     }
-            // },
+             new Sample
+            {
+                Name = "HighlightedRegion",
+                Category = "Use Cases",
+                Directory = "Maps/Maps",
+                Url = "maps/highlighted-region",
+                FileName = "HighlightedRegion.razor",
+                Type = SampleType.None,
+                ActionDescription = new string[] {
+                        @"<p>
+                        This sample depicts the ATM populated areas in Oklahoma by highlighting the regions.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                        In this example, you can see how to highlight some specific region by rendering circles. Any custom HTML element can be used as a marker.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
+                }
+            },
             //  new Sample
             // {
             //    Name = "Cyber Attack Map",
             //    Category = "Use Cases",
             //    Directory = "Maps/Maps",
-            //    Url = "Maps/CyberAttackMap",
+            //    Url = "maps/CyberAttackMap",
             //    FileName = "CyberAttackMap.razor",
             //    TitleTag = "Maps . CyberAttackMap . Syncfusion Blazor Components",
             //    MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the ATM populated areas in Oklahoma by highlighting the regions",
@@ -637,10 +676,8 @@ namespace ej2_blazor_samples
                 Name = "Map with Pie chart",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
-                Url = "Maps/MapsWithPie",
+                Url = "maps/maps-with-pie",
                 FileName = "MapsWithPie.razor",
-                TitleTag = "Maps . MapsWithPie . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes the placing of pie charts on the maps using marker templates",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
@@ -650,9 +687,10 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         In this example, you can see how to render the pie chart as marker in map. Any custom HTML elements can be used as a marker.
-                    </p>
-                    <br />
-                    </ p >"
+                    </p><p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
@@ -660,11 +698,8 @@ namespace ej2_blazor_samples
                 Name = "Map with Slider",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
-                Url = "Maps/MapsWithSlider",
+                Url = "maps/maps-with-slider",
                 FileName = "MapsWithSlider.razor",
-                TitleTag = "Maps . MapsWithSlider . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component visualizes the population growth of the countries in North America continent",
-                Type = SampleType.None,
                 ActionDescription = new string[] {
                         @"<p>
                         This sample depicts the zooming and panning options in the maps. You can customize these options by changing the Zooming, Mouse wheel zoom, Pinch zoom, Single-click zoom, and Double-click zoom in the Properties panel.
@@ -672,10 +707,15 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to zoom and pan the map. The support has been provided for zooming with toolbar, rectangle zoom, pinch zoom, mouse wheel zoom, single-click and double-click zoom.
+                        In this example, the range color mapping is applied to the shapes based on the population growth of the countries in percentage. The slider is placed at the bottom of the maps to control the minimum and maximum color ranges.
                     </p>
-                    <br />
-                    </ p >"
+                    <p>
+                    The tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a marker or tap a marker in touch enabled devices.
+                    </p>
+                    <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
               new Sample
@@ -683,10 +723,8 @@ namespace ej2_blazor_samples
                 Name = "Sales map",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
-                Url = "Maps/SaleMaps",
+                Url = "maps/sale-maps",
                 FileName = "SaleMaps.razor",
-                TitleTag = "Maps . SaleMaps . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Maps component illustrates the world's top 50 cities by showing the markers in their locations and clustering the markers to avoid intersecting.",
                 Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
@@ -699,7 +737,11 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                     Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices.
-                </p>"
+                </p>
+                <p>
+                        More information about maps can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/maps/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             //   new Sample
@@ -707,7 +749,7 @@ namespace ej2_blazor_samples
             //    Name = "Bus seat booking",
             //    Category = "Use Cases",
             //    Directory = "Maps/Maps",
-            //    Url = "Maps/SeatSelection",
+            //    Url = "maps/SeatSelection",
             //    FileName = "SeatSelection.razor",
             //    TitleTag = "Maps . SeatSelection . Syncfusion Blazor Components",
             //    MetaDescription = "This demo of Syncfusion Blazor Maps component depicts the ATM populated areas in Oklahoma by highlighting the regions",

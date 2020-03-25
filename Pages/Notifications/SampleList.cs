@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
-namespace ej2_blazor_samples
+using blazor_samples;
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -13,7 +13,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Toast",
                 Directory = "Notifications/Toast",
-                Url = "Toast/DefaultFunctionalities",
+                Url = "toast/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
                 TitleTag = "Toast . Default Functionalities . Syncfusion Blazor Components",
@@ -24,12 +24,12 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>The <code>Toast</code> is a notification pop-up used to display on the desired position with required message and header icons.</p>
                 <ul>
-                    <li>The header text is set using <b>title</b> property.</li>
-                    <li>Information to be displayed is set using <b>content</b> property.</li>
+                    <li>The header text is set using <code>Title</code> property.</li>
+                    <li>Information to be displayed is set using <code>Content</code> property.</li>
                 </ul>
                 <p>
                     More information about Toast can be found in this
-                    <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
+                    <a href=""https://blazor.syncfusion.com/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
                 </p>"
                 }
             },
@@ -38,7 +38,7 @@ namespace ej2_blazor_samples
                 Name = "Types",
                 Category = "Toast",
                 Directory = "Notifications/Toast",
-                Url = "Toast/Types",
+                Url = "toast/types",
                 FileName = "Types.razor",
                 Type = SampleType.New,
                 TitleTag = "Toast . Types . Syncfusion Blazor Components",
@@ -47,16 +47,16 @@ namespace ej2_blazor_samples
                     @"<p>This sample demonstrates 4-predefined toast colors for various scenarios which can be using CSS class.</p>"
                 },
                 Description = new string[] {
-                    @"<p>The toast supports the following 4 different essential colors for various situations. Here we have achieved success, danger, warning, info notifications with corresponding icon and text message. All the classes should be added with .e-toast class.</p>
+                    @"<p>The Toast supports the following 4 different essential colors for various situations. Here we have achieved success, danger, warning, info notifications with corresponding icon and text message. All the classes should be added with .e-toast class.</p>
             <ul>
-                <li>Information - The <b>e-toast-info</b> class applies the color and background for showing toast information.</li>
-                <li>Success - The <b>e-toast-success</b> class applies the color and background for notifying success action.</li>
-                <li>Warning - The <b>e-toast-warning</b> class applies the color and background for showing warning message.</li>
-                <li>Danger - The <b>e-toast-danger</b> class applies the color and background for showing error/failure toast.</li>
+                <li><code>Information</code> - The <b>e-toast-info</b> class applies the color and background for showing toast information.</li>
+                <li><code>Success</code> - The <b>e-toast-success</b> class applies the color and background for notifying success action.</li>
+                <li><code>Warning</code> - The <b>e-toast-warning</b> class applies the color and background for showing warning message.</li>
+                <li><code>Danger</code> - The <b>e-toast-danger</b> class applies the color and background for showing error/failure toast.</li>
             </ul>
             <p>
-                More information about Toast can be found in this
-                <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
+                More information on the Blazor Toast Types can be found in this
+                <a href=""https://blazor.syncfusion.com/documentation//toast/how-to/show-different-types-of-toast/"" target=""_blank""> documentation section</a>.
             </p>"
                 }
             },
@@ -64,8 +64,8 @@ namespace ej2_blazor_samples
             {
                 Name = "Template",
                 Category = "Toast",
-                Directory = "Notifications/Template",
-                Url = "Toast/Template",
+                Directory = "Notifications/Toast",
+                Url = "toast/template",
                 FileName = "Template.razor",
                 Type = SampleType.New,
                 TitleTag = "Toast . Template . Syncfusion Blazor Components - Preview",
@@ -74,17 +74,17 @@ namespace ej2_blazor_samples
                     @"<p>This sample demonstrates the Template rendering of the Toast. Static HTML toast to display an alarm notification which can be snoozed or dismissed and Dynamic template rendered using template engine to display mail remainders."
                 },
                 Description = new string[] {
-                    @"<p>This sample illustrates the way to display the template content on the toast. With the usage of Template, the user can format and structure the HTML content to be displayed on the toast as per their application needs.
+                    @"<p>This sample illustrates the way to display the template content on the Toast. With the usage of Template, the user can format and structure the HTML content to be displayed on the toast as per their application needs.
                 </p>
                 <p>
                     <ul>
-                        <li>Alarm toast is integrated with button and drop-down list that allows to set timeOut for toast and close it.</li>
-                        <li>Dynamic toast opened based on the data source given to add mail reminder notifications and it can be hidden using the close button available</li>
+                        <li>Alarm Toast is integrated with button and drop-down list that allows to set timeOut for toast and close it.</li>
+                        <li>Dynamic Toast opened based on the data source given to add mail reminder notifications and it can be hidden using the close button available</li>
                     </ul>
                 </p>
                 <p>
-                    More information about Toast can be found in this
-                    <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
+                    More information on the Blazor Toast Template can be found in this
+                    <a href=""https://blazor.syncfusion.com/documentation//toast/template/"" target=""_blank""> documentation section</a>.
                 </p>"
                 }
             },
@@ -93,7 +93,7 @@ namespace ej2_blazor_samples
                 Name = "Position",
                 Category = "Toast",
                 Directory = "Notifications/Toast",
-                Url = "Toast/Position",
+                Url = "toast/position",
                 FileName = "Position.razor",
                 Type = SampleType.New,
                 TitleTag = "Toast . Position . Syncfusion Blazor Components",
@@ -108,8 +108,8 @@ namespace ej2_blazor_samples
                 <li>Custom option will enable to give X and Y values to align the toast based on the given inputs.</li>
             </ul>
             <p>
-                More information about Toast can be found in this
-                <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
+                More information on the Blazor Toast Position can be found in this
+                <a href=""https://blazor.syncfusion.com/documentation//toast/position/"" target=""_blank""> documentation section</a>.
             </p>"
                 }
             },
@@ -118,7 +118,7 @@ namespace ej2_blazor_samples
                 Name = "API",
                 Category = "Toast",
                 Directory = "Notifications/Toast",
-                Url = "Toast/API",
+                Url = "toast/api",
                 FileName = "API.razor",
                 Type = SampleType.New,
                 TitleTag = "Toast . API . Syncfusion Blazor Components",
@@ -138,7 +138,7 @@ namespace ej2_blazor_samples
             </ul>
             <p>
                 More information about Toast can be found in this
-                <a href=""https://ej2.syncfusion.com/blazor/documentation/toast/getting-started/"" target=""_blank""> documentation section</a>.
+                <a href=""https://blazor.syncfusion.com/documentation//toast/getting-started/"" target=""_blank""> documentation section</a>.
             </p>"
                 }
             }
@@ -149,7 +149,7 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Spinner",
                 Directory = "Notifications/Spinner",
-                Url = "Spinner/DefaultFunctionalities",
+                Url = "spinner/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
                 TitleTag = "Spinner . Default Functionalities . Syncfusion Blazor Components",

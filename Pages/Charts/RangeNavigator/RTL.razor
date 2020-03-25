@@ -1,31 +1,32 @@
-﻿@page "/RangeSelector/RTL"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/range-selector/rtl"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
-
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
-@if (rtlData == null)
+@if (RtlData == null)
 {
     <div class="stockchartloader"></div>
 }
 else
 {
 <div class="control-section" align="center">
-    <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;text-align:center">Inflation - Consumer Price</h4>
-    <div id="container">
-        <EjsRangeNavigator IntervalType="RangeIntervalType.Years" EnableRtl="true" Value="@value" LabelPosition="AxisPosition.Outside" ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime>
-            <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+    <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;text-align:center">Inflation - Consumer Price</h4>
+    <div>
+        <SfRangeNavigator IntervalType="RangeIntervalType.Years" EnableRtl="true" Value="@Value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
+            <RangeNavigatorEvents Load="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
 			<RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
             <RangeNavigatorSeriesCollection>
-                <RangeNavigatorSeries Fill="url(#material-gradient-chart)" DataSource="@rtlData" XName="x" Type="RangeNavigatorType.Area" YName="high">
+                <RangeNavigatorSeries Fill="@FillColor" DataSource="@RtlData" XName="x" Type="RangeNavigatorType.Area" YName="high">
                 </RangeNavigatorSeries>
             </RangeNavigatorSeriesCollection>
-        </EjsRangeNavigator>
+        </SfRangeNavigator>
     </div>
-    <div id="chartcontainer">
-        <EjsChart>
+    <div>
+        <SfChart>
+            <ChartEvents Load="ChartLoad" />
             <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
             </ChartPrimaryXAxis>
@@ -34,37 +35,121 @@ else
                 <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             </ChartPrimaryYAxis>
             <ChartSeriesCollection>
-                <ChartSeries Fill="url(#material-gradient-chart)" DataSource="@rtlData" XName="x" YName="high" Name="England" Width="2" Type="ChartSeriesType.Area">
+                <ChartSeries Fill="@FillColor" DataSource="@RtlData" XName="x" YName="high" Name="England" Width="2" Type="ChartSeriesType.Area">
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartTooltipSettings Enable="true" Shared="true" Header="<b>England<b>" Format="${point.x} : <b>${point.y}<b>"></ChartTooltipSettings>
 
-        </EjsChart>
+        </SfChart>
     </div>
 </div>
 }
 @code{
-    private ChartData[] rtlData;
+    private ChartData[] RtlData;
     double ZF = 1;
     double ZP = 0;
+    string FillColor;
+    string valueUrl = "url";
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            rtlData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/axesdata.json"));
+            RtlData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/axesdata.json"));
         });
+
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+
+            FillColor = String.Concat(valueUrl, "(#material-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            FillColor = String.Concat(valueUrl, "(#fabric-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            FillColor = String.Concat(valueUrl, "(#bootstrap-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            FillColor = String.Concat(valueUrl, "(#highcontrast-gradient-chart)");
+        }
+        else
+        {
+            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+        }
     }
     public class ChartData
     {
         public DateTime x { get; set; }
         public double high { get; set; }
     }
-    private DateTime[] value = new DateTime[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
-    public void onRangeChanged(IChangedEventArgs args)
+    private DateTime[] Value = new DateTime[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
+    public void OnRangeChanged(IChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
         StateHasChanged();
+    }
+
+    string CurrentUri;
+    void BeforeRender(IRangeLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }
 <style>

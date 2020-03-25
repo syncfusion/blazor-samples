@@ -1,11 +1,11 @@
-﻿@page "/StockChart/StockChartSplineArea"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/stock-chart/stock-chart-spline-area"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
-
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 
-@if (dataSource == null)
+@if (DataSource == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -13,8 +13,8 @@ else
 {
     <div class="@loadClass"></div>
     <div class="@loadDiv">
-        <EjsStockChart Title="Google Stock Price">
-            <StockChartEvents Loaded="@ChartLoaded"></StockChartEvents>
+        <SfStockChart Title="Google Stock Price" IndicatorType="@Indicators" TrendlineType="@TrendLines">
+            <StockChartEvents Loaded="@ChartLoaded" Load="BeforeRender"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -26,12 +26,12 @@ else
             </StockChartPrimaryYAxis>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@dataSource" XName="x" YName="high" Type="ChartSeriesType.Area" Fill="#BDEDE9" Name="google"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" XName="x" YName="high" Type="ChartSeriesType.Area" Fill="#BDEDE9" Name="google"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
             </StockChartChartArea>
-        </EjsStockChart>
+        </SfStockChart>
     </div>
     <style>
         .stockchartloader {
@@ -53,13 +53,15 @@ else
     </style>
 }
 @code{
+    List<TechnicalIndicators> Indicators = new List<TechnicalIndicators>() { };
+    List<TrendlineTypes> TrendLines = new List<TrendlineTypes>() { };
 
-    private ChartData[] dataSource;
+    private ChartData[] DataSource;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
+            DataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/googl.json"));
         });
     }
     public class ChartData
@@ -78,6 +80,32 @@ else
     {
         loadClass = "";
         loadDiv = "";
+    }
+
+     string CurrentUri;
+    void BeforeRender(IStockChartEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 
 }

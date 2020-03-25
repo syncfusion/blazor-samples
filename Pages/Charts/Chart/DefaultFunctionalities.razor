@@ -1,12 +1,13 @@
-﻿@page "/Charts/DefaultFunctionalities"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/line"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Inflation - Consumer Price">
+    <SfChart Title="Inflation - Consumer Price">
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="100" Interval="20">
@@ -15,30 +16,30 @@
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Germany" XName="xValue" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Germany" XName="xValue" Width="2"
                          Opacity="1" YName="yValue" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="England" XName="xValue" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="England" XName="xValue" Width="2"
                          Opacity="1" YName="yValue1" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
-
+    private string CurrentUri;
     public class LineChartData
     {
-        public DateTime xValue  { get; set; }
-        public double yValue  { get; set; }
-        public double yValue1  { get; set; }
+        public DateTime xValue { get; set; }
+        public double yValue { get; set; }
+        public double yValue1 { get; set; }
     }
-    public List<LineChartData> chartData = new List<LineChartData>
-    {
+    public List<LineChartData> ChartData = new List<LineChartData>
+{
         new LineChartData { xValue = new DateTime(2005, 01, 01), yValue = 21, yValue1 = 28 },
         new LineChartData { xValue = new DateTime(2006, 01, 01), yValue = 24, yValue1 = 44 },
         new LineChartData { xValue = new DateTime(2007, 01, 01), yValue = 36, yValue1 = 48 },
@@ -47,4 +48,29 @@
         new LineChartData { xValue = new DateTime(2010, 01, 01), yValue = 57, yValue1 = 78 },
         new LineChartData { xValue = new DateTime(2011, 01, 01), yValue = 70, yValue1 = 84 },
     };
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

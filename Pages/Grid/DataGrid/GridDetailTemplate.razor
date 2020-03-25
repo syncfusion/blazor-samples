@@ -1,9 +1,12 @@
-﻿@page "/Grid/DetailTemplate"
+﻿@page "/datagrid/detail-template"
 
-@using Syncfusion.EJ2.Blazor.Grids
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Navigations
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-@using ej2_blazor_griddata
-@using ej2_blazor_samples
+@using blazor_griddata
+@using blazor_samples
 @inherits SampleBaseComponent;
 
 
@@ -11,57 +14,82 @@
     <div class="content-wrapper">
         <div class="row">
 
-            <EjsGrid DataSource="@GridData">
+            <SfGrid DataSource="@GridData">
                 <GridTemplates>
                     <DetailTemplate>
                         @{
-                            var employee = context as Employee;
+                            var employee = (context as Employee);
+                            var chartQuery = $"new sf.data.Query().where('EmployeeID', 'equal', {employee.EmployeeID}, false)";
                         }
-                        <table class="detailtable" width="100%">
-                            <colgroup>
-                                <col width="35%">
-                                <col width="35%">
-                                <col width="30%">
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <td rowspan="4" style="text-align: center;">
-                                        <img class="photo" src="@UriHelper.ToAbsoluteUri($"images/Grid/{employee.EmployeeID}.png")" alt="@employee.EmployeeID" />
-                                    </td>
-                                    <td>
-                                        <span style="font-weight: 500;">First Name: </span> @employee.FirstName
-                                    </td>
-                                    <td>
-                                        <span style="font-weight: 500;">Postal Code: </span> @employee.PostalCode
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span style="font-weight: 500;">Last Name: </span> @employee.LastName
-                                    </td>
-                                    <td>
-                                        <span style="font-weight: 500;">City: </span> @employee.City
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span style="font-weight: 500;">Address: </span> @employee.Address
-                                    </td>
-                                    <td>
-                                        <span style="font-weight: 500;">Hire Date: </span> @employee.HireDate.ToShortDateString()
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div style="padding:20px">
+                            <SfTab>
+                                <TabItems>
+                                    <TabItem>
+                                        <ChildContent>
+                                            <TabHeader Text="Details"></TabHeader>
+                                        </ChildContent>
+                                        <ContentTemplate>
+                                            <div style="display:inline-flex">
+                                                <div style="float:left;padding:45px;padding-top:70px"><img class="photo" src="@UriHelper.ToAbsoluteUri($"https://blazor.syncfusion.com/demos/images/Grid/{employee.EmployeeID}.png")" alt="@employee.EmployeeID" /></div>
+                                                <div style="padding-top:42px">
+                                                    <span style="font-size: x-large;font-weight: bold;">@employee.FirstName @employee.LastName</span><br />
+                                                    <h5 style="font-weight:400 !important;">@employee.Title</h5><br />
+                                                    <span class="title">Country:</span> <span class="content">@employee.Country</span><br />
+                                                    <span class="title">Postal Code:</span> <span class="content">@employee.PostalCode</span><br />
+                                                    <span class="title">Mail:</span> <span class="content ">@employee.Email</span>
+                                                </div>
+                                            </div>
+                                        </ContentTemplate>
+                                    </TabItem>
+                                    <TabItem>
+                                        <ChildContent>
+                                            <TabHeader Text="Sales"></TabHeader>
+                                        </ChildContent>
+                                        <ContentTemplate>
+                                            <div style="padding:25px">
+                                                <SfGrid DataSource="@OrderData" AllowPaging="true" Query="@(new Query().Where("EmployeeID", "equal", employee.EmployeeID))">
+                                                    <GridPageSettings PageSize="6"></GridPageSettings>
+                                                    <GridColumns>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="110"> </GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.CustomerID) HeaderText="Customer ID" Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.Freight) HeaderText="Freight" TextAlign="TextAlign.Right" Width="90" Format="C2"></GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.ShipCity) HeaderText="Ship City" Width="110"></GridColumn>
+                                                    </GridColumns>
+                                                </SfGrid>
+                                            </div>
+                                        </ContentTemplate>
+                                    </TabItem>
+                                    <TabItem>
+                                        <ChildContent>
+                                            <TabHeader Text="Report"></TabHeader>
+                                        </ChildContent>
+                                        <ContentTemplate>
+                                            <div style="padding-top: 35px; padding-left:20px;">
+                                                <SfChart Height="390px" Title="Sales Report" DataSource="@OrderData">
+                                                    <ChartPrimaryXAxis Title="City" LabelRotation="45" ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+                                                    </ChartPrimaryXAxis>
+                                                    <ChartPrimaryYAxis Title="Sales in millions" Interval="300"></ChartPrimaryYAxis>
+                                                    <ChartSeriesCollection>
+                                                        <ChartSeries XName="ShipCity" YName="Freight" Type="ChartSeriesType.Column" Query="@chartQuery">
+                                                        </ChartSeries>
+                                                    </ChartSeriesCollection>
+                                                    <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+                                                </SfChart>
+                                            </div>
+                                        </ContentTemplate>
+                                    </TabItem>
+                                </TabItems>
+                            </SfTab>
+                        </div>
                     </DetailTemplate>
                 </GridTemplates>
                 <GridColumns>
-                    <GridColumn Field=@nameof(Employee.FirstName) HeaderText="First Name" Width="110"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.FirstName) HeaderText="First Name" Width="110"> </GridColumn>
                     <GridColumn Field=@nameof(Employee.LastName) HeaderText="Last Name" Width="110"></GridColumn>
-                    <GridColumn Field=@nameof(Employee.Title) HeaderText="Title" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.Title) HeaderText="Title" Width="110"></GridColumn>
                     <GridColumn Field=@nameof(Employee.Country) HeaderText="Country" Width="110"></GridColumn>
                 </GridColumns>
-            </EjsGrid>
+            </SfGrid>
         </div>
     </div>
 </div>
@@ -69,27 +97,39 @@
 @code{
 
     public List<Employee> GridData { get; set; }
+    public List<EmployeeOrders> OrderData { get; set; }
 
     protected override void OnInitialized()
     {
         GridData = Employee.GetAllRecords();
+        OrderData = EmployeeOrders.GetAllRecords();
     }
 }
 
 <style type="text/css" class="cssStyles">
-    .detailtable td {
-        font-size: 13px;
-        padding: 4px;
-        max-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
 
     .photo {
         width: 100px;
         height: 100px;
         border-radius: 50px;
         box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0,0,0,0.2);
+    }
+
+    .title {
+        font-size: medium;
+        font-weight: 400;
+    }
+
+    .content {
+        font-size: medium;
+        color: #6c757d
+    }
+
+    .e-tab .e-content {
+        overflow-y: hidden;
+    }
+
+    .e-tab .e-tab-header {
+        border: 0;
     }
 </style>

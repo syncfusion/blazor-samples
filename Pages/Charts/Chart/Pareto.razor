@@ -1,12 +1,13 @@
-﻿@page "/Charts/Pareto"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/pareto"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Defect vs Frequency">
+    <SfChart Title="Defect vs Frequency">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1" Title="Defects">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" Title="Defects">
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -22,13 +23,13 @@
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" XName="x" YName="y" Name="Defect" Width=2 Type="ChartSeriesType.Pareto">
+            <ChartSeries DataSource="@ChartData" XName="x" YName="y" Name="Defect" Width="2" Type="ChartSeriesType.Pareto">
                 <ChartMarker Visible="true" Height="10" Width="10">
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -37,7 +38,7 @@
             public string x { get; set; }
             public double y { get; set; }
         }
-   public List<PareToData> chartData = new List<PareToData>
+   public List<PareToData> ChartData = new List<PareToData>
             {
                 new PareToData { x= "Traffic", y= 56 }, 
                 new PareToData { x= "Child Care", y= 44.8 },
@@ -45,4 +46,33 @@
                 new PareToData { x= "Weather", y= 19.6 },
                 new PareToData { x= "Emergency", y= 6.6 }
             };
+ string CurrentUri;
+            void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

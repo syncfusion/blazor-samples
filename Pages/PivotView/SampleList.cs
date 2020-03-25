@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
-namespace ej2_blazor_samples
+using blazor_samples;
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -11,13 +11,11 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Default Functionalities",
-                Category = "PivotTable",
+                Category = "Pivot Table",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/DefaultFunctionalities",
+                Url = "pivot-table/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Default Functionalities . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows the basic rendering of the pivot table with minimum configuration.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                   @"<p> This sample demonstrates basic rendering of the pivot table with drill-up and drill-down functionality bound to a
         relational report.</p>"
@@ -31,7 +29,8 @@ namespace ej2_blazor_samples
     </p>
     <p>
 
-        In this demo, the pivot table is populated with its minimum default settings.</p>"
+        In this demo, the pivot table is populated with its minimum default settings.</p>
+<p>More information on the Blazor Pivot Table can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/getting-started/?no-cache=1'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -39,30 +38,36 @@ namespace ej2_blazor_samples
                 Name = "Remote Data",
                 Category = "Data Binding",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/RemoteData",
+                Url = "pivot-table/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Remote Data . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the basic rendering of the pivot table with remote data or service data.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                   @"<p>This sample demonstrates basic rendering of the pivot table bound to JSON data pulled from a remote server.</p>"
                 },
                 Description = new string[] {
                   @"<p>The pivot table supports JSON data source. The
-        <code>DataSource</code> property in <code>PivotViewDataSourceSettings</code> can be assigned with the result of DataManager to bind remote data.</p>
-    The
-    <code>EjsDataManager</code>, which will act as an interface between the service endpoint and the pivot table, will require the below minimal
-    information to interact with service endpoint properly.
-    <ul>
-        <li>
-            <code>EjsDataManager->Url</code> - Defines the service endpoint to fetch data.</li>
-        <li>
-            <code>EjsDataManager->Adaptor</code> - Defines the adaptor option. Here,
-            <code>WebApiAdaptor</code> is used for remote binding.</li>
-    </ul>
-    In this demo, remote data is bound by assigning service data as an instance of
-    <code>DataManager</code> to the
-    <code>DataSource</code> property in <code>PivotViewDataSourceSettings</code>."
+                        <code>DataSource</code> property in <code>PivotViewDataSourceSettings</code> class can be assigned with the result of <code>DataManager</code> to bind remote data.</p>
+                    The
+                    <code>EjsDataManager</code>, which will act as an interface between the service endpoint and the pivot table, will require the below minimal
+                    information to interact with service endpoint to retrieve the required data properly.
+                    <ul>
+                        <li>
+                            <code>EjsDataManager->Url</code> - Defines the service endpoint to fetch data.</li>
+                        <li>
+                            <code>EjsDataManager->Adaptor</code> - Defines the adaptor option. Here,
+                            <code>WebApiAdaptor</code> is used for remote binding.</li>
+                    </ul>
+                    <p>Adaptor is responsible for processing the response and request from/to the service endpoint. The predefined adaptors are,</p>
+                    <ul>
+                        <li><code>UrlAdaptor</code> - Use this to interact with any remote service. This is the base adaptor for all remote based adaptors.</li>
+                        <li><code>ODataAdaptor</code>- Use this to interact with OData endpoints.</li>
+                        <li><code>ODataV4Adaptor</code> - Use this to interact with OData V4 endpoints.</li>
+                        <li><code>WebApiAdaptor</code> - Use this to interact with Web API created under OData standards.</li>                    
+                    </ul>
+                    In this demo, remote data is bound by assigning service data as an instance of
+                    <code>DataManager</code> to the
+                    <code>DataSource</code> property in <code>PivotViewDataSourceSettings</code> class.
+<p>More information on the remote data binding can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/data-binding/#remote-data'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -70,15 +75,13 @@ namespace ej2_blazor_samples
                 Name = "OLAP",
                 Category = "Data Binding",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/OLAP",
+                Url = "pivot-table/olap",
                 FileName = "OLAP.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . OLAP . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the basic rendering of the pivot table with olap datasource.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                  @"<p>
     This sample demonstrates the rendering of a pivot table bound to an online SSAS OLAP cube as its data source.
-        OLAP cube elements like dimension, hierarchy, measure, and others can be arranged in row, column, value, and
+        OLAP cube elements like dimensions, hierarchies, measures, and others can be arranged in row, column, value, and
         slicer axes to create desired views at runtime.
 </p>"
                 },
@@ -86,9 +89,39 @@ namespace ej2_blazor_samples
                @"      <p>
         In this example, users can explore all of an OLAP cube and its elements and view the resultant report in a pivot
         table or pivot chart at runtime. Grouping bar and field list options are included for exploring the data. Along
-        with these, toolbar options are included for switching to the pivot chart and more:
+        with these, toolbar options are included for switching to the pivot chart, performing report manipulation and more:
     </p>
     <table>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Create new report:</code>
+            </td>
+            <td>Allows user to create new reports at runtime.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Rename report:</code>
+            </td>
+            <td>Allows user to change current report name dynamically through UI.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Remove report:</code>
+            </td>
+            <td>Allows user to remove current report from the report collection at runtime.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Save as option:</code>
+            </td>
+            <td>Allows user to save report locally in browser memory.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Report list:</code>
+            </td>
+            <td>Allows user to swap between the reports within the report collection.</td>
+        </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Pivot Table:</code>
@@ -110,7 +143,7 @@ namespace ej2_blazor_samples
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Export:</code>
-            </td>me
+            </td>
             <td>Provides options to save data in PDF, Excel, and CSV document types.</td>
         </tr>
         <tr>
@@ -132,7 +165,7 @@ namespace ej2_blazor_samples
             <td>Provides option to alter the report dynamically through UI.</td>
         </tr>
     </table>
-"
+<p>More information on the OLAP data binding can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/olap/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -140,11 +173,9 @@ namespace ej2_blazor_samples
                 Name = "Pivot Chart",
                 Category = "Integration",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Chart",
+                Url = "pivot-table/pivot-chart",
                 FileName = "Chart.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Pivot Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the basic rendering of the pivot table data into a simple pivot chart.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates rendering a pivot chart using pivot data. User can explore the data through drill-up
@@ -154,46 +185,44 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                            In this sample, the Pivot Table component plots a chart based on the pivot report bound to it. This can be
-                            achieved by setting the property <code>View</code> to <code>Chart</code> in <code>PivotViewDisplayOption</code>. The
-                            built-in options are:</br></br>
-
-                            <code>Table</code> - Renders pivot table only, which is the default type.</br>
-                            <code>Chart</code> - Renders pivot chart only.</br>
-                            <code>Both</code> - Renders both pivot table and pivot chart.</br>
+                            In this sample, the Pivot component plots a chart based on the pivot report bound to it. This can be
+                            achieved by setting the <code>View</code> property to <code>View.Chart</code> in <code>PivotViewDisplayOption</code> class. The
+                            built-in options are:</br>
+                            <ul>
+                                <li><code>Table</code> - Renders pivot table only, which is the default type.</li>
+                                <li><code>Chart</code> - Renders pivot chart only.</li>
+                                <li><code>Both</code> - Renders both pivot table and pivot chart.</li>
+                            </ul>
                         </p>
                         <p>
+                            You can change the chart types using the <b>Chart Types</b> dropdown list separately.
                             The chart types can be set using the <code>Type</code> property in <code>PivotChartSeries</code> class. The built-in chart
                             types
                             are:</br>
-
-                            <code>Column</code>, <code>Line</code>, <code>Spline</code>, <code>Bar</code>, <code>Area</code>, <code>StepArea</code>, 
+                            <code>Column</code>, <code>Line</code>, <code>Spline</code>, <code>Bar</code>, <code>Area</code>, <code>StepArea</code>,
                             <code>SplineArea</code>, <code>StackingColumn</code>, <code>StackingArea</code>, <code>StackingBar</code>, <code>StepLine</code></br>
-                            <code>Pareto</code>, <code>Bubble</code>, <code>Scatter</code>, <code>StackingColumn100</code>, <code>StackingBar100</code>, <code>StackingArea100</code>, <code>Polar</code> and 
+                            <code>Pareto</code>, <code>Bubble</code>, <code>Scatter</code>, <code>StackingColumn100</code>, <code>StackingBar100</code>, <code>StackingArea100</code>, <code>Polar</code> and
                             <code>Radar</code>.</br></br>
-
-
-                            In the sample, the field list option is enabled, through which you can see the result in the chart by altering
+                            In the sample, the field list option is also enabled, through which you can see the result in the chart by altering
                             the report dynamically.
                             </br>
-                        </p>"
+                        </p>
+<p>More information on the pivot chart can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/pivot-chart/'>documentation section</a>.</p>"
                     }
             },
             new Sample
             {
-                Name = "FieldList",
+                Name = "Field List",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/FieldList",
+                Url = "pivot-table/field-list",
                 FileName = "FieldList.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . FieldList . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the field list feature of the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                   @"<p>
-    This sample demonstrates the grouping bar and field list feature of the pivot table. In the sample, fields are automatically populated
-    from the bound data source, and it can be used to create a pivot table at runtime.
-</p>"
+                    This sample demonstrates the Excel-like field list feature of the pivot table. 
+                The pivot fields are automatically populated from the bound data source, and they can be dragged and dropped to create, view and alter the report at runtime.
+                </p>"
 
                 },
                 Description = new string[] {
@@ -204,17 +233,18 @@ namespace ej2_blazor_samples
         between different axes, including column, row, value, and filter along with filter and sort options.
         <br>
         <br> To show the field list independently, create as separate component namely
-        <code>PivotFieldList</code> and assign data source to its
-        <code>DataSourceSettings->DataSource</code> property. Simultaneously pivotgrid will be populated by passing its instance in
-        the UpdateView method, inside the
+        <code>EjsPivotFieldList</code> and assign data source to
+        <code>DataSource</code> property in <code>PivotFieldListDataSourceSettings</code> class. Simultaneously pivot table will be populated by passing its instance in
+        the <code>UpdateView</code> method, inside the
         <code>EnginePopulated</code> event of field list.
         <br />
         <br />
         Additionally, user interface for calculated field, label filter, and value filter features have been enabled in
         this demo by setting the properties
         <code>AllowCalculatedField</code>,
-        <code>DataSourceSettings->AllowLabelFilter</code> and <code>DataSourceSettings->AllowValueFilter</code> to true.
-    </p>"
+        <code>PivotFieldListDataSourceSettings->AllowLabelFilter</code> and <code>PivotFieldListDataSourceSettings->AllowValueFilter</code> to <b>true</b>.
+    </p>
+<p>More information on the field list can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/field-list/'>documentation section</a>.</p>"
 }
             },
             new Sample
@@ -222,11 +252,9 @@ namespace ej2_blazor_samples
                 Name = "Grouping Bar",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/GroupingBar",
+                Url = "pivot-table/grouping-bar",
                 FileName = "GroupingBar.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Grouping Bar . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the grouping bar feature of the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                    @"<p>
     This sample demonstrates grouping feature of the pivot table. The grouping bar is automatically populated from the bound report, and fields can be dragged and dropped to alter the report at runtime. The fields can be sorted, filtered, and removed dynamically as well.
@@ -234,12 +262,12 @@ namespace ej2_blazor_samples
 
                 },
                 Description = new string[] {
-                 @"<p>The grouping bar option automatically populates fields from the bound report and allows end
+                 @"<p>The pivot table grouping bar option automatically populates fields from the bound data source and allows end
         users
         to drag fields between different axes such as columns, rows, values, and filters, and create pivot table at
         runtime.
         To enable grouping bar, set the
-        <code>ShowGroupingBar</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>
+        <code>ShowGroupingBar</code> property in <code>EjsPivotView</code> to class <b>true</b>.</p>
     <p>
         Filter and sort icons allow displaying selective records and ordering them in ascending or descending order. The
         value type icon
@@ -249,31 +277,29 @@ namespace ej2_blazor_samples
 
     <p>
 
-    We can also hide the sort, filter, remove and value type icon in the <code>PivotViewGroupingBarSettings</code> by setting <code>ShowSortIcon</code>, <code>ShowFilterIcon</code>, <code>ShowRemoveIcon</code> and <code>ShowValueTypeIcon</code> properties to <b>false</b>.</p>"}
+    We can also hide the sort, filter, remove and value type icon in the <code>PivotViewGroupingBarSettings</code> class by setting <code>ShowSortIcon</code>, <code>ShowFilterIcon</code>, <code>ShowRemoveIcon</code> and <code>ShowValueTypeIcon</code> properties to <b>false</b>.</p>
+<p>More information on the grouping bar feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/grouping-bar/'>documentation section</a>.</p>"
+                }
             },
             new Sample
             {
                 Name = "Conditional Formatting",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/ConditionalFormatting",
+                Url = "pivot-table/conditional-formatting",
                 FileName = "ConditionalFormatting.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Conditional Formatting . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Pivot Table component demonstrate formatting the appearance of the pivot table cells with values based on the applied conditions.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates formatting the appearance of pivot table cells with user-defined styles based on applied
-                            conditions.
+                        This sample demonstrates formatting the appearance of pivot table cells with user-defined styles based on applied conditions. 
+                        The <b>conditional formatting</b> dialog is invoked to add conditions and styles for the conditions. The formatting can be added, removed, and reset dynamically as well.
                     </p>"
                     },
                 Description = new string[] {
                     @"<p>Conditional formatting works only for cells with values,
                         allowing the users to change its appearance such as background color, font color, font family, and font size
-                        based on specific conditions.
-                        Conditional formatting can be applied either through code behind or UI. To enable this option in code behind, set
-                        <code>AllowConditionalFormatting</code> in <code>EjsPivotView</code> to <b>true</b>.
-                        Use the <code>PivotViewConditionalFormatSetting</code> class in the pivot table along with the following properties.
+                        based on specific conditions. Conditional formatting can be applied either through UI or code behind. To enable this in UI, set <code>AllowConditionalFormatting</code> property to <b>true</b> and invoke <code>ShowConditionalFormattingDialog</code> method to view in UI.
+                        To achieve this option in code behind, set <code>AllowConditionalFormatting</code> property to <b>true</b> and use the <code>PivotViewConditionalFormatSetting</code> class in the pivot table along with the following properties. Both options are enabled in this sample.
                     </p>
                     <table>
                         <tr>
@@ -309,7 +335,9 @@ namespace ej2_blazor_samples
                     </table>
 
                     <p>
-                    Also, we have applied conditional formatting for the fields <b>Sold Amount</b> and <b>Units Sold</b> in code behind</p>"
+                    <br />
+                    <p>We have applied conditional formatting for the fields <b>Sold Amount</b> and <b>Units Sold</b> in code behind. Also, user can clear the entire style applied for the value cell using <b>Reset All</b> option.</p>
+<p>More information on the conditional formatting feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/conditional-formatting/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -317,11 +345,9 @@ namespace ej2_blazor_samples
                 Name = "Selection",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Selection",
+                Url = "pivot-table/selection",
                 FileName = "Selection.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Selection . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the cell selection feature of the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>This sample demonstrates different types of grid cell selection options and an event for getting complete
         information about the selection. The selection of headers, value cells, and summary cells can be done through
@@ -331,17 +357,17 @@ namespace ej2_blazor_samples
                     @"<p>
         This feature provides interactive support to highlight rows, columns, values, and summary cells that you select.
         Selection can be done through either mouse or keyboard interaction.
-        To enable selection, set <code>AllowSelection</code>property in <code>PivotViewGridSettings</code> as true.
+        To enable selection, set <code>AllowSelection</code>property in <code>PivotViewGridSettings</code> class to <b>true</b>.
     </p>
     <p>The pivot table supports two types of selection which can be set using
-        <code>PivotViewSelectionSettings -> Type</code> property in  <code>PivotViewGridSettings</code>. They are:</p>
+        <code>PivotViewSelectionSettings -> Type</code> property in  <code>PivotViewGridSettings</code> class. They are:</p>
     <ul>
         <li><code>Single</code> - Enabled by default. Allows the user to select single row or column or cell at a time.
         </li>
         <li><code>Multiple</code> - Allows the user to select more than one row or column or cell at the same time.</li>
     </ul>
     <p>Also, there are three modes of selection which can be set using
-        <code>PivotViewSelectionSettings -> Mode</code> property in  <code>PivotViewGridSettings</code>Mode. They are:
+        <code>PivotViewSelectionSettings -> Mode</code> property in  <code>PivotViewGridSettings</code> class. They are:
     </p>
     <ul>
         <li><code>Row</code> - Enabled by default. Enables the complete row selection in a pivot table.</li>
@@ -358,7 +384,8 @@ namespace ej2_blazor_samples
         desired selection process.
         The selected cell information can be seen in the Event Trace part with the help of the <code>CellSelected</code>
         event.
-    </p>"
+    </p>
+<p>More information on the selection feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/row-and-column/#selection'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -366,11 +393,9 @@ namespace ej2_blazor_samples
                 Name = "Show/Hide Totals",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/SummaryCustomization",
+                Url = "pivot-table/show-hide-totals",
                 FileName = "SummaryCustomization.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Show/Hide Totals . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the summary customization feature of the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                  @"<p>
     This sample demonstrates showing and hiding grand totals and subtotals in rows, columns, or both at runtime.
@@ -379,28 +404,28 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                  @"<p>
-        You can hide grand totals in row, column, or both, To hide grand totals in both row and column, set the property
-        <code>ShowGrandTotals</code> in <code>PivotViewDataSourceSettings</code> to <b>false</b>. To hide the row and column grand totals separately,
-        set the property <code>ShowRowGrandTotals</code> and <code>ShowColumnGrandTotals</code> in <code>PivotViewDataSourceSettings</code> to <b>false</b>.
+        In this sample, you can hide grand totals in row, column, or both using radio buttons available under the
+        <b>Hide grand totals</b> category. To hide grand totals in both row and column, set the
+        <code>ShowGrandTotals</code> property in <code>PivotViewDataSourceSettings</code> class to <b>false</b>. To hide the row and column grand totals separately,
+        set the <code>ShowRowGrandTotals</code> and <code>ShowColumnGrandTotals</code> properties in <code>PivotViewDataSourceSettings</code> class to <b>false</b>.
     </p>
 
     <p>
-
-        You can hide subtotals for specific fields too. To hide subtotals for a specific field, set the
-        <code>ShowSubTotals</code> property to <b>false</b> inside the field definition.
+        Also, in this sample, you can hide subtotals for specific fields too. It can be achieved by selecting
+        appropriate fields from the drop-down available under the <b>Hide sub-totals</b> category.
+        To hide subtotals for a specific field, set the <code>ShowSubTotals</code> property to <b>false</b> inside the field definition.
     </p>
-    <p>In this sample, we can also enable or disable grand total and subtotal via toolbar by defining toolbar option(s) and setting the <code>ShowToolbar</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>"                }
+<p>For more information <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/show-hide-totals/'>refer</a>.</p>"
+                }
             },
             new Sample
             {
                 Name = "Grouping",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Grouping",
+                Url = "pivot-table/grouping",
                 FileName = "Grouping.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Grouping . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the grouping feature for date and number fields.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
     This sample demonstrates grouping dates in year, quarter, month, etc., and number types in ranges like 1-4, 5-8,
@@ -409,10 +434,12 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
      @"<p>In this sample, the date type can be separated and showcased individually as year, quarter, month, or day by
-        setting the appropriate option in the code.
-</p>
+        selecting the appropriate option from the <b>Group Date by</b> drop-down list. Also, numbers can be grouped by
+        entering the appropriate value in the <b>Group Product ID by</b> giving a range number in the the numeric text
+        box.
+    </p>
 <p>
-        Grouping can be applied through code-behind using the <code>PivotViewGroupSetting</code> in the pivot table
+        Grouping can be applied through code-behind using the <code>PivotViewGroupSetting</code> class in the pivot table
         along with the following properties:
     </p>
     <table>
@@ -441,7 +468,8 @@ namespace ej2_blazor_samples
             </td>
             <td>Specifies the interval value to group the number field.</td>
         </tr>
-    </table>"
+    </table>
+<p>More information on the grouping feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/grouping/'>documentation section</a>.</p>"
            }
             },
             new Sample
@@ -449,23 +477,51 @@ namespace ej2_blazor_samples
                 Name = "Toolbar",
                 Category = "User Interaction",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Toolbar",
+                Url = "pivot-table/toolbar",
                 FileName = "Toolbar.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Toolbar . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the toolbar feature with pivot table and pivot chart.",
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
-     This sample demonstrates the toolbar options of the pivot table. The options include show or hide subtotals and grand totals, conditional formatting, and
-        exporting in the pivot table.
+     This sample demonstrates the toolbar options of the pivot table. The options include report manipulations like create, save, save as, rename and delete, show or hide subtotals and grand totals, conditional formatting, and exporting in the pivot table and pivot chart.
 </p>"
 
                 },
                 Description = new string[] {
-                 @"<p>
-    Users can change to either pivot table or pivot chart using the toolbar options. To enable toolbar set the <code>ShowToolbar</code> property in <code>EjsPivotView</code> to <b>true</b>, The toolbar options that are available are:
+                 @"<p>In this example, users can generate a report at runtime, as well as save and load them. Save and load operations
+        are performed in local variable using the <code>SaveReport</code> and <code>LoadReport</code> events.
+    Users can change to either pivot table or pivot chart using the toolbar options. To enable toolbar set the <code>ShowToolbar</code> property in <code>EjsPivotView</code> class to <b>true</b>, The toolbar options that are available are:
 </p>
  <table>
+        <tr>
+            <td style='vertical-align: top;padding: 10px 0;width:230px'>
+                <code>Create new report:</code>
+            </td>
+            <td>Allows user to create new reports at runtime.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Rename report:</code>
+            </td>
+            <td>Allows user to change current report name dynamically through UI.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Remove report:</code>
+            </td>
+            <td>Allows user to remove current report from the report collection at runtime.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Save as option:</code>
+            </td>
+            <td>Allows user to save report locally in browser memory.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Report list:</code>
+            </td>
+            <td>Allows user to swap between the reports within the report collection.</td>
+        </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Pivot Table:</code>
@@ -498,13 +554,19 @@ namespace ej2_blazor_samples
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
+                <code>Number formatting:</code>
+            </td>
+            <td>Allows user to dynamically apply number formatting to value fields.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Field List:</code>
             </td>
             <td>Provides option to alter the report dynamically through UI.</td>
         </tr>
     </table>
-    <p>To define toolbar options, create a list with necessary <code>ToolbarItems</code> enumeration values and add it to the <code>Toolbar</code> property in <code>EjsPivotView</code>.</p>
-"
+    <p>To define toolbar options, create a list with necessary <code>ToolbarItems</code> enumeration values and add it to the <code>Toolbar</code> property in <code>EjsPivotView</code> class.</p>
+<p>More information on the toolbar feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/tool-bar/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -512,13 +574,11 @@ namespace ej2_blazor_samples
                 Name = "Calculated Field",
                 Category = "Formula",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/CalculatedField",
+                Url = "pivot-table/calculated-field",
                 FileName = "CalculatedField.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Calculated Field . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows calculated field, and it allows users to add calculated items.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>In this sample, <b>Total Amount</b> acts as the calculated field. Users can insert a new basic arithmetic
+                    @"<p>In this sample, <b>Total Units</b> acts as the calculated field. Users can insert a new basic arithmetic
                             expression
                             based on the existing measure items either through a dialog at runtime or through code behind.</p>"
                     },
@@ -528,8 +588,8 @@ namespace ej2_blazor_samples
                             create these fields using basic mathematical expression collaborating with existing fields. Calculated fields
                             can
                             be created through UI dialog as well as code behind and it can be enabled by setting
-                            <code>AllowCalculatedField</code> in <code>EjsPivotView</code> to <b>true</b>. Use the
-                            <code>PivotViewCalculatedFieldSetting</code> property to configure the calculated field in code behind along with the following properties.
+                            <code>AllowCalculatedField</code> property in <code>EjsPivotView</code> class to <b>true</b>. Use the
+                            <code>PivotViewCalculatedFieldSetting</code> class to configure the calculated field in code behind along with the following properties.
                             <br>
                         </p>
                         <table>
@@ -546,7 +606,7 @@ namespace ej2_blazor_samples
                                 <td>Specifies to set the formula based on the given data source.</td>
                             </tr>
                         </table>
-                        "
+                        <p>More information on the calculated field feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/calculated-field/'>documentation section</a>.</p>"
                     }
             },
             new Sample
@@ -554,11 +614,9 @@ namespace ej2_blazor_samples
                 Name = "Aggregation",
                 Category = "Formula",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Aggregation",
+                Url = "pivot-table/aggregation",
                 FileName = "Aggregation.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Aggregation . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows different types of aggregation for value fields.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the aggregate types like sum, average, min, max, count, distinct count, and more in the
@@ -568,8 +626,8 @@ namespace ej2_blazor_samples
                     },
                 Description = new string[] {
                     @" <p>
-                            The
-                            aggregate type can be set using the <code>Type</code> property in <code>PivotViewValue</code>. The built-in aggregates are:
+                            In this sample, you can change the aggregate types for value fields using the dropdown list separately. The
+                            aggregate type can be set using the <code>Type</code> property in <code>PivotViewValue</code> class. The built-in aggregates are:
                         </p>
                         <p>
                             <code>Sum</code>, <code>Average</code>, <code>Min</code>, <code>Max</code>, <code>Count</code>,
@@ -583,7 +641,8 @@ namespace ej2_blazor_samples
 
                         <p>
 
-                         In this sample, you can also change the aggregate type for value fields at runtime using the dropdown icon via field list UI. Here we have set the aggregation type for the field <b>Sold Amount</b> to <b>Average</b> in the code behind.</p>"
+                         In this sample, you can also change the aggregate type for value fields at runtime using the dropdown icon via field list UI.</p>
+<p>More information on the aggregation feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/aggregation/'>documentation section</a>.</p>"
                     }
             },
             new Sample
@@ -591,20 +650,18 @@ namespace ej2_blazor_samples
                 Name = "Default Sorting",
                 Category = "Sorting",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/DefaultSorting",
+                Url = "pivot-table/default-sorting",
                 FileName = "DefaultSorting.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Default Sorting . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows ordering(sorting) of fields either in ascending or descending order.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                        This sample demonstrates ordering fields in row and column axes either in ascending or descending order.
                     </p>"
                     },
                 Description = new string[] {
-                    @"<p>
-                        Sorting can be applied either through code-behind or UI. Sort icons in fieldlist and groupingbar allow ordering the records in ascending or descending order.To achieve this in code-behind, use the
-                                <code>PivotViewSortSettings</code> object in the pivot table along with the following properties.
+                    @"<p>In this sample, any field can be selected from the <b>Fields</b> dropdown list and its order can be changed to display headers either in ascending or descending order.
+                        It can be applied either through code-behind or UI. To achieve this in code-behind, set <code>EnableSorting</code> property in <code>PivotViewDataSourceSettings</code> class to <b>true</b>. Also, set the
+                                <code>PivotViewSortSettings</code> class in the pivot table along with the following properties:
                             </p>
 
                         <table>
@@ -621,12 +678,9 @@ namespace ej2_blazor_samples
                                 <td>Specifies the sort order and it should be 'Ascending' or 'Descending' in this scenario.</td>
                             </tr>
                         </table>
-
-                        <p>
-
-                        In this sample we have changed the sort order of the <b>Country</b> to <b>Descending</b> and <b>Year</b> to <b>None</b> in the code behind</p>
-
-                         <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the sorting operation.</p>"
+                        </br>
+                         <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the sorting operation.</p>
+<p>More information on the label sorting feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/sorting/'>documentation section</a>.</p>"
                     }
             },
             new Sample
@@ -634,29 +688,28 @@ namespace ej2_blazor_samples
                 Name = "Value Sorting",
                 Category = "Sorting",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/ValueSorting",
+                Url = "pivot-table/value-sorting",
                 FileName = "ValueSorting.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Value Sorting . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows sorting values on column or row wise in ascending or descending order.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
 This sample demonstrates ordering of values in ascending or descending order. Here, the
-        <b>FY 2015 -> Sold Amount</b> column header text is ordered by defining sort-related settings in code behind.
+        <b>FY 2015 -> In Stock</b> column header text is ordered by defining sort-related settings in code behind.
                     </p>"
                 },
                 Description = new string[] {
                    @" <p>You can sort column values by clicking the column header. Clicking the same header once again will reverse the sorting
         direction. It can be enabled by setting the
-        <code>EnableValueSorting</code> property in <code>EjsPivotView</code> to <b>true</b>.
+        <code>EnableValueSorting</code> property in <code>EjsPivotView</code> class to <b>true</b>.
     </p>
     <p>Value sort-related settings can be defined in code behind, too. To do so, headers of the column to be sorted are given
         in the
         <code>HeaderText</code> property under
-        <code>PivotViewValueSortSettings</code>, separated by a delimiter string. The purpose of providing complete header text here is to indicate exactly which
-        value column needs to be sorted. The string which is used to separate the headers is given in the property
-        <code>HeaderDelimiters</code>. The sorting direction is performed by the
-        <code>SortOrder</code> property.</p>"
+        <code>PivotViewValueSortSettings</code> class, separated by a delimiter string. The purpose of providing complete header text here is to indicate exactly which
+        value column needs to be sorted. The string which is used to separate the headers is given in the
+        <code>HeaderDelimiters</code> property. The sorting direction is performed by the
+        <code>SortOrder</code> property.</p>
+<p>More information on the value sorting feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/sorting/'>documentation section</a>.</p>"
 
                 }
             },
@@ -665,34 +718,31 @@ This sample demonstrates ordering of values in ascending or descending order. He
                 Name = "Default Filtering",
                 Category = "Filtering",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/MemberFiltering",
+                Url = "pivot-table/default-filtering",
                 FileName = "MemberFiltering.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Default Filtering . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate member filtering of field headers either by including or excluding them.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-    This sample demonstrates filtering row and column headers either by including or excluding them from the pivot table.
-</p>"
+                        This sample demonstrates filtering row and column headers either by including or excluding them from the pivot table.
+                    </p>"
                 },
                 Description = new string[] {
                     @"<p>
     Member filtering can be applied either through code-behind or UI. To achieve this in code-behind, use the
-            <code>PivotViewFilterSetting</code> in the pivot table along with the following properties.
+            <code>PivotViewFilterSetting</code> class in the pivot table along with the following properties.
         </p>
-
-    <table>
+        <table>
         <tr>
             <td style='vertical-align: top;padding: 10px 0;width:100px'>
                 <code>Name :</code>
             </td>
-            <td>Specifies the normal field.</td>
+            <td>Specifies the exact field choosen for filtering.</td>
         </tr>
-        <tr>l
+        <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Type :</code>
             </td>
-            <td>Specifies the filter type and it should be 'Include' or 'Exclude' in this scenario.</td>
+            <td>Specifies the filter type and it should be either 'Include' or 'Exclude' in this scenario.</td>
         </tr>
         <tr>
             <td style='vertical-align: top;padding: 4px 0;'>
@@ -702,11 +752,9 @@ This sample demonstrates ordering of values in ascending or descending order. He
         </tr>
     </table>
     </br>
-    <p>
-
-    In this sample, we have applied member filter for the field <b>Year</b> by excluding <b>FY 2015</b> in code behind.</p>
-
-    <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>"
+    <p>In this sample, we have applied member filter for the field <b>Country</b> by excluding <b>Canada</b> and <b>France</b> in code behind.</p>
+    <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>
+<p>More information on the member filtering feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/filtering/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -714,11 +762,9 @@ This sample demonstrates ordering of values in ascending or descending order. He
                 Name = "Label Filtering",
                 Category = "Filtering",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/LabelFiltering",
+                Url = "pivot-table/label-filtering",
                 FileName = "LabelFiltering.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Label Filtering . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate label filtering of field headers either by including or excluding them.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
     This sample demonstrates filtering row and column headers based on their text. The different conditions that can
@@ -728,8 +774,8 @@ This sample demonstrates ordering of values in ascending or descending order. He
                 },
                 Description = new string[] {
                    @"<p>
-    Label filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>AllowLabelFilter</code> property in <code>PivotViewDataSourceSettings</code> to <b>true</b> and use the
-            <code>PivotViewFilterSetting</code> in the pivot table along with the following properties.
+    Label filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>AllowLabelFilter</code> property in <code>PivotViewDataSourceSettings</code> class to <b>true</b> and use the
+            <code>PivotViewFilterSetting</code> class in the pivot table along with the following properties.
         </p>
 
     <table>
@@ -761,15 +807,16 @@ This sample demonstrates ordering of values in ascending or descending order. He
             <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Value2 :</code>
             </td>
-            <td>For conditions like 'between' and 'not between', this option will be enabled. Enter both start and end value to view the filter result.</td>
+            <td>For conditions like &#34;between&#34; and &#34;not between&#34;, this option will be enabled. Enter both start and end value to view the filter result.</td>
         </tr>
     </table>
     </br>
     <p>
 
-    In this sample, we have applied the label filter for the field <b>Year</b> by showing the fields that are not equal to <b>FY 2017</b> in code behind.</p>
+    In this sample, we have applied the label filter for the field <b>Country</b> by showing the fields that are not equal to <b>Canada</b> in code behind.</p>
 
-     <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>"
+     <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>
+<p>More information on the label filtering feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/filtering/'>documentation section</a>.</p>"
 
                 }
             },
@@ -778,11 +825,9 @@ This sample demonstrates ordering of values in ascending or descending order. He
                 Name = "Value Filtering",
                 Category = "Filtering",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/ValueFiltering",
+                Url = "pivot-table/value-filtering",
                 FileName = "ValueFiltering.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Value Filtering . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate the filtering of field headers based on the grand total (value based).",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                @"<p>
     This sample demonstrates filtering row and column headers based on a specific measure and the grand total. The
@@ -791,8 +836,8 @@ This sample demonstrates ordering of values in ascending or descending order. He
                 },
                 Description = new string[] {
                  @"<p>
-    Value filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>AllowValueFilter</code> property in <code>PivotViewDataSourceSettings</code> to <b>true</b> and use the
-        <code>PivotViewFilterSetting</code> in the pivot table along with the following properties.
+    Value filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>AllowValueFilter</code> property in <code>PivotViewDataSourceSettings</code> class to <b>true</b> and use the
+        <code>PivotViewFilterSetting</code> class in the pivot table along with the following properties.
 </p>
 <table>
         <tr>
@@ -829,7 +874,7 @@ This sample demonstrates ordering of values in ascending or descending order. He
             <td style='vertical-align: top;padding: 4px 0;'>
                 <code>Value2 :</code>
             </td>
-            <td>For conditions like 'between' and 'not between', this option will be enabled. Enter both start and end value to view the filter result.</td>
+            <td>For conditions like &#34;between&#34; and &#34;not between&#34;, this option will be enabled. Enter both start and end value to view the filter result.</td>
         </tr>
     </table>
     </br>
@@ -837,7 +882,8 @@ This sample demonstrates ordering of values in ascending or descending order. He
 
     In this sample, we have applied value filtering for the measure <b>Units Sold</b> GreaterThan 20000 in <b>Year</b>.</p>
     
-    <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>"
+    <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the filtering operation.</p>
+<p>More information on the value filtering feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/filtering/'>documentation section</a>.</p>"
 
                 }
             },
@@ -846,11 +892,9 @@ This sample demonstrates ordering of values in ascending or descending order. He
                 Name = "Virtual Scrolling",
                 Category = "Scrolling",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/VirtualScrolling",
+                Url = "pivot-table/virtual-scrolling",
                 FileName = "VirtualScrolling.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Virtual Scrolling . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows virtual scrolling option available vertically and horizontally to load large records with ease.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
 This sample demonstrates the virtual scrolling option available for vertically and horizontally loading records
@@ -861,9 +905,10 @@ This sample demonstrates the virtual scrolling option available for vertically a
                     @"<p>
 The pivot table provides an optimized way to render rows and columns inside the view-port alone without
         calculating the value of the entire pivot.
-        To enable virtual scrolling, set <code>EnableVirtualization</code> property to true.
+        To enable virtual scrolling, set <code>EnableVirtualization</code> property in <code>EjsPivotView</code> class to <b>true</b>.
                     </p>
-                    <br>"
+                    <br>
+<p>More information on the Blazor Pivot Table can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/virtual-scrolling/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -871,11 +916,9 @@ The pivot table provides an optimized way to render rows and columns inside the 
                 Name = "Cell Template",
                 Category = "Customization",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/PivotCellTemplate",
+                Url = "pivot-table/cell-template",
                 FileName = "PivotCellTemplate.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Cell Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate cell template option on cells of the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         In this sample, we demonstrate on how to provide templates for each pivot table value cell based on user requirement.
@@ -884,22 +927,48 @@ The pivot table provides an optimized way to render rows and columns inside the 
                 Description = new string[] {
                     @"  <p>
                             The Pivot Table provides a custom layout for each cell's display using the cell template feature.
-                            The <code>CellTemplate</code> in <code>PivotViewTemplate</code> property accepts either an HTML string or the element's ID, which can be used to
+                            The <code>CellTemplate</code> in <code>PivotViewTemplates</code> class accepts either an HTML string or the element's ID, which can be used to
                             append additional HTML elements in order to showcase each cell with a template.
-                            Using cell templates in this sample, we are representing the revenue cost for each year with trend icons.
-                        </p>"
+                            To calculate the trend, we have applied conditions for each cell using 
+                            <code>PivotViewTemplates</code> class. Based on the applied condition, we are showing the appropriate indicators.
+                        </p>
+<p>More information on the virtual scrolling feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/row-and-column/#cell-template'>documentation section</a>.</p>"
                     }
+            },
+            new Sample
+            {
+                Name = "Drill Through",
+                Category = "Miscellaneous",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/drill-through",
+                FileName = "DrillThrough.razor",
+                Type = SampleType.None,
+                ActionDescription = new string[] {
+                    @"<p>
+    This sample demonstrates how to obtain a list of raw items for a particular cell using the drill-through option
+        on double-clicking.
+</p>"
+
+                },
+                Description = new string[] {
+                   @"<p>In this sample, you can view the raw items of any pivot table cell by double-clicking the cell. The
+        drill-through dialog holds the row headers, column headers, and values information of the clicked cell.
+        Initially drill-through information is displayed for bound fields and you can include the remaining raw items
+        details using the <b>column chooser</b> option in the dialog.
+    </p>
+    <p>This feature can be enabled by setting the <code>AllowDrillThrough</code> property in <code>EjsPivotView</code> class to <b>true</b>.</p>
+<p>More information on the drill-through feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/drill-through/'>documentation section</a>.</p>"
+
+                }
             },
             new Sample
             {
                 Name = "Editing",
                 Category = "Miscellaneous",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Editing",
+                Url = "pivot-table/editing",
                 FileName = "Editing.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Editing . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component allows to edit, add and delete the value cells in pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
     This sample demonstrates CRUD operations performed over the raw items of any value cell in a pivot table.
@@ -907,7 +976,7 @@ The pivot table provides an optimized way to render rows and columns inside the 
 </p>"
                 },
                 Description = new string[] {
-@"<p>In the sample, the raw items of any value cell can be viewed in a drill-through dialog by double-clicking the
+@"<p>In this sample, the raw items of any value cell can be viewed in a drill-through dialog by double-clicking the
         cell. CRUD operations can be performed by double-clicking the cells or using toolbar options. The following
         CRUD operations can be performed through toolbar operations,
     </p>
@@ -920,70 +989,41 @@ The pivot table provides an optimized way to render rows and columns inside the 
             or <code>Cancel</code> in
             the toolbar, respectively.</li>
     </ul>
-    <p>This CRUD operations can be configured in a pivot table using <code>PivotViewCellEditSettings</code> in code behind. There are
+    <p>The above CRUD operations can be configured in a pivot table using <code>PivotViewCellEditSettings</code> class in code behind. There are
         also
-        different modes to manipulate the data source.</p>
-    <p>The available modes are:</p>
+        different modes to manipulate the data source. The available modes are:</p>
     <ul>
         <li><code>Normal</code> - Editing by row.</li>
         <li><code>Batch</code> - Editing individual cells and bulk updating.</li>
         <li><code>Dialog</code> - Editing by row with a dialog option. </li>
         <li><code>Command Columns</code> - An additional column appends to the data grid with icons to perform CRUD
             operations. Editing using cell double-click is restricted here.</li>
-    </ul>"
+    </ul>
+<p>More information on the editing feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/editing/'>documentation section</a>.</p>"
 
                 }
             },
             new Sample
             {
-                Name = "Drill Through",
+                Name = "Hyperlink",
                 Category = "Miscellaneous",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/DrillThrough",
-                FileName = "DrillThrough.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Drill Through . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows the raw items of any value cells in pivot table.",
-                ActionDescription = new string[] {
-                    @"<p>
-    This sample demonstrates how to obtain a list of raw items for a particular cell using the drill-through option
-        on double-clicking.
-</p>"
-
-                },
-                Description = new string[] {
-                   @"<p>In this sample, you can view the raw items of any pivot table cell by double-clicking the cell. The
-        drill-through dialog holds the row headers, column headers, and values information of the clicked cell.
-        Initially drill-through information is displayed for bound fields and you can include the remaining raw items
-        details using the <code>column chooser</code> option in the dialog.
-    </p>
-    <p>This feature can be enabled by setting the <code>AllowDrillThrough</code> property in <code>EjsPivotView</code> to <b>true</b>.</p>"
-
-                }
-            },
-            new Sample
-            {
-                Name = "HyperLink",
-                Category = "Miscellaneous",
-                Directory = "PivotView/PivotTable",
-                Url = "PivotTable/HyperLink",
+                Url = "pivot-table/hyperlink",
                 FileName = "HyperLink.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . HyperLink . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component shows hyperlink options in row headers, column headers, value cells, and summary cells in the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates showing hyperlink options in row headers, column headers, value cells, and summary cells
         in the pivot table. Also, hyperlink options can be enabled for specific headers and value cells based on the
         applied condition.</p>"
                 },
                 Description = new string[] {
-                    @"<p>
-    In this sample, hyperlinks are enabled in cells based on the options selected from the <code>PivotViewHyperlinkSettings</code>
-<p>The available modes are:</p>
+                    @"<p>In this sample, hyperlinks are enabled in cells based on the options selected from the <b>Show Hyperlink</b>
+        drop-down list.
+<p>The following options are available for setting the hyperlinks:</p>
 
     <table>
         <tr>
-            <td style='vertical-align: top;padding: 10px 0;width:200px'>
+            <td style='vertical-align: top;padding: 4px 0;width:200px'>
                 <code>ShowHyperlink :</code>
             </td>
             <td>Allows to set the visibility of hyperlink to all cells..</td>
@@ -1013,24 +1053,20 @@ The pivot table provides an optimized way to render rows and columns inside the 
             <td>Allows to set the visibility of hyperlink to value cells.</td>
         </tr>
     </table>
-    </br>
 </p>
-
 <p>
-
-In this sample, we have enabled hyperlink for row and column headers in the code behind. We have used the <code>HyperLinkCellClicked</code> event in <code>PivotViewEvents</code>.</p>"
+In this sample, we have used the <code>HyperlinkCellClicked</code> event for further processing during cell click.</p>
+<p>More information on the hyperlink feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/hyper-link/'>documentation section</a>.</p>"
                 }
             },
             new Sample
             {
-                Name = "DeferUpdate",
+                Name = "Defer Layout Update",
                 Category = "Miscellaneous",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/DeferUpdate",
+                Url = "pivot-table/defer-layout-update",
                 FileName = "DeferUpdate.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Defer Update . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate defer layout update feature of the pivot table.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
     This sample demonstrates the defer layout update feature of the pivot table. The defer layout update allows users
@@ -1047,20 +1083,21 @@ In this sample, we have enabled hyperlink for row and column headers in the code
         In this sample, the <b>Defer Layout Update</b> option can be enabled or disabled via field list UI.
     </p>
     <p>
-        In general, this feature can be enabled by setting  <code>AllowDeferLayoutUpdate</code> as true.
-    </p>"
+        In general, this feature can be enabled by setting the <code>AllowDeferLayoutUpdate</code> property in <code>EjsPivotView</code> class to <b>true</b>.
+    </p>
+<p>More information on the defer update feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/defer-layout-update/'>documentation section</a>.</p>"
                 }
             },
+
+
             new Sample
             {
                 Name = "Export",
                 Category = "Miscellaneous",
                 Directory = "PivotView/PivotTable",
-                Url = "PivotTable/Export",
+                Url = "pivot-table/export",
                 FileName = "Exporting.razor",
-                Type = SampleType.New,
-                TitleTag = "PivotTable . Export . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Blazor Pivot Table component demonstrate client-side exporting of the pivot table to Excel, CSV and PDF formats.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                   @"<p> This sample demonstrates client-side exporting of the pivot table to Excel, CSV and PDF formats.</p>
                 " },
@@ -1071,7 +1108,12 @@ In this sample, we have enabled hyperlink for row and column headers in the code
         <code>CsvExport</code> and
         <code>PdfExport</code> methods.
     </p>
-    <p>Exporting can be enabled by setting <code>AllowPdfExport</code> and <code>AllowExcelExport</code> in <code>EjsPivotView</code> to <b>true</b> for PDF, Excel and CSV exporting. </p>"
+    <p>
+        Choose the export document type in the dropdown list available inside the property panel and click the export button to export
+        the pivot table to the selected document format.
+    </p>
+    <p>Exporting can be enabled by setting <code>AllowPdfExport</code> and <code>AllowExcelExport</code> (for both Excel and CSV) properties in <code>EjsPivotView</code> class to <b>true</b> for PDF, Excel and CSV exporting. </p>
+<p>More information on the exporting feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/pivot-table/pdf-export/'>documentation section</a>.</p>"
    }
             }
         };

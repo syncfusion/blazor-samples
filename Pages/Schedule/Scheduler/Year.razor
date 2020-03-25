@@ -1,0 +1,129 @@
+@page "/scheduler/year-view"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section">
+    <SfSchedule TValue="EventData" CssClass="ScheduleYear" Width="100%" Height="555px" SelectedDate="@CurrentDate">
+        <ScheduleEventSettings DataSource="@AppointmentData"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.TimelineYear" Orientation="YearOrientation" DisplayName="Horizontal year"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 30%;">
+                            <div style="padding-left: 0px; padding-right: 10px;">
+                                Orientation
+                            </div>
+                        </td>
+                        <td style="width: 70%;">
+                            <div>
+                                <SfDropDownList TValue="string" TItem="Alignment" Index="1" PopupWidth="180" DataSource="@Align">
+                                    <DropDownListEvents TValue="string" ValueChange="OnValueChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .control_wrapper {
+        width: 200px;
+        padding-bottom: 70px;
+    }
+</style>
+
+@code{
+    public static List<EventData> AppointmentData = GenerateEvents();
+    public Orientation YearOrientation = Orientation.Horizontal;
+    public void OnValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.YearOrientation = (Orientation)Enum.Parse(typeof(Orientation), args.Value);
+    }
+    public DateTime CurrentDate = DateTime.Today;
+
+    public static List<EventData> GenerateEvents()
+    {
+        List<EventData> dataCollections = new List<EventData>(360);
+        int count = 250;
+        int year = DateTime.Now.Year;
+        var names = new string[] { "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration", "Wedding Aniversary", "Alaska: The Last Frontier", "Deadest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell", "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico", "Opening ceremony", "Final presentation" };
+        DateTime startDate = new DateTime(year - 2, 1, 1);
+        DateTime endDate = new DateTime(year + 2, 12, 31);
+        var id = 1;
+
+        for (var a = 0; a < count; a++)
+        {
+            Random random = new Random();
+            double num = random.NextDouble();
+
+            DateTimeOffset sdate = new DateTimeOffset(startDate).ToUniversalTime();
+            long startDateMilliSeconds = sdate.ToUnixTimeMilliseconds();
+
+            DateTimeOffset edate = new DateTimeOffset(endDate).ToUniversalTime();
+            long endDateMilliSeconds = edate.ToUnixTimeMilliseconds();
+
+            long Operations = (long)(num * (endDateMilliSeconds - startDateMilliSeconds) + startDateMilliSeconds);
+            DateTime start = DateTimeOffset.FromUnixTimeMilliseconds(Operations).UtcDateTime;
+            DateTime end = start.AddHours(1);
+            int ncount = (int)Math.Floor(Convert.ToDecimal(num * names.Length));
+            dataCollections.Add(new EventData
+            {
+                Id = id,
+                Subject = names[ncount],
+                StartTime = start,
+                EndTime = end,
+                IsAllDay = (id % 10 == 0) ? true : false
+            });
+            id++;
+        }
+        return dataCollections;
+    }
+
+    public class EventData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string CategoryColor { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+    }
+
+
+    public class Alignment
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    public List<Alignment> Align = new List<Alignment>() {
+        new Alignment(){ ID= "Vertical", Text= "Vertical"},
+        new Alignment(){ ID= "Horizontal", Text= "Horizontal"},
+    };
+}
+
+<style>
+    .ScheduleYear .e-date-header:hover {
+        text-decoration: none !important;
+    }
+</style>

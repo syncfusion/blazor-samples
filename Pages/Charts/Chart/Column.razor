@@ -1,12 +1,13 @@
-﻿@page "/Charts/Column"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/column"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Olympic Medal Counts - RIO">
+    <SfChart Title="Olympic Medal Counts - RIO">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis>
@@ -16,21 +17,21 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y" Name="Gold" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y" Name="Gold" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
                         </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y1" Name="Silver" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y1" Name="Silver" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y2" Name="Bronze" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y2" Name="Bronze" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
@@ -39,7 +40,7 @@
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -52,10 +53,37 @@
         public double y2 { get; set; }
     }
 
-    public List<ColumnChartData> dataSource = new List<ColumnChartData>
+    public List<ColumnChartData> DataSource = new List<ColumnChartData>
     {
         new ColumnChartData { x= "USA", y= 46, y1= 37, y2= 38 },
         new ColumnChartData { x= "GBR", y= 27, y1= 23, y2= 17 },
         new ColumnChartData { x= "CHN", y= 26, y1= 18, y2= 26 }
-    };    
+    };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

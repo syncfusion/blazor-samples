@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
-namespace ej2_blazor_samples
+using blazor_samples;
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -13,19 +13,19 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/DefaultFunctionalities",
+                Url = "dialog/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Default Functionalities . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates the default rendering of the Blazor dialog, which supports modal and non-modal (modeless), built-in buttons, and more.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the default rendering of the dialog component with minimum configuration. Click close or press ESC to close the dialog. Click “open” to show the dialog again, if it is closed.
+                        This sample demonstrates the default rendering of the Dialog component with minimum configuration. Click close or press ESC to close the dialog. Click “Open” to show the dialog again, if it is closed.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        The dialog component is used to display information and get input from the user. The dialog component is classified as modal and non-modal dialog depend on its interaction with parent application.
+                        The Dialog component is used to display information and get input from the user. The dialog component is classified as modal and non-modal dialog depend on its interaction with parent application.
                     </p>
                     <ul>
                         <li>
@@ -42,7 +42,7 @@ namespace ej2_blazor_samples
                 Name = "Custom Dialogs",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/CustomDialogs",
+                Url = "dialog/custom-dialogs",
                 FileName = "CustomDialogs.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Custom Dialogs . Syncfusion Blazor Components",
@@ -54,7 +54,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        The Dialog control is used to display messages such as supplementary content like images and text, and an interactive content like form components within a web page. The following are the two types of Dialogs:
+                        The Dialog control is used to display messages such as supplementary content like images and text, and an interactive content like form components within a web page. The following are the three types of Dialogs:
                     </p>
                     <ul>
                         <li>
@@ -75,7 +75,7 @@ namespace ej2_blazor_samples
                 Name = "Modal",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/Modal",
+                Url = "dialog/modal",
                 FileName = "Modal.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Modal . Syncfusion Blazor Components",
@@ -91,7 +91,7 @@ namespace ej2_blazor_samples
                     the parent application.
                 </p>
                 <p>More information on the modal behavior of Dialog can be found in the
-                <a target='_blank' href=""https://ej2.syncfusion.com/blazor/documentation/dialog/getting-started/""> documentation section</a>.
+                <a target='_blank' href=""https://blazor.syncfusion.com/documentation/dialog/getting-started/""> documentation section</a>.
                 </p>"
             }
             },
@@ -100,19 +100,22 @@ namespace ej2_blazor_samples
                 Name = "Template",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/Template",
+                Url = "dialog/template",
                 FileName = "Template.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Template . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to customize user interface elements like the header, footer, and content of the Blazor dialog control using a template.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This example demonstrates the template functionalities of the dialog component. The dialog Header and Footer is configured with HTML template. The typed content will be replaced every time when clicking the 'send' button.
+                        This example demonstrates the template functionalities of the Dialog component. The dialog Header and Footer is configured with HTML template. The typed content will be replaced every time when clicking the 'Send' button.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        The dialog component displays HTML template content on the Header and Footer. The user can set any HTML element as Header and Footer with the usage of content and FooterTemplate properties.
+                        The Dialog component displays HTML template content on the Header and Footer. The user can set any HTML element as Header and Footer with the usage of content and FooterTemplate properties.
+                    </p>
+                    <p>
+                    More information on the modal behavior of Dialog can be found in the<a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/dialog/template/""> documentation section </a>.
                     </p>"
                 }
             },
@@ -121,19 +124,22 @@ namespace ej2_blazor_samples
                 Name = "Draggable",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/Draggable",
+                Url = "dialog/draggable",
                 FileName = "Draggable.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Draggable . Syncfusion Blazor Components",
                 MetaDescription = "This example, shows how to enable drag-and-drop actions in the Blazor dialog control to help reposition the dialog efficiently.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This example demonstrates the drag-and-drop operation of the dialog component. To begin drag-and-drop operation, select a dialog's header using mouse and dropping them in the desired location. The dialog can be draggable within the sample container. Enable the 'open dialog' button to reopen the dialog if it is closed.
+                        This example demonstrates the drag-and-drop operation of the dialog component. To begin drag-and-drop operation, select a dialog's header using mouse and dropping them in the desired location. The dialog can be draggable within the sample container. Enable the 'Open' button to reopen the dialog if it is closed.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        A drag-and-drop operation is enabled using the <code>AllowDragging</code> property. when you configure the <code>Target</code> property, he dialog can be draggable within its target container alone. The drag-and-drop feature is used to reposition the dialog dynamically.
+                        A drag-and-drop operation is enabled using the <code>AllowDragging</code> property. when you configure the <code>Target</code> property, the dialog can be draggable within its target container alone. The drag-and-drop feature is used to reposition the dialog dynamically.
+                    </p>
+                    <p>
+                    More information on the draggable operation of Dialog can be found in the<a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/dialog/draggable/""> documentation section </a>.
                     </p>"
                 }
             },
@@ -142,7 +148,7 @@ namespace ej2_blazor_samples
                 Name = "Resizable",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/Resizable",
+                Url = "dialog/resizable",
                 FileName = "Resizable.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Resizable . Syncfusion Blazor Components",
@@ -150,13 +156,13 @@ namespace ej2_blazor_samples
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the resize operation of the dialog component. To resize the modal dialog, select and resize a dialog using its handle (grip) within the sample container.
-                        The ""open dialog"" button is used to reopen the dialog if it is closed.
+                        The ""Open"" button is used to reopen the dialog if it is closed.
                     </p>"
                 },
                 Description = new string[] {
                     @" <p>
-                        Users can create resizable modal dialog by setting the EnableResize property to true, which is used to change the size of a dialog dynamically and view its content with expanded mode.
-                        When you configure the Target property along with EnableResize property, the dialog can be resized within its specified target container.
+                        Users can create resizable modal dialog by setting the <code>EnableResize</code> property to true, which is used to change the size of a dialog dynamically and view its content with expanded mode.
+                        When you configure the <code>Target</code> property along with <code>EnableResize</code> property, the dialog can be resized within its specified target container.
                     </p>"
                 }
             },
@@ -165,19 +171,22 @@ namespace ej2_blazor_samples
                 Name = "Positioning",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/Positioning",
+                Url = "dialog/positioning",
                 FileName = "Positioning.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Positioning . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to display the Blazor dialog control at various built-in and custom positions.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This example demonstrates how to position the dialog control. Select the appropriate radio button to position where the dialog is displayed. The current position of the dialog is at the bottom. Enable the 'open dialog' button to reopen the dialog if it is closed.
+                        This example demonstrates how to position the Dialog control. Select the appropriate radio button to position where the dialog is displayed. The current position of the dialog is at the center. Enable the 'Open' button to reopen the dialog if it is closed.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        By default, the dialog is displayed in the center of the target container. Use the Position property to set location where the dialog displays relative to the target. The property point-out the horizontal and vertical coordinates. You can set position with specific X and Y coordinates in pixel values.
+                        By default, the Dialog is displayed in the center of the target container. Use the <code>Position</code> property to set location where the dialog displays relative to the target. The property point-out the horizontal and vertical coordinates. You can set position with specific X and Y coordinates in pixel values.
+                    </p>
+                    <p>
+                    More information on the positioning of Dialog can be found in the<a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/dialog/positioning/""> documentation section </a>.
                     </p>"
                 }
             },
@@ -186,7 +195,7 @@ namespace ej2_blazor_samples
             //     Name = "Animation",
             //     Category = "Dialog",
             //     Directory = "Popups/Dialog",
-            //     Url = "Dialog/Animation",
+            //     Url = "dialog/animation",
             //     FileName = "Animation.razor",
             //     Type = SampleType.New,
             //     ActionDescription = new string[] {
@@ -205,19 +214,19 @@ namespace ej2_blazor_samples
                 Name = "Multiple Dialogs",
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
-                Url = "Dialog/MultipleDialogs",
+                Url = "dialog/multiple-dialogs",
                 FileName = "MultipleDialogs.razor",
                 Type = SampleType.New,
                 TitleTag = "Dialog . Multiple Dialogs . Syncfusion Blazor Components",
                 MetaDescription = "This example shows how to display multiple dialogs sequentially and open multiple dialogs simultaneously for both modal and modeless Blazor dialogs.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This example demonstrates how to display multiple dialogs one over the other. The second dialog is configured with draggable behavior to adjust its position. You can invoke the second dialog from first dialog's button. Enable the 'open dialog' button to reopen the dialog if the first dialog is closed.
+                        This example demonstrates how to display Multiple Dialogs one over the other. The second Dialog is configured with draggable behavior to adjust its position. You can invoke the second dialog from first dialog's button. Enable the 'Open' button to reopen the dialog if the first dialog is closed.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        You can configure the dialog as a parent and child, and invoke the child dialog from its parent dialog. In addition, multiple dialogs can be shown at a time in a page. The Z- index order will be controlled automatically in the browser and manually using the <code>zIndex</code> property.
+                        You can configure the dialog as a parent and child, and invoke the child dialog from its parent dialog. In addition, multiple dialogs can be shown at a time in a page. The Z- index order will be controlled automatically in the browser and manually using the <code>ZIndex</code> property.
                     </p>"
                 }
             }
@@ -228,7 +237,7 @@ namespace ej2_blazor_samples
                 Name = "Default",
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
-                Url = "Tooltip/Default",
+                Url = "tooltip/default",
                 FileName = "Default.razor",
                 Type = SampleType.New,
                 ActionDescription = new string[] {
@@ -239,8 +248,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    This sample illustrates a tooltip, that gets opened on hovering the target labelled “Show Tooltip”. The tooltip can be shown
-                    on 12 possible positions, by selecting the appropriate position values provided in the dropdown. The applicable tooltip
+                    This sample illustrates a Tooltip, that gets opened on hovering the target labelled “Show Tooltip”. The Tooltip can be shown
+                    on 12 possible positions, by selecting the appropriate position values provided in the Dropdown. The applicable Tooltip
                     positions are as follows:
                 </p>
                 <ul>
@@ -257,28 +266,28 @@ namespace ej2_blazor_samples
                     <li><code>RightCenter</code></li>
                     <li><code>RightBottom</code></li>
                 </ul>
-                <p>In case, if the tooltip needs to be opened on mobile devices, tap hold on the target labelled “Show Tooltip” instead of hovering
+                <p>In case, if the Tooltip needs to be opened on mobile devices, tap hold on the target labelled “Show Tooltip” instead of hovering
                     and by default, it closes after 1.5 seconds on lift.</p>"
                 }
             },
             new Sample
             {
-                Name = "HtmlTemplate",
+                Name = "HTML Template",
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
-                Url = "Tooltip/HtmlTemplate",
+                Url = "tooltip/html-template",
                 FileName = "HtmlTemplate.razor",
                 Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample demonstrates customizing tooltip content to display a HTML page.
+                    This sample demonstrates customizing Tooltip content to display a HTML page.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
                 Tooltip content has been customized using HTML tags and CSS, i.e. the content can be loaded with HTML tags such
                     as &lt;img&gt;,
-                    &lt;a&gt;,&lt;b&gt;, etc. Title can also be added to the content. Overall, the tooltip content can be
+                    &lt;a&gt;,&lt;b&gt;, etc. Title can also be added to the content. Overall, the Tooltip content can be
                     customized to appear like a web page.
                 </p>"
                 }
@@ -288,11 +297,25 @@ namespace ej2_blazor_samples
                 Name = "API",
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
-                Url = "Tooltip/Api",
+                Url = "tooltip/api",
                 FileName = "Api.razor",
                 Type = SampleType.New,
-                 ActionDescription = new string[] {},
-                Description = new string[] {}
+                ActionDescription = new string[] {
+                    @"<p>
+                    This sample demonstrates how to customize the Tooltip component by using its Properties from the property pane. Select any combination of properties from the property pane to customize the Tooltip.
+                </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                In this demo, the Default Tooltip is rendered with minimal configuration. This sample can be customized further with the combination of Tooltip properties from the property pane. For example,
+                <ul>
+                <li>Any change made to a textbox in the property pane will be reflected in the Tooltip content.</li>
+                <li>StickyMode can be enabled by checking the sticky mode option in the property pane.</li>
+                <li>Height and Width can be changed from the property pane.</li>
+                <li>OpenMode can be changed from the property pane.</li>
+                </ul>
+                </p>"
+                }
             }
         };   
     }

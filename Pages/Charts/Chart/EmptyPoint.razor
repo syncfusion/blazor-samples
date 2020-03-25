@@ -1,26 +1,28 @@
-﻿@page "/Charts/EmptyPoint"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/empty-point"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <EjsChart @ref="chartObj" Title="Annual Product-Wise Profit Analysis">
+        <SfChart Title="Annual Product-Wise Profit Analysis">
+            <ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis Title="Product" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+            <ChartPrimaryXAxis Title="Product" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="Profit" Minimum="0" Maximum="100" Interval="20" LabelFormat="{value}%">
             </ChartPrimaryYAxis>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@dataSource" XName="x" YName="y" Type="@seriesType">
+                <ChartSeries DataSource="@DataSource" XName="x" YName="y" Type="@SeriesType">
                     <ChartMarker Visible="true" Height="10" Width="10">
                     </ChartMarker>
-                    <ChartEmptyPointSettings Fill="#e6e6e6" Mode="@mode"></ChartEmptyPointSettings>
+                    <ChartEmptyPointSettings Fill="#e6e6e6" Mode="@Mode"></ChartEmptyPointSettings>
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        </EjsChart>
+        </SfChart>
     </div>
     <div class="col-lg-4 property-section">
         <table id="property" style="width: 100%;">
@@ -32,11 +34,10 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <select @onchange="changeType">
-                        <option value="Column">Column</option>
-                        <option value="Area">Area</option>
-                        <option value="Spline">Spline</option>
-                    </select>
+                   <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal1" DataSource="@SeriesData">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeType"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
             <tr style="height: 50px">
@@ -46,44 +47,98 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <select @onchange="changeMode">
-                        <option value="Gap">Gap</option>
-                        <option value="Drop">Drop</option>
-                        <option value="Average">Average</option>
-                        <option value="Zero">Zero</option>
-                    </select>
+                    <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeMode"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
         </table>
     </div>
 </div>
 @code{
-    EjsChart chartObj;
-    ChartSeriesType seriesType = ChartSeriesType.Column;
-    EmptyPointMode mode = EmptyPointMode.Gap;
-    public void changeType(ChangeEventArgs args)
+
+    ChartSeriesType SeriesType = ChartSeriesType.Column;
+    EmptyPointMode Mode = EmptyPointMode.Gap;
+
+    public string DropVal = "Gap";  
+    public string DropVal1 = "Column";    
+
+    public class SelectionTypes
     {
-        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        public string Type { get; set; }
+
+        public string Code { get; set; }
     }
-    public void changeMode(ChangeEventArgs args)
+
+    List<SelectionTypes> ModeData = new List<SelectionTypes>
+{
+        new SelectionTypes() { Type = "Gap", Code = "XY" },
+        new SelectionTypes() { Type = "Drop", Code = "XY" },
+        new SelectionTypes() { Type = "Zero", Code = "X" },
+        new SelectionTypes() { Type = "Average", Code = "Y" }
+        
+    };
+
+    List<SelectionTypes> SeriesData = new List<SelectionTypes>
+{
+        new SelectionTypes() { Type = "Column", Code = "XY" },
+        new SelectionTypes() { Type = "Area", Code = "XY" },
+        new SelectionTypes() { Type = "Spline", Code = "X" },
+        
+        
+    };
+    public void ChangeType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        this.mode = (EmptyPointMode)Enum.Parse(typeof(EmptyPointMode), args.Value.ToString(), true);
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+    public void ChangeMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.Mode = (EmptyPointMode)Enum.Parse(typeof(EmptyPointMode), args.Value.ToString(), true);
     }
     public class EmptyPointData
     {
         public string x { get; set; }
-        public Nullable<double> y { get; set; }
+        public Nullable<double>
+    y { get; set; }
     }
-    public List<EmptyPointData> dataSource = new List<EmptyPointData>
+    public List<EmptyPointData>
+        DataSource = new List<EmptyPointData>
+            {
+            new EmptyPointData { x = "Rice",  y = 80 },
+            new EmptyPointData { x = "Wheat", y = null },
+            new EmptyPointData { x = "Oil",   y = 70 },
+            new EmptyPointData { x = "Corn",  y = 60 },
+            new EmptyPointData { x = "Gram",  y = null },
+            new EmptyPointData { x = "Milk",  y = 70 },
+            new EmptyPointData { x = "Peas",  y = 80 },
+            new EmptyPointData { x = "Fruit", y = 60 },
+            new EmptyPointData { x = "Butter",y = null }
+            };
+            string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
     {
-       new EmptyPointData { x = "Rice",  y = 80 },
-       new EmptyPointData { x = "Wheat", y = null },
-       new EmptyPointData { x = "Oil",   y = 70 },
-       new EmptyPointData { x = "Corn",  y = 60 },
-       new EmptyPointData { x = "Gram",  y = null },
-       new EmptyPointData { x = "Milk",  y = 70 },
-       new EmptyPointData { x = "Peas",  y = 80 },
-       new EmptyPointData { x = "Fruit", y = 60 },
-       new EmptyPointData { x = "Butter",y = null }
-    };
-}
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+            }

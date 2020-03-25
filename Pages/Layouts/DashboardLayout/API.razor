@@ -1,16 +1,16 @@
-@page "/DashboardLayout/API"
+@page "/dashboard-layout/api"
 
-@using Syncfusion.EJ2.Blazor.Layouts
-@using Syncfusion.EJ2.Blazor.Buttons
-@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
 
 @inherits SampleBaseComponent;
 
 <div class="col-lg-8 control-section">
     <div class="content-wrapper" style="max-width: 100%">
-        <EjsDashboardLayout @ref="dashboardObject" AllowResizing="@Allowresizing" AllowFloating="@Allowfloating" CellSpacing="@CellSpacing" Columns="@Columns">
+        <SfDashboardLayout @ref="dashboardObject" AllowResizing="@AllowResizing" AllowFloating="@AllowFloating" CellSpacing="@CellSpacing" Columns="@Columns">
             <DashboardLayoutPanels>
-                <DashboardLayoutPanel ID="1" Row="0" Col="0" SizeX="2" SizeY="2">
+                <DashboardLayoutPanel Id="1" Row="0" Col="0" SizeX="2" SizeY="2">
                     <HeaderTemplate><div>Panel 1</div></HeaderTemplate>
                 </DashboardLayoutPanel>
                 <DashboardLayoutPanel Id="2" Row="0" Col="2" SizeX="2" SizeY="2">
@@ -26,7 +26,7 @@
                     <HeaderTemplate><div>Panel 5</div></HeaderTemplate>
                 </DashboardLayoutPanel>
             </DashboardLayoutPanels>
-        </EjsDashboardLayout>
+        </SfDashboardLayout>
     </div>
 </div>
 <div class="col-lg-4 property-section dashboard">
@@ -38,13 +38,23 @@
             <div class="form-group row">
                 <label for="settings-bubble-up-input" class="col-sm-4 col-form-label form-label">AllowFloating</label>
                 <div class="col-sm-8">
-                    <EjsCheckBox  @bind-Checked="@Floatcheck" Name="floating" ValueChange="OnfloatChange" Value="1"></EjsCheckBox>
+                    <SfCheckBox  @bind-Checked="@FloatCheck" Name="floating" ValueChange="OnFloatChange" Value="1"></SfCheckBox>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="settings-bubble-up-input" class="col-sm-4 col-form-label form-label">AllowResizing</label>
                 <div class="col-sm-8">
-                    <EjsCheckBox  @bind-Checked="@Resizecheck" Name="resizing" ValueChange="OnChange" Value="2"></EjsCheckBox>
+                    <SfCheckBox  @bind-Checked="@ResizeCheck" Name="resizing" ValueChange="OnChange" Value="2"></SfCheckBox>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <SfButton CssClass="e-primary"  Content="Add Panel" @onclick="AddClick"></SfButton>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <SfButton CssClass="e-danger" Content="Remove Panel" @onclick="RemoveClick"></SfButton>
                 </div>
             </div>
         </div>
@@ -52,24 +62,55 @@
 </div>
 
 @code {
-    EjsDashboardLayout dashboardObject;
+    SfDashboardLayout dashboardObject;
 
     public double[] CellSpacing = { 10, 10 };
-    public bool Floatcheck = true;
-    public bool Resizecheck = true;
+    public bool FloatCheck = true;
+    public bool ResizeCheck = true;
     public int Columns = 6;
-    public bool Allowfloating { get; set; } = true;
-    public bool Allowresizing { get; set; } = true;
+    public bool AllowFloating { get; set; } = true;
+    public bool AllowResizing { get; set; } = true;
     public int Count = 5;
     public int Length { get; set; }
 
-    public void OnfloatChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    public void OnFloatChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
-        this.Allowfloating = args.Checked;
+        this.AllowFloating = args.Checked;
     }
-    public void OnChange(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    public void OnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
-        this.Allowresizing = args.Checked;
+        this.AllowResizing = args.Checked;
+    }
+
+    public void AddClick(EventArgs args)
+    {
+        this.Count = this.Count + 1;
+        string HeaderText = "Panel " + this.Count.ToString();
+        PanelModel panel = new PanelModel
+        {
+            Id = this.Count.ToString() + "_layout",
+            SizeX = 2,
+            SizeY = 2,
+            Row = 0,
+            Col = 0,
+            Enabled = true,
+            Header = @<div>@HeaderText</div>
+        };
+        dashboardObject.AddPanel(panel);
+    }
+
+
+    public async void RemoveClick(EventArgs args)
+    {
+        List<PanelModel> panel = await this.dashboardObject.Serialize();
+        Length = panel.Count;
+        if (Length != 0)
+        {
+            for (var i = Length - 1; i < Length; i++)
+            {
+                dashboardObject.RemovePanel(panel[Length - 1 - i].Id);
+            }
+        }
     }
 }
 

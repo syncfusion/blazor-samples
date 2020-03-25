@@ -1,29 +1,31 @@
-﻿@page "/Charts/PolarArea"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/polar-area"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 <div class="row">
 <div class="col-lg-9 control-section">
-    <EjsChart Title="Average Sales Comparison">
+    <SfChart Title="Average Sales Comparison">
+     <ChartEvents Load="ChartLoad"/>
         <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
-        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Revenue in Millios" LabelFormat="{value}M"></ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Opacity=0.5 Name="Product A" XName="x" Width="2" YName="y" Type="@seriesType" DrawType="ChartDrawType.Area">
+            <ChartSeries DataSource="@DataSource" Opacity=0.5 Name="Product A" XName="x" Width="2" YName="y" Type="@SeriesType" DrawType="ChartDrawType.Area">
                 <ChartSeriesBorder Color="transparent" Width="0"></ChartSeriesBorder>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Opacity=0.5 Name="Product B" XName="x" Width="2" YName="y1" Type="@seriesType" DrawType="ChartDrawType.Area">
+            <ChartSeries DataSource="@DataSource" Opacity=0.5 Name="Product B" XName="x" Width="2" YName="y1" Type="@SeriesType" DrawType="ChartDrawType.Area">
                 <ChartSeriesBorder Color="transparent" Width="0"></ChartSeriesBorder>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Opacity=0.5 Name="Product C" XName="x" Width="2" YName="y2" Type="@seriesType" DrawType="ChartDrawType.Area">
+            <ChartSeries DataSource="@DataSource" Opacity=0.5 Name="Product C" XName="x" Width="2" YName="y2" Type="@SeriesType" DrawType="ChartDrawType.Area">
                 <ChartSeriesBorder Color="transparent" Width="0"></ChartSeriesBorder>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
     <div class="col-lg-3 property-section">
-        <table id="property" style="width: 100%">
+        <table style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 50%">
@@ -32,23 +34,39 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <div>
-                        <select id="SelectSeriesType" @onchange="changeSeriesType">
-                            <option value="Polar">Polar</option>
-                            <option value="Radar">Radar</option>
-                        </select>
-                    </div>
+                    <SfDropDownList TValue="string" TItem="SeriesTypes" @bind-Value="@DropVal" DataSource="@Country">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
         </table>
     </div>
 </div>
 @code{
-    ChartSeriesType seriesType = ChartSeriesType.Polar;
-    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    public string DropVal = "Polar";
+
+    public class SeriesTypes
     {
-        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        public string Type { get; set; }
+
+        public string Code { get; set; }
     }
+
+    List<SeriesTypes> Country = new List<SeriesTypes>
+{
+        new SeriesTypes() { Type = "Polar", Code = "P" },
+        new SeriesTypes() { Type = "Radar", Code = "R" },
+    };
+
+    ChartSeriesType SeriesType = ChartSeriesType.Polar;
+    public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        StateHasChanged();
+    }
+
+   
     public class PolarAreaChartData
     {
         public string x { get; set; }
@@ -56,7 +74,7 @@
         public double y1 { get; set; }
         public double y2 { get; set; }
     }
-    public List<PolarAreaChartData> dataSource = new List<PolarAreaChartData>
+    public List<PolarAreaChartData> DataSource = new List<PolarAreaChartData>
     {
           new PolarAreaChartData { x= "2000", y= 4  , y1= 2.6, y2= 2.8},
           new PolarAreaChartData { x= "2001", y= 3.0, y1= 2.8, y2= 2.5 },
@@ -65,4 +83,33 @@
           new PolarAreaChartData { x= "2004", y= 3.2, y1= 3.6, y2= 2.9 },
           new PolarAreaChartData { x= "2005", y= 3.9, y1= 3  , y2= 2   }
     };
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

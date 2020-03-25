@@ -1,12 +1,13 @@
-﻿@page "/Charts/Area"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/area"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Average Sales Comparison">
+    <SfChart Title="Average Sales Comparison">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Revenue in Millions" Interval="1" LabelFormat="{value}M">
@@ -14,26 +15,26 @@
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Product A" XName="xValue" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Product A" XName="xValue" Width="2"
                          Opacity="0.5" YName="yValue" Type="ChartSeriesType.Area">               
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="Product B" XName="xValue" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Product B" XName="xValue" Width="2"
                          Opacity="0.5" YName="yValue1" Type="ChartSeriesType.Area">              
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
 
-        public class AreaChartData
-        {
-            public DateTime xValue { get; set; }
-            public double yValue { get; set; }
-            public double yValue1 { get; set; }
-        }
+    public class AreaChartData
+    {
+        public DateTime xValue { get; set; }
+        public double yValue { get; set; }
+        public double yValue1 { get; set; }
+    }
 
-        public List<AreaChartData> chartData = new List<AreaChartData>
+    public List<AreaChartData> ChartData = new List<AreaChartData>
         {
             new AreaChartData { xValue = new DateTime(2000, 01, 01), yValue = 4, yValue1 = 2.6 },
             new AreaChartData { xValue = new DateTime(2001, 01, 01), yValue = 3.0, yValue1 = 2.8 },
@@ -42,4 +43,31 @@
             new AreaChartData { xValue = new DateTime(2004, 01, 01), yValue = 3.2, yValue1 = 3.6 },
             new AreaChartData { xValue = new DateTime(2005, 01, 01), yValue = 3.9, yValue1 = 3 },
         };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

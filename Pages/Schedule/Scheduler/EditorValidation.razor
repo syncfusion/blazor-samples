@@ -1,0 +1,27 @@
+@page "/scheduler/field-validation"
+
+@using Syncfusion.Blazor.Schedule
+@inherits SampleBaseComponent;
+
+<div class="col-lg-12 control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 9))">
+            <ScheduleEventSettings DataSource="@DataSource">
+                <ScheduleField>
+                    <FieldSubject Name="Subject" Validation="@ValidationRules"></FieldSubject>
+                    <FieldLocation Name="Location" Validation="@LocationValidationRules"></FieldLocation>
+                    <FieldDescription Name="Description" Validation="@DescriptionValidationRules"></FieldDescription>
+                    <FieldStartTime Name="StartTime" Validation="@ValidationRules"></FieldStartTime>
+                    <FieldEndTime Name="EndTime" Validation="@ValidationRules"></FieldEndTime>
+                </ScheduleField>
+            </ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+
+@code{
+    Dictionary<string, object> ValidationRules = new Dictionary<string, object>() { { "required", true } };
+    Dictionary<string, object> LocationValidationRules = new Dictionary<string, object>() { { "required", true }, { "regex", new string[] { "^[a-zA-Z0-9- ]*$", "Special character(s) not allowed in this field" } } };
+    Dictionary<string, object> DescriptionValidationRules = new Dictionary<string, object>() { { "required", true }, { "minLength", 5 }, { "maxLength", 500 } };
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+}

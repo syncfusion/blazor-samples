@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
     public class Program
     {
@@ -68,6 +68,8 @@ namespace ej2_blazor_samples
         public string Url { get; set; }
         public string TitleTag { get; set; }
         public string MetaDescription { get; set; }
+
+        public string MappingSampleName { get; set; }
 
         public string[] ActionDescription { get; set; }
 

@@ -1,0 +1,91 @@
+@page "/scheduler/block-out-dates-and-hours"
+
+@using Syncfusion.Blazor.Schedule
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inherits SampleBaseComponent;
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfSchedule TValue="ScheduleData.BlockData" Width="100%" Height="650px" CssClass="block-events" CurrentView="View.TimelineDay" SelectedDate="@(new DateTime(2020, 1, 1))">
+            <ScheduleGroup Resources="@GroupData" EnableCompactView="false"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource TValue="ScheduleData.EmployeeData" DataSource="@ResourceData" Field="EmployeeId" Title="Employees" Name="Employee" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="false"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+            <ScheduleTemplates>
+                <ResourceHeaderTemplate>
+                    @{
+                        var resourceData = (context as ScheduleData.BlockData).ResourceData as ScheduleData.EmployeeData;
+                        <div class="template-wrap">
+                            <div class="employee-category">
+                                <img class="employee-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{resourceData.Text}.png")" />
+                                <div class="employee-name">@(resourceData.Text)</div>
+                                <div class="employee-designation">@(resourceData.Designation)</div>
+                            </div>
+                        </div>
+                    }
+                </ResourceHeaderTemplate>
+            </ScheduleTemplates>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.TimelineDay"></ScheduleView>
+                <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+            </ScheduleViews>
+        </SfSchedule>
+    </div>
+</div>
+
+@code{
+    public List<ScheduleData.BlockData> DataSource = new ScheduleData().GetBlockData();
+    public string[] GroupData { get; set; } = { "Employee" };
+    public List<ScheduleData.EmployeeData> ResourceData { get; set; } = new List<ScheduleData.EmployeeData> {
+        new ScheduleData.EmployeeData { Text = "Alice", Id = 1, GroupId = 1, Color = "#bbdc00", Designation = "Content writer" },
+        new ScheduleData.EmployeeData { Text = "Nancy", Id = 2, GroupId = 2, Color = "#9e5fff", Designation = "Designer" },
+        new ScheduleData.EmployeeData { Text = "Robert", Id = 3, GroupId = 1, Color = "#bbdc00", Designation = "Software Engineer" },
+        new ScheduleData.EmployeeData { Text = "Robson", Id = 4, GroupId = 2, Color = "#9e5fff", Designation = "Support Engineer" },
+        new ScheduleData.EmployeeData { Text = "Laura", Id = 5, GroupId = 1, Color = "#bbdc00", Designation = "Human Resource" },
+        new ScheduleData.EmployeeData { Text = "Margaret", Id = 6, GroupId = 2, Color = "#9e5fff", Designation = "Content Analyst" }
+    };
+}
+<style>
+
+    .e-schedule .template-wrap {
+        width: 100%;
+    }
+
+    .e-schedule .e-vertical-view .e-resource-cells {
+        height: 58px;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-left-td,
+    .e-schedule .e-timeline-month-view .e-resource-left-td {
+        width: 170px;
+    }
+
+    .e-schedule .e-resource-cells.e-child-node .employee-category,
+    .e-schedule .e-resource-cells.e-child-node .employee-name {
+        padding: 5px
+    }
+
+    .e-schedule .employee-image {
+        width: 45px;
+        height: 40px;
+        float: left;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .e-schedule .employee-name {
+        font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .e-schedule .employee-designation {
+        font-size: 11px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -9,11 +9,9 @@ namespace ej2_blazor_samples
                 Name = "Line Chart",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/DefaultFunctionalities",
+                Url = "chart/line",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Line Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the consumer price data with default line series in the chart.
@@ -35,11 +33,9 @@ namespace ej2_blazor_samples
                 Name = "Spline Chart",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Spline",
+                Url = "chart/spline",
                 FileName = "Spline.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Spline Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the spline series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the NC weather report for the year 2016 with default spline series in the chart. Low and high temperature of the year are indicated by using annotation.
@@ -59,11 +55,9 @@ namespace ej2_blazor_samples
                 Name = "Step Line",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StepLine",
+                Url = "chart/step-line",
                 FileName = "StepLine.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Step Line . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the step line series.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the unemployment rate from 1975 to 2010 with default stepline series in the chart. Data points are enhanced with marker and tooltip.
@@ -83,11 +77,9 @@ namespace ej2_blazor_samples
                 Name = "Dashed Line",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/DashedLine",
+                Url = "chart/dashed-line",
                 FileName = "DashedLine.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Dashed Line . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the dashed line series.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a line series with dash array. Dashed lines are animated by using css animation.
@@ -109,11 +101,9 @@ namespace ej2_blazor_samples
                 Name = "Inversed Spline",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/InversedSpline",
+                Url = "chart/inversed-spline",
                 FileName = "InversedSpline.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Inversed Spline . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the inversed spline series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a spline series by inversing X and Y Axis. Data points are enhanced with marker and tooltip.
@@ -133,11 +123,9 @@ namespace ej2_blazor_samples
                 Name = "Line Zone",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/LineZone",
+                Url = "chart/line-zone",
                 FileName = "LineZone.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Line Zone . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Chart control shows how to render and configure the points in a particular range using MultiColoredLine series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the annual mean rainfall data with multi colored line series in the chart. Data points are enhanced with segments and tooltip.
@@ -157,11 +145,9 @@ namespace ej2_blazor_samples
                 Name = "Multi Colored Line",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/MultiColoredLine",
+                Url = "chart/multi-colored-line",
                 FileName = "MultiColoredLine.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Multi Colored Line . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the multi colored line series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the particulate levels in rainfall with multi colored line series in the chart. Data points are
@@ -183,11 +169,9 @@ namespace ej2_blazor_samples
                 Name = "Stacked Line",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedLine",
+                Url = "chart/stacked-line",
                 FileName = "StackedLine.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Stacked Line . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the stacked line series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the family expense data with stacked line series in the chart to identify who spent more money in each category. Data points are enhanced with marker and tooltip.
@@ -195,7 +179,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the stacked line type charts. Stacked Line type charts are used to represent time-dependent data, showing trends in data at equal intervals with stacked values of multiple series. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.
+                    In this example, you can see how to render and configure the stacked line type charts. Stacked Line type charts are used to represent time-dependent data, showing trends in data at equal intervals with stacked values of multiple series. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> are used to represent individual data and its value.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
@@ -207,11 +191,9 @@ namespace ej2_blazor_samples
                 Name = "100% Stacked Line",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedLine100",
+                Url = "chart/percent-stacked-line",
                 FileName = "StackedLine100.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . 100% Stacked Line . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the 100% stacked line series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the family expense data with stacked line series in the chart to identify who spent more money in each category. Data points are enhanced with marker and tooltip.
@@ -219,7 +201,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the stacked line type charts. 100% Stacked Line type charts are used to represent time-dependent data, showing trends in data at equal intervals with stacked values of multiple series. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.
+                    In this example, you can see how to render and configure the stacked line type charts. 100% Stacked Line type charts are used to represent time-dependent data, showing trends in data at equal intervals with stacked values of multiple series. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> are used to represent individual data and its value.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
@@ -231,11 +213,9 @@ namespace ej2_blazor_samples
                 Name = "Area",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Area",
+                Url = "chart/area",
                 FileName = "Area.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control shows how to render and configure the area series chart.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about average sales comparison of two products by using default area series in the chart. Legend in the sample shows the information about the series.
@@ -243,7 +223,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the area type charts. Similar to line type series, but the area get closed and filled with series color. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the spline. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value. Legend is enabled in this example with series type shape.
+                    In this example, you can see how to render and configure the area type charts. Similar to line type series, but the area get closed and filled with series color. You can use <code>Border</code>, <code>Fill</code> properties to customize the spline. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value. Legend is enabled in this example with series type shape.
                 </p>"
                 }
             },
@@ -252,11 +232,9 @@ namespace ej2_blazor_samples
                 Name = "Spline Area",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/SplineArea",
+                Url = "chart/spline-area",
                 FileName = "SplineArea.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Spline Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the spline area series.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about inflation rate comparision for three countries by using spline area series in the chart. Legend in the sample shows the information about the series.
@@ -264,7 +242,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the stacking area type charts. Stacks the series on top of another series to avoid the overlapping of series with one another, when rendering more than one area series in same chart. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the area. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.
+                    In this example, you can see how to render and configure the stacking area type charts. Stacks the series on top of another series to avoid the overlapping of series with one another, when rendering more than one area series in same chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the area. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.
                 </p>"
                 }
             },
@@ -273,11 +251,9 @@ namespace ej2_blazor_samples
                 Name = "Step Area",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StepArea",
+                Url = "chart/step-area",
                 FileName = "StepArea.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Step Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the step area series.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about electricity production by using renewable and non-renewable resources by using default step area series in the chart.
@@ -294,11 +270,9 @@ namespace ej2_blazor_samples
                 Name = "Range Area",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/RangeArea",
+                Url = "chart/range-area",
                 FileName = "RangeArea.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Range Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the range area series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the maximum and minimum temperatures of different months with default range area series in the chart. Zoom the chart to check the temperature for week or day.
@@ -315,11 +289,9 @@ namespace ej2_blazor_samples
                 Name = "Stacked Area",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedArea",
+                Url = "chart/stacked-area",
                 FileName = "StackedArea.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Stacked Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the stacking area series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     Trend in the sales of ethical product is visualized with default stacked area series in chart. Legend in the sample shows the information about the series.
@@ -327,7 +299,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the stacking area type charts. Stacks the series on top of another series to avoid the overlapping of series with one another, when rendering more than one area series in same chart. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the spline. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value. Legend is enabled in this example with series type shape.
+                    In this example, you can see how to render and configure the stacking area type charts. Stacks the series on top of another series to avoid the overlapping of series with one another, when rendering more than one area series in same chart. You can use <code>Fill</code> properties to customize the stacked area. <code>DataLabel</code> are used to represent individual data and its value. Legend is enabled in this example with series type shape.
                 </p>"
                 }
             },
@@ -336,11 +308,9 @@ namespace ej2_blazor_samples
                 Name = "100% Stacked Area",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedArea100",
+                Url = "chart/percent-stacked-area",
                 FileName = "StackedArea100.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . 100% Stacked Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the 100 percent stacking area series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     Percentage of sales for four ethical products are visualized with default 100% stacked area series in chart. Legend in the sample shows the information about the series.
@@ -348,7 +318,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the 100% stacking area type charts. You can use fill properties to customize the 100% stacking area.
+                    In this example, you can see how to render and configure the 100% stacking area type charts. You can use <code>Fill</code> properties to customize the 100% stacking area.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
@@ -360,11 +330,9 @@ namespace ej2_blazor_samples
                 Name = "Area Empty",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/AreaEmpty",
+                Url = "chart/area-empty",
                 FileName = "AreaEmpty.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Area Empty . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the area series chart with empty points.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates an area series with empty points. Data points with null points are dropped here.
@@ -372,7 +340,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    n this example, you can see how to render a area series with empty points. Similar to line type series, but the area get closed and filled with series color. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the spline. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value. Legend is enabled in this example with series type shape.
+                    n this example, you can see how to render a area series with empty points. Similar to line type series, but the area get closed and filled with series color. You can use <code>Border</code>, <code>Fill</code> properties to customize the area. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value. Legend is enabled in this example with series type shape.
                 </p>"
                 }
             },
@@ -381,11 +349,9 @@ namespace ej2_blazor_samples
                 Name = "Area Zone",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/AreaZone",
+                Url = "chart/area-zone",
                 FileName = "AreaZone.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Area Zone . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render the points in a particular range using MultiColoredArea series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the organic revenue data with multi colored area series in the chart. Data points are enhanced with segments and tooltip.
@@ -393,7 +359,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the points in a particular range by using MultiColoredArea series type. Points under the range can be configured with <code>Color</code>, <code>Width</code>, and <code>DashArray</code>.
+                    In this example, you can see how to render and configure the points in a particular range by using MultiColoredArea series type. Points under the range can be configured with <code>Color</code>, <code>Width</code>, and <code>DashArray</code>. Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap a point in touch enabled devices.
                 </p>
                     <p>
                     </p>"
@@ -404,11 +370,9 @@ namespace ej2_blazor_samples
                 Name = "Column Chart",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Column",
+                Url = "chart/column",
                 FileName = "Column.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Column Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the column series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Olympic medal count in Rio with default column series in the chart.
@@ -434,11 +398,9 @@ namespace ej2_blazor_samples
                 Name = "Rounded Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/RoundedColumn",
+                Url = "chart/rounded-column",
                 FileName = "RoundedColumn.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Rounded Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the rounded column series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Olympic medal count in Rio with default column series in the chart.
@@ -462,11 +424,9 @@ namespace ej2_blazor_samples
                 Name = "Column Placement",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/ColumnPlacement",
+                Url = "chart/column-placement",
                 FileName = "ColumnPlacement.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Column Placement . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the column charts.",
+                Type = SampleType.New,              
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates four column series. Each column is rendered with different column width and it is placed  behind to another one.
@@ -477,7 +437,7 @@ namespace ej2_blazor_samples
                     In this example, you can see how to render and configure the column type charts. Column type charts are used for comparing
                     the frequency, count, total or average of data in different categories. You can use <code>Border</code>,
                     <code>Fill</code> properties to customize the vertical rect. <code>DataLabel</code> is used to represent individual
-                    data and its value. You can enable side by side position by <code>enableSideBySidePlacement</code> property.
+                    data and its value. You can enable side by side position by <code>EnableSideBySidePlacement</code> property.
 
                 </p>
                 <p>
@@ -490,11 +450,9 @@ namespace ej2_blazor_samples
                 Name = "Range Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/RangeColumn",
+                Url = "chart/range-column",
                 FileName = "RangeColumn.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Range Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the range column series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the maximum and minimum temperatures for a week of different countries with default range column series in the chart. Tooltip shows the information about the data points.
@@ -503,7 +461,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render and configure the range column type chart. You can use <code>Border</code>,
-                    <code>Fill</code> properties to customize the columns. <code>DataLabel</code> are used to represent individual data
+                    <code>Fill</code> properties to customize the columns.
                     and its value.
                     </p>
                 <p>
@@ -516,11 +474,9 @@ namespace ej2_blazor_samples
                 Name = "Range Bar",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/RangeBar",
+                Url = "chart/range-bar",
                 FileName = "RangeBar.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Range Bar . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the inversed range column series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a range column series by inversing its X and Y  Axes. Tooltip shows the information about the data points.
@@ -529,7 +485,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render and configure the range column type chart with inverted manner. You can use <code>Border</code>,
-                    <code>Fill</code> properties to customize the columns. <code>DataLabel</code> are used to represent individual data
+                    <code>Fill</code> properties to customize the columns.
                     and its value.
 
                 </p>
@@ -543,11 +499,9 @@ namespace ej2_blazor_samples
                 Name = "Bar Chart",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Bar",
+                Url = "chart/bar",
                 FileName = "Bar.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Bar Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the bar series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about UK trade in food groups of the year 2015 with default bar series in the chart.
@@ -569,11 +523,9 @@ namespace ej2_blazor_samples
                 Name = "Stacked Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedColumn",
+                Url = "chart/stacked-column",
                 FileName = "StackedColumn.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Stacked Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the stacking column series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes mobile game market for different countries with default stacked column series in chart. Legend in the sample shows the information about those series.
@@ -582,7 +534,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render and configure the stacking column type charts. Stacks the points in the series vertically and also you can use <code>StackingGroup</code> property to group the stacking collection based on categories.
-                    You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar. <code>DataLabel</code> is used to represent individual data and its value.
+                    You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar.
                     </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
@@ -594,11 +546,9 @@ namespace ej2_blazor_samples
                 Name = "100% Stacked Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedColumn100",
+                Url = "chart/percent-stacked-column",
                 FileName = "StackedColumn100.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . 100% Stacked Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the 100 percent stacking column series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes percentage of domestic product growth of four different countries with default 100% stacked column series in chart. 
@@ -620,11 +570,9 @@ namespace ej2_blazor_samples
                 Name = "Stacked Bar",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedBar",
+                Url = "chart/stacked-bar",
                 FileName = "StackedBar.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Stacked Bar . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the stacking bar series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes sales comparison of different fruits with default stacked bar series in chart. Legend in the sample shows the information about the series.
@@ -633,7 +581,7 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render and configure the stacking bar type charts. Stacks the points in the series horizontally and also you can use <code>StackingGroup</code> property to group the stacking collection based on categories.
-                    You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar. <code>DataLabel</code> is used to represent individual data and its value.
+                    You can use <code>Border</code>, <code>Fill</code> properties to customize the Horizontal bar.
 
                     </p>
                 <p>
@@ -646,11 +594,9 @@ namespace ej2_blazor_samples
                 Name = "100% Stacked Bar",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/StackedBar100",
+                Url = "chart/percent-stacked-bar",
                 FileName = "StackedBar100.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . 100% Stacked Bar . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the 100 percent stacking bar series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes percentage of sales comparison for different fruits with default 100% stacked bar series in chart. Legend in the sample shows the information about the series.
@@ -658,8 +604,8 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the stacking bar type charts. Stacks the points in the series horizontally and also you can use <code>StackingGroup</code> property to group the stacking collection based on categories.
-                    You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar. <code>DataLabel</code> is used to represent individual data and its value.
+                   In this example, you can see how to render and configure the 100% stacking bar type charts.
+                    You can use <code>Border</code>, <code>Fill</code> properties to customize the Horizontal bar.
 
                     </p>
                 <p>
@@ -695,11 +641,9 @@ namespace ej2_blazor_samples
                 Name = "Scatter Plot",
                 Category = "Scatter and Bubble",
                 Directory = "Charts/Chart",
-                Url = "Charts/Scatter",
+                Url = "chart/scatter",
                 FileName = "Scatter.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Scatter Plot . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the scatter series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample compares the height and weight of the genders by using default scatter series in the chart. Tooltip shows the information about the data.
@@ -707,10 +651,10 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the scatter type charts. Scatter charts are used to plot financial or scientific data. You can use shape property in the marker to change the scatter shape. dataLabel is used to represent individual data value.
+                    In this example, you can see how to render and configure the scatter type charts. Scatter charts are used to plot financial or scientific data. You can use <code>Shape</code> property in the marker to change the scatter shape.
                 </p>
                 <p>
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
                 </p>"
                 }
             },
@@ -719,11 +663,9 @@ namespace ej2_blazor_samples
                 Name = "Bubble",
                 Category = "Scatter and Bubble",
                 Directory = "Charts/Chart",
-                Url = "Charts/Bubble",
+                Url = "chart/bubble",
                 FileName = "Bubble.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Bubble . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the bubble series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Literacy Rate and GDP Growth Rate of world countries by using bubble series in the chart. Tooltip shows the information about the countries.
@@ -734,7 +676,7 @@ namespace ej2_blazor_samples
                     In this example, you can see how to render and configure the bubble type charts.A bubble chart is a type of chart that displays three dimensions of data. Each points is drawn as a bubble, where bubble's size depends on <code>Size</code> property. You can use <code>Fill</code> property to customize the data appearance.
                 </p>
                 <p>
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
                 </p>"
                 }
             },
@@ -743,11 +685,9 @@ namespace ej2_blazor_samples
                 Name = "Waterfall",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/Waterfall",
+                Url = "chart/waterfall",
                 FileName = "Waterfall.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Waterfall . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the waterfall series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the revenue and profits of a company by using default waterfall series in the chart. Tooltip shows the information about the profits earned by each department on the company.
@@ -755,11 +695,14 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Waterfall type chart. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the spline. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.
+                    In this example, you can see how to render and configure the Waterfall type chart. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the Column. <code>DataLabel</code> are used to represent individual data and its value.
                 </p>
                 <p>
                 Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+				More information on the Waterfall series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -767,11 +710,9 @@ namespace ej2_blazor_samples
                 Name = "Histogram",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/Histogram",
+                Url = "chart/histogram",
                 FileName = "Histogram.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Histogram . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the histogram series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the student's results of the final examination with histogram series in chart.
@@ -788,7 +729,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+                <p>
+				More information on the histogram series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -796,14 +740,12 @@ namespace ej2_blazor_samples
                 Name = "Box and Whisker",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/BoxandWhisker",
+                Url = "chart/box-and-whisker",
                 FileName = "BoxandWhisker.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Box and Whisker . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the box and whisker series.",
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample visualizes the employees’ age group in various departments of a country with box and whisker type series in the chart. Mode of box and whisker series can be changed by <code>Mode</code> in property panel. To display the <code>mean</code> value in a series, enable the Mean in the property panel.
+                    This sample visualizes the employees’ age group in various departments of a country with box and whisker type series in the chart. Mode of box and whisker series can be changed by <code>Mode</code> in property panel. To display the <code>Mean</code> value in a series, enable the Mean in the property panel.
                 </p>"
                 },
                 Description = new string[] {
@@ -815,6 +757,9 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                <p>
+                    More information on this series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -823,11 +768,9 @@ namespace ej2_blazor_samples
                 Name = "Error Bar",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/ErrorBar",
+                Url = "chart/error-bar",
                 FileName = "ErrorBar.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Error Bar . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the error bars in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the errors in sales distribution of a car for a certain period with error bar in the chart. In property panel, the options are available to change error bar type, drawing mode, and drawing direction of error bar by means of dropdown.
@@ -837,10 +780,10 @@ namespace ej2_blazor_samples
                     @"<p>
                     In this example, you can see how to render and configure the error bar charts. Line type charts are used for cartesian type
                     series. You can use error bar by set
-                    <code>visible</code> property to true. You can change the error bar rendering type using
-                    <code>type</code> property like fixedValue, percentage, standardDeviation, standardError and custom option of errorBar. To change
+                    <code>Visible</code> property to true. You can change the error bar rendering type using
+                    <code>Type</code> property like fixedValue, percentage, standardDeviation, standardError and custom option of errorBar. To change
                     the error bar line length you can use
-                    <code>verticalError</code> property.
+                    <code>VerticalError</code> property.
                 </p>
                 <p>
                     Chart supports the following error bar types.
@@ -861,7 +804,10 @@ namespace ej2_blazor_samples
                     <li>
                         <code>Custom</code> - Renders a custom type error bar.
                     </li>
-                </ul>"
+                </ul>
+                <p>
+                More information on the error bar can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                </p>"
                 }
             },
             new Sample
@@ -869,11 +815,9 @@ namespace ej2_blazor_samples
                 Name = "Trendlines",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/Trendlines",
+                Url = "chart/trendlines",
                 FileName = "Trendlines.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Trendlines . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the trend lines in charts.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the trend of Indian rupees and US dollar variation with trendline in the chart.
@@ -889,6 +833,9 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                <p>
+                    More information on the Trend Lines can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -897,11 +844,9 @@ namespace ej2_blazor_samples
                 Name = "Multi Series Chart",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/MultiSeriesChart",
+                Url = "chart/multi-series-chart",
                 FileName = "MultiSeriesChart.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Multi Series Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to combine different types of charts.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a combination of line and stacked column series. Tooltip shows the information about the data point.
@@ -913,6 +858,9 @@ namespace ej2_blazor_samples
                     </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                <p>
+                    More information on the series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -921,11 +869,9 @@ namespace ej2_blazor_samples
                 Name = "Pareto",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
-                Url = "Charts/Pareto",
+                Url = "chart/pareto",
                 FileName = "Pareto.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Pareto . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure pareto charts.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates a pareto chart with line and column series. Trackball shows the information about the data point closest to the mouse.
@@ -934,10 +880,13 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render and configure the pareto charts. Pareto charts are used to find the cumulative values of of data in different categories. 
-                    You can use <code>Border</code>, <code>Fill</code> properties to customize the data appearance. <code>DataLabel</code> is used to represent individual data and its value.
+                    You can use <code>Border</code>, <code>Fill</code> properties to customize the data appearance.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>
+                    More information on the series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -946,18 +895,22 @@ namespace ej2_blazor_samples
                 Name = "Hilo",
                 Category = "Stock Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Hilo",
+                Url = "chart/hilo",
                 FileName = "Hilo.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Hilo . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the hilo series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
-                    @"This sample visualizes the AAPL historical data with default HILO series in the chart. Tooltip and crosshair show the information about the data and period."
+                 @"<p>
+                    This sample visualizes the AAPL historical data with default HILO series in the chart. Tooltip and crosshair show the information about the data and period.
+                 </p>"
                 },
                 Description = new string[] {
-                    @"In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
-
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+                    @"<p>
+                    In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                    </p>
+                    <p>
+                    More information on the Hilo series can be found in this  <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                </p>"
                 }
             },
             new Sample
@@ -965,18 +918,19 @@ namespace ej2_blazor_samples
                 Name = "Hilo Open Close",
                 Category = "Stock Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/HiloOpenClose",
+                Url = "chart/hilo-open-close",
                 FileName = "HiloOpenClose.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Hilo Open Close . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the hilo open close series.",
                 ActionDescription = new string[] {
-                    @"This sample visualizes the AAPL historical data with default HILO Open Close series in the chart. Tooltip and crosshair show the information about the data and period."
+                    @"<p> This sample visualizes the AAPL historical data with default HILO Open Close series in the chart. Tooltip and crosshair show the information about the data and period.</p>"
                 },
                 Description = new string[] {
-                    @"In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
-
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+                    @"<p> In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                    </p>
+                    <p>
+                    More information on the Hilo Open Close series can be found in this  <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                </p>"
                 }
             },
             new Sample
@@ -984,18 +938,18 @@ namespace ej2_blazor_samples
                 Name = "Candle Stick",
                 Category = "Stock Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/CandleStick",
+                Url = "chart/candle-stick",
                 FileName = "CandleStick.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Candle Stick . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the candle series.",
                 ActionDescription = new string[] {
-                    @"This sample visualizes the AAPL historical data with default candle series in the chart. Tooltip and crosshair show the information about the data and period."
+                    @"<p> This sample visualizes the AAPL historical data with default candle series in the chart. Tooltip and crosshair show the information about the data and period.</p>"
                 },
                 Description = new string[] {
-                    @"In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
-
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+                    @"<p> In this example, you can see how to render and configure the Candle type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                    </p>
+                    <p>More information on the Candle series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                    </p>"
                 }
             },
 			new Sample
@@ -1003,11 +957,9 @@ namespace ej2_blazor_samples
                 Name = "Accumulation Distributions",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/ADIChart",
+                Url = "chart/accumulation-distribution-indicator",
                 FileName = "ADIChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Accumulation Distributions . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the accumulation distribution indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an accumulation distribution indicator. Trackball shows the information about the stock and signal value of a day.
@@ -1020,7 +972,9 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+                  <p>More information on the  Accumulation Distribution Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                 </p>"
                 }
             },
             new Sample
@@ -1028,11 +982,9 @@ namespace ej2_blazor_samples
                 Name = "ATR",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/ATRChart",
+                Url = "chart/average-true-range-indicator",
                 FileName = "ATRChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . ATR . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the average true range indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an average true range indicator.
@@ -1046,7 +998,9 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+                  <p>More information on the Average True Range Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                 </p>"
                 }
             },
             new Sample
@@ -1054,11 +1008,9 @@ namespace ej2_blazor_samples
                 Name = "Bollinger",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/BollingerChart",
+                Url = "chart/bollinger",
                 FileName = "BollingerChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Bollinger . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the bollinger band type indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Bollinger band indicator.
@@ -1072,6 +1024,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                <p>More information on the BollingerIndicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1080,11 +1034,9 @@ namespace ej2_blazor_samples
                 Name = "EMA",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/EmaChart",
+                Url = "chart/exponential-moving-average-indicator",
                 FileName = "EmaChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . EMA . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the exponential moving average indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an Exponential Moving Average indicator.
@@ -1098,6 +1050,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                  <p>More information on the EMA Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1106,11 +1060,9 @@ namespace ej2_blazor_samples
                 Name = "MACD",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/MacdChart",
+                Url = "chart/moving-average-convergence-divergence-indicator",
                 FileName = "MacdChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . MACD . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the moving average convergence divergence indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Moving Average Convergence Divergence indicator. Trackball shows the information about the stock, signalline, Macdline, and Histogram value of a day.
@@ -1123,6 +1075,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>More information on the MACD Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1131,11 +1085,9 @@ namespace ej2_blazor_samples
                 Name = "Momentum",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/MomentumChart",
+                Url = "chart/momentum",
                 FileName = "MomentumChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Momentum . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the momentum indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a momentum indicator. Trackball shows the information about the stock, signalline, and upperline value of a day.
@@ -1148,6 +1100,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>More information on the Momentum Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1156,11 +1110,9 @@ namespace ej2_blazor_samples
                 Name = "RSI",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/RsiChart",
+                Url = "chart/relative-strength-index-indicator",
                 FileName = "RsiChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . RSI . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the relative strength index indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Relative Strength Index indicator. Trackball shows the information about the stock, signalline, lowerline, and upperline value of a day.
@@ -1173,6 +1125,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>More information on the RSI Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1181,11 +1135,9 @@ namespace ej2_blazor_samples
                 Name = "SMA",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/SmaChart",
+                Url = "chart/simple-moving-average-indicator",
                 FileName = "SmaChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . SMA . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the simple moving average indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Simple Moving Average indicator. Trackball shows the information about the stock and signal value of a day.
@@ -1198,6 +1150,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>More information on the SMA Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1206,11 +1160,9 @@ namespace ej2_blazor_samples
                 Name = "Stochastic",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/StochasticChart",
+                Url = "chart/stochastic",
                 FileName = "StochasticChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Stochastic . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the stochastic indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an Stochastic indicator. Trackball shows the information about the stock and indicator value of a day.
@@ -1223,6 +1175,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>More information on the Stochastic Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1231,11 +1185,9 @@ namespace ej2_blazor_samples
                 Name = "TMA",
                 Category = "Technical Indicators",
                 Directory = "Charts/Chart",
-                Url = "Charts/TmaChart",
+                Url = "chart/triangular-moving-average-indicator",
                 FileName = "TmaChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . TMA . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the triangular moving average indicator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Triangle Moving Average indicator. Trackball shows the information about the stock and signal value of a day.
@@ -1248,6 +1200,8 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                </p>
+                 <p>More information on the TMA Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -1256,11 +1210,9 @@ namespace ej2_blazor_samples
                 Name = "Performance",
                 Category = "BenchMark",
                 Directory = "Charts/Chart",
-                Url = "Charts/Performance",
-                Type = SampleType.New,
-                FileName = "Performance.razor",               
-                TitleTag = "Chart . Performance . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to check performance in Chart.",
+                Url = "chart/performance",
+                FileName = "Performance.razor",
+                Type = SampleType.New,                           
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the performance of Blazor chart to render 100K points in canvas mode.
@@ -1278,13 +1230,11 @@ namespace ej2_blazor_samples
                 Name = "Pie Chart",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Pie",
+                Url = "chart/pie",
                 FileName = "Pie.razor",
-                Type = SampleType.New,
-                TitleTag = "Chart . Pie Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the pie charts.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
-                    @"This sample demonstrates pie chart for mobile browser usage statistics. Datalabel shows the Information about the points."
+                    @"This sample demonstrates pie chart for mobile browser usage statistics. <code>Datalabel</code> shows the Information about the points. While hovering on the slice, border will be highlighted."
                 },
                 Description = new string[] {
                     @"In this example, you can see how to render and configure the pie chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the pie point. <code>DataLabel</code> is used to represent individual data and its value.
@@ -1297,16 +1247,14 @@ namespace ej2_blazor_samples
                 Name = "Pie Radius",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/PieRadius",
+                Url = "chart/pie-radius",
                 FileName = "PieRadius.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Pie Radius . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the various radius pie chart.",
                 ActionDescription = new string[] {
                     @"This sample compares countries by population density and total area by using the various radius in pie series."
                 },
                 Description = new string[] {
-                    @"In this example, you can see how to render doughnut chart with different radius. You can use <code>radius</code> mapping property to achieve this feature. <code>DataLabel</code> is used to represent individual data and its value.
+                    @"In this example, you can see how to render doughnut chart with different radius. You can use <code>Radius</code> mapping property to achieve this feature. <code>DataLabel</code> is used to represent individual data and its value.
 
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
                 }
@@ -1316,18 +1264,16 @@ namespace ej2_blazor_samples
                 Name = "Donut Chart",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Donut",
+                Url = "chart/donut",
                 FileName = "Donut.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Donut Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the doughnut charts.",
                 ActionDescription = new string[] {
                     @"This sample visualizes the project cost breakdown statistics by using doughnut series. Datalabel shows the Information about the points."
                 },
                 Description = new string[] {
                     @"In this example, you can see how to render and configure the pyramid chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the pie point. <code>DataLabel</code> is used to represent individual data and its value.
-
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+                     Inner radius and outer radius of the chart can be changed by <code>InnerRadius</code> and <code>Radius</code> property."
                 }
             },
             new Sample
@@ -1335,11 +1281,9 @@ namespace ej2_blazor_samples
                 Name = "Pyramid",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Pyramid",
+                Url = "chart/pyramid",
                 FileName = "Pyramid.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Pyramid . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the pyramid charts.",
                 ActionDescription = new string[] {
                     @"This sample visualizes food comparison data by using pyramid series. Datalabel shows the Information about the points."
                 },
@@ -1354,16 +1298,14 @@ namespace ej2_blazor_samples
                 Name = "Funnel Chart",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Funnel",
+                Url = "chart/funnel",
                 FileName = "Funnel.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Funnel Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the funnel charts.",
                 ActionDescription = new string[] {
                     @"This sample demonstrates funnel chart for Project Cost Breakdown. Datalabel shows the Information about the points."
                 },
                 Description = new string[] {
-                    @"In this example, you can see how to render and configure the funnel chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the pie point. <code>DataLabel</code> is used to represent individual data and its value.
+                    @"In this example, you can see how to render and configure the funnel chart. <code>DataLabel</code> is used to represent individual data and its value.here the labels are arranged smartly to avoid the overlap
 
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
                 }
@@ -1373,18 +1315,16 @@ namespace ej2_blazor_samples
                 Name = "Pie With Legend",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/PieLegend",
+                Url = "chart/pie-legend",
                 FileName = "PieLegend.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Pie With Legend . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the legends in pie charts.",
                 ActionDescription = new string[] {
-                    @"This sample demonstrates pie chart with legend. For pie chart, you can change start angle of chart by Pie Angle in properties panel. Outer radius for pie chart can be changed by Outer Radius. Explode Index and explode radius for chart can be changed by Explode Radius and Explode Index."
+                    @"<p>This sample illustrates the donut series with smooth animation on dynamic update of data. The legend will be displayed at right side of the chart.</p>"
                 },
                 Description = new string[] {
-                    @" In this example, you can see how to render and configure the pie chart. You can use border, fill properties to customize the pie point. dataLabel is used to represent individual data and its value.
+                    @"<p> In this example, you can see how to render and configure the pie chart. You can use <code>Radius</code> and <code>InnerRadius</code> properties to render the doughnut and also use <code>Border</code>, <code>Fill</code> properties to customize the pie point. dataLabel is used to represent individual data and its value.
 
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>"
                 }
             },
             new Sample
@@ -1392,16 +1332,14 @@ namespace ej2_blazor_samples
                 Name = "Semi Pie",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/SemiPie",
+                Url = "chart/semi-pie",
                 FileName = "SemiPie.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Semi Pie . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render semi-pie and doughnut charts.",
                 ActionDescription = new string[] {
                     @"This sample illustrates the agriculture land percentages of various countries by using a pie series. It has options to change the angle and radius of the series."
                 },
                 Description = new string[] {
-                    @"<p> In this example, you can see how to render semi pie and doughnut chart. Using <code>startAngle</code>, <code>endAngle</code> properties, we can achieve this semi pie chart. Property panel to change the angle is provided with this sample.</p>
+                    @"<p> In this example, you can see how to render semi pie and doughnut chart. Using <code>StartAngle</code>, <code>EndAngle</code> properties, we can achieve this semi pie chart. Property panel to change the angle is provided with this sample.</p>
 
                     <p> <code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>"
                 }
@@ -1411,11 +1349,9 @@ namespace ej2_blazor_samples
                 Name = "Smart Labels",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/SmartLabels",
+                Url = "chart/smart-labels",
                 FileName = "SmartLabels.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Smart Labels . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to arrange the labels smartly without overlapping with each other.",
                 ActionDescription = new string[] {
                     @"This sample illustrates the Rio Olympic’s gold medal count by using smart labels in the chart. The smart label placement for a series can be shown, when it contains more of points."
                 },
@@ -1430,17 +1366,15 @@ namespace ej2_blazor_samples
                 Name = "Grouping",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/Grouping",
+                Url = "chart/grouping",
                 FileName = "Grouping.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Grouping . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to group points in pie charts.",
                 ActionDescription = new string[] {
                     @"This sample illustrates the grouping functionality in pie series. The grouping value can be changed by using <code>GroupTo</code> property."
                 },
                 Description = new string[] {
                     @"<p> In this example, you can see how to <code>Group</code> points in pie chart.</p>
-
+					<p>Points having value below the <code>GroupTo</code> value are grouped and showed as separate point. You can customise the apearance of the point using <code>PointRender</code> event.</p>
                     <p> <code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
                     <p>DataLabel is used to represent individual data and its value.</p>"
                 }
@@ -1450,18 +1384,20 @@ namespace ej2_blazor_samples
                 Name = "Empty Points",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
-                Url = "Charts/EmptyPoints",
+                Url = "chart/pie-empty-points",
                 FileName = "EmptyPoints.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Empty Points . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the empty points.",
                 ActionDescription = new string[] {
-                    @"This sample illustrates an organization’s annual product-wise profit analysis with the empty point functionality in pie series."
+                    @"<p>This sample illustrates an organization’s annual product-wise profit analysis with the empty point functionality in pie series.</p>"
                 },
                 Description = new string[] {
-                    @"In this example, you can see how to render and configure the empty points. You can use <code>Border</code>, <code>Fill</code>, <code>Mode</code> properties to customize the empty points.
+                    @"<p>In this example, you can see how to render and configure the empty points. You can use <code>Border</code>, <code>Fill</code>, <code>Mode</code> properties to customize the empty points.
 
-                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices."
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+					</p>
+					<p>
+					More information on the empty points can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+					</p>"
                 }
             },
             new Sample
@@ -1469,25 +1405,26 @@ namespace ej2_blazor_samples
                 Name = "Polar Line",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/PolarLine",
+                Url = "chart/polar-line",
                 FileName = "PolarLineChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Polar Line . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render line in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about Alaska Weather Statistics - 2016 with default polar line series in the chart.
-                    Data points values are showed by using data label.
+                    The angle can be changed and the series can be inversed by using the properties in the panel.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the polar line type charts. Similar to column charts, but the orientation of y axis is horizontal instead of vertical.
-                    You can use <code>Border</code>, <code>Fill</code> properties to customize the data appearance. <code>DataLabel</code> is used to represent individual data and its value.
+                    In this example, you can see how to render and configure the polar line type charts.  Line type charts are used to represent time-dependent data, showing trends in data at equal intervals.
+                    You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the Line. <code>Marker</code> is used to represent individual data and its value.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+				More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1495,24 +1432,24 @@ namespace ej2_blazor_samples
                 Name = "Polar Area",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/PolarArea",
+                Url = "chart/polar-area",
                 FileName = "PolarArea.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Polar Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render area in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample demonstrates polar series with area type for average sales comparison of products in recent year.
+                    This sample demonstrates polar series with area type for average sales comparison of products in recent year.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the line type charts. Line type charts are used to represent time-dependent data, showing trends in data at equal intervals.
-                    You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.
+                   In this example, you can see how to render and configure the area type charts. Similar to line type series, but the area get closed and filled with series color. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.Legend is enabled in this example with series type shape.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+				More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1520,21 +1457,22 @@ namespace ej2_blazor_samples
                 Name = "Polar StackedArea",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/PolarStackedArea",
+                Url = "chart/polar-stacked-area",
                 FileName = "PolarStackedArea.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Polar StackedArea . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render stacking area in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates polar series with stacking area type for GDP of different countries in recent years.
+                        This sample demonstrates polar series with stacking area type for GDP of different countries in recent years.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
                         In this example, you can see how to render and configure the stacking area type charts. Stacks the series on top of another series to avoid the overlapping of series with one another, when rendering more than one area series in same chart.
                         You can use <code>Fill</code> properties to customize the stacked area. <code>DataLabel</code> is used to represent individual data and its value.
-                    </p>"
+                    </p>
+					<p>
+					More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+					</p>"
                 }
             },
             new Sample
@@ -1542,24 +1480,25 @@ namespace ej2_blazor_samples
                 Name = "Polar Scatter",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/PolarScatter",
+                Url = "chart/polar-scatter",
                 FileName = "PolarScatter.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Polar Scatter . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render scatter in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates polar series with scatter type for GDP for different countries in recent years.
+                        This sample demonstrates polar series with scatter type for GDP for different countries in recent years.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
                         In this example, you can see how to render and configure the scatter type charts. Scatter charts are used to plot financial or scientific data. 
-                        You can use <code>Shape</code> property in the marker to change the scatter shape. <code>DataLabel</code> is used to represent individual data value.
+                        You can use <code>Shape</code> property in the marker to change the scatter shape.
                     </p>
                     <p>
                         Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                    </p>"
+                    </p>
+					<p>
+					More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+					</p>"
                 }
             },
             new Sample
@@ -1567,14 +1506,12 @@ namespace ej2_blazor_samples
                 Name = "Polar Column",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/PolarColumn",
+                Url = "chart/polar-column",
                 FileName = "PolarColumn.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Polar Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample, for Essential Blazor Chart control demonstrates how to render column in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates polar series with column type for mobile market subscriptions in different countries.
+                        This sample demonstrates polar series with column type for mobile market subscriptions in different countries.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
                     </p>"
                 },
                 Description = new string[] {
@@ -1585,7 +1522,10 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                    </p>"
+                    </p>
+					<p>
+					More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+					</p>"
                 }
             },
             new Sample
@@ -1593,11 +1533,9 @@ namespace ej2_blazor_samples
                 Name = "Wind Rose",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/Polar",
+                Url = "chart/polar-stacking-column",
                 FileName = "Polar.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Wind Rose . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render wind rose using stacking column in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates polar series with stacking column type. The switching between polar and radar series can be done by using <code>Series Type</code> in property panel.
@@ -1607,11 +1545,14 @@ namespace ej2_blazor_samples
                 @"<p>
                         In this example, you can see how to render and configure the stacking column type charts. Stacks the points in the series
                         vertically and also you can use <code>StackingGroup</code> property to group the stacking collection based
-                        on categories. You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar. <code>DataLabel</code>        is used to represent individual data and its value.
+                        on categories. You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar.
                     </p>
                     <p>
                         Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                    </p>"
+                    </p>
+					<p>
+					More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+					</p>"
             }
             },
             new Sample
@@ -1619,14 +1560,12 @@ namespace ej2_blazor_samples
                 Name = "Polar RangeColumn",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
-                Url = "Charts/PolarRangeColumn",
+                Url = "chart/polar-range-column",
                 FileName = "PolarRangeColumn.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Polar RangeColumn . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render range column in polar and radar charts.",
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample demonstrates polar series with range column type for temperature variation.
+                    This sample demonstrates polar series with range column type for temperature variation.The switching between polar and radar series can be done by using <code>Series Type</code> in property panel.
                 </p>"
                 },
                 Description = new string[] {
@@ -1636,7 +1575,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1644,11 +1586,9 @@ namespace ej2_blazor_samples
                 Name = "Local Data",
                 Category = "Data Binding",
                 Directory = "Charts/Chart",
-                Url = "Charts/LocalData",
+                Url = "chart/local-data",
                 FileName = "LocalData.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Local Data . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to bind JSON data to chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates plotting of local data about stock price analysis of two products for a certain period.
@@ -1668,11 +1608,9 @@ namespace ej2_blazor_samples
                 Name = "Remote Data",
                 Category = "Data Binding",
                 Directory = "Charts/Chart",
-                Url = "Charts/RemoteData",
+                Url = "chart/remote-data",
                 FileName = "RemoteData.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Remote Data . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to consume data from remote data service.",
                 ActionDescription = new string[] {
                     @"This sample illustrates how to retrieve remote the data for chart."
                 },
@@ -1690,11 +1628,10 @@ namespace ej2_blazor_samples
                 Name = "Numeric Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/NumericAxis",
+                Url = "chart/numeric-axis",
                 FileName = "NumericAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Numeric Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to plot numeric data with the help of numeric axis in charts.",ActionDescription = new string[] {
+                ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of numeric axis in the chart with England and West indies cricket match data.
                 </p>"
@@ -1705,7 +1642,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Numeric Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1713,11 +1653,9 @@ namespace ej2_blazor_samples
                 Name = "DateTime Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/DateTimeAxis",
+                Url = "chart/date-time-axis",
                 FileName = "DateTimeAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . DateTime Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the date-time axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of date time axis in the chart with weather statistics analysis of Alaska for a year.
@@ -1730,7 +1668,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the DateTime Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1738,11 +1679,9 @@ namespace ej2_blazor_samples
                 Name = "DateTime Category Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/DateTimeCategoryAxis",
+                Url = "chart/date-time-category-axis",
                 FileName = "DateTimeCategoryAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . DateTime Category Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the date-time category axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates sales of a product in business days.
@@ -1756,7 +1695,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the DateTime Category Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1764,11 +1706,9 @@ namespace ej2_blazor_samples
                 Name = "Category Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/CategoryAxis",
+                Url = "chart/category-axis",
                 FileName = "CategoryAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Category Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the category axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of category axis in the chart with internet users of different countries.
@@ -1781,7 +1721,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Category Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1789,11 +1732,9 @@ namespace ej2_blazor_samples
                 Name = "Indexed category axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/IndexedCategoryAxis",
+                Url = "chart/indexed-category-axis",
                 FileName = "IndexedCategoryAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Indexed category axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the indexed category axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 In this example, you can see how to indexed axis in chart. For indexed category axis you can use <code>IsIndexed</code> property.
@@ -1805,7 +1746,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Hover the chart area to view trackball and its tooltip. Touch and hold to enable trackball in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Indexed Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1813,11 +1757,9 @@ namespace ej2_blazor_samples
                 Name = "Logarithmic Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/LogarithmicScale",
+                Url = "chart/logarithmic-scale",
                 FileName = "LogarithmicScale.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Logarithmic Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the logarithmic axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of logarithmic axis in the chart.
@@ -1827,7 +1769,13 @@ namespace ej2_blazor_samples
                     @"<p>
                     Logarithmic axis uses logarithmic scale and it is very useful in visualizing when the data has values with both lower order of magnitude (eg: 10^-6) and higher order of magnitude (eg: 10^6).
                         To render Logarithmic axis, set <code>ValueType</code> in axis to <b>Logarithmic</b>.
-                </p>"
+                </p>
+				 <p>
+                    Hover the chart area to view trackball and its tooltip. Touch and hold to enable trackball in touch enabled devices.
+                </p>
+				<p>
+					More information on the Logarithmic Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1835,11 +1783,9 @@ namespace ej2_blazor_samples
                 Name = "Multiple Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/MultipleAxis",
+                Url = "chart/multiple-axis",
                 FileName = "MultipleAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Multiple Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the mulitple axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates multiple axis in chart to represent the temperature in Celsius in an axis and Fahrenheit in another axis.
@@ -1851,7 +1797,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Multiple Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1859,11 +1808,9 @@ namespace ej2_blazor_samples
                 Name = "Inversed Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/InversedAxis",
+                Url = "chart/inversed-axis",
                 FileName = "InversedAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Inversed Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to invert the axis in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates inversed axis in chart to plot exchange rate over a period.
@@ -1873,10 +1820,13 @@ namespace ej2_blazor_samples
                     @"<p>
                     In this example, you can see how to inverse an axis in chart. Here both the X and Y axis are inversed using <code>IsInversed</code> property.
                 </p>
-                <p> DataLabel are used to represent individual data and its value.</p>
+                <p> <code>DataLabel</code> are used to represent individual data and its value.</p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Inversed Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1884,11 +1834,9 @@ namespace ej2_blazor_samples
                 Name = "StripLine",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/StripLine",
+                Url = "chart/strip-line",
                 FileName = "StripLine.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . StripLine . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the strip lines in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample highlights certain range in an axis by using stripline feature.
@@ -1901,7 +1849,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Stripline can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1909,11 +1860,9 @@ namespace ej2_blazor_samples
                 Name = "StripLine Recurrence",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/StripLineRecurrence",
+                Url = "chart/recurrence-strip-line",
                 FileName = "StripLineRecurrence.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . StripLine Recurrence . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the strip line recurrence in charts.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the World Population Report with default column series in the chart. Data points values are showed by using data label.
@@ -1922,11 +1871,14 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to render and configure the stripline in chart. Striplines are used to annotate the highlighted region with some notes. You can use <code>Border</code>,
-                    <code>Fill</code> <code>DashArray</code> properties to customize the striplines.
+                    <code>Fill</code>, <code>DashArray</code> properties to customize the striplines.
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Stripline Feature can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
             new Sample
@@ -1934,11 +1886,9 @@ namespace ej2_blazor_samples
                 Name = "Smart Axis Labels",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/SmartAxisLabels",
+                Url = "chart/smart-axis-labels",
                 FileName = "SmartAxisLabels.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Smart Axis Labels . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to arrange the labels smartly without overlapping with each other.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates Internet users in millions by using smart labels in the chart. The smart label placement for a series can be shown, when it contains more of points.
@@ -1946,10 +1896,10 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to arrange the axis labels and how to trim the axis label smartly. When the Axis labels overlap with each other based on the chart dimensions and label size, you can use the <code>labelIntersectAction</code> property of the axis to avoid overlapping.
+                    In this example, you can see how to arrange the axis labels and how to trim the axis label smartly. When the Axis labels overlap with each other based on the chart dimensions and label size, you can use the <code>LabelIntersectAction</code> property of the axis to avoid overlapping.
                 </p>
                 <p>
-                    Chart supports the following by which can be set using <code>labelIntersectAction</code> property.
+                    Chart supports the following by which can be set using <code>LabelIntersectAction</code> property.
                 </p>
                 <ul>
                         <li><code>Hide</code> - Hide the label when it intersect.</li>
@@ -1977,11 +1927,9 @@ namespace ej2_blazor_samples
                 Name = "Axis Crossing",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
-                Url = "Charts/AxisCrossing",
+                Url = "chart/axis-crossing",
                 FileName = "AxisCrossing.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Axis Crossing . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the behaviour of the axis crossing in chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates an interpolation of data points between linear and cubic by using spline and line series.
@@ -1992,7 +1940,7 @@ namespace ej2_blazor_samples
                     This sample demonstrates the axis crossing behavior in chart. Axis can be positioned anywhere in the chart area by using the crossesAt property of axis. This property specifies where the horizontal axis should intersect or cross the vertical axis and vice-versa.
                 </p>
                 <p>
-                    Default value of crossesAt property is null. So, you can use placeNextToAxisLine property to place the axis labels and ticks next to axis line. When there are multiple axes, you can choose an axis to cross by using crossesInAxis property. If the axis name is not valid, primaryXAxis or primaryYAxis will be used for crossing, by default.
+                    Default value of crossesAt property is null. So, you can use <code>PlaceNextToAxisLine</code> property to place the axis labels and ticks next to axis line. When there are multiple axes, you can choose an axis to cross by using <code>CrossesInAxis</code> property. If the axis name is not valid, primaryXAxis or primaryYAxis will be used for crossing, by default.
                 </p>"
                 }
             },
@@ -2001,11 +1949,9 @@ namespace ej2_blazor_samples
                 Name = "Marker Chart",
                 Category = "Chart Customization",
                 Directory = "Charts/Chart",
-                Url = "Charts/MarkerChart",
+                Url = "chart/marker-chart",
                 FileName = "MarkerChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Marker Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the marker symbols for data points.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the rendering of symbols in chart. In line based series, data points can be annotated by using symbols.
@@ -2017,7 +1963,10 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+					More information on the Marker can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+				</p>"
                 }
             },
 			new Sample
@@ -2025,11 +1974,9 @@ namespace ej2_blazor_samples
                 Name = "Vertical Chart",
                 Category = "Chart Customization",
                 Directory = "Charts/Chart",
-                Url = "Charts/VerticalChart",
+                Url = "chart/vertical-chart",
                 FileName = "VerticalChart.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Vertical Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the vertical type charts.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates the vertical chart by changing the orientation of x-axis to vertical and y-axis to horizontal.
@@ -2042,7 +1989,7 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                 More information on the vertical chart can be found in this
-                    <a target='_blank' href='http://ej2.syncfusion.com/documentation/chart/api-series.html#type-chartseriestype'>documentation section</a>.
+                    <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
 
                 </p>"
                 }
@@ -2052,27 +1999,25 @@ namespace ej2_blazor_samples
                 Name = "Empty Point",
                 Category = "Chart Customization",
                 Directory = "Charts/Chart",
-                Url = "Charts/EmptyPoint",
+                Url = "chart/empty-point",
                 FileName = "EmptyPoint.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Empty Point . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the empty points.",
                 ActionDescription = new string[] {
                     @"<p>
-                This sample illustrates the empty point functionality in chart series. The mode of empty point can be changed by using Empty Point Mode in property panel.
+                This sample illustrates the empty point functionality in chart series. The mode of empty point can be changed by using <code>Empty Point Mode</code> in property panel.
 
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                In this example, you can see how to render and configure the empty points. You can use border, fill, mode properties to customize the empty points.
+                In this example, you can see how to render and configure the empty points. You can use <code>Border</code>, <code>Fill</code>, <code>Mode</code> properties to customize the empty points.
 
                 </p>
                 <p>
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
                 </p>
                 <p>
-                    More information on the empty points can be found in this documentation section.
+                    More information on the empty points can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -2081,11 +2026,9 @@ namespace ej2_blazor_samples
                 Name = "Tooltip Template",
                 Category = "Chart Customization",
                 Directory = "Charts/Chart",
-                Url = "Charts/TooltipTemplate",
+                Url = "chart/tooltip-template",
                 FileName = "TooltipTemplate.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Tooltip Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the Tooltip template.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the USA Wheat Production data with default line series in the chart. Data points are enhanced with marker and tooltip.
@@ -2101,7 +2044,7 @@ namespace ej2_blazor_samples
                     Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
                 </p>
                 <p>
-                    More information on the Tooltip template can be found in this documentation section.
+                    More information on the Tooltip template can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -2110,21 +2053,21 @@ namespace ej2_blazor_samples
                 Name = "Print",
                 Category = "Print and Export",
                 Directory = "Charts/Chart",
-                Url = "Charts/Print",
+                Url = "chart/print",
                 FileName = "Print.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Print . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to print the entire chart.",
                 ActionDescription = new string[] {
                     @"<p>
-                This sample visualizes print feature in chart control.
+                This sample visualizes print feature in chart control.By clicking <code>Print</code>, you can print the chart directly from the browser.
 
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                This sample demonstrates the print feature in chart
-
+                This sample demonstrates the print feature in chart.The rendered chart can be printed directly from the browser by calling the public method print.
+                </p>
+				 <p>
+                    More information on the Print can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -2133,11 +2076,9 @@ namespace ej2_blazor_samples
                 Name = "Export",
                 Category = "Print and Export",
                 Directory = "Charts/Chart",
-                Url = "Charts/Export",
+                Url = "chart/export",
                 FileName = "Export.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Export . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Chart control shows how to export the charts to Excel, PDF, and image formats such as SVG, JPEG, and PNG at client-side.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates the export feature in chart. By clicking <code>Export</code>, you can export the chart in PNG or JPEG format.
@@ -2148,10 +2089,8 @@ namespace ej2_blazor_samples
                     @"<p>
                 In this example, you can see how to render and configure the export. The rendered chart can be exported as either JPEG, PNG and SVG format. It can be achieved using Blob and it's supported only in modern browsers.
                 </p>
-                <p>
-                More information on the column series can be found in this
-                    <a target='_blank' href='http://ej2.syncfusion.com/documentation/chart/api-series.html#type-chartseriestype'>documentation section</a>.
-
+               <p>
+                    More information on the Export can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -2160,14 +2099,12 @@ namespace ej2_blazor_samples
                 Name = "Selection",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
-                Url = "Charts/Selection",
+                Url = "chart/selection",
                 FileName = "Selection.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Selection . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the selection behavior in chart.",
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample illustrates the selection feature in chart. To select a specific point, click the point.
+                    This sample illustrates the selection feature in chart. To select a specific point, click the point. To select a specific point, click the point. The selection mode can be changed by changing Selection Mode in panel. <code>Multiple selection</code> also can be enabled by <code>Enable MultipleSelection</code>.
                 </p>"
                 },
                 Description = new string[] {
@@ -2197,11 +2134,9 @@ namespace ej2_blazor_samples
                 Name = "Range Selection",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
-                Url = "Charts/RangeSelection",
+                Url = "chart/range-selection",
                 FileName = "RangeSelection.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Range Selection . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the range selection in chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the range selection feature in chart.
@@ -2216,7 +2151,18 @@ namespace ej2_blazor_samples
                 </p>
                 <p>
                     Tap to select a point or series, double tap and drag to enable rectangular selection in touch enabled devices.
-                </p>"
+                </p>
+				<p>
+                    Chart supports the following by which can be set using <code>SelectionMode</code> property.
+                </p>
+                <ul>
+                        <li><code>Series</code> - Select the series in chart.</li>
+                        <li><code>Point</code> - Select a point in the series.</li>
+                        <li><code>Cluster</code> - Select a group of points in the chart.</li>
+                        <li><code>DragXY</code> - Rectangular selection with respect to both axis.</li>
+                        <li><code>DragX</code> - Rectangular selection with respect to horizontal axis.</li>
+                        <li><code>DragY</code> - Rectangular selection with respect to vertical axis.</li>
+                </ul>"
                 }
             },
             new Sample
@@ -2224,11 +2170,9 @@ namespace ej2_blazor_samples
                 Name = "Crosshair",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
-                Url = "Charts/Crosshair",
+                Url = "chart/crosshair",
                 FileName = "Crosshair.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Crosshair . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the crosshair behavior in chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates crosshair feature in chart. To see crosshair, hover or long press the chart.
@@ -2237,10 +2181,13 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                     This sample demonstrates the crosshair behavior in chart. Crosshair is used to inspect or focus on an individual data point. 
-                    You can customize the axis tooltip using <code>crosshairTooltip</code> properties in axis.
+                    You can customize the axis tooltip using <code>CrosshairTooltip</code> properties in axis.
                 </p>
                 <p>
                     Hover the chart area to view crosshair and its tooltip. Touch and hold to enable crosshair in touch enabled devices.
+                </p>
+				 <p>
+                    More information on the Crosshair can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
                 </p>"
                 }
             },
@@ -2249,11 +2196,9 @@ namespace ej2_blazor_samples
                 Name = "Trackball",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
-                Url = "Charts/Trackball",
+                Url = "chart/trackball",
                 FileName = "Trackball.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Trackball . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the trackball behavior in chart.",
                 ActionDescription = new string[] {
                     @"<p>
                         This sample illustrates trackball feature in chart. To show trackball, hover or long press the chart and you can see the point value near to the mouse point.
@@ -2262,11 +2207,14 @@ namespace ej2_blazor_samples
                 Description = new string[] {
                     @"<p>
                         This sample demonstrates the trackball behavior in chart. Trackball is used to track a data point closer to the current mouse position or touch contact point.
-                        You can show tooltip for individual point or group of points closer to mouse position using <code>shared</code> properties in tooltip.
+                        You can show tooltip for individual point or group of points closer to mouse position using <code>Shared</code> properties in tooltip.
                     </p>
                     <p>
                         Hover the chart area to view trackball and its tooltip. Touch and hold to enable trackball in touch enabled devices.
-                    </p>"
+                    </p>
+				<p>
+                    More information on the Trackball can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.
+                </p>"
                 }
             },
             new Sample
@@ -2274,11 +2222,9 @@ namespace ej2_blazor_samples
                 Name = "Zooming and Panning",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
-                Url = "Charts/ZoomingandPanning",
+                Url = "chart/zooming",
                 FileName = "ZoomingandPanning.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Zooming and Panning . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the zooming and panning behavior in chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates zooming feature in chart. The change can be zoomed by pinching or by mouse wheel.
@@ -2299,7 +2245,7 @@ namespace ej2_blazor_samples
                     Chart component supports four types of zooming which can be set using <code>EnableSelectionZooming</code>, <code>EnablePinchZooming</code>, <code>EnableMouseWheelZooming</code>, <code>EnableDeferredZooming</code> property.
                 </p>
                 <p>
-                Chart supports two mode of zooming which can be set using <code>mode</code> property.
+                Chart supports two mode of zooming which can be set using <code>Mode</code> property.
                 </p>
                 <ul>
                         <li><code>XY</code> - Zoom the chart with respect to both the axis.</li>
@@ -2313,11 +2259,9 @@ namespace ej2_blazor_samples
                 Name = "Data Editing",
                 Category = "User Interaction",
                 Directory = "Charts/Chart",
-                Url = "Charts/DataEditing",
+                Url = "chart/data-editing",
                 FileName = "DataEditing.razor",
                 Type = SampleType.New,
-                TitleTag = "Chart . Data Editing . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates the data editing behavior in chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates data editing feature in chart. Drag and drop the points to change the data values dynamically.
@@ -2343,11 +2287,9 @@ namespace ej2_blazor_samples
                 Name = "Default",
                 Category = "Range Selector",
                 Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/RangeNavigator",
+                Url = "range-selector/range-navigator",
                 FileName = "RangeNavigator.razor",
                 Type = SampleType.New,
-                TitleTag = "RangeNavigator . Default . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Range Navigator control shows the default rendering of range navigator with range area series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the bitcoin price range with area series in the range navigator. Selected range values are enhanced with tooltip.
@@ -2357,6 +2299,7 @@ namespace ej2_blazor_samples
                     @"<p>
                     In this example, you can see how to render and configure the Range Navigator.
                     <code>AreaSeries</code> is used to represent selected data value.
+					<code>Tooltip</code> is used to represent selected data value. You can also use <code>SelectedRegionColor</code> and <code>UnselectedRegionColor</code> properties to customize selected and unselected area in range navigator.
                 </p>"
                 }
             },
@@ -2365,11 +2308,9 @@ namespace ej2_blazor_samples
 			    Name = "LightWeight",
 			    Category = "Range Selector",
 			    Directory = "Charts/RangeNavigator",
-			    Url = "RangeSelector/LightWeight",
+			    Url = "range-selector/light-weight",
 			    FileName = "LightWeight.razor",
 			    Type = SampleType.New,
-                TitleTag = "RangeNavigator . LightWeight . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Range Navigator control shows the rendering of light-weight range navigator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample represents the total number of business and weekend days in a selected period.
@@ -2377,7 +2318,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Light Weight Range Navigator.
+                    In this example, you can see how to render and configure the Light Weight Range Navigator. You can use <code>Width</code>, <code>Height</code>, <code>Fill</code> and <code>Border</code> properties to customize the thumb in range navigator. You can also change the type of the <code>Thumb</code> using type property.
                 </p>"
                 }
 			},
@@ -2386,11 +2327,9 @@ namespace ej2_blazor_samples
                 Name = "DateTime Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/DateTimeAxis",
+                Url = "range-selector/date-time-axis",
                 FileName = "DateTimeAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "RangeNavigator . DateTime Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to plot date-time values in range navigator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample represent the exchange rate analysis for USD to EUR with datetime axis.
@@ -2398,7 +2337,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the valueType to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>intervalType</code> of the range navigator. You can also directly set the format using the <code>labelFormat</code> property.
+                    Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the <code>ValueType</code> to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>IntervalType</code> of the range navigator. You can also directly set the format using the <code>LabelFormat</code> property.
                 </p>"
                 }
 			 },
@@ -2407,11 +2346,9 @@ namespace ej2_blazor_samples
                 Name = "Numeric Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/NumericAxis",
+                Url = "range-selector/numeric-axis",
                 FileName = "NumericAxis.razor",
                 Type = SampleType.New,
-                TitleTag = "RangeNavigator . Numeric Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to plot numeric data values in the range navigator.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample depicts the cricket match data between two countries with the help of numeric axis in range navigator.
@@ -2419,7 +2356,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    Numeric axis is used to plot numeric data in range navigator. To render numeric axis, set valueType to Double. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.
+                    Numeric axis is used to plot numeric data in range navigator. To render numeric axis, set <code>ValueType</code> to <code>Double<code>. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.
                 </p>"
                 }
 			 },
@@ -2428,11 +2365,9 @@ namespace ej2_blazor_samples
                 Name = "Logarithmic Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
-                Url = "RangeSelector/Logarithmic",
+                Url = "range-selector/logarithmic",
                 FileName = "Logarithmic.razor",
                 Type = SampleType.New,
-                TitleTag = "RangeNavigator . Logarithmic Axis . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to visualize the logarithmic scale when data has wide range of values.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the rendering of logarithmic axis in the range navigator.
@@ -2440,7 +2375,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    Logarithmic axis uses logarithmic scale and it is very useful in visualizing when the data has values with both lower order of magnitude (eg: 10^-6) and higher order of magnitude (eg: 10^6). To render Logarithmic axis, set valueType to Logarithmic. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.
+                    Logarithmic axis uses logarithmic scale and it is very useful in visualizing when the data has values with both lower order of magnitude (eg: 10^-6) and higher order of magnitude (eg: 10^6). To render Logarithmic axis, set <code>ValueType</code> to <code>Logarithmic</code>. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.
                 </p>"
                 }
              },
@@ -2449,11 +2384,9 @@ namespace ej2_blazor_samples
 			    Name = "Multilevel Labels",
 			    Category = "Axis",
 			    Directory = "Charts/RangeNavigator",
-			    Url = "RangeSelector/Multilevel",
+			    Url = "range-selector/multilevel",
 			    FileName = "Multilevel.razor",
 			    Type = SampleType.New,
-                TitleTag = "RangeNavigator . Multilevel Labels . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to display the second level labels in range navigator.",
                 ActionDescription = new string[] {
                     @"<p>
                     Axis labels are placed based on the values of the start and end ranges. You can add higher level of labels to the range navigator using multilevel labels.
@@ -2470,11 +2403,9 @@ namespace ej2_blazor_samples
 			      Name = "Empty Points",
 			      Category = "Customization",
 			      Directory = "Charts/RangeNavigator",
-			      Url = "RangeSelector/EmptyPoint",
+			      Url = "range-selector/empty-point",
 			      FileName = "EmptyPoint.razor",
 			      Type = SampleType.New,
-                  TitleTag = "RangeNavigator . Empty Points . Syncfusion Blazor Components",
-                  MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to render the empty points in the range navigator.",
                   ActionDescription = new string[] {
                         @"<p>
                         This sample illustrates the functionality of empty points in the range navigator series.
@@ -2491,11 +2422,9 @@ namespace ej2_blazor_samples
 			      Name = "Filter",
 			      Category = "Customization",
 			      Directory = "Charts/RangeNavigator",
-			      Url = "RangeSelector/Filter",
+			      Url = "range-selector/filter",
 			      FileName = "Filter.razor",
 			      Type = SampleType.New,
-                  TitleTag = "RangeNavigator . Filter . Syncfusion Blazor Components",
-                  MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to bind the filtered values of the range navigator to grid control.",
                   ActionDescription = new string[] {
                         @"<p>
                         This sample filters the data by hire date using date-time axis.
@@ -2503,7 +2432,7 @@ namespace ej2_blazor_samples
                     },
                     Description = new string[] {
                         @"<p>
-                        In this example, you can see how to bind the value of the range navigator to the grid control using the changed event.
+                        In this example, you can see how to bind the value of the range navigator to the grid control using the <code>Changed</code> event.
                     </p>"
                     }
 			  },
@@ -2512,11 +2441,9 @@ namespace ej2_blazor_samples
 			      Name = "Print and Export",
 			      Category = "Export",
 			      Directory = "Charts/RangeNavigator",
-			      Url = "RangeSelector/PrintExport",
+			      Url = "range-selector/print-export",
 			      FileName = "PrintExport.razor",
 			      Type = SampleType.New,
-                  TitleTag = "RangeNavigator . Print and Export . Syncfusion Blazor Components",
-                  MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to print the charts and export the chart contents to various formats.",
                   ActionDescription = new string[] {
                         @"<p>
                         This sample represent the exchange rate analysis for USD to EUR with datetime axis.
@@ -2524,7 +2451,7 @@ namespace ej2_blazor_samples
                     },
                     Description = new string[] {
                         @"<p>
-                        Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the valueType to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>intervalType</code> of the range navigator. You can also directly set the format using the <code>labelFormat</code> property.
+                        Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the <code>ValueType</code> to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>IntervalType</code> of the range navigator. You can also directly set the format using the <code>LabelFormat</code> property.
                     </p>"
                     }
 			  },
@@ -2533,11 +2460,9 @@ namespace ej2_blazor_samples
 			     Name = "RTL",
 			     Category = "Right To Left",
 			     Directory = "Charts/RangeNavigator",
-			     Url = "RangeSelector/RTL",
+			     Url = "range-selector/rtl",
 			     FileName = "RTL.razor",
 			     Type = SampleType.New,
-                 TitleTag = "RangeNavigator . RTL . Syncfusion Blazor Components",
-                 MetaDescription = "This demo for Essential Blazor Range Navigator control shows how to invert an axis in the range navigator.",
                  ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates RTL in the range navigator.
@@ -2545,22 +2470,20 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to inverse the axis in range navigator. Here both the X and Y axis are inversed using isInversed property. Tooltip is enabled in this example; to see the tooltip in action, while the selected range is changed.
+                    In this example, you can see how to inverse the axis in range navigator. Here both the X and Y axis are inversed using <code>isInversed</code> property. Tooltip is enabled in this example; to see the tooltip in action, while the selected range is changed.
                 </p>"
                 }
 			 }
 		};
 
-        public List<Sample> Sparkline { get; set; } = new List<Sample>{
+        public List<Sample> SparklineCharts { get; set; } = new List<Sample>{
             new Sample
             {
                 Name = "Default Functionalities",
                 Category = "Sparkline Charts",
                 Directory = "Charts/Sparkline",
-                Url = "Sparkline/DefaultFunctionalities",
+                Url = "sparkline/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                TitleTag = "Sparkline . Default . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Sparkline component visualizes the population details in Sparkline. Line, Column, WinLoss and Area are the types of Sparkline",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
@@ -2569,7 +2492,11 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @" <p>
-                    In this example, you can see how to render a sparkline in a table. The color and type of the sparklines have been customized. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch enabled devices.
+                    In this example, you can see how to render a sparkline in a table. The color and type of sparklines have been customized. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch enabled devices.
+                </p>
+                <p>
+                        More information about sparkline can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
                 </p>"
                 }
             },
@@ -2578,19 +2505,21 @@ namespace ej2_blazor_samples
                  Name = "Series Type",
                  Category = "Sparkline Charts",
                  Directory = "Charts/Sparkline",
-                 Url = "Sparkline/SeriesType",
-                 FileName = "SeriesType.razor",
-                 TitleTag = "Sparkline . SeriesType . Syncfusion Blazor Components",
-                 MetaDescription = "This demo of Syncfusion Blazor Sparkline component depicts the various series types available in the sparkline",
+                 Url = "sparkline/series-type",
+                 FileName = "SeriesType.razor",                 
                  Type = SampleType.None,
                  ActionDescription = new string[] {
                     @"<p>
-                        This sample depicts the various types of series available in Sparkline.
+                        This sample depicts the various types of series available in sparkline.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see the sparkline with various series types such as line, area, column, win loss and pie. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch enabled devices.
+                        In this example, you can see the sparkline with various series types such as <b>Line, Area, Column, Win Loss</b> and <b>Pie</b>. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch-enabled devices.
+                    </p>
+                    <p>
+                        More information about sparkline can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
                     </p>"
                 }
              },
@@ -2599,20 +2528,22 @@ namespace ej2_blazor_samples
                 Name = "Axis Value Types",
                 Category = "Sparkline Charts",
                 Directory = "Charts/Sparkline",
-                Url = "Sparkline/AxisTypes",
+                Url = "sparkline/axis-types",
                 FileName = "AxisTypes.razor",
-                TitleTag = "Sparkline . Axis Types . Syncfusion Blazor Components",
-                MetaDescription = "This demo of Syncfusion Blazor Sparkline component depicts the axis types available in sparkline. DateTime, Category and Numeric are axis types in Sparkline",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                    This sample depicts the various types of axis value types available in sparkline.We have three types of axis.
+                    This sample depicts the various types of axis value types available in the sparkline. We have three types of an axis.
                 </p>"
                 },
                 Description = new string[] {
                     @" <p>
-                    In this example, you can see the sparklines with various axis value types such as date-time, category, and numeric. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch enabled devices.
-                </p> "
+                    In this example, you can see the sparklines with various axis value types such as <b>Date-Time, Category</b> and <b>Numeric</b>. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch-enabled devices.
+                </p>
+                <p>
+                        More information about sparkline can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
+                </p>"
                 }
             },
              new Sample
@@ -2620,19 +2551,22 @@ namespace ej2_blazor_samples
                  Name = "Sparkline in Grid",
                  Category = "Sparkline Charts",
                  Directory = "Charts/Sparkline",
-                 Url = "Sparkline/SparklineGrid",
-                 FileName = "SparklineGrid.razor",TitleTag = "Sparkline . Sparkline in Grid . Syncfusion Blazor Components",
-                 MetaDescription = "This sample depicts the range band feature and its customization options available in sparklines.",
+                 Url = "sparkline/sparkline-grid",
+                 FileName = "SparklineGrid.razor",
                  Type = SampleType.None,
                  ActionDescription = new string[] {
                     @"<p>
-                This sample demonstrates rendering sparklines in data grid control.
+                This sample demonstrates rendering sparklines in data grid component.
                 </p>"
                 },
                 Description = new string[] {
                     @" <p>
-                In this example, you can see how to render sparkline inside the data grid control.
-                </p> "
+                In this example, you can see how to render sparkline inside the data grid component.
+                </p>
+                <p>
+                        More information about sparkline can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
+                    </p>"
                 }
              },
                 new Sample
@@ -2640,20 +2574,22 @@ namespace ej2_blazor_samples
                   Name = "Customization",
                   Category = "Sparkline Charts",
                   Directory = "Charts/Sparkline",
-                  Url = "Sparkline/Customization",
+                  Url = "sparkline/customization",
                   FileName = "Customization.razor",
-                  TitleTag = "Sparkline . Customization . Syncfusion Blazor Components",
-                  MetaDescription = "This demo of Syncfusion Blazor Sparkline component visualizes the various customization options available in sparklines.",
                   Type = SampleType.None,
                   ActionDescription = new string[] {
                         @"<p>
-                    This sample depicts the various customization options available in sparklines.
+                    This sample depicts the various customization options available in the sparkline component.
                 </p>"
                     },
                     Description = new string[] {
                         @" <p>
                     In this example, you can see various customization options available in sparklines. Tooltip is enabled in this example. To
-                    see the tooltip in action, hover the mouse over the data points or tap on a data point in touch enabled devices.
+                    see the tooltip in action, hover the mouse over the data points or tap on a data point in touch-enabled devices.
+                </p>
+                <p>
+                        More information about sparkline can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
                 </p> "
                     }
               },
@@ -2662,7 +2598,7 @@ namespace ej2_blazor_samples
             //      Name = "Live Update",
             //      Category = "Sparkline Charts",
             //      Directory = "Charts/Sparkline",
-            //      Url = "Sparkline/Liveupdate",
+            //      Url = "sparkline/Liveupdate",
             //      FileName = "Liveupdate.razor",
             //      Type = SampleType.New,
                     // ActionDescription = new string[] {
@@ -2681,20 +2617,22 @@ namespace ej2_blazor_samples
                   Name = "Range Band",
                   Category = "Sparkline Charts",
                   Directory = "Charts/Sparkline",
-                  Url = "Sparkline/RangeBand",
+                  Url = "sparkline/range-band",
                   FileName = "RangeBand.razor",
-                  TitleTag = "Sparkline . Range Band . Syncfusion Blazor Components",
-                  MetaDescription = "This sample depicts the range band feature and its customization options available in sparklines.",
                   Type = SampleType.None,
                   ActionDescription = new string[] {
                         @"<p>
-                    This sample depicts the range band feature and its customization options available in sparklines.
+                    This sample depicts the range band feature in sparklines component.
                     </p>"
                     },
                     Description = new string[] {
                         @" <p>
-                        In this example, you can see how to render sparkline with range band and the customization options available in range band. Here, the sparklines are placed inside the data grid control.
-                    </p> "
+                        In this example, you can see how to render sparkline with a range band. Here, the sparklines are placed inside the data grid control.
+                    </p>
+                    <p>
+                        More information about sparkline can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
+                    </p>"
                     }
               }
         };
@@ -2703,68 +2641,73 @@ namespace ej2_blazor_samples
            new Sample
             {
                 Name = "Default Functionalities",
-                Category = "SmithChart",
+                Category = "Smith Chart",
                 Directory = "Charts/SmithChart",
-                Url = "SmithChart/DefaultFunctionalities",
-                FileName = "DefaultFunctionalities.razor",
-                TitleTag = "Smithchart . Default . Syncfusion Blazor Components-Preview",
-                MetaDescription = "This demo of Syncfusion Blazor SmithChart component visualizes the rendering of SmithChart. Impedance and admittance are the rendering types in smithChart",
+                Url = "smith-chart/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",                
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
-                    This sample visualizes two transmissions in Smith chart. Rendering Smith chart can be changed by using the <code>Render Type</code> in properties panel.
+                    This sample visualizes two transmissions in the smith chart. Rendering smith chart can be changed by using the <b>Render Type</b> dropdown list in the properties panel.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render a Smith chart with multiple series. Legend has been enabled to denote the series in Smith chart.
+                    In this example, you can see how to render a smith chart with multiple series. Legend has been enabled to denote the series in smith chart.
                 </p>
                 <p>
-                    Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a data point or tap a data point in touch enabled devices
-                </p>"
+                    Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over a data point or tap a data point in touch enabled devices.
+                </p>
+                <p>
+                        More information about smithchart can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/smith-chart/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
             {
                 Name = "Customization",
-                Category = "SmithChart",
+                Category = "Smith Chart",
                 Directory = "Charts/SmithChart",
-                Url = "SmithChart/Customization",
+                Url = "smith-chart/customization",
                 FileName = "Customization.razor",
-                TitleTag = "Smithchart . Customization . Syncfusion Blazor Components-Preview",
-                MetaDescription = "This demo of Syncfusion Blazor SmithChart component visualizes the customizing options in SmithChart. Marker, DataLabel, Legend and Tooltip can be customized",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
-                    This sample visualizes two transmissions in a Smith chart along with <code>Data label, Marker</code> and <code>Legend</code> support.
+                    This sample visualizes two transmissions in a smith chart along with data labels, marker, and legend support.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render a Smith chart with multiple series. Legend has been enabled to denote the series in Smith chart.
-                </p>"
+                    In this example, you can see how to render a smith chart with multiple series. Legend has been enabled to denote the series in the smith chart.
+                </p>
+                <p>
+                        More information about smithchart can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/smith-chart/getting-started"">documentation section</a>.
+                    </p>"
                 }
             },
             new Sample
             {
                Name = "Print and Export",
-               Category = "SmithChart",
+               Category = "Smith Chart",
                Directory = "Charts/SmithChart",
-               Url = "SmithChart/PrintAndExport",
+               Url = "smith-chart/print-and-export",
                FileName = "PrintAndExport.razor",
-               TitleTag = "Smithchart . Print and Export . Syncfusion Blazor Components-Preview",
-               MetaDescription = "This demo of Syncfusion Blazor SmithChart component explores the print and export functionality of smithChart.",
                Type = SampleType.None,
                ActionDescription = new string[] {
                     @" <p>
-                    This sample explores the exporting and printing functionality in Smith chart.
+                    This sample explores the exporting and printing functionality in the smith chart.
                 </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to export and print the rendered Smith chart. Smith chart can be exported to JPEG, PNG, SVG, and PDF formats.
+                    In this example, you can see how to export and print the rendered smith chart. Smith chart can be exported to <b>JPEG, PNG, SVG </b> and <b>PDF</b> formats.
                 </p>
-                "
+                <p>
+                        More information about smithchart can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/smith-chart/getting-started"">documentation section</a>.
+                    </p>"
                 }
             }
         };
@@ -2775,11 +2718,9 @@ namespace ej2_blazor_samples
                 Name = "Default",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/StockChart",
+                Url = "stock-chart/stock-chart",
                 FileName = "Default.razor",
-                Type = SampleType.New,
-                TitleTag = "StockChart . Default . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with candle series.",
+                Type = SampleType.New,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2787,7 +2728,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock Chart
+                    In this example, you can see how to render and configure the Stock Chart. <code>CandleSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2796,11 +2737,9 @@ namespace ej2_blazor_samples
                 Name = "OHLC",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/OHLC",
+                Url = "stock-chart/ohlc",
                 FileName = "OHLC.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . OHLC . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with Hilo Open Close series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart with OHLC series.
@@ -2808,7 +2747,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock chart. HILO Open Close series is used to represent selected data value.
+                    In this example, you can see how to render and configure the Stock chart. <code>HILO Open Close</code> series is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2817,11 +2756,9 @@ namespace ej2_blazor_samples
                 Name = "Candlestick and Volume",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/CandlestickandVolume",
+                Url = "stock-chart/candlestick-volume",
                 FileName = "Candlestick and Volume.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Candlestick and Volume . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with candle series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock chart with multiple pan.
@@ -2829,7 +2766,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock chart with volume. CandleSeries is used to represent selected data value and ColumnSeries is used to represent the volume.
+                    In this example, you can see how to render and configure the Stock chart with volume. <code>CandleSeries</code> is used to represent selected data value and <code>ColumnSeries</code> is used to represent the volume.
                 </p>"
                 }
             },
@@ -2838,11 +2775,9 @@ namespace ej2_blazor_samples
                 Name = "Multiple Series",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/MultipleSeries",
+                Url = "stock-chart/multiple-series",
                 FileName = "Multiple Series.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Multiple Series . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with candle series.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample visualizes stock chart with multiple series.
@@ -2850,7 +2785,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock chart. LineSeries is used to represent selected data value.
+                    In this example, you can see how to render and configure the Stock chart. <code>LineSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2859,11 +2794,9 @@ namespace ej2_blazor_samples
                 Name = "Spline",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/StockChartSpline",
+                Url = "stock-chart/stock-chart-spline",
                 FileName = "Spline.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Spline . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with Spline series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock data with spline series. Period and range selector help us to navigate different of data.
@@ -2871,7 +2804,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                In this example, you can see how to render and configure the Stock chart. SplineSeries is used to represent selected data value.
+                In this example, you can see how to render and configure the Stock chart. <code>SplineSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2880,11 +2813,9 @@ namespace ej2_blazor_samples
                 Name = "Area",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/StockChartArea",
+                Url = "stock-chart/stock-chart-area",
                 FileName = "Area.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Area . Syncfusion Blazor Components",
-                MetaDescription = "This, demo for Essential Blazor Stock Chart control shows the default rendering of Stock with Area series.",
                 ActionDescription = new string[] {
                     @"<p>
                 This sample visualizes stock data with area. Period and range selector help us to navigate different of data.
@@ -2892,7 +2823,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock chart. AreaSeries is used to represent selected data value.
+                    In this example, you can see how to render and configure the Stock chart. <code>AreaSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2901,11 +2832,9 @@ namespace ej2_blazor_samples
                 Name = "Spline Area",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/StockChartSplineArea",
+                Url = "stock-chart/stock-chart-spline-area",
                 FileName = "SplineArea.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Spline Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with Spline Area series.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock data with spline area. Period and range selector help us to navigate different of data.
@@ -2913,7 +2842,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock chart. SplineAreaSeries is used to represent selected data value.
+                    In this example, you can see how to render and configure the Stock chart. <code>SplineAreaSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2922,11 +2851,9 @@ namespace ej2_blazor_samples
                 Name = "Inversed Area",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/InversedArea",
+                Url = "stock-chart/inversed-area",
                 FileName = "Inversed Area.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Inversed Area . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with Area series inverted.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock data with inversed axis. Period and range selector help us to navigate different of data.
@@ -2934,7 +2861,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock chart. AreaSeries is used to represent selected data value.
+                    In this example, you can see how to render and configure the Stock chart. <code>AreaSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2943,11 +2870,9 @@ namespace ej2_blazor_samples
                 Name = "Intraday",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/Intraday",
+                Url = "stock-chart/intraday",
                 FileName = "Intraday.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Intraday . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with period customization.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2955,7 +2880,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock Chart
+                    In this example, you can see how to render and configure the Stock Chart. <code>LineSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -2964,11 +2889,9 @@ namespace ej2_blazor_samples
 		        Name = "Hide Period Selector",
 		        Category = "Stock Chart",
 		        Directory = "Charts/StockChart",
-		        Url = "StockChart/HidePeriodSelector",
+		        Url = "stock-chart/hide-period-selector",
 		        FileName = "Hide Period Selector.razor",
 		        Type = SampleType.New,
-                TitleTag = "StockChart . Hide Period Selector . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with period customization.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2976,7 +2899,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock Chart
+                    In this example, you can see how to render and configure the Stock Chart. <code>AreaSeries</code> is used to represent selected data value.
                 </p>"
                 }
 		    },
@@ -2985,11 +2908,9 @@ namespace ej2_blazor_samples
                 Name = "Hide Range Selector",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/HideSelector",
+                Url = "stock-chart/hide-selector",
                 FileName = "Hide Selector.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Hide Range Selector . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control shows the default rendering of Stock with period customization.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2997,7 +2918,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock Chart
+                    In this example, you can see how to render and configure the Stock Chart. <code>LineSeries</code> is used to represent selected data value.
                 </p>"
                 }
             },
@@ -3006,11 +2927,9 @@ namespace ej2_blazor_samples
                 Name = "Stock Events",
                 Category = "Stock Chart",
                 Directory = "Charts/StockChart",
-                Url = "StockChart/StockEvents",
+                Url = "stock-chart/stock-events",
                 FileName = "StockEvents.razor",
                 Type = SampleType.New,
-                TitleTag = "StockChart . Stock Events . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Essential Blazor Stock Chart control with stock events to highlight the special events in stock market.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -3018,7 +2937,7 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to render and configure the Stock Chart
+                    In this example, you can see how to render and configure the Stock Chart.<code>SplineSeries</code> is used to represent selected data value.
                 </p>"
                 }
             }
@@ -3027,13 +2946,11 @@ namespace ej2_blazor_samples
            new Sample
             {
                 Name = "Default Functionalities",
-                Category = "BulletChart",
+                Category = "Bullet Chart",
                 Directory = "Charts/BulletChart",
-                Url = "BulletChart/DefaultFunctionalities",
+                Url = "bullet-chart/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.New,
-                TitleTag = "BulletChart . Bullet Chart . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the default bullet chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a default bullet chart to compare the feature (value) bar with comparative (target) bar. It includes variety of configurations to change the look and feel of the chart.
@@ -3048,13 +2965,11 @@ namespace ej2_blazor_samples
            new Sample
             {
                 Name = "Multiple Data",
-                Category = "BulletChart",
+                Category = "Bullet Chart",
                 Directory = "Charts/BulletChart",
-                Url = "BulletChart/MultipleData",
+                Url = "bullet-chart/multiple-data",
                 FileName = "MultipleData.razor",
                 Type = SampleType.New,
-                TitleTag = "BulletChart . Multiple Data . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the Multiple Data.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a bullet chart with multiple data to compare different values.
@@ -3069,13 +2984,11 @@ namespace ej2_blazor_samples
            new Sample
             {
                 Name = "RTL",
-                Category = "BulletChart",
+                Category = "Bullet Chart",
                 Directory = "Charts/BulletChart",
-                Url = "BulletChart/RightToLeft",
+                Url = "bullet-chart/right-to-left",
                 FileName = "RightToLeft.razor",
                 Type = SampleType.New,
-                TitleTag = "BulletChart . RTL . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor BulletChart control demonstrates how to render and configure the RTL Chart.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates bullet chart with diferent mode of rendering such as right to left and left to right.
@@ -3090,13 +3003,11 @@ namespace ej2_blazor_samples
            new Sample
             {
                 Name = "Feature and Target Bar",
-                Category = "BulletChart",
+                Category = "Bullet Chart",
                 Directory = "Charts/BulletChart",
-                Url = "BulletChart/BarCustomization",
+                Url = "bullet-chart/bar-customization",
                 FileName = "BarCustomization.razor",
-                Type = SampleType.New,
-                TitleTag = "BulletChart . Feature and Target Bar . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the Feature and Target Bar.",
+                Type = SampleType.New,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a customization of feature bar and comparative bar type in terms of color and width.
@@ -3111,16 +3022,33 @@ namespace ej2_blazor_samples
            new Sample
             {
                 Name = "Range and Label Settings",
-                Category = "BulletChart",
+                Category = "Bullet Chart",
                 Directory = "Charts/BulletChart",
-                Url = "BulletChart/Customization",
+                Url = "bullet-chart/customization",
                 FileName = "Customization.razor",
                 Type = SampleType.New,
-                TitleTag = "BulletChart . Range and Label Settings . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample for Essential Blazor BulletChart control demonstrates how to render and configure the Range and Label Settings.",
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a bullet chart with with different customization for ranges and labels in bullet chart.
+                </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                    Tooltip is enabled in this example, to see the tooltip in action, hover a feature bar or comparative bar on the bullet chart.
+                </p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Legend",
+                Category = "Bullet Chart",
+                Directory = "Charts/BulletChart",
+                Url = "bullet-chart/legend",
+                FileName = "Legend.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>
+                    This sample illustrates a bullet chart with legend. Legend is used to know what the colors and shapes represent in bullet chart.
                 </p>"
                 },
                 Description = new string[] {

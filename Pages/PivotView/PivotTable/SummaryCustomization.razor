@@ -1,20 +1,22 @@
-﻿@page "/PivotTable/SummaryCustomization"
+﻿@page "/pivot-table/show-hide-totals"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
 
-<div class="control-section">
+<div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <EjsPivotView TValue="PivotProductDetails" ShowToolbar="true" Toolbar="@toolbar" Height="340">
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true ShowGrandTotals=false ShowSubTotals=false>
+        <SfPivotView TValue="PivotProductDetails" Height="400" Width="100%" EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true ShowColumnGrandTotals="@ColumnGrandTotal" ShowRowGrandTotals="@RowGrandTotal" ShowGrandTotals="@GrandTotal">
                 <PivotViewColumns>
-                    <PivotViewColumn Name="Year"></PivotViewColumn>
-                    <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                    <PivotViewColumn Name="Year" ShowSubTotals="@ColumnSubTotal"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
                 </PivotViewColumns>
                 <PivotViewRows>
-                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Country" ShowSubTotals="@RowSubTotal"></PivotViewRow>
                     <PivotViewRow Name="Products"></PivotViewRow>
                 </PivotViewRows>
                 <PivotViewValues>
@@ -25,35 +27,148 @@
                     <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
+                <PivotViewFilterSettings>
+                    <PivotViewFilterSetting Name="Products" Items="@(new string[] { "Gloves", "Helmets", "Shorts", "Vests" })"></PivotViewFilterSetting>
+                </PivotViewFilterSettings>
                 <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France" })"></PivotViewDrilledMember>
+                    <PivotViewDrilledMember Name="Country" Items="@DrilledMembers"></PivotViewDrilledMember>
                 </PivotViewDrilledMembers>
             </PivotViewDataSourceSettings>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-        </EjsPivotView>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
     </div>
 </div>
-
+<div class="col-lg-3 property-section pivot-table-property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600; font-size: 13px">
+                                Hide grand totals
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Row" Name="Total" Value="Row" Checked="false" ValueChange="OnChange"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Column" Name="Total" Value="Column" Checked="false" ValueChange="OnChange"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Both" Name="Total" Value="Both" Checked="true" ValueChange="OnChange"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600; font-size: 13px; padding-top: 20px;">
+                                Hide sub-totals
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="padding-top: 20px;">
+                                <SfMultiSelect TValue="string[]" Placeholder="Select fields to hide its sub-totals" Mode="@VisualMode.CheckBox" DataSource="@Fields" ShowClearButton="false"
+                                                EnableSelectionOrder="false" ShowDropDownIcon="true" PopupWidth="100%" Width="80%" AllowFiltering="false">
+                                    <MultiSelectEvents TValue="string[]" ValueChange="UpdateSubTotals"></MultiSelectEvents>
+                                    <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <style>
     .e-pivotview {
         min-height: 200px;
     }
+
+    .pivot-table-property-section {
+        overflow: auto;
+    }
+
+	.pivot-table-property-section .e-multiselect {
+		padding: 0;
+	}
 </style>
 
 @code{
-    public List<ToolbarItems> toolbar = new List<ToolbarItems> {
-        ToolbarItems.SubTotal,
-        ToolbarItems.GrandTotal
-    };
-
-    public List<PivotProductDetails> data { get; set; }
+    public string[] DrilledMembers = new string[] { "France" };
+    public bool RowGrandTotal = true;
+    public bool ColumnGrandTotal = true;
+    public bool GrandTotal = false;
+    public bool RowSubTotal = true;
+    public bool ColumnSubTotal = true;
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
     }
 
+    public void OnChange(ChangeArgs args)
+    {
+        if (args.Value == "Row")
+        {
+            this.RowGrandTotal = false;
+            this.GrandTotal = this.ColumnGrandTotal = true;
+        }
+        else if (args.Value == "Column")
+        {
+            this.ColumnGrandTotal = false;
+            this.GrandTotal = this.RowGrandTotal = true;
+        }
+        else
+        {
+            this.GrandTotal = false;
+            this.ColumnGrandTotal = this.RowGrandTotal = true;
+        }
+    }
+
+    public void UpdateSubTotals(@Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    {
+        this.RowSubTotal = this.ColumnSubTotal = true;
+        foreach (string value in args.Value)
+        {
+            if (value == "Country")
+            {
+                this.RowSubTotal = false;
+            }
+            else if (value == "Year")
+            {
+                this.ColumnSubTotal = false;
+            }
+        }
+    }
+
+    List<DropDownData> Fields = new List<DropDownData>() {
+        new DropDownData { Name = "Country", Value = "Country" },
+        new DropDownData { Name = "Year", Value = "Year" }
+    };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
 }

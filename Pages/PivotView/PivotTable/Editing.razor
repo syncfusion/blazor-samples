@@ -1,59 +1,123 @@
-﻿@page "/PivotTable/Editing"
+﻿@page "/pivot-table/editing"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
 @inherits SampleBaseComponent;
 
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
-<div class="control-section">
-    <div class="content-wrapper">
-        <EjsPivotView TValue="PivotProductDetails">
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
-                <PivotViewColumns>
-                    <PivotViewColumn Name="Year"></PivotViewColumn>
-                    <PivotViewColumn Name="Quarter"></PivotViewColumn>
-                    <PivotViewColumn Name="Order_Source"></PivotViewColumn>
-                </PivotViewColumns>
-                <PivotViewRows>
-                    <PivotViewRow Name="Country"></PivotViewRow>
-                    <PivotViewRow Name="Product_Categories" Caption="Product Categories"></PivotViewRow>
-                    <PivotViewRow Name="Products"></PivotViewRow>
-                </PivotViewRows>
-                <PivotViewValues>
-                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
-                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
-                </PivotViewValues>
-                <PivotViewFilters>
-                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
-                </PivotViewFilters>
-                <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
-                </PivotViewFormatSettings>
-                <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France" })"></PivotViewDrilledMember>
-                </PivotViewDrilledMembers>
-            </PivotViewDataSourceSettings>
-            <PivotViewCellEditSettings AllowEditing=true AllowAdding=true AllowDeleting=true Mode=EditMode.Normal></PivotViewCellEditSettings>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-        </EjsPivotView>
+    <div class="col-lg-9 control-section sb-property-border">
+        <div class="content-wrapper">
+            <SfPivotView TValue="PivotProductDetails" Height="300" Width="100%" EnableValueSorting=true ShowTooltip=false>
+                <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year"></PivotViewColumn>
+                        <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                        <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Country"></PivotViewRow>
+                        <PivotViewRow Name="Product_Categories" Caption="Product Categories"></PivotViewRow>
+                        <PivotViewRow Name="Products"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+                <PivotViewCellEditSettings AllowEditing=true AllowAdding=true AllowDeleting=true Mode="@SelectedMode" AllowEditOnDblClick="@DblClick" AllowCommandColumns="@CommandColumnsClick"></PivotViewCellEditSettings>
+            </SfPivotView>
+        </div>
     </div>
-</div>
-
-<style>
-    .e-pivotview {
-        min-height: 200px;
-    }
-</style>
+    <div class="col-lg-3 property-section">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+        <div class="property-panel-section">
+            <div class="property-panel-header" style="padding-bottom:5px; font-size:16px">Properties</div>
+            <div class="property-panel-content">
+                <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    <SfRadioButton Label="Inline Editing" Name="EditOperation" Value="inline" Checked="true" ValueChange="OnRadioChange"></SfRadioButton>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <SfRadioButton Label="Batch Editing" Name="EditOperation" Value="batch" Checked="false" ValueChange="OnRadioChange"></SfRadioButton>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <SfRadioButton Label="Dialog Editing" Name="EditOperation" Value="dialog" Checked="false" ValueChange="OnRadioChange"></SfRadioButton>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <SfRadioButton Label="Command Columns" Name="EditOperation" Value="cc" Checked="false" ValueChange="OnRadioChange"></SfRadioButton>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <style>
+        .e-pivotview {
+            min-height: 200px;
+        }
+    </style>
 
 @code{
 
-    public List<PivotProductDetails> data { get; set; }
+    public EditMode SelectedMode = EditMode.Normal;
+    public bool DblClick = true;
+    public bool CommandColumnsClick = false;
+
+    public string[] DrilledMembers = new string[] { "France" };
+
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
     }
 
+    public void OnRadioChange(ChangeArgs args)
+    {
+        if (args.Value == "inline")
+        {
+            this.DblClick = true;
+            this.CommandColumnsClick = false;
+            this.SelectedMode = EditMode.Normal;
+        }
+        else if (args.Value == "batch")
+        {
+            this.DblClick = true;
+            this.CommandColumnsClick = false;
+            this.SelectedMode = EditMode.Batch;
+        }
+        else if (args.Value == "dialog")
+        {
+            this.DblClick = true;
+            this.CommandColumnsClick = false;
+            this.SelectedMode = EditMode.Dialog;
+        }
+        else
+        {
+            this.CommandColumnsClick = true;
+        }
+    }
 }

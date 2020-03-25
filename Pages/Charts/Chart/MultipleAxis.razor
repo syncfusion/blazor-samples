@@ -1,12 +1,13 @@
-﻿@page "/Charts/MultipleAxis"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/multiple-axis"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Weather condition JPN vs DEU">
+    <SfChart Title="Weather condition JPN vs DEU">
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Title="Country">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Country">
             <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
@@ -21,30 +22,30 @@
         </ChartAxes>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" XName="x" YName="y" Opacity="1" Name="Germany" Width=2 Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartData" XName="x" YName="y" Opacity="1" Name="Germany" Width="2" Type="ChartSeriesType.Column">
                 <ChartMarker Visible="true" Height="10" Width="10">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" YAxisName="yAxis2" XName="x" YName="y1" Opacity="1" Name="Japan" Width=2 Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@ChartData" YAxisName="yAxis2" XName="x" YName="y1" Opacity="1" Name="Japan" Width="2" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Height="10" Width="10">
                     <ChartMarkerBorder Color="#F8AB1D" Width="2"></ChartMarkerBorder>
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartAnnotations>
-            <ChartAnnotation X="SUN" Y="50" CoordinateUnits='Syncfusion.EJ2.Blazor.Charts.Units.Point' VerticalAlignment='Syncfusion.EJ2.Blazor.Charts.Position.Top'>
+            <ChartAnnotation X="SUN" Y="70" CoordinateUnits="Syncfusion.Blazor.Charts.Units.Point">
                 <ContentTemplate>
-                    <div id='chart_cloud'><img src='images/Chart/cloud.png' style=width: 41px; height: 41px' /></div>
+                    <div><img src="images/Chart/cloud.png" style="width: 41px; height: 41px" /></div>
                 </ContentTemplate>
             </ChartAnnotation>
-            <ChartAnnotation YAxisName="yAxis2" X="SAT" Y="34" CoordinateUnits='Syncfusion.EJ2.Blazor.Charts.Units.Point' VerticalAlignment='Syncfusion.EJ2.Blazor.Charts.Position.Top'>
+            <ChartAnnotation YAxisName="yAxis2" X="SAT" Y="35" CoordinateUnits="Syncfusion.Blazor.Charts.Units.Point">
                 <ContentTemplate>
-                    <div id='chart_cloud'><img src='images/Chart/sunny.png' style='width: 41px; height: 41px' /></div>
+                    <div><img src="images/Chart/sunny.png" style="width: 41px; height: 41px" /></div>
                 </ContentTemplate>
             </ChartAnnotation>
         </ChartAnnotations>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -54,7 +55,7 @@
         public double y { get; set; }
         public double y1 { get; set; }
     }
-    public List<CategoryData> chartData = new List<CategoryData>
+    public List<CategoryData> ChartData = new List<CategoryData>
             {
                 new CategoryData { x = "SUN", y = 35, y1 = 31 },
                 new CategoryData { x = "MON", y = 40, y1 = 28 },
@@ -64,4 +65,31 @@
                 new CategoryData { x = "FRI", y = 55, y1 = 32},
                 new CategoryData { x = "SAT", y = 50, y1 = 34 },                
              };
+
+             string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

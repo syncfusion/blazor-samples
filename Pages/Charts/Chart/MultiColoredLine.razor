@@ -1,16 +1,17 @@
-﻿@page "/Charts/MultiColoredLine"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/chart/multi-colored-line"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
-
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
     <div align="center">
-        <EjsChart ID="container" Title="Particulate Levels in Rainfall" Width="80%">
+        <SfChart Title="Particulate Levels in Rainfall" Width="80%">
+            <ChartEvents Load="ChartLoad"/>
             <ChartArea>
                 <ChartAreaBorder Width="0"></ChartAreaBorder>
             </ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" Title="Particulate Matter(PM)" Minimum="4" Maximum="10">
@@ -23,7 +24,7 @@
                 <ChartSeries DataSource="@chartData" Name="Rainfall" XName="XValue" YName="YValue" PointColorMapping="Color" Width="1.5" Type="ChartSeriesType.MultiColoredLine">
                 </ChartSeries>
             </ChartSeriesCollection>
-        </EjsChart>
+        </SfChart>
     </div>
 </div>
 
@@ -58,5 +59,32 @@
                 });
             }
         });
+    }
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }

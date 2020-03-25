@@ -1,12 +1,13 @@
-﻿@page "/Charts/StackedArea"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/stacked-area"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Trend in Sales of Ethical Produce">
+    <SfChart Title="Trend in Sales of Ethical Produce">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Spends" Minimum="0" Maximum="7" Interval="1" LabelFormat="{value}B">
@@ -14,20 +15,20 @@
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Organic" XName="x" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Organic" XName="x" Width="2"
                          Opacity="1" YName="y" Type="ChartSeriesType.StackingArea">
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="Fair-trade" XName="x" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Fair-trade" XName="x" Width="2"
                          Opacity="1" YName="y1" Type="ChartSeriesType.StackingArea">
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="Veg Alternatives" XName="x" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Veg Alternatives" XName="x" Width="2"
                          Opacity="1" YName="y2" Type="ChartSeriesType.StackingArea">
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="Others" XName="x" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Others" XName="x" Width="2"
                          Opacity="1" YName="y3" Type="ChartSeriesType.StackingArea">
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -41,7 +42,7 @@
         public double y3 { get; set; }
     }
 
-    public List<StackedAreaChartData> chartData = new List<StackedAreaChartData>
+    public List<StackedAreaChartData> ChartData = new List<StackedAreaChartData>
         {
                new StackedAreaChartData { x= new DateTime(2000, 01, 01), y= 0.61, y1= 0.03, y2= 0.48, y3= 0.23 },
                new StackedAreaChartData { x= new DateTime(2001, 01, 01), y= 0.81, y1= 0.05, y2= 0.53, y3= 0.17 },
@@ -59,4 +60,33 @@
                new StackedAreaChartData { x= new DateTime(2013, 01, 01), y= 1.66, y1= 1.55, y2= 0.67, y3= 2.51 },
                new StackedAreaChartData { x= new DateTime(2014, 01, 01), y= 1.67, y1= 1.65, y2= 0.67, y3= 2.61 }
         };
+string CurrentUri;
+        void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

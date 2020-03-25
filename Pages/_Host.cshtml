@@ -1,7 +1,7 @@
 ﻿@page "/"
-@namespace ej2_blazor_samples.Pages
+@namespace blazor_samples.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using ej2_blazor_samples.Shared;
+@using blazor_samples.Shared;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,35 +23,41 @@
     <base href="~/" />
     <link href="~/scripts/bootstrap.min.css" rel="stylesheet" />
     <link href="~/styles/roboto.css" rel="stylesheet" />
-    @*<link href="~/styles/bootstrap4.css" rel="stylesheet" />*@
     <link href="~/styles/highlight.css" rel="stylesheet" />
     <script src="~/scripts/highlight.min.js"></script>
     <script src="~/scripts/index.js"></script>
-    <script src="~/scripts/ej2.min.js"></script>
     <script src="~/scripts/file-util.js"></script>
+    <script src="~/scripts/syncfusion-blazor.min.js"></script>
     <script type="text/javascript">
         var themeName = getParameterByName("theme");
-        if (themeName === 'material') {
-            ej.base.enableRipple(true);
-        }
-
-        (function () {
-            if (typeof NodeList.prototype.forEach === "function") return false;
-            NodeList.prototype.forEach = Array.prototype.forEach;
-        })();
-
-        // document.write('https://cdn.syncfusion.com/ej2/17.3.28/' + (themeName || 'material') + '.css" rel="stylesheet" id = "tId" />');
-        document.write('<link href="styles/' + (themeName || 'bootstrap4') + '.css" rel="stylesheet" id = "tId" />');
+        document.write('<link href="https://cdn.syncfusion.com/blazor/18.1.36-beta/' + (themeName || 'bootstrap4') + '.css" rel="stylesheet" id = "tId" />');
         document.write('<link href="styles/index.css" rel="stylesheet" />');
 
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
-            document.write('<script src="scripts/ejs.interop-ie.min.js"><\/script>');
             document.write('<script src="scripts/blazor.polyfill.min.js"><\/script>');
-        } else {
-            document.write('<script src="scripts/ejs.interop.min.js"><\/script>');
         }
-
-      
+    </script>
+    <script type="text/javascript">
+        function saveAsFile(filename, bytesBase64) {
+            if (navigator.msSaveBlob) {
+                //Download document in Edge browser
+                var data = window.atob(bytesBase64);
+                var bytes = new Uint8Array(data.length);
+                for (var i = 0; i < data.length; i++) {
+                    bytes[i] = data.charCodeAt(i);
+                }
+                var blob = new Blob([bytes.buffer], { type: "application/octet-stream" });
+                navigator.msSaveBlob(blob, filename);
+            }
+            else {
+                var link = document.createElement('a');
+                link.download = filename;
+                link.href = "data:application/octet-stream;base64," + bytesBase64;
+                document.body.appendChild(link); // Needed for Firefox
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
     </script>
 </head>
 <body>
@@ -69,5 +75,28 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+	
+	<script type="text/javascript">
+        function saveAsFile(filename, bytesBase64) {
+            if (navigator.msSaveBlob) {
+                //Download document in Edge browser
+                var data = window.atob(bytesBase64);
+                var bytes = new Uint8Array(data.length);
+                for (var i = 0; i < data.length; i++) {
+                    bytes[i] = data.charCodeAt(i);
+                }
+                var blob = new Blob([bytes.buffer], { type: "application/octet-stream" });
+                navigator.msSaveBlob(blob, filename);
+            }
+            else {
+                var link = document.createElement('a');
+                link.download = filename;
+                link.href = "data:application/octet-stream;base64," + bytesBase64;
+                document.body.appendChild(link); // Needed for Firefox
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    </script>
 </body>
 </html>

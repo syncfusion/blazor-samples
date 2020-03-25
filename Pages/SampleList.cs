@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -15,18 +15,18 @@ namespace ej2_blazor_samples
                 Name = "DataGrid",
                 Category = "Grids",
                 Directory = "Grid",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 002,
                 Order = 01,
                 Samples = DataGrid,
-                ControllerName = "Grid"
+                ControllerName = "DataGrid"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "TreeGrid",
+                Name = "Tree Grid",
                 Category = "Grids",
                 Directory = "TreeGrid/TreeGrid",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 006,
                 Order = 02,
                 Samples = TreeGrid,
@@ -34,10 +34,10 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "PivotTable",
+                Name = "Pivot Table",
                 Category = "Grids",
                 Directory = "PivotView/PivotTable",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 027,
                 Order = 03,
                 Samples = PivotTable,
@@ -48,11 +48,11 @@ namespace ej2_blazor_samples
                 Name = "Chart",
                 Category = "Data Visualization",
                 Directory = "Charts",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 005,
                 Order = 01,
                 Samples = Chart,
-                ControllerName = "Charts"
+                ControllerName = "Chart"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -70,7 +70,7 @@ namespace ej2_blazor_samples
                 Name = "BulletChart",
                 Category = "Data Visualization",
                 Directory = "Charts",
-                Type = SampleType.Preview,
+                Type = SampleType.Updated,
                 UID = 029,
                 Order = 01,
                 Samples = BulletChart,
@@ -78,10 +78,10 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "CircularGauge",
+                Name = "Circular Gauge",
                 Category = "Data Visualization",
                 Directory = "CircularGauge",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 003,
                 Order = 03,
                 Samples = CircularGauge,
@@ -89,10 +89,10 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "LinearGauge",
+                Name = "Linear Gauge",
                 Category = "Data Visualization",
                 Directory = "LinearGauge/LinearGauge",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 004,
                 Order = 04,
                 Samples = LinearGauge,
@@ -102,22 +102,22 @@ namespace ej2_blazor_samples
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
-                Directory = "Diagrams",
-                Type = SampleType.Preview,
+                Directory = "Diagram",
+                Type = SampleType.None,
                 UID = 005,
                 Order = 05,
                 Samples = Diagram,
-                ControllerName = "Diagrams"
+                ControllerName = "Diagram"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Sparkline",
+                Name = "Sparkline Charts",
                 Category = "Data Visualization",
                 Directory = "Charts/Sparkline",
                 Type = SampleType.None,
                 UID = 010,
                 Order = 10,
-                Samples = Sparkline,
+                Samples = SparklineCharts,
                 ControllerName = "Sparkline"
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -136,7 +136,7 @@ namespace ej2_blazor_samples
                 Name = "Maps",
                 Category = "Data Visualization",
                 Directory = "Maps/Maps",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 007,
                 Order = 07,
                 Samples = Maps,
@@ -155,9 +155,9 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "SmithChart",
+                Name = "Smith Chart",
                 Category = "Data Visualization",
-                Directory = "Charts/RangeNavigator",
+                Directory = "Charts/SmithChart",
                 Type = SampleType.None,
                 UID = 009,
                 Order = 09,
@@ -174,6 +174,17 @@ namespace ej2_blazor_samples
                 Order = 05,
                 Samples = Barcode,
                 ControllerName = "Barcodes"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "ProgressBar",
+                Category = "Notifications",
+                Directory = "ProgressBar",
+                Type = SampleType.Preview,
+                UID = 031,
+                Order = 13,
+                Samples = ProgressBar,
+                ControllerName = "ProgressBar"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -210,7 +221,7 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "DateTimePicker",
+                Name = "DateTime Picker",
                 Category = "Calendars",
                 Directory = "Calendars/DateTimePicker",
                 Type = SampleType.Preview,
@@ -224,7 +235,7 @@ namespace ej2_blazor_samples
                 Name = "TimePicker",
                 Category = "Calendars",
                 Directory = "Calendars/TimePicker",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 017,
                 Order = 17,
                 Samples = TimePicker,
@@ -243,7 +254,7 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "DropDownList",
+                Name = "Dropdown List",
                 Category = "DropDowns",
                 Directory = "DropDowns/DropDownList",
                 Type = SampleType.None,
@@ -257,7 +268,7 @@ namespace ej2_blazor_samples
                 Name = "ComboBox",
                 Category = "DropDowns",
                 Directory = "DropDowns/ComboBox",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 020,
                 Order = 02,
                 Samples = ComboBox,
@@ -268,7 +279,7 @@ namespace ej2_blazor_samples
                 Name = "AutoComplete",
                 Category = "DropDowns",
                 Directory = "DropDowns/AutoComplete",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 021,
                 Order = 01,
                 Samples = AutoComplete,
@@ -276,21 +287,21 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "MultiSelect",
+                Name = "MultiSelect Dropdown",
                 Category = "DropDowns",
                 Directory = "DropDowns/MultiSelect",
                 Type = SampleType.Preview,
                 UID = 022,
                 Order = 04,
-                Samples = MultiSelect,
-                ControllerName = "MultiSelect"
+                Samples = MultiSelectDropdown,
+                ControllerName = "MultiSelectDropdown"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "ListBox",
                 Category = "DropDowns",
                 Directory = "DropDowns/ListBox",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 028,
                 Order = 05,
                 Samples = ListBox,
@@ -312,7 +323,7 @@ namespace ej2_blazor_samples
                 Name = "Accordion",
                 Category = "Navigations",
                 Directory = "Navigations/Accordion",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 005,
                 Order = 01,
                 Samples = Accordion,
@@ -331,21 +342,20 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Tab",
+                Name = "Tabs",
                 Category = "Navigations",
-                Directory = "Navigations/Tab",
+                Directory = "Navigations/Tabs",
                 Type = SampleType.None,
                 UID = 005,
                 Order = 05,
-                Samples = Tab,
-                ControllerName = "Tab"
+                Samples = Tabs,
+                ControllerName = "Tabs"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Toast",
                 Category = "Notifications",
                 Directory = "Notifications/Toast",
-                Type = SampleType.Preview,
                 UID = 016,
                 Order = 16,
                 Samples = Toast,
@@ -375,7 +385,7 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "DashboardLayout",
+                Name = "Dashboard Layout",
                 Category = "Layout",
                 Directory = "Layouts/DashboardLayout",
                 Type = SampleType.None,
@@ -397,14 +407,14 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Listview",
+                Name = "ListView",
                 Category = "Layout",
-                Directory = "Layouts/Listview",
-                Type = SampleType.Preview,
+                Directory = "Layouts/ListView",
+                Type = SampleType.None,
                 UID = 005,
                 Order = 01,
-                Samples = Listview,
-                ControllerName = "Listview"
+                Samples = ListView,
+                ControllerName = "ListView"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -422,7 +432,6 @@ namespace ej2_blazor_samples
                 Name = "Splitter",
                 Category = "Layout",
                 Directory = "Layouts/Splitter",
-                Type = SampleType.Preview,
                 UID = 010,
                 Order = 10,
                 Samples = Splitter,
@@ -430,7 +439,18 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "QueryBuilder",
+                Name = "Card",
+                Category = "Layout",
+                Directory = "Cards",
+                Type = SampleType.Preview,
+                UID = 230,
+                Order = 01,
+                Samples = Card,
+                ControllerName = "Card"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Query Builder",
                 Category = "Forms",
                 Directory = "Forms/QueryBuilder",
                 Type = SampleType.Preview,
@@ -441,22 +461,21 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "PdfViewer",
+                Name = "PDF Viewer",
                 Category = "Viewer",
-                Directory = "Viewer",
-                Type = SampleType.None,
+                Directory = "Viewer/PdfViewer",
                 UID = 006,
                 Order = 04,
-                Samples = PdfViewer,
-                ControllerName = "Viewer"
+                Samples = PDFViewer,
+                ControllerName = "PdfViewer"
             });
 
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "DocumentEditor",
+                Name = "Document Editor",
                 Category = "Editors",
                 Directory = "DocumentEditor/DocumentEditor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 UID = 004,
                 Order = 02,
                 Samples = DocumentEditor,
@@ -464,40 +483,40 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "InPlaceEditor",
+                Name = "InPlace Editor",
                 Category = "Editors",
                 Directory = "Editors/InPlaceEditor",
                 Type = SampleType.None,
                 UID = 009,
                 Order = 09,
                 Samples = InPlaceEditor,
-                ControllerName = "Editors"
+                ControllerName = "InPlaceEditor"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Schedule",
+                Name = "Scheduler",
                 Category = "Calendars",
-                Directory = "Schedule/Schedule",
-                Type = SampleType.None,
+                Directory = "Schedule/Scheduler",
+                Type = SampleType.Updated,
                 UID = 005,
                 Order = 01,
-                Samples = Schedule,
-                ControllerName = "Schedule"
+                Samples = Scheduler,
+                ControllerName = "Scheduler"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Gantt",
+                Name = "Gantt Chart",
                 Category = "Calendars",
-                Directory = "Gantt/Gantt",
+                Directory = "GanttChart/GanttChart",
                 Type = SampleType.Preview,
                 UID = 005,
                 Order = 01,
-                Samples = Gantt,
-                ControllerName = "Gantt"
+                Samples = GanttChart,
+                ControllerName = "GanttChart"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "RichTextEditor",
+                Name = "Rich Text Editor",
                 Category = "Editors",
                 Directory = "RichTextEditor/RichTextEditor",
                 Type = SampleType.None,
@@ -508,40 +527,40 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "NumericTextBox",
+                Name = "Numeric Textbox",
                 Category = "Inputs",
                 Directory = "Inputs/NumericTextBox",
                 Type = SampleType.None,
                 UID = 011,
                 Order = 03,
-                Samples = NumericTextBox,
+                Samples = NumericTextbox,
                 ControllerName = "NumericTextBox"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "MaskedTextBox",
+                Name = "Input Mask",
                 Category = "Inputs",
                 Directory = "Inputs/MaskedTextBox",
                 Type = SampleType.Preview,
                 UID = 012,
                 Order = 02,
-                Samples = MaskedTextBox,
-                ControllerName = "MaskedTextBox"
+                Samples = InputMask,
+                ControllerName = "InputMask"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "FileUpload",
+                Name = "File Upload",
                 Category = "Inputs",
                 Directory = "Inputs/Uploader",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 013,
                 Order = 05,
                 Samples = FileUpload,
-                ControllerName = "Uploader"
+                ControllerName = "FileUpload"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "ColorPicker",
+                Name = "Color Picker",
                 Category = "Inputs",
                 Directory = "Inputs/ColorPicker",
                 Type = SampleType.Preview,
@@ -552,7 +571,7 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "ContextMenu",
+                Name = "Context Menu",
                 Category = "Navigations",
                 Directory = "Navigations/ContextMenu",
                 Type = SampleType.Preview,
@@ -574,7 +593,7 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "HeatMapChart",
+                Name = "HeatMap Chart",
                 Category = "Data Visualization",
                 Directory = "HeatMapChart/HeatMapChart",
                 Type = SampleType.None,
@@ -599,7 +618,7 @@ namespace ej2_blazor_samples
                 Name = "TreeView",
                 Category = "Navigations",
                 Directory = "Navigations/TreeView",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 015,
                 Order = 15,
                 Samples = TreeView,
@@ -610,7 +629,7 @@ namespace ej2_blazor_samples
                 Name = "Slider",
                 Category = "Inputs",
                 Directory = "Inputs/Slider",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 UID = 014,
                 Order = 14,
                 Samples = Slider,
@@ -618,7 +637,7 @@ namespace ej2_blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "FileManager",
+                Name = "File Manager",
                 Category = "Navigations",
                 Directory = "Navigations/FileManager",
                 Type = SampleType.Preview,
@@ -626,6 +645,61 @@ namespace ej2_blazor_samples
                 Order = 04,
                 Samples = FileManager,
                 ControllerName = "FileManager"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Kanban",
+                Category = "Data Visualization",
+                Directory = "Kanban/Kanban",
+                Type = SampleType.Preview,
+                UID = 030,
+                Order = 12,
+                Samples = Kanban,
+                ControllerName = "Kanban"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "DocIO",
+                Category = "File Formats",
+                Directory = "FileFormats/DocIO",
+                Type = SampleType.New,
+                UID = 032,
+                Order = 01,
+                Samples = DocIO,
+                ControllerName = "DocIO"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Presentation",
+                Category = "File Formats",
+                Directory = "FileFormats/Presentation",
+                Type = SampleType.New,
+                UID = 033,
+                Order = 01,
+                Samples = Presentation,
+                ControllerName = "Presentation"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "XlsIO",
+                Category = "File Formats",
+                Directory = "FileFormats/XlsIO",
+                Type = SampleType.New,
+                UID = 009,
+                Order = 09,
+                Samples = XlsIO,
+                ControllerName = "XlsIO"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "PDF",
+                Category = "File Formats",
+                Directory = "FileFormats/PDF",
+                Type = SampleType.New,
+                UID = 061,
+                Order = 01,
+                Samples = PDF,
+                ControllerName = "PDF"
             });
         }
     }

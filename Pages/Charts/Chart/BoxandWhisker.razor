@@ -1,15 +1,16 @@
-﻿@page "/Charts/BoxandWhisker"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-@using Syncfusion.EJ2.Blazor.DropDowns
-
+﻿@page "/chart/box-and-whisker"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <EjsChart @ref="@chartObj" Title="Employee Age Group in Various Department">
+        <SfChart @ref="@ChartObj" Title="Employee Age Group in Various Department">
+			<ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="LabelIntersectAction.Trim" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category">
+            <ChartPrimaryXAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="LabelIntersectAction.Trim" ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Minimum="10" Maximum="60" Interval="10" Title="Age">
@@ -22,31 +23,31 @@
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        </EjsChart>
+        </SfChart>
     </div>
     <div class="col-lg-4 property-section">
         <table id="property" title="Properties" style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
-            <tr style="height: 50px">
+            @*<tr style="height: 50px">
                 <td style="width: 60%">
                     <div>
                         Mode:
                     </div>
                 </td>
                 <td style="width: 40%;">
-                    <EjsDropDownList TValue="string" Placeholder="Normal" TItem="Data" DataSource="@DropDowmData">
+                    <SfDropDownList TValue="string" Placeholder="Normal" TItem="Data" DataSource="@DropDowmData" @bind-Value="@DropVal" >
                         <DropDownListFieldSettings Value="ID"></DropDownListFieldSettings>
                         <DropDownListEvents TValue="string" ValueChange="ChangeType"></DropDownListEvents>
-                    </EjsDropDownList>
+                    </SfDropDownList>
                 </td>
-            </tr>
+            </tr>*@
             <tr style="height: 50px">
                 <td style="width: 50%">
                     <div>Mean: </div>
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@Mean" ValueChange="@IsChecked"></EjsCheckBox>
+                        <SfCheckBox Checked="@Mean" ValueChange="@IsChecked"></SfCheckBox>
                     </div>
                 </td>
             </tr>
@@ -54,19 +55,20 @@
     </div>
 </div>
 @code{
-    EjsChart chartObj;
+    SfChart ChartObj;
     public bool Mean = true;
     BoxPlotMode BoxPlot = BoxPlotMode.Normal;
+    string DropVal = "Normal";
 
     public void ChangeMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
         this.BoxPlot = (BoxPlotMode)Enum.Parse(typeof(BoxPlotMode), args.Value.ToString(), true);
     }
 
-    private void IsChecked(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    private void IsChecked(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
         Mean = args.Checked;
-        chartObj.Refresh();
+        ChartObj.Refresh();
     }
 
     public class Data
@@ -74,14 +76,17 @@
         public string ID { get; set; }
     }
 
-    private List<Data> DropDowmData = new List<Data>() 
-    {
+    private List<Data>
+    DropDowmData = new List<Data>
+        ()
+        {
         new Data(){ ID= "Normal"},
         new Data(){ ID= "Exclusive"},
         new Data(){ ID= "Inclusive"}
-    };
+        };
 
-    private void ChangeType(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void ChangeType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string>
+        args)
     {
         this.BoxPlot = (BoxPlotMode)Enum.Parse(typeof(BoxPlotMode), args.Value.ToString(), true);
         StateHasChanged();
@@ -92,8 +97,9 @@
         public string x { get; set; }
         public double[] y { get; set; }
     }
-    public List<BoxandWhiskerData> ChartData = new List<BoxandWhiskerData>
-    {
+    public List<BoxandWhiskerData>
+        ChartData = new List<BoxandWhiskerData>
+            {
                     new BoxandWhiskerData { x= "Development", y= new double[]{ 22, 22, 23, 25, 25, 25, 26, 27, 27, 28, 28, 29, 30, 32, 34, 32, 34, 36, 35, 38 }},
                     new BoxandWhiskerData { x= "Testing", y= new double[] { 22, 33, 23, 25, 26, 28, 29, 30, 34, 33, 32, 31, 50 }},
                     new BoxandWhiskerData { x= "HR", y= new double[] { 22, 24, 25, 30, 32, 34, 36, 38, 39, 41, 35, 36, 40, 56 } },
@@ -103,5 +109,32 @@
                     new BoxandWhiskerData { x= "Inventory", y= new double[] { 21, 23, 24, 25, 26, 27, 28, 30, 34, 36, 38 }},
                     new BoxandWhiskerData { x= "Graphics", y= new double[] { 26, 28, 29, 30, 32, 33, 35, 36, 52 }},
                     new BoxandWhiskerData { x= "Training", y= new double[] { 28, 29, 30, 31, 32, 34, 35, 36 }}
-        };
-}
+            };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+                    }

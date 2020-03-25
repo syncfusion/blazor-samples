@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
-namespace ej2_blazor_productdata
+using blazor_samples;
+namespace blazor_productdata
 {
     public partial class Product
     {

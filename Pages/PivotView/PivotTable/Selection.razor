@@ -1,95 +1,165 @@
-@page "/PivotTable/Selection"
+@page "/pivot-table/selection"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
 
-<div class="control-section">
+<div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <div class="column-8">
-            <EjsPivotView TValue="PivotProductDetails" Height="340">
-                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=true EnableSorting=true>
-                    <PivotViewColumns>
-                        <PivotViewColumn Name="Year"></PivotViewColumn>
-                        <PivotViewColumn Name="Quarter"></PivotViewColumn>
-                    </PivotViewColumns>
-                    <PivotViewRows>
-                        <PivotViewRow Name="Country"></PivotViewRow>
-                        <PivotViewRow Name="Products"></PivotViewRow>
-                    </PivotViewRows>
-                    <PivotViewValues>
-                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
-                    </PivotViewValues>
-                    <PivotViewFormatSettings>
-                        <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                        <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
-                    </PivotViewFormatSettings>
-                </PivotViewDataSourceSettings>
-                <PivotViewGridSettings ColumnWidth="140" AllowSelection="true">
-                    <PivotViewSelectionSettings Mode="SelectionMode.Cell" Type="PivotTableSelectionType.Multiple" CellSelectionMode="PivotCellSelectionMode.Box"></PivotViewSelectionSettings>
-                </PivotViewGridSettings>
-                <PivotViewEvents TValue="PivotProductDetails" CellSelected="cellselected"></PivotViewEvents>
-            </EjsPivotView>
-        </div>
-        <div class="column-4">
-            <div style="height:300px; overflow:auto;">
-                <h5>Event Trace:</h5> <br>
-                @if (SelectedCells != null)
-                {
-                    @if (SelectedCells.SelectedCellsInfo != null)
-                    {
-                        @foreach (var cell in SelectedCells.SelectedCellsInfo)
-                        {
-                            <p>
-                                <b>ColumnHeader:</b> @cell.ColumnHeaders<br>
-                                <b>RowHeader:</b> @cell.RowHeaders<br>
-                                <b>Value:</b> @cell.Value<br>
-                                <b>Measure:</b> @cell.Measure
-                            </p>
-                            <br>
-                        }
-                    }
-                }
-            </div>
+        <SfPivotView TValue="PivotProductDetails" Height="400" Width="100%" ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=true EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewValueSortSettings HeaderDelimiter=" - "></PivotViewValueSortSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings AllowSelection="true" ColumnWidth="120">
+                <PivotViewSelectionSettings Mode="@SelectMode" Type="@SelectionType" CellSelectionMode="PivotCellSelectionMode.Box"></PivotViewSelectionSettings>
+            </PivotViewGridSettings>
+            <PivotViewEvents TValue="PivotProductDetails" CellSelected="@CellSelected"></PivotViewEvents>
+        </SfPivotView>
+
+    </div>
+</div>
+<div class="col-lg-3 property-section pivottable-property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td>
+                            <div>
+                                Selection Modes:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" @ref="DropDown" DataSource="@DropDownEditmode" @bind-Value="@Mode">
+                                    <DropDownListEvents TValue="string" ValueChange="ChangeSelectMode"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td>
+                            <div>
+                                Selection Types:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" @ref="DropDownType" DataSource="@DropDownMode" @bind-Value="@Type">
+                                    <DropDownListEvents TValue="string" ValueChange="ChangeSelectType"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 15px">
+                        <td colspan="2">
+                            <div>
+                                <b>
+                                    <hr>Event Trace:
+                                </b>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="eventarea" style="height: 230px;overflow: auto">
+                                <span class="EventLog" id="selection-EventLog" style="word-break: normal;">
+                                    @if (SelectedCells != null)
+                                    {
+                                        @if (SelectedCells.SelectedCellsInfo != null)
+                                        {
+                                            @foreach (var cell in SelectedCells.SelectedCellsInfo)
+                                            {
+                                                <span>
+                                                    ColumnHeader:<b> @cell.ColumnHeaders</b><br>
+                                                    RowHeader:<b> @cell.RowHeaders</b><br>
+                                                    Value:<b> @cell.Value</b><br>
+                                                    Measure:<b> @cell.Measure</b><hr><br>
+                                                </span>
+                                            }
+                                        }
+                                    }
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
 <style>
     .e-pivotview {
         min-height: 200px;
     }
 
-    .e-font {
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 100;
-    }
-
-    .column-8 {
-        width: 70% !important;
-        float: left !important;
-    }
-
-    .column-4 {
-        width: 27% !important;
-        float: right !important;
+    .pivottable-property-section hr {
+        margin: 1px 10px 0px 0px;
+        border-top: 1px solid #eee;
     }
 </style>
 
 @code{
     public PivotCellSelectedEventArgs SelectedCells;
+    SfDropDownList<string, DropDownData> DropDown;
+    SfDropDownList<string, DropDownData> DropDownType;
+    public Syncfusion.Blazor.PivotView.SelectionMode SelectMode = Syncfusion.Blazor.PivotView.SelectionMode.Cell;
+    public PivotTableSelectionType SelectionType = PivotTableSelectionType.Multiple;
+    public List<DropDownData> DropDownEditmode = new List<DropDownData>();
+    public List<DropDownData> DropDownMode = new List<DropDownData>();
+    public string Mode { get; set; } = "Cell";
+    public string Type { get; set; } = "Multiple";
 
-    public List<PivotProductDetails> data { get; set; }
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
+        this.DropDownEditmode.Add(new DropDownData() { ID = "Cell", Name = "Cell" });
+        this.DropDownEditmode.Add(new DropDownData() { ID = "Both", Name = "Both" });
+        this.DropDownEditmode.Add(new DropDownData() { ID = "Row", Name = "Row" });
+        this.DropDownEditmode.Add(new DropDownData() { ID = "Column", Name = "Column" });
+        this.DropDownMode.Add(new DropDownData() { ID = "Multiple", Name = "Multiple" });
+        this.DropDownMode.Add(new DropDownData() { ID = "Single", Name = "Single" });
     }
-    public void cellselected(PivotCellSelectedEventArgs args)
+
+    public void CellSelected(PivotCellSelectedEventArgs args)
     {
         SelectedCells = args;
+    }
+    public void ChangeSelectMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        SelectMode = (Syncfusion.Blazor.PivotView.SelectionMode)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.SelectionMode), args.Value, true);
+    }
+    public void ChangeSelectType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        SelectionType = (PivotTableSelectionType)Enum.Parse(typeof(PivotTableSelectionType), args.Value, true);
+    }
+
+    public class DropDownData
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,58 +1,48 @@
-﻿@page "/Grid/Clipboard"
+﻿@page "/datagrid/clipboard"
 
-@using Syncfusion.EJ2.Blazor.Grids
-@using Syncfusion.EJ2.Blazor.Navigations
-@using ej2_blazor_griddata
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+
+@using blazor_griddata
 
 @inherits SampleBaseComponent;
 
 @{
     List<ItemModel> Toolbar = new List<ItemModel>();
     Toolbar.Add(new ItemModel { Text = "Copy", TooltipText = "Copy", PrefixIcon = "e-copy", Id = "copy" });
-    Toolbar.Add(new ItemModel { Text = "Copy With Header", TooltipText = "Copy With Header", PrefixIcon = "e-copy", Id = "copyHeader" });
+    Toolbar.Add(new ItemModel { Text = "Copy With Header", TooltipText = "Copy With Header", PrefixIcon = "e-copy", Id = "copyheader" });
 }
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
 
-            <EjsGrid @ref="@Grid" DataSource="@GridData" AllowSelection="true" Toolbar="Toolbar" AllowPaging="true">
-                <GridSelectionSettings Type="Syncfusion.EJ2.Blazor.Grids.SelectionType.Multiple"></GridSelectionSettings>
-                <GridEvents OnToolbarClick="ToolbarClick" TValue="OrdersDetails"></GridEvents>
+            <SfGrid @ref="@Grid" DataSource="@GridData" AllowSelection="true" Toolbar="Toolbar" AllowPaging="true">
+                <GridSelectionSettings Type="SelectionType.Multiple"></GridSelectionSettings>
+                <GridEvents TValue="OrdersDetails"></GridEvents>
                 <GridColumns>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120" ></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="150"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
                 </GridColumns>
-            </EjsGrid>
+            </SfGrid>
 
         </div>
     </div>
 </div>
 
+
 @code{
-    EjsGrid<OrdersDetails> Grid;
+    SfGrid<OrdersDetails> Grid;
 
     public List<OrdersDetails> GridData { get; set; }
 
     protected override void OnInitialized()
     {
         GridData = OrdersDetails.GetAllRecords();
-    }
-
-    public async void ToolbarClick(Syncfusion.EJ2.Blazor.Navigations.ClickEventArgs args)
-    {
-        var SelectedRecords = await this.Grid.GetSelectedRecords();
-        if (SelectedRecords.Count() > 0)
-        {
-            var withHeader = false;
-            if (args.Item.Id == "copyHeader")
-            {
-                withHeader = true;
-            }
-            this.Grid.Copy(withHeader);
-        }
     }
 }

@@ -1,12 +1,13 @@
-﻿@page "/Charts/Spline"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/spline"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="NC Weather Report - 2016">
+    <SfChart Title="NC Weather Report - 2016">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate90">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate90">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value}%">
@@ -32,14 +33,14 @@
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartAnnotations>
-            <ChartAnnotation X="Sun" Y="8" CoordinateUnits="Units.Point" VerticalAlignment="Position.Top">
-                <ContentTemplate><div id='chart_cloud'><img src='images/Chart/cloud.png' style='width: 41px; height: 41px'/></div></ContentTemplate>
+            <ChartAnnotation X="Sun" Y="8" CoordinateUnits="Units.Point">
+                <ContentTemplate><div><img src="images/Chart/cloud.png" style="width: 41px; height: 41px"/></div></ContentTemplate>
             </ChartAnnotation>
-            <ChartAnnotation X="Tue" Y="38" CoordinateUnits="Units.Point" VerticalAlignment="Position.Top">
-                <ContentTemplate><div id='chart_cloud'><img src='images/Chart/sunny.png' style='width: 41px; height: 41px' /></div></ContentTemplate>
+            <ChartAnnotation X="Tue" Y="38" CoordinateUnits="Units.Point">
+                <ContentTemplate><div><img src="images/Chart/sunny.png" style="width: 41px; height: 41px" /></div></ContentTemplate>
             </ChartAnnotation>
         </ChartAnnotations>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -62,4 +63,33 @@
         new SplineChartData { xValue = "Fri", yValue = 24, yValue1 = 20, yValue2 = 13 },
         new SplineChartData { xValue = "Sat", yValue = 18, yValue1 = 15, yValue2 = 8 },
     };
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

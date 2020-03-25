@@ -1,15 +1,16 @@
-﻿@page "/Charts/StripLineRecurrence"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-
+﻿@page "/chart/recurrence-strip-line"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
     <div class="row">
         <div class="control-section col-md-8">
-            <EjsChart Title="World Pollution Report">
+            <SfChart Title="World Pollution Report">
+             <ChartEvents Load="ChartLoad"/>
                 <ChartArea>
                     <ChartAreaBorder Width="0"></ChartAreaBorder>
                 </ChartArea>
-                <ChartPrimaryXAxis Interval="5" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime">
+                <ChartPrimaryXAxis Interval="5" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                     <ChartStriplines>
                         <ChartStripline Visible="@XAxis" StartFromAxis="true" Size="5" SizeType="SizeType.Years" IsRepeat="true" RepeatEvery="10" Color="rgba(167,169,171, 0.1)"></ChartStripline>
@@ -32,25 +33,25 @@
                 </ChartSeriesCollection>
 
                 <ChartTooltipSettings Enable="true" Format=" Year: ${point.x}<br> Tons Per Day: ${point.y}"></ChartTooltipSettings>
-            </EjsChart>
+            </SfChart>
         </div>
         <div class="col-md-4 property-section">
-            <table id="property" style="width: 100%">
+            <table  style="width: 100%">
                 <tr style="height:50px"><th>Properties</th></tr>
-                <tr id='' style="height: 50px">
+                <tr  style="height: 50px">
                     <td style="width: 80%">
                         X Axis Striplines:
                     </td>
                     <td>
-                        <EjsCheckBox Checked="@XAxis" ValueChange="@CheckedXAxis"></EjsCheckBox>
+                        <SfCheckBox Checked="@XAxis" ValueChange="@CheckedXAxis"></SfCheckBox>
                     </td>
                 </tr>
-                <tr id='' style="height: 50px">
+                <tr  style="height: 50px">
                     <td style="width: 80%">
                         Y Axis Striplines:
                     </td>
                     <td>
-                        <EjsCheckBox Checked="@YAxis" ValueChange="@CheckedYAxis"></EjsCheckBox>
+                        <SfCheckBox Checked="@YAxis" ValueChange="@CheckedYAxis"></SfCheckBox>
                     </td>
                 </tr>
             </table>
@@ -58,12 +59,12 @@
     </div>
         @code{
             private Boolean XAxis = true, YAxis = true;
-            private void CheckedXAxis(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+            private void CheckedXAxis(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
             {
                 XAxis = args.Checked;
             }
 
-            private void CheckedYAxis(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+            private void CheckedYAxis(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
             {
                 YAxis = args.Checked;
             }
@@ -86,5 +87,34 @@
         new ChartData { XValue = new DateTime(2000, 1, 1), YValue = 13300, YValue1 = 4000 },
         new ChartData { XValue = new DateTime(2005, 1, 1), YValue = 12800, YValue1 = 4800 },
     };
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 
         }

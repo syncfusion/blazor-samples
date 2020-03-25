@@ -1,14 +1,32 @@
-﻿@page "/ListBox/Api"
+﻿@page "/listbox/api"
 
-@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.Blazor.DropDowns
+
 @inherits SampleBaseComponent;
 
 <div class="col-lg-8 control-section">
     <div id="listbox-control1">
-        <EjsListBox @ref="listBox" DataSource="@VegetableData" TValue="string[]" SortOrder="@OrderValue">
-            <ListBoxFieldSettings GroupBy="Category" Text="Vegetable" Value="Id"></ListBoxFieldSettings>
+        @{
+
+            if (this.OrderValue == "Descending")
+            {
+                this.SortValue = Syncfusion.Blazor.Lists.SortOrder.Descending;
+            }
+
+            if (this.OrderValue == "Ascending")
+            {
+                this.SortValue = Syncfusion.Blazor.Lists.SortOrder.Ascending;
+            }
+
+            if (this.OrderValue == "None")
+            {
+                this.SortValue = Syncfusion.Blazor.Lists.SortOrder.None;
+            }
+        }
+        <SfListBox DataSource="@VegetableData" TValue="string[]" TItem="Vegetables" SortOrder="@SortValue">
+            <ListBoxFieldSettings Text="Vegetable" Value="Id" GroupBy="Category"></ListBoxFieldSettings>
             <ListBoxSelectionSettings Mode="@Mode"></ListBoxSelectionSettings>
-        </EjsListBox>
+        </SfListBox>
     </div>
 </div>
 <div class="col-lg-4 property-section">
@@ -20,10 +38,10 @@
                 </td>
                 <td style="width: 50%;padding-top:10px">
                     <div style="max-width: 200px">
-                        <EjsDropDownList PopupHeight="200px" DataSource="@SortItems" @bind-Value="@OrderValue" TValue="string" TItem="ValueDetails">
+                        <SfDropDownList PopupHeight="200px" DataSource="@SortItems" @bind-Value="@OrderValue" TValue="string" TItem="ValueDetails">
                             <DropDownListEvents ValueChange="OrderChange" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
-                        </EjsDropDownList>
+                        </SfDropDownList>
                     </div>
                 </td>
             </tr>
@@ -33,10 +51,10 @@
                 </td>
                 <td style="width: 50%;padding-top:10px">
                     <div style="max-width: 200px">
-                        <EjsDropDownList PopupHeight="200px" DataSource="@SelectionType" @bind-Value="@SortOrderValue" TValue="string" TItem="ValueDetails">
+                        <SfDropDownList PopupHeight="200px" DataSource="@SelectionType" @bind-Value="@SortOrderValue" TValue="string" TItem="ValueDetails">
                             <DropDownListEvents ValueChange="ModeChange" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
-                        </EjsDropDownList>
+                        </SfDropDownList>
                     </div>
                 </td>
             </tr>
@@ -62,11 +80,10 @@
 
 @code{
 
-    EjsListBox<string[]> listBox;
     SelectionMode Mode = SelectionMode.Single;
-
     public string OrderValue { get; set; }
-     public string SortOrderValue { get; set; }
+    public Syncfusion.Blazor.Lists.SortOrder SortValue { get; set; }
+    public string SortOrderValue { get; set; }
     private void OrderChange(ChangeEventArgs<string> args)
     {
         this.OrderValue = args.Value;
@@ -108,19 +125,26 @@
     {
         public string Text { get; set; }
     }
-    public List<object> VegetableData = new List<object>
+    public List<Vegetables> VegetableData = new List<Vegetables>
 {
-        new { Vegetable = "Cabbage", Category= "Leafy and Salad", Id= "item1" },
-        new { Vegetable = "Chickpea", Category= "Beans", Id= "item2" },
-        new { Vegetable = "Garlic", Category= "Bulb and Stem", Id= "item3"  },
-        new { Vegetable = "Green bean", Category= "Beans", Id= "item4" },
-        new { Vegetable = "Horse gram", Category= "Beans", Id= "item5"},
-        new { Vegetable = "Nopal", Category= "Bulb and Stem", Id= "item6" },
-        new { Vegetable = "Onion", Category= "Bulb and Stem", Id= "item7" },
-        new { Vegetable = "Pumpkins", Category= "Leafy and Salad", Id= "item8" },
-        new { Vegetable = "Spinach", Category= "Leafy and Salad", Id= "item9" },
-        new { Vegetable = "Wheat grass", Category= "Leafy and Salad", Id= "item10" },
-        new { Vegetable = "Yarrow", Category = "Leafy and Salad", Id = "item11" }
+        new Vegetables { Vegetable = "Cabbage", Category= "Leafy and Salad", Id= "item1" },
+        new Vegetables{ Vegetable = "Chickpea", Category= "Beans", Id= "item2" },
+        new Vegetables{ Vegetable = "Garlic", Category= "Bulb and Stem", Id= "item3"  },
+        new Vegetables{ Vegetable = "Green bean", Category= "Beans", Id= "item4" },
+        new Vegetables{ Vegetable = "Horse gram", Category= "Beans", Id= "item5"},
+        new Vegetables{ Vegetable = "Nopal", Category= "Bulb and Stem", Id= "item6" },
+        new Vegetables{ Vegetable = "Onion", Category= "Bulb and Stem", Id= "item7" },
+        new Vegetables{ Vegetable = "Pumpkins", Category= "Leafy and Salad", Id= "item8" },
+        new Vegetables{ Vegetable = "Spinach", Category= "Leafy and Salad", Id= "item9" },
+        new Vegetables{ Vegetable = "Wheat grass", Category= "Leafy and Salad", Id= "item10" },
+        new Vegetables{ Vegetable = "Yarrow", Category = "Leafy and Salad", Id = "item11" }
 
         };
+    public class Vegetables
+    {
+        public string Vegetable { get; set; }
+        public string Category { get; set; }
+        public string Id { get; set; }
+
+    }
 }

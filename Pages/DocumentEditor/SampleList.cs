@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
 
     internal partial class SampleConfig
@@ -14,13 +14,10 @@ namespace ej2_blazor_samples
                 Name = "Default Functionalities",
                 Category = "DocumentEditor",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/DefaultFunctionalities",
+                Url = "document-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                TitleTag = "Document Editor . Default Functionalities . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates how to create, edit, and print Word documents (DOCX) online using document editor",
                 ActionDescription = new string[] {
-                @"<p>This example demonstrates how to create, edit, and print Word documents (DOCX) online using document editor without any
-                server-side dependencies.</p>"
+                @"<p>This example demonstrates how to create, edit, and print Word documents (DOCX) online using document editor.</p>"
                 },
                 Description = new string[] {
                 @"<p>In this example, you can create and edit Word documents online much faster and easier using intuitive UI options of the
@@ -28,8 +25,7 @@ namespace ej2_blazor_samples
                 build a lightweight Word editor with the features you require.</p>
                 <p style='display: block'>Features of document editor:</p>
                 <ul>
-                <li>Create and edit: Opens and saves documents in native 'Syncfusion Document Text (*.sfdt)' file format without any
-                    server-side dependencies. This helps build a purely client-side Word editor application.</li>
+                <li>Create and edit: Opens and saves documents.</li>
                 <li>Supported elements: Document elements like text, images, hyperlinks, tables, bookmarks, page numbers, tables of contents,
                     headers, and footers.</li>
                 <li>Formatting: Text levels, paragraph levels, bullets and numbering, table levels, page settings, and styles.</li>
@@ -47,10 +43,8 @@ namespace ej2_blazor_samples
                 Name = "Character Formatting",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/CharacterFormat",
+                Url = "document-editor/character-format",
                 FileName = "CharacterFormat.razor",
-                TitleTag = "Document Editor . Character Format . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates the character formatting options in DocumentEditor such as bold, italic, underline, strikethrough, subscript, superscript, font, font size, font color, and highlight color.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates the character formatting options in DocumentEditor such as bold, italic, underline, strikethrough,
                     subscript, superscript, font, font size, font color, and highlight color.</p>"
@@ -75,10 +69,8 @@ namespace ej2_blazor_samples
                 Name = "Paragraph Formatting",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/ParagraphFormat",
+                Url = "document-editor/paragraph-format",
                 FileName = "ParagraphFormat.razor",
-                TitleTag = "Document Editor . Paragraph Formatting . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates paragraph formatting options in document editor such as indentation, spacing, and text alignment.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates paragraph formatting options in document editor such as indentation, spacing, and text
                 alignment.</p>"
@@ -102,10 +94,8 @@ namespace ej2_blazor_samples
                 Name = "Styles",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/Styles",
+                Url = "document-editor/styles",
                 FileName = "Styles.razor",
-                TitleTag = "Document Editor . Styles . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates character and paragraph formatting using styles in the document editor. Both built-in styles (for example, heading styles) and custom styles can be added.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates character and paragraph formatting using styles in document editor. Both built-in
                     styles (for example, heading styles) and custom styles can be added. </p>"
@@ -122,10 +112,8 @@ namespace ej2_blazor_samples
                 Name = "Bullets and Numbering",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/BulletsAndNumbering",
+                Url = "document-editor/bullets-and-numbering",
                 FileName = "BulletsAndNumbering.razor",
-                TitleTag = "Document Editor . Bullets and Numbering . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates bullets and numbering support in document editor. Both single list and multi-level lists are supported.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates bullets and numbering support in document editor. Both single list and multi-level lists
                     are supported. </p>"
@@ -142,10 +130,8 @@ namespace ej2_blazor_samples
                 Name = "Hyperlinks and Bookmarks",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/HyperlinksAndBookmarks",
+                Url = "document-editor/hyperlinks-and-bookmarks",
                 FileName = "HyperlinksAndBookmarks.razor",
-                TitleTag = "Document Editor . Hyperlinks and Bookmarks . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates hyperlinks and bookmarks support in document editor. A file, mail, webpage, or bookmark can be added as a link to the text.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates hyperlinks and bookmarks support in document editor. A file, mail, webpage, or bookmark can
                     be added as link to the text. </p>"
@@ -167,10 +153,8 @@ namespace ej2_blazor_samples
                 Name = "Table Formatting",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/TableFormat",
+                Url = "document-editor/table-format",
                 FileName = "TableFormat.razor",
-                TitleTag = "Document Editor . Table Formatting . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates table formatting options in document editor such as cell margins, cell spacing, horizontal merge, vertical merge, border styles, background color, and more.",
                 ActionDescription = new string[] {
                 @" <p>This example demonstrates table formatting options in document editor such as cell margins, cell spacing, horizontal
                     merge, vertical merge, border styles, background color, and more. </p>"
@@ -192,10 +176,8 @@ namespace ej2_blazor_samples
                 Name = "Section Formatting",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/SectionFormat",
+                Url = "document-editor/section-format",
                 FileName = "SectionFormat.razor",
-                TitleTag = "Document Editor . Section Formatting . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates section formatting options in document editor such as page margins, page size, header distance from top, and footer distance from bottom.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates section formatting options in document editor such as page margins, page size, header distance
                     from top, and footer distance from bottom. </p>"
@@ -217,10 +199,8 @@ namespace ej2_blazor_samples
                 Name = "Headers and Footers",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/HeadersAndFooters",
+                Url = "document-editor/headers-and-footers",
                 FileName = "HeadersAndFooters.razor",
-                TitleTag = "Document Editor . Headers and Footers . Syncfusion Blazor Components",
-                MetaDescription = "This, example demonstrates header and footer support in document editor. Different headers and footers can be added to the first page, odd pages, and even pages.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates header and footer support in document editor. Different headers and footers can be added
                     to the first page, odd pages, and even pages. </p>"
@@ -242,10 +222,8 @@ namespace ej2_blazor_samples
                 Name = "Table of Contents",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
-                Url = "DocumentEditor/TableOfContents",
+                Url = "document-editor/table-of-contents",
                 FileName = "TableOfContents.razor",
-                TitleTag = "Document Editor . Table of Contents . Syncfusion Blazor Components",
-                MetaDescription = "This example demonstrates table of contents support in document editor. Many options are available for including table of contents such as hyperlink, page number, right-aligned tabs, and styles.",
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates table of contents support in document editor. Many options are available for including in
                 table of contents such as hyperlink, page number, right-aligned tabs, and styles. </p>"
@@ -263,8 +241,154 @@ namespace ej2_blazor_samples
                     href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
                 </p>"
                 }
+            },
+             new Sample
+            {
+                Name = "Right To Left",
+                Category = "RTL",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/right-to-left",
+                FileName = "RightToLeft.razor",
+                ActionDescription = new string[] {
+                @"<p>RTL provides an option to switch the text direction and layout of the editor component from right to left. It improves the user experiences and accessibility for users who use right-to-left languages (Arabic, Farsi, Urdu, etc.). To enable RTL document-editor, set the `EnableRtl` to true.</p>"
+                },
+                Description = new string[] {
+                @"<p>In this example, you can see document-editor right-to-left and the locale set in arabic[Locale value is ar-AE].</p>
+                <<li>By default, `Locale` value is en-US. If you want to change the en-US culture to a different culture, you have to change the locale accordingly.</li>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+             new Sample
+            {
+                Name = "Custom Context Menu",
+                Category = "Customization",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/custom-context-menu",
+                FileName = "CustomContextMenu.razor",
+                ActionDescription = new string[] {
+                @"<p>This example demonstrates how to add custom option in context menu and some customization for context menu.</p>"
+                },
+                Description = new string[] {
+                @" <p>In this example, custom options added to search the selected text in google. The custom options will be visible
+                        after selecting the text.</p>
+                    <p style='display: block'>Context Menu Customization Features</p>
+                    <ul>
+                        <li>Hide existing menu item and show custom menu item alone. It will be achieved by passing boolean value in
+                            second parameter of AddCustomMenu() method</li>
+                        <li>Show the custom menu item in bottom of the exisiting item. It will be achieved by passing boolean value in
+                            third parameter of AddCustomMenu() method</li>
+                        <li>Custom Option Functionality achieved by using the `ContextMenuItemSelected` Event</li>
+                    </ul>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+             new Sample
+            {
+                Name = "Toolbar Customization",
+                Category = "Customization",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/toolbar-customization",
+                FileName = "ToolbarCustomization.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                @"<p>This example explains how to show or hide existing items in the toolbar.</p>"
+                },
+                Description = new string[] {
+                @"<p>Existing toolbar items can be hidden, shown, enabled, and disabled. Also, new items can be added to the toolbar.</p>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+             new Sample
+            {
+                Name = "Chart Preservation",
+                Category = "Charts",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/chart",
+                FileName = "Chart.razor",
+                ActionDescription = new string[] {
+                @"<p>This example shows chart preservation support in document editor.</p>"
+                },
+                Description = new string[] {
+                @"<p>With Document Editor, you can see the chart reports from your word document</p>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+             new Sample
+            {
+                Name = "Document Protection",
+                Category = "Security",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/document-protection",
+                FileName = "DocumentProtection.razor",
+                ActionDescription = new string[] {
+                @"<p>This example demonstrates document protection support in document editor to restrict the types of changes can be
+        made to the document by a user/user group.To unprotect the document, use password '123'.</p>"
+                },
+                Description = new string[] {
+                @"<p>In this demo, the Document editor opens a protected document that includes permitted ranges for two users
+                    identified by email: each user is authorized to edit a separate text area.</p>
+                <p>You can switch between the current user to edit different parts by selecting dropdown list in User permissions
+                    pane.</p>
+                <p>User can add the user in dropdown who have editing permission in document by using addItem method.</p>
+                <p>The range that is enabled for the current user is highlighted.</p>
+                <p> You can disable the highlighting or customize its color using the corresponding demo’s elements.</p>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Web Layout",
+                Category = "View",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/web-layout",
+                FileName = "WebLayout.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                @"<p>This example explains about the continuous layout type to display the document in a single page. </p>"
+                },
+                Description = new string[] {
+                @"<p>In this example, you can view the documents in single page using the Continuous layout type.</p>
+                <ul>
+                    <li>Pages.</li>
+                    <li>Continuous.</li>
+                </ul>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+             new Sample
+            {
+                Name = "Comments",
+                Category = "Review",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/comments",
+                FileName = "Comments.razor",
+                ActionDescription = new string[] {
+                @"<p>This example demonstrates how to add and edit comments in a Word document using DocumentEditor.</p>"
+                },
+                Description = new string[] {
+                @"<p>In this example, comments features in the document editor can be found.</p>
+                <ul>
+                    <li>Add a comment.</li>
+                    <li>Reply to a comment.</li>
+                    <li>Resolving the comment discussion.</li>
+                </ul>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
             }
-
         };
     }
 

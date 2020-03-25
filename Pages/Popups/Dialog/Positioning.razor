@@ -1,40 +1,45 @@
-﻿@page "/Dialog/Positioning"
+﻿@page "/dialog/positioning"
 
-@using Syncfusion.EJ2.Blazor
-@using Syncfusion.EJ2.Blazor.Popups
-@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
 
 <div class="col-lg-12 control-section" id="target">
-    <EjsButton Content="Open Dialog" @onclick="@OnClicked"></EjsButton>
-
-    <EjsDialog ID="defaultDialog" @ref="DialogObj" Width="440px" Target="#target" ShowCloseIcon="true">
+    <div>
+        @if (this.ShowButton)
+        {
+            <SfButton Content="Open" @onclick="@OnClicked"></SfButton>
+        }
+    </div>
+    <SfDialog ID="defaultDialog" Width="440px" Target="#target" ShowCloseIcon="true" @bind-Visible="Visibility">
+        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
         <DialogTemplates>
             <Header>Choose a Dialog Position</Header>
             <Content>
                 <table style="width:405px;" id="poschange">
                     <tr>
-                        <td><EjsRadioButton Name="xy" Label="Left Top" Value="left top" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
-                        <td><EjsRadioButton Name="xy" Label="Center Top" Value="center top" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
-                        <td><EjsRadioButton Name="xy" Label="Right Top" Value="right top" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Left Top" Value="left top" ValueChange="@OnChangeHandler"></SfRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Center Top" Value="center top" ValueChange="@OnChangeHandler"></SfRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Right Top" Value="right top" ValueChange="@OnChangeHandler"></SfRadioButton></td>
                     </tr>
                     <tr>
-                        <td><EjsRadioButton Name="xy" Label="Left Center" Value="left center" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
-                        <td><EjsRadioButton Name="xy" Label="Center Center" Value="center center" @bind-Checked="@Checked" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
-                        <td><EjsRadioButton Name="xy" Label="Right Center" Value="right center" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Left Center" Value="left center" ValueChange="@OnChangeHandler"></SfRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Center Center" Value="center center" @bind-Checked="@Checked" ValueChange="@OnChangeHandler"></SfRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Right Center" Value="right center" ValueChange="@OnChangeHandler"></SfRadioButton></td>
                     </tr>
                     <tr>
-                        <td><EjsRadioButton Name="xy" Label="Left Bottom" Value="left bottom" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
-                        <td><EjsRadioButton Name="xy" Label="Center Bottom" Value="center bottom" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
-                        <td><EjsRadioButton Name="xy" Label="Right Bottom" Value="right bottom" ValueChange="@OnChangeHandler"></EjsRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Left Bottom" Value="left bottom" ValueChange="@OnChangeHandler"></SfRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Center Bottom" Value="center bottom" ValueChange="@OnChangeHandler"></SfRadioButton></td>
+                        <td><SfRadioButton Name="xy" Label="Right Bottom" Value="right bottom" ValueChange="@OnChangeHandler"></SfRadioButton></td>
                     </tr>
                 </table>
             </Content>
-            <FooterTemplate> <span id='posvalue' style='float:left;margin-left:8px;padding:10px;'> Position: { X: '@Xvalue', Y: '@Yvalue' }</span></FooterTemplate>
+            <FooterTemplate> <span style='float:left;margin-left:8px;padding:10px;'> Position: { X: '@Xvalue', Y: '@Yvalue' }</span></FooterTemplate>
         </DialogTemplates>
         <DialogPositionData X="@Xvalue" Y="@Yvalue"></DialogPositionData>
-    </EjsDialog>
+    </SfDialog>
 </div>
 
 <style>
@@ -64,6 +69,10 @@
 
     .control-section {
         width: 98%;
+    }
+
+    .bootstrap4 #defaultDialog.e-dialog {
+        height: 235px !important;
     }
 
     .e-dialog .e-dlgcontent {
@@ -101,30 +110,53 @@
     .highcontrast .e-dialog .e-dlg-content, .fabric .e-dialog .e-dlg-content {
         padding: 28px 19px 20px;
     }
+
     .fabric #target .e-dialog {
         height: 292px;
     }
+
     .material #target .e-dialog {
         height: 220px;
     }
+
     #target .e-dialog {
         height: 220px;
     }
+
     .highcontrast #target .e-dialog {
         height: 295px;
     }
 
+    #target {
+        min-height: 300px;
+    }
+
+    @@media (min-width: 320px) and (max-width: 480px) {
+        #defaultDialog .e-dlg-content {
+            overflow-x: auto;
+        }
+    }
 </style>
 
 @code {
-    EjsDialog DialogObj;
-
     public string Xvalue = "center";
     public string Yvalue = "center";
     public bool Checked { get; set; } = true;
+    public bool Visibility { get; set; } = true;
+    public bool ShowButton { get; set; } = false;
+
+    private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+    }
+
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+    }
     private void OnClicked()
     {
-        this.DialogObj.Show();
+        this.Visibility = true;
     }
 
     private void OnChangeHandler(ChangeArgs arg)

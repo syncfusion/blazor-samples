@@ -1,12 +1,13 @@
-﻿@page "/Charts/StackedColumn"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/stacked-column"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Mobile Game Market by Country">
+    <SfChart Title="Mobile Game Market by Country">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate45">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate45">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
@@ -21,17 +22,17 @@
             <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y" Width="2" Name="UK" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y" Width="2" Name="UK" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y1" Width="2" Name="Germany" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y1" Width="2" Name="Germany" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y2" Width="2" Name="France" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y2" Width="2" Name="France" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y3" Width="2" Name="Italy" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y3" Width="2" Name="Italy" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -43,11 +44,40 @@
         public double y2 { get; set; }
         public double y3 { get; set; }
     }
-   public List<StackedColumnChartData> dataSource = new List<StackedColumnChartData>
+   public List<StackedColumnChartData> DataSource = new List<StackedColumnChartData>
     {
         new StackedColumnChartData { x= "2014", y= 111.1, y1= 76.9 , y2= 66.1 , y3= 34.1},
         new StackedColumnChartData { x= "2015", y= 127.3, y1= 99.5 , y2= 79.3 , y3= 38.2},
         new StackedColumnChartData { x= "2016", y= 143.4, y1= 121.7, y2= 91.3 , y3= 44.0},
         new StackedColumnChartData { x= "2017", y= 159.9, y1= 142.5, y2= 102.4, y3= 51.6}   
     };
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

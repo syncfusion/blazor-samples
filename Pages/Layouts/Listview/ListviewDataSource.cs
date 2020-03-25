@@ -4,9 +4,9 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_samples.Pages.Layouts.Listview
+namespace blazor_samples.Pages.Layouts.ListView
 {
-    public static class ListviewDataSource
+    public static class ListViewDataSource
     {
         public static List<NewsDataModel> NewsData = new List<NewsDataModel>() {
             new NewsDataModel {

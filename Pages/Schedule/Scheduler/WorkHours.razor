@@ -1,0 +1,76 @@
+﻿@page "/scheduler/working-hours"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="@(new DateTime(2020, 1, 16))" WorkDays="@WorkingDays">
+            <ScheduleWorkHours Highlight="true" Start="@StartWorkingHours" End="@EndWorkingHours"></ScheduleWorkHours>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 30%">
+                            <div>
+                                Work Start
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0)">
+                                    <TimePickerEvents TValue="DateTime?" ValueChange="StartWorkHours"></TimePickerEvents>
+                                </SfTimePicker>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 30%">
+                            <div>
+                                Work End
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0)">
+                                    <TimePickerEvents TValue="DateTime?" ValueChange="EndWorkHours"></TimePickerEvents>
+                                </SfTimePicker>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@code{
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetEmployeeEventData();
+    static int[] WorkingDays = new int[] { 1, 3, 5 };
+    public string StartWorkingHours = "08:00";
+    public string EndWorkingHours = "20:00";
+    public void StartWorkHours(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.StartWorkingHours = args.Text;
+    }
+    public void EndWorkHours(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.EndWorkingHours = args.Text;
+    }
+}

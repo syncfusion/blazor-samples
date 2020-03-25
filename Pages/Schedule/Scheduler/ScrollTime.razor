@@ -1,0 +1,52 @@
+@page "/scheduler/scroll-time"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleObj" Width="100%" Height="650px" SelectedDate="new DateTime(2020, 1, 16)">
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.TimelineDay"></ScheduleView>
+                <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+            <tbody>
+                <tr style="height: 50px">
+                    <td style="width: 30%">
+                        <div>
+                            Scroll To
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div>
+                            <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="TimeValue">
+                                <TimePickerEvents TValue="DateTime?" ValueChange="OnValueChange"></TimePickerEvents>
+                            </SfTimePicker>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code{
+    SfSchedule<ScheduleData.AppointmentData> ScheduleObj;
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetEmployeeEventData();
+    public DateTime TimeValue = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 9, 0, 0);
+    public async void OnValueChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        await this.ScheduleObj.ScrollTo(args.Text);
+    }
+}

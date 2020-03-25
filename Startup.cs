@@ -8,19 +8,24 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ej2_blazor_samples.Data;
+using blazor_samples.Data;
 using Syncfusion.Licensing;
-using Syncfusion.EJ2.Blazor;
+using Syncfusion.Blazor;
 using System.IO;
-using ej2_blazor_samples.Shared;
+using blazor_samples.Shared;
 
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            if (File.Exists(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt"))
+            {
+                string licenseKey = System.IO.File.ReadAllText(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt");
+                SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+            }
 
         }
 
@@ -32,7 +37,7 @@ namespace ej2_blazor_samples
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSyncfusionBlazor();
+            services.AddSyncfusionBlazor(true);
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
             services.AddServerSideBlazor().AddHubOptions(o =>
             {

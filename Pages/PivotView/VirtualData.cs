@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
+using blazor_samples;
 namespace ej2_blazor_virtualdata
 {
     public class PivotVirtualData
     {
-        public string id { get; set; }
-        public string year { get; set; }
-        public string country { get; set; }
-        public string city { get; set; }
-        public double amount { get; set; }
-        public DateTime date { get; set; }
+        public string ProductID { get; set; }
+        public string Year { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public double Price { get; set; }
+        public DateTime Date { get; set; }
+        public  double Sold { get; set; }
 
         public static List<PivotVirtualData> GetVirtualData()
         {
@@ -22,11 +23,12 @@ namespace ej2_blazor_virtualdata
             {
                 PivotVirtualData p = new PivotVirtualData
                 {
-                    id = "PRO-" +(10000+i),
-                    year = (new string[] { "FY 2015", "FY 2016", "FY 2017", "FY 2018", "FY 2019" })[new Random().Next(5)],
-                    country = "USA",
-                    city = "New York",
-                    amount = (3.4*i)+500,
+                    ProductID = "PRO-" +(10000+i),
+                    Year = (new string[] { "FY 2015", "FY 2016", "FY 2017", "FY 2018", "FY 2019" })[new Random().Next(5)],
+                    Country = "USA",
+                    City = "New York",
+                    Price = (3.4*i)+500,
+                    Sold = (i*15)+10
                     //date = Convert.ToDateTime("2013/01/06")
                 };
                 VirtualData.Add(p);

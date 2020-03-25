@@ -1,26 +1,27 @@
-﻿@page "/Charts/StackedBar100"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/percent-stacked-bar"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Sales Comparison">
+    <SfChart Title="Sales Comparison">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift">
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y" Width="2" Name="Apple" Type="ChartSeriesType.StackingBar100">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y" Width="2" Name="Apple" Type="ChartSeriesType.StackingBar100">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y1" Width="2" Name="Orange" Type="ChartSeriesType.StackingBar100">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y1" Width="2" Name="Orange" Type="ChartSeriesType.StackingBar100">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" YName="y2" Width="2" Name="Wastage" Type="ChartSeriesType.StackingBar100">
+            <ChartSeries DataSource="@DataSource" XName="x" YName="y2" Width="2" Name="Wastage" Type="ChartSeriesType.StackingBar100">
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} (${point.percentage}%)</b>"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -33,7 +34,7 @@
         public double y2 { get; set; }
     }
 
-    public List<StackedBar100ChartData> dataSource = new List<StackedBar100ChartData>
+    public List<StackedBar100ChartData> DataSource = new List<StackedBar100ChartData>
     {
         new StackedBar100ChartData { x= "Jan", y= 6, y1=6, y2=1 },
         new StackedBar100ChartData { x= "Feb", y= 8, y1=8, y2=1.5 },
@@ -42,4 +43,33 @@
         new StackedBar100ChartData { x= "May", y= 20, y1=21, y2=3 },
         new StackedBar100ChartData { x= "Jun", y= 24, y1=25, y2=3.5 }
     };
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

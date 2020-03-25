@@ -1,12 +1,13 @@
-﻿@page "/Charts/AreaEmpty"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/area-empty"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Inflation Rate">
+    <SfChart Title="Inflation Rate">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="2" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="2" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Rates" LabelFormat="{value}M">
@@ -14,14 +15,14 @@
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="France" XName="x" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="France" XName="x" Width="2"
                          Opacity="0.5" YName="y" Type="ChartSeriesType.Area">
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="US" XName="x" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="US" XName="x" Width="2"
                          Opacity="0.5" YName="y1" Type="ChartSeriesType.Area">
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -33,7 +34,7 @@
         public double y1 { get; set; }
     }
 
-    public List<AreaEmptyChartData> chartData = new List<AreaEmptyChartData>
+    public List<AreaEmptyChartData> ChartData = new List<AreaEmptyChartData>
             {
                 new AreaEmptyChartData { x= "2002", y= 2  , y1= 2.2 },
                 new AreaEmptyChartData { x= "2003", y= 1.7, y1= 3.4 },
@@ -46,4 +47,30 @@
                 new AreaEmptyChartData { x= "2010", y= 2  , y1= 1.4 },
                 new AreaEmptyChartData { x= "2011", y= 3.1, y1= 3.1 }
             };
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

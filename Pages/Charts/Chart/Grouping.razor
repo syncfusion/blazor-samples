@@ -1,11 +1,13 @@
-﻿@page "/Charts/Grouping"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/grouping"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <EjsAccumulationChart @ref="@ChartObj" Title="RIO Olympics Gold" EnableSmartLabels="true">
+        <SfAccumulationChart @ref="@ChartObj" Title="RIO Olympics Gold" EnableSmartLabels="true">
+        <AccumulationChartEvents Load="BeforeRender"/>
             <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
             <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
             <AccumulationChartSeriesCollection>
@@ -17,20 +19,20 @@
                     </AccumulationDataLabelSettings>
                 </AccumulationChartSeries>
             </AccumulationChartSeriesCollection>
-        </EjsAccumulationChart>
+        </SfAccumulationChart>
     </div>
     <div class="col-lg-4 property-section">
-        <table id="property" title="Properties" style="width: 100%">
+        <table  title="Properties" style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height:50px">
                 <td style="font-size:14px">
                     Group Modes:
                 </td>
                 <td>
-                    <select @onchange="ChangeGroupMode" style="font-size:14px">
-                        <option value="Point">Point</option>
-                        <option value="Value">Value</option>
-                    </select>
+                     <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeGroupMode"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
             <tr style="height: 50px">
@@ -54,11 +56,28 @@
     </div>
 </div>
 @code{
-    EjsAccumulationChart ChartObj;
+    SfAccumulationChart ChartObj;
     public int GroupToValue = 9;
     public string GroupChange = "9";
     GroupModes Mode = GroupModes.Point;
-    private void ChangeGroupMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+     public string DropVal = "Point";    
+
+    public class SelectionTypes
+    {
+        public string Type { get; set; }
+
+        public string Code { get; set; }
+    }
+
+    List<SelectionTypes> ModeData = new List<SelectionTypes>
+{
+        new SelectionTypes() { Type = "Point", Code = "P" },
+        new SelectionTypes() { Type = "Value", Code = "V" }       
+        
+    };
+
+    private void ChangeGroupMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         if (args.Value.ToString() == "Value")
         {
@@ -100,4 +119,29 @@
        new ChartData { XValue = "Spain", YValue = 7, Text= "Spain: 7" },
        new ChartData { XValue = "Kenya", YValue = 6, Text= "Kenya: 6" }
    };
+   string CurrentUri;
+    void BeforeRender(IAccLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = AccumulationTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = AccumulationTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = AccumulationTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = AccumulationTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = AccumulationTheme.Bootstrap4;
+        }
+    }
 }

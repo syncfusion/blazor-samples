@@ -1,20 +1,21 @@
-﻿@page "/Charts/PieLegend"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/pie-legend"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsAccumulationChart SelectionMode="AccumulationSelectionMode.Point" Title="Mobile Browser Statistics">
+    <SfAccumulationChart SelectionMode="AccumulationSelectionMode.Point" Title="Mobile Browser Statistics" SelectionPattern="SelectionPattern.DiagonalForward">
+    <AccumulationChartEvents Load="BeforeRender"/>
         <AccumulationChartTooltipSettings Enable="false"></AccumulationChartTooltipSettings>
         <AccumulationChartLegendSettings ToggleVisibility=false Position="LegendPosition.Right" Height="28%" Width="44%"></AccumulationChartLegendSettings>
         <AccumulationChartSeriesCollection>
-            <AccumulationChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Name="Revenue" InnerRadius="40%">
+            <AccumulationChartSeries DataSource="@DataSource" XName="xValue" YName="yValue" Name="Revenue" InnerRadius="40%">
                 <AccumulationDataLabelSettings Name="${point.y}" Visible="true">
                     <AccumulationChartDataLabelFont FontWeight="600" Color="white"></AccumulationChartDataLabelFont>
                 </AccumulationDataLabelSettings>
             </AccumulationChartSeries>
         </AccumulationChartSeriesCollection>
-    </EjsAccumulationChart>
+    </SfAccumulationChart>
 </div>
 
 @code{
@@ -24,7 +25,7 @@
         public double yValue { get; set; }
         public string text { get; set; }
     }
-    public List<PieData> dataSource = new List<PieData>
+    public List<PieData> DataSource = new List<PieData>
 {
          new PieData { xValue =  "Net-tution and Fees", yValue = 21, text = "21%" },
          new PieData { xValue =  "Self-supporting Operations", yValue = 21, text = "21%" },
@@ -34,4 +35,29 @@
          new PieData { xValue =  "State Revenue", yValue = 21, text = "21%" },
          new PieData { xValue =  "Federal Revenue", yValue = 16, text = "16%" },
     };
+    string CurrentUri;
+    void BeforeRender(IAccLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = AccumulationTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = AccumulationTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = AccumulationTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = AccumulationTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = AccumulationTheme.Bootstrap4;
+        }
+    }
 }

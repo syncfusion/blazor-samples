@@ -1,12 +1,13 @@
-﻿@page "/Charts/NegativeStack"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/negative-stack"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Height vs Weight" >
+    <SfChart Title="Height vs Weight" >
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis Title="Height in Inches" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+        <ChartPrimaryXAxis Title="Height in Inches" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value} KG">
@@ -16,14 +17,14 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" XName="x" YName="y" Name="Female" Type="ChartSeriesType.StackingBar">
+            <ChartSeries DataSource="@ChartData" XName="x" YName="y" Name="Female" Type="ChartSeriesType.StackingBar">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600"></ChartDataLabelFont>
                         </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" XName="x" YName="y1" Name="Male" Type="ChartSeriesType.StackingBar">
+            <ChartSeries DataSource="@ChartData" XName="x" YName="y1" Name="Male" Type="ChartSeriesType.StackingBar">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Name="text" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600"></ChartDataLabelFont>
@@ -33,7 +34,7 @@
         </ChartSeriesCollection>
         <ChartLegendSettings Position="LegendPosition.Right"></ChartLegendSettings>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -46,7 +47,7 @@
             public string text { get; set; }
         }
 
-   public List<NegativeStackChartData> chartData = new List<NegativeStackChartData>
+   public List<NegativeStackChartData> ChartData = new List<NegativeStackChartData>
             {
                     new NegativeStackChartData { x= "4.5", y= 31, y1= -31, text= "31 KG" },
                     new NegativeStackChartData { x= "4.8", y= 37, y1= -39, text= "39 KG" },
@@ -55,4 +56,31 @@
                     new NegativeStackChartData { x= "5.7", y= 63, y1= -70, text= "70 KG" },
                     new NegativeStackChartData { x= "6",   y= 69, y1= -74, text= "74 KG" }
             };  
+
+            string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

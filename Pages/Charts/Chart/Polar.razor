@@ -1,31 +1,33 @@
-﻿@page "/Charts/Polar"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/polar-stacking-column"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 <div class="row">
 <div class="col-lg-9 control-section">
-    <EjsChart Title="Wind Rose Chart">
-        <ChartPrimaryXAxis Interval="1" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks">
+    <SfChart Title="Wind Rose Chart">
+     <ChartEvents Load="ChartLoad"/>
+        <ChartPrimaryXAxis Interval="1" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks">
         </ChartPrimaryXAxis>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@data" Name="6-9" XName="x" Width="2" YName="y" Type="@seriesType" DrawType="ChartDrawType.StackingColumn">
+            <ChartSeries DataSource="@Data" Name="6-9" XName="x" Width="2" YName="y" Type="@SeriesType" DrawType="ChartDrawType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@data" Name="9-11" XName="x" Width="2" YName="y1" Type="@seriesType" DrawType="ChartDrawType.StackingColumn">
+            <ChartSeries DataSource="@Data" Name="9-11" XName="x" Width="2" YName="y1" Type="@SeriesType" DrawType="ChartDrawType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@data" Name="11-14" XName="x" Width="2" YName="y2" Type="@seriesType" DrawType="ChartDrawType.StackingColumn">
+            <ChartSeries DataSource="@Data" Name="11-14" XName="x" Width="2" YName="y2" Type="@SeriesType" DrawType="ChartDrawType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@data" Name="14-17" XName="x" Width="2" YName="y3" Type="@seriesType" DrawType="ChartDrawType.StackingColumn">
+            <ChartSeries DataSource="@Data" Name="14-17" XName="x" Width="2" YName="y3" Type="@SeriesType" DrawType="ChartDrawType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@data" Name="17-20" XName="x" Width="2" YName="y4" Type="@seriesType" DrawType="ChartDrawType.StackingColumn">
+            <ChartSeries DataSource="@Data" Name="17-20" XName="x" Width="2" YName="y4" Type="@SeriesType" DrawType="ChartDrawType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@data" Name="23 Above" XName="x" Width="2" YName="y5" Type="@seriesType" DrawType="ChartDrawType.StackingColumn">
+            <ChartSeries DataSource="@Data" Name="23 Above" XName="x" Width="2" YName="y5" Type="@SeriesType" DrawType="ChartDrawType.StackingColumn">
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
     <div class="col-lg-3 property-section">
-        <table id="property" style="width: 100%">
+        <table style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 50%">
@@ -34,12 +36,12 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <div>
-                        <select id="SelectSeriesType" @onchange="changeSeriesType">
-                            <option value="Polar">Polar</option>
-                            <option value="Radar">Radar</option>
-                        </select>
-                    </div>
+
+                    <SfDropDownList TValue="string" TItem="SeriesTypes" @bind-Value="@DropVal" DataSource="@Country">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                 
                 </td>
             </tr>
         </table>
@@ -47,10 +49,27 @@
 </div>
 
 @code{
-    ChartSeriesType seriesType = ChartSeriesType.Polar;
-    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    public string DropVal = "Polar";
+
+    public class SeriesTypes
     {
-        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        public string Type { get; set; }
+
+        public string Code { get; set; }
+    }
+
+    List<SeriesTypes> Country = new List<SeriesTypes>
+{
+        new SeriesTypes() { Type = "Polar", Code = "P" },
+        new SeriesTypes() { Type = "Radar", Code = "R" },
+    };
+
+    ChartSeriesType SeriesType = ChartSeriesType.Polar;
+    public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        StateHasChanged();
     }
     public class PolarWindRoseData
     {
@@ -62,7 +81,7 @@
         public double y4 { get; set; }
         public double y5 { get; set; }
     }
-    public List<PolarWindRoseData> data = new List<PolarWindRoseData>
+    public List<PolarWindRoseData> Data = new List<PolarWindRoseData>
 {
         new PolarWindRoseData { x= "N", y= 1, y1= 0.8, y2= 0.8, y3= 0.3, y4= 0.2, y5= 0.2 },
         new PolarWindRoseData { x= "NNE", y= 0.9, y1= 0.7, y2= 0.7, y3= 0.3, y4= 0.2, y5= 0.2 },
@@ -81,4 +100,33 @@
         new PolarWindRoseData { x= "NW", y= 2, y1= 2.5, y2= 2, y3= 1, y4= 0.2, y5= 0.7 },
         new PolarWindRoseData { x= "NNW", y= 1.8, y1= 1.1, y2= 0.8, y3= 0.1, y4= 0.4, y5= 0.2 }
     };
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

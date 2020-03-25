@@ -1,0 +1,73 @@
+@page "/docio/wordml-to-word"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using blazor_samples.Data.FileFormats.DocIO
+    <div class="control-section">
+        <p style="font-weight:normal">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOC" Name="DOC" Value="SaveOption" Checked="@(documentType == "DOC")" @onchange="@(() => documentType = "DOC")"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value="SaveOption" Checked="@(documentType == "DOCX")" @onchange="@(() => documentType = "DOCX")"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Convert to Word</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async void GenerateDocument(MouseEventArgs args)
+    {
+        WordMLtoWordService service = new WordMLtoWordService();
+        documentStream = service.WordMLtoWord(documentType, "Generate Document");
+        if (documentType == "DOC")
+            await JS.SaveAs("Sample.doc", documentStream.ToArray());       
+        else
+            await JS.SaveAs("Sample.docx", documentStream.ToArray());        
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async void ViewTemplate(MouseEventArgs args)
+    {
+        WordMLtoWordService service = new WordMLtoWordService();
+        documentStream = service.WordMLtoWord(documentType, "View Template");
+        await JS.SaveAs("TemplateWordMLtoDoc.xml", documentStream.ToArray());        
+    }
+}

@@ -1,8 +1,8 @@
-﻿@using ej2_blazor_samples
-@using ej2_blazor_samples.Shared
+﻿@using blazor_samples
+@using blazor_samples.Shared
 @using Newtonsoft.Json
-@using Syncfusion.EJ2.Blazor.Lists
-@using Syncfusion.EJ2.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.Navigations
 @using System.Reflection
 @using Microsoft.AspNetCore.Components
 
@@ -12,7 +12,8 @@
 
 
 
-<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
+<SfTreeView ID="components-tree" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
+    <TreeViewFieldsSettings DataSource="@LocalData" Id="UID" Text="Name" Child="@("SourceData")" Expanded="Expanded" IconCss="IconCss"></TreeViewFieldsSettings>
     <TreeViewEvents NodeSelected="OnNodeClick" TValue="SampleListType"></TreeViewEvents>
     @*<TreeViewTemplates>
             <NodeTemplate>
@@ -25,12 +26,12 @@
                 </div>
             </NodeTemplate>
         </TreeViewTemplates>*@
-</EjsTreeView>
+</SfTreeView>
 
 
 @code {
 
-    EjsTreeView<SampleListType> ComponentsTree;
+    SfTreeView<SampleListType> ComponentsTree;
     static List<SampleListType> LocalData = new List<SampleListType>();
 
     [CascadingParameter]
@@ -39,7 +40,7 @@
     [Parameter]
     public string treeviewClass { get; set; } = "e-view time-duration sb-hide";
 
-    public Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings<object> DataSource = new Syncfusion.EJ2.Blazor.Navigations.TreeViewFieldsSettings<object>
+    public Syncfusion.Blazor.Navigations.TreeViewFieldsSettings<object> DataSource = new Syncfusion.Blazor.Navigations.TreeViewFieldsSettings<object>
     {
         DataSource = LocalData,
         Id = "UID",
@@ -53,13 +54,13 @@
     {
         if (args.NodeData.ParentID != null)
         {
-            string prop = args.NodeData.Text.Replace("Preview", "").Replace("New", "").Replace("Updated", "").Trim();
-            List<Sample> ChildList = SampleBrowser.Config.GetType().GetProperty(prop).GetValue(SampleBrowser.Config) as List<Sample>;
+            string prop = args.NodeData.Text.Replace("Preview", "").Replace("New", "").Replace("Updated", "").Replace(" ", "").Trim();
+            List<Sample> ChildList = SampleBrowser.Config.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(SampleBrowser.Config) as List<Sample>;
             NavMenuObj.listClass = "e-view sb-control-list-top";
             this.treeviewClass = "e-view time-duration sb-hide";
             NavMenuObj.UpdateState();
             this.StateHasChanged();
-            NavMenuObj.NavigatePage(ChildList[0].Url);
+            NavMenuObj.NavigatePage(ChildList[0].Url.ToLower());
             JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
             JsRuntime.InvokeAsync<Object>("viewSwitch", NavMenuObj.listClass);
         }
@@ -75,12 +76,15 @@
             SampleItems.OrderBy(orderBy => orderBy.Order);
             SampleItems.ForEach(item =>
             {
-                item.Samples.ForEach(currentSample =>
+                var listData = item.Samples.GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                for (var i = 0; i < listData.Count; i++)
                 {
-                    SampleBrowser.SampleUrls.Add(currentSample.Url);
-                });               
-
-                ChildItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, IconCss = item.Type == SampleType.Preview ? previewClass : string.Empty });
+                    for(var j = 0; j < listData[i].Count; j++)
+                    {
+                        SampleBrowser.SampleUrls.Add(listData[i][j].Url);
+                    }
+                }
+                ChildItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, IconCss = item.Type == SampleType.Preview ? previewClass : null });
             });
 
             return new SampleListType() { SourceData = ChildItems, Name = SampleItems[0].Category, UID = samples.Key, Expanded = true };
@@ -95,14 +99,14 @@
             NavMenuObj.listClass = "sb-hide";
             NavMenuObj.UpdateState(); ;
             JsRuntime.InvokeAsync<Object>("viewSwitch", NavMenuObj.listClass);
-        }     
+        }
     }
 
     protected override void OnAfterRender(bool FirstRender)
     {
         if (FirstRender)
         {
-            
+
         }
 
     }

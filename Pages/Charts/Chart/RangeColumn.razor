@@ -1,12 +1,13 @@
-﻿@page "/Charts/RangeColumn"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/range-column"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Temperature Variation" >
+    <SfChart Title="Temperature Variation" >
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value}˚C" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Maximum="20">
@@ -14,13 +15,13 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" XName="x" High="High" Low="Low" Name="India" Type="ChartSeriesType.RangeColumn">
+            <ChartSeries DataSource="@DataSource" XName="x" High="High" Low="Low" Name="India" Type="ChartSeriesType.RangeColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" XName="x" High="high1" Low="low1" Name="Germany" Type="ChartSeriesType.RangeColumn">
+            <ChartSeries DataSource="@DataSource" XName="x" High="high1" Low="low1" Name="Germany" Type="ChartSeriesType.RangeColumn">
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -34,7 +35,7 @@
         public double high1 { get; set; }
     }
 
-    public List<RangeColumnChartData> dataSource = new List<RangeColumnChartData>
+    public List<RangeColumnChartData> DataSource = new List<RangeColumnChartData>
     {
         new RangeColumnChartData { x= "Sun", Low= 3.1, High= 10.8,low1= 2.5, high1= 9.8  },
         new RangeColumnChartData { x= "Mon", Low= 5.7, High= 14.4,low1= 4.7, high1= 11.4  },
@@ -44,4 +45,34 @@
         new RangeColumnChartData { x= "Fri", Low= 6.0, High= 12.5,low1= 3.0, high1= 10.5 },
         new RangeColumnChartData { x= "Sat", Low= 1.5, High= 6.9 ,low1= 1.2, high1= 7.9  }
     };
+
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

@@ -1,25 +1,8 @@
-﻿@page "/StockChart/StockEvents"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/stock-chart/stock-events"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
-@{
-    SampleBrowser.CurrentSampleName = "StockEvents";
-    SampleBrowser.CurrentControlName = "StockChart";
-    SampleBrowser.CurrentControlCategory = "StockChart";
-    SampleBrowser.TitleTag = "StockChart . StockEvents . Syncfusion Blazor Components - Preview";
-    SampleBrowser.MetaDescription = "This demo for Essential Blazor Stock Chart control with stock events to highlight the special events in stock market.";
-    SampleBrowser.CurrentControl = SampleBrowser.Config.StockChart;
-    SampleBrowser.ActionDescription = new string[] {
-         @"<p>
-        This sample visualizes the Stock Chart
-    </p>"
-    };
-    SampleBrowser.Description = new string[] {
-         @"<p>
-        In this example, you can see how to render and configure the Stock Chart
-    </p>"
-    };
-}
-@if (dataSource == null)
+@inject NavigationManager NavigationManager
+@if (DataSource == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -27,8 +10,8 @@ else
 {
     <div class="@loadClass"></div>
     <div class="@loadDiv">
-        <EjsStockChart Title="AAPL Stock Price">
-            <StockChartEvents Loaded="@ChartLoaded"></StockChartEvents>
+        <SfStockChart Title="AAPL Stock Price" IndicatorType="@Indicators" TrendlineType="@TrendLines" SeriesType="@SeriesValue">
+            <StockChartEvents Loaded="@ChartLoaded" Load="BeforeRender"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -121,12 +104,12 @@ else
             </StockChartStockEvents>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Spline"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Spline"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
             </StockChartChartArea>
-        </EjsStockChart>
+        </SfStockChart>
     </div>
     <style>
         .stockchartloader {
@@ -149,13 +132,15 @@ else
 }
 
 @code{
-    public List<ChartSeriesType> nulldata = new List<ChartSeriesType>();
-    private ChartData[] dataSource;
+    List<TechnicalIndicators> Indicators = new List<TechnicalIndicators>() { };
+    List<TrendlineTypes> TrendLines = new List<TrendlineTypes>() { };
+    public List<ChartSeriesType> SeriesValue = new List<ChartSeriesType>();
+    private ChartData[] DataSource;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/chartdata.json"));
+            DataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/chartdata.json"));
         });
     }
     public class ChartData
@@ -174,6 +159,32 @@ else
     {
         loadClass = "";
         loadDiv = "";
+    }
+
+     string CurrentUri;
+    void BeforeRender(IStockChartEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 
 }

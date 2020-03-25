@@ -1,83 +1,98 @@
-﻿@page "/PivotTable/ConditionalFormatting"
+﻿@page "/pivot-table/conditional-formatting"
 
-@using Syncfusion.EJ2.Blazor.PivotView
-@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
 
-<div class="control-section">
+<div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <div class="column-8">
-            <EjsPivotView TValue="PivotProductDetails" @ref="pivot" Width="100%" Height="340" AllowConditionalFormatting=true>
-                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
-                    <PivotViewColumns>
-                        <PivotViewColumn Name="Year"></PivotViewColumn>
-                        <PivotViewColumn Name="Quarter"></PivotViewColumn>
-                    </PivotViewColumns>
-                    <PivotViewRows>
-                        <PivotViewRow Name="Country"></PivotViewRow>
-                        <PivotViewRow Name="Products"></PivotViewRow>
-                    </PivotViewRows>
-                    <PivotViewValues>
-                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
-                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
-                    </PivotViewValues>
-                    <PivotViewFilters>
-                        <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
-                    </PivotViewFilters>
-                    <PivotViewFormatSettings>
-                        <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                        <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
-                    </PivotViewFormatSettings>
-                    <PivotViewConditionalFormatSettings>
-                        <PivotViewConditionalFormatSetting Measure="Amount" Conditions=Condition.GreaterThan Value1=1000>
-                            <PivotViewStyle BackgroundColor="#80cbc4" Color="black" FontFamily="Tahoma" FontSize="12px">
-                            </PivotViewStyle>
-                        </PivotViewConditionalFormatSetting>
-                        <PivotViewConditionalFormatSetting Measure="Sold" Conditions=Condition.Between Value1=500 Value2=40000>
-                            <PivotViewStyle BackgroundColor="#f48fb1" Color="black" FontFamily="Tahoma" FontSize="12px">
-                            </PivotViewStyle>
-                        </PivotViewConditionalFormatSetting>
-                    </PivotViewConditionalFormatSettings>
-                </PivotViewDataSourceSettings>
-                <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-            </EjsPivotView>
-        </div>
-        <div class="column-4">
-            <div style="height:300px; overflow:auto;">
-                <h5>Properties:</h5> <br>
-                  <EjsButton ID="conditional" IsPrimary="true" OnClick="conditionformat">APPLY FORMAT</EjsButton>
-            </div>
-            
+        <SfPivotView TValue="PivotProductDetails" @ref="@Pivot" Width="100%" Height="340" ShowFieldList="true" AllowConditionalFormatting=true EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewConditionalFormatSettings>
+                    <PivotViewConditionalFormatSetting Measure="In_Stock" Conditions="Condition.Between" Value1=350 Value2="385">
+                        <PivotViewStyle BackgroundColor="#219122" Color="white" FontFamily="Tahoma" FontSize="12px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                    <PivotViewConditionalFormatSetting Measure="Sold" Conditions="Condition.Between" Value1=16000 Value2=25000>
+                        <PivotViewStyle BackgroundColor="#FF2222" Color="white" FontFamily="Tahoma" FontSize="12px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                </PivotViewConditionalFormatSettings>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France","Germany" })"></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:20px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td align="center">
+                            <SfButton CssClass="apply-button" IsPrimary="true" OnClick="@OnClick">Apply Format</SfButton>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td align="center">
+                            <SfButton CssClass="reset-button" IsPrimary="true" OnClick="@OnResetClick">Reset All</SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
 <style>
     .e-pivotview {
         min-height: 200px;
     }
-    .column-8{
-        width: 70% !important;
-        float: left !important;
-    }
-    .column-4{
-        width: 27% !important;
-        float: right !important;
+    .apply-button, .reset-button {
+        width: 70%;
     }
 </style>
 
 @code{
-    EjsPivotView<PivotProductDetails> pivot;
-    public List<PivotProductDetails> data { get; set; }
+    SfPivotView<PivotProductDetails> Pivot;
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
     }
-    public void conditionformat(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    public void OnClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
-        this.pivot.ShowConditionalFormattingDialog();
+        this.Pivot.ShowConditionalFormattingDialog();
+    }
+
+    public void OnResetClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        this.Pivot.DataSourceSettings.ConditionalFormatSettings = new List<PivotViewConditionalFormatSetting>();
     }
 }

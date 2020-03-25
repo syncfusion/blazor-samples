@@ -2,28 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
-namespace ej2_blazor_samples
+using blazor_samples;
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
         public List<Sample> DataGrid { get; set; } = new List<Sample>{
+             new Sample
+            {
+                Name = "Overview",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/overview",
+                FileName = "Overview.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the overview of Blazor DataGrid features with its performance metrics of large data. To change datasource count, select rows and columns count from dropdown.</p>"
+                },
+                Description = new string[]{
+                    @"<p>The Blazor DataGrid is used to display and manipulate tabular data with configuration options to control the way the data is presented and manipulated. It can pull the data from data sources, like IEnumerable, OData web services, or <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager.html'>DataManager</a></code> Component and bind the data fields to columns. It also displays a column header to identify the field with support for grouped records.</p>
+                    <p>In this demo, Blazor DataGrid features such as <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/virtual/'>Virtual Scrolling</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/filtering/'>Filtering</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/sorting/'>Sorting</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#column-template'>Column Template</a>, etc... are used along with large data source</p>
+                    <p>More information on the Blazor DataGrid infinite scrolling can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/virtual/'>Virtualization</a>.</p>"
+                }
+            },
             new Sample
             {
                 Name = "Default Functionalities",
-                Category = "Data Grid",
+                Category = "DataGrid",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/DefaultFunctionalities",
+                Url = "datagrid/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Default DefaultFunctionalities . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the default rendering of the grid control with minimum configuration.",
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the default rendering of the Grid with minimum configuration.</p>"
+                    @"<p>This sample demonstrates the default rendering of the DataGrid with minimum configuration.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid is used to display and manipulate tabular data with configuration options to control the way the data is presented and manipulated. It can pull the data from data sources, like IEnumerable, OData web services, or <code>DataManager</code> and bind the data fields to columns. It also displays a column header to identify the field with support for grouped records.</p>
-                    <p>In this demo, the Grid is populated with its minimum default settings.</p>"
+                    @"<p>The DataGrid is used to display and manipulate tabular data with configuration options to control the way the data is presented and manipulated. It can pull the data from data sources, like IEnumerable, OData web services, or <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager.html'>DataManager</a></code> and bind the data fields to columns. It also displays a column header to identify the field with support for grouped records.</p>
+                    <p>In this demo, the DataGrid is populated with its minimum default settings.</p>
+                    <p>More information on the Blazor DataGrid can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/getting-started/?no-cache=1'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -31,50 +47,44 @@ namespace ej2_blazor_samples
                 Name = "List Binding",
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/LocalData",
+                Url = "datagrid/local-data",
                 FileName = "LocalData.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . List Binding . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates the way of binding a local data source to grid.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the way of data binding Grid component with List object(list binding data source).</p>"
+                    @"<p>This sample demonstrates the way of data binding DataGrid component with List object(list binding data source).</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports data binding. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~DataSource.html'>DataSource</a></code>  property can be assigned either as list of objects or with instance of <code>DataManager</code>.</p>
-                    <p>In this demo, the list of objects is assigned as the data source to the Grid.</p>"
+                    @"<p>The DataGrid supports data binding. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~DataSource.html'>DataSource</a></code>  property can be assigned either as list of objects or with instance of <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager.html'>DataManager</a></code>.</p>
+                    <p>In this demo, the list of objects is assigned as the data source to the DataGrid. DataGrid can be bound to IEnumerable, IQueryable and ObservableCollection type data sources.</p>
+                    <p>More information on the List data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/data-binding/#list-binding'>documentation section</a>.</p>"
                 }
             },
-            new Sample
+             new Sample
             {
                 Name = "Remote Data",
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/RemoteData",
+                Url = "datagrid/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Remote Data . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the way of binding remote service to grid through DataManager.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the way of data binding Grid component with remote service. The Grid data source is bound to
-                    remote data using DataManager.</p>"
+                    @"<p>This sample demonstrates the way of data binding DataGrid component with remote service. The DataGrid data source is bound to remote data using DataManager component.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports data binding. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~DataSource.html'>DataSource</a></code> property can be assigned with the instance of <code>DataManager</code> to bind remote data.</p>
-                    <p>The DataManager, which will act as an interface between the service endpoint and the Grid, will require the below minimal information to interact with service endpoint properly,</p>
+                    @"<p>The DataGrid supports data binding. The DataManager component can be used to configure DataGrid to bind remote data.</p>
+                    <p>The DataManager, which will act as an interface between the service endpoint and the DataGrid, will require the below minimal information to interact with service endpoint properly,</p>
                     <ul>
-                        <li><code>DataManager.Url</code> - Defines the service endpoint to fetch the data</li>
-                        <li><code>DataManager.Adaptor</code> - Defines the adaptor option. By default, <code>ODataAdaptor</code> is used for remote binding.</li>
+                        <li><code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager~Url.html'>DataManager.Url</a></code> - Defines the service endpoint to fetch the data</li>
+                        <li><code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager~Adaptor.html'>DataManager.Adaptor</a></code> - Defines the adaptor option. By default, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Data.UrlAdaptor.html'>ODataAdaptor</a></code> is used for remote binding.</li>
                     </ul>
-                    <p>Adaptor is responsible for processing the response and request from/to the service endpoint. The <code>@syncfusion/ej2-data</code> package provides some predefined adaptors which are designed to interact with particular service endpoints. The predefined adaptors are,</p>
+                    <p>Adaptor is responsible for processing the response and request from/to the service endpoint. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Data_namespace.html'>Syncfusion.Blazor.Data</a></code> namespace provides some predefined adaptors which are designed to interact with particular service endpoints. The predefined adaptors are,</p>
                     <ul>
-                        <li><code>UrlAdaptor</code> - Use this to interact with any remote service. This is the base adaptor for all remote based adaptors.</li>
-                        <li><code>ODataAdaptor</code> - Use this to interact with OData endpoints.</li>
-                        <li><code>ODataV4Adaptor</code> - Use this to interact with OData V4 endpoints.</li>
-                        <li><code>WebApiAdaptor</code> - Use this to interact with Web API created under OData standards.</li>
-                        <li><code>WebMethodAdaptor</code> - Use this to interact with web methods.</li>
-                    </ul>
-                    <p>In this demo, remote data is bound by assigning service data as an instance of <code>DataManager</code> to the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~DataSource.html'>DataSource</a></code> property.</p>
-                    <p>More information on the data binding can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/grid/data-binding/#remote-data'>documentation section</a>.</p>"
+                        <li><strong>UrlAdaptor</strong> - Use this to interact with any remote service. This is the base adaptor for all remote based adaptors.</li>
+                        <li><strong>ODataAdaptor</strong>- Use this to interact with OData endpoints.</li>
+                        <li><strong>ODataV4Adaptor</strong> - Use this to interact with OData V4 endpoints.</li>
+                        <li><strong>WebApiAdaptor</strong> - Use this to interact with Web API created under OData standards.</li>                    </ul>
+                    <p>In this demo, remote data is bound by assigning service data as an instance of <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager.html'>DataManager </a></code> component.
+                    <p>More information on the remote data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/data-binding/#remote-data'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -82,69 +92,67 @@ namespace ej2_blazor_samples
                 Name = "Custom Binding",
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/CustomBinding",
+                Url = "datagrid/custom-binding",
                 FileName = "CustomBinding.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Custom Binding . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates how to bind the data with custom service/custom methods/custom component.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the usage of custom data binding in Grid component.
+                    @"<p>This sample demonstrates the usage of custom data binding in DataGrid component.
                     </p>"
                 },
                 Description = new string[]{
                     @"<p>
-                        The custom data binding can be performed in the Grid component by providing the custom adaptor class
-                        and overriding the <code>Read or ReadAsync</code> method of the DataAdaptor abstract class.
-                        The CRUD operations for the custom bounded data in the Grid component can be
+                        The custom data binding can be performed in the DataGrid component by providing the custom adaptor class
+                        and overriding the <strong>Read or ReadAsync</strong> method of the DataAdaptor abstract class.
+                        The CRUD operations for the custom bounded data in the DataGrid component can be
                         implemented by overriding the following CRUD methods of the DataAdaptor abstract class,
                         <br>
                     </p>
                     <ul>
-                        <li><code>Insert/InsertAsync</code> - Performs Insert operation.</li>
-                        <li><code>Remove/RemoveAsync</code> - Performs Remove operation.</li>
-                        <li><code>Update/UpdateAsync</code> - Performs Update operation.</li>
-                        <li><code>BatchUpdate/BatchUpdateAsync</code> - Performs BatchUpdate operation.</li>
+                        <li><strong>Insert/InsertAsync</strong> - Performs Insert operation.</li>
+                        <li><strong>Remove/RemoveAsync</strong> - Performs Remove operation.</li>
+                        <li><strong>Update/UpdateAsync</strong> - Performs Update operation.</li>
+                        <li><strong>BatchUpdate/BatchUpdateAsync</strong> - Performs BatchUpdate operation.</li>
                     </ul>
 
                     <p>In this demo, CRUD operations for the custom bounded data is performed using the methods of DataAdaptor abstract class.
-                    Similarly, you can perform Batch Update operations using <code>BatchUpdate/BatchUpdateAsync</code> methods.</p>"
+                    Similarly, you can perform Batch Update operations using <strong>BatchUpdate/BatchUpdateAsync</strong> methods.</p>
+                    <p>More information on the custom data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/custom-binding/'>documentation section</a>.</p>"
                 }
             },
             new Sample
             {
                 Name = "Context Menu",
-                Category = "Data Grid",
+                Category = "DataGrid",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ContextMenu",
+                Url = "datagrid/context-menu",
                 FileName = "ContextMenu.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Context Menu . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the usage of context menu in grid. Right click anywhere on the grid (header, content, pager) to view context menu.",
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the usage of context menu in Grid component. Right click anywhere on the Grid to view context
-                    menu.
+                    @"<p>This sample demonstrates the usage of context menu in DataGrid component. Right click anywhere on the DataGrid to view context menu.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Grid has options to show the context menu when right clicking on it. To configure the items in context menu, you should define either default or custom item in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~ContextMenuItems.html'>ContextMenuItems</a></code> property. Each item will be shown based on its target. The default context menu items are,</p>
+                    @"<p>DataGrid has options to show the context menu when right clicking on it. To configure the items in context menu, you should define either default or custom item in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~ContextMenuItems.html'>ContextMenuItems</a></code> property. Each item will be shown based on its target. The default context menu items are,</p>
                     <ul>
-                        <li><code>Edit</code> - Edit the current record.</li>
-                        <li><code>Delete</code> - Delete the current record.</li>
-                        <li><code>Save</code> - Save the edited record.</li>
-                        <li><code>Cancel</code> - Cancel the edited state.</li>
-                        <li><code>Copy</code> - Copy the selected records.</li>
-                        <li><code>PdfExport</code> - Export the grid as Pdf format.</li>
-                        <li><code>ExcelExport</code> - Export the grid as Excel format.</li>
-                        <li><code>CsvExport</code> - Export the grid as CSV format.</li>
-                        <li><code>SortAscending</code> - Sort the current column in ascending order.</li>
-                        <li><code>SortDescending</code> - Sort the current column in descending order.</li>
-                        <li><code>FirstPage</code> - Go to the first page.</li>
-                        <li><code>PrevPage</code> - Go to the previous page.</li>
-                        <li><code>LastPage</code> - Go to the last page.</li>
-                        <li><code>NextPage</code> - Go to the next page.</li>
+                        <li><strong>Edit</strong> - Edit the current record.</li>
+                        <li><strong>Delete</strong> - Delete the current record.</li>
+                        <li><strong>Save</strong> - Save the edited record.</li>
+                        <li><strong>Cancel</strong> - Cancel the edited state.</li>
+                        <li><strong>Copy</strong> - Copy the selected records.</li>
+                        <li><strong>PdfExport</strong> - Export the DataGrid as Pdf format.</li>
+                        <li><strong>ExcelExport</strong> - Export the DataGrid as Excel format.</li>
+                        <li><strong>CsvExport</strong> - Export the DataGrid as CSV format.</li>
+                        <li><strong>SortAscending</strong> - Sort the current column in ascending order.</li>
+                        <li><strong>SortDescending</strong> - Sort the current column in descending order.</li>
+                        <li><strong>FirstPage</strong> - Go to the first page.</li>
+                        <li><strong>PrevPage</strong> - Go to the previous page.</li>
+                        <li><strong>LastPage</strong> - Go to the last page.</li>
+                        <li><strong>NextPage</strong> - Go to the next page.</li>
                     </ul>
-                    <p>While using the Grid in a touch environment, touch and hold the Grid row cell to show the context menu.</p>
-                    <p>In this demo, Context Menu feature is enabled by defining the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~ContextMenuItems.html'>ContextMenuItems</a></code> property with the default items.</p>"
+                    <p>While using the DataGrid in a touch environment, touch and hold the DataGrid row cell to show the context menu.</p>
+                    <p>In this demo, Context Menu feature is enabled by defining the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~ContextMenuItems.html'>ContextMenuItems</a></code> property with the default items.</p>
+                    <p>More information on the context menu feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/context-menu/'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -152,22 +160,21 @@ namespace ej2_blazor_samples
                 Name = "Default Scrolling",
                 Category = "Scrolling",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/DefaultScrolling",
+                Url = "datagrid/default-scrolling",
                 FileName = "DefaultScrolling.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Default Scrolling . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the usage of the horizontal and vertical scrollbar to view the grid content which exceeds the grid area.",
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the horizontal and vertical scrollbars to view the exceeded grid content.</p>"
+                    @"<p>This sample demonstrates the DataGrid component with the horizontal and vertical scrollbars to view the exceeded DataGrid content.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid will show scrollbar when the content exceeds the element width or height. The vertical and horizontal scrollbar will be displayed based on the following criteria,</p>
+                    @"<p>The DataGrid will show scrollbar when the content exceeds the element width or height. The vertical and horizontal scrollbar will be displayed based on the following criteria,</p>
                     <ul>
-                        <li>The vertical scrollbar appears when the total height of rows present in Grid exceeds its element height.</li>
-                        <li>The horizontal scrollbar appears when the total width of columns present in Grid exceeds its element width.</li>
+                        <li>The vertical scrollbar appears when the total height of rows present in DataGrid exceeds its element height.</li>
+                        <li>The horizontal scrollbar appears when the total width of columns present in DataGrid exceeds its element width.</li>
                     </ul>
-                    <p>The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~Height.html'>Height </a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~Width.html'>Width </a></code> properties are used to set the Grid height and width respectively. The value of these properties can be numeric value, pixel(<code>px</code>) or percentage (<code>%</code>).</p>
-                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~Height.html'>Height </a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~Width.html'>Width </a></code> properties of the Grid are set to <strong><em>410</em></strong> and <strong><em>auto</em></strong> respectively. Now, the Grid will render with vertical scrollbar when the total height of rows exceeds its element height and horizontal scrollbar will appear when the total column width exceeds the element width.</p>"
+                    <p>The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~Height.html'>Height </a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~Width.html'>Width </a></code> properties are used to set theDataGrid height and width respectively. The value of these properties can be numeric value, pixel(<code>px</code>) or percentage (<code>%</code>).</p>
+                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~Height.html'>Height </a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~Width.html'>Width </a></code> properties of theDataGrid are set to <strong><em>410</em></strong> and <strong><em>auto</em></strong> respectively. Now, the DataGrid will render with vertical scrollbar when the total height of rows exceeds its element height and horizontal scrollbar will appear when the total column width exceeds the element width.</p>
+                    <p>More information on the scrolling in Blazor DataGrid can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/scrolling/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -175,26 +182,25 @@ namespace ej2_blazor_samples
                 Name = "Virtual Scrolling",
                 Category = "Scrolling",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/VirtualScrolling",
+                Url = "datagrid/virtual-scrolling",
                 FileName = "VirtualScrolling.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Virtual Scrolling . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component to view a large data without performance degradation by rendering only the required rows and columns.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the horizontal and vertical scrollbars to view the exceeded grid content.</p>"
+                    @"<p>This sample demonstrates the DataGrid component with the horizontal and vertical scrollbars to view the exceeded DataGrid content.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid UI virtualization allows it to render only rows and columns visible within the view-port without buffering the entire datasource. Grid supports both row and column virtualization. To enable row virtualization, set <code><a target='_blank' class='code' href= 'https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~EnableVirtualization.html'>EnableVirtualization</a></code> property as true. For column virtualization, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~EnableColumnVirtualization.html'>EnableColumnVirtualization</a></code> property as true.</p>
-                    <p>The height property must be defined when enabling <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~EnableVirtualization.html'>EnableVirtualization</a></code> property.</p>
-                    <p>In this demo, Grid is rendered with row and column virtualization. Grid is binded with 10000 rows and 20 columns</p>"
+                    @"<p>The DataGrid UI virtualization allows it to render only rows and columns visible within the view-port without buffering the entire datasource. DataGrid supports both row and column virtualization. To enable row virtualization, set <code><a target='_blank' class='code' href= 'https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~EnableVirtualization.html'>EnableVirtualization</a></code> property as true. For column virtualization, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~EnableColumnVirtualization.html'>EnableColumnVirtualization</a></code> property as true.</p>
+                    <p>The height property must be defined when enabling <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~EnableVirtualization.html'>EnableVirtualization</a></code> property and width property must be defined when enabling <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~EnableColumnVirtualization.html'>EnableColumnVirtualization</a></code>.</p>
+                    <p>In this demo, DataGrid is rendered with row and column virtualization. DataGrid is binded with 10000 rows and 20 columns</p>
+                    <p>More information on the Virtual Scrolling can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/virtual/'>documentation section</a>.</p>"
                 }
             },
             // new Sample
             // {
             //     Name = "Grid Lines",
-            //     Category = "Data Grid",
+            //     Category = "DataGrid",
             //     Directory = "Grid/DataGrid",
-            //     Url = "Grid/GridLines",
+            //     Url = "datagrid/grid-lines",
             //     FileName = "GridLines.razor",
             //     Type = SampleType.New,
             //     TitleTag = "DataGrid . Grid Lines . Syncfusion Blazor Components",
@@ -203,7 +209,7 @@ namespace ej2_blazor_samples
             //         @"<p>This sample demonstrates visibility of the grid lines that separates the rows and columns.</p>"
             //     },
             //     Description = new string[]{
-            //         @"<p>The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~GridLines.html'>GridLines</a></code> property is used to control the line visibility that separates the rows and columns. The following grid lines can be displayed in the grid,</p>
+            //         @"<p>The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~GridLines.html'>GridLines</a></code> property is used to control the line visibility that separates the rows and columns. The following grid lines can be displayed in the grid,</p>
             //         <ul>
             //             <li><code>Default</code> - Shows the Horizontal line.</li>
             //             <li><code>None</code> - Shows no line.</li>
@@ -212,7 +218,7 @@ namespace ej2_blazor_samples
             //             <li><code>Vertical</code> - Shows the Vertical line.</li>
             //         </ul>
             //         <p> In this demo, we have set the GridLines value as Both.</p>
-            //         <p>More information on the GridLines configuration can be found in this<a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/grid/cell/#grid-lines'>documentation section</a>.</p>"
+            //         <p>More information on the GridLines configuration can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/cell/#grid-lines'>documentation section</a>.</p>"
             //     }
             // },
             new Sample
@@ -220,19 +226,18 @@ namespace ej2_blazor_samples
                 Name = "AutoWrap Column Cells",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/AutoWrap",
+                Url = "datagrid/auto-wrap",
                 FileName = "AutoWrap.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . AutoWrap Column Cells . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how the grid cell content is autowrapped to show large cell content.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the auto wrap column cell. In this sample, you can see that the <strong>main fields of invention</strong> column cell content exceeded the available width hence it has been wrapped into multiple lines.
+                    @"<p>This sample demonstrates the DataGrid component with the auto wrap column cell. In this sample, you can see that the <strong>Main fields of invention</strong> column cell content exceeded the available width hence it has been wrapped into multiple lines.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Auto wrap cell content can be enabled using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~AllowTextWrap.html'>AllowTextWrap</a></code> property of the Grid. Enabling this property will wrap the cell text in multiple lines. When the cell content exceeds the cell width this feature is useful to view the content.</p>
+                    @"<p>Auto wrap cell content can be enabled using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~AllowTextWrap.html'>AllowTextWrap</a></code> property of theDataGrid. Enabling this property will wrap the cell text in multiple lines. When the cell content exceeds the cell width this feature is useful to view the content.</p>
                     <p>Enabling this property will wrap both the content cell and header cell text.</p>
-                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~AllowTextWrap.html'>AllowTextWrap</a></code> property is enabled which can be seen in the <strong>Main fields of invention</strong> column whose content is wrapped into multiple lines as it exceeds the cell width.</p>"
+                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~AllowTextWrap.html'>AllowTextWrap</a></code> property is enabled which can be seen in the <strong>Main fields of invention</strong> column whose content is wrapped into multiple lines as it exceeds the cell width.</p>
+                    <p>More information on AutoWrap feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/cell/#auto-wrap'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -240,19 +245,18 @@ namespace ej2_blazor_samples
                 Name = "Stacked Header",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/StackedHeader",
+                Url = "datagrid/stacked-header",
                 FileName = "GridStackedHeader.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Stacked Header . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the stacked header and resize feature. In this sample, we have shown multiple level of column headers.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the stacked header and resize feature. In this sample, we have shown multiple level of column headers.
+                    @"<p>This sample demonstrates the DataGrid component with the stacked header and resize feature. In this sample, we have shown multiple level of column headers.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid columns can be stacked/grouped in order to show multiple levels of column headers. It can be done by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~Columns.html'>Columns </a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
-                    <p>The Grid columns can be resized by clicking at the right end of the column header and dragging it. To enable column resize behavior, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property as true. You can also prevent the resize of particular columns by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~AllowResizing.html'>AllowResizing</a></code> property as false in the column definition.</p>
-                    <p>In this demo, the columns <strong>OrderDate, Freight</strong> are grouped under <strong>Order Details</strong> and the columns <strong>ShippedDate, ShipCountry</strong> are grouped under <strong>Shipped Details</strong>.</p>"
+                    @"<p>The DataGrid columns can be stacked/grouped in order to show multiple levels of column headers. It can be done by nesting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Columns.html'>GridColumn</a></code> component within another <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
+                    <p>The DataGrid columns can be resized by clicking at the right end of the column header and dragging it. To enable column resize behavior, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property as true. You can also prevent the resize of particular columns by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~AllowResizing.html'>AllowResizing</a></code> property as false in the column definition.</p>
+                    <p>In this demo, the columns <strong>OrderDate, Freight</strong> are grouped under <strong>Order Details</strong> and the columns <strong>ShippedDate, ShipCountry</strong> are grouped under <strong>Shipped Details</strong>.</p>
+                    <p>More information on column stacked header can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#resize-stacked-column'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -260,20 +264,19 @@ namespace ej2_blazor_samples
                 Name = "Column Reorder",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Reorder",
+                Url = "datagrid/reorder",
                 FileName = "Reorder.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Column Reorder . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component explains the way of reordering the columns using column name and index.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates reordering of the Grid columns.You can reorder columns by simply drag and drop in the desired column position.
+                        This sample demonstrates reordering of the DataGrid columns.You can reorder columns by simply drag and drop in the desired column position.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Reordering can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowReordering.html'>AllowReordering</a></code> property as true. Reordering can be done by dragging and dropping the column header from one index to another index within the Grid.</p>
+                    @"<p>Reordering can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowReordering.html'>AllowReordering</a></code> property as true. Reordering can be done by dragging and dropping the column header from one index to another index within the DataGrid.</p>
                     <p>The location where the column will be placed is indicated by two arrow symbols.</p>
-                    <p>In this demo, you can either reorder columns by drag and drop or by selecting column name and column index to reorder from the dropdown.</p>"
+                    <p>In this demo, you can reorder the columns by drag and drop.</p>
+                    <p>More information on the column reorder can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#reorder'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -281,19 +284,18 @@ namespace ej2_blazor_samples
                 Name = "Column Chooser",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ColumnChooser",
+                Url = "datagrid/column-chooser",
                 FileName = "ColumnChooser.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Column Chooser . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how the column chooser feature can be used to show or hide columns dynamically.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid column chooser feature. Click the column chooser
+                    @"<p>This sample demonstrates the DataGrid column chooser feature. Click the column chooser
                     icon in the toolbar to open column chooser and you can select columns to hide/show from the checkbox list. 
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid columns can be shown/hidden dynamically by using column chooser functionality. To enable column chooser, set <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~ShowColumnChooser.html l'>ShowColumnChooser</a></code> property as true. You can also prevent the display of a column in column chooser by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~ShowInColumnChooser.html'>ShowInColumnChooser</a></code> as false in the columns definition.</p>
-                    <p>In this demo, when the user clicks column chooser icon from the toolbar, the column chooser menu will open. Here the user can show or hide the columns by changing the state of the checkbox.</p>"
+                    @"<p>The DataGrid columns can be shown/hidden dynamically by using column chooser functionality. To enable column chooser, set <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~ShowColumnChooser.html'>ShowColumnChooser</a></code> property as true. You can also prevent the display of a column in column chooser by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~ShowColumnChooser.html'>ShowInColumnChooser</a></code> as false in the columns definition.</p>
+                    <p>In this demo, when the user clicks column chooser icon from the toolbar, the column chooser menu will open. Here the user can show or hide the columns by changing the state of the checkbox.</p>
+                    <p>More information on the column chooser can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#column-chooser'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -301,46 +303,45 @@ namespace ej2_blazor_samples
                 Name = "Column Resize",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ColumnResize",
+                Url = "datagrid/column-resize",
                 FileName = "Columnresize.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Column Resize . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how the column resizing feature can be used to change width dynamically.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid column resizing feature. Click and drag at the right corner of each column header to
+                    @"<p>This sample demonstrates the DataGrid column resizing feature. Click and drag at the right corner of each column header to
                     resize the column.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid columns can be resized by clicking the right corner of column header and dragging it. To enable column resize behavior, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property as true. You can also prevent the resize of the particular column by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~AllowResizing.html'>AllowResizing</a></code> property as false in the columns definition. And, by double clicking at the right corner of column header, the respective column width will get auto adjusted by the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~AutoFitColumns.html'>AutoFitColumns</a></code> method.</p>
-                    <p>In this demo, AllowResizing feature has been enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property to true and <b>Order ID</b> column can be resized between the range of <code>MinWidth (120px)</code> and <code>MaxWidth (300px).</code> Also, column resizing has been disabled for the <b>Shipped Date</b> column.</p>"
+                    @"<p>The DataGrid columns can be resized by clicking the right corner of column header and dragging it. To enable column resize behavior, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property as true. You can also prevent the resize of the particular column by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~AllowResizing.html'>AllowResizing</a></code> property as false in the columns definition. And, by double clicking at the right corner of column header, the respective column width will get auto adjusted by the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~AutoFitColumns.html'>AutoFitColumns</a></code> method.</p>
+                    <p>In this demo, AllowResizing feature has been enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property to true and <b>Order ID</b> column can be resized between the range of <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~MinWidth.html'>MinWidth (120px)</a></code> and <code><a target='_blank' class='code' href= https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~MaxWidth.html'>MaxWidth (300px)</a>.</code> Also, column resizing has been disabled for the <b>Shipped Date</b> column.</p>
+                    <p>More information on the custom data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/custom-binding/'>documentation section</a>.</p>"
                 }
+
             },
             new Sample
             {
                 Name = "Column Menu",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ColumnMenu",
+                Url = "datagrid/column-menu",
                 FileName = "Columnmenu.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Column Menu . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the usage of the various column functionalities of the column menu feature.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default functionalities of the ColumnMenu. Click on multiple icon of each column to open the column menu.</p>"
                 },
                 Description = new string[]{
-                    @"<p>Grid has option to show column menu on clicking the multiple icon in each column. The column menu has integrated options which allows the user to interact with features like sorting, grouping, filtering, column chooser and autofit. The column menu can be enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~ShowColumnMenu.html'>ShowColumnMenu</a></code> property value as <b>true</b>. The default items in the column menu are, </p>
+                    @"<p>DataGrid has option to show column menu on clicking the multiple icon in each column. The column menu has integrated options which allows the user to interact with features like sorting, grouping, filtering, column chooser and autofit. The column menu can be enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~ShowColumnMenu.html'>ShowColumnMenu</a></code> property value as <b>true</b>. The default items in the column menu are, </p>
                     <ul>
-                        <li><code>SortAscending</code> - Sort the current column in ascending order.</li>
-                        <li><code>SortDescending</code> - Sort the current column in descending order.</li>
-                        <li><code>Group</code> - Group the current column.</li>
-                        <li><code>Ungroup</code> - Ungroup the current column.</li>
-                        <li><code>AutoFit</code> - Auto fit current column.</li>
-                        <li><code>AutoFitAll</code> - Auto fit all columns.</li>
-                        <li><code>ColumnChooser</code> - Choose the column visibility.</li>
-                        <li><code>Filter</code> - Show the filter option as given in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridFilterSettings~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component.</li>
+                        <li><strong>SortAscending</strong> - Sort the current column in ascending order.</li>
+                        <li><strong>SortDescending</strong> - Sort the current column in descending order.</li>
+                        <li><strong>Group</strong> - Group the current column.</li>
+                        <li><strong>Ungroup</strong> - Ungroup the current column.</li>
+                        <li><strong>AutoFit</strong> - Auto fit current column.</li>
+                        <li><strong>AutoFitAll</strong> - Auto fit all columns.</li>
+                        <li><strong>ColumnChooser</strong> - Choose the column visibility.</li>
+                        <li><strong>Filter</strong> - Show the filter option as given in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component.</li>
                     </ul>
-                    <p>In this demo, column menu functionality is enabled by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~ShowColumnMenu.html'>ShowColumnMenu</a></code> as <b>true</b> with sorting, grouping, filtering, column chooser and autofit options.</p>"
+                    <p>In this demo, column menu functionality is enabled by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~ShowColumnMenu.html'>ShowColumnMenu</a></code> as <b>true</b> with sorting, grouping, filtering, column chooser and autofit options.</p>
+                    <p>More information on the column menu can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#column-menu'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -348,18 +349,16 @@ namespace ej2_blazor_samples
                 Name = "Row Hover",
                 Category = "Rows",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/RowHover",
+                Url = "datagrid/row-hover",
                 FileName = "RowHover.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Row Hover . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the Grid with the row hover feature. Move the mouse over the Grid rows to see the hover effect.",
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the row hover feature. Move the mouse over the Grid rows to see the
+                    @"<p>This sample demonstrates the DataGrid component with the row hover feature. Move the mouse over the DataGrid rows to see the
                     hover effect.</p>"
                 },
                 Description = new string[]{
-                    @"<p>Row Hover feature enables us to identify the current row by highlighting them on hovering the mouse over them. This can be enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~EnableHover.html'>EnableHover</a></code> property as true.</p>
-                    <p>In this demo, you can move the mouse over Grid rows to see the hover effect.</p>"
+                    @"<p>Row Hover feature enables us to identify the current row by highlighting them on hovering the mouse over them. This can be enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~EnableHover.html'>EnableHover</a></code> property as true.</p>
+                    <p>In this demo, you can move the mouse over DataGrid rows to see the hover effect.</p>"                    
                 }
             },
              new Sample
@@ -367,19 +366,17 @@ namespace ej2_blazor_samples
                  Name = "Row Drag And Drop",
                  Category = "Rows",
                  Directory = "Grid/DataGrid",
-                 Url = "Grid/RowDragAndDrop",
+                 Url = "datagrid/row-drag-and-drop",
                  FileName = "RowDragAndDrop.razor",
-                 Type = SampleType.New,
-                 TitleTag = "DataGrid . Row Drag And Drop . Syncfusion Blazor Components",
-                 MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates how the rows can be dragged between grids using the row drag-and-drop feature.",
+                 Type = SampleType.None,                 
                  ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the row drag and drop feature. Drag and drop rows between Grids
+                    @"<p>This sample demonstrates the DataGrid component with the row drag and drop feature. Drag and drop rows between DataGrids
                         to move rows.</p>"
                 },
                 Description = new string[]{
-                    @"<p>Grid rows can be dragged and dropped to another Grid by enabling <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowRowDragAndDrop.html'>AllowRowDragAndDrop</a></code> property. The target control on which the Grid rows has to be dropped can be set by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridRowDropSettings~TargetID.html'>TargetID</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridRowDropSettings.html'>GridRowDropSettings</a></code> component.</p>
-                    <p>The Selection feature should be enabled to select the rows.  Multiple rows can be selected by simply clicking and dragging them inside the Grid.</p>
-                    <p>In this demo, the Row drag and drop feature is enabled in both the Grids. To drag and drop rows between Grids select rows, drag and drop them to the adjacent Grid.</p>"
+                    @"<p>DataGrid rows can be dragged and dropped to another DataGrid by enabling <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowRowDragAndDrop.html'>AllowRowDragAndDrop</a></code> property. The target control on which the DataGrid rows has to be dropped can be set by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridRowDropSettings~TargetID.html'>TargetID</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridRowDropSettings.html'>GridRowDropSettings</a></code> component.</p>
+                    <p>The Selection feature should be enabled to select the rows.  Multiple rows can be selected by simply clicking and dragging them inside the DataGrid.</p>
+                    <p>In this demo, the Row drag and drop feature is enabled in both the DataGrids. To drag and drop rows between DataGrids select rows, drag and drop them to the adjacent DataGrid.</p>"                 
                 }
              },
             // new Sample
@@ -387,14 +384,14 @@ namespace ej2_blazor_samples
             //    Name = "Row Drag And Drop Within Grid",
             //    Category = "Rows",
             //    Directory = "Grid/DataGrid",
-            //    Url = "Grid/DragAndDropWithinGrid",
+            //    Url = "datagrid/draganddrop-within-grid",
             //    FileName = "DragAndDropWithinGrid.razor",
             //    Type = SampleType.New,
             //    ActionDescription = new string[] {
             //         @"<p>This sample demonstrates the Grid component with the row drag and drop feature within same grid. You can rearrange the grid rows by using drag icon in left side of grid column.Here you can drag and drop the grid rows between the decided rows.</p>"
             //     },
             //     Description = new string[]{
-            //         @"<p>Row drag and drop can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowRowDragAndDrop.html'>AllowRowDragAndDrop</a></code> property as true.</p>"
+            //         @"<p>Row drag and drop can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowRowDragAndDrop.html'>AllowRowDragAndDrop</a></code> property as true.</p>"
             //     }
             // },
             new Sample
@@ -402,31 +399,30 @@ namespace ej2_blazor_samples
                 Name = "Inline Editing",
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/InlineEditing",
+                Url = "datagrid/inline-editing",
                 FileName = "InlineEditing.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Inline Editing . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates the inline editing mode to perform CRUD operations in grid.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates CRUD operations in Grid. You can perform CRUD operations as follows,</p>
+                    @"<p>This sample demonstrates CRUD operations in DataGrid. You can perform CRUD operations as follows,</p>
                     <ul>
-                        <li><code>Add</code> -  To add new record, click Add toolbar button </li>
-                        <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
-                        <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row </li>
-                        <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
+                        <li><strong>Add</strong> -  To add new record, click Add toolbar button </li>
+                        <li><strong>Edit</strong> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
+                        <li><strong>Delete</strong> - To delete record, click toolbar Delete button after selected a row </li>
+                        <li><strong>Update</strong>,<strong>Cancel</strong> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
                     </ul>
-                    <p>By default, a new row will be added at the top of the grid. You can change it by setting <code>editSettings.newRowPosition</code> as <code>Bottom</code></p>"
+                    <p>By default, a new row will be added at the top of the DataGrid. You can change it by defining the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~NewRowPosition.html'>NewRowPosition</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> as <strong>Bottom</strong></p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports CRUD operations. The CRUD operations can be configured in Grid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
+                    @"<p>The DataGrid supports CRUD operations. The CRUD operations can be configured in DataGrid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
                     <p>The available modes are,</p>
                     <ul>
-                        <li><code>Inline</code></li>
-                        <li><code>Dialog</code></li>
-                        <li><code>Batch</code></li>
+                        <li><strong>Inline</strong></li>
+                        <li><strong>Dialog</strong></li>
+                        <li><strong>Batch</strong></li>
                     </ul>
-                    <p>In this demo, Inline mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> as <code>Inline</code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. You can start editing by double clicking a row or clicking on toolbar’s <code>Edit</code> button which will change the row to editing state. You can change the row values and save the edited data to the datasource.  You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~EditTemplate.html'>EditTemplate</a></code> of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to render the cell edit template.</p>
-                    <p>In this demo, AutoComplete Component is rendered inside the Customer ID column using EditTemplate.</p>"
+                    <p>In this demo, Inline mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> as <strong>Inline</strong> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. You can start editing by double clicking a row or clicking on toolbar’s <strong>Edit</strong> button which will change the row to editing state. You can change the row values and save the edited data to the datasource.  You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~EditTemplate.html'>EditTemplate</a></code> of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to render the cell edit template.</p>
+                    <p>In this demo, AutoComplete Component is rendered inside the Customer ID column using EditTemplate.</p>
+                    <p>More information on the inline editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/editing/#normal'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -434,29 +430,28 @@ namespace ej2_blazor_samples
                 Name = "Dialog Editing",
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/DialogEditing",
+                Url = "datagrid/dialog-editing",
                 FileName = "DialogEditing.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Dialog Editing . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how to edit grid rows using the Syncfusion Blazor Dialog component.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates CRUD operations in Grid. You can perform CRUD operations as follows,</p>
+                    @"<p>This sample demonstrates CRUD operations in DataGrid. You can perform CRUD operations as follows,</p>
                     <ul>
-                        <li><code>Add</code> -  To add new record, click Add toolbar button </li>
-                        <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
-                        <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row </li>
-                        <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
+                        <li><strong>Add</strong> -  To add new record, click Add toolbar button </li>
+                        <li><strong>Edit</strong> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
+                        <li><strong>Delete</strong> - To delete record, click toolbar Delete button after selected a row </li>
+                        <li><strong>Update</strong>,<strong>Cancel</strong> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
                     </ul>."
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports CRUD operations. The CRUD operations can be configured in Grid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
+                    @"<p>The DataGrid supports CRUD operations. The CRUD operations can be configured in DataGrid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
                     <p>The available modes are,</p>
                     <ul>
-                        <li><code>Inline</code></li>
-                        <li><code>Dialog</code></li>
-                        <li><code>Batch</code></li>
+                        <li><strong>Inline</strong></li>
+                        <li><strong>Dialog</strong></li>
+                        <li><strong>Batch</strong></li>
                     </ul>
-                    <p>In this demo, Dialog mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component as <code>Dialog</code>. You can start editing by double clicking a row or clicking on toolbar’s <code>Edit</code> button. The currently selected row will be shown on a dialog and you can change the row values and save edited data to the datasource.</p>"
+                    <p>In this demo, Dialog mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component as <strong>Dialog</strong>. You can start editing by double clicking a row or clicking on toolbar’s <strong>Edit</strong> button. The currently selected row will be shown on a dialog and you can change the row values and save edited data to the datasource.</p>
+                    <p>More information on the dialog editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/editing/#dialog'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -464,23 +459,23 @@ namespace ej2_blazor_samples
                 Name = "Dialog Template",
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/GridDialogTemplate",
+                Url = "datagrid/grid-dialog-template",
                 FileName = "GridDialogTemplate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Dialog Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how to edit the grid rows using Syncfusion Blazor dialog-template.",
-                ActionDescription = new string[] {
-                    @"<p>This sample demonstrates CRUD operations in Grid. You can perform CRUD operations as follows,</p>
+                Type = SampleType.None,
+                   ActionDescription = new string[] {
+                    @"<p>This sample demonstrates CRUD operations in DataGrid. You can perform CRUD operations as follows,</p>
             <ul>
-                <li><code>Add</code> -  To add new record, click Add toolbar button </li>
-                <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
-                <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row </li>
-                <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
+                <li><strong>Add</strong> -  To add new record, click Add toolbar button </li>
+                <li><strong>Edit</strong> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
+                <li><strong>Delete</strong> - To delete record, click toolbar Delete button after selected a row </li>
+                <li><strong>Update</strong>,<strong>Cancel</strong> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
             </ul>."
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports CRUD operations. This CRUD operations can be configured in Grid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component.</p>
-                    <p>In this demo, Dialog template is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> as <code>Dialog</code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Template.html'>Template</a></code> component. property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component to render the custom Dialog.</p>"
+                    @"<p>The DataGrid supports CRUD operations. This CRUD operations can be configured in DataGrid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component.</p>
+                    <p>In this demo, Dialog template is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> as <strong>Dialog</strong> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~Template.html'>Template</a></code> component. property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component to render the custom Dialog.</p>
+                    <p>More information on the dialog template editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/editing/#dialog-template'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -488,30 +483,29 @@ namespace ej2_blazor_samples
                 Name = "Batch Editing",
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/BatchEditing",
+                Url = "datagrid/batch-editing",
                 FileName = "BatchEditing.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Batch Editing . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how to perform bulk changes to the data grid content using batch edit mode.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates CRUD operations in Grid. You can perform CRUD operations as follows,</p>
+                    @"<p>This sample demonstrates CRUD operations in DataGrid. You can perform CRUD operations as follows,</p>
                     <ul>
-                        <li><code>Add</code> -  To add new record, click Add toolbar button </li>
-                        <li><code>Edit</code> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
-                        <li><code>Delete</code> - To delete record, click toolbar Delete button after selected a row </li>
-                        <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
+                        <li><strong>Add</strong> -  To add new record, click Add toolbar button </li>
+                        <li><strong>Edit</strong> - To edit record, double click a row or click toolbar Edit button after selected a row </li>
+                        <li><strong>Delete</strong> - To delete record, click toolbar Delete button after selected a row </li>
+                        <li><strong>Update</strong>,<strong>Cancel</strong> - You can save or discard changes by click toolbar Update and Cancel button respectively</li>
                     </ul>
-                    <p>By default, a new row will be added at the top of the grid. You can change it by setting <code>editSettings.newRowPosition</code> as <code>Bottom</code></p>"
+                    <p>By default, a new row will be added at the top of the DataGrid. You can change it by defining the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~NewRowPosition.html'>NewRowPosition</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> as <strong>Bottom</strong></p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports CRUD operations. The CRUD operations can be configured in Grid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
+                    @"<p>The DataGrid supports CRUD operations. The CRUD operations can be configured in DataGrid using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component. It also has different modes to manipulate the datasource.</p>
                     <p>The available modes are,</p>
                     <ul>
-                        <li><code>Inline</code></li>
-                        <li><code>Dialog</code></li>
-                        <li><code>Batch</code></li>
+                        <li><strong>Inline</strong></li>
+                        <li><strong>Dialog</strong></li>
+                        <li><strong>Batch</strong></li>
                     </ul>
-                    <p>In this demo, Batch mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component as <code>Batch</code>. You can start editing by double clicking a cell and change the cell value. The edited cell will be highlighted while navigating to a new cell, so that you know which cells had been edited. You can then bulk save the edited data to the datasource by click on the toolbar's <code>update</code> button.</p>"
+                    <p>In this demo, Batch mode is enabled for editing by defining <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings~Mode.html'>Mode</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a></code> component as <strong>Batch</strong>. You can start editing by double clicking a cell and change the cell value. The edited cell will be highlighted while navigating to a new cell, so that you know which cells had been edited. You can then bulk save the edited data to the datasource by click on the toolbar's <strong>Update</strong> button.</p>
+                    <p>More information on the batch editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/editing/#batch'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -519,51 +513,50 @@ namespace ej2_blazor_samples
                 Name = "Command Column",
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/CommandColumn",
+                Url = "datagrid/command-column",
                 FileName = "CommandColumn.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Command Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how to edit and delete records using a command column.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates CRUD operations in Grid using command column. You can perform CRUD operations as follows,</p>
+                    @"<p>This sample demonstrates CRUD operations in DataGrid using command column. You can perform CRUD operations as follows,</p>
                     <ul>
-                        <li><code>Edit</code> - To edit record, double click a row or click Edit button from command column after selected a row </li>
-                        <li><code>Delete</code> - To delete record, click Delete button from command column after selected a row </li>
-                        <li><code>Update</code>,<code>Cancel</code> - You can save or discard changes by click Update and Cancel button from command column respectively</li>
+                        <li><strong>Edit</strong> - To edit record, double click a row or click Edit button from command column after selected a row </li>
+                        <li><strong>Delete</strong> - To delete record, click Delete button from command column after selected a row </li>
+                        <li><strong>Update</strong>,<strong>Cancel</strong> - You can save or discard changes by click Update and Cancel button from command column respectively</li>
                     </ul>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid provides an option to render CRUD action buttons in a column by using the CommandColumn feature. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~Commands.html'>Commands</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component accepts array of <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.CommandModel.html'>CommandModel</a></code> object. The predefined command button can be defined by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.CommandModel~Type.html'>Type</a></code> property of the CommandModel.</p>
+                    @"<p>The DataGrid provides an option to render CRUD action buttons in a column by using the CommandColumn feature. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Commands.html'>GridCommandColumns</a></code>  of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component accepts array of <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.CommandModel.html'>GridCommandColumn</a></code> components. The predefined command button can be defined by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.CommandModel~Type.html'>Type</a></code> property of the GridCommandColumn component.</p>
                     <p>The built-in command buttons are,</p>
                     <ul>
-                        <li><code>Edit</code></li>
-                        <li><code>Delete</code></li>
-                        <li><code>Cancel</code></li>
-                        <li><code>Save</code></li>
-                    </ul>"
+                        <li><strong>Edit</strong></li>
+                        <li><strong>Delete</strong></li>
+                        <li><strong>Cancel</strong></li>
+                        <li><strong>Save</strong></li>
+                    </ul>
+                    <p>More information on the Command column editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/editing/#command-column'>documentation section</a>.</p>"
                 }
             },
             new Sample
             {
                 Name = "Multi Sorting",
-                Category = "Data Grid",
+                Category = "DataGrid",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Sorting",
+                Url = "datagrid/sorting",
                 FileName = "Sorting.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Multi Sorting . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the grid multisorting feature. Using this feature, grid rows can be sorted by two or more columns.",
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the Grid multi sorting feature. To sort two or more columns, hold the CTRL key and click the column header.
+                        This sample demonstrates the DataGrid multi sorting feature. To sort two or more columns, hold the CTRL key and click the column header.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings~Mode.html '>AllowSorting</a></code> property as true.</p>
-                    <p>To sort a Grid column simply click the column header. The icons <span class=""e-icons e-icon-ascending""></span>(ascending) and <span class=""e-icons e-icon-descending""></span>(descending) specifies the sort direction of a column.</p>
-                    <p>By default, multi-sorting is enabled in Grid, to sort multiple columns hold the <strong> CTRL</strong> key and click the column header. To clear sort for a column, hold the <strong> SHIFT</strong> key and click the column header.</p>
-                    <p>While using Grid in a touch device, you have an option for multi sorting in single tap on the grid header. By tapping on the grid header, it will show the toggle button in small popup with sort icon. Now tap the button to enable the multi-sorting in a single tap.</p>
-                    <p>In this demo, simply click the column header to sort them.</p>"
+                    @"<p>Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~AllowSorting.html '>AllowSorting</a></code> property as true.</p>
+                    <p>To sort a DataGrid column simply click the column header. The icons <span class=""e-icons e-icon-ascending""></span>(ascending) and <span class=""e-icons e-icon-descending""></span>(descending) specifies the sort direction of a column.</p>
+                    <p>By default, multi-sorting is enabled in DataGrid, to sort multiple columns hold the <strong> CTRL</strong> key and click the column header. To clear sort for a column, hold the <strong> SHIFT</strong> key and click the column header.</p>
+                    <p>While using DataGrid in a touch device, you have an option for multi sorting in single tap on the DataGrid header. By tapping on the DataGrid header, it will show the toggle button in small popup with sort icon. Now tap the button to enable the multi-sorting in a single tap.</p>
+                    <p>In this demo, simply click the column header to sort them.</p>
+                    <p>More information on the multi sorting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/sorting/#multi-column-sorting'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -571,28 +564,27 @@ namespace ej2_blazor_samples
                 Name = "Default Filtering",
                 Category = "Filtering",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Filtering",
+                Url = "datagrid/filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Default Filtering . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates how default Filtering feature works.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the Grid Default Filtering feature. In this sample, type the value in the filterbar and press enter
+                        This sample demonstrates the DataGrid Default Filtering feature. In this sample, type the value in the filterbar and press enter
                         to filter particular column.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The filtering feature enables the user to view reduced amount of records based on the filter criteria. It can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowFiltering.html'>AllowFiltering</a></code> property as true.</p>
-                    <p>Grid supports the following filter types,</p>
+                    @"<p>The filtering feature enables the user to view reduced amount of records based on the filter criteria. It can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowFiltering.html'>AllowFiltering</a></code> property as true.</p>
+
+                    <p>A filter bar row will be rendered next to header which allows the users to filter data by entering text within its cells.</p>
+
+                    <p>Filterbar uses two modes which specifies how to start filtering. They are,</p>
                     <ul>
-                        <li><code>FilterBar</code></li>
-                        <li><code>Menu</code></li>
-                        <li><code>CheckBox</code></li>
-                        <li><code>Excel</code></li>
+                        <li><strong>OnEnter</strong> - Enabled by default, filter will be initiated after pressing Enter key.</li>
+                        <li><strong>Immediate </strong> - Filter will start after user stops typing. This uses a time delay of 1500ms to initiate the filter after user has stopped typing. It can be overridden using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings~ImmediateModeDelay.html'>ImmediateModeDelay </a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component. </li>                       
                     </ul>
-                    <p>You can change the filter type by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridFilterSettings~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component.</p>
-                    <p>In this demo, filter menu is enabled by default, you can switch to other filter types by using the dropdown.</p>"
+                    <p>In this demo, you can type the text in the filter bar cells to filter the DataGrid.</p>
+                    <p>More information on the Filtering can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/filtering/#filter-bar'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -600,27 +592,26 @@ namespace ej2_blazor_samples
                 Name = "Menu Filter",
                 Category = "Filtering",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/FilterMenu",
+                Url = "datagrid/filter-menu",
                 FileName = "FilterMenu.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Menu Filtering. Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component explains the way of filtering rows using a menu, check box, and Excel filter UI.",
-                ActionDescription = new string[] {
+                Type = SampleType.None,
+                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the way of filtering Grid columns using menu, checkbox and excel filter UI. In this sample, click the filtering
-                    icon from column header to show filter UI for a particular column. You can change the filter type from the properties
-                    panel.
+                        This sample demonstrates the way of filtering DataGrid columns using menu, checkbox and excel filter UI. In this sample, click the filtering icon from column header to show filter UI for a particular column.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The filtering feature enables the user to view the reduced amount of records based on filter criteria. It can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowFiltering.html'>AllowFiltering</a></code> property as true. A filter bar row will be rendered next to header which allows the users to filter data by entering text within its cells.</p>
-                    <p>Filterbar uses two modes which specifies how to start filtering. They are,</p>
+                    @"<p>The filtering feature enables the user to view the reduced amount of records based on filter criteria. It can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowFiltering.html'>AllowFiltering</a></code> property as true.</p>
+                    <p>DataGrid supports the following filter types,</p>
                     <ul>
-                        <li><code>OnEnter</code> - Enabled by default, filter will be initiated after pressing <code>Enter</code> key.</li>
-                        <li><code>Immediate</code> - Filter will start after user stops typing. This uses a time delay of <i>1500ms</i> to initiate the filter after user has stopped typing. It can be overridden using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridFilterSettings~ImmediateModeDelay.html'>ImmediateModeDelay</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component.</li>
+                        <li><strong>FilterBar</strong></li>
+                        <li><strong>Menu</strong></li>
+                        <li><strong>CheckBox</strong></li>
+                        <li><strong>Excel</strong></li>
                     </ul>
-                    <p>In this demo, you can type the text in the filter bar cells to filter the Grid. </p>
-                    <p>More information on the filter configuration can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/grid/filtering'>documentation section</a></p>" 
+                     <p>You can change the filter type by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component.</p>
+                    
+                    <p>More information on the filter configuration can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/filtering'>documentation section</a></p>"
                 }
             },
             new Sample
@@ -628,38 +619,36 @@ namespace ej2_blazor_samples
                Name = "Search",
                Category = "Filtering",
                Directory = "Grid/DataGrid",
-               Url = "Grid/Search",
+               Url = "datagrid/search",
                FileName = "Search.razor",
-               Type = SampleType.New,
-               TitleTag = "DataGrid . Search . Syncfusion Blazor Components",
-               MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the content searching feature. Use the search box from toolbar to search for records in grid.",
+               Type = SampleType.None,
                ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the Grid searching feature. In this sample, use the search box from toolbar to search Grid records.
+                        This sample demonstrates the DataGrid searching feature. In this sample, use the search box from toolbar to search DataGrid records.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid has option to search its content using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~Search.html'>Search</a></code> method with search key as the parameter.</p>
-                    <p>In this demo, the Grid toolbar provides an option to search the Grid's records. The user can type the search key in the text box of the toolbar and click search button or press Enter key to perform the search operation. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~Search.html'>Search</a></code> method will be initiated to perform the search here.</p>"
+                    @"<p>The DataGrid has option to search its content using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~Search.html'>Search</a></code> method with search key as the parameter.</p>
+                    <p>In this demo, the DataGrid toolbar provides an option to search the DataGrid's records. The user can type the search key in the text box of the toolbar and click search button or press Enter key to perform the search operation. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~Search.html'>Search</a></code> method will be initiated to perform the search here.</p>
+                    <p>More information on the search feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/searching/'>documentation section</a>.</p>"
                 }
             },
             new Sample
             {
                 Name = "Paging",
-                Category = "Data Grid",
+                Category = "DataGrid",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Paging",
+                Url = "datagrid/paging",
                 FileName = "Paging.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Paging . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the usage of the pager",
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid paging feature.</p>"
+                    @"<p>This sample demonstrates the DataGrid paging feature.</p>"
                 },
                 Description = new string[]{
-                    @"<p>Paging allows you to display the contents of the Grid in page segments. By default, paging is disabled. To enable paging, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowPaging.html'>AllowPaging</a></code> property to true.</p>
-                    <p>The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridPageSettings~PageSizes.html'>PageSizes</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridPageSettings.html'>GridPageSettings</a></code> component enables a dropdown in pager which allows you to change the number of records displayed in the page dynamically.</p>
-                    <p>In this demo, the Grid is rendered with paging enabled and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridPageSettings~PageSizes.html'>PageSizes</a></code> set as true and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridPageSettings~PageCount.html'>PageCount</a></code> set to 2.</p>"
+                    @"<p>Paging allows you to display the contents of the DataGrid in page segments. By default, paging is disabled. To enable paging, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowPaging.html'>AllowPaging</a></code> property to true.</p>
+                    <p>The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridPageSettings~PageSizes.html'>PageSizes</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridPageSettings.html'>GridPageSettings</a></code> component enables a dropdown in pager which allows you to change the number of records displayed in the page dynamically.</p>
+                    <p>In this demo, the DataGrid is rendered with paging enabled and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridPageSettings~PageSizes.html'>PageSizes</a></code> set as true and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridPageSettings~PageCount.html'>PageCount</a></code> set to 5.</p>
+                    <p>More information on the Paging can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/custom-binding/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -667,32 +656,30 @@ namespace ej2_blazor_samples
                 Name = "Default Selection",
                 Category = "Selection",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Selection",
+                Url = "datagrid/selection",
                 FileName = "Selection.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Default Selection . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how to select rows or cells through simple mouse down or keyboard interaction using the selection feature.",
-                ActionDescription = new string[] {
+                Type = SampleType.None,
+                  ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the selection feature in Grid, which allows you to select row or cell through simple mouse down or keyboard interaction.
+                        This sample demonstrates the selection feature in DataGrid, which allows you to select row or cell through simple mouse down or keyboard interaction.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Selection provides an interactive support to highlight the row or cell that you select. Selection can be done through a simple mouse down or keyboard interaction. To enable selection, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowSorting.html'>AllowSelection</a></code> property as true.</p>
-                    <p>Grid supports two types of selection which can be set using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings.html'>GridSelectionSettings</a></code> component. They are,</p>
+                    @"<p>Selection provides an interactive support to highlight the row or cell that you select. Selection can be done through a simple mouse down or keyboard interaction. To enable selection, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowSorting.html'>AllowSelection</a></code> property as true.</p>
+                    <p>DataGrid supports two types of selection which can be set using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridSelectionSettings~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridSelectionSettings.html'>GridSelectionSettings</a></code> component. They are,</p>
                     <ul>
-                        <li><code>Single</code> - Enabled by default. Allows the user to select single row/cell at a time.</li>
-                        <li><code>Multiple</code> - Allows the user to select more than one row/cell at a time.</li>
+                        <li><strong>Single</strong> - Enabled by default. Allows the user to select single row/cell at a time.</li>
+                        <li><strong>Multiple</strong> - Allows the user to select more than one row/cell at a time.</li>
                     </ul>
-                    <p>Also, three modes of selection are supported which can be set using <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings~Mode.html '>Mode</a></code> property. They are,</p>
+                    <p>Also, three modes of selection are supported which can be set using <code><a target='_blank' class='code' href=' https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridSelectionSettings~Mode.html '>Mode</a></code> property. They are,</p>
                     <ul>
-                        <li><code>Row</code> - Enabled by default. Enables the row selection in Grid.</li>
-                        <li><code>Cell</code> - Enables the cell selection in Grid.</li>
-                        <li><code>Both</code> - Enables both the row and cell selection in Grid. Clicking any cell will select the both row and cell simultaneously.</li>
+                        <li><strong>Row</strong> - Enabled by default. Enables the row selection in DataGrid.</li>
+                        <li><strong>Cell</strong> - Enables the cell selection in DataGrid.</li>
+                        <li><strong>Both</strong> - Enables both the row and cell selection in DataGrid. Clicking any cell will select the both row and cell simultaneously.</li>
                     </ul>
                     <p>To perform the multi-selection, hold <strong>CTRL</strong> key and click the desired rows/cells. To select range of rows/cells, hold <strong>SHIFT</strong> key and click the rows/cells.</p>
-                    <p>While using the Grid in a touch environment, there is an option for multi-selection through single tap on the row and it will show a popup with the multi-selection symbol. Tap the icon to select all the records in a single tap.</p>
-                    <p>More information on the selection configuration can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/grid/selection'>documentation section</a>.</p>"
+                    <p>While using the DataGrid in a touch environment, there is an option for multi-selection through single tap on the row and it will show a popup with the multi-selection symbol. Tap the icon to select all the records in a single tap.</p>
+                    <p>More information on the selection configuration can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/selection'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -700,21 +687,20 @@ namespace ej2_blazor_samples
                 Name = "Checkbox Selection",
                 Category = "Selection",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/CheckboxSelection",
+                Url = "datagrid/checkbox-selection",
                 FileName = "CheckboxSelection.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Checkbox Selection. Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how the check box selection feature can be used to select grid rows.",
-                ActionDescription = new string[] {
+                Type = SampleType.None,
+                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the selection functionality of the Grid using checkbox selection, To select and unselect all rows use header checkbox.
+                        This sample demonstrates the selection functionality of the DataGrid using checkbox selection, To select and unselect all rows use header checkbox.
                         To select/unselect particular row, click the desired row.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Grid multi-selection can be achieved with the help of checkbox in each row. To render checkbox in each grid row, you need to define column type as <code>checkbox</code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
-                    <p>Selection can be persisted on all the operations using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings~PersistSelection.html'>PersistSelection</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridSelectionSettings.html'>GridSelectionSettings</a></code> component. For persisting selection on the Grid, any one of the column should be defined as a primary key using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~IsPrimaryKey.html'>IsPrimaryKey</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
-                    <p>In this demo, Grid multi-selection is enabled with the selection persistence.</p>"
+                    @"<p>DataGrid multi-selection can be achieved with the help of checkbox in each row. To render checkbox in each DataGrid row, you need to define column type as <strong>CheckBox</strong> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Type.html'>Type</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
+                    <p>Selection can be persisted on all the operations using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridSelectionSettings~PersistSelection.html'>PersistSelection</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridSelectionSettings.html'>GridSelectionSettings</a></code> component. For persisting selection on the DataGrid, any one of the column should be defined as a primary key using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~IsPrimaryKey.html'>IsPrimaryKey</a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
+                    <p>In this demo, DataGrid multi-selection is enabled with the selection persistence.</p>
+                    <p>More information on the checkbox selection configuration can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/selection/#checkbox-selection'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -722,27 +708,26 @@ namespace ej2_blazor_samples
                 Name = "Default Aggregate",
                 Category = "Aggregates",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Aggregate",
+                Url = "datagrid/aggregate",
                 FileName = "Aggregate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Default Aggregate . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how the row values can be aggregated and shown in a column footer.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates aggregate functionality of the Grid. In this sample, the aggregate value for the column Freight is displayed in column footer.</p>"
+                    @"<p>This sample demonstrates aggregate functionality of the DataGrid. In this sample, the aggregate value for the column Freight is displayed in column footer.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports aggregates which will be displayed at the footer, group footer and group caption of the Grid. The aggregate configurations can be provided in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregates.html'>GridAggregates</a></code> component</p>
+                    @"<p>The DataGrid supports aggregates which will be displayed at the footer, group footer and group caption of the DataGrid. The aggregate configurations can be provided in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridAggregates.html'>GridAggregates</a></code> component</p>
                     <p>The built-in aggregates are, </p>
                     <ul>
-                    <li><code>Sum</code></li>     
-                    <li><code>Average</code></li>     
-                    <li><code>Min</code></li>     
-                    <li><code>Max</code></li>     
-                    <li><code>Count</code></li>     
-                    <li><code>TrueCount</code></li>     
-                    <li><code>FalseCount</code></li>
-                    </ul>   
-                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~FooterTemplate.html'>FooterTemplate</a></code> is used to display four different aggregates in the Grid footer. In the first aggregate row, the <code>Sum</code> aggregate type is used by setting it in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>Freight</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~FooterTemplate.html'>FooterTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<code>@sumvalue.Sum</code>) where <b>sumvalue</b> is an implicit named parameter - <b>context</b>. The aggregate value will be formatted based on its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Format.html'>Format</a></code> value(<strong><i>C2</i></strong>) before being displayed.</p>"
+                    <li><strong>Sum</strong></li>    
+                    <li><strong>Average</strong></li>    
+                    <li><strong>Min</strong></li>    
+                    <li><strong>Max</strong></li>    
+                    <li><strong>Count</strong></li>    
+                    <li><strong>TrueCount</strong></li>    
+                    <li><strong>FalseCount</strong></li>
+                    </ul>  
+                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~FooterTemplate.html'>FooterTemplate</a></code> is used to display four different aggregates in the DataGrid footer. In the first aggregate row, the <strong>Sum</strong> aggregate type is used by setting it in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>Freight</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~FooterTemplate.html'>FooterTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<strong>@SumValue.Sum</strong>) where <b>SumValue</b> is an implicit named parameter - <b>Context</b>. The aggregate value will be formatted based on its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Format.html'>Format</a></code> value(<strong><i>C2</i></strong>) before being displayed.</p>
+                    <p>More information on the Aggregates can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/aggregates/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -750,30 +735,29 @@ namespace ej2_blazor_samples
                 Name = "Group And Caption Aggregate",
                 Category = "Aggregates",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/GroupAndCaptionAggregate",
+                Url = "datagrid/group-and-caption-aggregate",
                 FileName = "GroupAndCaptionAggregate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Group And Caption Aggregate . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how the row values can be aggregated for each group of items and shown in a group caption and individual group row (group footer).",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates Aggregate functionality of the Grid. In this sample, both Unit In Stock column are displayed their aggregate value in group footer.
+                    @"<p>This sample demonstrates Aggregate functionality of the DataGrid. In this sample, both Unit In Stock column are displayed their aggregate value in group footer.
                         Unit In Stock column displayed its aggregate value in group caption also.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid supports aggregates which will be displayed at the footer, group footer and group caption of the Grid. The aggregate configurations can be provided by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregates.html'>GridAggregates</a></code> component.</p>
+                    @"<p>The DataGrid supports aggregates which will be displayed at the footer, group footer and group caption of the DataGrid. The aggregate configurations can be provided by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridAggregates.html'>GridAggregates</a></code> component.</p>
                     <p>The built-in aggregates are,</p>
                     <ul>
-                        <li><code>Sum</code></li>     
-                        <li><code>Average</code></li>     
-                        <li><code>Min</code></li>     
-                        <li><code>Max</code></li>     
-                        <li><code>Count</code></li>     
-                        <li><code>TrueCount</code></li>     
-                        <li><code>FalseCount</code></li>
-                    </ul>    
-                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupFooterTemplate.html'>GroupFooterTemplate</a></code> is used for displaying the group footer aggregation for the <strong><i>Unit In Stocks</i></strong> and <strong><i>Discontinued</i></strong> columns and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupCaptionTemplate.html'>GroupCaptionTemplate</a></code> is used for displaying the group caption aggregation for the <strong><i>Unit In Stocks</i></strong> column.</p>    
-                    <p>To enable group footer aggregation for <strong><i>Unit In Stocks</i></strong> column, the <code>Sum</code> aggregate type is used by setting it in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> property and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>UnitsInStock</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupFooterTemplate.html'>GroupFooterTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<code>@unit.Sum</code>) where <b>unit</b> is an implicit named parameter - <b>context</b>.</p>
-                    <p>To enable group caption aggregation for <strong><i>Unit In Stocks</i></strong> column, the <code>Max</code> aggregate type is used by setting it in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> property and the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>UnitsInStock</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridAggregateColumn~GroupCaptionTemplate.html'>GroupCaptionTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<code>@unit.Max</code>) where <b>unit</b> is an implicit named parameter - <b>context</b>.</p>"
+                        <li><strong>Sum</strong></li>    
+                        <li><strong>Average</strong></li>    
+                        <li><strong>Min</strong></li>    
+                        <li><strong>Max</strong></li>    
+                        <li><strong>Count</strong></li>    
+                        <li><strong>TrueCount</strong></li>    
+                        <li><strong>FalseCount</strong></li>
+                    </ul>   
+                    <p>In this demo, the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridAggregateColumn~GroupFooterTemplate.html'>GroupFooterTemplate</a></code> is used for displaying the group footer aggregation for the <strong><i>Unit In Stocks</i></strong> and <strong><i>Discontinued</i></strong> columns and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridAggregateColumn~GroupCaptionTemplate.html'>GroupCaptionTemplate</a></code> is used for displaying the group caption aggregation for the <strong><i>Unit In Stocks</i></strong> column.</p>   
+                    <p>To enable group footer aggregation for <strong><i>Unit In Stocks</i></strong> column, the <strong>Sum</strong> aggregate type is used by setting it in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> property and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>UnitsInStock</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridAggregateColumn~GroupFooterTemplate.html'>GroupFooterTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<strong>@Unit.Sum</strong>) where <b>Unit</b> is an implicit named parameter - <b>Context</b>.</p>
+                    <p>To enable group caption aggregation for <strong><i>Unit In Stocks</i></strong> column, the <strong>Max</strong> aggregate type is used by setting it in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> property and the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Field.html'>Field</a></code> property is set as <strong><i>UnitsInStock</i></strong> which will be used to perform the aggregation. The aggregate value is accessed inside the<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridAggregateColumn~GroupCaptionTemplate.html'>GroupCaptionTemplate</a></code> using its <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.AggregateColumnModel~Type.html'>Type</a></code> name (<strong>@Unit.Max</strong>) where <b>Unit</b> is an implicit named parameter - <b>Context</b>.</p>
+                    <p>More information on the group caption aggregate can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/aggregates/#group-and-caption-aggregate'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -781,18 +765,16 @@ namespace ej2_blazor_samples
                 Name = "Default Exporting",
                 Category = "Exporting",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Exporting",
+                Url = "datagrid/exporting",
                 FileName = "Exporting.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Default Exporting . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component explains the way of exporting grid content to Excel, PDF, and CSV formats.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the client-side exporting of the Grid, which allows you to export its data to the Excel, Pdf and CSV formats. Use the toolbar buttons to export Grid data to desired format.</p>"
+                    @"<p>This sample demonstrates the client-side exporting of the DataGrid, which allows you to export its data to the Excel, Pdf and CSV formats. Use the toolbar buttons to export DataGrid data to desired format.</p>"
                 },
                 Description = new string[]{
-                    @"<p>Grid supports client-side exporting which allows you to export its data to Excel, Pdf and CSV formats.</p>
-                    <p>In this demo, we have defined actions for the exporting toolbar items, in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~ToolbarClick.html'>ToolbarClick</a></code> event to export the Grid data using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~ExcelExport.html'>ExcelExport</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~PdfExport.html'>PdfExport</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~CsvExport.html'>CsvExport</a></code> methods.</p>
-                    <p>More information about Exporting can be found in the documentation section.</p>"
+                    @"<p>DataGrid supports client-side exporting which allows you to export its data to Excel, Pdf and CSV formats.</p>
+                    <p>In this demo, we have defined actions for the exporting toolbar items, in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~ToolbarClick.html'>ToolbarClick</a></code> event to export the DataGrid data using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~ExcelExport.html'>ExcelExport</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~PdfExport.html'>PdfExport</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~CsvExport.html'>CsvExport</a></code> methods.</p>
+                    <p>More information about Exporting can be found in the <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/excel-exporting/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -800,44 +782,42 @@ namespace ej2_blazor_samples
                 Name = "Print",
                 Category = "Exporting",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Print",
+                Url = "datagrid/print",
                 FileName = "Print.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Print . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows how to print the grid content. Click the print button from the toolbar item to print Grid.",
-                ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the different options to print the hierarchy Grid.</p>"
+                Type = SampleType.None,
+                 ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the different options to print the hierarchy DataGrid.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid can be printed using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~Print.html'>Print</a></code> method. While printing the pager and scrollbar will be removed if they are enabled in Grid. By default, all pages will be printed. We can print current page alone by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~PrintMode.html'>PrintMode</a></code> property value as <code>currentpage</code>. The child grid allows us to print the grid with following options,</p>
+                    @"<p>The DataGrid can be printed using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~Print.html'>Print</a></code> method. While printing the pager and scrollbar will be removed if they are enabled in DataGrid. By default, all pages will be printed. We can print current page alone by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~PrintMode.html'>PrintMode</a></code> property value as <strong>CurrentPage</strong>. The childDataGrid allows us to print theDataGrid with following options,</p>
                     <ul>
-                        <li><code>Expanded</code> - Prints the master grid with expanded child grids.</li>
-                        <li><code>All</code> - Prints the master grid with all the child grids.</li>
-                        <li><code>None</code> - Prints the master grid alone.</li>
+                        <li><strong>Expanded</strong> - Prints the master DataGrid with expanded child DataGrids.</li>
+                        <li><strong>All</strong> - Prints the master DataGrid with all the child DataGrids.</li>
+                        <li><strong>None</strong> - Prints the master DataGrid alone.</li>
                     </ul>
-                    <p>We can change the child grid's print option by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~HierarchyPrintMode.html'>HierarchyPrintMode</a></code> property.</p>"
+                    <p>We can change the child DataGrid's print option by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~HierarchyPrintMode.html'>HierarchyPrintMode</a></code> property.</p>
+                    <p>More information on the print feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/print/'>documentation section</a>.</p>"
                 }
             },
             new Sample
             {
                 Name = "Grouping",
-                Category = "Data Grid",
+                Category = "DataGrid",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Grouping",
+                Url = "datagrid/grouping",
                 FileName = "Grouping.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Grouping . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates the grouping feature of the grid control. The grid control has an option to group records based on columns.",
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates grouping feature of the Grid component. In this sample, the Grid data is grouped against
+                        This sample demonstrates grouping feature of the DataGrid component. In this sample, the DataGrid data is grouped against
                         Customer Name column. To group any other column simply drag the column header and drop on the group drop area.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid control has options to group the records based on the required column. When grouping is applied, grouped records are organized into a hierarchical structure to facilitate easier expansion and collapsing of the records. To enable grouping, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~AllowGrouping.html'>AllowGrouping</a></code> property as true.</p>
+                    @"<p>The DataGrid control has options to group the records based on the required column. When grouping is applied, grouped records are organized into a hierarchical structure to facilitate easier expansion and collapsing of the records. To enable grouping, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowGrouping.html'>AllowGrouping</a></code> property as true.</p>
                     <p>Columns can be grouped by simply dragging the column header and dropping it on the group drop area.</p>
-                    <p>In this demo, to group a specify column, drag and drop the column in the group drop area.</p>"
+                    <p>In this demo, DataGrid is rendered with grouping enabled and initial grouped by <b>CustomerName</b> column.</p>
+                    <p>More information on the group data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/grouping/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -845,17 +825,16 @@ namespace ej2_blazor_samples
                 Name = "Column Template",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ColumnTemplate",
+                Url = "datagrid/column-template",
                 FileName = "ColumnTemplate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Column Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates the usage of template columns in Grid to show custom image in the Employee Image column.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This demo for Essential JS 2 grid control shows the usage of template columns in grid.</p>"
+                    @"<p>This demo for Blazor DataGrid control shows the usage of template columns in DataGrid.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid provides a way to use custom layout to display custom element value or content for each column using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~Template.html'>Template</a></code> property. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~Template.html'>Template</a></code>property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to specify the custom content. Inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~Template.html'>Template</a></code>, you can access the data using the implicit named parameter <strong>Context</strong>.</p>
-                    <p>In this demo, using column template, we have displayed <strong>Employee Image</strong> column with Employee Photo.</p>"
+                    @"<p>The DataGrid provides a way to use custom layout to display custom element value or content for each column using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Template.html'>Template</a></code> property. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Template.html'>Template component</a></code> of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to specify the custom content. Inside the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Template.html'>Template</a></code>, you can access the data using the implicit named parameter <strong>Context</strong>.</p>
+                    <p>In this demo, using column template, we have displayed <strong>Employee Image</strong> column with Employee Photo.</p>
+                    <p>More information on the Templates feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/templates/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -863,18 +842,17 @@ namespace ej2_blazor_samples
                 Name = "Row Template",
                 Category = "Rows",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/RowTemplate",
+                Url = "datagrid/row-template",
                 FileName = "GridRowTemplate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Row Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the usage of the row template feature. We have rendered each DataGrid row using template.",
-                ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the row template feature. In this sample, we have rendered each Grid
+                Type = SampleType.None,
+                 ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the DataGrid component with the row template feature. In this sample, we have rendered each DataGrid
                         row using the template.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The RowTemplate has option to customize the look and behavior of the grid rows. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~RowTemplate.html'>RowTemplate</a></code> should be wrapped around the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridTemplates.html'>GridTemplates</a></code> component. The RowTemplate content must be <strong>TD</strong> elements and the number of <strong>TD</strong> elements should match the number of grid columns.</p>
-                    <p>In this demo, we have presented Employee Information with Employee Photo in the first column and employee details like Name, Address etc. in the second column.</p>"
+                    @"<p>The RowTemplate has option to customize the look and behavior of the DataGrid rows. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~RowTemplate.html'>RowTemplate</a></code> should be wrapped around the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridTemplates.html'>GridTemplates</a></code> component. The RowTemplate content must be <strong>TD</strong> elements and the number of <strong>TD</strong> elements should match the number of DataGrid columns.</p>
+                    <p>In this demo, we have presented Employee Information with Employee Photo in the first column and Employee details like Name, Address etc. in the second column.</p>
+                    <p>More information on the Templates feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/templates/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -882,18 +860,17 @@ namespace ej2_blazor_samples
                 Name = "Detail Template",
                 Category = "Rows",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/DetailTemplate",
+                Url = "datagrid/detail-template",
                 FileName = "GridDetailTemplate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Detail Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates how the detailed information about a row can be displayed in template using detail template feature.",
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the detail template feature. Click the expand button
-                        in each Grid row to show the detailed information about a row.</p>"
+                    @"<p>This sample demonstrates the DataGrid component with the detail template feature. Click the expand button
+                        in each DataGrid row to show the detailed information about a row.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The detail template provides additional information about a particular row on expanding or collapsing the detail content. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~DetailTemplate.html'>DetailTemplate</a></code> should be wrapped around the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridTemplates.html'>GridTemplates</a></code> component with the required content.</p>
-                    <p>In this demo, we have presented Employee Information with image in the detail row.</p>"
+                    @"<p>The detail template provides additional information about a particular row on expanding or collapsing the detail content. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~DetailTemplate.html'>DetailTemplate</a></code> should be wrapped around the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridTemplates.html'>GridTemplates</a></code> component with the required content. This expand row used to visualize the hierarchy statistical data.</p>
+                    <p>In this demo, we have presented Employee Information with image in the detail row.</p>
+                    <p>More information about the Details Template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/row/#detail-template'>documentation section</a></p>"
                 }
             },
             new Sample
@@ -901,43 +878,40 @@ namespace ej2_blazor_samples
                 Name = "Header Template",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/HeaderTemplate",
+                Url = "datagrid/header-template",
                 FileName = "GridHeaderTemplate.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Header Template . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component explains the way of showing custom icon in the column header using header template feature of grid.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the Grid component with the detail template feature. Click the expand button
-                        in each Grid row to show the detailed information about a row.</p>"
+                    @"<p>This sample demonstrates the Blazor DataGrid header template feature. In this sample, we have shown custom icons in the column headers..</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Header Template has options to display custom element value or content in the header area. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn~HeaderTemplate.html'>HeaderTemplate</a></code> of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to specify the custom content to be displayed in the header section.</p>
-                    <p>In this demo, we have presented Employee Information with image using the header template.</p>"
+                    @"<p>The Header Template has options to display custom element value or content in the header area. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~HeaderTemplate.html'>HeaderTemplate</a></code> of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component to specify the custom content to be displayed in the header section.</p>
+                    <p>In this demo, we have presented Employee Information with image using the header template.</p>
+                    <p>More information on the header template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#header-template'>documentation section</a>.</p>"
                 }
             },
             new Sample
             {
                 Name = "Clipboard",
-                Category = "Data Grid",
+                Category = "DataGrid",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/Clipboard",
+                Url = "datagrid/clipboard",
                 FileName = "Clipboard.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Clipboard . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows copy to clipboard functionality of grid. Select rows and click Copy button from toolbar to copy content.",
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates copy to clipboard functionality of the Grid component. Select rows and click Copy button from
+                        This sample demonstrates copy to clipboard functionality of the DataGrid component. Select rows and click Copy button from
                         toolbar to copy content. To copy with header click Copy with header button from toolbar.
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>Selected row or cell data in the Grid can be copied into the clipboard using the Keyboard shortcuts and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.EjsGrid%601~Copy.html'>Copy</a></code> method.</p>
+                    @"<p>Selected row or cell data in the DataGrid can be copied into the clipboard using the Keyboard shortcuts and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.EjsGrid%601~Copy.html'>Copy</a></code> method.</p>
                     <p>In this demo, selected rows data can be copied into the clipboard using the below Keyboard shortcuts or toolbar interactions.</p>
                     <ul>
-                        <li><code>Ctrl + C</code> - Selected rows or cells data without header.</li>
-                        <li><code>Ctrl + Shift + H</code> - Selected rows or cells data with header.</li>
-                    </ul>"
+                        <li><strong>Ctrl + C</strong> - Selected rows or cells data without header.</li>
+                        <li><strong>Ctrl + Shift + H</strong> - Selected rows or cells data with header.</li>
+                    </ul>
+                    <p>More information on the clipboard feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/clipboard/'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -945,17 +919,16 @@ namespace ej2_blazor_samples
                 Name = "Row Height",
                 Category = "Rows",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/RowHeight",
+                Url = "datagrid/row-height",
                 FileName = "RowHeight.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Row Height . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows the row height feature. Click on the toolbar icons to change row's height.",
-                ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the row height feature of the Grid. In this demo, the <b>rowHeight</b> for all the Grid rows can be
+                Type = SampleType.None,
+                 ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the row height feature of the DataGrid. In this demo, the <b>RowHeight</b> for all the DataGrid rows can be
                 changed as <b>20px</b>, <b>40px</b> and <b>60px</b> on ToolBar button click.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The row height for the Grid rows can be set using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~RowHeight.html'>RowHeight</a></code> property.</p>"
+                    @"<p>The row height for the DataGrid rows can be set using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~RowHeight.html'>RowHeight</a></code> property.</p>
+                    <p>More information on the row height feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/row/#row-height'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -963,18 +936,17 @@ namespace ej2_blazor_samples
                 Name = "Frozen Rows and Columns",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/FrozenRows",
+                Url = "datagrid/frozen-rows",
                 FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Frozen Rows and Columns . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component shows frozen rows/columns feature of grid. Scroll the movable content to view the frozen rows/columns.",
-                ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the frozen rows and columns feature of the Grid. Scroll the movable content vertically/horizontally to view the frozen rows/columns
+                Type = SampleType.None,
+                 ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the Frozen Rows and Columns feature of the DataGrid. Scroll the movable content vertically/horizontally to view the frozen rows/columns
                     with the content.</p>"
                 },
                 Description = new string[]{
-                    @"<p>Grid provides support to freeze certain rows/columns from being scrolled thus allowing only the remaining content scrollable. This can be achieved by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~FrozenRows.html'>FrozenRows</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.Grids.GridModel%601~FrozenColumns.html'>FrozenColumns</a></code> property.</p>
-                    <p>In this demo sample, the first column and two rows are set to frozen by using these properties.</p>"
+                    @"<p>DataGrid provides support to freeze certain rows/columns from being scrolled thus allowing only the remaining content scrollable. This can be achieved by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~FrozenRows.html'>FrozenRows</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~FrozenColumns.html'>FrozenColumns</a></code> property.</p>
+                    <p>In this demo sample, the first column and two rows are set to frozen by using these properties.</p>
+                    <p>More information on the Frozen column feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/scrolling/#frozen-rows-and-columns'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -982,24 +954,23 @@ namespace ej2_blazor_samples
                 Name = "Show or Hide Column",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ShoworHideColumn",
+                Url = "datagrid/show-or-hide-column",
                 FileName = "ShoworHideColumn.razor",
-                Type = SampleType.New,
-                TitleTag = "DataGrid . Show or Hide Column . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates how the columns are show and hide dynamically.",
+                Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates dynamic show hide columns feature of Grid. 
+                    @"<p>This sample demonstrates dynamic show hide columns feature of DataGrid.
             Click the switch to toggle visibility for columns.
                     .</p>"
                 },
                 Description = new string[]{
-                    @"<p>The Grid column can be showed/hidden dynamically using <code>showColumns </code> and <code>hideColumns</code> method of the Grid.</p>
-                <p>In this demo, the columns can be showed and hidden by clicking the 
+                    @"<p>The DataGrid column can be showed/hidden dynamically using <strong>ShowColumns </strong> and <strong>HideColumns</strong> method of the DataGrid.</p>
+                <p>In this demo, the columns can be showed and hidden by clicking the
                     Switch buttons to toggle visibility. And the column`s visibility is toggled based on the
-                    <code>columns->headerText</code> value.</p>
+                    <strong>Columns->HeaderText</strong> value.</p>
                 <br/>
-                <p>The <code>columns->visible</code> property specifies the visibility of a column. To hide a column at the initial rendering, set the <code>columns->visible
-                </code> property to false.</p>"
+                <p>The <strong>Columns->Visible</strong> property specifies the visibility of a column. To hide a column at the initial rendering, set the <strong>Columns->Visible
+                </strong> property to false.</p>
+                <p>More information on the Show/Hide column can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#showhide-columns-by-external-button'>documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -1007,20 +978,60 @@ namespace ej2_blazor_samples
                 Name = "Observable Collection",
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
-                Url = "Grid/ObservableBinding",
+                Url = "datagrid/observable-binding",
                 FileName="ObservableBinding.razor",
-				Type = SampleType.New,
-                TitleTag = "DataGrid . Observable Collection . Syncfusion Blazor Components",
-                MetaDescription = "This demo for Syncfusion Blazor DataGrid component demonstrates the way of binding Observable collection to grid.",
+				Type = SampleType.None,                
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the usage of Observable data binding in Grid component.
+                    @"<p>This sample demonstrates the usage of Observable data binding in DataGrid component.
                     </p>"
                 },
                 Description = new string[]{
                     @"<p> Using Observable Collections Objects can be added, removed or be updated with an automatic notification of actions. 
-                The UI is automatically updated, when an object is added to or removed from an <strong>observable collection<strong>.</p>"
+                The UI is automatically updated, when an object is added to or removed from an observable collection. To refresh UI for single property update, the setter of the corresponding property must be configured as shown in the sample.</p>
+                    <p>More information on the observable data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/data-binding/#observable-collection'>documentation section</a>.</p>"
                 }
-            }
+            },
+            new Sample
+            {
+                Name = "Hierarchy Grid",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/hierarchy-grid",
+                FileName = "HierarchyGrid.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the usage of DataGrid to show parent child relation data in a hierarchy structure using details template feature.</p>"
+                },
+                Description = new string[]{
+                    @"<p>The Hierarchy DataGrid is used to display table data in hierarchical structure which can show or hide by clicking on expand or collapse button.
+                     Hierarchy DataGrid feature can be achieved by defining <strong>Details Template</strong> in a DataGrid.</p>
+
+                     <p>In this demo, three level hierarchy is demonstrated with hierarchical structure <strong>Employee -&gt; Orders -&gt; Customers</strong>.</p>
+                
+                    <p>More information about the Details Template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/row/#detail-template'>documentation section</a></p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Master Detail",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/master-details",
+                FileName = "MasterDetails.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the usage of DataGrid to visualize details of record in another DataGrid in master and detail manner. By simply clicking the master DataGrid row, the detail DataGrid will be populated with the corresponding data.</p>"
+                },
+                Description = new string[]{
+                    @"<p>Master-Detail DataGrid is a use case scenario, in which the details of a Master DataGrid record, is viewed in a separate DataGrid(Detail DataGrid) by clicking the particular row.</p>
+                    <p>The steps to achieve this scenario is as follows,</p>
+                    <ul>
+                        <li>Get the selected record of Master DataGrid in the<code>RowSelected</code>event.</li>
+                        <li>Filter the data based on the selected record and bind the result to the Detail DataGrid`s <code>dataSource</code>property.</li>
+                    </ul>
+                   <p>In this demo, simply click the row in master DataGrid, which shows the details in another(Detail) DataGrid.</p>"
+                }
+            },
         };
     }
 }

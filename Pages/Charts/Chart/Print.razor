@@ -1,60 +1,91 @@
-﻿@page "/Charts/Print"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-
+﻿@page "/chart/print"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
-    <div class="row">
-        <div class="control-section col-lg-9" align="center">
-            <EjsChart @ref="chartObj" Title="Sales Comparision">
-                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-                <ChartPrimaryXAxis Title="Manager" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                </ChartPrimaryXAxis>
-                <ChartPrimaryYAxis Minimum="0" Maximum="20000" Title="Sales">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                </ChartPrimaryYAxis>
-                <ChartSeriesCollection>
-                    <ChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Type="ChartSeriesType.Column">
-                    </ChartSeries>
-                </ChartSeriesCollection>
-            </EjsChart>
-        </div>
-        <div class="col-lg-3 property-section">
-            <table id="property" style="width: 100%">
-                <tr style="height:50px"><th>Properties</th></tr>
-                <tbody>
-                    <tr id="button-control" style="height: 50px">
-                        <td align="center">
-                            <EjsButton ID="button" @onclick="printChart" Content="Print" IconCss="e-icons e-play-icon" CssClass="e-flat" IsPrimary="true"></EjsButton>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="row">
+    <div class="control-section col-lg-9" align="center">
+        <SfChart @ref="chartObj" Title="Sales Comparision">
+         <ChartEvents Load="ChartLoad"/>
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis Title="Manager" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Minimum="0" Maximum="20000" Title="Sales">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Type="ChartSeriesType.Column">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
     </div>
+    <div class="col-lg-3 property-section">
+        <table id="property" style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tbody>
+                <tr id="button-control" style="height: 50px">
+                    <td align="center">
+                        <SfButton ID="button" @onclick="PrintChart" Content="Print" CssClass="e-flat" IsPrimary="true"></SfButton>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 @code{
-    EjsChart chartObj;
-    public class exportData
+    SfChart chartObj;
+    public class ExportData
     {
         public string xValue { get; set; }
         public double yValue { get; set; }
     }
-    public List<exportData> dataSource = new List<exportData>
-    {
-        new exportData { xValue = "John", yValue = 10000 },
-        new exportData { xValue = "Jake", yValue = 12000 },
-        new exportData { xValue = "Peter", yValue = 18000 },
-        new exportData { xValue = "James", yValue = 11000 },
-        new exportData { xValue = "Mary", yValue = 9700 }
+    public List<ExportData> dataSource = new List<ExportData>
+{
+        new ExportData { xValue = "John", yValue = 10000 },
+        new ExportData { xValue = "Jake", yValue = 12000 },
+        new ExportData { xValue = "Peter", yValue = 18000 },
+        new ExportData { xValue = "James", yValue = 11000 },
+        new ExportData { xValue = "Mary", yValue = 9700 }
     };
-    public void printChart(MouseEventArgs args)
+    public void PrintChart(MouseEventArgs args)
     {
         chartObj.Print();
     }
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }
 <style>
+
     #button-control {
         width: 100%;
         text-align: center;

@@ -1,0 +1,101 @@
+﻿@page "/scheduler/agenda-view"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="ScheduleData.AppointmentData" HideEmptyAgendaDays="@HideEmptyAgendaDays" AgendaDaysCount="@AgendaDaysCount" CssClass="ScheduleAgenda" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 9))">
+            <ScheduleViews>
+                <ScheduleView Option="View.Agenda" AllowVirtualScrolling="@VirtualScrolling"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 50%">
+                            <div>
+                                Allow Virtual Scrolling
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" Index="1" DataSource="@DropDownListData" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" ValueChange="OnVirtualScrollChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 50%">
+                            <div>
+                                Hide Empty Days
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" Index="0" DataSource="@DropDownListData" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" ValueChange="OnHideEmptyDaysChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 50%">
+                            <div>
+                                Days Count
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfNumericTextBox TValue="int" Format="n0" @bind-Value="@AgendaDaysCount" Min=1 Max=15></SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+    public bool VirtualScrolling = false;
+    public bool HideEmptyAgendaDays = true;
+    public int AgendaDaysCount = 7;
+    public void OnVirtualScrollChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        VirtualScrolling = bool.Parse(args.Value);
+    }
+    public void OnHideEmptyDaysChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        HideEmptyAgendaDays = bool.Parse(args.Value);
+    }
+    List<DropDownData> DropDownListData = new List<DropDownData>() {
+        new DropDownData { Name = "True", Value = "true" },
+        new DropDownData { Name = "False", Value = "false" }
+    };
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+}
+
+<style>
+    .ScheduleAgenda .e-m-date:hover {
+        text-decoration: none !important;
+    }
+</style>

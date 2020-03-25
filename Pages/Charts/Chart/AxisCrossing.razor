@@ -1,12 +1,15 @@
-﻿@page "/Charts/AxisCrossing"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-
+﻿@page "/chart/axis-crossing"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <EjsChart Title="Spline Interpolation">
+        <SfChart Title="Spline Interpolation">
+			<ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
             <ChartPrimaryXAxis Minimum="-8" Maximum="8" Interval="2" CrossesAt="@XCrossesAt" MinorTicksPerInterval="3" PlaceNextToAxisLine="@PlaceX">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -16,32 +19,32 @@
             </ChartPrimaryYAxis>
             <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@lineData" Name="Line Interpolation" XName="xValue" Width="2"
+                <ChartSeries DataSource="@LineData" Name="Line Interpolation" XName="xValue" Width="2"
                              Opacity="1" YName="yValue1" Type="ChartSeriesType.Line" Fill="Blue">
                 </ChartSeries>
-                <ChartSeries DataSource="@splineData" Name="Cubic Spline Interpolation" XName="xValue" Width="2"
+                <ChartSeries DataSource="@SplineData" Name="Cubic Spline Interpolation" XName="xValue" Width="2"
                              Opacity="1" YName="yValue1" Type="ChartSeriesType.Spline" Fill="Green">
                 </ChartSeries>
-                <ChartSeries DataSource="@scatterData" Name="Data points" XName="xValue" Width="2"
+                <ChartSeries DataSource="@ScatterData" Name="Data points" XName="xValue" Width="2"
                              Opacity="1" YName="yValue1" Type="ChartSeriesType.Scatter" Fill="Red">
                     <ChartMarker Visible="true" Width="12" Height="12">
                     </ChartMarker>
                 </ChartSeries>
             </ChartSeriesCollection>
-        </EjsChart>
+        </SfChart>
     </div>
     <div class="col-lg-4 property-section">
-        <table id="property" title="Properties" style="width: 100%">
+        <table  title="Properties" style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height:50px">
                 <td style="font-size:14px">
                     Axis:
                 </td>
                 <td>
-                    <select @onchange="ChangeAxis" style="font-size:14px">
-                        <option value="X">X</option>
-                        <option value="Y">Y</option>
-                    </select>
+                    <SfDropDownList TValue="string" Placeholder="Normal" TItem="Data" DataSource="@DropDownData" @bind-Value="@Value">
+                        <DropDownListFieldSettings Value="ID"></DropDownListFieldSettings>
+                        <DropDownListEvents TValue="string" ValueChange="ChangeAxis"></DropDownListEvents>
+                    </SfDropDownList>
                 </td>
             </tr>
             <tr style="height: 50px">
@@ -50,7 +53,10 @@
                 </td>
                 <td style="width: 40%;">
                     <div style='margin-top: 0px;'>
-                        <input type="number" value="@CrossValue" @onchange="ChangeCrossValue" min="-8" max="8" step=2 />
+                        <SfNumericTextBox TValue="int?" Value="@CrossValue" Max=8 Min=-8 Step=2>
+                            <NumericTextBoxEvents TValue="int?" ValueChange="ChangeCrossValue" />
+                        </SfNumericTextBox>
+                        
                     </div>
                 </td>
             </tr>
@@ -60,7 +66,7 @@
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@IsChecked" ValueChange="@CheckValue"></EjsCheckBox>
+                        <SfCheckBox Checked="@IsChecked" ValueChange="@CheckValue"></SfCheckBox>
                     </div>
                 </td>
             </tr>
@@ -73,7 +79,19 @@
     public int CrossValue = 0, XCrossesAt = 0, YCrossesAt = 0;
 
 
-    private void CheckValue(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    public class Data
+    {
+        public string ID { get; set; }
+    }
+
+    private List<Data>
+    DropDownData = new List<Data>
+        ()
+        {
+        new Data(){ ID= "X"},
+        new Data(){ ID= "Y"}      
+        };
+    private void CheckValue(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
         IsChecked = args.Checked;
         if (Value == "X")
@@ -86,7 +104,7 @@
         }
     }
 
-    private void ChangeAxis(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    private void ChangeAxis(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         Value = Convert.ToString(args.Value);
         if (Value == "X")
@@ -101,7 +119,7 @@
         }
     }
 
-    private void ChangeCrossValue(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    private void ChangeCrossValue(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
     {
         if (Value == "X")
         {
@@ -118,14 +136,14 @@
         public Nullable<double> xValue { get; set; }
         public Nullable<double> yValue1 { get; set; }
     }
-    public List<AxisData> scatterData = new List<AxisData>
+    public List<AxisData> ScatterData = new List<AxisData>
 {
                 new AxisData { xValue = -6, yValue1 = 2},
                 new AxisData { xValue = -3, yValue1 = -4 },
                 new AxisData { xValue = 1.5, yValue1 = 3.5 },
                 new AxisData { xValue = 6, yValue1 = 4.5}
             };
-    public List<AxisData> splineData = new List<AxisData>
+    public List<AxisData> SplineData = new List<AxisData>
 {
                 new AxisData { xValue = -6, yValue1 = 2},
                 new AxisData { xValue = -5.291, yValue1 = 0 },
@@ -138,7 +156,7 @@
                 new AxisData { xValue = 3.863, yValue1 = 5.163},
                 new AxisData { xValue = 6, yValue1 = 4.5}
             };
-    public List<AxisData> lineData = new List<AxisData>
+    public List<AxisData> LineData = new List<AxisData>
 {
                 new AxisData { xValue = -6, yValue1 = 2},
                 new AxisData { xValue = -5, yValue1 = 0 },
@@ -150,4 +168,31 @@
                 new AxisData { xValue = 1.5, yValue1 = 3.5},
                 new AxisData { xValue = 6, yValue1 = 4.5}
             };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

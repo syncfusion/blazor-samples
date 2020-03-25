@@ -1,14 +1,15 @@
-﻿@page "/Charts/AreaZone"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/area-zone"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart ID="container" Title="Organic Revenue in US - 2016">
+    <SfChart Title="Organic Revenue in US - 2016">
+	<ChartEvents Load="ChartLoad"/>
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
         </ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="MMM" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="MMM" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="${value}K" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="200" Interval="50">
@@ -24,7 +25,7 @@
                         <table style="width: 100%">
                             <tr>
                                 <td>
-                                    <div style='width: 10px; height: 10px;background:linear-gradient(#4ca1af, #c4e0e5);border-radius: 15px;'></div>
+                                    <div style="width: 10px; height: 10px;background:linear-gradient(#4ca1af, #c4e0e5);border-radius: 15px;"></div>
                                 </td>
                                 <td style="padding-left: 5px;">
                                     Winter
@@ -32,7 +33,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div style='width: 10px; height: 10px; background:linear-gradient(#ffa751, #ffe259);border-radius: 15px;'></div>
+                                    <div style="width: 10px; height: 10px; background:linear-gradient(#ffa751, #ffe259);border-radius: 15px;"></div>
                                 </td>
                                 <td style="padding-left: 5px;">
                                     Summer
@@ -40,7 +41,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <div style='width: 10px; height: 10px; background:linear-gradient(#1d976c, #93f9b9);border-radius: 15px;'></div>
+                                    <div style="width: 10px; height: 10px; background:linear-gradient(#1d976c, #93f9b9);border-radius: 15px;"></div>
                                 </td>
                                 <td style="padding-left: 5px;">
                                     Spring
@@ -52,7 +53,7 @@
             </ChartAnnotation>
         </ChartAnnotations>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" SegmentAxis="Segment.X" Name="US" XName="X" YName="Y" Type="ChartSeriesType.MultiColoredArea">
+            <ChartSeries DataSource="@ChartData" SegmentAxis="Segment.X" Name="US" XName="X" YName="Y" Type="ChartSeriesType.MultiColoredArea">
                 <ChartSegments>
                     <ChartSegment Value="new DateTime(2016, 4, 1)" Color="url(#winter)"></ChartSegment>
                     <ChartSegment Value="new DateTime(2016, 8, 1)" Color="url(#summer)"></ChartSegment>
@@ -60,15 +61,44 @@
                 </ChartSegments>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
 
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+
     Random random = new Random();
     public int Value = 80;
     double[] arr = { 150, 71.5, 106.4, 100.25, 70.0, 106.0, 85.6, 78.5, 76.4, 86.1, 155.6, 160.4 };
-    private List<AreaChartData> chartData;
+    private List<AreaChartData>
+    ChartData;
     public class AreaChartData
     {
         public DateTime X { get; set; }
@@ -78,12 +108,15 @@
     {
         await Task.Run(() =>
         {
-            chartData = this.GetData();
+            ChartData = this.GetData();
         });
     }
-    List<AreaChartData> GetData()
+    List<AreaChartData>
+        GetData()
     {
-        List<AreaChartData> data = new List<AreaChartData>();
+        List<AreaChartData>
+            data = new List<AreaChartData>
+                ();
         for (int i = 0; i < arr.Length; i++)
         {
 
@@ -95,65 +128,65 @@
         }
         return data;
     }
-}
-<svg style="height: 0">
-    <defs>
-        <linearGradient id="winter" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0"></stop>
-            <stop offset="1"></stop>
-        </linearGradient>
-        <linearGradient id="summer" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0"></stop>
-            <stop offset="1"></stop>
-        </linearGradient>
-        <linearGradient id="spring" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0"></stop>
-            <stop offset="1"></stop>
-        </linearGradient>
-    </defs>
-</svg>
-<style>
-    #control-container {
-        padding: 0px !important;
-    }
+                }
+                <svg style="height: 0">
+                    <defs>
+                        <linearGradient id="winter" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0"></stop>
+                            <stop offset="1"></stop>
+                        </linearGradient>
+                        <linearGradient id="summer" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0"></stop>
+                            <stop offset="1"></stop>
+                        </linearGradient>
+                        <linearGradient id="spring" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0"></stop>
+                            <stop offset="1"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <style>
+                    #control-container {
+                        padding: 0px !important;
+                    }
 
-    #control-container {
-        padding: 0px !important;
-    }
+                    #control-container {
+                        padding: 0px !important;
+                    }
 
-    #winter stop {
-        stop-color: #4ca1af;
-    }
+                    #winter stop {
+                        stop-color: #4ca1af;
+                    }
 
-        #winter stop[offset="0"] {
-            stop-color: #c4e0e5;
-        }
+                        #winter stop[offset="0"] {
+                            stop-color: #c4e0e5;
+                        }
 
-        #winter stop[offset="1"] {
-            stop-color: #4ca1af;
-        }
+                        #winter stop[offset="1"] {
+                            stop-color: #4ca1af;
+                        }
 
-    #summer stop {
-        stop-color: #ffa751;
-    }
+                    #summer stop {
+                        stop-color: #ffa751;
+                    }
 
-        #summer stop[offset="0"] {
-            stop-color: #ffe259;
-        }
+                        #summer stop[offset="0"] {
+                            stop-color: #ffe259;
+                        }
 
-        #summer stop[offset="1"] {
-            stop-color: #ffa751;
-        }
+                        #summer stop[offset="1"] {
+                            stop-color: #ffa751;
+                        }
 
-    #spring stop {
-        stop-color: #1d976c;
-    }
+                    #spring stop {
+                        stop-color: #1d976c;
+                    }
 
-        #spring stop[offset="0"] {
-            stop-color: #93f9b9;
-        }
+                        #spring stop[offset="0"] {
+                            stop-color: #93f9b9;
+                        }
 
-        #spring stop[offset="1"] {
-            stop-color: #1d976c;
-        }
-</style>
+                        #spring stop[offset="1"] {
+                            stop-color: #1d976c;
+                        }
+                </style>
