@@ -1,15 +1,15 @@
-﻿@page "/Maps/Marker"
+﻿@page "/maps/marker"
 
 
-@using Syncfusion.EJ2.Blazor.Maps
-@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Buttons
 
 
 @inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
     <div>
-        <EjsMaps>
+        <SfMaps>
             <MapsTitleSettings Text="Top 25 populated cities in the world">
                 <MapsTitleTextStyle Size="16px">
                 </MapsTitleTextStyle>
@@ -17,7 +17,7 @@
             <MapsZoomSettings Enable="false">
             </MapsZoomSettings>
             <MapsLayers>
-                <MapsLayer ShapeData='new {dataOptions= "https://cdn.syncfusion.com/maps/map-data/world-map.json"}'>
+                <MapsLayer ShapeData="@MapShapeData">
                     <MapsShapeSettings Fill="#C3E6ED">
                     </MapsShapeSettings>
                     <MapsMarkerSettings>
@@ -28,7 +28,7 @@
                     </MapsMarkerSettings>
                 </MapsLayer>
             </MapsLayers>
-        </EjsMaps>
+        </SfMaps>
     </div>
     <div style="float: right; margin-right: 10px;">
         Source:
@@ -44,25 +44,29 @@
                 <tbody>
                     <tr style="height: 70px">
                         <td style="width: 70%" class="property-text">
+                            <div style="width:80%;">
                             Bind markers shape from data source
+                            </div>
                         </td>
                         <td style="width: 50%">
-                            <EjsCheckBox Checked="@markerShape" ValueChange="@markerShapeCheckBox"></EjsCheckBox>
+                            <SfCheckBox Checked="@markerShape" ValueChange="@MarkerShapeCheckBox"></SfCheckBox>
                         </td>
                     </tr>
                     <tr style="height: 35px">
                         <td style="width: 70%" class="property-text">
+                            <div style="width:80%;">
                             Bind markers color from data source
+                            </div>
                         </td>
                         <td style="width: 50%">
-                            <EjsCheckBox Checked="@markerColor" ValueChange="@markerColorCheckBox"></EjsCheckBox>
+                            <SfCheckBox Checked="@markerColor" ValueChange="@MarkerColorCheckBox"></SfCheckBox>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
+    </div>
 
 
 @code {
@@ -70,12 +74,24 @@
     public string markerColorValuePath = null;
     public Boolean markerShape = false;
     public Boolean markerColor = false;
-    private void markerShapeCheckBox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    public MapDataSettings MapShapeData = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };
+    public class MapDataSettings
+    {
+        public Boolean async { get; set; }
+        public String dataOptions { get; set; }
+        public String type { get; set; }
+    };
+    private void MarkerShapeCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
         markerShape = args.Checked;
         markerShapeValuePath = (markerShape) ? "shape" : null;
     }
-    private void markerColorCheckBox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    private void MarkerColorCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
         markerColor = args.Checked;
         markerColorValuePath = (markerColor) ? "color" : null;

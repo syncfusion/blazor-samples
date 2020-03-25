@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ej2_blazor_samples.Shared
+namespace blazor_samples.Shared
 {
     public class TreeViewEventModel
     {

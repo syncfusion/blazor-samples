@@ -1,21 +1,22 @@
-﻿@page "/BulletChart/MultipleData"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/bullet-chart/multiple-data"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
     <div align="center">
-        <EjsBulletChart DataSource="@LocalChartData" ValueField="CompletedStories" TargetField="RequiredStories" CategoryField="Name" ValueFill="#304560" Width="80%"
+        <SfBulletChart DataSource="@LocalChartData" ValueField="CompletedStories" TargetField="RequiredStories" CategoryField="Name" ValueFill="#304560" Width="80%"
                         TargetColor="#304560" Height="400" Minimum="5" Maximum="45" Interval="5" Title="Sprint Planning" Subtitle="Estimated in story points" TitlePosition="TextPosition.Top">
             <BulletChartAnimation Enable="false"></BulletChartAnimation>
             <BulletChartTooltip Enable="true"></BulletChartTooltip>
             <BulletChartMinorTickLines Width="0"></BulletChartMinorTickLines>
             <BulletChartRangeCollection>
-                <BulletChartRange End=25 Opacity="1" Color="#DBE7F3"> </BulletChartRange>
-                <BulletChartRange End=37 Opacity="1" Color="#BBCEE7"></BulletChartRange>
-                <BulletChartRange End=45 Opacity="1" Color="#96B2D7"></BulletChartRange>
+                <BulletChartRange End="25" Opacity="1" Color="#DBE7F3"> </BulletChartRange>
+                <BulletChartRange End="37" Opacity="1" Color="#BBCEE7"></BulletChartRange>
+                <BulletChartRange End="45" Opacity="1" Color="#96B2D7"></BulletChartRange>
             </BulletChartRangeCollection>
-        </EjsBulletChart>
+             <BulletChartEvents Load="BeforeRender"/>
+        </SfBulletChart>
     </div>
 </div>
 
@@ -37,4 +38,30 @@
         new BulletChartData { CompletedStories = 18, RequiredStories = 10, Name = "Warner" },
         new BulletChartData { CompletedStories = 28, RequiredStories = 30, Name = "Malik" },
     };
+
+    string CurrentUri;
+    void BeforeRender(IBulletLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

@@ -1,14 +1,15 @@
-﻿@page "/Charts/LogarithmicScale"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/logarithmic-scale"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-        <EjsChart Title="Product X Growth [1995-2005]">
+        <SfChart Title="Product X Growth [1995-2005]">
+        <ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis LabelFormat="y" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartPrimaryXAxis LabelFormat="y" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Minimum="0" Maximum="100000" Title="Profit" Interval="1" LabelFormat="${value}" MinorTicksPerInterval="5" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Logarithmic">
+            <ChartPrimaryYAxis Minimum="0" Maximum="100000" Title="Profit" Interval="1" LabelFormat="${value}" MinorTicksPerInterval="5" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic">
                 <ChartAxisMajorTickLines Width="0" Height="4"></ChartAxisMajorTickLines>
                 <ChartAxisMajorGridLines Width="1.5"></ChartAxisMajorGridLines>
             </ChartPrimaryYAxis>
@@ -20,7 +21,7 @@
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        </EjsChart>
+        </SfChart>
 </div>
 
 @code{
@@ -44,4 +45,31 @@
                 new DateTimeData {XValue = new DateTime(2005, 1, 1), YValue = 11000  },
 
         };
+
+        string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

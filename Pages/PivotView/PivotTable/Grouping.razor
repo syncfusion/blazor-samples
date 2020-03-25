@@ -1,14 +1,17 @@
-@page "/PivotTable/Grouping"
+@page "/Pivot-table/grouping"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_groupdata
 
-<div class="control-section">
+<div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <EjsPivotView TValue="GroupData" Height="400" ShowGroupingBar="true" ShowFieldList="true">
-            <PivotViewDataSourceSettings DataSource="@data">
+        <SfPivotView @ref="@Pivot" TValue="GroupData" Height="400" ShowGroupingBar="true" EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data">
                 <PivotViewColumns>
                     <PivotViewColumn Name="Id" Caption="Product ID"></PivotViewColumn>
                     <PivotViewColumn Name="Sector" Caption="Product Sector"></PivotViewColumn>
@@ -17,41 +20,149 @@
                     <PivotViewRow Name="TimeLine" Caption="Date"></PivotViewRow>
                 </PivotViewRows>
                 <PivotViewValues>
-                    <PivotViewValue Name="PowUnits" Caption="Units (GWh)"></PivotViewValue>
-                    <PivotViewValue Name="ProCost" Caption="Cost (MM)"></PivotViewValue>
+                    <PivotViewValue Name="ProCost" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="PowUnits" Caption="Sold Amount"></PivotViewValue>
                 </PivotViewValues>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="TimeLine" Type="date" Format="dd/MM/yyyy-hh:mm a"></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewGroupSettings>
-                    <PivotViewGroupSetting Name="TimeLine" Type=GroupType.Date GroupInterval="@groupinterval"></PivotViewGroupSetting>
-                    <PivotViewGroupSetting Name="Id" Type=GroupType.Number RangeInterval=4 StartingAt="@start" EndingAt="@end"></PivotViewGroupSetting>
+                    <PivotViewGroupSetting Name="TimeLine" Type="GroupType.Date" GroupInterval="@GroupInterval"></PivotViewGroupSetting>
+                    <PivotViewGroupSetting Name="Id" Type="GroupType.Number" RangeInterval="4" StartingAt="1001" EndingAt="1020"></PivotViewGroupSetting>
                 </PivotViewGroupSettings>
             </PivotViewDataSourceSettings>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-        </EjsPivotView>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
     </div>
 </div>
-
+<div class="col-lg-3 property-section pivot-table-property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 30px">
+                        <td style="width: 100%">
+                            <div>
+                                Group <b>Date</b> by
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <div class="datecls">
+                                <SfMultiSelect TValue="string[]" Placeholder="Select group" Mode="@VisualMode.CheckBox" DataSource="@DateGroups" Value="@SelectedGroup" EnableSelectionOrder="false" ShowDropDownIcon="true" FilterBarPlaceholder="Search group" PopupWidth="100%">
+                                    <MultiSelectEvents TValue="string[]" ValueChange="ChangeGroup"></MultiSelectEvents>
+                                    <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="input2cls" style="height: 30px;">
+                        <td style="width: 100%">
+                            <div>
+                                Group <b>Product ID</b> by
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <div class="numbercls">
+                                <SfNumericTextBox @ref="NumberGroup" TValue="double?" Format="###" Value=4 Min="2" Max="10" Placeholder="Example: 4" Width="150"></SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td>
+                            <div style="float:right;">
+                                <SfButton IsPrimary="true" OnClick="OnGroupUpdate">Apply</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <style>
     .e-pivotview {
         min-height: 200px;
     }
+
+    @@media only screen and (max-width: 400px) {
+        #pivot-table-section {
+            overflow: auto;
+        }
+    }
+
+    .pivot-table-property-section {
+        overflow: auto;
+    }
+
+    .pivot-table-property-section .e-multiselect {
+        padding: 0;
+    }
 </style>
 
 @code{
-    public List<DateGroup> groupinterval = new List<DateGroup> {
-        DateGroup.Years,
-        DateGroup.Quarters,
-        DateGroup.Months,
-        DateGroup.Days
-    };
-    public String start = "1001";
-    public String end = "1020";
+    SfPivotView<GroupData> Pivot;
+    SfNumericTextBox<double?> NumberGroup;
 
-    public List<GroupData> data { get; set; }
+    public string[] SelectedGroup = new string[] { "Years", "Months", "Days" };
+    public List<string> SelectionGroup = new List<string> { "Years", "Months", "Days" };
+
+    public List<PivotViewGroupSetting> Groups = new List<PivotViewGroupSetting>();
+
+    public List<DateGroup> GroupInterval = new List<DateGroup> {
+        DateGroup.Years, DateGroup.Months, DateGroup.Days
+    };
+
+    public List<GroupData> Data { get; set; }
+
     protected override void OnInitialized()
     {
-        this.data = GroupData.GetGroupData();
+        this.Data = GroupData.GetGroupData();
+    }
+
+    public void ChangeGroup(@Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    {
+        this.SelectionGroup = new List<string>();
+        foreach (string selectedValue in args.Value)
+        {
+            this.SelectionGroup.Add(selectedValue);
+        }
+    }
+
+    public void OnGroupUpdate(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        Pivot.DataSourceSettings.GroupSettings = new List<PivotViewGroupSetting>();
+        if (this.SelectionGroup.Count > 0)
+        {
+            List<DateGroup> dateGroup = new List<DateGroup>();
+            foreach (string selectedValue in this.SelectionGroup)
+            {
+                dateGroup.Add((DateGroup)Enum.Parse(typeof(DateGroup), selectedValue, true));
+            }
+            Pivot.DataSourceSettings.GroupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
+        }
+        if (this.NumberGroup.Value > 1)
+        {
+            Pivot.DataSourceSettings.GroupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
+        }
+    }
+
+    List<DropDownData> DateGroups =
+        new List<DropDownData>() {
+            new DropDownData { Name = "Years", Value = "Years" },
+            new DropDownData { Name = "Quarters", Value = "Quarters" },
+            new DropDownData { Name = "Months", Value = "Months" },
+            new DropDownData { Name = "Days", Value = "Days" }
+        };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

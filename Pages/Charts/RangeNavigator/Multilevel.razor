@@ -1,10 +1,10 @@
-﻿@page "/RangeSelector/Multilevel"
+﻿@page "/range-selector/multilevel"
 @using Newtonsoft.Json
-@using  Syncfusion.EJ2.Blazor.Charts
-
+@using  Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
-@if (multiLevelData == null)
+@if (MultiLevelData == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -12,22 +12,23 @@ else
 {
     <div class="control-section">
         <br>
-        <h4 id="days" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi Level Labels</h4>
-        <div id="container" align="center">
-            <EjsRangeNavigator LabelPosition="AxisPosition.Outside" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@value" IntervalType="RangeIntervalType.Quarter" ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime DataSource="@multiLevelData" XName="x" YName="low">
+        <h4  style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi Level Labels</h4>
+        <div  align="center">
+            <SfRangeNavigator LabelPosition="AxisPosition.Outside" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@value" IntervalType="RangeIntervalType.Quarter" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@MultiLevelData" XName="x" YName="low">
                 <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
-            </EjsRangeNavigator>
+                 <RangeNavigatorEvents Load="BeforeRender"/>
+            </SfRangeNavigator>
         </div>
     </div>
 
 }
 @code{
-    private ChartData[] multiLevelData;
+    private ChartData[] MultiLevelData;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            multiLevelData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/chartdata.json"));
+            MultiLevelData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/chartdata.json"));
         });
     }
     public class ChartData
@@ -36,4 +37,30 @@ else
         public double low { get; set; }
     }
     private DateTime[] value = new DateTime[] { new DateTime(2014, 01, 01), new DateTime(2016, 01, 01) };
+
+    string CurrentUri;
+    void BeforeRender(IRangeLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

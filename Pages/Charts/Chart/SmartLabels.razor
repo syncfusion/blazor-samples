@@ -1,10 +1,11 @@
-﻿@page "/Charts/SmartLabels"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/smart-labels"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsAccumulationChart EnableSmartLabels="true">
+    <SfAccumulationChart EnableSmartLabels="true">
+        <AccumulationChartEvents Load="BeforeRender"/>
         <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
         <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}%</b>"></AccumulationChartTooltipSettings>
 
@@ -15,7 +16,7 @@
                 </AccumulationDataLabelSettings>
             </AccumulationChartSeries>
         </AccumulationChartSeriesCollection>
-    </EjsAccumulationChart>
+    </SfAccumulationChart>
 </div>
 
 @code{
@@ -43,4 +44,29 @@
         new Statistics { Country = "Vietnam", Users = 95540800 },
         new Statistics { Country = "Germany", Users = 82114224 },
     };
+    string CurrentUri;
+    void BeforeRender(IAccLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = AccumulationTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = AccumulationTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = AccumulationTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = AccumulationTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = AccumulationTheme.Bootstrap4;
+        }
+    }
 }

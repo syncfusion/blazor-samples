@@ -1,27 +1,29 @@
-﻿@page "/Charts/PolarLine"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-
+﻿@page "/chart/polar-line"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 <div class="row">
     <div class="col-lg-9 control-section">
-        <EjsChart @ref="@chartObj" Title="Alaska Weather Statistics - 2016">
+        <SfChart @ref="@ChartObj" Title="Alaska Weather Statistics - 2016">
+         <ChartEvents Load="ChartLoad"/>
             <ChartTooltipSettings Enable="true">
             </ChartTooltipSettings>
-            <ChartPrimaryXAxis IsInversed="@isInversed" StartAngle="@startAngle" Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Title="Months"></ChartPrimaryXAxis>
-            <ChartPrimaryYAxis IsInversed="@isInversed" Title="Temperature (Celsius)" Minimum="-25" Maximum="25" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C"></ChartPrimaryYAxis>
+            <ChartPrimaryXAxis IsInversed="@IsInversed" StartAngle="@StartAngle" Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Months"></ChartPrimaryXAxis>
+            <ChartPrimaryYAxis IsInversed="@IsInversed" Title="Temperature (Celsius)" Minimum="-25" Maximum="25" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C"></ChartPrimaryYAxis>
             <ChartSeriesCollection>
-                <ChartSeries IsClosed="@isClosed" DataSource="@dataSource" Name="Germany" XName="xValue" Width="2" Opacity="1" YName="yValue" Type="@seriesType">
+                <ChartSeries IsClosed="@IsClosed" DataSource="@DataSource" Name="Germany" XName="xValue" Width="2" Opacity="1" YName="yValue" Type="@SeriesType">
                     <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
                 </ChartSeries>
-                <ChartSeries IsClosed="@isClosed" DataSource="@dataSource" Name="England" XName="xValue" Width="2" Opacity="1" YName="yValue1" Type="@seriesType">
+                <ChartSeries IsClosed="@IsClosed" DataSource="@DataSource" Name="England" XName="xValue" Width="2" Opacity="1" YName="yValue1" Type="@SeriesType">
                     <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
                 </ChartSeries>
             </ChartSeriesCollection>
-        </EjsChart>
+        </SfChart>
     </div>
     <div class="col-lg-3 property-section">
-        <table id="property" style="width: 100%">
+        <table style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 50%">
@@ -30,12 +32,10 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <div>
-                        <select id="SelectSeriesType" @onchange="changeSeriesType">
-                            <option value="Polar">Polar</option>
-                            <option value="Radar">Radar</option>
-                        </select>
-                    </div>
+                    <SfDropDownList TValue="string" TItem="SeriesTypes" @bind-Value="@DropVal" DataSource="@Country">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
             <tr style="height: 50px">
@@ -44,7 +44,7 @@
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@isClosed" ValueChange="@checkClosed"></EjsCheckBox>
+                        <SfCheckBox Checked="@IsClosed" ValueChange="@CheckClosed"></SfCheckBox>
                     </div>
                 </td>
             </tr>
@@ -52,12 +52,12 @@
                 <td style="width: 30%">
                     <div>
                         Start Angle:
-                        <p id="startAngleValue" style="font-weight: normal;"><span>@startAngle</span></p>
+                        <p style="font-weight: normal;"><span>@StartAngle</span></p>
                     </div>
                 </td>
                 <td style="width: 70%;">
                     <div class="">
-                        <input type="range" @onchange="changeAngle" value="@startAngle" min="0" max="360" style="width:90%"/>
+                        <input type="range" @onchange="ChangeAngle" value="@StartAngle" min="0" max="360" style="width:90%" />
                     </div>
                 </td>
             </tr>
@@ -67,7 +67,7 @@
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@isInversed" ValueChange="@checkInversed"></EjsCheckBox>
+                        <SfCheckBox Checked="@IsInversed" ValueChange="@checkInversed"></SfCheckBox>
                     </div>
                 </td>
             </tr>
@@ -76,37 +76,56 @@
 </div>
 
 @code{
-    EjsChart chartObj;
-    private Boolean isInversed = false;
-    private Boolean isClosed = true;
-    public int startAngle = 0;
-    public void checkInversed(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    public string DropVal = "Polar";
+
+    public class SeriesTypes
     {
-       isInversed = args.Checked;
-    }
-    public void checkClosed(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
-    {
-        isClosed = args.Checked;
-        chartObj.Refresh();
-    }
-    private void changeAngle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-    {
-       startAngle = Convert.ToInt32(args.Value);
+        public string Type { get; set; }
+
+        public string Code { get; set; }
     }
 
-    ChartSeriesType seriesType = ChartSeriesType.Polar;
-    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    List<SeriesTypes> Country = new List<SeriesTypes>
+{
+        new SeriesTypes() { Type = "Polar", Code = "P" },
+        new SeriesTypes() { Type = "Radar", Code = "R" },
+    };
+
+    ChartSeriesType SeriesType = ChartSeriesType.Polar;
+    public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        StateHasChanged();
     }
+
+    SfChart ChartObj;
+    private Boolean IsInversed = false;
+    private Boolean IsClosed = true;
+    public int StartAngle = 0;
+    public void checkInversed(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    {
+        IsInversed = args.Checked;
+    }
+    public void CheckClosed(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    {
+        IsClosed = args.Checked;
+        ChartObj.Refresh();
+    }
+    private void ChangeAngle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        StartAngle = Convert.ToInt32(args.Value);
+    }
+
+   
     public class PolarLineChartData
     {
         public string xValue { get; set; }
         public double yValue { get; set; }
         public double yValue1 { get; set; }
     }
-    public List<PolarLineChartData> dataSource = new List<PolarLineChartData>
-    {
+    public List<PolarLineChartData>
+    DataSource = new List<PolarLineChartData>
+        {
         new PolarLineChartData { xValue = "Jan", yValue = -7.1, yValue1 = -17.4 },
         new PolarLineChartData { xValue = "Feb", yValue = -3.7, yValue1 = -15.6  },
         new PolarLineChartData { xValue = "Mar", yValue = 0.8, yValue1 = -12.3  },
@@ -119,5 +138,35 @@
         new PolarLineChartData { xValue = "Oct", yValue = 4.1, yValue1 = -4.9},
         new PolarLineChartData { xValue = "Nov", yValue = -3.8, yValue1 = -13.4 },
         new PolarLineChartData { xValue = "Dec", yValue = -6.8, yValue1 = -16.4 },
-    };
-}
+        };
+
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+        }

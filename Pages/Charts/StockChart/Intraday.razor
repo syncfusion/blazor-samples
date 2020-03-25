@@ -1,8 +1,9 @@
-﻿@page "/StockChart/Intraday"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/stock-chart/intraday"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
-@if (dataSource == null)
+@if (DataSource == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -10,8 +11,8 @@ else
 {
     <div class="@loadClass"></div>
     <div class="@loadDiv">
-        <EjsStockChart Title="AAPL Stock Price" SeriesType="@nullseries" TrendlineType="@nulltrendline" IndicatorType="@nullindicator" ExportType="@nullexport">
-            <StockChartEvents Loaded="@ChartLoaded"></StockChartEvents>
+        <SfStockChart Title="AAPL Stock Price" SeriesType="@Nullseries" TrendlineType="@Nulltrendline" IndicatorType="@Nullindicator" ExportType="@Nullexport">
+            <StockChartEvents Loaded="@ChartLoaded" Load="BeforeRender"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -24,7 +25,7 @@ else
             <StockChartTooltipSettings Enable="false"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Spline" YName="high"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Spline" YName="high"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
@@ -36,7 +37,7 @@ else
                 <StockChartPeriod IntervalType="RangeIntervalType.Hours" Interval="12" Text="12H" Selected="true"></StockChartPeriod>
                 <StockChartPeriod Text="1D"></StockChartPeriod>
             </StockChartPeriods>
-        </EjsStockChart>
+        </SfStockChart>
     </div>
     <style>
         .stockchartloader {
@@ -61,16 +62,16 @@ else
 @code{
     Random random = new Random();
     public int Value = 80;
-    public List<ChartSeriesType> nullseries = new List<ChartSeriesType>() { };
-    public List<TrendlineTypes> nulltrendline = new List<TrendlineTypes>() { };
-    public List<TechnicalIndicators> nullindicator = new List<TechnicalIndicators>() { };
-    public List<ExportType> nullexport = new List<ExportType>() { };
-    private List<ChartData> dataSource;
+    public List<ChartSeriesType> Nullseries = new List<ChartSeriesType>() { };
+    public List<TrendlineTypes> Nulltrendline = new List<TrendlineTypes>() { };
+    public List<TechnicalIndicators> Nullindicator = new List<TechnicalIndicators>() { };
+    public List<ExportType> Nullexport = new List<ExportType>() { };
+    private List<ChartData> DataSource;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            dataSource = this.GetData();
+            DataSource = this.GetData();
         });
     }
     List<ChartData> GetData()
@@ -110,6 +111,32 @@ else
     {
         loadClass = "";
         loadDiv = "";
+    }
+
+     string CurrentUri;
+    void BeforeRender(IStockChartEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 
 }

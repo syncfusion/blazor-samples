@@ -1,9 +1,9 @@
-﻿@page "/RangeSelector/PrintExport"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/range-selector/print-export"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
-
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
-@if (exportData == null)
+@if (ExportData == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -11,16 +11,17 @@ else
 {
 <div class="row">
     <div class="col-lg-9 control-section" align="center">
-        <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>
-        <div id="container">
-            <EjsRangeNavigator ID="range" @ref="rangeObj" Value="@value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
-                               DataSource="@exportData" XName="xDate" YName="Close" ValueType="Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime">
-                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
-            </EjsRangeNavigator>
+        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>
+        <div>
+            <SfRangeNavigator  @ref="RangeObj" Value="@Value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
+                               DataSource="@ExportData" XName="xDate" YName="Close" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
+                <RangeNavigatorEvents Load="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
+            </SfRangeNavigator>
         </div> <br>
-        <div id="chartcontainer">
-            <EjsChart ID="chart" @ref="chartObj">
-                <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+        <div>
+            <SfChart @ref="ChartObj">
+                <ChartEvents Load="ChartLoad" />
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 </ChartPrimaryXAxis>
                 <ChartPrimaryYAxis Minimum="81" Maximum="87" Interval="2" Title="Million in USD"
@@ -33,26 +34,26 @@ else
                     <ChartAreaBorder Color="Transparent"></ChartAreaBorder>
                 </ChartArea>
                 <ChartSeriesCollection>
-                    <ChartSeries Fill="rgba(255, 64, 129, 0.3)" DataSource="@exportData" XName="xDate" Name="Close" Width="2" YName="Close" Type="ChartSeriesType.SplineArea"></ChartSeries>
+                    <ChartSeries Fill="rgba(255, 64, 129, 0.3)" DataSource="@ExportData" XName="xDate" Name="Close" Width="2" YName="Close" Type="ChartSeriesType.SplineArea"></ChartSeries>
                 </ChartSeriesCollection>
                 <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            </EjsChart>
+            </SfChart>
         </div>
     </div>
     <div class="col-lg-3 property-section" style="margin-top:40px">
-        <table id="property">
+        <table>
             <tbody>
-                <tr id="button-control" align="center">
+                <tr align="center">
                     <td>
                         <div>
-                            <Syncfusion.EJ2.Blazor.Buttons.EjsButton IconCss="e-icons e-print-icon" ID="button1" Content="Print" @onclick="PrintChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.EJ2.Blazor.Buttons.EjsButton>
+                            <Syncfusion.Blazor.Buttons.SfButton Content="Print" @onclick="PrintChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.Blazor.Buttons.SfButton>
                         </div>
                     </td>
                 </tr>
-                <tr id="button-control" align='center'>
+                <tr align='center'>
                     <td colspan="2">
                         <div>
-                            <Syncfusion.EJ2.Blazor.Buttons.EjsButton IconCss="e-icons e-export-icon" ID="button2" Content="Export" @onclick="ExportChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.EJ2.Blazor.Buttons.EjsButton>
+                            <Syncfusion.Blazor.Buttons.SfButton Content="Export" @onclick="ExportChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.Blazor.Buttons.SfButton>
                         </div>
                     </td>
                 </tr>
@@ -62,9 +63,9 @@ else
 </div>
 }
 @code{
-    private ChartData[] exportData;
-    EjsChart chartObj;
-    EjsRangeNavigator rangeObj;
+    private ChartData[] ExportData;
+    SfChart ChartObj;
+    SfRangeNavigator RangeObj;
     double ZF = 1;
     double ZP = 0;
     List<String> containerID = new List<String>() {"range", "chart"};
@@ -72,7 +73,7 @@ else
     {
         await Task.Run(() =>
         {
-            exportData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/exportdata.json"));
+            ExportData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/ExportData.json"));
         });
     }
     public class ChartData
@@ -83,8 +84,8 @@ else
         public double Low { get; set; }
         public double Close { get; set; }
     }
-    private DateTime[] value = new DateTime[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
-    protected void onRangeChanged(IChangedEventArgs args)
+    private DateTime[] Value = new DateTime[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
+    protected void OnRangeChanged(IChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
@@ -92,11 +93,66 @@ else
     }
     public void PrintChart(MouseEventArgs args)
     {
-        rangeObj.Print(containerID.ToArray());
+        RangeObj.Print(containerID.ToArray());
     }
     public void ExportChart(MouseEventArgs args)
     {
-        chartObj.Export(ExportType.PNG, "Chart");
+        ChartObj.Export(ExportType.PNG, "Chart");
+    }
+
+    string CurrentUri;
+    void BeforeRender(IRangeLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }
 <style>

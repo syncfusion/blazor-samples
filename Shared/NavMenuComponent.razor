@@ -1,8 +1,8 @@
-﻿@using ej2_blazor_samples
-@using ej2_blazor_samples.Shared
+﻿@using blazor_samples
+@using blazor_samples.Shared
 @using Newtonsoft.Json
-@using Syncfusion.EJ2.Blazor.Lists
-@using Syncfusion.EJ2.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.Navigations
 @using System.Reflection
 @using Microsoft.AspNetCore.Components
 
@@ -11,7 +11,7 @@
 @inject SampleService Service;
 
 @typeparam TValue
-@*<EjsTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
+@*<SfTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
         <TreeViewEvents NodeSelected="OnNodeClick" TValue="SampleListType"></TreeViewEvents>
         <TreeViewTemplates>
             <NodeTemplate>
@@ -24,7 +24,7 @@
                 </div>
             </NodeTemplate>
         </TreeViewTemplates>
-    </EjsTreeView>*@
+    </SfTreeView>*@
 <CascadingValue Value="@this">
     @*@(await Html.RenderComponentAsync<TreeviewComponent>(RenderMode.ServerPrerendered, new { treeviewClass = @treeviewClass }))*@
 
@@ -34,16 +34,16 @@
     <div id="controlSamples" class="time-duration">
         <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnToggle">
             <div class="e-icons sb-icons back-icon"></div>
-            <div class='control-name'>All Controls</div>
+            <div class='control-name'>All Components</div>
         </div>
-        <EjsListView id="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="object">
-            <ListViewEvents Selected="OnSampleSelect" TValue="object"></ListViewEvents>
-        </EjsListView>
+        <SfListView ID="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="Sample">
+            <ListViewEvents Selected="OnSampleSelect" TValue="Sample" OnActionComplete="setSelectList"></ListViewEvents>
+        </SfListView>
     </div>
 </CascadingValue>
 @code {
 
-        EjsListView<object> SampleList;
+        SfListView<Sample> SampleList;
 
     public string treeviewClass { get; set; } = "e-view time-duration sb-hide";
 
@@ -79,13 +79,17 @@
 
     }
 
-    private void OnSampleSelect(Syncfusion.EJ2.Blazor.Lists.SelectEventArgs<object> args)
+    private void setSelectList() {
+        SampleList.SelectItem(SampleData);
+    }
+
+    private void OnSampleSelect(Syncfusion.Blazor.Lists.SelectEventArgs<Sample> args)
     {
         if (!Service.Prop.RestricMouseEvents)
         {
             string argsString = JsonConvert.SerializeObject(args);
             ListViewEvent sampleData = JsonConvert.DeserializeObject<ListViewEvent>(argsString, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            if (UriHelper.Uri.IndexOf("/" + sampleData.data.Url) < 0)
+            if (UriHelper.Uri.IndexOf("/" + sampleData.data.Url.ToLower()) < 0)
             {
                 string compareUrl = string.Empty;
                 List<string> ActionDescriptionItems = new List<string>();
@@ -118,11 +122,11 @@
                         JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
                     }
                     this.BaseParent.UpdateBreadCrumb(Control.Name, sampleData.data.Category, sampleData.data.Name);
-                    JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, sampleData.data.Name);  
-                    
+                    JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, sampleData.data.Name);
+
                     JsRuntime.InvokeAsync<Object>("persistTheme");
-                    this.NavigatePage(sampleData.data.Url);
-                    SampleBrowser.CurrentUrl = sampleData.data.Url;
+                    this.NavigatePage(sampleData.data.Url.ToLower(), true);
+                    SampleBrowser.CurrentUrl = sampleData.data.Url.ToLower();
                     JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
                     JsRuntime.InvokeAsync<Object>("persistURL", SampleData.Url);
                     JsRuntime.InvokeAsync<string>("callResizeEvent");
@@ -134,7 +138,7 @@
 
     }
 
-    public void NavigatePage(string url)
+    public void NavigatePage(string url, bool isSampleSelect = false)
     {
         if (UriHelper.Uri.IndexOf("?") >= 0 && url.IndexOf("?") < 0)
         {
@@ -145,7 +149,10 @@
         {
             url += "?theme=bootstrap4";
         }
-        this.BaseParent.SpinnerObj.ShowasTrans();
+        if (!isSampleSelect)
+        {
+            this.BaseParent.SpinnerObj.ShowasTrans();
+        }
         UriHelper.NavigateTo(url);
     }
 
@@ -233,7 +240,7 @@
         this.StateHasChanged();
     }
 
-    Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.EJ2.Blazor.Lists.ListViewFieldSettings
+    Syncfusion.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.Blazor.Lists.ListViewFieldSettings
     {
         Id = "UID",
         GroupBy = "Category",

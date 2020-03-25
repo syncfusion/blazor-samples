@@ -1,14 +1,15 @@
-﻿@page "/Charts/LocalData"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/local-data"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Stock Price Analysis">
+    <SfChart Title="Stock Price Analysis">
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
         </ChartArea>
-        <ChartPrimaryXAxis Title="Years" Skeleton="y" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis Title="Years" Skeleton="y" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Price" LabelFormat="${value}" RangePadding="ChartRangePadding.None">
@@ -17,11 +18,11 @@
             <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries Type="ChartSeriesType.Line" DataSource="@series1" XName="X" YName="Y" Width="2" Name="Product X">
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@Series1" XName="X" YName="Y" Width="2" Name="Product X">
                 <ChartMarker Visible="false"></ChartMarker>
                 <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
             </ChartSeries>
-            <ChartSeries Type="ChartSeriesType.Line" DataSource="@series2" XName="X" YName="Y" Width="2" Name="Product Y">
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@Series2" XName="X" YName="Y" Width="2" Name="Product Y">
                 <ChartMarker Visible="false"></ChartMarker>
                 <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
             </ChartSeries>
@@ -30,14 +31,14 @@
             <ChartCrosshairLine Color="rgba(204,214,235,0.25)" Width="20"></ChartCrosshairLine>
         </ChartCrosshairSettings>
         <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
 
     Random random = new Random();
-    List<LineChartData> series1 = new List<LineChartData>();
-    List<LineChartData> series2 = new List<LineChartData>();
+    List<LineChartData> Series1 = new List<LineChartData>();
+    List<LineChartData> Series2 = new List<LineChartData>();
     public double Value1 = 80;
     public double Value2 = 90;
     public class LineChartData
@@ -62,17 +63,44 @@
                     this.Value1 -= random.NextDouble();
                     this.Value2 -= random.NextDouble();
                 }
-                series1.Add(new LineChartData
+                Series1.Add(new LineChartData
                 {
                     X = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
                     Y = Math.Round(this.Value1)
                 });
-                series2.Add(new LineChartData
+                Series2.Add(new LineChartData
                 {
                     X = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
                     Y = Math.Round(this.Value2)
                 });
             }
         });
+    }
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }

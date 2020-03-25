@@ -1,11 +1,14 @@
-﻿@page "/Charts/RangeSelection"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
+﻿@page "/chart/range-selection"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 
 @inherits SampleBaseComponent;
     <div class="row">
         <div class="control-section col-md-8">
-            <EjsChart @ref="@chartObj" Title="Profit Comparison of A and B" SelectionMode="@mode" AllowMultiSelection="@allowMultiSelect">
+            <SfChart @ref="@ChartObj" Title="Profit Comparison of A and B" SelectionMode="@Mode" AllowMultiSelection="@AllowMultiSelect">
+             <ChartEvents Load="ChartLoad"/>
                 <ChartPrimaryXAxis Minimum="1970" Maximum="2016">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 </ChartPrimaryXAxis>
@@ -13,10 +16,10 @@
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 </ChartPrimaryYAxis>
                 <ChartSeriesCollection>
-                    <ChartSeries DataSource="@dataSource" Name="Product A" XName="x" Opacity="1" YName="y1" Type="ChartSeriesType.Scatter">
+                    <ChartSeries DataSource="@DataSource" Name="Product A" XName="x" Opacity="1" YName="y1" Type="ChartSeriesType.Scatter">
                         <ChartMarker Height="10" Width="10" Shape="ChartShape.Triangle"></ChartMarker>
                     </ChartSeries>
-                    <ChartSeries DataSource="@dataSource" Name="Product B" XName="x" Opacity="1" YName="y2" Type="ChartSeriesType.Scatter">
+                    <ChartSeries DataSource="@DataSource" Name="Product B" XName="x" Opacity="1" YName="y2" Type="ChartSeriesType.Scatter">
                         <ChartMarker Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
                     </ChartSeries>
                 </ChartSeriesCollection>
@@ -24,48 +27,66 @@
                     <ChartAreaBorder Width="0"></ChartAreaBorder>
                 </ChartArea>
                 <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
-            </EjsChart>
+            </SfChart>
         </div>
         <div class="col-md-4 property-section">
-            <table id="property" style="width: 100%">
+            <table style="width: 100%">
                 <tr style="height:50px"><th>Properties</th></tr>
                 <tr style="height: 50px">
-                    <td style="width: 60%">
+                    <td style="width: 40%">
                         Selection Mode:
                     </td>
-                    <td style="width: 40%;">
-                        <select name="selectIndex" @onchange="changeMode" autocomplete="off" id="selmode" style="margin-left: -25px">
-                            <option value="DragXY">DragXY</option>
-                            <option value="DragX">DragX</option>
-                            <option value="DragY">DragY</option>
-                            <option value="Lasso">Lasso</option>
-                        </select>
+                    <td style="width: 60%;">
+                         <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeMode"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                     </td>
                 </tr>
-                <tr id='' style="height: 50px">
-                    <td style="width: 80%">
+                <tr  style="height: 50px">
+                    <td style="width: 50%">
                         Enable Multi Selection:
                     </td>
                     <td>
-                        <EjsCheckBox Checked="@allowMultiSelect" ValueChange="@changeSelection"></EjsCheckBox>
+                        <SfCheckBox Checked="@AllowMultiSelect" ValueChange="@ChangeSelection"></SfCheckBox>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 @code{
-    EjsChart chartObj;
-    SelectionMode mode = SelectionMode.DragXY;
-    public void changeMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    SfChart ChartObj;
+    Syncfusion.Blazor.Charts.SelectionMode Mode = Syncfusion.Blazor.Charts.SelectionMode.DragXY;
+
+    public string DropVal = "DragXY";    
+
+    public class SelectionTypes
     {
-        this.mode = (SelectionMode)Enum.Parse(typeof(SelectionMode), args.Value.ToString(), true);
-        chartObj.Refresh();
+        public string Type { get; set; }
+
+        public string Code { get; set; }
     }
-    private Boolean allowMultiSelect = false;
-    private void changeSelection(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+
+    List<SelectionTypes> ModeData = new List<SelectionTypes>
+{
+        new SelectionTypes() { Type = "DragXY", Code = "XY" },
+        new SelectionTypes() { Type = "DragX", Code = "X" },
+        new SelectionTypes() { Type = "DragY", Code = "Y" },
+        new SelectionTypes() { Type = "Lasso", Code = "L" },
+    };
+
+
+
+    public void ChangeMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        allowMultiSelect = args.Checked;
-        chartObj.Refresh();
+        this.Mode = (Syncfusion.Blazor.Charts.SelectionMode)Enum.Parse(typeof(Syncfusion.Blazor.Charts.SelectionMode), args.Value.ToString(), true);
+        ChartObj.Refresh();
+    }
+    private Boolean AllowMultiSelect = false;
+    private void ChangeSelection(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    {
+        AllowMultiSelect = args.Checked;
+        ChartObj.Refresh();
     }
     public class RangeSelectionData
     {
@@ -73,7 +94,7 @@
         public double y1 { get; set; }
         public double y2 { get; set; }
     }
-    public List<RangeSelectionData> dataSource = new List<RangeSelectionData>
+    public List<RangeSelectionData> DataSource = new List<RangeSelectionData>
           {
                new RangeSelectionData { x = 1971, y1 = 50, y2 = 23},
                new RangeSelectionData { x = 1972, y1 = 20, y2 = 63},
@@ -122,4 +143,33 @@
                new RangeSelectionData { x = 2015, y1 = 32, y2 = 58 },
 
              };
+string CurrentUri;
+             void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

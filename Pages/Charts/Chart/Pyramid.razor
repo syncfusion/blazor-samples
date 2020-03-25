@@ -1,21 +1,23 @@
-﻿@page "/Charts/Pyramid"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/chart/pyramid"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsAccumulationChart Title="Food Comparison Chart" >
+    <SfAccumulationChart Title="Food Comparison Chart" >
+    <AccumulationChartEvents Load="BeforeRender"/>
         <AccumulationChartLegendSettings Visible="false">
         </AccumulationChartLegendSettings>
         <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
         <AccumulationChartSeriesCollection>
-            <AccumulationChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Type="AccumulationType.Pyramid" Width="45%" Height="80%"
+            <AccumulationChartSeries DataSource="@DataSource" XName="xValue" YName="yValue" Type="AccumulationType.Pyramid" Width="45%" Height="80%"
                                                  NeckWidth="15%" GapRatio="0.03" Name="Food" Explode="true">
                 <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Inside" Name="text">
 
                 </AccumulationDataLabelSettings>
             </AccumulationChartSeries>
         </AccumulationChartSeriesCollection>
-    </EjsAccumulationChart>
+    </SfAccumulationChart>
 </div>
 @code{
     public class PyramidData
@@ -24,7 +26,7 @@
         public double yValue { get; set; }
         public string text { get; set; }
     }
-    public List<PyramidData> dataSource = new List<PyramidData>
+    public List<PyramidData> DataSource = new List<PyramidData>
     {
           new PyramidData { xValue =  "Sweet Treats", yValue = 120, text = "120 cal" },
           new PyramidData { xValue =  "Milk, Youghnut, Cheese", yValue = 435, text = "435 cal" },
@@ -33,6 +35,31 @@
           new PyramidData { xValue =  "Fruits", yValue = 520, text = "520 cal" },
           new PyramidData { xValue =  "Bread, Rice, Pasta", yValue = 930, text = "930 cal" },
     };
+    string CurrentUri;
+    void BeforeRender(IAccLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = AccumulationTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = AccumulationTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = AccumulationTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = AccumulationTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = AccumulationTheme.Bootstrap4;
+        }
+    }
 
 }
 

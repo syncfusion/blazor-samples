@@ -1,24 +1,32 @@
-﻿@page "/Dialog/Modal"
+﻿@page "/dialog/modal"
 
-@using Syncfusion.EJ2.Blazor
-@using Syncfusion.EJ2.Blazor.Popups
-@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
 
-    <div class=" col-lg-8 control-section" id="target" style="height:350px;">
-        <button class="e-btn" @onclick="@OnBtnClick">Open</button>
-    <EjsDialog @ref="DialogObj" Width="335px" Target="#target" IsModal="true">
+<div class=" col-lg-8 control-section" id="target" style="height:350px;">
+    <div>
+        @if (this.ShowButton)
+        {
+            <button class="e-btn" @onclick="@OnBtnClick">Open</button>
+        }
+    </div>
+    <SfDialog Width="335px" Target="#target" IsModal="true" @bind-Visible="Visibility">
         <DialogTemplates>
             <Header> Software Update </Header>
             <Content> <p>Your current software version is up to date.</p> </Content>
         </DialogTemplates>
+        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
         <DialogButtons>
-            <DialogButton ButtonModel="@DialogBtn" OnClick="DlgButtonClick"></DialogButton>
+            <DialogButton OnClick="@DlgButtonClick">
+                <DialogButtonModel Content="OK" IsPrimary="true"></DialogButtonModel>
+            </DialogButton>
         </DialogButtons>
         <DialogEvents OnOverlayClick="@OverlayClick"></DialogEvents>
         <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
-    </EjsDialog>
+    </SfDialog>
 </div>
 <div class="col-lg-4 property-section">
     <table id="property" title="Properties">
@@ -29,7 +37,7 @@
                     <div style="font-size:13px;">Close on overlay click</div>
                 </td>
                 <td>
-                    <EjsCheckBox @ref="CheckboxObj" Checked="false"></EjsCheckBox>
+                    <SfCheckBox @ref="CheckboxObj" Checked="false"></SfCheckBox>
                 </td>
             </tr>
         </tbody>
@@ -44,34 +52,41 @@
 </style>
 
 @code {
-    EjsDialog DialogObj;
-    EjsCheckBox CheckboxObj;
+    SfCheckBox CheckboxObj;
 
-    private ButtonModel DialogBtn = new ButtonModel
+    public bool Visibility { get; set; } = true;
+
+    public bool ShowButton { get; set; } = false;
+
+    private void DialogOpen(Object args)
     {
-        Content = "OK",
-        IsPrimary = true
-    };
+        this.ShowButton = false;
+    }
+
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+    }
 
     private void OnBtnClick()
     {
-        this.DialogObj.Show();
+        this.Visibility = true;
     }
 
     private void DlgButtonClick()
     {
-        this.DialogObj.Hide();
+        this.Visibility = false;
     }
 
     private void OverlayClick(Object args)
     {
         if ((bool)this.CheckboxObj.Checked)
         {
-            this.DialogObj.Hide();
+            this.Visibility = false;
         }
         else
         {
-            this.DialogObj.Show();
+            this.Visibility = true;
         }
     }
 }

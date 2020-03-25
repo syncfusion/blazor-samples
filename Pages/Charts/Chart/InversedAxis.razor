@@ -1,12 +1,13 @@
-﻿@page "/Charts/InversedAxis"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/inversed-axis"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Exchange Rate(INR per USD)" >
+    <SfChart Title="Exchange Rate(INR per USD)" >
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" OpposedPosition="true" IsInversed="true">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" OpposedPosition="true" IsInversed="true">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis IsInversed="true" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="LabelIntersectAction.Rotate45">
@@ -26,7 +27,7 @@
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -46,5 +47,32 @@
                 new CategoryData { x = "2014", y = 16 },
                 new CategoryData { x = "2015", y = 17.1 },
              };
+
+             string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }
 

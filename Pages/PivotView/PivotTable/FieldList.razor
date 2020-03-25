@@ -1,81 +1,93 @@
-﻿@page "/PivotTable/FieldList"
+﻿@page "/pivot-table/field-list"
 
-@using Syncfusion.EJ2.Blazor.PivotView
-@using ej2_blazor_samples
+@using Syncfusion.Blazor.PivotView
+@using blazor_samples
 @using ej2_blazor_productdetails
 
 @inherits SampleBaseComponent;
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView ID="pivotview" TValue="PivotProductDetails" @ref="pivotView" Height="530">
-            <PivotViewEvents TValue="PivotProductDetails" EnginePopulated="pivotenginepopulated"></PivotViewEvents>
-        </EjsPivotView>
-        <EjsPivotFieldList TValue="PivotProductDetails" ID="fieldlist" @ref="fieldList" AllowCalculatedField="true" RenderMode="Mode.Fixed">
-            <PivotFieldListDataSourceSettings DataSource="@data" EnableSorting=true AllowLabelFilter="true" AllowValueFilter="true">
+        <SfPivotView TValue="PivotProductDetails" @ref="@PivotView" Height="530" AllowCalculatedField=true ShowTooltip=false>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            <PivotViewEvents TValue="PivotProductDetails" EnginePopulated="@PivotEnginePopulated" Drill="@UpdateDrillInfo"></PivotViewEvents>
+        </SfPivotView>
+        <SfPivotFieldList TValue="PivotProductDetails" @ref="@PivotFieldList" AllowCalculatedField="true" RenderMode="Mode.Fixed">
+            <PivotFieldListDataSourceSettings DataSource="@Data" EnableSorting=true AllowLabelFilter="true" AllowValueFilter="true">
                 <PivotFieldListColumns>
                     <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
-                    <PivotFieldListColumn Name="Quarter"></PivotFieldListColumn>
+                    <PivotFieldListColumn Name="Order_Source" Caption="Order Source"></PivotFieldListColumn>
                 </PivotFieldListColumns>
                 <PivotFieldListRows>
                     <PivotFieldListRow Name="Country"></PivotFieldListRow>
                     <PivotFieldListRow Name="Products"></PivotFieldListRow>
                 </PivotFieldListRows>
                 <PivotFieldListValues>
+                    <PivotFieldListValue Name="In_Stock" Caption="In Stock"></PivotFieldListValue>
                     <PivotFieldListValue Name="Sold" Caption="Unit Sold"></PivotFieldListValue>
                     <PivotFieldListValue Name="Amount" Caption="Sold Amount"></PivotFieldListValue>
                 </PivotFieldListValues>
+                <PivotFieldListFilters>
+                    <PivotFieldListFilter Name="Product_Categories" Caption="Product Categories"></PivotFieldListFilter>
+                </PivotFieldListFilters>
+                <PivotFieldListFormatSettings>
+                    <PivotFieldListFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotFieldListFormatSetting>
+                </PivotFieldListFormatSettings>
             </PivotFieldListDataSourceSettings>
-            <PivotFieldListEvents TValue="PivotProductDetails" EnginePopulated="enginepopulated"></PivotFieldListEvents>
-        </EjsPivotFieldList>
+            <PivotFieldListEvents TValue="PivotProductDetails" EnginePopulated="@EnginePopulated"></PivotFieldListEvents>
+        </SfPivotFieldList>
     </div>
 </div>
 
 <style>
-    #pivotview {
-        width: 57% !important;
-        height: 100%;
-    }
-
-    #pivotfieldlist {
-        width: 41% !important;
-        height: 100%;
-    }
 
     .e-pivotview {
         float: left;
-        width: 57% !important;
+        min-height: 200px;
+        width: 62% !important;
     }
 
     .e-pivotfieldlist {
         float: right;
-        width: 42% !important;
+        width: 37% !important;
     }
 
-        .e-pivotfieldlist .e-static {
-            width: 100% !important;
-        }
+    .e-pivotfieldlist .e-static {
+        width: 100% !important;
+    }
 
-    .e-pivotview {
-        min-height: 200px;
+    .e-pivotfieldlist.e-device {
+        display: none;
+    }
+
+    .e-pivotview .e-pivotfieldlist .e-toggle-field-list{
+        display: none;
+    }
+
+    .e-pivotview .e-pivotfieldlist.e-device .e-toggle-field-list {
+        display: block;
     }
 </style>
 
 @code{
-    EjsPivotFieldList<PivotProductDetails> fieldList;
-    EjsPivotView<PivotProductDetails> pivotView;
+    SfPivotFieldList<PivotProductDetails> PivotFieldList;
+    SfPivotView<PivotProductDetails> PivotView;
 
-    public List<PivotProductDetails> data { get; set; }
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
     }
-    public void pivotenginepopulated(EnginePopulatedEventArgs args)
+    public void PivotEnginePopulated(EnginePopulatedEventArgs args)
     {
-        this.fieldList.Update(this.pivotView);
+        this.PivotFieldList.Update(this.PivotView);
     }
-    public void enginepopulated(EnginePopulatedEventArgs args)
+    public void UpdateDrillInfo(DrillArgs<PivotProductDetails> args)
     {
-        this.fieldList.UpdateView(this.pivotView);
+        this.PivotFieldList.Update(this.PivotView);
+    }
+    public void EnginePopulated(EnginePopulatedEventArgs args)
+    {
+        this.PivotFieldList.UpdateView(this.PivotView);
     }
 }

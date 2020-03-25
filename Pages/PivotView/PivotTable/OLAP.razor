@@ -1,14 +1,14 @@
-@page "/PivotTable/OLAP"
+@page "/pivot-table/olap"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView TValue="PivotProductDetails" ShowGroupingBar="true" Height="400" ShowFieldList=true ShowToolbar=true Toolbar="@olap" AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true>
-            <PivotViewDisplayOption Primary=Primary.Table View=View.Both></PivotViewDisplayOption>
+        <SfPivotView TValue="PivotProductDetails" @ref="@Pivot" ShowGroupingBar="true" Height="600" Width="100%" ShowFieldList=true ShowToolbar=true Toolbar="@Olap" AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true ShowTooltip=false>
+            <PivotViewDisplayOption Primary="Primary.Table" View="View.Both"></PivotViewDisplayOption>
             <PivotViewDataSourceSettings TValue="PivotProductDetails" ProviderType="ProviderType.SSAS" Catalog="Adventure Works DW 2008 SE" Cube="Adventure Works" Url="https://bi.syncfusion.com/olap/msmdpump.dll" LocaleIdentifier="1033" EnableSorting="true">
                 <PivotViewColumns>
                     <PivotViewColumn Name="[Product].[Product Categories]" Caption="Product Category"></PivotViewColumn>
@@ -19,22 +19,23 @@
                 </PivotViewRows>
                 <PivotViewValues>
                     <PivotViewValue Name="[Measures].[Customer Count]" Caption="Customer Count"></PivotViewValue>
-                    <PivotViewValue Name="[Measures].[Internet Sales Amount]" Caption="Internet Sales Amount"></PivotViewValue>
+                    <PivotViewValue Name="[Measures].[Internet Sales Amount]" Caption="Internet Sales"></PivotViewValue>
                 </PivotViewValues>
                 <PivotViewFilters>
                     <PivotViewFilter Name="[Date].[Fiscal]" Caption="Date Fiscal"></PivotViewFilter>
                 </PivotViewFilters>
                 <PivotViewFilterSettings>
-                    <PivotViewFilterSetting Name="[Date].[Fiscal]" Items="items" LevelCount="3"></PivotViewFilterSetting>
+                    <PivotViewFilterSetting Name="[Date].[Fiscal]" Items="@Items" LevelCount="3"></PivotViewFilterSetting>
                 </PivotViewFilterSettings>
             </PivotViewDataSourceSettings>
-            <PivotViewGridSettings ColumnWidth="160"></PivotViewGridSettings>
-            <PivotChartSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            <PivotChartSettings Title="Sales Analysis">
                 <PivotChartPrimaryYAxis>
                     <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
                 </PivotChartPrimaryYAxis>
             </PivotChartSettings>
-        </EjsPivotView>
+            <PivotViewEvents TValue="PivotProductDetails" RenameReport="RenameReport" RemoveReport="RemoveReport" SaveReport="SaveReport" LoadReport="LoadReport" FetchReport="FetchReport"></PivotViewEvents>
+        </SfPivotView>
     </div>
 </div>
 
@@ -46,7 +47,14 @@
 </style>
 
 @code{
-    public List<ToolbarItems> olap = new List<ToolbarItems> {
+    SfPivotView<PivotProductDetails> Pivot;
+    public List<ToolbarItems> Olap = new List<ToolbarItems> {
+        ToolbarItems.New,
+        ToolbarItems.Save,
+        ToolbarItems.SaveAs,
+        ToolbarItems.Rename,
+        ToolbarItems.Remove,
+        ToolbarItems.Load,
         ToolbarItems.Grid,
         ToolbarItems.Chart,
         ToolbarItems.MDX,
@@ -56,12 +64,72 @@
         ToolbarItems.ConditionalFormatting,
         ToolbarItems.FieldList
     };
-    public int levelCount = 3;
-    public string[] items = new string[] { "[Date].[Fiscal].[Fiscal Quarter].&[2002]&[4]", "[Date].[Fiscal].[Fiscal Year].&[2005]" };
-    public List<PivotProductDetails> data { get; set; }
-
-    protected override void OnInitialized()
+    public string[] Items = new string[] { "[Date].[Fiscal].[Fiscal Quarter].&[2002]&[4]", "[Date].[Fiscal].[Fiscal Year].&[2005]" };
+    public string InitReport { get; set; }
+    public string[] Name { get; set; }
+    public List<string> Report = new List<string>();
+    public List<string> ReportName = new List<string>();
+    public async void SaveReport(SaveReportArgs args)
     {
-        this.data = PivotProductDetails.GetProductData();
+        int i = 0;
+        bool IsSaved = false;
+        for (i = 0; i < this.ReportName.Count; i++)
+        {
+            if (this.ReportName[i] == args.ReportName)
+            {
+                this.Report[i] = args.Report;
+                IsSaved = true;
+            }
+        }
+        if (args.Report != null && !(IsSaved))
+        {
+            this.Report.Add(args.Report);
+            this.ReportName.Add(args.ReportName);
+        }
+    }
+    public void FetchReport(FetchReportArgs args)
+    {
+        args.ReportName = ReportName.ToArray();
+
+    }
+    public void LoadReport(LoadReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                j = i;
+            }
+        }
+        this.Pivot.LoadPersistData(Report[j]);
+    }
+    public void RemoveReport(RemoveReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                ReportName.RemoveAt(i);
+                Report.RemoveAt(i);
+                break;
+            }
+        }
+        this.Pivot.LoadPersistData(Report[0]);
+    }
+    public void RenameReport(RenameReportArgs args)
+    {
+        int i = 0;
+        for (i = 0; i <= (ReportName.Count - 1); i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                ReportName.RemoveAt(i);
+                ReportName.Add(args.Rename);
+            }
+        }
     }
 }

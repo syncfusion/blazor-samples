@@ -1,0 +1,79 @@
+﻿@page "/scheduler/individual-view-settings"
+
+@using Syncfusion.Blazor.Schedule
+@using System.Globalization
+@inherits SampleBaseComponent;
+
+<div class="control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="ScheduleData.FifaEventsData" Width="100%" Height="650px" CurrentView="View.Month" SelectedDate="@(new DateTime(2020, 1, 22))">
+            <ScheduleResources>
+                <ScheduleResource TValue="FifaData" DataSource="@ResourceData" Field="GroupId" Title="Owner" Name="Owners" TextField="GroupText" IdField="GroupId" ColorField="GroupColor"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day" StartHour="07:00" EndHour="18:00"></ScheduleView>
+                <ScheduleView Option="View.Week" StartHour="09:00" EndHour="19:00" ShowWeekend="false">
+                    <ScheduleViewTimeScale Interval="60" SlotCount="4"></ScheduleViewTimeScale>
+                </ScheduleView>
+                <ScheduleView Option="View.Month">
+                    <EventTemplate>
+                        <div class='subject'>@((context as ScheduleData.FifaEventsData).Subject)</div>
+                    </EventTemplate>
+                    <ChildContent>
+                        <ScheduleViewGroup Resources="@GroupData"></ScheduleViewGroup>
+                    </ChildContent>
+                </ScheduleView>
+                <ScheduleView Option="View.Agenda">
+                    <EventTemplate>
+                        <div class='subject'>@((context as ScheduleData.FifaEventsData).Subject)</div>
+                        <div class='location'>@(getTimeString((context as ScheduleData.FifaEventsData).StartTime)), @((context as ScheduleData.FifaEventsData).City)</div>
+                    </EventTemplate>
+                </ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+
+@code{
+    public List<ScheduleData.FifaEventsData> DataSource = new ScheduleData().GetFifaEventsData();
+    public static string getTimeString(DateTime date)
+    {
+        return date.ToString("HH:mm", CultureInfo.InvariantCulture);
+    }
+    public string[] GroupData = new string[] { "Owners" };
+    private List<FifaData> ResourceData { get; set; } = new List<FifaData> {
+        new FifaData {GroupText = "Group A", GroupId = 1, GroupColor = "#1aaa55"},
+        new FifaData {GroupText = "Group B", GroupId = 2, GroupColor = "#357cd2"}
+    };
+    public class FifaData
+    {
+        public string GroupText { get; set; }
+        public int GroupId { get; set; }
+        public string GroupColor { get; set; }
+    }
+}
+
+<style>
+    .e-schedule .e-agenda-view .e-appointment .subject {
+        font-size: 14px;
+    }
+
+    .e-schedule .e-agenda-view .e-appointment .group {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .e-schedule .e-month-view .e-appointment .e-appointment-details {
+        padding: 1px;
+        padding-left: 3px;
+    }
+
+    .e-schedule .e-agenda-view .e-appointment .location {
+        font-size: 12px;
+    }
+
+    .e-schedule .e-date-header-wrap .e-resource-cells {
+        font-weight: 500;
+    }
+</style>

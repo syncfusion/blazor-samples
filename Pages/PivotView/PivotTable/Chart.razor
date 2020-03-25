@@ -1,30 +1,29 @@
-﻿@page "/PivotTable/Chart"
+﻿@page "/pivot-table/pivot-chart"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
 
-<div class="control-section">
+<div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <EjsPivotView TValue="PivotProductDetails" ShowFieldList=true>
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+        <SfPivotView TValue="PivotProductDetails" ShowFieldList=true>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Country"></PivotViewColumn>
                     <PivotViewColumn Name="Products"></PivotViewColumn>
                 </PivotViewColumns>
                 <PivotViewRows>
                     <PivotViewRow Name="Year"></PivotViewRow>
-                    <PivotViewRow Name="Order_Source"></PivotViewRow>
+                    <PivotViewRow Name="Order_Source" Caption="Order Source"></PivotViewRow>
                 </PivotViewRows>
                 <PivotViewValues>
-                    <PivotViewValue Name="Amount"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sales Amount"></PivotViewValue>
                 </PivotViewValues>
-                <PivotViewFilters>
-                    <PivotViewFilter Name="Product_Categories"></PivotViewFilter>
-                </PivotViewFilters>
                 <PivotViewDrilledMembers>
-                    <PivotViewDrilledMember Name="Year" Items="@(new string[] { "FY 2015" })"></PivotViewDrilledMember>
+                    <PivotViewDrilledMember Name="Year" Items="@DrilledMembers"></PivotViewDrilledMember>
                 </PivotViewDrilledMembers>
                 <PivotViewFormatSettings>
                     <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
@@ -32,15 +31,39 @@
             </PivotViewDataSourceSettings>
             <PivotViewDisplayOption View=View.Chart></PivotViewDisplayOption>
             <PivotChartSettings Title="Sales Analysis">
-                <PivotChartSeries Type=ChartSeriesType.Column></PivotChartSeries>
+                <PivotChartSeries Type="@ChartType"></PivotChartSeries>
                 <PivotChartPrimaryYAxis>
                     <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
                 </PivotChartPrimaryYAxis>
             </PivotChartSettings>
-        </EjsPivotView>
+        </SfPivotView>
     </div>
 </div>
-
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width:35%">
+                            <div>Chart Types: </div>
+                        </td>
+                        <td style="width:65%">
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" Index=0 DataSource="@ChartTypes">
+                                    <DropDownListEvents TValue="string" ValueChange="OnChartTypeChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <style>
     .e-pivotview {
         min-height: 200px;
@@ -48,12 +71,46 @@
 </style>
 
 @code{
+    public ChartSeriesType ChartType = ChartSeriesType.Column;
+    public string[] DrilledMembers = new string[] { "FY 2015" };
 
-    public List<PivotProductDetails> data { get; set; }
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
     }
 
+    public void OnChartTypeChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.ChartType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value, true);
+    }
+
+    List<DropDownData> ChartTypes = new List<DropDownData>() {
+        new DropDownData { Name = "Column", Value = "Column" },
+        new DropDownData { Name = "Bar", Value = "Bar" },
+        new DropDownData { Name = "Line", Value = "Line" },
+        new DropDownData { Name = "Spline", Value = "Spline" },
+        new DropDownData { Name = "Area", Value = "Area" },
+        new DropDownData { Name = "SplineArea", Value = "SplineArea" },
+        new DropDownData { Name = "StepLine", Value = "StepLine" },
+        new DropDownData { Name = "StepArea", Value = "StepArea" },
+        new DropDownData { Name = "StackingColumn", Value = "StackingColumn" },
+        new DropDownData { Name = "StackingBar", Value = "StackingBar" },
+        new DropDownData { Name = "StackingArea", Value = "StackingArea" },
+        new DropDownData { Name = "StackingColumn100", Value = "StackingColumn100" },
+        new DropDownData { Name = "StackingBar100", Value = "StackingBar100" },
+        new DropDownData { Name = "StackingArea100", Value = "StackingArea100" },
+        new DropDownData { Name = "Scatter", Value = "Scatter" },
+        new DropDownData { Name = "Bubble", Value = "Bubble" },
+        new DropDownData { Name = "Polar", Value = "Polar" },
+        new DropDownData { Name = "Radar", Value = "Radar" },
+        new DropDownData { Name = "Pareto", Value = "Pareto" }
+    };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
 }

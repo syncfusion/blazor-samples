@@ -1,25 +1,67 @@
 ﻿@page "/DatePicker/Format"
 
-@using Syncfusion.EJ2.Blazor.Calendars
-
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Newtonsoft.Json
 @inherits SampleBaseComponent;
 
-<div class="control-section">
-    <div id="wrapper" class="datepicker-section">
-        <div id="datepicker-control">
-            <EjsDatePicker TValue="DateTime?" Value="@DateValue" Format="dd-MMM-yy"></EjsDatePicker>
+<div>
+    <div class="control-section col-lg-8 date-height">
+        <div id="wrapper" class="datepicker-section">
+            <div id="datepicker-control">
+                <SfDatePicker TValue="DateTime?" Value="@DateValue" Format="@formatString">
+                </SfDatePicker>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 property-section">
+        <div>
+            <SfDropDownList TItem="DateFormat" TValue="string" PopupHeight="230px" Index="0" DataSource="@formats">
+                <DropDownListEvents TValue="string" ValueChange="OnChange"></DropDownListEvents>
+                <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+            </SfDropDownList>
         </div>
     </div>
 </div>
 
 <style>
     #wrapper {
-        max-width: 300px;
+        max-width: 246px;
         margin: 0px auto;
         padding-top: 20px;
+    }
+
+    .control-section.col-lg-8.date-height {
+        border-right: 1px solid #D7D7D7;
+        min-height: 365px;
+    }
+
+    .property-section {
+        top: 55px;
+        width: 200px;
+        margin-left: 80px;
+        padding-bottom: 15px;
     }
 </style>
 
 @code {
     public DateTime DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
+    private string textValue { get; set; }
+    public class DateFormat
+    {
+        public string ID { get; set; }
+
+        public string Text { get; set; }
+    }
+    public string formatString { get; set; } = "dd-MMM-yy";
+    private List<DateFormat> formats = new List<DateFormat>() {
+        new DateFormat(){ ID= "format1", Text= "dd-MMM-yy" },
+        new DateFormat(){ ID= "format2", Text= "yyyy-MM-dd" },
+        new DateFormat(){ ID= "format3", Text= "dd-MMMM" },
+     };
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        var itemData = JsonConvert.DeserializeObject<DateFormat>(args.ItemData != null ? args.ItemData.ToString() : "");
+        this.formatString = itemData.Text;
+    }
 }

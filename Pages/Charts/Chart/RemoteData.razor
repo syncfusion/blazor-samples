@@ -1,19 +1,53 @@
-﻿@page "/Charts/RemoteData"
-@using Syncfusion.EJ2.Blazor.Data
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/chart/remote-data"
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart>
-        <ChartPrimaryXAxis Title="Assignee" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category"
+    <SfChart>
+     <ChartEvents Load="ChartLoad"/>
+        <ChartPrimaryXAxis Title="Assignee" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"
                            RangePadding="ChartRangePadding.Additional"></ChartPrimaryXAxis>
 
         <ChartSeriesCollection>
             <ChartSeries Query="new ej.data.Query().take(5).where('Estimate', 'lessThan', 3, false)" XName="Assignee" YName="Estimate" Type="ChartSeriesType.Column">
-                <EjsDataManager Url="https://mvc.syncfusion.com/Services/Northwnd.svc/Tasks/"></EjsDataManager>
+                <SfDataManager Url="https://mvc.syncfusion.com/Services/Northwnd.svc/Tasks/"></SfDataManager>
             </ChartSeries>
         </ChartSeriesCollection>
 
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>    
 </div>
+
+@code {
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
+}

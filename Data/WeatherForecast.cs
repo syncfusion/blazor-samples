@@ -1,6 +1,6 @@
 using System;
 
-namespace ej2_blazor_samples.Data
+namespace blazor_samples.Data
 {
     public class WeatherForecast
     {

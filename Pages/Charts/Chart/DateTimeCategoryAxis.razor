@@ -1,12 +1,13 @@
-﻿@page "/Charts/DateTimeCategoryAxis"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/date-time-category-axis"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Sales comparison of a Product">
+    <SfChart Title="Sales comparison of a Product">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis Title="Business Days" IntervalType="IntervalType.Days" Skeleton="Ed" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTimeCategory" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis Title="Business Days" IntervalType="IntervalType.Days" Skeleton="Ed" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTimeCategory" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20" LabelFormat="{value}M" RangePadding="ChartRangePadding.None">
@@ -16,7 +17,7 @@
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" XName="xValue" YName="yValue1" Opacity="1" Name="Product" Width=2 Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartData" XName="xValue" YName="yValue1" Opacity="1" Name="Product" Width="2" Type="ChartSeriesType.Column">
             </ChartSeries>
         </ChartSeriesCollection>
         @*<ChartAnnotations>
@@ -24,7 +25,7 @@
             <ChartAnnotation X="2018-01-04" Y="90" Content="<div style='color:#FF0000;font-family: bold; font-weight: 800'>New Year Offer<br> Jan 2018</div>" CoordinateUnits="Units.Point"></ChartAnnotation>
         </ChartAnnotations>*@
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -47,7 +48,7 @@
     //    Opacity = 0.5
     //};
 
-    public List<DateTimeData> chartData = new List<DateTimeData>
+    public List<DateTimeData> ChartData = new List<DateTimeData>
         {
                 new DateTimeData { xValue = new DateTime(2017, 12, 20), yValue1 = 21},
                 new DateTimeData { xValue = new DateTime(2017, 12, 21), yValue1 = 24 },
@@ -60,4 +61,31 @@
                 new DateTimeData { xValue = new DateTime(2018, 1, 5), yValue1 = 53},
                 new DateTimeData { xValue = new DateTime(2018, 1, 8), yValue1 = 45 },
             };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

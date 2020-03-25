@@ -1,12 +1,13 @@
-﻿@page "/Charts/RoundedColumn"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/rounded-column"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
     <div class="control-section">
-        <EjsChart Title="Trade in Food Groups">
+        <SfChart Title="Trade in Food Groups">
+            <ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+            <ChartPrimaryXAxis TickPosition="AxisPosition.Inside" LabelPosition="AxisPosition.Inside" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 <ChartAxisLabelStyle Color="#ffffff"></ChartAxisLabelStyle>
             </ChartPrimaryXAxis>
@@ -19,7 +20,7 @@
                 <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
             </ChartPrimaryYAxis>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@chartData" XName="x" YName="y" Name="Tiger" Type="ChartSeriesType.Column">
+                <ChartSeries DataSource="@ChartData" XName="x" YName="y" Name="Tiger" Type="ChartSeriesType.Column">
                     <ChartMarker>
                         <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                             <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
@@ -30,7 +31,7 @@
             </ChartSeriesCollection>
             <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        </EjsChart>
+        </SfChart>
     </div>
 
 @code{
@@ -42,7 +43,7 @@
         public string text { get; set; }
     }
 
-    public List<RoundedColumnChartData> chartData = new List<RoundedColumnChartData>
+    public List<RoundedColumnChartData> ChartData = new List<RoundedColumnChartData>
             {
                   new RoundedColumnChartData { x= "Egg", y= 106, text= "Egg" },
                   new RoundedColumnChartData { x= "Fish", y= 103, text= "Fish" },
@@ -50,4 +51,34 @@
                   new RoundedColumnChartData { x= "Tea", y= 189, text= "Tea" },
                   new RoundedColumnChartData { x= "Fruits", y= 250, text= "Fruits" }
             };
+
+            string CurrentUri;
+            void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

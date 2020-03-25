@@ -1,17 +1,18 @@
-﻿@page "/Charts/Crosshair"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/crosshair"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Conns,Inc Stock Details">
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime"
+    <SfChart Title="Conns,Inc Stock Details">
+		<ChartEvents Load="ChartLoad"/>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"
                            Skeleton="MMM">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Minimum=83 Maximum=87 Interval=1 Title="Millions in USD"
-                           LabelFormat="{value}M" RowIndex=0>
+        <ChartPrimaryYAxis Minimum="83" Maximum="87" Interval="1" Title="Millions in USD"
+                           LabelFormat="{value}M" RowIndex="0">
             <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
         </ChartPrimaryYAxis>
         <ChartArea>
@@ -20,23 +21,23 @@
         <ChartLegendSettings Visible="false">
         </ChartLegendSettings>
         <ChartZoomSettings EnablePinchZooming="true" EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
-        <ChartCrosshairSettings Enable=true LineType="LineType.Both"></ChartCrosshairSettings>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Both"></ChartCrosshairSettings>
         <ChartAxes>
-            <ChartAxis RowIndex=0 OpposedPosition=true Minimum=82 Maximum=88 Interval=2 Name="yAxis" Title="Millions in USD (Stock)">              
+            <ChartAxis RowIndex="0" OpposedPosition="true" Minimum="82" Maximum="88" Interval="2" Name="yAxis" Title="Millions in USD (Stock)">              
                 <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartAxis>
         </ChartAxes>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Type="ChartSeriesType.Line" XName="xDate" YName="High">
+            <ChartSeries DataSource="@DataSource" Type="ChartSeriesType.Line" XName="xDate" YName="High">
                 <ChartSeriesBorder Color="transparent"></ChartSeriesBorder>
                 <ChartMarker Visible="true"></ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Type='ChartSeriesType.HiloOpenClose' XName="xDate" YAxisName="yAxis" High ="High" Low ="Low" Open ="Open" Close ='Close'
+            <ChartSeries DataSource="@DataSource" Type="ChartSeriesType.HiloOpenClose" XName="xDate" YAxisName="yAxis" High ="High" Low ="Low" Open ="Open" Close ="Close"
                          BearFillColor="#2ecd71" BullFillColor="#e74c3d">
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -48,7 +49,7 @@
         public double Low { get; set; }
         public double Close { get; set; }
     }
-    public List<CrosshairData> dataSource = new List<CrosshairData>
+    public List<CrosshairData> DataSource = new List<CrosshairData>
     {
         new CrosshairData { xDate = new DateTime(2013,03,27), Open = 85.97, High = 86.37, Low = 85.96, Close = 86.33 },
         new CrosshairData { xDate = new DateTime(2013,03,29), Open = 85.97, High = 86.37, Low = 85.96, Close = 86.33 },
@@ -129,5 +130,32 @@
         new CrosshairData{ xDate = new DateTime(2013,08,29), Open = 85.91, High = 85.93, Low =85.63, Close = 85.58 },
         new CrosshairData{ xDate = new DateTime(2013,09,01), Open = 85.6, High = 85.87, Low =85.5, Close = 85.81 }
     };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 
 }

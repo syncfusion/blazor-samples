@@ -1,30 +1,31 @@
-@page "/Maps/Export"
+@page "/maps/export"
 
-@using Syncfusion.EJ2.Blazor.Maps
-@using Syncfusion.EJ2.Blazor.Buttons
-@using Syncfusion.EJ2.Blazor.DropDowns
-@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+
 
 
 @inherits SampleBaseComponent;
     <div class="col-lg-9 control-section sb-property-border">
-        <EjsMaps @ref="@maps">
+        <SfMaps @ref="@maps">
             <MapsTitleSettings Text="Location of the Wonders in the World">
                 <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
             </MapsTitleSettings>
             <MapsLayers>
-                <MapsLayer ShapeData="@MapShapeData">
+                <MapsLayer ShapeData="@MapShapeData" LayerType="@layerValue">
                     <MapsShapeSettings Fill="lightgrey">
                         <MapsShapeBorder Color="black" Width="0.1"></MapsShapeBorder>
                     </MapsShapeSettings>
                     <MapsMarkerSettings>
-                        <MapsMarker Visible="true" AnimationDuration="0" Shape="MarkerType.Balloon" Fill="#E13E40" Height="20" Width="20" DataSource="@MarkerDataSource">
+                        <MapsMarker Visible="true" AnimationDuration="0" Shape="MarkerType.Balloon" Fill="#E13E40" Height="20" Width="15" DataSource="@MarkerDataSource">
                             <MapsMarkerTooltipSettings Visible="true" ValuePath="name"></MapsMarkerTooltipSettings>
                         </MapsMarker>
                     </MapsMarkerSettings>
                 </MapsLayer>
             </MapsLayers>
-        </EjsMaps>
+        </SfMaps>
     </div>
 <div class="col-lg-3 property-section">
 <div class="property-panel-header">Properties</div>
@@ -33,15 +34,31 @@
             <tr style="height: 50px">
                 <td style="width: 40%">
                     <div>
+                        Map Type
+                    </div>
+                </td>
+                <td style="width: 60%;">
+                    <div>
+                        <SfDropDownList TValue="string" TItem="MapType" DataSource="@mapTypes" Value="@mapValue" Width="95%">
+                            <DropDownListEvents TValue="string" ValueChange="mapValueChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%">
+                    <div>
                         Export Type
                     </div>
                 </td>
                 <td style="width: 60%;">
                     <div>
-                        <EjsDropDownList TValue="string" TItem="FileFormatType" DataSource="@fileTypes" Value="@fileType" Width="95%">
+                        <SfDropDownList TValue="string" TItem="FileFormatType" DataSource="@FileTypes" Value="@fileType" Width="95%">
                             <DropDownListEvents TValue="string" ValueChange="TreemapValueChange"></DropDownListEvents>
                             <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
-                        </EjsDropDownList>
+                        </SfDropDownList>
                     </div>
 
                 </td>
@@ -52,15 +69,15 @@
                 </td>
                 <td style="width: 40%;">
                     <div class="e-float-input" style='margin-top: 0px;'>
-                        <EjsTextBox Value="@fileName" ValueChange="@nameChange"></EjsTextBox>
+                        <SfTextBox Value="@fileName" ValueChange="@NameChange"></SfTextBox>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div style="height: 45px;margin-left:50%; text-transform:none !important; width: 80px; ">
-                        <EjsButton Content="Export" OnClick="exportClick" CssClass="e-info" IsToggle="true" IsPrimary="true">
-                        </EjsButton>
+                    <div style="height: 45px;margin-left:70%; text-transform:none !important; width: 80px; ">
+                        <SfButton Content="Export" OnClick="ExportClick" CssClass="e-info" IsToggle="true" IsPrimary="true">
+                        </SfButton>
                     </div>
                 </td>
             </tr>
@@ -70,9 +87,11 @@
 </div>
 
 @code {
-    EjsMaps maps;
+    SfMaps maps;
     public string fileType { get; set; } = "JPEG";
-    public string fileName { get; set; } = "TreeMap";
+    public string mapValue { get; set; } = "Geometry";
+    public ShapeLayerType layerValue = ShapeLayerType.Geometry;
+    public string fileName { get; set; } = "Maps";
     public MapDataSettings MapShapeData = new MapDataSettings
     {
         async = true,
@@ -101,28 +120,50 @@
         new MarkerData { longitude=-72.5449629, latitude=-13.1631412, name="Machu Picchu, Peru" },
         new MarkerData { longitude=-43.2104872, latitude=-22.951916, name="Christ Redeemer, Rio de janeiro, Brazil" }
     };
+    public class MapType
+    {
+        public string id { get; set; }
+        public string text { get; set; }
+    }
+
+    private List<MapType> mapTypes = new List<MapType>()
+    {
+        new MapType(){ id= "Geometry", text= "Geometry" },
+        new MapType(){ id= "OSM", text= "OSM" },
+    };
     public class FileFormatType
     {
         public string id { get; set; }
         public string text { get; set; }
     }
 
-    private List<FileFormatType> fileTypes = new List<FileFormatType>()
+    private List<FileFormatType> FileTypes = new List<FileFormatType>()
 {
         new FileFormatType(){ id= "JPEG", text= "JPEG" },
         new FileFormatType(){ id= "PNG", text= "PNG" },
         new FileFormatType(){ id= "SVG", text= "SVG" },
         new FileFormatType(){ id= "PDF", text= "PDF" },
     };
-    private void nameChange(Syncfusion.EJ2.Blazor.Inputs.ChangedEventArgs args)
+    private void NameChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
     {
         fileName = args.Value;
     }
-    private void TreemapValueChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void TreemapValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         fileType = args.Value;
     }
-    private void exportClick(MouseEventArgs args)
+    public void mapValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        mapValue = args.Value;
+        if (mapValue == "Geometry")
+        {
+            layerValue = ShapeLayerType.Geometry;
+        } else
+        {
+            layerValue = ShapeLayerType.OSM;
+        }
+    }
+    private void ExportClick(MouseEventArgs args)
     {
 
         ExportType exportFileType = ExportType.JPEG;

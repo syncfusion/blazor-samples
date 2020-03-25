@@ -1,9 +1,10 @@
-﻿@page "/StockChart/CandlestickandVolume"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/stock-chart/candlestick-volume"
+@using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
-@if (dataSource == null)
+@if (DataSource == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -11,8 +12,8 @@ else
 {
     <div class="@loadClass"></div>
     <div class="@loadDiv">
-        <EjsStockChart Title="AAPL Historical">
-            <StockChartEvents Loaded="@ChartLoaded"></StockChartEvents>
+        <SfStockChart Title="AAPL Historical">
+            <StockChartEvents Loaded="@ChartLoaded" Load="BeforeRender"></StockChartEvents>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
             </StockChartChartArea>
@@ -34,11 +35,11 @@ else
                 <StockChartRow Height="70%"></StockChartRow>
             </StockChartRows>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Candle" XName="date" YName="high" YAxisName="yAxis1" High="high" Low="low"></StockChartSeries>
-                <StockChartSeries DataSource="@dataSource" Type="ChartSeriesType.Column" XName="date" YName="volume" High="high" Low="low" Name="Apple Inc"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Candle" XName="date" YName="high" YAxisName="yAxis1" High="high" Low="low"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Column" XName="date" YName="volume" High="high" Low="low" Name="Apple Inc"></StockChartSeries>
             </StockChartSeriesCollection>
 
-        </EjsStockChart>
+        </SfStockChart>
     </div>
     <style>
         .stockchartloader {
@@ -60,13 +61,13 @@ else
     </style>
 }
 @code{
-    private ChartData[] dataSource;
+    private ChartData[] DataSource;
    
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            dataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/chartdata.json"));
+            DataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/StockChartData/chartdata.json"));
         });
     }
     public class ChartData
@@ -84,6 +85,32 @@ else
     {
         loadClass = "";
         loadDiv = "";
+    }
+
+     string CurrentUri;
+    void BeforeRender(IStockChartEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 
 }

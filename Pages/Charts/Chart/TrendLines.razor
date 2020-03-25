@@ -1,12 +1,13 @@
-﻿@page "/Charts/Trendlines"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/trendlines"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Historical Indian Rupee Rate (INR USD)" >
+    <SfChart Title="Historical Indian Rupee Rate (INR USD)" >
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis LabelFormat="yyyy" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis LabelFormat="yyyy" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Rupees against Dollars">
@@ -14,7 +15,7 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Rupees" XName="xValue" YName="yValue" Type="ChartSeriesType.Spline">
+            <ChartSeries DataSource="@ChartData" Name="Rupees" XName="xValue" YName="yValue" Type="ChartSeriesType.Spline">
                 <ChartMarker Visible="true">
                 </ChartMarker>
                 <ChartTrendlines>
@@ -23,7 +24,7 @@
                 </ChartTrendlines>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -33,7 +34,7 @@
         public double yValue { get; set; }
     }
 
-    public List<TrendlineData> chartData = new List<TrendlineData>
+    public List<TrendlineData> ChartData = new List<TrendlineData>
     {
         new TrendlineData { xValue = new DateTime(2000, 2, 11), yValue = 14 },
         new TrendlineData { xValue = new DateTime(2001, 9, 4), yValue = 20 },
@@ -49,5 +50,34 @@
         new TrendlineData { xValue = new DateTime(2011, 9, 11), yValue = 50 },
         new TrendlineData { xValue = new DateTime(2012, 2, 11), yValue = 24 },
     };
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 
 }

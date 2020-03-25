@@ -1,12 +1,13 @@
-﻿@page "/Charts/Waterfall"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/waterfall"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Company Revenue and Profit" >
+    <SfChart Title="Company Revenue and Profit" >
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" PlotOffset="20">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" PlotOffset="20">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Minimum="0" Maximum="5000" Interval="1000" Title="Expenditure">
@@ -15,8 +16,8 @@
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries NegativeFillColor="#e56590" DataSource="@chartData" Name="USA" XName="x" Width="2" IntermediateSumIndexes="@intermediateSumIndexes"
-                         SumIndexes="@sumIndexes" YName="y" Type="ChartSeriesType.Waterfall">
+            <ChartSeries NegativeFillColor="#e56590" DataSource="@ChartData" Name="USA" XName="x" Width="2" IntermediateSumIndexes="@IntermediateSumIndexes"
+                         SumIndexes="@SumIndexes" YName="y" Type="ChartSeriesType.Waterfall">
                 <ChartMarker>
                     <ChartDataLabel Visible="true">
                         <ChartDataLabelFont Color="#ffffff"></ChartDataLabelFont>
@@ -24,7 +25,7 @@
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -34,7 +35,7 @@
         public string x { get; set; }
         public double y { get; set; }
     }
-    public List<WaterfallChartData> chartData = new List<WaterfallChartData>
+    public List<WaterfallChartData> ChartData = new List<WaterfallChartData>
         {
                     new WaterfallChartData { x= "Income", y= 4711 },
                     new WaterfallChartData { x= "Sales", y= -1015 },
@@ -46,8 +47,38 @@
                     new WaterfallChartData { x= "Net Profit" }
             };
 
-    Double[] intermediateSumIndexes = new Double[] { 4 };
-    Double[] sumIndexes = new Double[] { 7 };
+    Double[] IntermediateSumIndexes = new Double[] { 4 };
+    Double[] SumIndexes = new Double[] { 7 };
+
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }
 <style>
 

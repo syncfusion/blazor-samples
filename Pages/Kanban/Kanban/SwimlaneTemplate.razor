@@ -1,0 +1,59 @@
+﻿@page "/kanban/swimlane-template"
+
+@using ej2_blazor_kanban_data_models
+
+@using Syncfusion.Blazor.Kanban
+
+@inherits SampleBaseComponent;
+
+<div class="control-section">
+    <SfKanban KeyField="Status" DataSource="@Tasks">
+        <KanbanColumns>
+            @foreach (ColumnsModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField">
+                </KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+        <KanbanSwimlaneSettings KeyField="Assignee">
+            <Template>
+                @{
+                    KanbanSwimlaneSettings swimlane = (KanbanSwimlaneSettings)context;
+                    <div class="swimlane-template e-swimlane-template-table">
+                        <div class="e-swimlane-row-text"><img src="./images/Kanban/@(swimlane.KeyField).png" alt="" /><span>@swimlane.TextField</span></div>
+                    </div>
+                }
+            </Template>
+        </KanbanSwimlaneSettings>
+    </SfKanban>
+</div>
+
+<style>
+    .swimlane-template {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+        .swimlane-template img {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+        }
+
+        .swimlane-template span {
+            padding-left: 10px;
+        }
+</style>
+
+@code {
+    private List<KanbanDataModels> Tasks = new KanbanDataModels().GetTasks();
+
+    private List<ColumnsModel> columnData = new List<ColumnsModel>()
+{
+        new ColumnsModel(){ HeaderText= "To Do", KeyField= "Open"},
+        new ColumnsModel(){ HeaderText= "In Progress", KeyField= "InProgress"},
+        new ColumnsModel(){ HeaderText= "Testing", KeyField= "Testing"},
+        new ColumnsModel(){ HeaderText= "Done", KeyField= "Close" }
+    };
+}

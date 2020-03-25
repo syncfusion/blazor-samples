@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using System.Text;
 using Microsoft.AspNetCore.Components.Routing;
 
-namespace ej2_blazor_samples.Shared
+namespace blazor_samples.Shared
 {
     public class SampleMetaData : ComponentBase
     {
@@ -35,6 +35,13 @@ namespace ej2_blazor_samples.Shared
         string GetContent()
         {
             Service.Data.Update(UriHelper);
+            string path = UriHelper.Uri;
+            var length = UriHelper.BaseUri.Length;
+            string fileName = path.Remove(0, length);
+            if (fileName.IndexOf("?") >= 0)
+            {
+                fileName = fileName.Substring(0, fileName.IndexOf("?"));
+            }
             StringBuilder sb = new StringBuilder();
             if (Service.Data.CurrentSample != null)
             {
@@ -51,13 +58,27 @@ namespace ej2_blazor_samples.Shared
                 sb.Append(Environment.NewLine);
             } else
             {
+                var CategoryName = "Data Grid";
+                var SampleName = "Overview";
+                string[] ControlName = fileName.Split("/");
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    
+                    CategoryName = ControlName[ControlName.Length - 2];
+                    SampleName = ControlName[ControlName.Length - 1].Replace("-","");
+                   // CategoryName = char.ToUpper(CategoryName[0]) + CategoryName.Substring(1);
+                    var CurrentControl = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(CategoryName));
+                    var CurrentSample = CurrentControl?.Samples.Where((sample) => sample.FileName.ToLower() == (SampleName + ".razor")).First();
+                    SampleName = CurrentSample?.MappingSampleName != null ? CurrentSample?.MappingSampleName : SampleName;
+                }
+
                 sb.Append($"<title>");
-                sb.Append("Blazor Data Grid Default Functionalities Example - Syncfusion Demos");
+                sb.Append("Blazor " + CategoryName + " " + SampleName + " Example - Syncfusion Demos");
                 sb.Append($"</title>");
                 sb.Append(Environment.NewLine);
                 sb.Append($"<meta");
                 sb.Append($" name =\"description\"");
-                sb.Append($" content =\"{"This example demonstrates the Default Functionalities in Blazor Data Grid Component. Explore here for more details."}\"");
+                sb.Append($" content =\"{"This example demonstrates the " + SampleName + " in Blazor " + CategoryName + " Component. Explore here for more details."}\"");
                 //sb.Append($" content =\"{Service.Data.CurrentSample.MetaDescription}\"");
                 sb.Append(">");
 

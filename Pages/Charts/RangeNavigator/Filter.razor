@@ -1,46 +1,47 @@
-﻿@page "/RangeSelector/Filter"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Grids
+﻿@page "/range-selector/filter"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Grids
 @using Newtonsoft.Json
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
-@if (filterData == null)
+@if (FilterData == null)
 {
     <div class="stockchartloader"></div>
 }
 else
 {
     <div class="control-section" align="center">       
-            <h4 id="days" align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
-            <div id="container">
-                <EjsRangeNavigator ValueType=Syncfusion.EJ2.Blazor.Charts.RangeValueType.DateTime
+            <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
+            <div>
+                <SfRangeNavigator ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime"
                                    AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
                                    EnableGrouping="true" GroupBy="RangeIntervalType.Years"
-                                   EnableDeferredUpdate="true" Value="@value" DataSource="@filterData"
+                                   EnableDeferredUpdate="true" Value="@Value" DataSource="@FilterData"
                                    XName="HireDate" YName="yValue">
-                    <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
-                </EjsRangeNavigator>
+                    <RangeNavigatorEvents Load="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
+                </SfRangeNavigator>
             </div> <br>
-            <div id="gridcontainer">
-                <EjsGrid Width="80%" @ref="gridObj" DataSource="@Data" TValue="ChartData" AllowPaging="true">
+            <div>
+                <SfGrid Width="80%" @ref="GridObj" DataSource="@Data" TValue="ChartData" AllowPaging="true">
                     <GridColumns>
                         <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
                         <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
                         <GridColumn Field="Title" HeaderText="Title" TextAlign="TextAlign.Center"></GridColumn>
                         <GridColumn Field="HireDate" HeaderText="Hire Date" TextAlign="TextAlign.Center" Format="yMd"></GridColumn>
                     </GridColumns>
-                </EjsGrid>
+                </SfGrid>
             </div>
     </div>
 }
 @code{
-    EjsGrid<ChartData> gridObj;
-    private ChartData[] filterData;
+    SfGrid<ChartData> GridObj;
+    private ChartData[] FilterData;
     private ChartData[] Data;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-		    filterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/employee-data.json"));
+		    FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/range-navigator/employee-data.json"));
         });
     }
     public class ChartData
@@ -52,19 +53,45 @@ else
         public DateTime HireDate { get; set; }
 
     }
-    private DateTime[] value = new DateTime[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
+    private DateTime[] Value = new DateTime[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
    protected void onRangeChanged(IChangedEventArgs args)
     {
-        List<ChartData> filterData1 = new List<ChartData>();
-        for(int i =0; i<filterData.Length; i++)
+        List<ChartData> FilterData1 = new List<ChartData>();
+        for(int i =0; i<FilterData.Length; i++)
         {
-            if(filterData[i].HireDate >= Convert.ToDateTime(args.Start) && filterData[i].HireDate <= Convert.ToDateTime(args.End))
+            if(FilterData[i].HireDate >= Convert.ToDateTime(args.Start) && FilterData[i].HireDate <= Convert.ToDateTime(args.End))
             {
-                filterData1.Add(filterData[i]);
+                FilterData1.Add(FilterData[i]);
             }            
         }
-        Data = filterData1.ToArray();
-        gridObj.Refresh();
+        Data = FilterData1.ToArray();
+        GridObj.Refresh();
        
+    }
+
+    string CurrentUri;
+    void BeforeRender(IRangeLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }

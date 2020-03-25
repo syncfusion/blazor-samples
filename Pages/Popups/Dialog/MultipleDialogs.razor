@@ -1,51 +1,77 @@
-﻿@page "/Dialog/MultipleDialogs"
+﻿@page "/dialog/multiple-dialogs"
 
-@using Syncfusion.EJ2.Blazor
-@using Syncfusion.EJ2.Blazor.Popups
-@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
 
-<div class="col-lg-12 control-section" id="target">    
-    <button id="dialogBtn" class="e-btn" @onclick="@OnClicked">Open Dialog</button>
-    <EjsDialog @ref="FirstDialogObj" Width="330px" Visible="true" Height="260px" Target="#target" ShowCloseIcon="true">
+<div class="col-lg-12 control-section" id="target">
+    <div>
+        @if (this.ShowButton)
+        {
+            <button id="dialogBtn" class="e-btn" @onclick="@OnClicked">Open</button>
+        }
+    </div>
+    <SfDialog Width="330px" Height="260px" Target="#target" ShowCloseIcon="true" @bind-Visible="FirstVisibility">
         <DialogTemplates>
             <Header> First Dialog </Header>
             <Content> <p>This is the first dialog and acts as a parent dialog, you can open the second (child) dialog by clicking 'Next'.</p></Content>
         </DialogTemplates>
         <DialogButtons>
-            <DialogButton ButtonModel="@DefaultButton" OnClick="@DlgButtonClick"></DialogButton>
-        </DialogButtons>        
-    </EjsDialog>
-    <EjsDialog @ref="SecondDialogObj" @bind-Visible="@Visibility" IsModal="true" Width="285px" Height="215px" Target="#target" ShowCloseIcon="true">
+            <DialogButton OnClick="@FirstDlgClick">
+                <DialogButtonModel Content="Next" IsPrimary="true"></DialogButtonModel>
+            </DialogButton>
+            <DialogEvents OnOpen="DialogOpen" Closed="@DialogClose"></DialogEvents>
+        </DialogButtons>
+    </SfDialog>
+    <SfDialog IsModal="true" Width="285px" Height="215px" Target="#target" ShowCloseIcon="true" @bind-Visible="SecondVisibility">
         <DialogTemplates>
             <Header> Second Dialog</Header>
             <Content> <p>This is the second dialog and act as a child dialog.</p></Content>
         </DialogTemplates>
         <DialogButtons>
-            <DialogButton ButtonModel="@DefaultButton1" OnClick="@Dlg2ButtonClick"></DialogButton>
+            <DialogButton OnClick="@SecondDlgClick">
+                <DialogButtonModel Content="Close" IsPrimary="true"></DialogButtonModel>
+            </DialogButton>
         </DialogButtons>
-    </EjsDialog>
+    </SfDialog>
 </div>
-
+<style>
+    #target {
+        min-height: 400px;
+    }
+</style>
 @code {
-    EjsDialog FirstDialogObj;
-    EjsDialog SecondDialogObj;
+    public bool FirstVisibility { get; set; } = true;
+
+    public bool SecondVisibility { get; set; } = false;
 
     private bool Visibility { get; set; } = false;
+
+    public bool ShowButton { get; set; } = false;
+
+
     private void OnClicked()
     {
-        this.FirstDialogObj.Show();
+        this.FirstVisibility = true; ;
     }
-    private void DlgButtonClick(object arg)
+    private void FirstDlgClick()
     {
-        this.SecondDialogObj.Show();
+        this.SecondVisibility = true;
     }
-    private void Dlg2ButtonClick(object arg)
+    private void SecondDlgClick(object arg)
     {
-        this.SecondDialogObj.Hide();
+       this.SecondVisibility = false;
     }
+     private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
 
-    public ButtonModel DefaultButton = new ButtonModel { Content = "Next", IsPrimary = true };
-    public ButtonModel DefaultButton1 = new ButtonModel {  Content = "Close", IsPrimary = true };
+    }
+     private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+
+    }
 }

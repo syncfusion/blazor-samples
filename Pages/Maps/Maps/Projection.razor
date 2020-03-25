@@ -1,21 +1,21 @@
-﻿@page "/Maps/Projection"
+﻿@page "/maps/projection"
 
-@using Syncfusion.EJ2.Blazor.Maps
-@using Syncfusion.EJ2.Blazor.DropDowns
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.DropDowns
 
 @inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
     <div class="control-section">
-        <EjsMaps ProjectionType="@ProjectionTypeValue">
+        <SfMaps ProjectionType="@ProjectionTypeValue">
             <MapsTitleSettings Text="Members of the UN Security Council">
                 <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
-                <MapsSubtitleSettings Text="- In 2017" Alignment="Syncfusion.EJ2.Blazor.Maps.Alignment.Far"></MapsSubtitleSettings>
+                <MapsSubtitleSettings Text="- In 2017" Alignment="Syncfusion.Blazor.Maps.Alignment.Far"></MapsSubtitleSettings>
             </MapsTitleSettings>
             <MapsLegendSettings Visible="true"></MapsLegendSettings>
             <MapsZoomSettings Enable="false"></MapsZoomSettings>
             <MapsLayers>
-                <MapsLayer ShapeData='new {dataOptions= "https://cdn.syncfusion.com/maps/map-data/world-map.json"}' ShapeDataPath="Country" ShapePropertyPath='@("name")' DataSource="@ProjectionData">
+                <MapsLayer ShapeData="@MapShapeData" ShapeDataPath="Country" ShapePropertyPath='@("name")' DataSource="@ProjectionData">
                     <MapsLayerTooltipSettings Visible="true" ValuePath="Country"></MapsLayerTooltipSettings>
                     <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Membership">
                         <MapsShapeColorMappings>
@@ -25,7 +25,7 @@
                     </MapsShapeSettings>
                 </MapsLayer>
             </MapsLayers>
-        </EjsMaps>
+        </SfMaps>
         <div style="float: right; margin-right: 10px;">
             Source:
             <a href="https://en.wikipedia.org/wiki/List_of_members_of_the_United_Nations_Security_Council" target="_blank">en.wikipedia.org</a>
@@ -40,14 +40,14 @@
             <table id="property" style="width:100%" title="Properties">
                 <tbody>
                     <tr style="height: 50%">
-                        <td style="width: 60%" class="property-text">
+                        <td style="width: 45%" class="property-text">
                             Projection Type
                         </td>
-                        <td style="width: 40%">
-                            <EjsDropDownList Placeholder="Select projection type" DataSource="@ProjectionTypeList" Value="@ProjectionValue">
+                        <td style="width: 55%">
+                            <SfDropDownList Placeholder="Select projection type" DataSource="@ProjectionTypeList" Value="@projectionValue">
                                 <DropDownListEvents TValue="string" ValueChange="projectionList"></DropDownListEvents>
                                 <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
-                            </EjsDropDownList>
+                            </SfDropDownList>
                         </td>
                     </tr>
                 </tbody>
@@ -77,8 +77,14 @@
 </style>
 
 @code {
-    public string ProjectionValue = "Mercator";
+    public string projectionValue = "Mercator";
     public ProjectionType ProjectionTypeValue = ProjectionType.Mercator;
+    public MapDataSettings MapShapeData = new MapDataSettings
+    {
+        async = true,
+        dataOptions = "scripts/MapsData/WorldMap.json",
+        type = "GET"
+    };
     public MapDataSettings ProjectionData = new MapDataSettings
     {
         async = true,
@@ -106,34 +112,34 @@
         new ProjectionTypeString { Value="Winkel3", Name="Winkel3" },
         new ProjectionTypeString { Value="AitOff", Name="AitOff" }
     };
-    private void projectionList(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void projectionList(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        ProjectionValue = (args.Value).ToString();
-        if (ProjectionValue == "Equirectangular")
+        projectionValue = (args.Value).ToString();
+        if (projectionValue == "Equirectangular")
         {
             ProjectionTypeValue = ProjectionType.Equirectangular;
         }
-        else if (ProjectionValue == "Miller")
+        else if (projectionValue == "Miller")
         {
             ProjectionTypeValue = ProjectionType.Miller;
         }
-        else if (ProjectionValue == "Eckert3")
+        else if (projectionValue == "Eckert3")
         {
             ProjectionTypeValue = ProjectionType.Eckert3;
         }
-        else if (ProjectionValue == "Eckert5")
+        else if (projectionValue == "Eckert5")
         {
             ProjectionTypeValue = ProjectionType.Eckert5;
         }
-        else if (ProjectionValue == "Eckert6")
+        else if (projectionValue == "Eckert6")
         {
             ProjectionTypeValue = ProjectionType.Eckert6;
         }
-        else if (ProjectionValue == "Winkel3")
+        else if (projectionValue == "Winkel3")
         {
             ProjectionTypeValue = ProjectionType.Winkel3;
         }
-        else if (ProjectionValue == "AitOff")
+        else if (projectionValue == "AitOff")
         {
             ProjectionTypeValue = ProjectionType.AitOff;
         }

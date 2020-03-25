@@ -1,20 +1,21 @@
-﻿@page "/BulletChart/RightToLeft"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/bullet-chart/right-to-left"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
     <div class="control-section">
         <div align="center">
-            <EjsBulletChart DataSource="@BulletChartData" ValueField="value" TargetField="target" Minimum="0" Maximum="300" Interval="50"
+            <SfBulletChart DataSource="@BulletChartData" ValueField="value" TargetField="target" Minimum="0" Maximum="300" Interval="50"
                             Title="Revenue YTD" LabelFormat="${value}K" EnableRtl="true" Height="110px" Width="80%">
+                 <BulletChartEvents Load="BeforeRender"/>
                 <BulletChartAnimation Enable="false"></BulletChartAnimation>
                 <BulletChartTooltip Enable="true"></BulletChartTooltip>
                 <BulletChartRangeCollection>
-                    <BulletChartRange End=150> </BulletChartRange>
-                    <BulletChartRange End=250></BulletChartRange>
-                    <BulletChartRange End=300></BulletChartRange>
+                    <BulletChartRange End="150"> </BulletChartRange>
+                    <BulletChartRange End="250"></BulletChartRange>
+                    <BulletChartRange End="300"></BulletChartRange>
                 </BulletChartRangeCollection>
-            </EjsBulletChart>
+            </SfBulletChart>
         </div>
     </div>
 
@@ -28,4 +29,30 @@
 {
         new ChartData { value = 270, target = 250 }
     };
+
+    string CurrentUri;
+    void BeforeRender(IBulletLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
         }

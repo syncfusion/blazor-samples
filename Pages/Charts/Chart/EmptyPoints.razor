@@ -1,10 +1,13 @@
-﻿@page "/Charts/EmptyPoints"
-@using Syncfusion.EJ2.Blazor.Charts
+﻿@page "/chart/pie-empty-points"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <EjsAccumulationChart Title="Annual Product-Wise Profit Analysis">
+        <SfAccumulationChart Title="Annual Product-Wise Profit Analysis">
+            <AccumulationChartEvents Load="BeforeRender"/>
             <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}</b>"></AccumulationChartTooltipSettings>
 
             <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
@@ -15,21 +18,20 @@
                     <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Inside"></AccumulationDataLabelSettings>
                 </AccumulationChartSeries>
             </AccumulationChartSeriesCollection>
-        </EjsAccumulationChart>
+        </SfAccumulationChart>
     </div>
     <div class="col-lg-4 property-section">
-        <table id="property" title="Properties" style="width: 100%">
+        <table title="Properties" style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height:50px">
                 <td style="font-size:14px">
                     Empty Point Mode:
                 </td>
                 <td>
-                    <select @onchange="ChangeEmptyPointMode" style="font-size:14px">
-                        <option value="Drop">Drop</option>
-                        <option value="Average">Average</option>
-                        <option value="Zero">Zero</option>
-                    </select>
+                    <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeEmptyPointMode"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
         </table>
@@ -37,8 +39,25 @@
 </div>
 @code{
 
+
     AccEmptyPointMode Mode = AccEmptyPointMode.Drop;
-    private void ChangeEmptyPointMode(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    public string DropVal = "Drop";    
+
+    public class SelectionTypes
+    {
+        public string Type { get; set; }
+
+        public string Code { get; set; }
+    }
+
+    List<SelectionTypes> ModeData = new List<SelectionTypes>
+{
+        new SelectionTypes() { Type = "Drop", Code = "XY" },
+        new SelectionTypes() { Type = "Zero", Code = "X" },
+        new SelectionTypes() { Type = "Average", Code = "Y" }
+        
+    };
+    private void ChangeEmptyPointMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         if (args.Value.ToString() == "Zero")
         {
@@ -73,4 +92,30 @@
         new ChartData { XValue = "Fruit", YValue = 60 },
         new ChartData { XValue = "Butter", YValue = Double.NaN }
     };
+
+    string CurrentUri;
+    void BeforeRender(IAccLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = AccumulationTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = AccumulationTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = AccumulationTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = AccumulationTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = AccumulationTheme.Bootstrap4;
+        }
+    }
 }

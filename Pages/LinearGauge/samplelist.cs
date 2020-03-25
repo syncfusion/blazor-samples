@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace ej2_blazor_samples
+namespace blazor_samples
 {
     internal partial class SampleConfig
     {
@@ -7,69 +7,61 @@ namespace ej2_blazor_samples
             new Sample
             {
                 Name = "Default Functionalities",
-                Category = "LinearGauge",
+                Category = "Linear Gauge",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "LinearGauge/DefaultFunctionalities",
+                Url = "linear-gauge/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                TitleTag = "LinearGauge . Default . Syncfusion Blazor Components - Preview",
-                MetaDescription = "This demo of Syncfusion Blazor LinearGauge component illustrates the default rendering of linear gauge",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
-                        This sample illustrates the default rendering of linear gauge.
+                        This sample illustrates the default rendering of the linear gauge.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
                         This sample demonstrates the default linear gauge. The linear gauge component indicates the values of scales in horizontal
-                        or vertical sliding meter. You can use <code>axes</code>,
-                        <code>ranges</code>, <code>pointers</code> and <code>container</code> properties to customize the appearance of the
-                        gauge. an axis, annotation and a pointer has been used.
+                        or vertical sliding meter. You can use <code>LinearGaugeAxes</code>,
+                        <code>LinearGaugeRanges</code>, <code>LinearGaugePointers</code> and <code>LinearGaugeContainer</code> properties to customize the appearance of the
+                        linear gauge.
                     </p>
-                    <br>
                     <p>
                         More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
             new Sample
             {
                 Name = "Container",
-                Category = "LinearGauge",
+                Category = "Linear Gauge",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "LinearGauge/Container",
+                Url = "linear-gauge/container",
                 FileName = "Container.razor",
-                TitleTag = "LinearGauge . Container . Syncfusion Blazor Components - Preview",
-                MetaDescription = "This demo of Syncfusion Blazor LinearGauge component shows the container types in LinearGauge. Normal, RoundedRectangle and Thermometer are the types of container",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-                        This sample demonstrates the type of containers used in linear gauge. Orientation and container type of linear gauge can be changed by using <code>Orientation</code> and <code>Container Type</code> options
+                        This sample demonstrates the type of containers used in linear gauge. Orientation and container type of the linear gauge component can be changed by using orientation and container type options in the property panel.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
                         This sample demonstrates the orientation and container customization in linear gauge. The gauge can be rendered either in
-                        vertical or horizontal orientation. And you can use <code>type</code> property in container to change the
+                        vertical or horizontal orientation. You can use <code>Type</code> property in <code>LinearGaugeContainer</code> property to change the
                         type of the container.
                     </p>
-                    <br>
                     <p>
                         More information about container can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
             new Sample
             {
                 Name = "Ranges",
-                Category = "LinearGauge",
+                Category = "Linear Gauge",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "LinearGauge/Ranges",
+                Url = "linear-gauge/ranges",
                 FileName = "Ranges.razor",
-                TitleTag = "LinearGauge . Ranges . Syncfusion Blazor Components - Preview",
-                MetaDescription = "This demo of Syncfusion Blazor LinearGauge component shows how to highlight specific regions in an axis using ranges. Range Color and Width can be customized",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
@@ -78,14 +70,13 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render and configure the ranges in linear gauge. You can use <code>start</code>,
-                    <code>end</code>, <code>startWidth</code>, <code>endWidth</code> and <code>position</code> properties to customize the ranges. You can also specify various colors for the ranges in the axis. If you enable
-                    the <code>useRangeColor</code> property, then the axis labels will be displayed based on its range color.
+                        In this example, you can see how to render and configure the ranges in linear gauge. You can use <code>Start</code>,
+                    <code>End</code>, <code>StartWidth</code>, <code>EndWidth</code> and <code>Position</code> properties of <code>LinearGaugeRange</code> to customize the ranges. You can also specify various colors for the ranges in the axis. If you enable
+                    the <code>UseRangeColor</code> property, then the axis labels will be displayed based on its range color.
                     </p>
-                    <br>
                     <p>
                     More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/ranges"">documentation section</a>.
 
                     </p>"
                 }
@@ -93,12 +84,10 @@ namespace ej2_blazor_samples
             new Sample
             {
                Name = "Data Sample",
-               Category = "LinearGauge",
+               Category = "Linear Gauge",
                Directory = "LinearGauge/LinearGauge",
-               Url = "LinearGauge/DataSample",
+               Url = "linear-gauge/data-sample",
                FileName = "DataSample.razor",
-               TitleTag = "LinearGauge . Data . Syncfusion Blazor Components - Preview",
-               MetaDescription = "This demo of Syncfusion Blazor LinearGauge component illustrates exercise tracking of an athlete by using ranges, pointers, and annotation",
                Type = SampleType.None,
                ActionDescription = new string[] {
                     @" <p>
@@ -109,23 +98,20 @@ namespace ej2_blazor_samples
                     @"<p>
                         This sample demonstrates the exercise tracking using ranges, pointer and annotation features in linear gauge. We have rendered 3 linear gauges in this sample for indicating running, cycling and walking.
                     </p>
-                    <br>
                     <p>
                         More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
             new Sample
             {
                 Name = "Axes and Pointers",
-                Category = "LinearGauge",
+                Category = "Linear Gauge",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "LinearGauge/AxesandPointers",
+                Url = "linear-gauge/axes-and-pointers",
                 FileName = "AxesandPointers.razor",
-                TitleTag = "LinearGauge . Axes and pointer . Syncfusion Blazor Components - Preview",
-                MetaDescription = "This demo of Syncfusion Blazor LinearGauge component shows customizing options in axes and pointers. Pointer types, tick position can be customized",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @" <p>
                         This sample illustrates the axis and pointers feature in the linear gauge. Axis and pointers can be customized by using options available in the panel.
@@ -133,24 +119,21 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to customize the axes and pointers. Use format of labelStyle property to customize the <code>axis labels and use type, markerType and placement</code> properties to customize the pointers in linear gauge.
+                    In this example, you can see how to customize the axes and pointers. Use format of labelStyle property to customize the <code>AxisLabel</code> and <code>Type, MarkerType</code> and <code>Placement</code> properties to customize the pointers in linear gauge.
                     </p>
-                    <br>
                     <p>
                         More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/pointers"">documentation section</a>.
                     </p>"
                 }
             },
             new Sample
             {
                 Name = "Annotation",
-                Category = "LinearGauge",
+                Category = "Linear Gauge",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "LinearGauge/Annotation",
+                Url = "linear-gauge/annotation",
                 FileName = "Annotation.razor",
-                TitleTag = "LinearGauge . Annotation . Syncfusion Blazor Components - Preview",
-                MetaDescription = "This demo of Syncfusion Blazor LinearGauge component illustrates the CPU Utilization of a resource by using annotation",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
@@ -159,50 +142,45 @@ namespace ej2_blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this sample we have used annotations to indicate low, moderate and high ranges. Annotations are used to place the texts, shapes or images anywhere in the gauge. You can use <code>content, x, y, zIndex</code> properties to customize the annotations. And you can specify the id of the element that needs to be displayed, in the content property.
+                        In this sample we have used annotations to indicate low, moderate and high ranges. Annotations are used to place the texts, shapes or images anywhere in the gauge. You can use <code>Content</code>, <code>X</code>, <code>Y</code>, <code>ZIndex</code> properties to customize the annotations.
                     </p>
-                    <br>
                     <p>
                         More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/annotations"">documentation section</a>.
                     </p>"
                 }
             },
             new Sample
             {
                Name = "Tooltip",
-               Category = "LinearGauge",
+               Category = "Linear Gauge",
                Directory = "LinearGauge/LinearGauge",
-               Url = "LinearGauge/Tooltip",
+               Url = "linear-gauge/tooltip",
                FileName = "Tooltip.razor",
-               TitleTag = "LinearGauge . Tooltip . Syncfusion Blazor Components - Preview",
-               MetaDescription = "This demo of Syncfusion Blazor LinearGauge component visualizes the tooltip functionality for bar pointer",
                Type = SampleType.None,
                ActionDescription = new string[] {
                     @" <p>
-                        This sample visualizes the tooltip for pointer in gauge. To see tooltip in action, hover pointer or tap the pointer.
+                        This sample visualizes the tooltip for pointer in linear gauge.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        This sample demonstrates the measuring scale by using the linear gauge. Tooltip is used to track the pointer value closer to the current mouse position or touch contact. You can show the tooltip for an individual marker or bar pointer by hover or tap on the pointer in touch enabled devices.
+                        This sample demonstrates the measuring scale by using the linear gauge. Tooltip is used to track the pointer value closer to the current mouse position or touch contact. You can show the tooltip for an individual marker or bar pointer by hover or tap on the pointer in touch-enabled devices.
                     </p>
                     <br>
                     <p>
                         More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/user-interaction"">documentation section</a>.
                     </p>"
                 }
             },
             new Sample
             {
                 Name = "Styles",
-                Category = "LinearGauge",
+                Category = "Linear Gauge",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "LinearGauge/Styles",
+                Url = "linear-gauge/styles",
                 FileName = "Styles.razor",
-                TitleTag = "LinearGauge . Styles . Syncfusion Blazor Components - Preview",
-                MetaDescription = "This demo of Syncfusion Blazor LinearGauge component visualizes the available options for customization",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
@@ -215,7 +193,30 @@ namespace ej2_blazor_samples
                     </p>
                     <p>
                         More information about linear gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation"">documentation section</a>.
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/getting-started"">documentation section</a>.
+                    </p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Print & Export",
+                Category = "Linear Gauge",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/export",
+                FileName = "Export.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @" <p>
+                        This sample demonstrates the print and export functionality of linear gauge.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                    In this example, you can see how to export and print the rendered linear gauge. The Linear Gauge can be exported to JPEG, PNG, SVG, and PDF formats.
+                    </p>
+                    <p>
+                        More information about linear gauge can be found in this
+                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/linear-gauge/getting-started"">documentation section</a>.
                     </p>"
                 }
             }

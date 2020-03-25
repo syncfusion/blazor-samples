@@ -1,33 +1,35 @@
-﻿@page "/Charts/Export"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-
+﻿@page "/chart/export"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="control-section col-lg-9" align="center">
-        <EjsChart @ref="chartObj" Title="Top 10 Countries Using Solar Power">
+       
+        <SfChart @ref="ChartObj" Title="Top 10 Countries Using Solar Power">
+            <ChartEvents Load="ChartLoad" />
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis Title="Country" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+            <ChartPrimaryXAxis Title="Country" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Minimum="0" Maximum="40" Interval="10" Title="Measurements" LabelFormat="{value}GW">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryYAxis>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Type="ChartSeriesType.Column">
+                <ChartSeries DataSource="@DataSource" XName="xValue" YName="yValue" Type="ChartSeriesType.Column">
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        </EjsChart>
+        </SfChart>
     </div>
     <div class="col-lg-3 property-section" align="center">
-        <table id="property" style="width: 100%">
+        <table  style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tbody>
                 <tr id="button-control" style="height: 50px" align="center">
                     <td>
-                        <EjsButton ID="button" @onclick="exportChart" Content="Export" IconCss="e-icons e-play-icon" CssClass="e-flat" IsPrimary="true"></EjsButton>
+                        <SfButton  @onclick="ExportChart" Content="Export" CssClass="e-flat" IsPrimary="true"></SfButton>
                     </td>
                 </tr>
             </tbody>
@@ -35,28 +37,55 @@
     </div>
 </div>
 @code{
-    EjsChart chartObj;
-    public class exportData
+    SfChart ChartObj;
+    public class ExportData
     {
         public string xValue { get; set; }
         public double yValue { get; set; }
     }
-    public List<exportData> dataSource = new List<exportData>
+    public List<ExportData> DataSource = new List<ExportData>
     {
-        new exportData {xValue="DEZ", yValue = 35.5},
-        new exportData {xValue="CHN", yValue = 18.3},
-        new exportData {xValue="ITA", yValue = 17.6},
-        new exportData {xValue="JPN", yValue = 13.6},
-        new exportData {xValue="US", yValue = 12},
-        new exportData {xValue="ESP", yValue = 5.6},
-        new exportData {xValue="FRA", yValue = 4.6},
-        new exportData {xValue="AUS", yValue = 3.3},
-        new exportData {xValue="BEL", yValue = 3},
-        new exportData {xValue="UK", yValue = 2.9},
+        new ExportData {xValue="DEZ", yValue = 35.5},
+        new ExportData {xValue="CHN", yValue = 18.3},
+        new ExportData {xValue="ITA", yValue = 17.6},
+        new ExportData {xValue="JPN", yValue = 13.6},
+        new ExportData {xValue="US", yValue = 12},
+        new ExportData {xValue="ESP", yValue = 5.6},
+        new ExportData {xValue="FRA", yValue = 4.6},
+        new ExportData {xValue="AUS", yValue = 3.3},
+        new ExportData {xValue="BEL", yValue = 3},
+        new ExportData {xValue="UK", yValue = 2.9},
     };
-    public void exportChart(MouseEventArgs args)
+    public void ExportChart(MouseEventArgs args)
     {
-        chartObj.Export(ExportType.PNG, "Chart");
+        ChartObj.Export(ExportType.PNG, "Chart");
+    }
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }
 <style>

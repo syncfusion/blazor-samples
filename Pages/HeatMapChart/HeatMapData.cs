@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ej2_blazor_samples;
-namespace ej2_blazor_heatmapdata
+using blazor_samples;
+namespace sf_blazor_heatmapdata
 {
     public class HeatMapData
     {

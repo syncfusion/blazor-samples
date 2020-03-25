@@ -1,24 +1,25 @@
-﻿@page "/PivotTable/Toolbar"
+﻿@page "/pivot-table/toolbar"
 
-@using Syncfusion.EJ2.Blazor.PivotView
+@using Syncfusion.Blazor.PivotView
 @inherits SampleBaseComponent;
-@using ej2_blazor_samples
+@using blazor_samples
 @using ej2_blazor_productdetails
 
 <div class="control-section">
     <div class="content-wrapper">
-        <EjsPivotView TValue="PivotProductDetails" ShowFieldList=true ShowToolbar=true Toolbar="@toolbar" AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true>
-            <PivotViewDisplayOption Primary=Primary.Table View=View.Both></PivotViewDisplayOption>
-            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true ShowGrandTotals=true ShowSubTotals=true>
+        <SfPivotView @ref="@Pivot" TValue="PivotProductDetails" Height="400" Width="100%" ShowFieldList=true ShowToolbar=true Toolbar="@PivotToolbar" AllowNumberFormatting=true AllowConditionalFormatting=true AllowPdfExport=true AllowExcelExport=true EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDisplayOption Primary="Primary.Table" View="View.Both"></PivotViewDisplayOption>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true ShowGrandTotals=true ShowSubTotals=true>
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
-                    <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
                 </PivotViewColumns>
                 <PivotViewRows>
                     <PivotViewRow Name="Country"></PivotViewRow>
                     <PivotViewRow Name="Products"></PivotViewRow>
                 </PivotViewRows>
                 <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
                     <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
                     <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
                 </PivotViewValues>
@@ -26,17 +27,17 @@
                     <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
                 </PivotViewFilters>
                 <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
-                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
             </PivotViewDataSourceSettings>
-            <PivotViewGridSettings ColumnWidth="140"></PivotViewGridSettings>
-            <PivotChartSettings>
+            <PivotChartSettings Title="Sales Analysis">
                 <PivotChartPrimaryYAxis>
                     <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
                 </PivotChartPrimaryYAxis>
             </PivotChartSettings>
-        </EjsPivotView>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            <PivotViewEvents TValue="PivotProductDetails" RenameReport="RenameReport" RemoveReport="RemoveReport" SaveReport="SaveReport" LoadReport="LoadReport" FetchReport="FetchReport"></PivotViewEvents>
+        </SfPivotView>
     </div>
 </div>
 
@@ -47,21 +48,99 @@
 </style>
 
 @code{
-    public List<ToolbarItems> toolbar = new List<ToolbarItems> {
+    SfPivotView<PivotProductDetails> Pivot;
+    public List<ToolbarItems> PivotToolbar = new List<ToolbarItems> {
+        ToolbarItems.New,
+        ToolbarItems.Save,
+        ToolbarItems.SaveAs,
+        ToolbarItems.Rename,
+        ToolbarItems.Remove,
+        ToolbarItems.Load,
         ToolbarItems.Grid,
         ToolbarItems.Chart,
         ToolbarItems.Export,
         ToolbarItems.SubTotal,
         ToolbarItems.GrandTotal,
-        ToolbarItems.ConditionalFormatting,
+        ToolbarItems.Formatting,
         ToolbarItems.FieldList
     };
 
-    public List<PivotProductDetails> data { get; set; }
+    public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
-        this.data = PivotProductDetails.GetProductData();
+        this.Data = PivotProductDetails.GetProductData();
     }
 
+    public string InitReport { get; set; }
+    public string[] Name { get; set; }
+    public List<string> Report = new List<string>();
+    public List<string> ReportName = new List<string>();
+    public async void SaveReport(SaveReportArgs args)
+    {
+        int i = 0;
+        bool IsSaved = false;
+        for (i = 0; i < this.ReportName.Count; i++)
+        {
+            if (this.ReportName[i] == args.ReportName)
+            {
+                this.Report[i] = args.Report;
+                IsSaved = true;
+            }
+        }
+        if (args.Report != null && !(IsSaved))
+        {
+            this.Report.Add(args.Report);
+            this.ReportName.Add(args.ReportName);
+        }
+    }
+    public void FetchReport(FetchReportArgs args)
+    {
+        args.ReportName = ReportName.ToArray();
+
+    }
+    public void LoadReport(LoadReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                j = i;
+            }
+        }
+        this.Pivot.LoadPersistData(Report[j]);
+    }
+    public void RemoveReport(RemoveReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                ReportName.RemoveAt(i);
+                Report.RemoveAt(i);
+                break;
+            }
+        }
+        if (Report.Count > 0)
+        {
+            this.Pivot.LoadPersistData(Report[0]);
+        }
+    }
+    public void RenameReport(RenameReportArgs args)
+    {
+        int i = 0;
+        for (i = 0; i <= (ReportName.Count - 1); i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                ReportName.RemoveAt(i);
+                ReportName.Add(args.Rename);
+            }
+        }
+
+    }
 }

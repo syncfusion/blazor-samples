@@ -1,33 +1,34 @@
-﻿@page "/Charts/MultiSeriesChart"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/multi-series-chart"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Annual Growth GDP in France" >
+    <SfChart Title="Annual Growth GDP in France" >
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis LabelIntersectAction="LabelIntersectAction.Rotate45" Title="Years" Interval="1" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category">
+        <ChartPrimaryXAxis LabelIntersectAction="LabelIntersectAction.Rotate45" Title="Years" Interval="1" ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Growth" Minimum=-3 Maximum=3 Interval=1 LabelFormat="{value}B">
+        <ChartPrimaryYAxis Title="Growth" Minimum="-3" Maximum="3" Interval="1" LabelFormat="{value}B">
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Name="Private Consumption" XName="x" YName="y" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" Name="Private Consumption" XName="x" YName="y" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="Government Consumption" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" Name="Government Consumption" XName="x" YName="y1" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="Investment" XName="x" YName="y2" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" Name="Investment" XName="x" YName="y2" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="Net Foreign Trade" XName="x" YName="y3" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@DataSource" Name="Net Foreign Trade" XName="x" YName="y3" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="GDP" XName="x" YName="y4" Width=2 Opacity="0.6" Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@DataSource" Name="GDP" XName="x" YName="y4" Width="2" Opacity="0.6" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Height="10" Width="10"></ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -41,7 +42,7 @@
 		   public double y3 { get; set; }
 		   public double y4 { get; set; }
         }
-      public List<CombinationSeriesData> dataSource =  new List<CombinationSeriesData> {
+      public List<CombinationSeriesData> DataSource =  new List<CombinationSeriesData> {
                 new CombinationSeriesData { x= "2005", y= 1.2, y1= 0.5, y2= 0.7, y3= -0.8, y4= 1.5 },
                 new CombinationSeriesData { x= "2006", y= 1, y1= 0.5, y2= 1.4, y3= 0, y4= 2.3 },
                 new CombinationSeriesData { x= "2007", y= 1, y1= 0.5, y2= 1.5, y3= -1, y4= 2 },
@@ -54,4 +55,31 @@
 				new CombinationSeriesData { x= "2014", y= 0.6, y1= 0.6, y2= -0.6, y3= -0.6, y4= 0.4 },
 				new CombinationSeriesData { x= "2015", y= 0.9, y1= 0.5, y2= 0, y3= -0.3, y4= 1.3 }
         };
+
+        string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

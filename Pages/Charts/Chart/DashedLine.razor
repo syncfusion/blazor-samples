@@ -1,12 +1,13 @@
-﻿@page "/Charts/DashedLine"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/dashed-line"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart ID="container" Title="Fruits Production Statistics">
+    <SfChart Title="Fruits Production Statistics">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="40" Interval="10">
@@ -17,18 +18,18 @@
         <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
         </ChartCrosshairSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Banana" XName="xValue" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Banana" XName="xValue" Width="2"
                             Opacity="1" YName="yValue" Type="ChartSeriesType.Line" DashArray="5">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" Name="Apple" XName="xValue" Width="2"
+            <ChartSeries DataSource="@ChartData" Name="Apple" XName="xValue" Width="2"
                             Opacity="1" YName="yValue1" Type="ChartSeriesType.Line" DashArray="10">
                 <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.Diamond">
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -39,7 +40,7 @@
         public double yValue { get; set; }
         public double yValue1 { get; set; }
     }
-    public List<LineChartData> chartData = new List<LineChartData>
+    public List<LineChartData> ChartData = new List<LineChartData>
         {
         new LineChartData { xValue = new DateTime(2005, 01, 01), yValue = 12, yValue1 = 9.5 },
         new LineChartData { xValue = new DateTime(2006, 01, 01), yValue = 10.6, yValue1 = 19.9 },
@@ -49,6 +50,33 @@
         new LineChartData { xValue = new DateTime(2010, 01, 01), yValue = 23.5, yValue1 = 14.2 },
         new LineChartData { xValue = new DateTime(2011, 01, 01), yValue = 16.6, yValue1 = 10.3 },
     };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }
 <style>
     #control-container {

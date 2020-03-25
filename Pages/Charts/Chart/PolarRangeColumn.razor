@@ -1,18 +1,20 @@
-﻿@page "/Charts/PolarRangeColumn"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/polar-range-column"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 <div class="row">
 <div class="col-lg-9 control-section">
-    <EjsChart Title="Maximum and Minimum Temperature">
-        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" StartAngle=90 ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+    <SfChart Title="Maximum and Minimum Temperature">
+     <ChartEvents Load="ChartLoad"/>
+        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" StartAngle=90 ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
         <ChartPrimaryYAxis Minimum="0" Maximum="15" Interval="5" LabelFormat="{value}"></ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
         <ChartLegendSettings Visible="false">
         </ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Name="Germany" XName="x" Width="2" Low="low" High="high" Type="@seriesType" DrawType="ChartDrawType.RangeColumn">
+            <ChartSeries DataSource="@DataSource" Name="Germany" XName="x" Width="2" Low="low" High="high" Type="@SeriesType" DrawType="ChartDrawType.RangeColumn">
                 <ChartSeriesBorder Color="white" Width="3"></ChartSeriesBorder>
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top" EnableRotation="true">
@@ -21,10 +23,10 @@
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
     <div class="col-lg-3 property-section">
-        <table id="property" style="width: 100%">
+        <table style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 50%">
@@ -33,22 +35,36 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <div>
-                        <select id="SelectSeriesType" @onchange="changeSeriesType">
-                            <option value="Polar">Polar</option>
-                            <option value="Radar">Radar</option>
-                        </select>
-                    </div>
+                    <SfDropDownList TValue="string" TItem="SeriesTypes" @bind-Value="@DropVal" DataSource="@Country">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
         </table>
     </div>
 </div>
 @code{
-    ChartSeriesType seriesType = ChartSeriesType.Polar;
-    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    public string DropVal = "Polar";
+
+    public class SeriesTypes
     {
-        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        public string Type { get; set; }
+
+        public string Code { get; set; }
+    }
+
+    List<SeriesTypes> Country = new List<SeriesTypes>
+{
+        new SeriesTypes() { Type = "Polar", Code = "P" },
+        new SeriesTypes() { Type = "Radar", Code = "R" },
+    };
+
+    ChartSeriesType SeriesType = ChartSeriesType.Polar;
+    public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        StateHasChanged();
     }
     public class PolarRangeColumnData
     {
@@ -56,7 +72,7 @@
         public double low { get; set; }
         public double high { get; set; }
     }
-    public List<PolarRangeColumnData> dataSource = new List<PolarRangeColumnData>
+    public List<PolarRangeColumnData> DataSource = new List<PolarRangeColumnData>
            {
                 new PolarRangeColumnData { x= "Jan", low= 2, high= 7 },
                 new PolarRangeColumnData { x= "Feb", low= 3, high= 7 },
@@ -65,4 +81,34 @@
                 new PolarRangeColumnData { x= "May", low= 6, high= 11 },
                 new PolarRangeColumnData { x= "June", low= 8, high= 14 }
             };
+
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

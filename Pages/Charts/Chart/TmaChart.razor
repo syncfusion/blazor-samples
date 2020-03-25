@@ -1,20 +1,22 @@
-﻿@page "/Charts/TmaChart"
+﻿@page "/chart/triangular-moving-average-indicator"
 @using Newtonsoft.Json
-@using Syncfusion.EJ2.Blazor.Charts
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
-@if (indicatorData == null)
+@if (IndicatorData == null)
 {
     <div class="stockchartloader"></div>
 }
 else
 {
     <div class="control-section">
-        <EjsChart Title="AAPL - 2012-2017">
-            <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Months" ZoomFactor=0.2 ZoomPosition=0.6>
+        <SfChart Title="AAPL - 2012-2017">
+         <ChartEvents Load="ChartLoad"/>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Months" ZoomFactor="0.2" ZoomPosition="0.6">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
             </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Title="Price" LabelFormat="${value}M" Minimum=50 Maximum=170 Interval=30>
+            <ChartPrimaryYAxis Title="Price" LabelFormat="${value}M" Minimum="50" Maximum="170" Interval="30">
                 <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
                 <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             </ChartPrimaryYAxis>
@@ -26,27 +28,27 @@ else
             <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
             <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical"></ChartCrosshairSettings>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@indicatorData" XName="x" YName="y" Low="low" High="high" Close="close" Volume="volume" Open="open"
-                             Width=2 Name="Apple Inc" Type="ChartSeriesType.Candle" BearFillColor="#2ecd71" BullFillColor="#e74c3d">
+                <ChartSeries DataSource="@IndicatorData" XName="x" YName="y" Low="low" High="high" Close="close" Volume="volume" Open="open"
+                             Width="2" Name="Apple Inc" Type="ChartSeriesType.Candle" BearFillColor="#2ecd71" BullFillColor="#e74c3d">
                     <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartIndicators>
-                <ChartIndicator Type="TechnicalIndicators.Tma" Field="FinancialDataFields.Close" XName="x" SeriesName="Apple Inc" Fill="blue" Period=14>
+                <ChartIndicator Type="TechnicalIndicators.Tma" Field="FinancialDataFields.Close" XName="x" SeriesName="Apple Inc" Fill="blue" Period="14">
                     <ChartIndicatorAnimation Enable="true"></ChartIndicatorAnimation>
                 </ChartIndicator>
             </ChartIndicators>
-        </EjsChart>
+        </SfChart>
     </div>
 }
 @code{
-    private ChartData[] indicatorData;
+    private ChartData[] IndicatorData;
     protected override async Task OnInitializedAsync()
     {
         //indicatorData = await Http.GetJsonAsync<ChartData[]>("scripts/chart/financial-data.json");
         await Task.Run(() =>
         {
-            indicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/chart/financial-data.json"));
+            IndicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/scripts/chart/financial-data.json"));
         });
     }
     public class ChartData
@@ -57,5 +59,34 @@ else
         public double open { get; set; }
         public double close { get; set; }
         public double volume { get; set; }
+    }
+string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
     }
 }

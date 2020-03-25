@@ -1,18 +1,19 @@
-﻿@page "/Charts/PieRadius"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/pie-radius"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsAccumulationChart EnableAnimation="true" EnableSmartLabels="true">
+    <SfAccumulationChart EnableAnimation="true" EnableSmartLabels="true">
+    <AccumulationChartEvents Load="BeforeRender"/>
         <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
         <AccumulationChartLegendSettings Visible="true"></AccumulationChartLegendSettings>
         <AccumulationChartSeriesCollection>
-            <AccumulationChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Radius="r" InnerRadius="20%">
+            <AccumulationChartSeries DataSource="@DataSource" XName="xValue" YName="yValue" Radius="r" InnerRadius="20%">
             <AccumulationDataLabelSettings Name="xValue" Visible="true" Position="AccumulationLabelPosition.Outside"></AccumulationDataLabelSettings>
             </AccumulationChartSeries>
         </AccumulationChartSeriesCollection>
-    </EjsAccumulationChart>
+    </SfAccumulationChart>
 </div>
 
 @code{
@@ -22,7 +23,7 @@
         public double yValue { get; set; }
         public string r { get; set; }
     }
-    public List<PieData1> dataSource = new List<PieData1>
+    public List<PieData1> DataSource = new List<PieData1>
 {
         new PieData1 { xValue = "Argentina", yValue = 505370, r = "100"},
         new PieData1 { xValue = "Belgium",    yValue = 551500, r = "118.7"},
@@ -32,4 +33,29 @@
         new PieData1 { xValue = "Kazakhstan", yValue = 300000, r = "155.5"},
         new PieData1 { xValue = "Somalia",  yValue = 357022, r = "160.6"}
     };
+    string CurrentUri;
+    void BeforeRender(IAccLoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = AccumulationTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = AccumulationTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = AccumulationTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = AccumulationTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = AccumulationTheme.Bootstrap4;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-function saveAsFile(data) {
+function saveDiagram(data) {
     if (window.navigator.msSaveBlob) {
         let blob = new Blob([data], { type: 'data:text/json;charset=utf-8,' });
         window.navigator.msSaveOrOpenBlob(blob, 'Diagram.json');

@@ -1,12 +1,13 @@
-﻿@page "/Charts/RangeBar"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/range-bar"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Temperature Variation" IsTransposed="true" >
+    <SfChart Title="Temperature Variation" IsTransposed="true" >
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}˚F">
@@ -14,13 +15,13 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" XName="x" High="High" Low="Low" Name="California" Type="ChartSeriesType.RangeColumn">
+            <ChartSeries DataSource="@ChartData" XName="x" High="High" Low="Low" Name="California" Type="ChartSeriesType.RangeColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" XName="x" High="High1" Low="Low1" Name="Colorado" Type="ChartSeriesType.RangeColumn">
+            <ChartSeries DataSource="@ChartData" XName="x" High="High1" Low="Low1" Name="Colorado" Type="ChartSeriesType.RangeColumn">
             </ChartSeries>          
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -34,7 +35,7 @@
             public double High1 { get; set; }
         }
 
-    public List<RangeBarChartData> chartData = new List<RangeBarChartData>
+    public List<RangeBarChartData> ChartData = new List<RangeBarChartData>
             {
                 new RangeBarChartData { x= "Jul", Low= 28, High= 72, Low1= 38, High1= 78 },
                 new RangeBarChartData { x= "Aug", Low= 18, High= 65, Low1= 27, High1= 78 }, 
@@ -43,4 +44,33 @@
                 new RangeBarChartData { x= "Nov", Low= 43, High= 64, Low1= 25, High1= 52 }, 
                 new RangeBarChartData { x= "Dec", Low= 28, High= 54, Low1= 20, High1= 60 }
             };   
+string CurrentUri;
+            void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

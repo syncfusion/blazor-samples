@@ -1,26 +1,64 @@
-﻿@page "/DropDownList/DefaultFunctionalities"
+﻿@page "/DropDown-List/Default-Functionalities"
 
-@using Syncfusion.EJ2.Blazor.DropDowns
-
+@using Syncfusion.Blazor.DropDowns
+@using Newtonsoft.Json
 @inherits SampleBaseComponent;
 
-<div class="col-lg-12 control-section">
+<div class="col-lg-8 control-section sb-property-border dropdown-height">
     <div class="control_wrapper">
-        <EjsDropDownList TItem="GameFields" TValue="string" PopupHeight="230px" Index=2 Placeholder="Select a game" DataSource="@Games">
+        <SfDropDownList TItem="GameFields" TValue="string" PopupHeight="230px" Index="2" Placeholder="Select a game" @bind-Value="@DropVal" DataSource="@Games">
+            <DropDownListEvents TValue="string" ValueChange="OnChange"></DropDownListEvents>
             <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
-        </EjsDropDownList>
+        </SfDropDownList>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties">
+                <tr>
+                    <td class="left-side">Value</td>
+                    <td>:<span id='value' class="right-side">@DropVal</span></td>
+                </tr>
+                <tr>
+                    <td class="left-side">Text</td>
+                    <td>:<span id='text' class="right-side">@ChangeValue</span></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 
 <style>
     .control_wrapper {
-        width: 350px;
+        width: 250px;
         margin: 0 auto;
         padding-top: 70px;
+    }
+
+    .property-section .right-side {
+        padding-left: 10px;
+    }
+
+    .property-section .left-side {
+        padding: 5px;
+        width: 25%
+    }
+
+    .dropdown-height {
+        min-height: 365px;
+    }
+
+    #property {
+        width: 100%;
+        margin: 10px
     }
 </style>
 
 @code{
+
+    private string textValue { get; set; }
     public class GameFields
     {
         public string ID { get; set; }
@@ -40,4 +78,14 @@
         new GameFields(){ ID= "Game9", Text= "Snooker" },
         new GameFields(){ ID= "Game10", Text= "Tennis"},
      };
+    public string DropVal;
+    public string ChangeValue { get; set; } = "Basketball";
+
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+
+        var itemData = JsonConvert.DeserializeObject<GameFields>(args.ItemData != null ? args.ItemData.ToString() : "");
+
+        this.ChangeValue = itemData.Text;
+    }
 }

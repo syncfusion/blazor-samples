@@ -1,0 +1,102 @@
+﻿@page "/kanban/swimlane"
+
+@using ej2_blazor_kanban_data_models
+
+@using Syncfusion.Blazor.Kanban;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.DropDowns;
+
+@inherits SampleBaseComponent;
+
+<div class="col-lg-8 control-section">
+    <div class="control-section">
+        <SfKanban KeyField="Status" DataSource="@Tasks">
+            <KanbanColumns>
+                @foreach (ColumnsModel item in columnData)
+                {
+                    <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField">
+                    </KanbanColumn>
+                }
+            </KanbanColumns>
+            <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+            <KanbanSwimlaneSettings KeyField="Assignee" AllowDragAndDrop="@allowDragAndDrop" ShowItemCount="@showItemCount" SortBy="@sortType"></KanbanSwimlaneSettings>
+        </SfKanban>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <table id="property" title="Properties">
+        <tr>
+            <td>
+                <div>Sort by</div>
+            </td>
+            <td>
+                <div>
+                    <SfDropDownList TItem="KanbanDataModels" TValue="SortType" DataSource="@SortData" Index="0" PopupHeight="200px">
+                        <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
+                        <DropDownListEvents TValue="SortType" ValueChange="@ChangeSortOrder"></DropDownListEvents>
+                    </SfDropDownList>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Enable Swimlane Drag And Drop</div>
+            </td>
+            <td>
+                <SfCheckBox Checked="false" ValueChange="@OnDragChange"></SfCheckBox>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>Show Swimlane Item Count</div>
+            </td>
+            <td>
+                <SfCheckBox Checked="true" ValueChange="@OnItemChange"></SfCheckBox>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    #property tr {
+        height: 50px
+    }
+
+    .property-section table td {
+        width: 50%;
+    }
+
+    .property-section table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+</style>
+
+@code {
+    private List<KanbanDataModels> Tasks = new KanbanDataModels().GetTasks();
+    private List<KanbanDataModels> SortData = new KanbanDataModels().SortDropDowns();
+    private SortType sortType { get; set; } = SortType.Ascending;
+    private bool allowDragAndDrop { get; set; } = false;
+    private bool showItemCount { get; set; } = true;
+
+    private List<ColumnsModel> columnData = new List<ColumnsModel>() {
+        new ColumnsModel(){ HeaderText= "To Do", KeyField= "Open" },
+        new ColumnsModel(){ HeaderText= "In Progress", KeyField= "InProgress"},
+        new ColumnsModel(){ HeaderText= "Done", KeyField= "Close" }
+    };
+
+    private void OnItemChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.showItemCount = args.Checked;
+    }
+
+    private void OnDragChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    {
+        this.allowDragAndDrop = args.Checked;
+    }
+
+    private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<SortType> args)
+    {
+        this.sortType = args.Value;
+    }
+}

@@ -1,0 +1,57 @@
+﻿@page "/gantt-chart/context-menu"
+
+@using Syncfusion.Blazor.Gantt
+@using blazor_samples
+@using ej2_blazor_ganttdata
+
+@inherits SampleBaseComponent;
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt EnableContextMenu="true" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"  Resources="@ResourceCollection"
+                      Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})" AllowSorting="true" AllowResizing="true"
+                      AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1"
+                      ResourceNameMapping="ResourceName" ResourceIDMapping="ResourceId"  ProjectStartDate="03/25/2019" ProjectEndDate="07/28/2019">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 Dependency="Predecessor" Child="SubTasks" Notes="Notes" ResourceInfo="ResourceId"></GanttTaskFields>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
+                                   ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttEventMarkers>
+                    <GanttEventMarker Day="4/17/2019" Label="Project approval and kick-off"></GanttEventMarker>
+                    <GanttEventMarker Day="5/3/2019" Label="Foundation inspection"></GanttEventMarker>
+                    <GanttEventMarker Day="6/7/2019" Label="Site manager inspection"></GanttEventMarker>
+                    <GanttEventMarker Day="7/16/2019" Label="Property handover and sign-off"></GanttEventMarker>
+                </GanttEventMarkers>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" Width="50"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Job Name" Width="250"></GanttColumn>
+                    <GanttColumn Field="StartDate"></GanttColumn>
+                    <GanttColumn Field="Duration"></GanttColumn>
+                    <GanttColumn Field="Progress"></GanttColumn>
+                    <GanttColumn Field="Predecessor"></GanttColumn>
+                </GanttColumns>
+                <GanttLabelSettings>
+                    <LeftLabelTemplate>
+                        <div class="e-left-label-inner-div" style="height:22px;margin-top:7px;">
+                            <span class="e-label">@((context as GanttData.TaskData).TaskName)</span>
+                        </div>
+                    </LeftLabelTemplate>
+                </GanttLabelSettings>
+                <GanttTimelineSettings>
+                    <GanttTopTierSettings Unit="TimelineViewMode.Week" Format="MMM dd, y"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Day"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code{
+    public List<GanttData.TaskData> TaskCollection { get; set; }
+    public List<GanttData.TaskResources> ResourceCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GanttData.EditingData();
+        this.ResourceCollection = GanttData.EditingResources();
+    }
+}

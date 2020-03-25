@@ -1,12 +1,12 @@
 @inherits LayoutComponentBase
 @using System.Text.RegularExpressions;
 @using Newtonsoft.Json;
-@using ej2_blazor_samples
-@using Syncfusion.EJ2.Blazor.Navigations;
-@using Syncfusion.EJ2.Blazor.SplitButtons;
-@using Syncfusion.EJ2.Blazor.DropDowns;
+@using blazor_samples
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.SplitButtons;
+@using Syncfusion.Blazor.DropDowns;
 @using Microsoft.AspNetCore.Components;
-@using Syncfusion.EJ2.Blazor;
+@using Syncfusion.Blazor;
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
 @inject IJSRuntime JsRuntime;
 @inject SampleService Service;
@@ -17,7 +17,7 @@
     <SpinnerComponent @ref="SpinnerObj"></SpinnerComponent>
 
 
-    <div class="sample-browser e-view ej2-new">
+    <div class="sample-browser e-view sf-new">
         <div class="sb-mobile-overlay sb-hide"></div>
 
         <HeaderComponent OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick"></HeaderComponent>
@@ -31,7 +31,7 @@
 
 
 
-            <EjsSidebar ID="right-sidebar" @ref="sidebarRight" EnableGestures="false" Position="@Position" Type="@Type">
+            <SfSidebar ID="right-sidebar" @ref="sidebarRight" EnableGestures="false" Position="@Position" Type="@Type">
                 <ChildContent>
                     <div class="sb-left-pane-header">
                         <div class="sb-setting-header">Preferences</div>
@@ -40,14 +40,14 @@
                         <div class="sb-icons sb-setting-icons sb-icon-Palette"></div>
                         <div class="sb-setting-text">Theme Selection</div>
 
-                        <EjsDropDownList ID="mobileTheme" TValue="string" TItem="typeData" PopupWidth="180px" DataSource="@data">
+                        <SfDropDownList ID="mobileTheme" TValue="string" TItem="typeData" PopupWidth="180px" DataSource="@data">
                             <DropDownListEvents ValueChange="ThemeChange" TValue="string"></DropDownListEvents>
                             <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
-                        </EjsDropDownList>
+                        </SfDropDownList>
                     </div>
                     @*<div class="sb-name">Choose Theme</div>*@
                 </ChildContent>
-            </EjsSidebar>
+            </SfSidebar>
             @*<div class="sb-body-overlay sb-hide">
                     <div class="sb-loading">
                         <svg class="circular" height="40" width="40">
@@ -69,8 +69,7 @@
 </CascadingValue>
 @code {
 
-
-    EjsSidebar sidebarRight;
+    SfSidebar sidebarRight;
 
     public LeftPaneComponent LeftPaneObject { get; set; }
 
@@ -105,7 +104,7 @@
 
 
 
-    private void ThemeChange(Syncfusion.EJ2.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void ThemeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         JsRuntime.InvokeAsync<string>("mobileThemeChange", args.Value.ToString());
     }
@@ -116,22 +115,20 @@
     private void OnPrevSampleClick()
     {
         JsRuntime.InvokeAsync<Object>("persistTheme");
-        int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(SampleBrowser.CurrentUrl);
+        var currentUrl = Service.Data.CurrentSample.Url;
+        int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
         if (CurrentIndex != 0)
         {
             UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString());
-            SampleBrowser.CurrentUrl = SampleBrowser.SampleUrls[CurrentIndex - 1].ToString();
-            JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
         }
     }
 
     private void OnNextSampleClick()
     {
         JsRuntime.InvokeAsync<Object>("persistTheme");
-        int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(SampleBrowser.CurrentUrl);
+        var currentUrl = Service.Data.CurrentSample.Url;
+        int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
         UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex + 1].ToString());
-        SampleBrowser.CurrentUrl = SampleBrowser.SampleUrls[CurrentIndex + 1].ToString();
-        JsRuntime.InvokeAsync<Object>("persistURL", SampleBrowser.CurrentUrl);
     }
 
     public List<TabItem> sourceCodeItems;
@@ -186,11 +183,11 @@
     {
         if (UriHelper.Uri.IndexOf("material") > 0)
         {
-            JsRuntime.Ejs().EnableRipple(true);
+            JsRuntime.Sf().EnableRipple(true);
         }
         else
         {
-            JsRuntime.Ejs().EnableRipple(false);
+            JsRuntime.Sf().EnableRipple(false);
         }
         if(this.SpinnerObj.TransClass == "sb-trans")
         {

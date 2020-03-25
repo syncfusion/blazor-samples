@@ -1,0 +1,316 @@
+﻿@page "/diagram/hierarchical-tree"
+
+@using Syncfusion.Blazor.Diagrams
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using Newtonsoft.Json
+@inherits SampleBaseComponent;
+@*Hidden:Lines*@
+<style>
+
+    #diagram {
+        display: block;
+    }
+
+    .row {
+        display: block;
+    }
+
+    .image-pattern-style {
+        background-color: white;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 75px;
+        width: calc((100% - 12px) / 2);
+        cursor: pointer;
+        border: 1px solid #D5D5D5;
+        background-position: center;
+        float: left;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .row-header {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .image-pattern-style:hover {
+        border-color: gray;
+        border-width: 2px;
+    }
+
+    .e-checkbox-wrapper .e-label {
+        font-size: 12px;
+    }
+
+    .e-selected-style {
+        border-color: #006CE6;
+        border-width: 2px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .textboxstyle {
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        width: 110px;
+    }
+
+    .sb-property-border {
+        border-right: 1px solid #D7D7D7;
+    }
+</style>
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfDiagram @ref="@Diagram" id="diagram" Width="100%" Height="499px" Layout="@LayoutValue" Tool="@DiagramTools.ZoomPan" ConnectorDefaults="@ConnectorDefault" NodeDefaults="@NodeDefaults">
+            <DiagramDataSource Id="Name" ParentId="Category" DataSource="@DataSource">
+                <DiagramDataMapSettings>
+                    <DiagramDataMapSetting Property="Shape.TextContent" Field="Name"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Style.StrokeColor" Field="FillColor"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Style.Fill" Field="FillColor"></DiagramDataMapSetting>
+                </DiagramDataMapSettings>
+            </DiagramDataSource>
+            <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
+            <DiagramPageSettings>
+                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+            </DiagramPageSettings>
+        </SfDiagram>
+
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="row property-panel-content" id="appearance">
+        <div class="row row-header">
+            Appearance
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Top to Bottom  Orientation" class="@dict["topToBottom"]" @onclick="@ToptoBottomClick" id="topToBottom" style="background-image: url(//ej2.syncfusion.com/demos/src/diagram/Images/common-orientation/toptobottom.png); margin-right: 3px">
+            </div>
+            <div title="Bottom to top Orientation" class="@dict["bottomToTop"]" @onclick="@BottomtoTopClick" id="bottomToTop" style="background-image: url(//ej2.syncfusion.com/demos/src/diagram/Images/common-orientation/bottomtotop.png); margin: 0px 3px">
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Left to right Orientation" class="@dict["leftToRight"]" @onclick="@LefttoRightClick" id="leftToRight" style="background-image: url(//ej2.syncfusion.com/demos/src/diagram/Images/common-orientation/lefttoright.png); margin-right: 3px">
+            </div>
+            <div title="Right to left Orientation" class="@dict["rightToLeft"]" @onclick="@RighttoLeftClick" id="rightToLeft" style="background-image: url(//ej2.syncfusion.com/demos/src/diagram/Images/common-orientation/righttoleft.png); margin: 0px 3px">
+            </div>
+        </div>
+    </div>
+    <div class="row property-panel-content" style="padding-top: 10px">
+        <div class="row row-header">
+            Layout Spacing
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Horizontal Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="hSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@HValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="HSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Vertical Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="vSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@VValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="VSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+
+
+
+@functions{
+    SfDiagram Diagram;
+    public int? HValue { get; set; } = 30;
+    public int? VValue { get; set; } = 30;
+    static string selecteditem = "image-pattern-style e-selected-style";
+    static string unselecteditem = "image-pattern-style";
+     bool CanFit = true;
+    FitModes Mode = FitModes.Width;
+
+    
+    Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
+    TreeInfo LayoutInfo = new TreeInfo()
+    {
+        CanEnableSubTree = true,
+        Orientation = SubTreeOrientation.Horizontal
+
+    };
+    DiagramLayout LayoutValue = new DiagramLayout() { };
+
+
+
+    DiagramConnector ConnectorDefault = new DiagramConnector()
+    {
+        TargetDecorator = new ConnectorTargetDecorator() { Shape = DecoratorShapes.None },
+        Type = Segments.Orthogonal,
+        Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
+        Constraints = 0,
+        CornerRadius = 5
+    };
+
+    DiagramNode NodeDefaults = new DiagramNode
+    {
+        Style = new NodeShapeStyle() { Fill = "#659be5", StrokeColor = "none", Color = "white", StrokeWidth = 2, },
+        BackgroundColor = "#659be5",
+        Shape = new DiagramShape() { Type = Syncfusion.Blazor.Diagrams.Shapes.Text, Margin = new BasicShapeMargin() { Left = 10, Right = 10, Bottom = 10, Top = 10 } },
+        ExpandIcon = new NodeExpandIcon()
+        {
+            Height = 10,
+            Width = 10,
+            Shape = IconShapes.None,
+            Fill = "lightgray",
+            Offset = new IconOffset() { X = 0.5, Y = 1 },
+            VerticalAlignment = VerticalAlignment.Auto,
+            Margin = new ExpandIconMargin() { Bottom = 0, Left = 0, Right = 0, Top = 0 }
+        },
+        CollapseIcon = new NodeCollapseIcon()
+        {
+            Offset = new IconOffset() { X = 0.5, Y = 1 },
+            VerticalAlignment = VerticalAlignment.Auto,
+            Height = 10,
+            Width = 10,
+            Shape = IconShapes.None,
+            Fill = "lightgray",
+            Padding = new IconPadding() { Top = 5 }
+        }
+
+    };
+
+    public class HierarchicalDetails
+    {
+        public string Name { get; set; }
+        public string FillColor { get; set; }
+        public string Category { get; set; }
+
+    }
+    public List<object> DataSource = new List<object>()
+{
+                new HierarchicalDetails(){ Name ="Diagram", Category="",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Layout", Category="Diagram",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Tree layout", Category="Layout",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Organizational chart", Category="Layout",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Hierarchical tree", Category="Tree layout",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Radial tree", Category="Tree layout",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Mind map", Category="Hierarchical tree",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Family tree", Category="Hierarchical tree",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Management", Category="Organizational chart",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Human resources", Category="Management",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="University", Category="Management",FillColor="#659be5"},
+                new HierarchicalDetails(){ Name ="Business", Category="#Management",FillColor="#659be5"}
+                };
+
+
+
+    protected override void OnInitialized()
+    {
+        LayoutValue = new DiagramLayout()
+        {
+            Type = LayoutType.HierarchicalTree,
+            VerticalSpacing = 30,
+            HorizontalSpacing = 30,
+            EnableAnimation = true,
+            LayoutInfo = this.LayoutInfo
+
+        };
+
+    }
+
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dict.Count; i++)
+        {
+            var value = dict.Values.ElementAt(i);
+            var key = dict.Keys.ElementAt(i);
+            if (dict.ContainsKey(id) && key == id)
+            {
+                value = selecteditem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dict.Remove(key);
+            dict.Add(key, value);
+        }
+    }
+
+    public class ImageFields
+    {
+        public string Text { get; set; }
+    }
+    private List<Syncfusion.Blazor.SplitButtons.ItemModel> Images = new List<Syncfusion.Blazor.SplitButtons.ItemModel>() {
+                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text ="JPG" },
+                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="PNG" },
+                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="BMP" },
+                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="SVG" }
+                };
+
+
+    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    {
+        HValue = (int)args.Value;
+        Diagram.Layout.HorizontalSpacing = args.Value;
+        StateHasChanged();
+    }
+    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    {
+        VValue = (int)args.Value;
+        Diagram.Layout.VerticalSpacing = args.Value;
+        StateHasChanged();
+
+    }
+
+    private void ToptoBottomClick()
+    {
+        UpdateSelection("topToBottom");
+        Diagram.Layout.Orientation = LayoutOrientation.TopToBottom;
+        StateHasChanged();
+
+    }
+    private void LefttoRightClick()
+    {
+        UpdateSelection("leftToRight");
+        Diagram.Layout.Orientation = LayoutOrientation.LeftToRight;
+        StateHasChanged();
+
+    }
+    private void RighttoLeftClick()
+    {
+        UpdateSelection("rightToLeft");
+        Diagram.Layout.Orientation = LayoutOrientation.RightToLeft;
+        StateHasChanged();
+
+    }
+    private void BottomtoTopClick()
+    {
+        UpdateSelection("bottomToTop");
+        Diagram.Layout.Orientation = LayoutOrientation.BottomToTop;
+        StateHasChanged();
+
+    }
+}
+
+

@@ -1,14 +1,15 @@
-﻿@page "/Charts/IndexedCategoryAxis"
-@using Syncfusion.EJ2.Blazor.Charts
-@using Syncfusion.EJ2.Blazor.Buttons
-
+﻿@page "/chart/indexed-category-axis"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <EjsChart Title="Real GDP Growth">
+        <SfChart Title="Real GDP Growth">
+            <ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelRotation="@LabelRotate" Interval="1" IsIndexed="@Indexed">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelRotation="@LabelRotate" Interval="1" IsIndexed="@Indexed">
                 <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Title="GDP Growth Rate" LabelFormat="{value}%">
@@ -28,10 +29,10 @@
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
-        </EjsChart>
+        </SfChart>
     </div>
     <div class="col-lg-4 property-section">
-        <table id="property" title="Properties" style="width: 100%">
+        <table title="Properties" style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 50%">
@@ -39,7 +40,7 @@
                 </td>
                 <td style="width: 50%;">
                     <div>
-                        <EjsCheckBox Checked="@Indexed" ValueChange="@CheckValue"></EjsCheckBox>
+                        <SfCheckBox Checked="@Indexed" ValueChange="@CheckValue"></SfCheckBox>
                     </div>
                 </td>
             </tr>
@@ -51,7 +52,7 @@
     public double LabelRotate, CrossWidth = 1;
     ChartSeriesType Series0 = ChartSeriesType.Column, Series1 = ChartSeriesType.Column;
 
-    private void CheckValue(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    private void CheckValue(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
         Indexed = args.Checked;
         if (Indexed)
@@ -98,4 +99,31 @@
                 new CategoryData { x = "Canada", y2 = 1.4 },
                 new CategoryData { x = "Germany", y2 = 1.8 },
              };
+
+             string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

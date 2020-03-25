@@ -1,10 +1,11 @@
-﻿@page "/Charts/Histogram"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/histogram"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Examination Result">
+    <SfChart Title="Examination Result">
+        <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
 
         <ChartPrimaryXAxis Minimum="0" Maximum="100" Title="Score of Final Examination">
@@ -26,7 +27,7 @@
         </ChartSeriesCollection>
 
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -49,5 +50,32 @@
        new Data { Y=76.625},
        new Data { Y=80.000},
        new Data { Y=97.750}
-  };    
+  };   
+
+  string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    } 
 }

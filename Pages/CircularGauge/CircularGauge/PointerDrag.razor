@@ -1,18 +1,22 @@
-@page "/CircularGauge/PointerDrag"
+@page "/circular-gauge/pointer-drag"
 
-@using Syncfusion.EJ2.Blazor.CircularGauge
-@using Syncfusion.EJ2.Blazor.Buttons
-@using Syncfusion.EJ2.Blazor.Inputs
+@using Syncfusion.Blazor.CircularGauge
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
 
 @inherits SampleBaseComponent;
-	
+
 <div class="col-lg-9 control-section sb-property-border">
     <div class="control-section">
-        <EjsCircularGauge EnablePointerDrag="@pointerDrag">
+        <SfCircularGauge EnablePointerDrag="@pointerDrag" EnableRangeDrag="rangeDrag">
+            <CircularGaugeEvents OnDragEnd="OnDragEnd"></CircularGaugeEvents>
             <CircularGaugeAxes>
                 <CircularGaugeAxis EndAngle="140" StartAngle="220" Radius="80%" Minimum="0" Maximum="120">
                     <CircularGaugeAnnotations>
-                        <CircularGaugeAnnotation Content='<div style="font-size: 14px;color:#E5C31C;font-weight: lighter;font-style: oblique;"><span>70 MPH</span></div>' Angle="180" ZIndex="1" Radius="45%">
+                        <CircularGaugeAnnotation Angle="180" ZIndex="1" Radius="45%">
+                            <ContentTemplate>
+                                <div style="font-size: 14px;color:@templateColor;font-weight: lighter;font-style: oblique;margin-left:-20px"><span>@templateValue MPH</span></div>
+                            </ContentTemplate>
                         </CircularGaugeAnnotation>
                     </CircularGaugeAnnotations>
                     <CircularGaugeAxisLineStyle Width="0.01" Color="#9E9E9E">
@@ -24,50 +28,62 @@
                     <CircularGaugeAxisLabelStyle UseRangeColor="true">
                     </CircularGaugeAxisLabelStyle>
                     <CircularGaugeRanges>
-                        <CircularGaugeRange Start="0" End="40" StartWidth="8" EndWidth="8" Radius="108%" Color="@firstRangeColor">
+                        <CircularGaugeRange Start="@firstRangeStart" End="@firstRangeEnd" StartWidth="8" EndWidth="8" Radius="108%" Color="@firstRangeColor">
                         </CircularGaugeRange>
-                        <CircularGaugeRange Start="40" End="100" StartWidth="8" EndWidth="8" Radius="108%" Color="@secondRangeColor">
+                        <CircularGaugeRange Start="@secondRangeStart" End="@secondRangeEnd" StartWidth="8" EndWidth="8" Radius="108%" Color="@secondRangeColor">
                         </CircularGaugeRange>
-                        <CircularGaugeRange Start="100" End="120" StartWidth="8" EndWidth="8" Radius="108%" Color="@thirdRangeColor">
+                        <CircularGaugeRange Start="@thirdRangeStart" End="@thirdRangeEnd" StartWidth="8" EndWidth="8" Radius="108%" Color="@thirdRangeColor">
                         </CircularGaugeRange>
                     </CircularGaugeRanges>
                     <CircularGaugePointers>
-                        <CircularGaugePointer Value="@pointerValue" Radius="60%" Color="@pointerColor" MarkerWidth="5">
+                        <CircularGaugePointer Value="@pointerValue" Radius="60%" Color="@PointerColor" MarkerWidth="5">
                             <CircularGaugeCap Radius="10">
-                                <CircularGaugeCapBorder Width="5" Color="@pointerColor">
+                                <CircularGaugeCapBorder Width="5" Color="@PointerColor">
                                 </CircularGaugeCapBorder>
                             </CircularGaugeCap>
-                            <CircularGaugeNeedleTail Length="0.01%" Color="@pointerColor">
+                            <CircularGaugeNeedleTail Length="0.01%" Color="@PointerColor">
                             </CircularGaugeNeedleTail>
+                        </CircularGaugePointer>
+                        <CircularGaugePointer Value="@pointerValue" Radius="110%" Color="@PointerColor" MarkerWidth="20" MarkerHeight="20" Type="PointerType.Marker" MarkerShape="GaugeShape.InvertedTriangle">
                         </CircularGaugePointer>
                     </CircularGaugePointers>
                 </CircularGaugeAxis>
             </CircularGaugeAxes>
-        </EjsCircularGauge>
+        </SfCircularGauge>
     </div>
 </div>
 <div class="col-md-3 property-section">
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
-            <table title="Properties" style="width: 100%">
-                <tr style="height: 50px" >
-                    <td style="width: 30%">
+            <table  style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 45%">
                         <div>Pointer Value <span> &nbsp;&nbsp;&nbsp;@sliderValueText</span> </div>
                     </td>
                     <td style="width: 40%;">
                         <div>
-                           <input type="range" value="@pointerValue" min="0" max="120"  @onchange="PointerDragChange"  />
+                            <input type="range" value="@pointerValue" min="0" max="120" @onchange="PointerDragChange" />
                         </div>
                     </td>
                 </tr>
                 <tr style="height: 50px">
-                    <td style="width: 20%">
-                        <div>Enable Drag</div>
+                    <td style="width: 45%">
+                        <div>Allow Pointer Drag</div>
                     </td>
                     <td style="width: 40%;">
                         <div>
-                            <EjsCheckBox ValueChange="@EnableDragCheckbox" Checked="@enableDragChange"></EjsCheckBox>
+                            <SfCheckBox ValueChange="@EnableDragCheckbox" Checked="@enableDragChange"></SfCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 45%">
+                        <div>Allow Ranges Drag</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <SfCheckBox ValueChange="@EnableRangeChange" Checked="@enableRangeChange"></SfCheckBox>
                         </div>
                     </td>
                 </tr>
@@ -78,29 +94,51 @@
 
 @code{
     private Boolean pointerDrag = true;
+    private Boolean rangeDrag = false;
     private String firstRangeColor = "#30B32D";
     private String secondRangeColor = "#E5C31C";
     private String thirdRangeColor = "#F03E3E";
-    private String pointerColor = "#E5C31C";
-    private String templateValue = "70 MPH";
+    private String PointerColor = "#E5C31C";
+    private String templateValue = "70";
     private String templateColor = "#E5C31C";
     private Boolean enableDragChange = true;
+    private Boolean enableRangeChange = false;
     private Double pointerSliderValue = 70;
     private Double pointerValue = 70;
     private Double sliderValueText = 70;
-    public void EnableDragCheckbox(Syncfusion.EJ2.Blazor.Buttons.ChangeEventArgs args)
+    private double firstRangeStart = 0;
+    private double firstRangeEnd = 40;
+    private double secondRangeStart = 40;
+    private double secondRangeEnd = 100;
+    private double thirdRangeStart = 100;
+    private double thirdRangeEnd = 120;
+    public void EnableDragCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
     {
         enableDragChange = args.Checked;
         pointerDrag = args.Checked;
     }
+    public void EnableRangeChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    {
+        enableRangeChange = args.Checked;
+        rangeDrag = args.Checked;
+    }
     private void PointerDragChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
         pointerSliderValue = Convert.ToDouble(args.Value);
-        sliderValueText = pointerSliderValue;
-        pointerValue = pointerSliderValue;
-        templateValue = (pointerSliderValue).ToString() + " " +"MPH";
-        if (pointerSliderValue > 0 && pointerSliderValue < 40) { pointerColor = templateColor = firstRangeColor; }
-        if (pointerSliderValue > 40 && pointerSliderValue < 100) { pointerColor = templateColor = secondRangeColor; }
-        if (pointerSliderValue > 100 && pointerSliderValue < 120) { pointerColor = templateColor = thirdRangeColor; }
+        setPointer(pointerSliderValue);
+    }
+    public void OnDragEnd(Syncfusion.Blazor.CircularGauge.IPointerDragEventArgs args)
+    {
+        if (args.Type == "pointerEnd")
+            setPointer(args.CurrentValue);
+    }
+    private void setPointer(double currentPointerValue)
+    {
+        PointerColor = templateColor = ((currentPointerValue <= firstRangeEnd && currentPointerValue >= firstRangeStart) ? firstRangeColor :
+            ((currentPointerValue > secondRangeStart && currentPointerValue <= secondRangeEnd) ? secondRangeColor :
+            ((currentPointerValue > thirdRangeStart && currentPointerValue <= thirdRangeEnd) ? thirdRangeColor : null)));
+        pointerValue = currentPointerValue;
+        templateValue = (Math.Ceiling(currentPointerValue)).ToString();
+        sliderValueText = Math.Ceiling(currentPointerValue);
     }
 }

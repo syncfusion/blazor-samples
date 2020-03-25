@@ -1,12 +1,13 @@
-﻿@page "/Charts/ColumnPlacement"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/column-placement"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Fruit Consumption" EnableSideBySidePlacement="false">
+    <SfChart Title="Fruit Consumption" EnableSideBySidePlacement="false">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category" Interval="1">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis>
@@ -16,28 +17,28 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" ColumnWidth="0.5" XName="x" YName="yValue" Name="Total" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartData" ColumnWidth="0.5" XName="x" YName="yValue" Name="Total" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Name="text" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" ColumnWidth="0.4" XName="x" YName="yValue1" Name="Apple" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartData" ColumnWidth="0.4" XName="x" YName="yValue1" Name="Apple" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" ColumnWidth="0.3" XName="x" YName="yValue2" Name="Orange" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartData" ColumnWidth="0.3" XName="x" YName="yValue2" Name="Orange" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
                     </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@chartData" ColumnWidth="0.2" XName="x" YName="yValue3" Name="Grapes" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartData" ColumnWidth="0.2" XName="x" YName="yValue3" Name="Grapes" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
@@ -46,25 +47,52 @@
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
 
-     public class ColumnPlacementChartData
-        {
-            public string x { get; set; }
-            public double yValue { get; set; }
-            public double yValue1 { get; set; }
-            public double yValue2 { get; set; }
-            public double yValue3 { get; set; }
-            public string text { get; set; }
-        }
+    public class ColumnPlacementChartData
+    {
+        public string x { get; set; }
+        public double yValue { get; set; }
+        public double yValue1 { get; set; }
+        public double yValue2 { get; set; }
+        public double yValue3 { get; set; }
+        public string text { get; set; }
+    }
 
-public List<ColumnPlacementChartData> chartData = new List<ColumnPlacementChartData>
+    public List<ColumnPlacementChartData> ChartData = new List<ColumnPlacementChartData>
             {
                 new ColumnPlacementChartData { x= "Jamesh", yValue= 10, yValue1=5, yValue2=4, yValue3=1, text= "Total 10" },
-                new ColumnPlacementChartData { x= "Michael", yValue= 9, yValue1=4, yValue2=3, yValue3=2, text= "Total 9" }, 
+                new ColumnPlacementChartData { x= "Michael", yValue= 9, yValue1=4, yValue2=3, yValue3=2, text= "Total 9" },
                 new ColumnPlacementChartData { x= "John", yValue= 11, yValue1=5, yValue2=4, yValue3=2, text= "Total 11" }
-            };   
+            };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

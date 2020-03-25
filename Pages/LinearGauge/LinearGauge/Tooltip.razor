@@ -1,12 +1,13 @@
-﻿@page "/LinearGauge/Tooltip"
+﻿@page "/linear-gauge/tooltip"
 
-@using Syncfusion.EJ2.Blazor.LinearGauge
+@using Syncfusion.Blazor.LinearGauge
 @using Newtonsoft.Json;
 
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsLinearGauge Orientation="Orientation.Horizontal">
+    <SfLinearGauge Orientation="Orientation.Horizontal">
+        <LinearGaugeEvents AxisLabelRendering="axisLabel"></LinearGaugeEvents>
         <LinearGaugeContainer Width="140">
             <LinearGaugeContainerBorder Width="2" Color="#a6a6a6"></LinearGaugeContainerBorder>
         </LinearGaugeContainer>
@@ -24,7 +25,7 @@
             </LinearGaugeAnnotation>
         </LinearGaugeAnnotations>
         <LinearGaugeAxes>
-            <LinearGaugeAxis Maximum="10" Minimum="0">
+            <LinearGaugeAxis Maximum="@LinearOneMaximum" Minimum="@LinearOneMinimum">
                 <LinearGaugeLine Offset="140"></LinearGaugeLine>
                 <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20">
                 </LinearGaugeMajorTicks>
@@ -35,7 +36,7 @@
                     </LinearGaugePointer>
                 </LinearGaugePointers>
             </LinearGaugeAxis>
-            <LinearGaugeAxis OpposedPosition="true" Maximum="0" Minimum="25">
+            <LinearGaugeAxis OpposedPosition="true" Maximum="@LinearTwoMaximum" Minimum="@LinearTwoMinimum">
                 <LinearGaugeLine Offset="-140"></LinearGaugeLine>
                 <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20">
                 </LinearGaugeMajorTicks>
@@ -47,5 +48,21 @@
                 </LinearGaugePointers>
             </LinearGaugeAxis>
         </LinearGaugeAxes>
-    </EjsLinearGauge>
+    </SfLinearGauge>
 </div>
+
+@code {
+    public double LinearOneMinimum = 0;
+    public double LinearOneMaximum = 10;
+    public double LinearTwoMinimum = 25;
+    public double LinearTwoMaximum = 0;
+    void axisLabel(Syncfusion.Blazor.LinearGauge.IAxisLabelRenderEventArgs args)
+    {
+        if (this.LinearOneMinimum == args.Value || this.LinearTwoMaximum == args.Value ||
+            this.LinearOneMaximum == args.Value || this.LinearTwoMinimum == args.Value)
+        {
+            args.Text = "";
+        }
+        this.StateHasChanged();
+    }
+}

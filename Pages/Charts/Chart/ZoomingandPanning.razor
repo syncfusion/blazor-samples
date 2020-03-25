@@ -1,11 +1,12 @@
-@page "/Charts/ZoomingandPanning"
-@using Syncfusion.EJ2.Blazor.Charts
-
+@page "/chart/zooming"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Sales History of Product X">
-        <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+    <SfChart Title="Sales History of Product X">
+     <ChartEvents Load="ChartLoad"/>
+        <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
@@ -15,19 +16,19 @@
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
         <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
+            <ChartSeries DataSource="@DataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
                 <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
         </ChartArea>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code {
     Random random = new Random();
-    List<ZoomingandPanningData> dataSource = new List<ZoomingandPanningData>();
+    List<ZoomingandPanningData> DataSource = new List<ZoomingandPanningData>();
 public double Value = 80;
 public class ZoomingandPanningData
 {
@@ -44,7 +45,7 @@ protected override async Task OnInitializedAsync()
             } else {
                 this.Value -= random.NextDouble();
             }
-            dataSource.Add(new ZoomingandPanningData
+            DataSource.Add(new ZoomingandPanningData
             {
                 X = new DateTime(1960, 1, 1).AddMonths(i+1).AddDays(i),
                 Y = Math.Round(this.Value)
@@ -52,6 +53,36 @@ protected override async Task OnInitializedAsync()
         }
     });
 }
+
+string CurrentUri;
+void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }
 <svg style="height: 0">
     <defs>

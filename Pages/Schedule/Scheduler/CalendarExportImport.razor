@@ -1,0 +1,86 @@
+﻿@page "/scheduler/export-and-import-ics"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using System.IO
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 9))">
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 30%">
+                            <div>
+                                Export as iCalendar
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfButton Content="Export" OnClick="ExportToIcs"></SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 30%">
+                            <div>
+                                Import iCalendar file
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div>
+                                <SfUploader AllowedExtensions=".ics" CssClass="calendar-import" Multiple="false" Buttons="@BrowseBtn">
+                                    <UploaderEvents ValueChange="OnChange"></UploaderEvents>
+                                </SfUploader>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .calendar-import.e-upload {
+        border: 0;
+        padding-left: 0 !important;
+    }
+    .calendar-import.e-upload .e-file-select-wrap {
+        padding: 0
+    }
+    .calendar-import.e-upload .e-file-select-wrap .e-file-drop, .calendar-import .e-upload-files {
+        display: none;
+    }
+</style>
+
+@code{
+    SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
+    private UploaderButtonsProps BrowseBtn { get; set; } = new UploaderButtonsProps()
+    {
+        Browse = "Choose File"
+    };
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+    public async void ExportToIcs()
+    {
+        await ScheduleRef.ExportToICalendar();
+    }
+    public async Task OnChange(UploadChangeEventArgs args)
+    {
+        foreach (var file in args.Files)
+        {
+            file.Stream.Position = 0;
+            StreamReader reader = new StreamReader(file.Stream);
+            await ScheduleRef.ImportICalendar(reader.ReadToEnd());
+        }
+    }
+}

@@ -1,14 +1,15 @@
-﻿@page "/Charts/CategoryAxis"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/Category-axis"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Internet Users – 2016">
+    <SfChart Title="Internet Users – 2016">
+	<ChartEvents Load="ChartLoad"/>
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
         </ChartArea>
-        <ChartPrimaryXAxis Title="Country" EnableTrim="false" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category">
+        <ChartPrimaryXAxis Title="Country" EnableTrim="false" ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Minimum="0" Maximum="800" LabelFormat="{value}M" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
@@ -28,7 +29,7 @@
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -38,8 +39,8 @@
         public double YValue { get; set; }
         public string Country { get; set; }
     }
-    public List<CategoryData> ChartData = new List<CategoryData> 
-	{
+    public List<CategoryData> ChartData = new List<CategoryData>
+    {
         new CategoryData { XValue = "Germany", YValue = 72, Country = "GER: 72" },
         new CategoryData { XValue = "Russia", YValue = 103.1, Country = "RUS: 103.1" },
         new CategoryData { XValue = "Brazil", YValue = 139.1, Country = "BRZ: 139.1" },
@@ -49,4 +50,31 @@
         new CategoryData { XValue = "Great Britain", YValue = 115.1, Country = "GBR: 115.1" },
         new CategoryData { XValue = "Nigeria", YValue = 97.2, Country = "NGR: 97.2" }
      };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

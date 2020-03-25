@@ -1,12 +1,13 @@
-﻿@page "/Charts/StepLine"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/step-line"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Unemployment Rates 1975-2010">
+    <SfChart Title="Unemployment Rates 1975-2010">
+     <ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="y" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value}%" Interval="5">
@@ -15,18 +16,18 @@
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@SteplineData" Name="China" XName="xValue" Width="2"
+            <ChartSeries DataSource="@StepLineData" Name="China" XName="xValue" Width="2"
                          Opacity="1" YName="yValue" Type="ChartSeriesType.StepLine">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@SteplineData" Name="Australia" XName="xValue" Width="2"
+            <ChartSeries DataSource="@StepLineData" Name="Australia" XName="xValue" Width="2"
                          Opacity="1" YName="yValue1" Type="ChartSeriesType.StepLine">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
             </ChartSeries>           
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
@@ -38,7 +39,7 @@
         public double yValue1 { get; set; }
     }
 
-     public List<StepLineChartData> SteplineData = new List<StepLineChartData>
+     public List<StepLineChartData> StepLineData = new List<StepLineChartData>
      {
          new StepLineChartData { xValue = new DateTime(1975, 01, 01), yValue = 16, yValue1 = 10 },
          new StepLineChartData { xValue = new DateTime(1980, 01, 01), yValue = 12.5, yValue1 = 7.5 },
@@ -48,5 +49,34 @@
          new StepLineChartData { xValue = new DateTime(2000, 01, 01), yValue = 14, yValue1 = 6 },
          new StepLineChartData { xValue = new DateTime(2005, 01, 01), yValue = 10, yValue1 = 3.5 },
          new StepLineChartData { xValue = new DateTime(2010, 01, 01), yValue = 16, yValue1 = 7 },
-     };                                   
+     }; 
+string CurrentUri;
+     void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }                                  
 }

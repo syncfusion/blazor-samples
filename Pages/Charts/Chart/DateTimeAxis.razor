@@ -1,12 +1,13 @@
-﻿@page "/Charts/DateTimeAxis"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/date-time-axis"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
     <div class="control-section">
-        <EjsChart Title="Alaska Weather Statistics - 2016" >
+        <SfChart Title="Alaska Weather Statistics - 2016" >
+			<ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis LabelFormat="MMM" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartPrimaryXAxis LabelFormat="MMM" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryXAxis>
             <ChartPrimaryYAxis Minimum="-20" Maximum="30" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C">
@@ -15,13 +16,13 @@
                 <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
             </ChartPrimaryYAxis>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@chartData" XName="xValue" YName="yValue1" Opacity="1" Name="Warmest" Width=2 Type="ChartSeriesType.Line">
+                <ChartSeries DataSource="@ChartData" XName="xValue" YName="yValue1" Opacity="1" Name="Warmest" Width="2" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Pentagon">
                         <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         </ChartDataLabel>
                     </ChartMarker>
                 </ChartSeries>
-                <ChartSeries DataSource="@chartData" XName="xValue" YName="yValue2" Opacity="1" Name="Coldest" Width=2 Type="ChartSeriesType.Line">
+                <ChartSeries DataSource="@ChartData" XName="xValue" YName="yValue2" Opacity="1" Name="Coldest" Width="2" Type="ChartSeriesType.Line">
                     <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Diamond">
                         <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         </ChartDataLabel>
@@ -29,7 +30,7 @@
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartLegendSettings Visible="true"></ChartLegendSettings>
-        </EjsChart>
+        </SfChart>
     </div>
 
 @code{
@@ -39,7 +40,7 @@
         public double yValue1 { get; set; }
         public double yValue2 { get; set; }
     }
-    public List<DateTimeData> chartData = new List<DateTimeData>
+    public List<DateTimeData> ChartData = new List<DateTimeData>
             {
                 new DateTimeData { xValue = new DateTime(2016, 3, 1), yValue1 = 6.3, yValue2 = -5.3},
                 new DateTimeData { xValue = new DateTime(2016, 4, 1), yValue1 = 13.3, yValue2 = 1.0 },
@@ -49,4 +50,31 @@
                 new DateTimeData { xValue = new DateTime(2016, 8, 1), yValue1 = 13.1, yValue2 = 2.6 },
                 new DateTimeData { xValue = new DateTime(2016, 9, 1), yValue1 = 4.1, yValue2 = -4.9 },
                             };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

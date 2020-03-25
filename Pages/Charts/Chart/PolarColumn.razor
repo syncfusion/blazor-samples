@@ -1,40 +1,42 @@
-﻿@page "/Charts/PolarColumn"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/polar-column"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 <div class="row">
 <div class="col-lg-9 control-section">
-    <EjsChart Title="Top 10 Mobile Markets by Number of Subscriptions">
-        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+    <SfChart Title="Top 10 Mobile Markets by Number of Subscriptions">
+     <ChartEvents Load="ChartLoad"/>
+        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
         <ChartPrimaryYAxis LabelFormat="{value}M"></ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
         <ChartLegendSettings Visible="true">
         </ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@dataSource" Name="Mobile Subscriptions" XName="x" Width="2" YName="y" Type="@seriesType" DrawType="ChartDrawType.Column">
+            <ChartSeries DataSource="@DataSource" Name="Mobile Subscriptions" XName="x" Width="2" YName="y" Type="@SeriesType" DrawType="ChartDrawType.Column">
                 <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
                 <ChartMarker>
                     <ChartDataLabel Name="text"></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="Population in Millions" XName="x" Width="2" YName="y1" Type="@seriesType" DrawType="ChartDrawType.Column">
+            <ChartSeries DataSource="@DataSource" Name="Population in Millions" XName="x" Width="2" YName="y1" Type="@SeriesType" DrawType="ChartDrawType.Column">
                 <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
                 <ChartMarker>
                     <ChartDataLabel Name="text"></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@dataSource" Name="3G/4G Subscriptions" XName="x" Width="2" YName="y2" Type="@seriesType" DrawType="ChartDrawType.Column">
+            <ChartSeries DataSource="@DataSource" Name="3G/4G Subscriptions" XName="x" Width="2" YName="y2" Type="@SeriesType" DrawType="ChartDrawType.Column">
                 <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
                 <ChartMarker>
                     <ChartDataLabel Name="text"></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
     <div class="col-lg-3 property-section">
-        <table id="property" style="width: 100%">
+        <table style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 50%">
@@ -43,23 +45,40 @@
                     </div>
                 </td>
                 <td style="width: 50%;">
-                    <div>
-                        <select id="SelectSeriesType" @onchange="changeSeriesType">
-                            <option value="Polar">Polar</option>
-                            <option value="Radar">Radar</option>
-                        </select>
-                    </div>
+                    <SfDropDownList TValue="string" TItem="SeriesTypes" @bind-Value="@DropVal" DataSource="@Country">
+                        <DropDownListEvents TValue="string" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </td>
             </tr>
         </table>
     </div>
 </div>
 @code{
-    ChartSeriesType seriesType = ChartSeriesType.Polar;
-    public void changeSeriesType(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    public string DropVal = "Polar";
+
+    public class SeriesTypes
     {
-        this.seriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        public string Type { get; set; }
+
+        public string Code { get; set; }
     }
+
+    List<SeriesTypes> Country = new List<SeriesTypes>
+{
+        new SeriesTypes() { Type = "Polar", Code = "P" },
+        new SeriesTypes() { Type = "Radar", Code = "R" },
+    };
+
+    ChartSeriesType SeriesType = ChartSeriesType.Polar;
+    public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        StateHasChanged();
+    }
+
+
+
     public class PolarColumnData
     {
         public string text { get; set; }
@@ -68,7 +87,7 @@
         public double y1 { get; set; }
         public double y2 { get; set; }
     }
-    public List<PolarColumnData> dataSource = new List<PolarColumnData>
+    public List<PolarColumnData> DataSource = new List<PolarColumnData>
         {
                 new PolarColumnData { text= "Japan", x= "JPN", y= 137.9, y1= 127.6, y2= 108.8 },
                 new PolarColumnData { text= "Indonesia", x= "IDN", y= 85.0, y1= 246.9, y2= 45.5 },
@@ -81,4 +100,33 @@
                 new PolarColumnData { text= "Philippines", x= "PHL", y= 109.5, y1= 96.7, y2= 16.6 },
                 new PolarColumnData { text= "Mexico", x= "MEX", y= 102.7, y1= 120.8, y2= 19.8 }
             };
+    string CurrentUri;
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

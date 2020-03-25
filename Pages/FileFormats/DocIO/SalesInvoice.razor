@@ -1,0 +1,105 @@
+@page "/docio/sales-invoice"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+
+@using blazor_samples.Data.FileFormats.DocIO
+    <div class="control-section">
+        <p style="font-weight:normal">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+        <div class="dropdown-control">
+            <table>
+                <tr>
+                    <td>
+                        <h5 class="row">Select the Order ID : </h5>
+                    </td>
+                    <td>
+                        <div class="drop-control" style="margin-left:4px; width:230px">
+                            <SfDropDownList TItem="string" TValue="string" PopupHeight="230px" Placeholder="10248" @bind-Value="@DropVal" DataSource="@OrderID">
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOC" Name="DOC" Value="SaveOption" Checked="@(documentType == "DOC")" @onchange="@(() => documentType = "DOC")"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value="SaveOption" Checked="@(documentType == "DOCX")" @onchange="@(() => documentType = "DOCX")"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="WordML" Name="WordML" Value="SaveOption" Checked="@(documentType == "WordML")" @onchange="@(() => documentType = "WordML")"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+
+    public string DropVal { get; set; }
+
+    private List<string> OrderID = new List<string>() { "10248", "10249", "10250", "10251", "10252", "10253", "10254", "10255", "10256", "10257"};
+
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async void GenerateDocument(MouseEventArgs args)
+    {
+        int id = 0;
+        int.TryParse(DropVal, out id);
+        SalesInvoiceService service = new SalesInvoiceService();
+        documentStream = service.CreateWordDocument(id, documentType, "Generate Document");
+        if (documentType == "DOC")
+            await JS.SaveAs("Sample.doc", documentStream.ToArray());
+        else if (documentType == "WordML")
+            await JS.SaveAs("Sample.xml", documentStream.ToArray());
+        else
+            await JS.SaveAs("Sample.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async void ViewTemplate(MouseEventArgs args)
+    {
+        SalesInvoiceService service = new SalesInvoiceService();
+        documentStream = service.CreateWordDocument(0, documentType, "View Template");
+        await JS.SaveAs("SalesInvoiceDemo.doc", documentStream.ToArray());
+    }
+}

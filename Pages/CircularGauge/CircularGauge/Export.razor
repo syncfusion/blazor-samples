@@ -1,0 +1,126 @@
+﻿@page "/circular-gauge/export"
+
+@using Syncfusion.Blazor.CircularGauge;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Inputs;
+
+@inherits SampleBaseComponent;
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfCircularGauge @ref="@gauge">
+        <CircularGaugeAxes>
+            <CircularGaugeAxis Radius="80%" StartAngle="0" EndAngle="0" Direction="GaugeDirection.AntiClockWise">
+				<CircularGaugeAxisLineStyle Width="0"></CircularGaugeAxisLineStyle>
+                <CircularGaugeAxisMajorTicks Position="Position.Outside" Width="1" Height="25" Interval="10" UseRangeColor="true"></CircularGaugeAxisMajorTicks>
+				<CircularGaugeAxisMinorTicks Position="Position.Outside" Width="1" Height="8" Interval="2" UseRangeColor="true"></CircularGaugeAxisMinorTicks>
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Start="0" End="32" Radius="90%" StartWidth="10" EndWidth="35" Color="#F8A197"></CircularGaugeRange>
+                    <CircularGaugeRange Start="32" End="70" Radius="90%" StartWidth="10" EndWidth="35" Color="#C45072"></CircularGaugeRange>
+                    <CircularGaugeRange Start="70" End="100" Radius="90%" StartWidth="10" EndWidth="35" Color="#1B679F"></CircularGaugeRange>
+                </CircularGaugeRanges>
+                <CircularGaugeAxisLabelStyle Offset="2" Position="Position.Outside" UseRangeColor="true">
+                    <CircularGaugeAxisLabelFont Color="#424242" FontFamily="Roboto" Size="12px" FontWeight="Regular"></CircularGaugeAxisLabelFont>
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugePointers>
+                    <CircularGaugePointer PointerWidth="0" Radius="0%">
+                        <CircularGaugeCap Radius="0"></CircularGaugeCap>
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties" style="width: 120%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 40%">
+                            <div class="property-text">Export Type</div>
+                        </td>
+                        <td style="width: 60%;">
+                            <div style="margin-left: -10px">
+                                <SfDropDownList TValue="string" TItem="Typelist" DataSource="@fileTypes" Value="@fileType" Width="65%">
+                                    <DropDownListEvents TValue="string" ValueChange="gaugeValueChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 70px">
+                        <td style="width: 40%">
+                            <div class="property-text">File Name</div>
+                        </td>
+                        <td style="width: 60%;">
+                            <div class="e-float-input" style="margin-top: 0px;  margin-left: -10px;width:70%">
+                                <SfTextBox Value="@fileName" ValueChange="@nameChange" Placeholder="Smith chart"></SfTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 50%;padding-left: 7%;">
+                            <SfButton OnClick="exportClick" CssClass="e-info" IsToggle="true" IsPrimary="true" >Export</SfButton>
+                        </td>
+                        <td style="width: 50%;">
+                            <SfButton OnClick="printClick" CssClass="e-info" IsToggle="true" IsPrimary="true" >Print</SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    SfCircularGauge gauge;
+    private String fileType { get; set; } = "JPEG";
+    private String fileName { get; set; } = "Circular Gauge";
+
+    public class Typelist
+    {
+        public String Name { get; set; }
+    }
+    private List<Typelist> fileTypes = new List<Typelist> {
+        new Typelist { Name="JPEG" },
+        new Typelist { Name="PNG" },
+        new Typelist { Name="SVG" },
+        new Typelist { Name="PDF" }
+    };
+    private void gaugeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        fileType = args.Value;
+    }
+    private void nameChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
+    {
+        fileName = args.Value;
+    }
+    private void exportClick(MouseEventArgs args)
+    {
+        ExportType exportFileType = ExportType.JPEG;
+        switch (fileType)
+        {
+            case "JPEG":
+                exportFileType = ExportType.JPEG;
+                break;
+            case "PNG":
+                exportFileType = ExportType.PNG;
+                break;
+            case "SVG":
+                exportFileType = ExportType.SVG;
+                break;
+            case "PDF":
+                exportFileType = ExportType.PDF;
+                break;
+        }
+        this.gauge.Export(exportFileType, fileName);
+    }
+    private void printClick(MouseEventArgs args)
+    {
+        this.gauge.Print();
+    }
+}
+
+

@@ -1,13 +1,14 @@
-﻿@page "/Charts/DataEditing"
-@using Syncfusion.EJ2.Blazor.Charts
-
+﻿@page "/chart/data-editing"
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <EjsChart Title="Inflation - Consumer Price">
+    <SfChart Title="Inflation - Consumer Price">
+		<ChartEvents Load="ChartLoad"/>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
 
-        <ChartPrimaryXAxis ValueType="Syncfusion.EJ2.Blazor.Charts.ValueType.DateTime" LabelFormat="y"
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="y"
                            IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
@@ -34,11 +35,11 @@
                 <ChartDragSettings Enable="true"></ChartDragSettings>
             </ChartSeries>
         </ChartSeriesCollection>
-    </EjsChart>
+    </SfChart>
 </div>
 
 @code{
-         public class ChartData
+    public class ChartData
     {
         public DateTime XValue { get; set; }
         public double YValue { get; set; }
@@ -54,4 +55,31 @@
         new ChartData { XValue = new DateTime(2010, 01, 01), YValue = 57, YValue1 = 78 },
         new ChartData { XValue = new DateTime(2011, 01, 01), YValue = 70, YValue1 = 84 },
     };
+
+    string CurrentUri;
+
+    void ChartLoad(ILoadedEventArgs Args)
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Args.Theme = ChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Args.Theme = ChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Args.Theme = ChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Args.Theme = ChartTheme.HighContrast;
+        }
+        else
+        {
+            Args.Theme = ChartTheme.Bootstrap4;
+        }
+    }
 }

@@ -1,22 +1,29 @@
-﻿@page "/Dialog/DefaultFunctionalities"
+﻿@page "/dialog/default-functionalities"
 
-@using Syncfusion.EJ2.Blazor
-@using Syncfusion.EJ2.Blazor.Popups
-@using Syncfusion.EJ2.Blazor.Buttons
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
-
 <div class="col-lg-12 control-section" id="target">
-    <button id="normalbtn" class="e-btn" @onclick="@OnBtnClick">Open</button>
-    <EjsDialog @ref="DialogObj" Target="#target" Width="500px" ShowCloseIcon="true">        
+    <div>
+        @if (this.ShowButton)
+        {
+            <button class="e-btn" @onclick="@OnBtnClick">Open</button>
+        }
+    </div>
+    <SfDialog Target="#target" Width="500px" ShowCloseIcon="true" @bind-Visible="Visibility">
         <DialogTemplates>
             <Header> About SYNCFUSION succinctly series </Header>
             <Content> <p>In the Succinctly series, Syncfusion created a robust, free library of more than 130 technical e - books formatted for PDF, Kindle, and EPUB.<br> <br>The Succinctly series was born in 2012 out of a desire to provide concise technical e-books for software developers.Each title in the Succinctly series is written by a carefully chosen expert and provides essential content in about 100 pages.</p> </Content>
-        </DialogTemplates>            
+        </DialogTemplates>
+        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
         <DialogButtons>
-            <DialogButton ButtonModel="@DialogBtn"></DialogButton>
+            <DialogButton OnClick="@OnBtnClick">
+                <DialogButtonModel Content="<a id='newTab' href='https://www.syncfusion.com/company/about-us' target='_blank'>Learn More</a>" IsPrimary="true"></DialogButtonModel>
+            </DialogButton>
         </DialogButtons>
-    </EjsDialog>
+    </SfDialog>
 </div>
 
 <style>
@@ -24,27 +31,46 @@
         color: inherit;
         text-decoration: none;
     }
+
     .fabric #target .e-dialog {
         height: 306px;
     }
+
     .material #target .e-dialog {
         height: 270px;
     }
+
     .bootstrap4 #target .e-dialog {
         height: 305px;
-     }
+    }
+
     #target .e-dialog {
         height: 270px;
+    }
+
+    #target {
+        height: 500px;
     }
 </style>
 
 @code {
-    EjsDialog DialogObj;
+    public bool Visibility { get; set; } = true;
+    public bool ShowButton { get; set; } = false;
 
     private void OnBtnClick()
     {
-        this.DialogObj.Show();
+        this.Visibility = true;
     }
 
-    public ButtonModel DialogBtn = new ButtonModel { Content = "<a id='newTab' href='https://www.syncfusion.com/company/about-us' target='_blank'>Learn More</a>", IsPrimary = true };
+    private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+    }
+
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+
+    }
+
 }
