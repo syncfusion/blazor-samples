@@ -126,19 +126,21 @@ function homeButtonClick() {
 }
 
 function refreshTab(code, filename) {
-  var tabs = document.querySelector(".sb-src-code");
-  if (tabs) {
-    tabs.innerHTML = code;
-    if (!filename) {
-      hljs.highlightBlock(tabs, { language: "cshtml" });
-    }
-    else if (filename.split(".")[1] === "cs") {
-      hljs.highlightBlock(tabs, { language: "cs" });
-    } else {
-      hljs.highlightBlock(tabs, { language: "cshtml" });
-    }
-  }
-  document.querySelector("#right-pane").scrollTo(0, 0);
+   setTimeout(function () {
+        var tabs = document.querySelector(".sb-src-code");
+        if (tabs) {
+            tabs.innerHTML = code;
+            if (!filename) {
+                hljs.highlightBlock(tabs, { language: "cshtml" });
+            }
+            else if (filename.split(".")[1] === "cs") {
+                hljs.highlightBlock(tabs, { language: "cs" });
+            } else {
+                hljs.highlightBlock(tabs, { language: "cshtml" });
+            }
+        }
+        document.querySelector("#right-pane").scrollTop = 0;
+    }, 100);
 }
 
 
