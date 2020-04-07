@@ -11,7 +11,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/linear",
                 FileName = "Linear.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                   This sample illustrates a linear progress bar with track color customization, segments and animation.
@@ -31,7 +31,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/circular",
                 FileName = "Circular.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                   This sample illustrates a circular progress bar with track color customization, segments and animation.
@@ -51,7 +51,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/angle",
                 FileName = "Angle.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                   This sample illustrates a circular progress with customizing options for start and end angle.
@@ -71,7 +71,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/labels",
                 FileName = "Labels.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                   This sample illustrates a linear progress bar to demonstrate different types of labels rendering.
@@ -91,15 +91,15 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/radius",
                 FileName = "Radius.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
-        This sample illustrates a circular progress radius, inner-radius, track and progress thickness customization.
+         This sample illustrates a circular progress bar with customization options like radius, inner-radius, pie progress, track and progress thickness.
     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                   This demo for Essential JS2 Progress Bar control shows the customizing options for radius, inner-radius, track and progress thickness customization.
+                   This demo for Essential JS2 Progress Bar control shows the customizing options for radius, inner-radius, pie progress, track and progress thickness customization.
                 </p>
                 "
                 }

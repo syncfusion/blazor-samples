@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace blazor_samples
 {
@@ -75,7 +76,6 @@ namespace blazor_samples
 
         public string[] Description { get; set; }
         public List<SourceCollection> SourceFiles { get; set; } = new List<SourceCollection>();
-
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
     }
@@ -88,18 +88,18 @@ namespace blazor_samples
     internal static class SampleBrowser
     {
         public static List<SampleList> SampleList { get; set; } = new List<SampleList>();
-        internal static SampleConfig Config = new SampleConfig();
-        internal static string CurrentSampleName;
-        internal static string CurrentFileName;
+        internal static SampleConfig Config { get; set; } = new SampleConfig();
+        internal static string CurrentSampleName { get; set; }
+        internal static string CurrentFileName { get; set; }
         internal static List<Sample> CurrentControl = new List<Sample>();
-        internal static string CurrentControlName;
-        internal static string CurrentControlCategory;
-        internal static string CurrentFilePath;
-        internal static string CurrentUrl;
-        internal static string TitleTag;
-        internal static string MetaDescription;
-        internal static string[] ActionDescription;
-        internal static string[] Description;
+        internal static string CurrentControlName { get; set; }
+        internal static string CurrentControlCategory { get; set; }
+        internal static string CurrentFilePath { get; set; }
+        internal static string CurrentUrl { get; set; }
+        internal static string TitleTag { get; set; }
+        internal static string MetaDescription { get; set; }
+        internal static string[] ActionDescription { get; set; }
+        internal static string[] Description { get; set; }
         internal static List<String> SampleUrls = new List<String>();
         //internal static List<SourceCollection> CurrentSourceFiles { get; set; } = new List<SourceCollection>();
         //internal static string CurrentSampleDirectory { get; set; }
@@ -176,24 +176,30 @@ namespace blazor_samples
     {
         public List<SampleList> SampleList { get; set; } = new List<SampleList>();
         //internal SampleConfig Config = SampleBrowser.SampleList
-        internal string CurrentSampleName;
-        internal List<Sample> CurrentControl;
-        internal string CurrentControlName;
-        internal string CurrentControlCategory;
-        internal string CurrentFilePath;
-        internal string CurrentUrl;
-        internal string TitleTag;
-        internal string MetaDescription;
-        internal string[] ActionDescription;
-        internal string[] Description;
+        internal string CurrentSampleName { get; set; }
+        internal List<Sample> CurrentControl { get; set; }
+        internal string CurrentControlName { get; set; }
+        internal string CurrentControlCategory { get; set; }
+        internal string CurrentFilePath { get; set; }
+        internal string CurrentUrl { get; set; }
+        internal string TitleTag { get; set; }
+        internal string MetaDescription { get; set; }
+        internal string[] ActionDescription { get; set; }
+        internal string[] Description { get; set; }
         internal List<String> SampleUrls = new List<String>();
     }
 
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum SampleType
     {
+        [EnumMember(Value = "none")]
         None,
+        [EnumMember(Value = "new")]
         New,
+        [EnumMember(Value = "updated")]
         Updated,
+        [EnumMember(Value = "preview")]
         Preview
     }
 }

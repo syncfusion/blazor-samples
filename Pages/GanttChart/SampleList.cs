@@ -15,7 +15,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/default-functionalities",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -51,7 +51,7 @@ namespace blazor_samples
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/remote-data",
                 FileName="RemoteData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the way of binding data to Gantt Chart with a remote service. The Gantt Chart data source is bound to remote data using the DataManager. The data in this sample shows the various phases of barley harvesting.</p>"
                 },
@@ -94,7 +94,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/editing",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -147,7 +147,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/baseline",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -184,7 +184,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/taskbar-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -221,7 +221,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/filtering",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -256,7 +256,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/zooming",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -307,7 +307,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/context-menu",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -365,7 +365,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/unscheduled-task",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -404,7 +404,7 @@ namespace blazor_samples
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/timeline",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -457,7 +457,7 @@ namespace blazor_samples
                         FileName="GanttData.cs"
                     }
                 },
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @" <p> This sample demonstrates client-side exporting of the Gantt, which allows you to export Gantt data to Excel and
                     CSV formats. Using the Gantt toolbar buttons, you can export Gantt data to the desired format.

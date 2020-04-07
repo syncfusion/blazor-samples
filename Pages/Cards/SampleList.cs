@@ -11,7 +11,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/basic-card",
                 FileName = "BasicCard.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -33,7 +33,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/horizontal-card",
                 FileName = "HorizontalCard.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -55,7 +55,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/reveal-card",
                 FileName = "RevealCard.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -77,7 +77,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/tile-view",
                 FileName = "TileView.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -99,7 +99,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/multiple-content",
                 FileName = "MultipleContent.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -121,7 +121,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/card-with-list",
                 FileName = "CardWithList.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -144,7 +144,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/header-card",
                 FileName = "HeaderCard.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -166,7 +166,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/dynamic-update",
                 FileName = "DynamicUpdate.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {
@@ -188,7 +188,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/expand-card",
                 FileName = "ExpandCard.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "Card . Basic Card . Syncfusion Blazor Components",
                 MetaDescription = "This demo sample for Essential Blazor Chart control demonstrates how to render and configure the line series.",
                 ActionDescription = new string[] {

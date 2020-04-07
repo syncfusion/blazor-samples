@@ -185,5 +185,4 @@ namespace ej2_blazor_kanban_data_models
             return priorityData;
         }
     }
-
 }

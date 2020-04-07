@@ -6,24 +6,23 @@
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
 @inject SampleService Service;
 
-
 <div class='sb-source-section'>
-    <SfTab ID='sb-source-tab' Items="@sourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom" @ref="sourceTab">
+    <SfTab ID='sb-source-tab' Items="@SourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom">
         <TabEvents Selected="OnSourceClicked"></TabEvents>
     </SfTab>
 </div>
 
-
 @code {
+    public List<TabItem> SourceCodeItems;
 
+    private string SourceCode { get;set; }
+    private string FileName { get; set; }
+    private bool IsSourceCodeRequired { get; set; }
 
-    public List<TabItem> sourceCodeItems;
-    SfTab sourceTab;
-
-    protected void OnSourceClicked(Syncfusion.Blazor.Navigations.SelectEventArgs arg)
+    protected async Task OnSourceClicked(Syncfusion.Blazor.Navigations.SelectEventArgs arg)
     {
         string response = string.Empty;
-        this.GetSourceData((int)arg.SelectedIndex);
+        await this.GetSourceData((int)arg.SelectedIndex);
     }
 
     public Sample SampleData
@@ -32,7 +31,6 @@
         {
             return Service.Data.CurrentSample;
         }
-
     }
 
     public SampleList Control
@@ -41,21 +39,20 @@
         {
             return Service.Data.CurrentControl;
         }
-
     }
 
-    protected void GetSourceData(int index)
+    protected async Task GetSourceData(int index)
     {
-        InvokeAsync(() =>
+        await InvokeAsync(() =>
         {
-            string response = string.Empty;
-            string fileName = string.Empty;
+            SourceCode = string.Empty;
+            FileName = string.Empty;
             if (SampleData.SourceFiles.Count > index && SampleData.Directory != null)
             {
-                fileName = SampleData.SourceFiles[index].FileName;
+                FileName = SampleData.SourceFiles[index].FileName;
                 try
                 {
-                    response = System.IO.File.ReadAllText("Pages/" + SampleData.Directory + "/" + SampleData.SourceFiles[index].FileName);
+                    SourceCode = System.IO.File.ReadAllText("Pages/" + SampleData.Directory + "/" + SampleData.SourceFiles[index].FileName);
                 }
                 catch (Exception e)
                 {
@@ -65,20 +62,18 @@
                         directory = directory.Substring(0, SampleData.Directory.LastIndexOf("/"));
                     }
 
-                    response = System.IO.File.ReadAllText("Pages/" + directory + "/" + SampleData.SourceFiles[index].FileName);
+                    SourceCode = System.IO.File.ReadAllText("Pages/" + directory + "/" + SampleData.SourceFiles[index].FileName);
                 }
 
             }
             else
             {
-                response = System.IO.File.ReadAllText("Pages/" + SampleData.Directory + "/" + SampleData.FileName);
-                fileName = SampleData.FileName;
+                SourceCode = System.IO.File.ReadAllText("Pages/" + SampleData.Directory + "/" + SampleData.FileName);
+                FileName = SampleData.FileName;
             }
-            response = this.FormatSourceCode(response);
-            JsRuntime.InvokeAsync<Object>("refreshTab", response, fileName);
+            SourceCode = this.FormatSourceCode(SourceCode);
+            this.IsSourceCodeRequired = true;
         });
-
-
     }
 
     public string[] sourceResponse { get; set; } = new string[5];
@@ -113,42 +108,49 @@
         return response;
     }
 
-    public void OnSourceTabSelected(Syncfusion.Blazor.Navigations.SelectEventArgs arg)
+    public async Task OnSourceTabSelected(Syncfusion.Blazor.Navigations.SelectEventArgs args)
     {
-        sourceCodeItems = new List<TabItem>();
-        if (arg.SelectedIndex == 1)
+        SourceCodeItems = new List<TabItem>();
+        if (args == null || (args != null && args.SelectedIndex == 1))
         {
-
             if (SampleData.SourceFiles.Count != 0)
             {
                 for (var i = 0; i < SampleData.SourceFiles.Count; i++)
                 {
-                    sourceCodeItems.Add(
-                        new TabItem()
-                        {
-                            Header = new TabHeader() { Text = SampleData.SourceFiles[i].FileName },
-                            ContentTemplate =@<pre class='sb-src-code'><code></code></pre>
-                        }
-                    );
+                    SourceCodeItems.Add(
+                    new TabItem()
+                    {
+                        Header = new TabHeader() { Text = SampleData.SourceFiles[i].FileName },
+                        ContentTemplate =@<pre class='sb-src-code'><code></code></pre>
+                    });
                 }
-                this.StateHasChanged();
-                this.GetSourceData(0);
-
+                await this.GetSourceData(0);
             }
             else
             {
-                sourceCodeItems = new List<TabItem>() {
-                    new TabItem() { Header = new TabHeader() { Text = SampleData.FileName},
+                SourceCodeItems = new List<TabItem>() {
+                new TabItem() { Header = new TabHeader() { Text = SampleData.FileName },
                     ContentTemplate = @<pre id='code' class='sb-src-code'><code></code></pre>
-                    }
-                };
-                    this.StateHasChanged();
-                    this.GetSourceData(0);
-
-
-                }
-
+                }};
+                await this.GetSourceData(0);
             }
+            this.StateHasChanged();
         }
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if(firstRender)
+        {
+            await this.OnSourceTabSelected(null);
+            await Task.Delay(1000);
+            await JsRuntime.InvokeAsync<Object>("refreshTab", SourceCode, FileName);
+        }
+        if(this.IsSourceCodeRequired)
+        {
+            this.IsSourceCodeRequired = false;
+            await JsRuntime.InvokeAsync<Object>("refreshTab", SourceCode, FileName);
+        }
+    }
 }

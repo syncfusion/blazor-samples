@@ -1,10 +1,13 @@
-﻿
+﻿@using Syncfusion.Blazor.Buttons;
 @using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Popups;
 @using Microsoft.AspNetCore.Components;
 @using blazor_samples
+@using blazor_samples.Shared 
 @inject IJSRuntime JsRuntime;
+@inject SampleService Service;
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
 @inherits ComponentBase;
-@implements IDisposable
 
 <div class='sb-right-pane e-view' id='right-pane'>
     <div class="sb-content-overlay">
@@ -19,48 +22,47 @@
         <div class='sb-action-description sb-rightpane-padding'>
         </div>
         <div id="sb-content" class='sb-content-section'>
-            <SfTab CssClass='sb-content-tab' id='content-tab'>
-                <TabEvents Selecting="swiped" Selected="OnSourceTabSelected"></TabEvents>
-                    <TabItems>
-                        <TabItem>
-                            <ChildContent>
-                                <TabHeader Text="DEMO" IconCss="sb-icons sb-icon-Demo"></TabHeader>
-                            </ChildContent>                           
-                            @*<HeaderTemplate>
-                                <div>
-                                    <span class="sb-icons sb-icon-Demo"></span><span class="sb-tab-title"> DEMO </span>
-                                </div>
-                            </HeaderTemplate>*@
-                            <ContentTemplate>
-                                <div>
-                                    <div class='sb-demo-section'>
-                                        <div class="control-fluid">
-                                            <div class="container-fluid">
-                                                <div id="control-content">
-                                                    @Body
-                                                </div>
+            @*<div id="navigation-btn">
+                <SfTooltip ID="NextToolTip" Content="@NextContent" Target="#next-sample" Position="Position.BottomCenter">
+                    <SfButton ID="next-sample" IsPrimary="true" IconCss="sb-icons sb-icon-Next" Disabled="@IsLastDisabled" OnClick="OnNextClick"></SfButton>
+                </SfTooltip>
+                <SfTooltip ID="PrevToolTip" Content="@PrevContent" Target="#prev-sample" Position="Position.BottomCenter">
+                    <SfButton ID="prev-sample" IsPrimary="true" IconCss="sb-icons sb-icon-Previous" Disabled="@IsDisabled" OnClick="OnPrevClick"></SfButton>
+                </SfTooltip>
+            </div>*@
+            @*<div class='sb-toolbar-splitter sb-custom-item'></div>*@
+            <SfTab CssClass='sb-content-tab' id='content-tab' LoadOn="ContentLoad.Demand">
+                <TabEvents Selecting="OnSourceTabSelecting" Selected="OnSourceTabSelected"></TabEvents>
+                <TabItems>
+                    <TabItem>
+                        <ChildContent>
+                            <TabHeader Text="DEMO" IconCss="sb-icons sb-icon-Demo"></TabHeader>
+                        </ChildContent>
+                        <ContentTemplate>
+                            <div>
+                                <div class='sb-demo-section'>
+                                    <div class="control-fluid">
+                                        <div class="container-fluid">
+                                            <div id="control-content">
+                                                @Body
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </ContentTemplate>
-                        </TabItem>
-                        <TabItem>
-                            <ChildContent>
-                                <TabHeader Text="SOURCE" IconCss="sb-icons sb-icon-Code"></TabHeader>
-                            </ChildContent>
-                            @*<HeaderTemplate>
-                                <div>
-                                    <span class="sb-icons sb-icon-Code"></span><span class="sb-tab-title">  SOURCE </span>
-                                </div>
-                            </HeaderTemplate>*@
-                            <ContentTemplate>
-                                <div>
-                                    <SourceCodeComponent @ref="SourceTab"></SourceCodeComponent>
-                                </div>
-                            </ContentTemplate>
-                        </TabItem>
-                    </TabItems>
+                            </div>
+                        </ContentTemplate>
+                    </TabItem>
+                    <TabItem>
+                        <ChildContent>
+                            <TabHeader Text="SOURCE" IconCss="sb-icons sb-icon-Code"></TabHeader>
+                        </ChildContent>
+                        <ContentTemplate>
+                            <div>
+                                <SourceCodeComponent @ref="SourceTab"></SourceCodeComponent>
+                            </div>
+                        </ContentTemplate>
+                    </TabItem>
+                </TabItems>
             </SfTab>
         </div>
         <div class='description-section sb-rightpane-padding'>
@@ -96,49 +98,73 @@
 
 @code {
 
-    [Parameter]
-    public RenderFragment Body { get; set; }
+        [Parameter]
+        public RenderFragment Body { get; set; }
 
-    [Parameter]
-    public SourceCodeComponent SourceTab { get; set; }
+        [Parameter]
+        public bool IsDisabled { get; set; } = true;
+
+        [Parameter]
+        public bool IsLastDisabled { get; set; }
+
+        [Parameter]
+        public SourceCodeComponent SourceTab { get; set; }
 
     public string CopyRight { get; set; }
 
-    public BreadCrumbComponent BreadCrumbObj {get; set;}
-    private void swiped(Syncfusion.Blazor.Navigations.SelectingEventArgs args)
+    public BreadCrumbComponent BreadCrumbObj { get; set; }
+
+    [CascadingParameter]
+    public MainLayout BaseParent { get; set; }
+
+    object PrevContent = "Previous Sample";
+    object NextContent = "Next Sample";
+
+    private void OnSourceTabSelecting(Syncfusion.Blazor.Navigations.SelectingEventArgs args)
     {
         if (args.IsSwiped)
         {
             args.Cancel = true;
-        }        
+        }
     }
-    protected void OnSourceTabSelected(Syncfusion.Blazor.Navigations.SelectEventArgs arg)
+    protected async Task OnSourceTabSelected(Syncfusion.Blazor.Navigations.SelectEventArgs arg)
     {
-        this.SourceTab.OnSourceTabSelected(arg);
+        if (this.SourceTab != null)
+        {
+            await this.SourceTab.OnSourceTabSelected(arg);
+        }
     }
 
-    public void UpdateBreadCrumb(string control, string category, string  sample)
+    public void UpdateBreadCrumb(string control, string category, string sample)
     {
         this.BreadCrumbObj.UpdatePath(control, category, sample);
     }
 
-
-    protected override void OnAfterRender(bool firstRender)
+    public void ButtonState(string currenturl)
     {
+        var count = SampleBrowser.SampleUrls.Count;
+        IsDisabled = currenturl == SampleBrowser.SampleUrls[0] ? true : false;
+        IsLastDisabled = currenturl == SampleBrowser.SampleUrls[count-1] ? true : false;
+    }
 
-
+    private void OnPrevClick()
+    {
+        IsDisabled = Service.Data.CurrentSample.Url == SampleBrowser.SampleUrls[1] ? true : false;
+        if (!IsDisabled) { IsLastDisabled = false; }
+        BaseParent.OnPrevSampleClick();
+    }
+    private void OnNextClick()
+    {
+        var count = SampleBrowser.SampleUrls.Count;
+        if (IsDisabled) { IsDisabled = false; }
+        IsLastDisabled = Service.Data.CurrentSample.Url == SampleBrowser.SampleUrls[count - 2] ? true : false;
+        BaseParent.OnNextSampleClick();
     }
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         var year = DateTime.Now.ToString("yyyy");
-        this.CopyRight = "Copyright © 2001 - " + year +" Syncfusion Inc.";
+        this.CopyRight = "Copyright © 2001 - " + year + " Syncfusion Inc.";
     }
-
-    public void Dispose()
-    {
-
-
-    }
-    
 }

@@ -15,7 +15,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Default Functionalities . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates the default rendering of the Blazor dialog, which supports modal and non-modal (modeless), built-in buttons, and more.",
                 ActionDescription = new string[] {
@@ -44,7 +43,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/custom-dialogs",
                 FileName = "CustomDialogs.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Custom Dialogs . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to create custom dialogs such as alert dialogs, confirmation dialogs, and prompt dialogs using the Blazor dialog control.",
                 ActionDescription = new string[] {
@@ -77,7 +75,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/modal",
                 FileName = "Modal.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Modal . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates the modal pop-up behavior of the Blazor dialog control, which helps display critical information such as errors and warnings.",
                 ActionDescription = new string[] {
@@ -102,7 +99,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Template . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to customize user interface elements like the header, footer, and content of the Blazor dialog control using a template.",
                 ActionDescription = new string[] {
@@ -126,7 +122,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/draggable",
                 FileName = "Draggable.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Draggable . Syncfusion Blazor Components",
                 MetaDescription = "This example, shows how to enable drag-and-drop actions in the Blazor dialog control to help reposition the dialog efficiently.",
                 ActionDescription = new string[] {
@@ -150,7 +145,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/resizable",
                 FileName = "Resizable.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Resizable . Syncfusion Blazor Components",
                 MetaDescription = "This example shows how to create resizable modal in the Blazor dialog to change the size of a dialog efficiently and view its content more comfortably.",
                 ActionDescription = new string[] {
@@ -173,7 +167,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/positioning",
                 FileName = "Positioning.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Positioning . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to display the Blazor dialog control at various built-in and custom positions.",
                 ActionDescription = new string[] {
@@ -216,7 +209,6 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/multiple-dialogs",
                 FileName = "MultipleDialogs.razor",
-                Type = SampleType.New,
                 TitleTag = "Dialog . Multiple Dialogs . Syncfusion Blazor Components",
                 MetaDescription = "This example shows how to display multiple dialogs sequentially and open multiple dialogs simultaneously for both modal and modeless Blazor dialogs.",
                 ActionDescription = new string[] {
@@ -239,7 +231,6 @@ namespace blazor_samples
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/default",
                 FileName = "Default.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the default functionalities of the Tooltip which will open
@@ -277,7 +268,6 @@ namespace blazor_samples
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/html-template",
                 FileName = "HtmlTemplate.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates customizing Tooltip content to display a HTML page.
@@ -299,7 +289,6 @@ namespace blazor_samples
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/api",
                 FileName = "Api.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates how to customize the Tooltip component by using its Properties from the property pane. Select any combination of properties from the property pane to customize the Tooltip.

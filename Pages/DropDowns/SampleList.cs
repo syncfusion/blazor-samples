@@ -15,7 +15,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the default functionalities of the DropDownList in Blazor application. Click the DropDownList element and select an item from the <code>options</code> list.
@@ -42,7 +42,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the different data binding supports of the DropDownList. Click the DropDownList element and select an item from the suggestion list. At the very first time, when click on the remote data DropDownList,
@@ -93,7 +93,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
                         This sample demonstrates the filtering functionalities of the DropDownList. Click the DropDownList element and then type a character in the search box. It will display the
@@ -119,7 +119,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Cascading",
                 FileName = "Cascading.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the cascading functionalities of the DropDownList. Choose a country from
@@ -146,7 +146,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Grouping-Icon",
                 FileName = "GroupingIcon.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the grouping and icons supports of the DropDownList. Click the DropDownList element and select an item from the categorized list/icons list.
@@ -175,7 +175,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Inline",
                 FileName = "Inline.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>The DropDownList appearing in line with highlighted content. Click that DropDownList value content and select an item from the popup list.</p>"
                 },
@@ -195,7 +195,7 @@ namespace blazor_samples
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the template functionalities of the DropDownList. Type a character in the DropDownList element and choose an item from the customized list
@@ -227,7 +227,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the default functionalities of the ComboBox in Blazor application. Type a character in the ComboBox element or click the dropdown icon to choose an item from the <code>options</code> list.
@@ -248,7 +248,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the different data binding supports of the ComboBox. Type a character(s) in the ComboBox element and the remaining characters are automatically filled based on the first matched item.
@@ -296,7 +296,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Cascading",
                 FileName = "Cascading.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the cascading functionalities of the ComboBox. Choose a country from countries ComboBox, then respective states will be loaded in the second ComboBox.
@@ -315,7 +315,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the filtering functionalities of the ComboBox. Type a character in ComboBox
@@ -341,7 +341,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Grouping-Icon",
                 FileName = "GroupingIcon.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the grouping and icons supports of the ComboBox. Type a character in the ComboBox element or click on the drodown icon to choose an item from the categorized list/icons list.
@@ -370,7 +370,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the template functionalities of the ComboBox. Type a character in the ComboBox element and choose an item from the customized list
@@ -398,7 +398,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Multi-Column",
                 FileName = "MultiColumn.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the Multicolumn ComboBox. Click/focus and type the character in the ComboBox to select an item from the multicolumn data.
@@ -424,7 +424,7 @@ namespace blazor_samples
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default functionalities of the AutoComplete in Blazor application. Type a character in the AutoComplete element and choose an item from the suggestion list.</p>"
                 },
@@ -449,7 +449,7 @@ namespace blazor_samples
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the different data binding supports of the AutoComplete. Type a character(s) in the AutoComplete element and the remaining characters are automatically filled based on the first matched item.
@@ -497,7 +497,7 @@ namespace blazor_samples
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Grouping-Icon",
                 FileName = "GroupingIcon.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the grouping and icons supports to the AutoComplete. Type a character in the AutoComplete element and choose an item from the categorized list/icons list.
@@ -527,7 +527,7 @@ namespace blazor_samples
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the template functionalities of the AutoComplete. Type a character in the AutoComplete element and choose an item from the customized list
@@ -555,7 +555,7 @@ namespace blazor_samples
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Highlight",
                 FileName = "Highlight.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the highlight functionalities of the AutoComplete. Type a character(s) in the AutoComplete element and the typed characters are highlighted in the suggestion list. By default, <a href=""https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DropDowns.AutoCompleteModel%601~FilterType.html"" target=""_blank""> Contains</a> filter type is set in this sample and provided with the options to choose different filter type in the property panel.</p>"
                 },
@@ -576,7 +576,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default functionalities of the MultiSelect in Blazor application. Type a character in the MultiSelect element or click on this element to choose one or more items from the suggestion list.</p>"
                 },
@@ -604,7 +604,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the different data binding supports of the MultiSelect. Click the MultiSelect element and choose
@@ -672,7 +672,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the filtering functionalities of the MultiSelect. Type a character in the MultiSelect element
@@ -700,7 +700,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/CheckBox",
                 FileName = "CheckBox.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the checkbox functionalities of the MultiSelect.Click the MultiSelect element and then type a character in the search box. It will display the filtered list items based on the typed characters and then select the multiple values through the checkbox.</p>"
                 },
@@ -727,7 +727,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Custom-Value",
                 FileName = "CustomValue.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the custom value functionalities of the MultiSelect. Type a character(s) in the MultiSelect element that are
@@ -752,7 +752,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Grouping",
                 FileName = "Grouping.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the grouping supports of the MultiSelect. Type a character in the MultiSelect element or click on this element to choose one or more items from the categorized list.
@@ -778,7 +778,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Grouping-With-CheckBox",
                 FileName = "GroupingWithCheckBox.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the grouping functionalities of the MultiSelect in checkbox mode. Clicking the checkbox in group will select all
@@ -804,7 +804,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Selection-Limit",
                 FileName = "SelectionLimit.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the maximum selection limit functionalities with checkbox of the MultiSelect. MultiSelect value can set restrictions based on the maximum selection length that can be selected.</p>"
                 },
@@ -822,7 +822,7 @@ namespace blazor_samples
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the template functionalities of the MultiSelect. Type a character in the MultiSelect element and choose an item from the customized list
@@ -854,7 +854,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "ListBox . DefaultFunctionalities . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates the default functionalities of Syncfusion Blazor ListBox component with minimum configuration.",
                 ActionDescription = new string[] {
@@ -865,7 +865,7 @@ namespace blazor_samples
                     It supports sorting, grouping, reordering, and drag and drop of items.</p>
                 <p>In this sample, data is bound to the ListBox using the <a href=""https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DropDowns.SfListBox%601~DataSource.html"" target=""_blank""> DataSource</a> property. You can select your favorite cars from the ListBox.</p>
                 <p> More information about the Blazor ListBox component can be found in the
-                    <a href=""https://ej2.syncfusion.com/blazor/documentation/listbox/getting-started/"" target=""_blank""> documentation section</a>.
+                    <a href=""https://blazor.syncfusion.com/documentation/listbox/getting-started/"" target=""_blank""> documentation section</a>.
                 </p>"
                 }
             },
@@ -876,7 +876,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/dual-listbox",
                 FileName = "DualListBox.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "ListBox . DualListBox . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to move items between the two list boxes using dual list box functionality.",
                 ActionDescription = new string[] {
@@ -894,7 +894,7 @@ namespace blazor_samples
                     <li><code>moveAllFrom</code> -  Moves all the items from Group B list box to Group A.</li>
                 </ul>
                   <p> More information about the Blazor ListBox component can be found in the
-                    <a href=""https://ej2.syncfusion.com/blazor/documentation/listbox/getting-started/"" target=""_blank""> documentation section</a>.
+                    <a href=""https://blazor.syncfusion.com/documentation/listbox/getting-started/"" target=""_blank""> documentation section</a>.
                 </p>"
                 }
             },
@@ -905,7 +905,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/drag-and-drop",
                 FileName = "DragDrop.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "ListBox . DragDrop . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to drag and drop within the Blazor ListBox and between two list boxes.",
                 ActionDescription = new string[] {
@@ -918,7 +918,7 @@ namespace blazor_samples
                        <li>To drag and drop between two listboxes, the <a target='_blank' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DropDowns.SfListBox%601~Scope.html'><code>Scope</code></a> property should be set to both the listboxes.</li>
                       </ul>
                      <p> In this sample, a list of countries is loaded in Group A and another list of countries is loaded in Group B. You can drag and drop an item or multiple items from Group A to Group B, and vice versa.</p>
-                     <p> More information about drag and drop functionalities of Blazor ListBox component can be found in the <a href='https://ej2.syncfusion.com/blazor/documentation/listbox/getting-started/' target='_blank'> documentation section</a>.</p>"
+                     <p> More information about drag and drop functionalities of Blazor ListBox component can be found in the <a href='https://blazor.syncfusion.com/documentation/listbox/getting-started/' target='_blank'> documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -928,7 +928,7 @@ namespace blazor_samples
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/checkbox",
                 FileName = "Checkbox.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 TitleTag = "ListBox . CheckBox . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates how to select multiple items from the Syncfusion Blazor ListBox using checkbox functionality.",
                 ActionDescription = new string[] {
@@ -949,7 +949,7 @@ namespace blazor_samples
                Directory = "DropDowns/ListBox",
                Url = "listbox/api",
                FileName = "Api.razor",
-               Type = SampleType.New,
+               Type = SampleType.None,
                TitleTag = "ListBox . Api . Syncfusion Blazor Components",
                MetaDescription = "This example how to customize the Syncfusion Blazor ListBox component using the available set of APIs.",
                ActionDescription = new string[] {

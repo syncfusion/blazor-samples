@@ -15,7 +15,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample visualizes the sales revenue of items sold by the employees in a week, where the revenue for the day is displayed in 1000 USD as cell data.
@@ -37,7 +36,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/calendar-heatmap",
                 FileName = "CalendarHeatmap.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the summary of user activities in GitLab account such as merge requests, push events and comments across 52 weeks in a year.
@@ -59,7 +57,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/bubble-types",
                 FileName = "BubbleTypes.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the female participation rate of the total female population in the country’s work force. In Bubble Heatmap, the data points can be visualized using Bubble Size, Bubble Shade and Sector view types.
@@ -80,7 +77,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/color-and-size",
                 FileName = "ColorAndSize.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates the number of commercial air craft accidents and the fatalities across the world between 2012 and 2017. Each data point interprets the accident count and the fatality associated with the accident, the Size of the Bubble depicts the accident count and the shade of the Bubble depicts the fatality count.
@@ -107,7 +103,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/row",
                 FileName = "Row.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>
                     This sample visualizes the GDP growth rate for the countries which are the world’s major economies over the years.
@@ -128,7 +123,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/cell",
                 FileName = "Cell.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>
                     This sample visualizes the percentage growth rate of individuals using the internet in a country compared to the overall population to the country.
@@ -149,7 +143,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/json-row",
                 FileName = "JsonRow.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>
                     This sample visualizes the overall Olympic medals won by the countries in all the summer Olympic events from the year 2000 to 2016.
@@ -171,7 +164,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/json-cell",
                 FileName = "JsonCell.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>
                     This sample visualizes the number of international tourist arrivals in millions of the most visited destinations in the world.
@@ -193,7 +185,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/empty-points",
                 FileName = "Emptypoints.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the number of defective product count per 1000 units coming out from a manufacturing unit
@@ -217,7 +208,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/inversed-axis",
                 FileName = "InversedAxis.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the population growth rate of the most populous countries over the years. The data label is disabled in this sample, the Tooltip displays the data point values.
@@ -239,7 +229,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/opposed-axis",
                 FileName = "OpposedAxis.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample illustrates the monthly flight arrivals at JFK international airport, New York. The data label is disabled in this sample, the Tooltip displays the data point values.</p>"
                 },
@@ -259,7 +248,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/legend-placement",
                 FileName = "LegendPlacement.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the hourly weather forecast for some major European cities. The data label is disabled in this sample, the Tooltip displays the data point values.
@@ -281,7 +269,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/large-data",
                 FileName = "LargeData.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the annual traffic report of an airport with the number of flight arrivals in a year.The data label is disabled in this sample, the Tooltip displays the data point values.
@@ -303,7 +290,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/palette-mode",
                 FileName = "PaletteMode.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the energy consumption in trillion British thermal units (btu) by the various public sectors in US government over the years. The data label is disabled in this sample, the Tooltip displays the data point values.
@@ -324,7 +310,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/rendering-mode",
                 FileName = "RenderingMode.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the net migration rate for the northern European countries over the years. The data label is disabled in this sample, the Tooltip displays the data point values.
@@ -345,7 +330,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/tooltip-template",
                 FileName = "TooltipTemplate.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the crude oil production of the non-OPEC countries over the years. The data point values displayed are in million barrels per day units.

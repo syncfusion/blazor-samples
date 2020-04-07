@@ -11,54 +11,77 @@
 @inject SampleService Service;
 
 @typeparam TValue
-@*<SfTreeView ID="components-tree" Fields="@DataSource" CssClass="@treeviewClass" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" @ref="ComponentsTree" TValue="SampleListType">
-        <TreeViewEvents NodeSelected="OnNodeClick" TValue="SampleListType"></TreeViewEvents>
-        <TreeViewTemplates>
-            <NodeTemplate>
-                <div>
-                    <span class="tree-text">@((context as SampleListType).Name)</span>
-                    @if ((context as SampleListType).Type != SampleType.None)
-                    {
-                        <span class="e-badge sb-badge e-samplestatus @((context as SampleListType).Type) tree tree-badge">@((context as SampleListType).Type)</span>
-                    }
-                </div>
-            </NodeTemplate>
-        </TreeViewTemplates>
-    </SfTreeView>*@
-<CascadingValue Value="@this">
-    @*@(await Html.RenderComponentAsync<TreeviewComponent>(RenderMode.ServerPrerendered, new { treeviewClass = @treeviewClass }))*@
-
-    @*<component type="typeof(TreeviewComponent)" render-mode="ServerPrerendered" param-treeviewClass="@treeviewClass" />*@
-    <TreeviewComponent treeviewClass="@treeviewClass" @ref="TreeviewObj"></TreeviewComponent>
-
-    <div id="controlSamples" class="time-duration">
-        <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnToggle">
-            <div class="e-icons sb-icons back-icon"></div>
-            <div class='control-name'>All Components</div>
+    <CascadingValue Value="@this">
+        <SfTreeView TValue="SampleListType" ID="components-tree" FullRowSelect="true" ExpandOn="@ExpandOnSettings.Click" CssClass="@treeviewClass">
+            <TreeViewFieldsSettings DataSource="@ComponentList" Id="UID" Text="Name" Child="@("SourceData")" Expanded="Expanded"></TreeViewFieldsSettings>
+            <TreeViewEvents NodeSelected="@OnComponentSelect" TValue="SampleListType"></TreeViewEvents>
+            <TreeViewTemplates>
+                <NodeTemplate>
+                    <div>
+                        <span class="tree-text">@((context as SampleListType).Name)</span>
+                        @{
+                            var SampleType = (context as SampleListType).Type;
+                            @if (SampleType != SampleType.None)
+                            {
+                                <span class="e-badge sb-badge e-samplestatus @(SampleType.ToString().ToLower()) tree tree-badge"></span>
+                            }
+                        }
+                    </div>
+                </NodeTemplate>
+            </TreeViewTemplates>
+        </SfTreeView>
+        <div id="controlSamples" class="time-duration">
+            <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnToggle">
+                <div class="e-icons sb-icons back-icon"></div>
+                <div class='control-name'>All Components</div>
+            </div>
+            <SfListView ID="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="Sample">
+                <ListViewEvents Selected="OnSampleSelect" TValue="Sample" OnActionComplete="setSelectList"></ListViewEvents>
+                <ListViewTemplates TValue="Sample">
+                    <Template>
+                        @{
+                            <div class="e-text-content">
+                                 <span class="e-list-text">@context.Name</span>
+                                 @if (@context.Type != SampleType.None)
+                                 {
+                                     <span class="e-badge sb-badge e-samplestatus @(context.Type.ToString().ToLower())"></span>
+                                 }
+                            </div>
+                        }
+                    </Template>
+                    <GroupTemplate>
+                        @{
+                            <div class="e-text-content" role="presentation">
+                                <span class="e-list-text">@context.Text</span>
+                            </div>
+                        }
+                    </GroupTemplate>
+                </ListViewTemplates>
+            </SfListView>
         </div>
-        <SfListView ID="sample-list" CssClass="@listClass" DataSource="@ListDataSource" Fields="@ListFields" @ref="SampleList" TValue="Sample">
-            <ListViewEvents Selected="OnSampleSelect" TValue="Sample" OnActionComplete="setSelectList"></ListViewEvents>
-        </SfListView>
-    </div>
-</CascadingValue>
+    </CascadingValue>
 @code {
-
-        SfListView<Sample> SampleList;
+    public SfListView<Sample> SampleList { get; set; }
 
     public string treeviewClass { get; set; } = "e-view time-duration sb-hide";
-
-    public TreeviewComponent TreeviewObj { get; set; }
 
     public string listClass { get; set; } = "e-view sb-control-list-top";
 
     internal List<Sample> ListDataSource { get; set; } = new List<Sample>();
 
+    internal List<SampleListType> ComponentList { get; set; } = new List<SampleListType>();
+
     [CascadingParameter]
     public MainLayout BaseParent { get; set; }
 
-    public void OnToggle()
+    public async Task OnToggle()
     {
-        TreeviewObj.OnToggle();
+        if (this.treeviewClass.Contains("sb-hide"))
+        {
+            this.treeviewClass = "e-view time-duration";
+            this.listClass = "sb-hide";
+            await JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
+        }
     }
 
     public Sample SampleData
@@ -67,7 +90,6 @@
         {
             return Service.Data.CurrentSample;
         }
-
     }
 
     public SampleList Control
@@ -76,14 +98,13 @@
         {
             return Service.Data.CurrentControl;
         }
-
     }
 
-    private void setSelectList() {
-        SampleList.SelectItem(SampleData);
+    public async Task setSelectList() {
+        await SampleList.SelectItem(SampleData);
     }
 
-    private void OnSampleSelect(Syncfusion.Blazor.Lists.SelectEventArgs<Sample> args)
+    private async Task OnSampleSelect(Syncfusion.Blazor.Lists.SelectEventArgs<Sample> args)
     {
         if (!Service.Prop.RestricMouseEvents)
         {
@@ -103,11 +124,11 @@
                         {
                             ActionDescriptionItems.Add(Element);
                         }
-                        JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
+                        await JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
                     }
                     else
                     {
-                        JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
+                        await JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
                     }
                     if (SampleData.Description != null)
                     {
@@ -115,27 +136,26 @@
                         {
                             DescriptionItems.Add(Element);
                         }
-                        JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+                        await JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
                     }
                     else
                     {
-                        JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
+                        await JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
                     }
                     this.BaseParent.UpdateBreadCrumb(Control.Name, sampleData.data.Category, sampleData.data.Name);
-                    JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, sampleData.data.Name);
+                    await JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, sampleData.data.Name);
 
-                    JsRuntime.InvokeAsync<Object>("persistTheme");
+                    await JsRuntime.InvokeAsync<Object>("persistTheme");
                     this.NavigatePage(sampleData.data.Url.ToLower(), true);
                     SampleBrowser.CurrentUrl = sampleData.data.Url.ToLower();
-                    JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
-                    JsRuntime.InvokeAsync<Object>("persistURL", SampleData.Url);
-                    JsRuntime.InvokeAsync<string>("callResizeEvent");
+                    this.BaseParent.RightPaneObj.ButtonState(SampleBrowser.CurrentUrl);
+                    this.BaseParent.MobileState(SampleBrowser.CurrentUrl);
+                    await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+                    await JsRuntime.InvokeAsync<Object>("persistURL", SampleData.Url);
+                    await JsRuntime.InvokeAsync<string>("callResizeEvent");
                 }
-
-
             }
         }
-
     }
 
     public void NavigatePage(string url, bool isSampleSelect = false)
@@ -156,11 +176,30 @@
         UriHelper.NavigateTo(url);
     }
 
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
         UriHelper.LocationChanged += new EventHandler<LocationChangedEventArgs>(this.UrlChange);
+
+        this.ComponentList = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
+        {
+            List<SampleList> SampleItems = samples.ToList();
+            List<SampleListType> ChildItems = new List<SampleListType>();
+            SampleItems.OrderBy(orderBy => orderBy.Order);
+            SampleItems.ForEach(item =>
+            {
+                var listData = item.Samples.GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                for (var i = 0; i < listData.Count; i++)
+                {
+                    for (var j = 0; j < listData[i].Count; j++)
+                    {
+                        SampleBrowser.SampleUrls.Add(listData[i][j].Url);
+                    }
+                }
+                ChildItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples });
+            });
+            return new SampleListType() { SourceData = ChildItems, Name = SampleItems[0].Category, UID = samples.Key, Expanded = true };
+        }).ToList<SampleListType>();
     }
 
     protected void Dispose()
@@ -168,24 +207,26 @@
         UriHelper.LocationChanged -= new EventHandler<LocationChangedEventArgs>(this.UrlChange);
     }
 
-    public void UrlChange(object sender, LocationChangedEventArgs args)
+    public async void UrlChange(object sender, LocationChangedEventArgs args)
     {
         Service.Data.Update(UriHelper);
         if (Service.Data.CurrentControl != null)
         {
-            this.UpdateNavMenu();
+            await this.UpdateNavMenu();
         }
     }
-    protected override void OnAfterRender(bool firstRender)
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
         {
+            await base.OnAfterRenderAsync(firstRender);
             if (firstRender)
             {
                 Service.Data.Update(UriHelper);
                 if (Service.Data.CurrentControl != null)
                 {
-                    this.UpdateNavMenu();
+                    await this.UpdateNavMenu();
                 }
             }
         }
@@ -193,18 +234,16 @@
         {
 
         }
-
     }
 
-    public void UpdateNavMenu()
+    public async Task UpdateNavMenu()
     {
         this.ListDataSource = Control.Samples;
-        this.StateHasChanged();
         List<string> ActionDescriptionItems = new List<string>();
         List<string> DescriptionItems = new List<string>();
-
+        // this.setSelectList();
         this.BaseParent.UpdateBreadCrumb(Control.Name, SampleData.Category, SampleData.Name);
-        JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, SampleData.Name);
+        await JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, SampleData.Name);
 
         if (SampleData.ActionDescription != null)
         {
@@ -212,11 +251,11 @@
             {
                 ActionDescriptionItems.Add(Element);
             }
-            JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
+            await JsRuntime.InvokeAsync<Object>("updateActionDescription", ActionDescriptionItems);
         }
         else
         {
-            JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
+            await JsRuntime.InvokeAsync<Object>("updateActionDescription", new List<string>());
         }
         if (SampleData.Description != null)
         {
@@ -224,20 +263,33 @@
             {
                 DescriptionItems.Add(Element);
             }
-            JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
+            await JsRuntime.InvokeAsync<Object>("updateDescription", DescriptionItems);
         }
         else
         {
-            JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
+            await JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
         }
-
-        JsRuntime.InvokeAsync<string>("callResizeEvent");
+        // JsRuntime.InvokeAsync<string>("ScrollOption");
+        await JsRuntime.InvokeAsync<string>("callResizeEvent");
         //JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
+        this.StateHasChanged();
     }
 
-    public void UpdateState()
+    private async Task OnComponentSelect(NodeSelectEventArgs args)
     {
-        this.StateHasChanged();
+        if (args.NodeData.ParentID != null)
+        {
+            string prop = args.NodeData.Text.Replace("Preview", "").Replace("New", "").Replace("Updated", "").Replace(" ", "").Trim();
+            List<Sample> ChildList = SampleBrowser.Config.GetType().GetProperty(prop, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance).GetValue(SampleBrowser.Config) as List<Sample>;
+            this.listClass = "e-view sb-control-list-top";
+            this.treeviewClass = "e-view time-duration sb-hide";
+            this.ListDataSource = ChildList;
+            this.NavigatePage(ChildList[0].Url.ToLower());
+            this.BaseParent.RightPaneObj.ButtonState(ChildList[0].Url);
+            this.BaseParent.MobileState(ChildList[0].Url);
+            await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+            await JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
+        }
     }
 
     Syncfusion.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.Blazor.Lists.ListViewFieldSettings

@@ -15,6 +15,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/hello-world",
                 FileName = "HelloWorld.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -46,6 +47,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/sales-invoice",
                 FileName = "SalesInvoice.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -82,6 +84,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/update-fields",
                 FileName = "UpdateFields.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -111,6 +114,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/advanced-replace",
                 FileName = "AdvancedReplace.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -140,6 +144,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/bookmark-navigation",
                 FileName = "BookmarkNavigation.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -169,6 +174,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/forms",
                 FileName = "Forms.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -199,6 +205,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/bookmarks",
                 FileName = "Bookmarks.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -232,6 +239,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/header-and-footer",
                 FileName = "HeaderandFooter.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -264,6 +272,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/image-insertion",
                 FileName = "ImageInsertion.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -297,6 +306,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/employee-report",
                 FileName = "EmployeeReport.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -325,6 +335,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/insert-ole-object",
                 FileName = "InsertOLEObject.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -353,6 +364,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/letter-format",
                 FileName = "LetterFormat.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -381,6 +393,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/mail-merge-event",
                 FileName = "MailMergeEvent.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -412,6 +425,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/nested-mail-merge",
                 FileName = "NestedMailMerge.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -442,6 +456,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/word-to-pdf",
                 FileName = "WordToPDF.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -472,6 +487,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/rtf-to-doc",
                 FileName = "RTFtoDOC.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -500,6 +516,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/word-to-wordml",
                 FileName = "WordToWordML.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -528,6 +545,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/wordml-to-word",
                 FileName = "WordMLtoWord.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -556,6 +574,7 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/word-to-odt",
                 FileName = "WordToODT.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -585,6 +604,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/getting-started",
                 FileName = "GettingStarted.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -629,6 +649,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-image",
                 FileName = "PPTXToImage.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -663,6 +684,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -698,6 +720,7 @@ namespace blazor_samples
                 Category = "Security",
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/write-protection",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -732,6 +755,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/chart",
                 FileName = "Chart.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -767,6 +791,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/slide",
                 FileName = "Slide.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -802,6 +827,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/smartart",
                 FileName = "SmartArt.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -835,6 +861,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/table",
                 FileName = "Table.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -871,6 +898,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/comment",
                 FileName = "Comment.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -903,6 +931,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/connector",
                 FileName = "Connector.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -937,6 +966,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/create-animation",
                 FileName = "CreateAnimation.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -985,6 +1015,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/modify-animation",
                 FileName = "ModifyAnimation.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1033,6 +1064,7 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/slide-transition",
                 FileName = "SlideTransition.razor",
+                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

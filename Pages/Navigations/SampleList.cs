@@ -145,7 +145,7 @@ namespace blazor_samples
                       <p>In this demo, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IContextMenu~Target.html'>target
                       </a></code> property is set as '#contextmenutarget'. Hence, on right clicking the target element, the Context Menu will open.
                     </p>
-                    <p>More information about Blazor Context Menu component can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/context-menu/getting-started/'> documentation section</a>.</p>"
+                    <p>More information about Blazor Context Menu component can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/context-menu/getting-started/'> documentation section</a>.</p>"
           }      }
         };
         public List<Sample> MenuBar { get; set; } = new List<Sample>
@@ -163,7 +163,7 @@ namespace blazor_samples
                 Description = new string[] {
                     @"
                  <p>The menu component is a graphical user interface that serves as navigation header for your application or site. It provides a list of commands that can be carried out using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~Items.html'> Items</a> property.</p>
-                 <p>More information about Blazor Context Menu component can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/'> documentation section</a>.</p>"
+                 <p>More information about Blazor Context Menu component can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/menu/getting-started/'> documentation section</a>.</p>"
                 }
             },
             new Sample
@@ -184,7 +184,7 @@ namespace blazor_samples
                      <p>
                      In this demo, the component is bound with the list type data where the parent-child relation is referred by id and parentId mapping fields.
                       </p>
-                     <p>More information about Blazor ContextMenu component can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/menu/data-source-binding-and-custom-menu-items/'> documentation section</a>.</p>" }
+                     <p>More information about Blazor ContextMenu component can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/menu-bar/data-source-binding-and-custom-menu-items/'> documentation section</a>.</p>" }
             },
             new Sample
             {
@@ -209,7 +209,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information about Blazor Menu bar component can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/"">
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/menu-bar/getting-started/"">
                             documentation
                         </a> section.
                     </p>"
@@ -234,7 +234,7 @@ namespace blazor_samples
                   The menu component has an option to customize menu items using the template, so that the menu items can be rendered according to the requirement.
                 </p>
                 <p>
-                 More information about Blazor Menu bar component can be found in this <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/""> documentation </a> section.
+                 More information about Blazor Menu bar component can be found in this <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/menu-bar/getting-started/""> documentation </a> section.
                  </p>"
                 }
             },
@@ -254,7 +254,7 @@ namespace blazor_samples
                 </p>
                 <p>The menu shows on clicking hamburger icon. You can use the Open and Close methods to show / hide the menu programmatically.</p>
                 <p>
-                 More information about Blazor Menu bar component can be found in this <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/""> documentation </a> section.
+                 More information about Blazor Menu bar component can be found in this <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/menu-bar/getting-started/""> documentation </a> section.
                 </p>" 
                 }
             },
@@ -292,7 +292,7 @@ namespace blazor_samples
                     </ul>
                     <p>
                         More information about Blazor Menu bar component can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/"">
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/menu-bar/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -314,7 +314,7 @@ namespace blazor_samples
                 </p>
                 <p>
                   More information about Blazor Menu bar component can be found in this
-                     <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/menu/getting-started/""> documentation section </a>.
+                     <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/menu-bar/getting-started/""> documentation section </a>.
                 </p>" 
                 }
             }
@@ -329,7 +329,6 @@ namespace blazor_samples
                 Directory = "Navigations/Accordion",
                 FileName = "DefaultFunctionalities.razor",
                 Url = "accordion/default-functionalities",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the default functionalities of the <code>Accordion</code>. Click on the <code>Header</code> element to expand/collapse the corresponding Accordion panel, and displays its content.
@@ -347,7 +346,6 @@ namespace blazor_samples
                 Category = "Accordion",
                 Directory = "Navigations/Accordion",
                 Url = "accordion/template",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -379,7 +377,6 @@ namespace blazor_samples
                 Directory = "Navigations/Accordion",
                 FileName = "Icons.razor",
                 Url = "accordion/icons",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the icon representation of the <code>Accordion</code>. Click on the header element to expand/collapse the corresponding Accordion panel, and displays its content.
@@ -400,7 +397,6 @@ namespace blazor_samples
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 Url = "toolbar/default-functionalities",
                 ActionDescription = new string[] {
                     @"<p>
@@ -439,7 +435,6 @@ namespace blazor_samples
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
                 FileName = "Popup.razor",
-                Type = SampleType.New,
                 Url = "toolbar/popup",
                 ActionDescription = new string[] {
                     @"<p>
@@ -490,7 +485,6 @@ namespace blazor_samples
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
                 FileName = "Alignment.razor",
-                Type = SampleType.New,
                 Url = "toolbar/alignment",
                 ActionDescription = new string[] {
                     @"<p>
@@ -530,7 +524,6 @@ namespace blazor_samples
                 Category = "Tabs",
                 Directory = "Navigations/Tabs",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 Url = "tabs/default-functionalities",
                 ActionDescription = new string[] {
                     @"<p>
@@ -552,7 +545,6 @@ namespace blazor_samples
                  Category = "Tabs",
                  Directory = "Navigations/Tabs",
                  FileName = "Orientation.razor",
-                 Type = SampleType.New,
                  Url = "tabs/orientation",
                  ActionDescription = new string[] {
                     @"<p>
@@ -587,7 +579,6 @@ namespace blazor_samples
                 Category = "Tabs",
                 Directory = "Navigations/Tabs",
                 FileName = "ResponsiveModes.razor",
-                Type = SampleType.New,
                 Url = "tabs/responsive-modes",
                 ActionDescription = new string[] {
                     @"<p>
@@ -615,7 +606,6 @@ namespace blazor_samples
                 Category = "Tabs",
                 Directory = "Navigations/Tabs",
                 FileName = "Wizard.razor",
-                Type = SampleType.New,
                 Url = "tabs/wizard",
                 ActionDescription = new string[] {
                     @"<p>
@@ -643,7 +633,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the default functionalities of the TreeView. Click on node to select it, and click on icon or double click on node to expand/collapse it. The child nodes will be loaded on expand the parent node.    </p>"
@@ -661,7 +650,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/icons-and-images",
                 FileName = "IconsandImages.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the node can be configured by icons/images in TreeView. Click on Icon or double click on node to expand/collapse it, and show the icons/images that configured with nodes.
@@ -680,7 +668,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/checkbox",
                 FileName = "CheckBox.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the Checkbox functionalities of the TreeView. Click on any parent node's Checkbox to check/uncheck the node and its child nodes. The parent node's checked state will be determined by its child nodes checked state.
@@ -699,7 +686,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/node-editing",
                 FileName = "NodeEditing.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the node editing functionalities of the TreeView. Double click on the node or press F2 key on selected node to edit node's text in input textbox. Press enter key or click outside of the input element to save the node's, or press escape key to cancel the modified text.
@@ -719,7 +705,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/multiple-selection",
                 FileName = "MultipleSelection.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the multiple node selection functionalities of the TreeView. To select multiple nodes, press the CTRL key and select the desired nodes; or select any node and by pressing SHIFT key select another node, this selects all the nodes in-between the selected nodes.
@@ -741,7 +726,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the template functionalities of the TreeView. Select the root node by clicking on it, or expand the root node and select the customized child node.
@@ -760,7 +744,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/local-data",
                 FileName = "LocalData.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the binding of local data to the TreeView. Click on node to select it, and click on icon or double click on node to expand/collapse it.
@@ -782,7 +765,6 @@ namespace blazor_samples
                 Directory = "Navigations/TreeView",
                 Url = "treeview/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the binding data to the TreeView from remote data source. On expanding the parent node, the spinner icon will be displayed until the child nodes will be loaded into parent node. Click on node to select it, and click on icon or double click on node to expand/collapse it.</p>"
@@ -810,7 +792,6 @@ namespace blazor_samples
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>This sample demonstrates the full features of the File Manager that includes toolbar, navigation pane and details view.</p>"
                 },
@@ -831,7 +812,6 @@ namespace blazor_samples
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/custom-thumbnail",
                 FileName = "CustomThumbnail.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                         @"<p>This sample demonstrates the custom thumbnail of the File Manager you can customize with your own icon.</p>"
                 },

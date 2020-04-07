@@ -15,7 +15,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default functionalities of the ListView. Click any item from the list to select and highlight it.</p>"
                 },
@@ -34,7 +33,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/checklist",
                 FileName = "Checklist.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the checkbox functionalities of the ListView. Click multiple list item to check or uncheck the items.</p>"
                 },
@@ -51,7 +49,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the remote data functionalities of the ListView. Click any item from the list to select and highlight it.</p>"
                 },
@@ -79,7 +76,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/nested-list",
                 FileName = "NestedList.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the nested list functionalities, which allows you to navigate to the sub list items by clicking any item and navigating back to the list item using the back icon at the top left.
                     </p>"
@@ -96,7 +92,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/list-templates",
                 FileName = "ListTemplates.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the template functionalities of the ListView. Click any news header or thumbnail to open
                     the complete article. To navigate back to the news list, click the back icon at the top left area.
@@ -114,7 +109,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/group-template",
                 FileName = "ListGroupTemplate.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the group template functionalities of ListView. Click any list item from the settings option to select and highlight an option.
                 </p>"
@@ -134,7 +128,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default functionalities of UI virtualization. Scroll list item to experience UI virtualization.
                 </p>"
@@ -153,7 +146,6 @@ namespace blazor_samples
                 Directory = "Layouts/ListView",
                 Url = "listview/call-history",
                 FileName = "CallHistory.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the call history application using ListView. Click the checklist to filter the data in contacts list. </p>"
                 },
@@ -224,9 +216,8 @@ namespace blazor_samples
                 Name = "Default Functionalities",
                 Category = "Splitter",
                 Directory = "Layouts/Splitter",
-                Url = "splitter/default",
+                Url = "splitter/default-functionalities",
                 FileName = "Default.razor",
-                Type = SampleType.New,
                 TitleTag = "Splitter . Default Functionalities . Syncfusion Blazor Components",
                 MetaDescription = "The example explains the default functionalities of the Blazor splitter with resizable panes, separator, and orientation (horizontal and vertical).",
                 ActionDescription = new string[] {
@@ -252,7 +243,6 @@ namespace blazor_samples
                 Directory = "Layouts/Splitter",
                 Url = "splitter/expand-collapse",
                 FileName = "ExpandandCollapse.razor",
-                Type = SampleType.New,
                 TitleTag = "Splitter . Expand and Collapse . Syncfusion Blazor Components",
                 MetaDescription = "The example presents collapsible Blazor Splitter that exposes expand and collapse action of panes with a different orientation and resizable panes.",
                 ActionDescription = new string[] {
@@ -274,7 +264,6 @@ namespace blazor_samples
                 Directory = "Layouts/Splitter",
                 Url = "splitter/details-view",
                 FileName = "DetailsView.razor",
-                Type = SampleType.New,
                 TitleTag = "Splitter . Details View . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates how to create employee details view layout using panes of Blazor Splitter and ListView with navigation.",
                 ActionDescription = new string[] {
@@ -295,7 +284,6 @@ namespace blazor_samples
                 Directory = "Layouts/Splitter",
                 Url = "splitter/outlook",
                 FileName = "OutlookStyleLayout.razor",
-                Type = SampleType.New,
                 TitleTag = "Splitter . Outlook-style Layout . Syncfusion Blazor Components",
                 MetaDescription = "The example explains how to construct an outlook style layout using Blazor Splitter, TreeView, ListView, and Rich Text Editor with multiple panes.",
                 ActionDescription = new string[] {
@@ -316,7 +304,6 @@ namespace blazor_samples
                 Directory = "Layouts/Splitter",
                 Url = "splitter/code-editor-layout",
                 FileName = "CodeEditorLayout.razor",
-                Type = SampleType.New,
                 TitleTag = "Splitter . Code Editor Layout . Syncfusion Blazor Components",
                 MetaDescription = "The example shows how to construct code editor layout (UI) using Blazor Splitter with multiple, nested, different oriented, and resizable panes.",
                 ActionDescription = new string[] {

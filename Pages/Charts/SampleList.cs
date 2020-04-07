@@ -11,7 +11,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/line",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the consumer price data with default line series in the chart.
@@ -35,7 +35,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/spline",
                 FileName = "Spline.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the NC weather report for the year 2016 with default spline series in the chart. Low and high temperature of the year are indicated by using annotation.
@@ -57,7 +57,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/step-line",
                 FileName = "StepLine.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the unemployment rate from 1975 to 2010 with default stepline series in the chart. Data points are enhanced with marker and tooltip.
@@ -79,7 +79,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/dashed-line",
                 FileName = "DashedLine.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a line series with dash array. Dashed lines are animated by using css animation.
@@ -103,7 +103,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/inversed-spline",
                 FileName = "InversedSpline.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a spline series by inversing X and Y Axis. Data points are enhanced with marker and tooltip.
@@ -125,7 +125,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/line-zone",
                 FileName = "LineZone.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the annual mean rainfall data with multi colored line series in the chart. Data points are enhanced with segments and tooltip.
@@ -147,7 +147,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/multi-colored-line",
                 FileName = "MultiColoredLine.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the particulate levels in rainfall with multi colored line series in the chart. Data points are
@@ -171,7 +171,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-line",
                 FileName = "StackedLine.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the family expense data with stacked line series in the chart to identify who spent more money in each category. Data points are enhanced with marker and tooltip.
@@ -193,7 +193,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-line",
                 FileName = "StackedLine100.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the family expense data with stacked line series in the chart to identify who spent more money in each category. Data points are enhanced with marker and tooltip.
@@ -215,7 +215,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/area",
                 FileName = "Area.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about average sales comparison of two products by using default area series in the chart. Legend in the sample shows the information about the series.
@@ -234,7 +234,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/spline-area",
                 FileName = "SplineArea.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about inflation rate comparision for three countries by using spline area series in the chart. Legend in the sample shows the information about the series.
@@ -253,7 +253,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/step-area",
                 FileName = "StepArea.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about electricity production by using renewable and non-renewable resources by using default step area series in the chart.
@@ -272,7 +272,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/range-area",
                 FileName = "RangeArea.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the maximum and minimum temperatures of different months with default range area series in the chart. Zoom the chart to check the temperature for week or day.
@@ -291,7 +291,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-area",
                 FileName = "StackedArea.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     Trend in the sales of ethical product is visualized with default stacked area series in chart. Legend in the sample shows the information about the series.
@@ -310,7 +310,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-area",
                 FileName = "StackedArea100.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     Percentage of sales for four ethical products are visualized with default 100% stacked area series in chart. Legend in the sample shows the information about the series.
@@ -332,7 +332,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/area-empty",
                 FileName = "AreaEmpty.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates an area series with empty points. Data points with null points are dropped here.
@@ -351,7 +351,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/area-zone",
                 FileName = "AreaZone.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the organic revenue data with multi colored area series in the chart. Data points are enhanced with segments and tooltip.
@@ -372,7 +372,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/column",
                 FileName = "Column.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Olympic medal count in Rio with default column series in the chart.
@@ -400,7 +400,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/rounded-column",
                 FileName = "RoundedColumn.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Olympic medal count in Rio with default column series in the chart.
@@ -426,7 +426,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/column-placement",
                 FileName = "ColumnPlacement.razor",
-                Type = SampleType.New,              
+                Type = SampleType.None,              
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates four column series. Each column is rendered with different column width and it is placed  behind to another one.
@@ -452,7 +452,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/range-column",
                 FileName = "RangeColumn.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the maximum and minimum temperatures for a week of different countries with default range column series in the chart. Tooltip shows the information about the data points.
@@ -476,7 +476,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/range-bar",
                 FileName = "RangeBar.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a range column series by inversing its X and Y  Axes. Tooltip shows the information about the data points.
@@ -501,7 +501,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/bar",
                 FileName = "Bar.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about UK trade in food groups of the year 2015 with default bar series in the chart.
@@ -525,7 +525,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-column",
                 FileName = "StackedColumn.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes mobile game market for different countries with default stacked column series in chart. Legend in the sample shows the information about those series.
@@ -548,7 +548,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-column",
                 FileName = "StackedColumn100.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes percentage of domestic product growth of four different countries with default 100% stacked column series in chart. 
@@ -572,7 +572,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-bar",
                 FileName = "StackedBar.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes sales comparison of different fruits with default stacked bar series in chart. Legend in the sample shows the information about the series.
@@ -596,7 +596,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-bar",
                 FileName = "StackedBar100.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes percentage of sales comparison for different fruits with default 100% stacked bar series in chart. Legend in the sample shows the information about the series.
@@ -620,7 +620,7 @@ namespace blazor_samples
 			//    Directory = "Charts/Chart",
 			//    Url = "Charts/NegativeStack",
 			//    FileName = "NegativeStack.razor",
-			//    Type = SampleType.New,
+			//    Type = SampleType.None,
             //    ActionDescription = new string[] {
             //         @"<p>
             //         This sample illustrates stacked bar with negative data points. Data points values are showed by using data label.
@@ -643,7 +643,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/scatter",
                 FileName = "Scatter.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample compares the height and weight of the genders by using default scatter series in the chart. Tooltip shows the information about the data.
@@ -665,7 +665,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/bubble",
                 FileName = "Bubble.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Literacy Rate and GDP Growth Rate of world countries by using bubble series in the chart. Tooltip shows the information about the countries.
@@ -687,7 +687,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/waterfall",
                 FileName = "Waterfall.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the revenue and profits of a company by using default waterfall series in the chart. Tooltip shows the information about the profits earned by each department on the company.
@@ -712,7 +712,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/histogram",
                 FileName = "Histogram.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the student's results of the final examination with histogram series in chart.
@@ -742,7 +742,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/box-and-whisker",
                 FileName = "BoxandWhisker.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the employees’ age group in various departments of a country with box and whisker type series in the chart. Mode of box and whisker series can be changed by <code>Mode</code> in property panel. To display the <code>Mean</code> value in a series, enable the Mean in the property panel.
@@ -770,7 +770,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/error-bar",
                 FileName = "ErrorBar.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the errors in sales distribution of a car for a certain period with error bar in the chart. In property panel, the options are available to change error bar type, drawing mode, and drawing direction of error bar by means of dropdown.
@@ -817,7 +817,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/trendlines",
                 FileName = "Trendlines.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the trend of Indian rupees and US dollar variation with trendline in the chart.
@@ -846,7 +846,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/multi-series-chart",
                 FileName = "MultiSeriesChart.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a combination of line and stacked column series. Tooltip shows the information about the data point.
@@ -871,7 +871,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pareto",
                 FileName = "Pareto.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates a pareto chart with line and column series. Trackball shows the information about the data point closest to the mouse.
@@ -897,7 +897,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/hilo",
                 FileName = "Hilo.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                  @"<p>
                     This sample visualizes the AAPL historical data with default HILO series in the chart. Tooltip and crosshair show the information about the data and period.
@@ -920,7 +920,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/hilo-open-close",
                 FileName = "HiloOpenClose.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p> This sample visualizes the AAPL historical data with default HILO Open Close series in the chart. Tooltip and crosshair show the information about the data and period.</p>"
                 },
@@ -940,7 +940,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/candle-stick",
                 FileName = "CandleStick.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p> This sample visualizes the AAPL historical data with default candle series in the chart. Tooltip and crosshair show the information about the data and period.</p>"
                 },
@@ -959,7 +959,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/accumulation-distribution-indicator",
                 FileName = "ADIChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an accumulation distribution indicator. Trackball shows the information about the stock and signal value of a day.
@@ -984,7 +984,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/average-true-range-indicator",
                 FileName = "ATRChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an average true range indicator.
@@ -1010,7 +1010,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/bollinger",
                 FileName = "BollingerChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Bollinger band indicator.
@@ -1036,7 +1036,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/exponential-moving-average-indicator",
                 FileName = "EmaChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an Exponential Moving Average indicator.
@@ -1062,7 +1062,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/moving-average-convergence-divergence-indicator",
                 FileName = "MacdChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Moving Average Convergence Divergence indicator. Trackball shows the information about the stock, signalline, Macdline, and Histogram value of a day.
@@ -1087,7 +1087,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/momentum",
                 FileName = "MomentumChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a momentum indicator. Trackball shows the information about the stock, signalline, and upperline value of a day.
@@ -1112,7 +1112,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/relative-strength-index-indicator",
                 FileName = "RsiChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Relative Strength Index indicator. Trackball shows the information about the stock, signalline, lowerline, and upperline value of a day.
@@ -1137,7 +1137,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/simple-moving-average-indicator",
                 FileName = "SmaChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Simple Moving Average indicator. Trackball shows the information about the stock and signal value of a day.
@@ -1162,7 +1162,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stochastic",
                 FileName = "StochasticChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and an Stochastic indicator. Trackball shows the information about the stock and indicator value of a day.
@@ -1187,7 +1187,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/triangular-moving-average-indicator",
                 FileName = "TmaChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a stock chart with candle series and a Triangle Moving Average indicator. Trackball shows the information about the stock and signal value of a day.
@@ -1212,7 +1212,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/performance",
                 FileName = "Performance.razor",
-                Type = SampleType.New,                           
+                Type = SampleType.None,                           
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the performance of Blazor chart to render 100K points in canvas mode.
@@ -1232,7 +1232,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pie",
                 FileName = "Pie.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"This sample demonstrates pie chart for mobile browser usage statistics. <code>Datalabel</code> shows the Information about the points. While hovering on the slice, border will be highlighted."
                 },
@@ -1249,7 +1249,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pie-radius",
                 FileName = "PieRadius.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample compares countries by population density and total area by using the various radius in pie series."
                 },
@@ -1266,7 +1266,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/donut",
                 FileName = "Donut.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample visualizes the project cost breakdown statistics by using doughnut series. Datalabel shows the Information about the points."
                 },
@@ -1283,7 +1283,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pyramid",
                 FileName = "Pyramid.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample visualizes food comparison data by using pyramid series. Datalabel shows the Information about the points."
                 },
@@ -1300,7 +1300,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/funnel",
                 FileName = "Funnel.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample demonstrates funnel chart for Project Cost Breakdown. Datalabel shows the Information about the points."
                 },
@@ -1317,7 +1317,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pie-legend",
                 FileName = "PieLegend.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample illustrates the donut series with smooth animation on dynamic update of data. The legend will be displayed at right side of the chart.</p>"
                 },
@@ -1334,7 +1334,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/semi-pie",
                 FileName = "SemiPie.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample illustrates the agriculture land percentages of various countries by using a pie series. It has options to change the angle and radius of the series."
                 },
@@ -1351,7 +1351,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/smart-labels",
                 FileName = "SmartLabels.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample illustrates the Rio Olympic’s gold medal count by using smart labels in the chart. The smart label placement for a series can be shown, when it contains more of points."
                 },
@@ -1368,7 +1368,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/grouping",
                 FileName = "Grouping.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample illustrates the grouping functionality in pie series. The grouping value can be changed by using <code>GroupTo</code> property."
                 },
@@ -1386,7 +1386,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pie-empty-points",
                 FileName = "EmptyPoints.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample illustrates an organization’s annual product-wise profit analysis with the empty point functionality in pie series.</p>"
                 },
@@ -1407,7 +1407,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-line",
                 FileName = "PolarLineChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the data about Alaska Weather Statistics - 2016 with default polar line series in the chart.
@@ -1434,7 +1434,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-area",
                 FileName = "PolarArea.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates polar series with area type for average sales comparison of products in recent year.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
@@ -1459,7 +1459,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-stacked-area",
                 FileName = "PolarStackedArea.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates polar series with stacking area type for GDP of different countries in recent years.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
@@ -1482,7 +1482,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-scatter",
                 FileName = "PolarScatter.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates polar series with scatter type for GDP for different countries in recent years.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
@@ -1508,7 +1508,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-column",
                 FileName = "PolarColumn.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates polar series with column type for mobile market subscriptions in different countries.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.
@@ -1535,7 +1535,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-stacking-column",
                 FileName = "Polar.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates polar series with stacking column type. The switching between polar and radar series can be done by using <code>Series Type</code> in property panel.
@@ -1562,7 +1562,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/polar-range-column",
                 FileName = "PolarRangeColumn.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates polar series with range column type for temperature variation.The switching between polar and radar series can be done by using <code>Series Type</code> in property panel.
@@ -1588,7 +1588,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/local-data",
                 FileName = "LocalData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates plotting of local data about stock price analysis of two products for a certain period.
@@ -1610,7 +1610,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"This sample illustrates how to retrieve remote the data for chart."
                 },
@@ -1630,7 +1630,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/numeric-axis",
                 FileName = "NumericAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of numeric axis in the chart with England and West indies cricket match data.
@@ -1655,7 +1655,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/date-time-axis",
                 FileName = "DateTimeAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of date time axis in the chart with weather statistics analysis of Alaska for a year.
@@ -1681,7 +1681,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/date-time-category-axis",
                 FileName = "DateTimeCategoryAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates sales of a product in business days.
@@ -1708,7 +1708,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/category-axis",
                 FileName = "CategoryAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of category axis in the chart with internet users of different countries.
@@ -1734,7 +1734,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/indexed-category-axis",
                 FileName = "IndexedCategoryAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 In this example, you can see how to indexed axis in chart. For indexed category axis you can use <code>IsIndexed</code> property.
@@ -1759,7 +1759,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/logarithmic-scale",
                 FileName = "LogarithmicScale.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample demonstrates the rendering of logarithmic axis in the chart.
@@ -1785,7 +1785,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/multiple-axis",
                 FileName = "MultipleAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates multiple axis in chart to represent the temperature in Celsius in an axis and Fahrenheit in another axis.
@@ -1810,7 +1810,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/inversed-axis",
                 FileName = "InversedAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates inversed axis in chart to plot exchange rate over a period.
@@ -1836,7 +1836,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/strip-line",
                 FileName = "StripLine.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample highlights certain range in an axis by using stripline feature.
@@ -1862,7 +1862,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/recurrence-strip-line",
                 FileName = "StripLineRecurrence.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the World Population Report with default column series in the chart. Data points values are showed by using data label.
@@ -1888,7 +1888,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/smart-axis-labels",
                 FileName = "SmartAxisLabels.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates Internet users in millions by using smart labels in the chart. The smart label placement for a series can be shown, when it contains more of points.
@@ -1929,7 +1929,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/axis-crossing",
                 FileName = "AxisCrossing.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates an interpolation of data points between linear and cubic by using spline and line series.
@@ -1951,7 +1951,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/marker-chart",
                 FileName = "MarkerChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the rendering of symbols in chart. In line based series, data points can be annotated by using symbols.
@@ -1976,7 +1976,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/vertical-chart",
                 FileName = "VerticalChart.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates the vertical chart by changing the orientation of x-axis to vertical and y-axis to horizontal.
@@ -2001,7 +2001,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/empty-point",
                 FileName = "EmptyPoint.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates the empty point functionality in chart series. The mode of empty point can be changed by using <code>Empty Point Mode</code> in property panel.
@@ -2028,7 +2028,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/tooltip-template",
                 FileName = "TooltipTemplate.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the USA Wheat Production data with default line series in the chart. Data points are enhanced with marker and tooltip.
@@ -2055,7 +2055,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/print",
                 FileName = "Print.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample visualizes print feature in chart control.By clicking <code>Print</code>, you can print the chart directly from the browser.
@@ -2078,7 +2078,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/export",
                 FileName = "Export.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample illustrates the export feature in chart. By clicking <code>Export</code>, you can export the chart in PNG or JPEG format.
@@ -2101,7 +2101,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/selection",
                 FileName = "Selection.razor",
-                Type = SampleType.New,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the selection feature in chart. To select a specific point, click the point. To select a specific point, click the point. The selection mode can be changed by changing Selection Mode in panel. <code>Multiple selection</code> also can be enabled by <code>Enable MultipleSelection</code>.
@@ -2136,7 +2136,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/range-selection",
                 FileName = "RangeSelection.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the range selection feature in chart.
@@ -2172,7 +2172,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/crosshair",
                 FileName = "Crosshair.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates crosshair feature in chart. To see crosshair, hover or long press the chart.
@@ -2198,7 +2198,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/trackball",
                 FileName = "Trackball.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample illustrates trackball feature in chart. To show trackball, hover or long press the chart and you can see the point value near to the mouse point.
@@ -2224,7 +2224,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/zooming",
                 FileName = "ZoomingandPanning.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates zooming feature in chart. The change can be zoomed by pinching or by mouse wheel.
@@ -2261,7 +2261,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/data-editing",
                 FileName = "DataEditing.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates data editing feature in chart. Drag and drop the points to change the data values dynamically.
@@ -2289,7 +2289,7 @@ namespace blazor_samples
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/range-navigator",
                 FileName = "RangeNavigator.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the bitcoin price range with area series in the range navigator. Selected range values are enhanced with tooltip.
@@ -2310,7 +2310,7 @@ namespace blazor_samples
 			    Directory = "Charts/RangeNavigator",
 			    Url = "range-selector/light-weight",
 			    FileName = "LightWeight.razor",
-			    Type = SampleType.New,
+			    Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample represents the total number of business and weekend days in a selected period.
@@ -2329,7 +2329,7 @@ namespace blazor_samples
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/date-time-axis",
                 FileName = "DateTimeAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample represent the exchange rate analysis for USD to EUR with datetime axis.
@@ -2348,7 +2348,7 @@ namespace blazor_samples
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/numeric-axis",
                 FileName = "NumericAxis.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample depicts the cricket match data between two countries with the help of numeric axis in range navigator.
@@ -2367,7 +2367,7 @@ namespace blazor_samples
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/logarithmic",
                 FileName = "Logarithmic.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample demonstrates the rendering of logarithmic axis in the range navigator.
@@ -2386,7 +2386,7 @@ namespace blazor_samples
 			    Directory = "Charts/RangeNavigator",
 			    Url = "range-selector/multilevel",
 			    FileName = "Multilevel.razor",
-			    Type = SampleType.New,
+			    Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     Axis labels are placed based on the values of the start and end ranges. You can add higher level of labels to the range navigator using multilevel labels.
@@ -2405,7 +2405,7 @@ namespace blazor_samples
 			      Directory = "Charts/RangeNavigator",
 			      Url = "range-selector/empty-point",
 			      FileName = "EmptyPoint.razor",
-			      Type = SampleType.New,
+			      Type = SampleType.None,
                   ActionDescription = new string[] {
                         @"<p>
                         This sample illustrates the functionality of empty points in the range navigator series.
@@ -2424,7 +2424,7 @@ namespace blazor_samples
 			      Directory = "Charts/RangeNavigator",
 			      Url = "range-selector/filter",
 			      FileName = "Filter.razor",
-			      Type = SampleType.New,
+			      Type = SampleType.None,
                   ActionDescription = new string[] {
                         @"<p>
                         This sample filters the data by hire date using date-time axis.
@@ -2443,7 +2443,7 @@ namespace blazor_samples
 			      Directory = "Charts/RangeNavigator",
 			      Url = "range-selector/print-export",
 			      FileName = "PrintExport.razor",
-			      Type = SampleType.New,
+			      Type = SampleType.None,
                   ActionDescription = new string[] {
                         @"<p>
                         This sample represent the exchange rate analysis for USD to EUR with datetime axis.
@@ -2462,7 +2462,7 @@ namespace blazor_samples
 			     Directory = "Charts/RangeNavigator",
 			     Url = "range-selector/rtl",
 			     FileName = "RTL.razor",
-			     Type = SampleType.New,
+			     Type = SampleType.None,
                  ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates RTL in the range navigator.
@@ -2600,7 +2600,7 @@ namespace blazor_samples
             //      Directory = "Charts/Sparkline",
             //      Url = "sparkline/Liveupdate",
             //      FileName = "Liveupdate.razor",
-            //      Type = SampleType.New,
+            //      Type = SampleType.None,
                     // ActionDescription = new string[] {
                     //     @"<p>
                     //     This sample depicts the various customization options available in sparklines.
@@ -2720,7 +2720,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/stock-chart",
                 FileName = "Default.razor",
-                Type = SampleType.New,               
+                Type = SampleType.None,               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2739,7 +2739,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/ohlc",
                 FileName = "OHLC.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart with OHLC series.
@@ -2758,7 +2758,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/candlestick-volume",
                 FileName = "Candlestick and Volume.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock chart with multiple pan.
@@ -2777,7 +2777,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/multiple-series",
                 FileName = "Multiple Series.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample visualizes stock chart with multiple series.
@@ -2796,7 +2796,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/stock-chart-spline",
                 FileName = "Spline.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock data with spline series. Period and range selector help us to navigate different of data.
@@ -2815,7 +2815,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/stock-chart-area",
                 FileName = "Area.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                 This sample visualizes stock data with area. Period and range selector help us to navigate different of data.
@@ -2834,7 +2834,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/stock-chart-spline-area",
                 FileName = "SplineArea.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock data with spline area. Period and range selector help us to navigate different of data.
@@ -2853,7 +2853,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/inversed-area",
                 FileName = "Inversed Area.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes stock data with inversed axis. Period and range selector help us to navigate different of data.
@@ -2865,25 +2865,6 @@ namespace blazor_samples
                 </p>"
                 }
             },
-           new Sample
-            {
-                Name = "Intraday",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "stock-chart/intraday",
-                FileName = "Intraday.razor",
-                Type = SampleType.New,
-                ActionDescription = new string[] {
-                    @"<p>
-                    This sample visualizes the Stock Chart
-                </p>"
-                },
-                Description = new string[] {
-                    @"<p>
-                    In this example, you can see how to render and configure the Stock Chart. <code>LineSeries</code> is used to represent selected data value.
-                </p>"
-                }
-            },
 		    new Sample
 		    {
 		        Name = "Hide Period Selector",
@@ -2891,7 +2872,7 @@ namespace blazor_samples
 		        Directory = "Charts/StockChart",
 		        Url = "stock-chart/hide-period-selector",
 		        FileName = "Hide Period Selector.razor",
-		        Type = SampleType.New,
+		        Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2910,7 +2891,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/hide-selector",
                 FileName = "Hide Selector.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2929,7 +2910,7 @@ namespace blazor_samples
                 Directory = "Charts/StockChart",
                 Url = "stock-chart/stock-events",
                 FileName = "StockEvents.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample visualizes the Stock Chart
@@ -2950,7 +2931,7 @@ namespace blazor_samples
                 Directory = "Charts/BulletChart",
                 Url = "bullet-chart/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a default bullet chart to compare the feature (value) bar with comparative (target) bar. It includes variety of configurations to change the look and feel of the chart.
@@ -2969,7 +2950,7 @@ namespace blazor_samples
                 Directory = "Charts/BulletChart",
                 Url = "bullet-chart/multiple-data",
                 FileName = "MultipleData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a bullet chart with multiple data to compare different values.
@@ -2988,7 +2969,7 @@ namespace blazor_samples
                 Directory = "Charts/BulletChart",
                 Url = "bullet-chart/right-to-left",
                 FileName = "RightToLeft.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates bullet chart with diferent mode of rendering such as right to left and left to right.
@@ -3007,7 +2988,7 @@ namespace blazor_samples
                 Directory = "Charts/BulletChart",
                 Url = "bullet-chart/bar-customization",
                 FileName = "BarCustomization.razor",
-                Type = SampleType.New,                
+                Type = SampleType.None,                
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a customization of feature bar and comparative bar type in terms of color and width.
@@ -3026,7 +3007,7 @@ namespace blazor_samples
                 Directory = "Charts/BulletChart",
                 Url = "bullet-chart/customization",
                 FileName = "Customization.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a bullet chart with with different customization for ranges and labels in bullet chart.

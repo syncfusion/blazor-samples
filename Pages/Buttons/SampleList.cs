@@ -35,7 +35,7 @@ namespace blazor_samples
                 <p>
                     More information about Blazor Button component can be found in this
                     <a target=""_blank""
-                    href=""https://ej2.syncfusion.com/blazor/documentation/button/getting-started/"">
+                    href=""https://blazor.syncfusion.com/documentation/button/getting-started/"">
                     documentation section</a>.
                 </p>"
                 }
@@ -77,7 +77,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information about Blazor CheckBox component can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/check-box/getting-started/"">
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/check-box/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -109,7 +109,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information about Blazor RadioButton component can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/radio-button/getting-started/"">
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/radio-button/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -149,7 +149,7 @@ namespace blazor_samples
                 </p>
                 <p>
                     More information about Blazor DropDownMenu component can be found in this
-                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/drop-down-button/getting-started/"">
+                    <a target = ""_blank"" href=""https://blazor.syncfusion.com/documentation/drop-down-menu/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -181,7 +181,7 @@ namespace blazor_samples
                 </p>
                 <p>
                     More information about Blazor SplitButton component can be found in this
-                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/split-button/getting-started/"">
+                    <a target = ""_blank"" href=""https://blazor.syncfusion.com/documentation/split-button/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -219,7 +219,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information about Blazor Switch component can be found in this
-                        <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/switch/getting-started/"">
+                        <a target = ""_blank"" href=""https://blazor.syncfusion.com/documentation/toggle-switch-button/getting-started/"">
                             documentation section
                         </a>.
                     </p>"
@@ -232,7 +232,8 @@ namespace blazor_samples
                 Directory = "Buttons/Button",
                 Url = "buttons/progress-button",
                 FileName = "ProgressButton.razor",
-				TitleTag = "Button . ProgressButton . Syncfusion Blazor Components",
+                Type = SampleType.Preview,
+                TitleTag = "Button . ProgressButton . Syncfusion Blazor Components",
                 MetaDescription = "This example demonstrates the different functionalities of the Syncfusion Blazor ProgressButton with spinner and progress indicator.",
                 ActionDescription = new string[] {
                             @"<p>This sample demonstrates the default functionalities of a progress button component. Clicking that button will display a spinner
@@ -261,7 +262,7 @@ namespace blazor_samples
                 </p>
                 <p>
                     More information about Blazor progress button component can be found in this
-                    <a target = ""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/progress-button/getting-started/"">
+                    <a target = ""_blank"" href=""https://blazor.syncfusion.com/documentation/progress-button/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -275,7 +276,6 @@ namespace blazor_samples
                 Directory = "Buttons/Chips",
                 Url = "chips/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                             @"<p>
                     This sample demonstrates the default functionalities of Chips with different types and predefined styles. Click
@@ -302,7 +302,6 @@ namespace blazor_samples
                 Directory = "Buttons/Chips",
                 Url = "chips/api",
                 FileName = "API.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                                 @"<p>This sample demonstrates most commonly used API functionalities of Chip control from the property pane. Select
                     any combination of properties from the property pane to customize the appearance of Chip.</p>"

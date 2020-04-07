@@ -37,7 +37,7 @@ namespace blazor_samples
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSyncfusionBlazor(true);
+            services.AddSyncfusionBlazor();
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
             services.AddServerSideBlazor().AddHubOptions(o =>
             {

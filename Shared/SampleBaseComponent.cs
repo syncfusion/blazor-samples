@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 
 namespace blazor_samples.Shared
 {
-    public class SampleBaseComponent: ComponentBase, IDisposable
+    public class SampleBaseComponent: ComponentBase
     {
         [Inject]
         protected IJSRuntime jsRuntime { get; set; }
@@ -19,11 +19,6 @@ namespace blazor_samples.Shared
         protected  override void OnAfterRender(bool FirstRender)
         {
             Service.Update(new NotifyProperties() { HideSpinner = true, RestricMouseEvents = true});
-        }
-
-        public void Dispose()
-        {
-
         }
     }
 }

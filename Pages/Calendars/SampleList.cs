@@ -15,7 +15,7 @@ namespace blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the default functionalities of the Calendar. Today's date is always <code>highlighted</code> in the Calendar and it get <code>focused</code> if there is no selected date. Click the desired date from the Calendar.
@@ -38,7 +38,7 @@ namespace blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Date-Range",
                 FileName = "DateRange.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         In the following sample, a specific date ranges from 5th to 27th of a month has been set to select from the Calendar. All the other dates are out of range, and <code>restricted</code> to set or select.
@@ -61,7 +61,7 @@ namespace blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Multi-Selection",
                 FileName = "MultiSelection.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the multiple date selection functionalities of the Calendar. Click /Touch the desired date from the Calendar and the selected date will be added to the Values property of the calendar.
@@ -84,7 +84,7 @@ namespace blazor_samples
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Month-Picker",
                 FileName = "MonthPicker.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the Calendar control acting as a month picker. It allows you to select values in terms of months.
@@ -110,7 +110,7 @@ namespace blazor_samples
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the default functionalities of the DatePicker. Today's date is always <code>highlighted</code> in the popup calendar and it get focused if there's no selected date. Click the desired date from the popup calendar and the selected date will be displayed in the element.
@@ -133,7 +133,7 @@ namespace blazor_samples
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Date-Range",
                 FileName = "DateRange.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                 @"<p>
                         In the following sample, a specific date ranges from 5th to 27th of the current month has been set to select from the Calendar. All the other dates are out of range and <code>restricted</code> to set or select.
@@ -157,7 +157,7 @@ namespace blazor_samples
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Format",
                 FileName = "Format.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                 @"<p>
                         In this sample, the DatePicker has been configured with the <code>dd-MMM-yy</code> date format.
@@ -181,7 +181,7 @@ namespace blazor_samples
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Month-Picker",
                 FileName = "MonthPicker.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                 @"<p>
                         The following sample demonstrates the DatePicker component acting as a month picker. It allows you to select values in terms of months.
@@ -208,7 +208,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the default functionalities of the DateTimePicker. Today's date is always <code>highlighted</code> in the popup calendar and it get focused if there's no selected date. Select the desired date and time from the calendar & timepicker popup and the selected date & time will be displayed in the element.
@@ -231,7 +231,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Date-Time-Range",
                 FileName = "DateTimeRange.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         In the following sample, a specific datetime ranges from 7th 10:00 AM to 27th 10:30 PM of the current month has been set to select from the Calendar. All the other dates are out of range and <code>restricted</code> to set or select.
@@ -255,7 +255,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Format",
                 FileName = "Format.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                 @"<p>
                         In this sample, the DateTimePicker has been configured with the <code>dd-MMM-yy hh:mm a</code> date format.
@@ -279,7 +279,7 @@ namespace blazor_samples
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the default functionalities of the TimePicker. Click the TimePicker icon to select a desired time and the selected time value will be displayed in the TimePicker element.
@@ -303,7 +303,7 @@ namespace blazor_samples
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Time-Format",
                 FileName = "Format.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The TimePicker has been customized with 24-hour <code>format</code> with 60 minutes <code>interval</code>. Click the TimePicker icon to a select a time from 00:00 to 23:00 from the TimePicker popup.
@@ -337,7 +337,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the default functionalities of the DateRangePicker. Today's date is always highlighted in the popup calendar and it get focused if there's no selected date. Select a date range from the popup calendar and the selected <code>date range</code> will be displayed in the DateRangePicker element.
@@ -360,7 +360,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Date-Range",
                 FileName = "DateRange.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         In this sample, the date ranges from <code>Jan 15, 2017 - Dec 20, 2017</code> have been set. All the other dates are out of range and restricted to set or select.
@@ -386,7 +386,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Day-Span",
                 FileName = "DaySpan.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         In this sample, your date range selection is restricted to select <code>minimum</code> five days and <code>maximum</code> ten days.
@@ -411,7 +411,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Format",
                 FileName = "Format.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         In this sample, the DateRangePicker has been configured with the <code>dd-MMM-yy hh:mm a</code> date time format.
@@ -431,7 +431,7 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Month-Range-Picker",
                 FileName = "MonthRangePicker.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         The following sample demonstrates the DateRangePicker component acting as a month range picker. It allows you to select values within the range of months.

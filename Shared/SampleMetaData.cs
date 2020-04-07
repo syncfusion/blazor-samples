@@ -11,7 +11,6 @@ namespace blazor_samples.Shared
 {
     public class SampleMetaData : ComponentBase
     {
-
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.AddContent(0, new MarkupString(Environment.NewLine));
@@ -86,7 +85,5 @@ namespace blazor_samples.Shared
             }
             return sb.ToString();
         }
-                
     }
-
 }

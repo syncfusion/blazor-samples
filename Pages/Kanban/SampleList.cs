@@ -13,7 +13,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Overview . Syncfusion Blazor Components",
                 MetaDescription = "The example is designed to enable most essential features such as templating, swimlane, toggling columns, tooltip, and more in Blazor Kanban board.",
                 ActionDescription = new string[] {
@@ -42,7 +41,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Default Functionalities . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates the default functionalities of Blazor Kanban with very minimal essential settings such as data source, columns, and card details.",
                 ActionDescription = new string[] {
@@ -66,7 +64,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/swimlane",
                 FileName = "Swimlane.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Swimlane . Syncfusion Blazor Components",
                 MetaDescription = "The example explains how to configure swimlane and its related settings (sorting order, drag-and-drop, and more) in Blazor Kanban board.",
                 ActionDescription = new string[] {
@@ -96,7 +93,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/stacked-header",
                 FileName = "StackedHeader.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Stacked Header . Syncfusion Blazor Components",
                 MetaDescription = "The example explains how to add a stacked header to group logically related columns above a column header in Blazor Kanban.",
                 ActionDescription = new string[] {
@@ -115,12 +111,41 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Dialog Editing",
+                Category = "Kanban",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/dialog-editing",
+                FileName = "DialogEditing.razor",
+                TitleTag = "Kanban . Dialog Editing . Syncfusion Blazor Components",
+                MetaDescription = "The example explains how to handle the CRUD (Create, Read, Update, and Delete) actions on the JS Kanban cards from the application end.",
+                ActionDescription = new string[] {
+                    @"<p>
+                        This sample showcases the CRUD (Create, Read, Update, and Delete) operations of the Kanban component.
+                        You can add a new card using the button from the property panel and read, update, or delete a card by opening the card details in dialog by double-clicking it.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                        The sample is designed to showcase the CRUD operations of the Kanban board.
+                        The Kanban provides the essential methods to handle the CRUD operation from the application-end.
+                    </p>
+                    <ol>
+                        <li>UpdateCard</li>
+                        <li>AddCard</li>
+                        <li>DeleteCard</li>
+                    </ol>
+                    <p>
+                        The double click event of the card is used to open the card details in a dialog and read, edit, or delete a card.
+                    </p>"
+                }
+            },
+            new Sample
+            {
                 Name = "Local Data",
                 Category = "Data Binding",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/local-data",
                 FileName = "LocalData.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Local Data . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates how to bind data to the Blazor Kanban board from the array of objects (JSON) or instances of Data Manager.",
                 ActionDescription = new string[] {
@@ -140,7 +165,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Remote Data . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates how to load data source from remote service to the Blazor Kanban board using data manager and Web API adaptor.",
                 ActionDescription = new string[] {
@@ -188,7 +212,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/header-template",
                 FileName = "HeaderTemplate.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Header Template . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates how to customize the column headers of the Blazor Kanban board with text, images, badges, and count using HTML templates.",
                 ActionDescription = new string[] {
@@ -209,7 +232,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/swimlane-template",
                 FileName = "SwimlaneTemplate.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Swimlane Template . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates how to customize the swimlane headers of the Blazor Kanban board using HTML templates, which is applicable to all swimlane headers.",
                 ActionDescription = new string[] {
@@ -232,7 +254,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/card-template",
                 FileName = "CardTemplate.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Card Template . Syncfusion Blazor Components",
                 MetaDescription = "The example demonstrates how to customize the Blazor Kanban cards using templates, which is used to design beautiful cards with text, images, and more.",
                 ActionDescription = new string[] {
@@ -256,7 +277,6 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/toggle-columns",
                 FileName = "ToggleColumns.razor",
-                Type = SampleType.New,
                 TitleTag = "Kanban . Toggle Columns . Syncfusion Blazor Components",
                 MetaDescription = "This sample demonstrates the toggle column of Blazor Kanban, which is helpful to expand and collapse the columns and can be collapsed on page load also.",
                 ActionDescription = new string[] {

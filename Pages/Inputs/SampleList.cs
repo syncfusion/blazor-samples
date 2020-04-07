@@ -207,7 +207,7 @@ namespace blazor_samples
                 <p>
                 <p>
                     More information about Blazor ColorPicker component can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
@@ -251,7 +251,7 @@ namespace blazor_samples
                 </ul>
                 <p>
                     More information about Blazor ColorPicker component can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
 
@@ -289,7 +289,7 @@ namespace blazor_samples
                 </ul>
                 <p>
                     More information about Blazor ColorPicker component can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
 
@@ -333,7 +333,7 @@ namespace blazor_samples
                 </ul>
                 <p>
                     More information about Blazor ColorPicker component can be found in this
-                    <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/color-picker/getting-started/"">
+                    <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/color-picker/getting-started/"">
                         documentation section</a>.
                 </p>"
                 }
