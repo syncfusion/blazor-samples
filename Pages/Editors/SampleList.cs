@@ -15,7 +15,6 @@ namespace blazor_samples
                 Directory = "Editors/InPlaceEditor",
                 Url = "in-place-editor/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.New,
                 TitleTag = "InPlaceEditor . Overview . Syncfusion Blazor Components",
                 MetaDescription = "This sample demonstrates the default behavior of the In-place Editor control, which works by editing the values in inline and popup in Blazor platform.",
                 ActionDescription = new string[] {
@@ -63,7 +62,6 @@ namespace blazor_samples
                 Directory = "Editors/InPlaceEditor",
                 Url = "in-place-editor/drop-down",
                 FileName = "DropDown.razor",
-                Type = SampleType.New,
                 TitleTag = "InPlaceEditor . DropDown Components . Syncfusion Blazor Components",
                 MetaDescription = "This sample demonstrates the usage of dropdown controls such as Autocomplete, ComboBox, DropDownList, and MultiSelect in Blazor platform.",
                 ActionDescription = new string[] {
@@ -103,7 +101,6 @@ namespace blazor_samples
                 Directory = "Editors/InPlaceEditor",
                 Url = "in-place-editor/date-pickers",
                 FileName = "DatePickers.razor",
-                Type = SampleType.New,
                 TitleTag = "InPlaceEditor . Date Components . Syncfusion Blazor Components",
                 MetaDescription = "This sample demonstrates the usage of picker controls such as Date, Time, DateTime, and DateRange in Blazor platform.",
                 ActionDescription = new string[] {
@@ -143,7 +140,6 @@ namespace blazor_samples
                 Directory = "Editors/InPlaceEditor",
                 Url = "in-place-editor/edit-post",
                 FileName = "EditPost.razor",
-                Type = SampleType.New,
                 TitleTag = "InPlaceEditor . Edit Post . Syncfusion Blazor Components",
                 MetaDescription = "This sample demonstrates the usage of In-place Editor control with a form element in Blazor platform. Edit the values in place to update to the post.",
                 ActionDescription = new string[] {

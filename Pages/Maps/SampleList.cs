@@ -87,7 +87,7 @@ namespace blazor_samples
                 Directory = "Maps/Maps",
                 Url = "maps/marker",
                 FileName = "Marker.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample visualizes the top 25 populated cities in the world by displaying the markers in their locations.
@@ -458,7 +458,7 @@ namespace blazor_samples
                 Directory = "Maps/Maps",
                 Url = "maps/programatic-zoom",
                 FileName = "ProgramaticZoom.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                 @"<p>
                     This sample visualizes the capital cities in the south america by displaying the markers in their locations.
@@ -725,7 +725,7 @@ namespace blazor_samples
                 Directory = "Maps/Maps",
                 Url = "maps/sale-maps",
                 FileName = "SaleMaps.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the world's top 50 cities by showing the markers in their locations and clustering the markers to avoid intersecting.

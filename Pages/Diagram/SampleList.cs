@@ -61,7 +61,6 @@ namespace blazor_samples
                 Directory = "Diagram/Diagram",
                 Url = "diagram/nodes",
                 FileName = "Nodes.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"    <p>
                     This sample visualizes the different stages of a software development life cycle using a circular flow diagram.
@@ -81,8 +80,7 @@ namespace blazor_samples
                 Directory = "Diagram/Diagram",
                 Url = "diagram/connectors",
                 FileName = "Connectors.razor",
-                Type = SampleType.New,
-                   ActionDescription = new string[] {
+                ActionDescription = new string[] {
                     @"    <p>
                     This sample visualizes the data flow in a marketing process using predefined shapes and connectors. Different types of connectors and decorators are used to customize the appearance, path, and direction of the data flow.
                 </p>"
@@ -102,8 +100,7 @@ namespace blazor_samples
                 Directory = "Diagram/Diagram",
                 Url = "diagram/annotations",
                 FileName = "Annotations.razor",
-                Type = SampleType.New,
-                 ActionDescription = new string[] {
+                ActionDescription = new string[] {
                @" <p>
                    This sample illustrates the competitive environment of a business through a five-force chart. The elements of a five-force chart are described using nodes and annotations. Customizing the position and appearance of the annotations is illustrated in this example.
                  </p>"
@@ -127,7 +124,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/ports",
                 FileName = "Ports.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @" <p>
                         This sample visualizes the process flow of publishing a book using connection points. Connection points are static points over the shapes that allow you to create connections among the shapes.
@@ -151,7 +147,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/complex-shapes",
                 FileName = "HTMLTemplate.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                   @" <p>
                      This sample demonstrates how to host an HTML element inside a node. In this example, a Gauge control and a calender control are hosted inside a HTML Node.
@@ -194,7 +189,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/flow-execution",
                 FileName = "FlowExecution.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @" <p>
                         This sample demonstrates how we can process and get consecutive nodes and connectors.
@@ -214,7 +208,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/routing",
                 FileName = "Routing.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                            @" <p>
                               This sample visualizes the connectors that are automatically re-routed or move away if any shape is found on the connector's paths.
@@ -301,7 +294,7 @@ To change the position of the descriptions, select a node and choose the templat
                 FileName = "MindMap.razor",
                 ActionDescription = new string[] {
                   @"<p>
-                    This sample demonstrates the concept of creatively using a mind map layout algorithm. User handles are used to extend the mind map interactively.</p>"
+                    This sample demonstrates the concept of creatively using a mind map layout algorithm.</p>"
                     },
                 Description = new string[] {
                   @"<p>
@@ -334,7 +327,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/drawing-tool",
                 FileName = "DrawingTool.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @" <p>
                    This sample visualizes how to build a diagram interactively using drawing tools. A continuous draw option, snapping, undo, and redo support are enabled to easily draw diagrams. Rulers, gridlines, and snapping options are enabled to easily align objects.
@@ -354,7 +346,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/keyboard-interaction",
                 FileName = "Keyboardinteraction.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                  @" <p>
                      This sample illustrates interaction with the Diagram control using shortcut keys. Command manager support is used to manage keyboard interactions.
@@ -373,7 +364,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/user-handles",
                 FileName = "UserHandles.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                   @"<p>This sample visualizes a simple flow diagram along with options to execute frequently used commands using user handles.</p>"
                 },
@@ -388,7 +378,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/symbol-palette",
                 FileName = "SymbolPalette.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                     @"<p>
                      This example illustrates predefining shapes in a palette that can be easily dragged into the drawing area. Customizable options of the symbol palette are also illustrated in this example.
@@ -414,7 +403,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/overview",
                 FileName = "OverView.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                   @" <p>
                      This sample visualizes an organizational structure along with an overview for easily navigating a large organizational structure using the Overview Panel.
@@ -434,7 +422,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/serialization",
                 FileName = "Serialization.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @" <p>
                   This sample demonstrates building diagrams interactively and editing the saved diagrams. The symbol palette is used to build diagrams easily.
@@ -454,7 +441,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/print-and-Export",
                 FileName = "PrintandExport.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                  @" <p>
                     This sample demonstrates printing and exporting the Diagram control as an image.
@@ -477,8 +463,6 @@ To change the position of the descriptions, select a node and choose the templat
                 Directory = "Diagram/Diagram",
                 Url = "diagram/local-data",
                 FileName = "LocalData.razor",
-                Type = SampleType.New,
-
                 ActionDescription = new string[] {
                  @" <p>
                    This sample visualizes the classifications of species using a hierarchical tree layout algorithm. Data Manager support is used to bind data with the diagram.

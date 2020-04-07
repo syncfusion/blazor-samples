@@ -15,7 +15,6 @@ namespace blazor_samples
                 Directory = "Notifications/Toast",
                 Url = "toast/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 TitleTag = "Toast . Default Functionalities . Syncfusion Blazor Components",
                 MetaDescription = "The sample demonstrates about default functionalities of a Toast control and helps to design reminder like an alert in Blazor platform.",
                 ActionDescription = new string[] {
@@ -40,7 +39,6 @@ namespace blazor_samples
                 Directory = "Notifications/Toast",
                 Url = "toast/types",
                 FileName = "Types.razor",
-                Type = SampleType.New,
                 TitleTag = "Toast . Types . Syncfusion Blazor Components",
                 MetaDescription = "The sample demonstrates how to design success, warning, information, and error messages using Toast control based on CSS classes in Blazor platform.",
                 ActionDescription = new string[] {
@@ -67,7 +65,6 @@ namespace blazor_samples
                 Directory = "Notifications/Toast",
                 Url = "toast/template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
                 TitleTag = "Toast . Template . Syncfusion Blazor Components - Preview",
                 MetaDescription = "The example demonstrates how to render Blazor toast notification using Templates whether it may be an HTML as string or HTML elements.",
                 ActionDescription = new string[] {
@@ -95,7 +92,6 @@ namespace blazor_samples
                 Directory = "Notifications/Toast",
                 Url = "toast/position",
                 FileName = "Position.razor",
-                Type = SampleType.New,
                 TitleTag = "Toast . Position . Syncfusion Blazor Components",
                 MetaDescription = "The sample demonstrates how to display the toast notification with various built-in or custom position based on target or page in Blazor platform.",
                 ActionDescription = new string[] {
@@ -120,7 +116,6 @@ namespace blazor_samples
                 Directory = "Notifications/Toast",
                 Url = "toast/api",
                 FileName = "API.razor",
-                Type = SampleType.New,
                 TitleTag = "Toast . API . Syncfusion Blazor Components",
                 MetaDescription = "The sample exposes the available properties, methods, and events of Toast control which helps to create flexible toast in Blazor platform.",
                 ActionDescription = new string[] {
@@ -151,7 +146,6 @@ namespace blazor_samples
                 Directory = "Notifications/Spinner",
                 Url = "spinner/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 TitleTag = "Spinner . Default Functionalities . Syncfusion Blazor Components",
                 MetaDescription = "The demo example explains how to render, show and hide the Blazor Spinner (loading indicator) through public utility functions with different types.",
                 ActionDescription = new string[] {

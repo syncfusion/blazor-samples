@@ -15,9 +15,8 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Overview . Syncfusion Blazor Components",
-                MetaDescription = "This demo describes basic and advanced features of the blazor rich text editor control (WYSIWYG HTML Editor) with all its tools and functionalities.",
+                MetaDescription = "This demo describes basic and advanced features of the blazor Rich Text Editor control (WYSIWYG HTML Editor) with all its tools and functionalities.",
                 ActionDescription = new string[] {
                 @"<p>This sample demonstrates the full features of Rich Text Editor that includes all the tools and functionalities.</p>"
             },
@@ -46,9 +45,8 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Default Functionalities . Syncfusion Blazor Components",
-                MetaDescription = "This demo shows how to render blazor rich text editor (WYSIWYG HTML editor) control with a minimum configuration setting.",
+                MetaDescription = "This demo shows how to render blazor Rich Text Editor (WYSIWYG HTML editor) control with a minimum configuration setting.",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default rendering of the Rich Text Editor with minimum configuration in Razor application.</p>"
                 },
@@ -68,7 +66,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/image",
                 FileName = "Image.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Image . Syncfusion Blazor Components",
                 MetaDescription = "This demo explains how to insert images with a blob or base64 format, link to the images, image upload, rotate left/right, and more in Blazor WYSIWYG HTML Editor.",
                 ActionDescription = new string[] {
@@ -100,7 +97,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/inline",
                 FileName = "Inline.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Inline . Syncfusion Blazor Components",
                 MetaDescription = "This demo shows inline WYSIWYG HTML editor that is displayed when selecting the content or simply focusing on the content inside the Blazor Rich Text Editor.",
                 ActionDescription = new string[] {
@@ -123,9 +119,8 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/iframe-functionalities",
                 FileName = "Iframe-Functionalities.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . IFrame Functionalities . Syncfusion Blazor Components",
-                MetaDescription = "This demo shows how to render a classic blazor rich text editor (iframe editor) that was designed by using the iframe element covering all tool functionalities.",
+                MetaDescription = "This demo shows how to render a classic blazor Rich Text Editor (iframe editor) that was designed by using the iframe element covering all tool functionalities.",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the default rendering of the Rich Text Editor in <code>iframe</code>.</p>"
                 },
@@ -143,9 +138,8 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/print",
                 FileName = "Print.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Print . Syncfusion Blazor Components",
-                MetaDescription = "This demo sample shows how to print the content of the blazor rich text editor (HTML editor) with styles and formatting using the print module.",
+                MetaDescription = "This demo sample shows how to print the content of the blazor Rich Text Editor (HTML editor) with styles and formatting using the print module.",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates how to print the content of the Rich Text Editor. Click the print command which placed in toolbar of Rich Text Editor to print the editor's content.</p>"
                 }
@@ -157,7 +151,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/types",
                 FileName = "Types.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Type . Syncfusion Blazor Components",
                 MetaDescription = "This demo demonstrates different types and behaviors of a toolbar used in the Blazor HTML Editor such as expand/collapse, multirow, and floating.",
                 ActionDescription = new string[] {
@@ -180,7 +173,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/markdown-overview",
                 FileName = "Markdown-Overview.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Markdown Overview . Syncfusion Blazor Components",
                 MetaDescription = "This demo covers all supported features and functionalities of the blazor Markdown editor, which  is another mode of the Blazor Rich Text Editor.",
                 ActionDescription = new string[] {
@@ -206,7 +198,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/markdown-custom-format",
                 FileName = "Markdown-Custom-Format.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Custom Format . Syncfusion Blazor Components",
                 MetaDescription = "This demo explains how to convert markdown content (with the custom format) to valid HTML markup using Markdown-to-HTML of the markdown parser in Blazor.",
                 ActionDescription = new string[] {
@@ -224,7 +215,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/paste-cleanup",
                 FileName = "Paste-Cleanup.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Paste from MS Word . Syncfusion Blazor Components",
                 MetaDescription = "This demo explains how to clean up HTML when pasting a content from Microsoft Word, Visual Studio Code, Visual Studio, or a web page in Blazor HTML Editor.",
                 ActionDescription = new string[] {
@@ -275,7 +265,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/resize-editor",
                 FileName = "Resize-Editor.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Resizable Editor . Syncfusion Blazor Components",
                 MetaDescription = "This demo explains how to render a resizable Blazor Editor that allows resizing an editor and viewing its content with an enlarging or shrunk scale.",
                 ActionDescription = new string[] {
@@ -292,9 +281,8 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/api",
                 FileName = "Api.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . API . Syncfusion Blazor Components",
-                MetaDescription = "This demo covers important APIs of the blazor rich text editor such as content length, HTML encoding, read-only, retrieve the selected content, and more.",
+                MetaDescription = "This demo covers important APIs of the blazor Rich Text Editor such as content length, HTML encoding, read-only, retrieve the selected content, and more.",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrate the usage of API in Rich Text Editor, use the properties panel to change the maximum length, read
                     only mode, disable status, to get value, enable HTML encode, select all content and get selected HTML from the Rich Text Editor.</p>"
@@ -319,7 +307,6 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/form-validation",
                 FileName = "Form-Validation.razor",
-                Type = SampleType.New,
                 TitleTag = "RichTextEditor . Form Validation . Syncfusion Blazor Components",
                 MetaDescription = "This demo shows how to validate the content of the Blazor WYSIWYG editor using obtrusive validation  with the Form validation library.",
                 ActionDescription = new string[] {

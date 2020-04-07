@@ -1,4 +1,4 @@
-﻿﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +16,8 @@ namespace blazor_samples
                 Category = "Grids",
                 Directory = "Grid",
                 Type = SampleType.Updated,
-                UID = 002,
                 Order = 01,
+                UID = 002,
                 Samples = DataGrid,
                 ControllerName = "DataGrid"
             });

@@ -14,7 +14,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/default-functionalities",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -49,7 +49,7 @@ namespace blazor_samples
              //    Category = "Tree Grid",
              //    Directory = "TreeGrid/TreeGrid",
              //    Url = "tree-grid/grid-lines",
-             //    Type = SampleType.New,
+             //    Type = SampleType.None,
              //    TitleTag = "TreeGrid . Grid Lines . Syncfusion Blazor Components",
              //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component demonstrates the visibility of the TreeGrid lines that separate the rows and columns.",
              //    SourceFiles = new List<SourceCollection>()
@@ -89,7 +89,7 @@ namespace blazor_samples
              //},
             new Sample
             {
-                Name = "Cilpboard",
+                Name = "Clipboard",
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/clipboard",
@@ -129,7 +129,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/context-menu",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -178,7 +178,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the way of binding remote services to Tree Grid component. Here, the DataManager is used to bind the remote data with Tree Grid.
@@ -217,7 +217,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/conditional-formatting",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -248,7 +248,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/aggregate",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -293,7 +293,7 @@ namespace blazor_samples
              //    Category = "Columns",
              //    Directory = "TreeGrid/TreeGrid",
              //    Url = "tree-grid/column-formatting",
-             //    Type = SampleType.New,
+             //    Type = SampleType.None,
              //    TitleTag = "TreeGrid . Column Formatting . Syncfusion Blazor Components",
              //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how to display the content of TreeGrid columns based on the specified format in TreeGrid component.",
              //    SourceFiles = new List<SourceCollection>()
@@ -329,7 +329,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/column-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -360,7 +360,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/auto-wrap",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -397,7 +397,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/show-or-hide",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -434,7 +434,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/header-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -465,7 +465,7 @@ namespace blazor_samples
              //    Category = "Columns",
              //    Directory = "TreeGrid/TreeGrid",
              //    Url = "tree-grid/cell-alignment",
-             //    Type = SampleType.New,
+             //    Type = SampleType.None,
              //    TitleTag = "TreeGrid . Cell Alignment . Syncfusion Blazor Components",
              //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component shows how to align the content inside the cells of TreeGrid columns and headers.",
              //    SourceFiles = new List<SourceCollection>()
@@ -509,7 +509,7 @@ namespace blazor_samples
              //    Category = "Columns",
              //    Directory = "TreeGrid/TreeGrid",
              //    Url = "tree-grid/stacked-header",
-             //    Type = SampleType.New,
+             //    Type = SampleType.None,
              //    TitleTag = "TreeGrid . Stacked Header . Syncfusion Blazor Components",
              //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains explains how to provide a common header for the group of columns in TreeGrid component.",
              //    SourceFiles = new List<SourceCollection>()
@@ -546,7 +546,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/column-menu",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -594,7 +594,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/resizing",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -631,7 +631,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/reorder",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -670,7 +670,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/frozen-column",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -704,7 +704,7 @@ namespace blazor_samples
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-hover",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -739,7 +739,7 @@ namespace blazor_samples
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-height",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -775,7 +775,7 @@ namespace blazor_samples
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/tree-grid-row-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -808,7 +808,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/tree-grid-detail-template",
                 FileName = "TreeGridDetailTemplate.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -839,7 +839,7 @@ namespace blazor_samples
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/inline-editing",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -891,7 +891,7 @@ namespace blazor_samples
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/dialog-editing",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -925,13 +925,57 @@ namespace blazor_samples
                     In this demo, Dialog mode is enabled for editing by defining <code>Mode</code> as <code>EditMode.Dialog</code>. You can start editing by double clicking a row or clicking on toolbar's Edit button, then the currently selected row will be shown on a dialog and you can change the row values and save edited data to the datasource.</p>"
                 }
             },
+            new Sample
+            {
+                Name = "Batch Editing",
+                Category = "Editing",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/batch-editing",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="BatchEditing",
+                        FileName="BatchEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="BatchData",
+                        FileName="SelfData.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the Batch Editing</p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                    The Tree Grid supports CRUD operations. This CRUD operations can be configured in Tree Grid using <code>TreeGridEditSettings</code>. Also, it has different modes to manipulate the datasource.
+                </p>
+                <p>
+                    The available modes are,
+                </p>
+                <ul>
+                    <li><code>EditMode.Row</code></li>
+                    <li><code>EditMode.Cell</code></li>
+                    <li><code>EditMode.Dialog</code></li>
+                    <li><code>EditMode.Batch</code></li>
+                </ul>
+                <p>
+                    In this demo, Batch mode is enabled for editing by defining <code>Mode</code> as <code>EditMode.Batch</code> with
+             <code>NewRowPosition</code> as <code>RowPosition.Below</code>.
+            You can start editing by double clicking a cell and can change the cell value. The edited cell will be highlighted while
+             navigating to a new cell, so that you know which cells had been edited.
+            You can bulk save the edited data to the datasource by click on the toolbar's update button.</p>"
+                }
+            },
              new Sample
             {
                 Name = "Cell Edit Type",
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/cell-edit-type",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -980,7 +1024,7 @@ namespace blazor_samples
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/command-column",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1028,7 +1072,7 @@ namespace blazor_samples
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/cell-edit-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1058,7 +1102,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/sorting",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1102,7 +1146,7 @@ namespace blazor_samples
                 Category = "Filtering",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/default-filtering",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1162,7 +1206,7 @@ namespace blazor_samples
                 Category = "Filtering",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/filter-bar-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1193,7 +1237,7 @@ namespace blazor_samples
                 Category = "Filtering",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/menu-filter",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1245,7 +1289,7 @@ namespace blazor_samples
                 Category = "Filtering",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/search",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1298,7 +1342,7 @@ namespace blazor_samples
                 Category = "Selection",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/selection",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1347,7 +1391,7 @@ namespace blazor_samples
                 Category = "Selection",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/selection-api",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1425,7 +1469,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/paging",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1463,7 +1507,7 @@ namespace blazor_samples
                 Category = "Selection",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/checkbox-selection",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1503,7 +1547,7 @@ namespace blazor_samples
              //    Category = "Columns",
              //    Directory = "TreeGrid/TreeGrid",
              //    Url = "tree-grid/checkbox-column",
-             //    Type = SampleType.New,
+             //    Type = SampleType.None,
              //    TitleTag = "TreeGrid . Checkbox Column . Syncfusion Blazor Components",
              //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how the hierarchy selection between the records using column checkboxes.",
              //    SourceFiles = new List<SourceCollection>()
@@ -1545,7 +1589,7 @@ namespace blazor_samples
                 Category = "Exporting",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/exporting",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1576,7 +1620,7 @@ namespace blazor_samples
                 Category = "Exporting",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/print",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1611,7 +1655,7 @@ namespace blazor_samples
                 Category = "Miscellaneous",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/tool-bar-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1644,7 +1688,7 @@ namespace blazor_samples
                 Category = "Miscellaneous",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/keyboard-interaction",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

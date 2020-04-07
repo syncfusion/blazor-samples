@@ -24,7 +24,7 @@ namespace blazor_samples
                     @"The Query Builder component is used to create or edit filters. You can edit filters by changing the fields.",
                     @"In mobile mode, the component is shown vertically.",
                     @"More information about Blazor Query Builder component can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/query-builder/getting-started/"">
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/query-builder/getting-started/"">
                             documentation section
                         </a>."
                 }
@@ -45,7 +45,7 @@ namespace blazor_samples
                     @"This sample illustrates how to integrate the Data Grid component with the Query Builder.",
                     @"The Data Grid component will be refreshed while editing the filters in Query Builder.",
                     @"More information about Blazor Query Builder component can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/query-builder/getting-started/"">
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/query-builder/getting-started/"">
                             documentation section
                         </a>."
                 }

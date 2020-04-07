@@ -14,7 +14,7 @@ function viewSwitch(list) {
   var controlList = sf.base.select("#controlSamples");
   if (list === "sb-hide") {
     controlList.classList.add("sb-hide");
-    if(componentsList.classList.contains("sb-hide")){
+    if (componentsList.classList.contains("sb-hide")) {
       componentsList.classList.remove("sb-hide");
     }
   } else {
@@ -29,6 +29,11 @@ function viewSwitch(list) {
 //     Descript = sample;
 // }
 
+function ScrollOption() {
+  var list = document.querySelector('#sample-list');
+  var ToScrollTo = list.querySelector('.e-list-item.e-active');
+  list.scrollTop = ToScrollTo.offsetTop - 50;
+}
 
 function loadTheme(theme) {
   var body = document.body;
@@ -43,9 +48,9 @@ function loadTheme(theme) {
 function titleDescription(control, filename) {
   //Controlname = control.split('/')[1];
   //Filename = filename.substring(0, filename.indexOf('.razor'));
-    Title = "Blazor " + control + " " + filename + " Example - Syncfusion Demos";
+  Title = "Blazor " + control + " " + filename + " Example - Syncfusion Demos";
   document.getElementsByTagName('title')[0].innerHTML = Title;
-    Descript = "This example demonstrates the " + filename + " in Blazor " + control + " Component. Explore here for more details.";
+  Descript = "This example demonstrates the " + filename + " in Blazor " + control + " Component. Explore here for more details.";
   document.querySelector('meta[name="description"]').setAttribute("content", Descript);
 }
 
@@ -62,13 +67,13 @@ function getTheme() {
   var menu = (document.querySelector(
     "#theme-menu"
   ).ej2_instances[0].beforeOpen = function (arg) {
-      var theme = "bootstrap4";
+    var theme = "bootstrap4";
     if (/theme=/g.test(location.search)) {
       theme = location.search.replace("?theme=", "");
-     // theme = toInitCap(theme);
+      // theme = toInitCap(theme);
     }
 
-    var themeEle = arg.element.querySelector("#"+theme+"menu");
+    var themeEle = arg.element.querySelector("#" + theme + "menu");
     if (themeEle) {
       themeEle.classList.add("sb-icon-icon-selection");
       if (!themeEle.classList.contains("sb-icons")) {
@@ -84,28 +89,28 @@ function toInitCap(str) {
 }
 
 function switchTheme(url) {
-    window.location.href = url;
-    
-    var themeName = getParameterByName("theme");
-    if (sf && themeName === 'material') {
-        sf.base.enableRipple(true);
-    }
+  window.location.href = url;
+
+  var themeName = getParameterByName("theme");
+  if (sf && themeName === 'material') {
+    sf.base.enableRipple(true);
+  }
 }
 
 
-function persistTheme(){
-  if(/theme=/g.test(location.href)){
+function persistTheme() {
+  if (/theme=/g.test(location.href)) {
     currentTheme = location.search.split("=")[1]
   }
 }
 
 
-function mobileThemePersist(){
+function mobileThemePersist() {
   persistTheme();
   var mobDrop = document.querySelector("#mobileTheme");
-  if(currentTheme === "highcontrast"){
+  if (currentTheme === "highcontrast") {
     mobDrop.value = "High Contrast"
-  } else if(currentTheme === "bootstrap4"){
+  } else if (currentTheme === "bootstrap4") {
     mobDrop.value = "Bootstrap V4"
   } else {
     mobDrop.value = currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1);
@@ -121,27 +126,19 @@ function homeButtonClick() {
 }
 
 function refreshTab(code, filename) {
-  setTimeout(function () {
-      
-          var tabs = document.querySelector(".sb-src-code");
-          if(tabs)
-          {
-            tabs.innerHTML = code;   
-          if(!filename){
-            hljs.highlightBlock(tabs  , { language: "cshtml" });
-          }
-          else if (filename.split(".")[1] === "cs") {
-              hljs.highlightBlock(tabs, { language: "cs" });
-          } else {
-              hljs.highlightBlock(tabs  , { language: "cshtml" });
-          }     
-        }     
-  
-      // document.querySelector("#code").innerHTML = "<code>"+code+ "</code>";
-      // hljs.highlightBlock(document.querySelector("#code"), { language: "cshtml" });
-    
-    document.querySelector("#right-pane").scrollTo(0, 0);
-  }, 300);
+  var tabs = document.querySelector(".sb-src-code");
+  if (tabs) {
+    tabs.innerHTML = code;
+    if (!filename) {
+      hljs.highlightBlock(tabs, { language: "cshtml" });
+    }
+    else if (filename.split(".")[1] === "cs") {
+      hljs.highlightBlock(tabs, { language: "cs" });
+    } else {
+      hljs.highlightBlock(tabs, { language: "cshtml" });
+    }
+  }
+  document.querySelector("#right-pane").scrollTo(0, 0);
 }
 
 
@@ -163,11 +160,11 @@ function destroyControl() {
     catch (e) { }
   });
   //document.querySelector("#content-tab").ej2_instances[0].selectedItem = 0;
-   var tab = document.querySelector("#content-tab").ej2_instances[0];
-    if (tab.selectedItem != 0) {
-        tab.selectedItem = 0;
-        tab.setActive(tab.selectedItem);
-    }
+  var tab = document.querySelector("#content-tab").ej2_instances[0];
+  if (tab.selectedItem != 0) {
+    tab.selectedItem = 0;
+    tab.setActive(tab.selectedItem);
+  }
 }
 
 function updateActionDescription(content) {
@@ -177,23 +174,23 @@ function updateActionDescription(content) {
       a += content[i];
     }
   }
-    document.querySelector(".sb-action-description").innerHTML =  a ;
+  document.querySelector(".sb-action-description").innerHTML = a;
 }
 
 
 
 function sanitizeHTML(s) {
-    var d = document.createElement('div');
-    d.appendChild(document.createTextNode(s));
-    return d.innerHTML;
-} 
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(s));
+  return d.innerHTML;
+}
 
 function getParameterByName(name, url) {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
     results = regex.exec(url);
-    if (!results) return "bootstrap4";
+  if (!results) return "bootstrap4";
   if (!results[2]) return "";
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
@@ -211,7 +208,7 @@ function mobileSideBarVisibility() {
   document.querySelector('#right-sidebar').setAttribute('style', 'visibility:visible;')
 }
 
-function mobileThemeChange(args){
+function mobileThemeChange(args) {
   if (/theme=/g.test(location.href)) {
     window.location.href = location.href.replace(
       /theme=.*/g,
@@ -229,7 +226,7 @@ function isDevice() {
 
 window.addEventListener('load', function () {
   if (isDevice()) { document.body.classList.add("mobile"); }
-    var theme = "bootstrap4";
+  var theme = "bootstrap4";
   if (/theme=/g.test(location.search)) {
     theme = location.search.replace("?theme=", "");
   }
@@ -262,7 +259,7 @@ document.addEventListener('click', function (event) {
         if (ele.classList.contains("e-open")) {
           ele.classList.remove("e-open");
           ele.classList.add("e-close");
-        } else if(eleRight.classList.contains("e-open")){
+        } else if (eleRight.classList.contains("e-open")) {
           eleRight.classList.remove("e-open");
           eleRight.classList.add("e-close");
         }
@@ -272,6 +269,6 @@ document.addEventListener('click', function (event) {
 });
 
 (function () {
-    if (typeof NodeList.prototype.forEach === "function") return false;
-    NodeList.prototype.forEach = Array.prototype.forEach;
+  if (typeof NodeList.prototype.forEach === "function") return false;
+  NodeList.prototype.forEach = Array.prototype.forEach;
 })();

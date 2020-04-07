@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace blazor_samples.Shared
 {
-
     public class SampleService
     {
         // Can be called from anywhere
@@ -93,8 +92,6 @@ namespace blazor_samples.Shared
                     UriHelper.NavigateTo(CurrentControl.Samples[0].Url.ToLower()+ "?theme=bootstrap4");
                 }
             }
-
         }      
     }
-
 }
