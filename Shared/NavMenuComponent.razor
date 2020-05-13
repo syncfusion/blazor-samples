@@ -160,7 +160,7 @@
         }
     }
 
-    public async Task ArrangeSampleList()
+    public void ArrangeSampleList()
     {
         var data = Control.Samples.GroupBy(groupBy => groupBy.Category).Select(Control => Control.ToList()).ToList();
         for (var i = 0; i < data.Count; i++)
@@ -260,7 +260,7 @@
         //SelectionItem is Restricted, While We Navigate One Component To another using Next button
         if (!isEnabledSelection && Control.Samples.IndexOf(Service.Data.CurrentSample) != 0)
         {
-            this.setSelectList();
+            await this.setSelectList();
         }
         //SelectionItem is Restricted, While We Navigate One Component To another using Previous button
         if (isEnabledSelection)
@@ -268,7 +268,7 @@
             this.ArrangeSampleList();
             if (DataList.IndexOf(Service.Data.CurrentSample.Url.ToLower()) != (DataList.Count - 1))
             {
-                this.setSelectList();
+                await this.setSelectList();
             }
         }
 
@@ -301,7 +301,9 @@
         }
         isEnabledSelection = false;
         DataList.Clear();
+        #pragma warning disable
         JsRuntime.InvokeAsync<string>("ScrollOption");
+        #pragma warning restore
         await JsRuntime.InvokeAsync<string>("callResizeEvent");
         //JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
         this.StateHasChanged();
