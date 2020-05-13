@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class RearrangePagesService
     {
-		private readonly IHostingEnvironment _hostingEnvironment;
-        public RearrangePagesService(IHostingEnvironment hostingEnvironment)
+		private readonly IWebHostEnvironment _hostingEnvironment;
+        public RearrangePagesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

@@ -20,8 +20,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class BarcodeService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public BarcodeService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public BarcodeService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

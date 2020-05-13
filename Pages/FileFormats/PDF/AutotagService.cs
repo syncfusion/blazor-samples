@@ -17,8 +17,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class AutotagService
     {
-		private readonly IHostingEnvironment _hostingEnvironment;
-        public AutotagService(IHostingEnvironment hostingEnvironment)
+		private readonly IWebHostEnvironment _hostingEnvironment;
+        public AutotagService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

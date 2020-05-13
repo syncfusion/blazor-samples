@@ -7,21 +7,27 @@
 #endregion
 
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Syncfusion.Presentation;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class GettingStartedService
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public GettingStartedService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
         /// <returns>Return the created Presentation document as stream</returns>
         public MemoryStream CreatePresentation()
         {
-            //Open the existing presentation
-            string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + @"HelloWorld.pptx", FileMode.Open, FileAccess.Read);
+            //Open the existing presentation            
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("HelloWorld.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);           
             
             //Method call to create slides
@@ -35,6 +41,13 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 return stream;
             }
         }
+		
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
 		
         # region Slide
         private void CreateDefaultSlide(IPresentation presentation)

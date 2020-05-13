@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class AdvancedReplaceService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public AdvancedReplaceService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public AdvancedReplaceService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

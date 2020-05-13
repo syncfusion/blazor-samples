@@ -4,7 +4,7 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples
+namespace blazor_samples.Pages.Layouts.ListView
 {
     public static class ListViewDataSource
     {

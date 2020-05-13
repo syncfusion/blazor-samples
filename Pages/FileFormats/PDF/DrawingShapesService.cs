@@ -17,8 +17,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class DrawingShapesService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public DrawingShapesService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public DrawingShapesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

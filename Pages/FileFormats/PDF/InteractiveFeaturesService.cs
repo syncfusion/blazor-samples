@@ -22,8 +22,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class InteractiveFeaturesService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public InteractiveFeaturesService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public InteractiveFeaturesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

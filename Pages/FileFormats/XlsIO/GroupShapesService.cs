@@ -14,8 +14,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class GroupShapesService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public GroupShapesService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public GroupShapesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

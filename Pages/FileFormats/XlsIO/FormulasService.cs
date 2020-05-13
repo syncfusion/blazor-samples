@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class FormulasService : Controller
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public FormulasService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public FormulasService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

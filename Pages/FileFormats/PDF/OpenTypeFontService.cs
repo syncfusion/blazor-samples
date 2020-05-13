@@ -19,8 +19,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class OpenTypeFontService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public OpenTypeFontService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public OpenTypeFontService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

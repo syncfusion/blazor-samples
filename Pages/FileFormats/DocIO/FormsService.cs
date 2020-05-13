@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class FormsService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public FormsService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public FormsService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

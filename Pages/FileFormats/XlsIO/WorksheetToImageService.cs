@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class WorksheetToImageService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public WorksheetToImageService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public WorksheetToImageService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

@@ -20,7 +20,7 @@
         <KanbanDialogSettings>
             <Template>
                 @{
-                    KanbanDataModels data = (KanbanDataModels)context;
+                    KanbanDataModel data = (KanbanDataModel)context;
                     <table>
                         <tbody>
                             <tr>
@@ -32,7 +32,7 @@
                             <tr>
                                 <td class="e-label">Status</td>
                                 <td>
-                                    <SfDropDownList @ref="StatusRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@StatusData" Value="@data.Status">
+                                    <SfDropDownList @ref="StatusRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@StatusData" @bind-Value="@data.Status">
                                         <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </td>
@@ -40,7 +40,7 @@
                             <tr>
                                 <td class="e-label">Assignee</td>
                                 <td>
-                                    <SfDropDownList @ref="AssigneeRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@AssigneeData" Value="@data.Assignee">
+                                    <SfDropDownList @ref="AssigneeRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@AssigneeData" @bind-Value="@data.Assignee">
                                         <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </td>
@@ -48,7 +48,7 @@
                             <tr>
                                 <td class="e-label">Priority</td>
                                 <td>
-                                    <SfDropDownList @ref="PriorityRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@PriorityData" Value="@data.Priority">
+                                    <SfDropDownList @ref="PriorityRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@PriorityData" @bind-Value="@data.Priority">
                                         <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </td>
@@ -56,7 +56,7 @@
                             <tr>
                                 <td class="e-label">Summary</td>
                                 <td>
-                                    <SfTextBox @ref="SummaryRef" CssClass="e-field" Multiline="true" Value="@data.Summary"></SfTextBox>
+                                    <SfTextBox @ref="SummaryRef" CssClass="e-field" Multiline="true" @bind-Value="@data.Summary"></SfTextBox>
                                 </td>
                             </tr>
                         </tbody>
@@ -64,7 +64,7 @@
                 }
             </Template>
         </KanbanDialogSettings>
-        <KanbanEvents TValue="KanbanDataModels" DialogClose="@OnDialogClose"></KanbanEvents>
+        <KanbanEvents TValue="KanbanDataModel" DialogClose="@OnDialogClose"></KanbanEvents>
     </SfKanban>
 </div>
 <div class="col-lg-4 property-section">
@@ -81,13 +81,19 @@
 </div>
 
 @code {
-    SfKanban<KanbanDataModels> KanbanRef;
+    SfKanban<KanbanDataModel> KanbanRef;
     SfDropDownList<string, DropDownModel> StatusRef;
     SfDropDownList<string, DropDownModel> AssigneeRef;
     SfDropDownList<string, DropDownModel> PriorityRef;
     SfTextBox SummaryRef;
 
-    private List<KanbanDataModels> Tasks = new KanbanDataModels().GetTasks();
+    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+
+    private class DropDownModel
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
+    }
 
     private List<DropDownModel> StatusData = new List<DropDownModel>()
     {
@@ -123,7 +129,7 @@
         {
             if (args.RequestType == CurrentAction.Edit)
             {
-                KanbanDataModels data = args.Data as KanbanDataModels;
+                KanbanDataModel data = args.Data as KanbanDataModel;
                 data.Status = this.StatusRef.Value;
                 data.Assignee = this.AssigneeRef.Value;
                 data.Priority = this.PriorityRef.Value;
@@ -132,7 +138,7 @@
             }
             else if (args.RequestType == CurrentAction.Add)
             {
-                KanbanDataModels data = new KanbanDataModels()
+                KanbanDataModel data = new KanbanDataModel()
                 {
                     Id = (this.Tasks.Count() + 1).ToString(),
                     Title = "BLAZ-29040",
@@ -153,7 +159,7 @@
 
     private void ShowAddCardDialog()
     {
-        KanbanDataModels data = new KanbanDataModels()
+        KanbanDataModel data = new KanbanDataModel()
         {
             Id = (this.Tasks.Count() + 1).ToString(),
             Title = "",
@@ -166,11 +172,5 @@
             Assignee = "Nancy Davloio"
         };
         this.KanbanRef.OpenDialog(CurrentAction.Add, data);
-    }
-
-    private class DropDownModel
-    {
-        public int Id { get; set; }
-        public string Value { get; set; }
     }
 }

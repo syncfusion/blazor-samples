@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class EmbeddedChartService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public EmbeddedChartService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public EmbeddedChartService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

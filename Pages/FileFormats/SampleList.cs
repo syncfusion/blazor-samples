@@ -15,7 +15,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/hello-world",
                 FileName = "HelloWorld.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -47,7 +46,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/sales-invoice",
                 FileName = "SalesInvoice.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -84,7 +82,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/update-fields",
                 FileName = "UpdateFields.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -114,7 +111,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/advanced-replace",
                 FileName = "AdvancedReplace.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -144,7 +140,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/bookmark-navigation",
                 FileName = "BookmarkNavigation.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -174,7 +169,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/forms",
                 FileName = "Forms.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -205,7 +199,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/bookmarks",
                 FileName = "Bookmarks.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -239,7 +232,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/header-and-footer",
                 FileName = "HeaderandFooter.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -272,7 +264,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/image-insertion",
                 FileName = "ImageInsertion.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -306,7 +297,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/employee-report",
                 FileName = "EmployeeReport.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -335,7 +325,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/insert-ole-object",
                 FileName = "InsertOLEObject.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -364,7 +353,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/letter-format",
                 FileName = "LetterFormat.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -393,7 +381,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/mail-merge-event",
                 FileName = "MailMergeEvent.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -425,7 +412,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/nested-mail-merge",
                 FileName = "NestedMailMerge.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -456,7 +442,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/word-to-pdf",
                 FileName = "WordToPDF.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -487,7 +472,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/rtf-to-doc",
                 FileName = "RTFtoDOC.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -516,7 +500,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/word-to-wordml",
                 FileName = "WordToWordML.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -545,7 +528,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/wordml-to-word",
                 FileName = "WordMLtoWord.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -574,7 +556,6 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Url = "docio/word-to-odt",
                 FileName = "WordToODT.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -604,7 +585,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/getting-started",
                 FileName = "GettingStarted.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -649,7 +629,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-image",
                 FileName = "PPTXToImage.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -684,7 +663,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -720,7 +698,6 @@ namespace blazor_samples
                 Category = "Security",
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/write-protection",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -755,7 +732,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/chart",
                 FileName = "Chart.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -791,7 +767,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/slide",
                 FileName = "Slide.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -827,7 +802,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/smartart",
                 FileName = "SmartArt.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -861,7 +835,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/table",
                 FileName = "Table.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -898,7 +871,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/comment",
                 FileName = "Comment.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -931,7 +903,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/connector",
                 FileName = "Connector.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -966,7 +937,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/create-animation",
                 FileName = "CreateAnimation.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1015,7 +985,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/modify-animation",
                 FileName = "ModifyAnimation.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1064,7 +1033,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/slide-transition",
                 FileName = "SlideTransition.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1113,7 +1081,6 @@ namespace blazor_samples
                 Category = "Getting Started",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/create-excel",
-				Type = SampleType.New,
 				SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1146,7 +1113,6 @@ namespace blazor_samples
                 Category = "Product Showcase",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/attendance-tracker",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1182,7 +1148,6 @@ namespace blazor_samples
                 Category = "Formatting",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/format-cells",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1218,7 +1183,6 @@ namespace blazor_samples
                 Category = "Formatting",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/conditional-formatting",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1251,7 +1215,6 @@ namespace blazor_samples
                 Category = "Charts",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/chart-worksheet",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1287,7 +1250,6 @@ namespace blazor_samples
                 Category = "Charts",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/embedded-chart",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1319,7 +1281,6 @@ namespace blazor_samples
                 Category = "Charts",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/sparklines",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1351,7 +1312,6 @@ namespace blazor_samples
                 Category = "Excel Formulas",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/formulas",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1385,7 +1345,6 @@ namespace blazor_samples
                 Category = "Data Management",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/data-validation",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1422,7 +1381,6 @@ namespace blazor_samples
                 Category = "Data Management",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/form-controls",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1457,7 +1415,6 @@ namespace blazor_samples
                 Category = "Export",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/excel-to-pdf",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1490,7 +1447,6 @@ namespace blazor_samples
                 Category = "Export",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/worksheet-to-image",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1522,7 +1478,6 @@ namespace blazor_samples
                 Category = "Export",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/worksheet-to-html",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1549,7 +1504,6 @@ namespace blazor_samples
                 Category = "Settings",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/encrypt-and-decrypt",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1584,7 +1538,6 @@ namespace blazor_samples
                 Category = "Business Intelligence",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/tables",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1618,7 +1571,6 @@ namespace blazor_samples
                 Category = "Shapes",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/autoshapes",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1653,7 +1605,6 @@ namespace blazor_samples
                 Category = "Shapes",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/group-shapes",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1689,7 +1640,7 @@ namespace blazor_samples
                 Category = "Getting Started",
                 Directory = "FileFormats/PDF",
                 Url = "pdf/hello-world",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates the creation of simple PDF document. It draws the string <b>Hello world!</b> in the desired location using the <a target=""_blank""
 href=""https://help.syncfusion.com/file-formats/pdf/working-with-text?&_ga=2.149538486.100770749.1568799953-377997431.1559046126#draw-text-using-standard-fonts"">
 PDF standard font.
@@ -1723,7 +1674,7 @@ CJK fonts.
                 Category="Product Showcase",
                 Directory="FileFormats/PDF",
                 Url="pdf/job-application",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates the creation of job application form from the scratch using the <a target=""_blank""
 href=""https://help.syncfusion.com/file-formats/pdf/working-with-forms"">form fields</a>. The user can fill the online job application, then download as a PDF document.</p>" },
                 Description = new string[]{
@@ -1749,7 +1700,7 @@ href=""https://help.syncfusion.com/file-formats/pdf/working-with-forms"">form fi
                 Category="Drawing Text",
                 Directory="FileFormats/PDF",
                 Url="pdf/text-flow",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates the creation of PDF document with large text that flows over multiple pages.You can also draw multiple paragraphs sequentially."
                 },
                 Description = new string[]{
@@ -1775,7 +1726,7 @@ href=""https://help.syncfusion.com/file-formats/pdf/working-with-forms"">form fi
                 Category="Drawing Text",
                 Directory="FileFormats/PDF",
                 Url="pdf/bullets-and-lists",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates how to list the content in ordered and unordered list. The ordered list can be number or alphabets and the unordered list can be bullets, circles, and images." },
                 SourceFiles=new List<SourceCollection>()
                 {
@@ -1797,7 +1748,7 @@ href=""https://help.syncfusion.com/file-formats/pdf/working-with-forms"">form fi
                 Category="Drawing Text",
                 Directory="FileFormats/PDF",
                 Url="pdf/rtl-text",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates drawing right-to-left language text in the PDF document. It is possible to draw RTL languages such as Arabic, Hebrew, Persian, Urdu and more."},
                 Description = new string[] { @"<p>It is also possible to draw<a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-text#embedding-fonts-and-working-with-unicode-text""> Unicode text</a>. More information about drawing text can be found in this documentation <a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-text"">section.</a></p>" },         
                 SourceFiles=new List<SourceCollection>()
@@ -1820,7 +1771,7 @@ href=""https://help.syncfusion.com/file-formats/pdf/working-with-forms"">form fi
                 Category="Drawing Text",
                 Directory="FileFormats/PDF",
                 Url="pdf/open-type-font",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates how to draw a text with OpenType font in a PDF document."},
                 Description = new string[] { @"<p>It is also possible to draw<a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-text#embedding-fonts-and-working-with-unicode-text""> Unicode text</a>. More information about drawing text can be found in this documentation <a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-text"">section.</a></p>" },          
                 SourceFiles=new List<SourceCollection>()
@@ -1843,7 +1794,7 @@ href=""https://help.syncfusion.com/file-formats/pdf/working-with-forms"">form fi
                 Category="Graphics",
                 Directory="FileFormats/PDF",
                 Url="pdf/barcode",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates the creation of barcode in the PDF document and does not requires barcode font for creating barcode.It supports both 1D and 2D barcode with many customizing properties."},
                 Description = new string[]{
       @"<p>This feature can be used in invoice, super markets, health care systems and more. More information about the barcode can be found in this documentation <a target=""_blank""
@@ -1871,7 +1822,7 @@ section.
                 Category="Graphics",
                 Directory="FileFormats/PDF",
                 Url="pdf/drawing-shapes",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates drawing of <a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-shapes"">shapes</a>
         such as Ellipse, Arcs, Polygon, Pie and Rectangle in the PDF document with gradient and <a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-colorspace"">color spaces.</a></p>"},
                 SourceFiles=new List<SourceCollection>()
@@ -1894,7 +1845,7 @@ section.
                 Category="Graphics",
                 Directory="FileFormats/PDF",
                 Url="pdf/graphics-brushes",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates drawing of shapes with different brushes such as solid, tiling, Linear gradient, Radial gradient and with different<a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-colorspace""> color spaces</a>. such as Cal RGB, ICC, Exponential interpolation, pantone and indexed color space.</p>"},
                 SourceFiles=new List<SourceCollection>()
                 {
@@ -1916,7 +1867,7 @@ section.
                 Category="Graphics",
                 Directory="FileFormats/PDF",
                 Url="pdf/image-insertion",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates insertion of various raster and vector images (JPEG, PNG, TIFF, EMF, and GIF) in the PDF document. This sample also demonstrates the image masking capability in the Essential PDF library." },
                 Description = new string[]{
       @"<p>It is also possible to rotate and paginate the images in the PDF document. More information about the images can be found in this documentation <a target=""_blank""
@@ -1943,7 +1894,7 @@ section.
                 Category="Tables",
                 Directory="FileFormats/PDF",
                 Url="pdf/table-features",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates the creation of richly formatted table to keep your data organized for both basic and advanced operation on cells, rows and columns along with headers and footers."
     },
                 Description = new string[]{
@@ -1971,7 +1922,7 @@ section.
                 Category="Security",
                 Directory="FileFormats/PDF",
                 Url="pdf/digital-signature",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates how to digitally sign the PDF document with the PFX certificate file. It is possible to digitally sign with X509 certificates such as .pfx files with private keys and support for Hardware Security Module (HSM), Online Certificate Status Protocol (OCSP), Certificate Revocation List (CRL), and Windows Certificate Store to offer authenticity and integrity." },
                 Description = new string[]{
       @"<p>It is also possible to digitally sign with <a target=""_blank""
@@ -2001,7 +1952,7 @@ section.
                 Category="Settings",
                 Directory="FileFormats/PDF",
                 Url="pdf/layers",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @" This sample demonstrates adding layers (Optional Content Group) with different shapes in the PDF document.
         The Essential PDF also supports to create, merge, and toggle the layers."
     },
@@ -2030,7 +1981,7 @@ section.
                 Category="Analyze Documents",
                 Directory="FileFormats/PDF",
                 Url="pdf/find-pdf-corruption",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates to find PDF document corruption by using Essential PDF." },
                 Description = new string[]{
       @"<p>This feature allows you to find only PDF syntax level corruptions.</p>"
@@ -2055,7 +2006,7 @@ section.
                 Category="User Interaction",
                 Directory="FileFormats/PDF",
                 Url="pdf/interactive-features",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates the creation of interactive invoice with <a target=""_blank""
 href=""https://help.syncfusion.com/file-formats/pdf/working-with-attachments"">
 attachment</a>, product total price calculation based on the quantity using <a target=""_blank""
@@ -2084,7 +2035,7 @@ PDF JavaScript</a>.</p>" },
                 Category="User Interaction",
                 Directory="FileFormats/PDF",
                 Url="pdf/xfa-form-creation",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates how to create registration form using XFA form fields. The Essential PDF supports to create dynamic and static XFA form fields."
     }, 
                Description = new string[]{
@@ -2110,7 +2061,7 @@ PDF JavaScript</a>.</p>" },
                 Category="User Interaction",
                 Directory="FileFormats/PDF",
                 Url="pdf/xfa-form-filling",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"This sample demonstrates how to fill and flatten XFA form fields. It is possible to edit and remove the existing XFA form fields."
     },
                  Description = new string[]{
@@ -2138,7 +2089,7 @@ section.
                 Category="User Interaction",
                 Directory="FileFormats/PDF",
                 Url="pdf/portfolio",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates how to create portfolio in the PDF document. You can also extract and remove files from the PDF portfolio. This feature allows the user to bring content together from variety of sources including documents, drawings, images, emails, spreadsheets, and web pages.</p>"
     }, 
 
@@ -2165,7 +2116,7 @@ section.
                 Category="Modify Documents",
                 Directory="FileFormats/PDF",
                 Url="pdf/overlay-documents",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates how to overlay two different PDF documents into a single PDF document.</p>" },
                  Description = new string[]{
       @"<p>This feature can be used to draw template pages from one document into another for easy designing.</p>"
@@ -2190,7 +2141,7 @@ section.
                 Category="Modify Documents",
                 Directory="FileFormats/PDF",
                 Url="pdf/rearrange-pages",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates how to rearrange pages from an existing PDF document to make the document meaningful.</p>" },
                  Description = new string[]{
       @"<p>More information about rearrange pages can be found in this documentation <a target=""_blank""
@@ -2218,7 +2169,7 @@ section.
                 Category="Accessibility",
                 Directory="FileFormats/PDF",
                 Url="pdf/auto-tag",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates how to create tagged PDF or accessible PDF from the scratch using auto tag feature.The auto tag feature will tag the document based on PDF element created in the document.</p>" } ,
                 Description = new string[]{
       @"<p>This feature can be used for the people who require assistive technologies when the electronic content is ready. The Essential PDF supports creating tagged PDF with Section 508 compliant. More information about the tagged PDF can be found in this documentation <a target=""_blank""
@@ -2245,7 +2196,7 @@ section.
                 Category="Accessibility",
                 Directory="FileFormats/PDF",
                 Url="pdf/custom-tag",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 ActionDescription = new string[] { @"<p>This sample demonstrates how to create tagged PDF or accessible PDF from the scratch with custom tags.</p>" },
                 Description = new string[]{
       @"<p>This feature can be used for the people who require assistive technologies when the electronic content is ready. The Essential PDF supports creating tagged PDF with Section 508 compliant. More information about the tagged PDF can be found in this documentation <a target=""_blank""

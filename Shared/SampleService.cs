@@ -78,9 +78,9 @@ namespace blazor_samples.Shared
                         this.CurrentControl = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(CategoryName));
                         this.CurrentSample = this.CurrentControl.Samples.First<Sample>(sample => sample.Url.ToLower().Equals(updatedUrl));
                     }
-                    catch (Exception e)
+                    catch
                     {
-
+                        
                     }
                 }
                 if(splittedUrl.Length < 2 && splittedUrl.Length > 0)

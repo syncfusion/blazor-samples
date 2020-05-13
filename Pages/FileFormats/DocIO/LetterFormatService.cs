@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class LetterFormatService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public LetterFormatService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public LetterFormatService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

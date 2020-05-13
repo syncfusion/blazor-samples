@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class ExcelToPDFService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public ExcelToPDFService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public ExcelToPDFService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

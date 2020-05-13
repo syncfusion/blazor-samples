@@ -14,8 +14,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class EncryptAndDecryptService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public EncryptAndDecryptService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public EncryptAndDecryptService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

@@ -17,8 +17,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
     {
         private Color color1;
         private string[] onlinePayments;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public FormControlsService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public FormControlsService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

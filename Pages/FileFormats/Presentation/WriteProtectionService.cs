@@ -8,12 +8,18 @@
 
 using System.IO;
 using Syncfusion.Presentation;
+using Microsoft.AspNetCore.Hosting;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class WriteProtectionService
     {
-        string basePath = @"wwwroot/Presentation/";
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public WriteProtectionService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+        
         /// <summary>
         /// Create a write protection Presentation document
         /// </summary>
@@ -21,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateWriteProtectionPresentation(string Password)
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(basePath + "Transition.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Transition.pptx"), FileMode.Open, FileAccess.Read);
             //Open a existing PowerPoint presentation.
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
 
@@ -38,6 +44,13 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 presentation.Save(stream);
                 return stream;
             }
-        }        
+        }
+        
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
     }
 }

@@ -10,11 +10,18 @@ using Syncfusion.Presentation;
 using Syncfusion.PresentationToPdfConverter;
 using Syncfusion.Pdf;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class PPTXToPDFService
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public PPTXToPDFService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
@@ -22,8 +29,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream PDFConversion()
         {
             //Open the existing presentation
-            string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + @"Template.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Template.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);           
             
             //Convert the PowerPoint document to PDF document.
@@ -46,8 +52,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream PDFInput()
         {
             //Open the existing presentation
-            string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + @"Template.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Template.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);      
             
             //Save the document as a stream and retrun the stream
@@ -57,6 +62,13 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 presentation.Save(stream);
                 return stream;
             }
-        }        
+        }
+        
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
     }
 }

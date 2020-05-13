@@ -22,7 +22,7 @@
             </div>
         </div>
         <div>
-            <SfDocumentEditorContainer @ref="container" ID="docedit">
+            <SfDocumentEditorContainer @ref="container" Height="590px">
                 <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange" ContextMenuItemSelected="OnContentMenuSelect"></DocumentEditorContainerEvents>
             </SfDocumentEditorContainer>
         </div>
@@ -52,11 +52,11 @@
     {
         DocumentEditorModule documentEditor = container.GetDocumentEditor();
         documentEditor.Open(Data.DefaultDocument);
-        List<MenuItem> contentMenuItem = new List<MenuItem>
+        List<MenuItemModel> contentMenuItem = new List<MenuItemModel>
         {
-           new MenuItem { Text="Search In Google", Id= "search_in_google", IconCss="e-icons e-de-ctnr-find" }
+           new MenuItemModel { Text="Search In Google", Id= "search_in_google", IconCss="e-icons e-de-ctnr-find" }
         };
-        documentEditor.GetContextMenu().AddCustomMenu(contentMenuItem, true, false);
+        documentEditor.GetContextMenu().AddCustomMenu(contentMenuItem, false, false);
         DocumentName = "Custom Context Menu";
     }
 
@@ -68,24 +68,19 @@
             DocumentName = name;
         }
     }
-    public async void OnContentMenuSelect(CustomContentMenuEventArgs args)
+    public async Task OnContentMenuSelect(CustomContentMenuEventArgs args)
     {
         if (args.Id.EndsWith("search_in_google"))
         {
             string selectedText = await container.GetDocumentEditor().GetSelection().GetText();
             string url = "http://google.com/search?q=" + selectedText;
-            JSRuntime.InvokeAsync<object>("open", new object[2] { url, "_blank" });
+            await JSRuntime.InvokeAsync<object>("open", new object[2] { url, "_blank" });
         }
     }
 }
 
 
 <style>
-
-    #docedit {
-        height: 550px;
-        display: block;
-    }
 
     #edit_container {
         width: 950px;

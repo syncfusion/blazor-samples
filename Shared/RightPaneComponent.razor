@@ -22,15 +22,15 @@
         <div class='sb-action-description sb-rightpane-padding'>
         </div>
         <div id="sb-content" class='sb-content-section'>
-            @*<div id="navigation-btn">
+            <div id="navigation-btn">
                 <SfTooltip ID="NextToolTip" Content="@NextContent" Target="#next-sample" Position="Position.BottomCenter">
                     <SfButton ID="next-sample" IsPrimary="true" IconCss="sb-icons sb-icon-Next" Disabled="@IsLastDisabled" OnClick="OnNextClick"></SfButton>
                 </SfTooltip>
                 <SfTooltip ID="PrevToolTip" Content="@PrevContent" Target="#prev-sample" Position="Position.BottomCenter">
                     <SfButton ID="prev-sample" IsPrimary="true" IconCss="sb-icons sb-icon-Previous" Disabled="@IsDisabled" OnClick="OnPrevClick"></SfButton>
                 </SfTooltip>
-            </div>*@
-            @*<div class='sb-toolbar-splitter sb-custom-item'></div>*@
+            </div>
+            <div class='sb-toolbar-splitter sb-custom-item'></div>
             <SfTab CssClass='sb-content-tab' id='content-tab' LoadOn="ContentLoad.Demand">
                 <TabEvents Selecting="OnSourceTabSelecting" Selected="OnSourceTabSelected"></TabEvents>
                 <TabItems>
@@ -98,17 +98,17 @@
 
 @code {
 
-        [Parameter]
-        public RenderFragment Body { get; set; }
+    [Parameter]
+    public RenderFragment Body { get; set; }
 
-        [Parameter]
-        public bool IsDisabled { get; set; } = true;
+    [Parameter]
+    public bool IsDisabled { get; set; } = true;
 
-        [Parameter]
-        public bool IsLastDisabled { get; set; }
+    [Parameter]
+    public bool IsLastDisabled { get; set; }
 
-        [Parameter]
-        public SourceCodeComponent SourceTab { get; set; }
+    [Parameter]
+    public SourceCodeComponent SourceTab { get; set; }
 
     public string CopyRight { get; set; }
 
@@ -135,29 +135,25 @@
         }
     }
 
+    public void ButtonState(string currentUrl)
+    {
+        IsDisabled = (SampleBrowser.SampleUrls.IndexOf(currentUrl) == 0) ? true : false;
+        IsLastDisabled = currentUrl.Equals(SampleBrowser.SampleUrls[SampleBrowser.SampleUrls.Count - 1]) ? true : false ;
+        this.StateHasChanged();
+    }
+
     public void UpdateBreadCrumb(string control, string category, string sample)
     {
         this.BreadCrumbObj.UpdatePath(control, category, sample);
     }
 
-    public void ButtonState(string currenturl)
-    {
-        var count = SampleBrowser.SampleUrls.Count;
-        IsDisabled = currenturl == SampleBrowser.SampleUrls[0] ? true : false;
-        IsLastDisabled = currenturl == SampleBrowser.SampleUrls[count-1] ? true : false;
-    }
-
     private void OnPrevClick()
     {
-        IsDisabled = Service.Data.CurrentSample.Url == SampleBrowser.SampleUrls[1] ? true : false;
-        if (!IsDisabled) { IsLastDisabled = false; }
+        this.BaseParent.LeftPaneObject.NavMenuObject.isEnabledSelection = true;
         BaseParent.OnPrevSampleClick();
     }
     private void OnNextClick()
     {
-        var count = SampleBrowser.SampleUrls.Count;
-        if (IsDisabled) { IsDisabled = false; }
-        IsLastDisabled = Service.Data.CurrentSample.Url == SampleBrowser.SampleUrls[count - 2] ? true : false;
         BaseParent.OnNextSampleClick();
     }
 

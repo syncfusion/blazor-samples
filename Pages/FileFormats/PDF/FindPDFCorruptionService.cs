@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class FindPDFCorruptionService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public FindPDFCorruptionService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public FindPDFCorruptionService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

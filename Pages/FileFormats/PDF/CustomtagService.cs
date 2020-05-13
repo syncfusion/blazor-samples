@@ -17,8 +17,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class CustomtagService
     {
-		 private readonly IHostingEnvironment _hostingEnvironment;
-        public CustomtagService(IHostingEnvironment hostingEnvironment)
+		 private readonly IWebHostEnvironment _hostingEnvironment;
+        public CustomtagService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }
@@ -41,7 +41,6 @@ namespace blazor_samples.Data.FileFormats.PDF
             string header = "The header is simply a PDF version number and an arbitrary sequence of binary data.The binary data prevents na�ve applications from processing the PDF as a text file. This would result in a corrupted file, since a PDF typically consists of both plain text and binary data (e.g., a binary font file can be directly embedded in a PDF).";
             string body = "The page tree serves as the root of the document. In the simplest case, it is just a list of the pages in the document. Each page is defined as an independent entity with metadata (e.g., page dimensions) and a reference to its resources and content, which are defined separately. Together, the page tree and page objects create the �paper� that composes the document.\r\n \r\n  Resources are objects that are required to render a page. For example, a single font is typically used across several pages, so storing the font information in an external resource is much more efficient. A content object defines the text and graphics that actually show up on the page. Together, content objects and resources define theappearance of an individual page. \r\n \r\n  Finally, the document�s catalog tells applications where to start reading the document. Often, this is just a pointer to the root page tree.";
             string resource = "The third object is a resource defining a font configuration. \r\n \r\n The /Font key contains a whole dictionary, opposed to the name/value pairs we�ve seen previously (e.g., /Type /Page). The font we configured is called /F0, and the font face we selected is /Times-Roman. The /Subtype is the format of the font file, and /Type1 refers to the PostScript type 1 file format. The specification defines 14 �standard� fonts that all PDF applications should support.";
-            string resource2 = "Any of these values can be used for the /BaseFont in a /Font dictionary. Nonstandard fonts can be embedded in a PDF document, but it is not easy to do manually. We will put off custom fonts until we can use iTextSharp�s high-level framework.";
             string crossRef = "After the header and the body comes the cross-reference table. It records the byte location of each object in the body of the file. This enables random-access of the document, so when rendering a page, only the objects required for that page are read from the file. This makes PDFs much faster than their PostScript predecessors, which had to read in the entire file before processing it.";
             string trailer = "Finally, we come to the last component of a PDF document. The trailer tells applications how to start reading the file. At minimum, it contains three things: \r\n 1. A reference to the catalog which links to the root of the document. \r\n 2. The location of the cross-reference table. \r\n 3. The size of the cross-reference table. \r\n \r\n Since a trailer is all you need to begin processing a document, PDFs are typically read back-to-front: first, the end of the file is found, and then you read backwards until you arrive at the beginning of the trailer. After that, you should have all the information you need to load any page in the PDF.";
             #endregion
