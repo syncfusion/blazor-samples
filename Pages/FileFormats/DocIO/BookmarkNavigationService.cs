@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class BookmarkNavigationService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public BookmarkNavigationService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public BookmarkNavigationService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

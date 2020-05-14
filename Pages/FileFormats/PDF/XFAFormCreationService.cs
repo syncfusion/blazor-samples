@@ -18,8 +18,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class XFAFormCreationService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public XFAFormCreationService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public XFAFormCreationService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

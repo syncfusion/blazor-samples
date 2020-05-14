@@ -110,24 +110,48 @@
     SfTextBox TextboxObj2;
     SfDropDownList<string, Positions> DropdownObj;
 
-    public string ToastTarget { get; set; }
-    public string Xvalue { get; set; } = "50";
-    public string Yvalue { get; set; } = "50";
-    public string Defaultvalue { get; set; } = "50";
-    public string Defaultvalue1 { get; set; } = "50";
-    public bool CustomFlag { get; set; } = false;
-    public bool TextboxEnabled { get; set; } = false;
-    public bool DropdownEnable { get; set; } = true;
-    public string ToastWidth { get; set; }
-    public string ToastContent { get; set; } = "You have a friend request yet to accept";
-    public string ToastTitle { get; set; } = "Matt sent you a friend request";
-    public bool Checked { get; set; } = true;
-    public bool Checked2 { get; set; } = true;
-    public string PositionX { get; set; } = "Left";
-    public string PositionY { get; set; } = "Top";
-    private void OnChangeHandler(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
+    private string ToastTarget { get; set; }
+    private string Xvalue { get; set; } = "50";
+    private string Yvalue { get; set; } = "50";
+    private string Defaultvalue { get; set; } = "50";
+    private string Defaultvalue1 { get; set; } = "50";
+    private bool CustomFlag { get; set; } = false;
+    private bool TextboxEnabled { get; set; } = false;
+    private bool DropdownEnable { get; set; } = true;
+    private string ToastWidth { get; set; }
+    private string ToastContent { get; set; } = "You have a friend request yet to accept";
+    private string ToastTitle { get; set; } = "Matt sent you a friend request";
+    private bool Checked { get; set; } = true;
+    private bool Checked2 { get; set; } = true;
+    private string PositionX { get; set; } = "Left";
+    private string PositionY { get; set; } = "Top";
+
+    public class Positions
     {
-        this.HideToast();
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    private List<Positions> Positioning = new List<Positions>()
+    {
+        new Positions(){ value= "topleft", text= "Top Left" },
+        new Positions(){ value= "topright", text= "Top Right" },
+        new Positions(){ value= "topcenter", text= "Top Center" },
+        new Positions(){ value= "topfullwidth", text= "Top Full Width" },
+        new Positions(){ value= "bottomleft", text= "Bottom Left" },
+        new Positions(){ value= "bottomright", text= "Bottom Right" },
+        new Positions(){ value= "bottomcenter", text= "Bottom Center" },
+        new Positions(){ value= "bottomfullwidth", text= "Bottom Full Width" }
+    };
+
+    private async Task HideToast()
+    {
+        await this.ToastObj.Hide("All");
+    }
+
+    private async Task OnChangeHandler(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
+    {
+        await this.HideToast();
         this.ToastWidth = "auto";
         switch (arg.Value)
         {
@@ -152,27 +176,12 @@
         this.PositionY = this.Yvalue;
         this.StateHasChanged();
     }
-    public class Positions
-    {
-        public string value { get; set; }
-        public string text { get; set; }
-    }
-    List<Positions> Positioning = new List<Positions>()
-{
-        new Positions(){ value= "topleft", text= "Top Left" },
-        new Positions(){ value= "topright", text= "Top Right" },
-        new Positions(){ value= "topcenter", text= "Top Center" },
-        new Positions(){ value= "topfullwidth", text= "Top Full Width" },
-        new Positions(){ value= "bottomleft", text= "Bottom Left" },
-        new Positions(){ value= "bottomright", text= "Bottom Right" },
-        new Positions(){ value= "bottomcenter", text= "Bottom Center" },
-        new Positions(){ value= "bottomfullwidth", text= "Bottom Full Width" }
-    };
-    private async void OnBtnClicked()
+
+    private async Task OnBtnClicked()
     {
         if (this.CustomFlag)
         {
-            SetCustomPosValue();
+            await this.SetCustomPosValue();
         }
         else
         {
@@ -180,9 +189,10 @@
             await this.ToastObj.Show();
         }
     }
-    private void CheckboxChange(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+
+    private async Task CheckboxChange(Syncfusion.Blazor.Buttons.ChangeArgs arg)
     {
-        this.HideToast();
+        await this.HideToast();
         this.CustomFlag = false;
         this.TextboxEnabled = false;
         this.DropdownEnable = true;
@@ -190,31 +200,31 @@
         this.Yvalue = this.PositionY;
         this.StateHasChanged();
     }
-    private void CheckboxChange1(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+
+    private async Task CheckboxChange1(Syncfusion.Blazor.Buttons.ChangeArgs arg)
     {
-        this.HideToast();
+        await this.HideToast();
         this.CustomFlag = true;
         this.TextboxEnabled = true;
         this.DropdownEnable = false;
         this.StateHasChanged();
     }
-    private void CheckboxChange2(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+
+    private async Task CheckboxChange2(Syncfusion.Blazor.Buttons.ChangeArgs arg)
     {
-        this.HideToast();
+        await this.HideToast();
         this.ToastTarget = "#toast_pos_target";
         this.StateHasChanged();
     }
-    private async void HideToast()
+
+    private async Task CheckboxChange3(Syncfusion.Blazor.Buttons.ChangeArgs arg)
     {
-        await this.ToastObj.Hide("All");
-    }
-    private void CheckboxChange3(Syncfusion.Blazor.Buttons.ChangeArgs arg)
-    {
-        this.HideToast();
+        await this.HideToast();
         this.ToastTarget = "body";
         this.StateHasChanged();
     }
-    private async void SetCustomPosValue()
+
+    private async Task SetCustomPosValue()
     {
         this.Xvalue = this.TextboxObj.Value;
         this.Yvalue = this.TextboxObj2.Value;

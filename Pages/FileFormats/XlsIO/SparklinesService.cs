@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class SparklinesService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public SparklinesService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public SparklinesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

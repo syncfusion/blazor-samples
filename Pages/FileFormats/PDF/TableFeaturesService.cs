@@ -11,7 +11,6 @@ using Syncfusion.Drawing;
 using Syncfusion.Pdf.Grid;
 using Syncfusion.Pdf.Interactive;
 using Microsoft.AspNetCore.Hosting;
-using Syncfusion.Drawing;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
@@ -23,8 +22,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class TableFeaturesService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public TableFeaturesService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public TableFeaturesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }
@@ -34,7 +33,6 @@ namespace blazor_samples.Data.FileFormats.PDF
         float cellSpacing = 7f;
         float margin = 40f;
         PdfFont smallFont;
-        PdfLightTable pdfLightTable = null;
         #endregion
         public TableFeaturesService() { }
         /// <summary>

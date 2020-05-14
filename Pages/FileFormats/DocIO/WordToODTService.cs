@@ -15,8 +15,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class WordToODTService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public WordToODTService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public WordToODTService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
     public class HeaderandFooterService
     {
 
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public HeaderandFooterService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public HeaderandFooterService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

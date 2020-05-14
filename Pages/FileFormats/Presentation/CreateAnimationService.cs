@@ -7,21 +7,26 @@
 #endregion
 
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Syncfusion.Presentation;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class AnimationService
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public AnimationService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
         /// <returns>Return the created Presentation document as stream</returns>
         public MemoryStream CreateAnimationPresentation()
-        {
-            //Opens the presentation document as stream
-			string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + @"Animation.pptx", FileMode.Open, FileAccess.Read);
+        {            
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath(@"Animation.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //PowerPoint instance is Created.
 
@@ -36,6 +41,14 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 return stream;
             }
         }
+		
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
+
 		
         #region Slide1
         private void Animation(IPresentation presentation)

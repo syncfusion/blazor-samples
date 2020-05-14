@@ -60,7 +60,7 @@
     [Parameter]
     public string controlName { get; set; } = "ControlName";
 
-    public bool IsPrevDisabled { get; set; } = true;
+    public bool IsPrevDisabled { get; set; } 
 
     public bool IsNextDisabled { get; set; }
 
@@ -89,46 +89,32 @@
         JsRuntime.InvokeAsync<string>("mobileThemeChange", args.Value.ToString());
     }
 
-    public void prevSample()
+	public void MobileButtonState(string currentUrl)
     {
-        IsPrevDisabled = Service.Data.CurrentSample.Url == SampleBrowser.SampleUrls[1] ? true : false;
-        if (!IsPrevDisabled) { IsNextDisabled = false; }
+        IsPrevDisabled = (SampleBrowser.SampleUrls.IndexOf(currentUrl) == 0) ? true : false;
+        IsNextDisabled = currentUrl.Equals(SampleBrowser.SampleUrls[SampleBrowser.SampleUrls.Count - 1]) ? true : false;
+        this.StateHasChanged();
     }
-
-    public void nextSample()
+	
+    public async Task OnPrevSampleClick()
     {
-        var count = SampleBrowser.SampleUrls.Count;
-        if (IsPrevDisabled) { IsPrevDisabled = false; }
-        IsNextDisabled = Service.Data.CurrentSample.Url == SampleBrowser.SampleUrls[count - 2] ? true : false;
-    }
-    public void MobileState(string currenturl)
-    {
-        var count = SampleBrowser.SampleUrls.Count;
-        IsPrevDisabled = currenturl == SampleBrowser.SampleUrls[0] ? true : false;
-        IsNextDisabled = currenturl == SampleBrowser.SampleUrls[count - 1] ? true : false;
-    }
-
-    public void OnPrevSampleClick()
-    {
-        this.prevSample();
-        JsRuntime.InvokeAsync<Object>("persistTheme");
-        var currentUrl = Service.Data.CurrentSample.Url;
+        var themeName = await JsRuntime.InvokeAsync<string>("persistTheme");
+        var currentUrl = Service.Data.CurrentSample.Url.ToLower();
         int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
         if (CurrentIndex != 0)
         {
-            UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString());
-            JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+            UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString() + "?theme=" + themeName);
+            await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
         }
     }
 
-    public void OnNextSampleClick()
+    public async Task OnNextSampleClick()
     {
-        this.nextSample();
-        JsRuntime.InvokeAsync<Object>("persistTheme");
-        var currentUrl = Service.Data.CurrentSample.Url;
+        var themeName = await JsRuntime.InvokeAsync<string>("persistTheme");
+        var currentUrl = Service.Data.CurrentSample.Url.ToLower();
         int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
-        UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex + 1].ToString());
-        JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+        UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex + 1].ToString() + "?theme=" + themeName);
+        await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
     }
 
     public List<TabItem> sourceCodeItems;

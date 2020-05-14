@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class BulletsAndListService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public BulletsAndListService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public BulletsAndListService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

@@ -15,7 +15,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the overview of Blazor DataGrid features with its performance metrics of large data. To change datasource count, select rows and columns count from dropdown.</p>"
                 },
@@ -862,7 +862,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/detail-template",
                 FileName = "GridDetailTemplate.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the DataGrid component with the detail template feature. Click the expand button
                         in each DataGrid row to show the detailed information about a row.</p>"
@@ -998,7 +998,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/hierarchy-grid",
                 FileName = "HierarchyGrid.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the usage of DataGrid to show parent child relation data in a hierarchy structure using details template feature.</p>"
                 },
@@ -1018,7 +1018,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/master-details",
                 FileName = "MasterDetails.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the usage of DataGrid to visualize details of record in another DataGrid in master and detail manner. By simply clicking the master DataGrid row, the detail DataGrid will be populated with the corresponding data.</p>"
                 },

@@ -8,11 +8,18 @@
 
 using System.IO;
 using Syncfusion.Presentation;
+using Microsoft.AspNetCore.Hosting;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class SlideTransitionService
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public SlideTransitionService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
@@ -20,8 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateTransitionPresentation()
         {
             //Opens the presentation document as stream
-            string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + "Transition.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Transition.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //PowerPoint instance is Created.
 
@@ -35,7 +41,15 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 presentation.Save(stream);
                 return stream;
             }
+        
+		}
+		
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
         }
+        #endregion
 		
         #region Slide1
         private void CreateTransition(IPresentation presentation)

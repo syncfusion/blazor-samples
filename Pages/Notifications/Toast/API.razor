@@ -10,12 +10,18 @@
 
 <div class="col-lg-12 control-section toast-api-section">
     <div class="control_wrapper">
-        <SfToast @ref="ToastObj" ID="toastApi" Title="@ToastTitle" Content="@ToastContent" Buttons="@ToastButtons" ShowCloseButton="@ShowCloseBtn" ShowProgressBar="@ShowProgressBtn" NewestOnTop="@ShowNewestOnTop" TimeOut="@ToastTimeout">
+        <SfToast @ref="ToastObj" ID="toastApi" Title="@ToastTitle" Content="@ToastContent" ShowCloseButton="@ShowCloseBtn" ShowProgressBar="@ShowProgressBtn" NewestOnTop="@ShowNewestOnTop" TimeOut="@ToastTimeout">
             <ToastPosition X="Right" Y="Bottom"></ToastPosition>
             <ToastAnimationSettings>
                 <ToastAnimationSettingsShow Effect="@ShowEffect" Easing="@ShowEasing" Duration="@ShowDuration"></ToastAnimationSettingsShow>
                 <ToastAnimationSettingsHide Effect="@HideEffect" Easing="@HideEasing" Duration="@HideDuration"></ToastAnimationSettingsHide>
             </ToastAnimationSettings>
+            @if (this.EnableButtons)
+            {
+                <ToastButtonModelProps>
+                    <ToastButtonModelProp Model="@buttonModel"></ToastButtonModelProp>
+                </ToastButtonModelProps>
+            }
         </SfToast>
         <div class="row">
             <div class="col-lg-6 padding">
@@ -131,40 +137,44 @@
     SfDropDownList<string, Positions> ShowDropdownObj;
     SfDropDownList<string, Positions> HideDropdownObj;
 
-    public string ToastTitle { get; set; }
-    public bool ShowButtons { get; set; } = false;
-    public bool Checked { get; set; } = true;
-    public string ShowEasing { get; set; } = "ease";
-    public string HideEasing { get; set; } = "ease";
-    public string ShowEffect { get; set; }
-    public string HideEffect { get; set; }
-    public string EasingValue { get; set; } = "ease";
-    public string AnimationValue { get; set; } = "SlideBottomIn";
-    public string HideEasingValue { get; set; } = "ease";
-    public string HideAnimationValue { get; set; } = "SlideBottomOut";
-    public string ToastContent { get; set; } = "You have created a Toast message";
-    public string TimeoutValue { get; set; } = "5000";
-    public double ToastTimeout { get; set; } = 5000;
-    public double ShowDuration = 400;
-    public double HideDuration = 400;
-    public string ShowDurationtValue = "400";
-    public string HideDurationtValue = "400";
-    private bool ShowCloseBtn = false;
-    private bool ShowProgressBtn = false;
-    private bool ShowNewestOnTop = true;
-    private List<ToastButtonModelProp> ToastButtons;
+    private string ToastTitle { get; set; }
+    private bool ShowButtons { get; set; } = false;
+    private bool Checked { get; set; } = true;
+    private string ShowEasing { get; set; } = "ease";
+    private string HideEasing { get; set; } = "ease";
+    private string ShowEffect { get; set; }
+    private string HideEffect { get; set; }
+    private string EasingValue { get; set; } = "ease";
+    private string AnimationValue { get; set; } = "SlideBottomIn";
+    private string HideEasingValue { get; set; } = "ease";
+    private string HideAnimationValue { get; set; } = "SlideBottomOut";
+    private string ToastContent { get; set; } = "You have created a Toast message";
+    private string TimeoutValue { get; set; } = "5000";
+    private double ToastTimeout { get; set; } = 5000;
+    private double ShowDuration { get; set; } = 400;
+    private double HideDuration { get; set; } = 400;
+    private string ShowDurationtValue { get; set; } = "400";
+    private string HideDurationtValue { get; set; } = "400";
+    private bool ShowCloseBtn { get; set; } = false;
+    private bool ShowProgressBtn { get; set; } = false;
+    private bool ShowNewestOnTop { get; set; } = true;
+    private bool EnableButtons { get; set; } = false;
+    private ButtonModel buttonModel = new ButtonModel { Content = "Click Here" };
+
     public class Positions
     {
         public string value { get; set; }
         public string text { get; set; }
     }
+
     public class Easing
     {
         public string value { get; set; }
         public string text { get; set; }
     }
-    List<Positions> Show = new List<Positions>()
-{
+
+    private List<Positions> Show = new List<Positions>()
+    {
         new Positions(){ value= "SlideBottomIn", text= "Slide Bottom In" },
         new Positions(){ value= "FadeIn", text= "Fade In" },
         new Positions(){ value= "FadeZoomIn", text= "Fade Zoom In" },
@@ -187,8 +197,9 @@
         new Positions(){ value= "ZoomIn", text= "Zoom In" },
         new Positions(){ value= "ZoomOut", text= "Zoom Out" },
     };
-    List<Positions> Hide = new List<Positions>()
-{
+
+    private List<Positions> Hide = new List<Positions>()
+    {
         new Positions(){ value= "SlideBottomOut", text= "Slide Bottom Out" },
         new Positions(){ value= "FadeIn", text= "Fade In" },
         new Positions(){ value= "FadeZoomIn", text= "Fade Zoom In" },
@@ -211,7 +222,8 @@
         new Positions(){ value= "ZoomIn", text= "Zoom In" },
         new Positions(){ value= "ZoomOut", text= "Zoom Out" },
     };
-    List<Easing> Ease = new List<Easing>()
+
+    private List<Easing> Ease = new List<Easing>()
     {
         new Easing(){ value= "ease", text= "Ease" },
         new Easing(){ value= "linear", text= "Linear" }
@@ -232,58 +244,63 @@
         await Task.Delay(100);
         await this.ToastObj.Show();
     }
-    private async void HideToast()
-    {
-        await this.ToastObj.Hide("All");
-    }
-    private async void HideToastAll()
+
+    private async Task HideToast()
     {
         await this.ToastObj.Hide("All");
     }
 
-    private void CloseBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
+    private async Task HideToastAll()
     {
+        await this.ToastObj.Hide("All");
+    }
+
+    private async Task CloseBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
+    {
+        await this.HideToastAll();
         this.ShowCloseBtn = arg.Checked;
         this.StateHasChanged();
     }
-    private void ProgressBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
+
+    private async Task ProgressBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
     {
+        await this.HideToastAll();
         this.ShowProgressBtn = arg.Checked;
         this.StateHasChanged();
     }
-    private void NewestOnTopChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
+
+    private async Task NewestOnTopChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
     {
+        await this.HideToastAll();
         this.ShowNewestOnTop = arg.Checked;
         this.StateHasChanged();
     }
-    private async void ActionBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
+
+    private async Task ActionBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs arg)
     {
-        if (arg.Checked)
-        {
-            await this.ToastObj.Hide("All");
-            this.ToastButtons = new List<ToastButtonModelProp>() { new ToastButtonModelProp() { Model = new ButtonModel { Content = "Click Here" } } };
-        }
-        else
-        {
-            this.ToastButtons = null;
-        }
+        await this.HideToastAll();
+        this.EnableButtons = (arg.Checked) ? true : false;
         this.StateHasChanged();
     }
+
     private void EasingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
     {
         this.ShowEasing = this.EasingDropdownObj.Value.ToString();
         this.StateHasChanged();
     }
+
     private void HideEasingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
     {
         this.HideEasing = this.HideEasingDropdownObj.Value.ToString();
         this.StateHasChanged();
     }
+
     private void ShowChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
     {
         this.ShowEffect = arg.Value;
         this.StateHasChanged();
     }
+
     private void HideChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
     {
         this.HideEffect = arg.Value;

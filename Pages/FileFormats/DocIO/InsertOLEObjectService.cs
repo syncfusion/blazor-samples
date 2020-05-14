@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class InsertOLEObjectService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public InsertOLEObjectService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public InsertOLEObjectService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

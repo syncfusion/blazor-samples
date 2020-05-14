@@ -7,12 +7,19 @@
 #endregion
 
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Syncfusion.Presentation;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class ModifyAnimationService
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public ModifyAnimationService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
@@ -20,8 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream ModifyAnimationPresentation()
         {
             //Opens the presentation document as stream
-			string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + "ShapeWithAnimation.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("ShapeWithAnimation.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //New Instance of PowerPoint is Created.[Equivalent to launching MS PowerPoint with no slides].
 
@@ -44,8 +50,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream ModifyAnimationTemplate()
         {
             //Opens the presentation document as stream
-			string basePath = @"wwwroot/Presentation/";
-            FileStream fileStreamInput = new FileStream(basePath + "ShapeWithAnimation.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("ShapeWithAnimation.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //New Instance of PowerPoint is Created.[Equivalent to launching MS PowerPoint with no slides].          
 			
@@ -57,6 +62,13 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 return stream;
             }
         }
+		
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
 		
         #region Modify Animation
 

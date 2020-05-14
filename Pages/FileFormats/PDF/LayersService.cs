@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class LayersService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public LayersService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public LayersService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

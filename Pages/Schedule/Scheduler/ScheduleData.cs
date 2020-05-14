@@ -6997,7 +6997,9 @@ namespace blazor_samples.Pages.Schedule.Scheduler
         {
             public int RoomId { get; set; }
             public bool IsBlock { get; set; }
-            public string ElementType { get; set; }
+            public virtual string ElementType { get; set; }
+            public virtual DateTime StartTimeValue { get; set; }
+            public virtual DateTime EndTimeValue { get; set; }
             public RoomsData ResourceData { get; set; }
         }
         public class RoomsData

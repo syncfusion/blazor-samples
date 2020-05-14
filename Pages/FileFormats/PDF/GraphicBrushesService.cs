@@ -19,8 +19,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class GraphicBrushesService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public GraphicBrushesService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public GraphicBrushesService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

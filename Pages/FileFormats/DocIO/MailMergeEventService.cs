@@ -20,8 +20,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class MailMergeEventService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public MailMergeEventService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public MailMergeEventService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

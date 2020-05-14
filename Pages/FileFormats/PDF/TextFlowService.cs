@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class TextFlowService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public TextFlowService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public TextFlowService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

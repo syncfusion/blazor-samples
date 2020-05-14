@@ -69,6 +69,10 @@
 
     internal List<Sample> ListDataSource { get; set; } = new List<Sample>();
 
+    public List<String> DataList { get; set; } = new List<String>();
+
+    public bool isEnabledSelection { get; set; }
+
     internal List<SampleListType> ComponentList { get; set; } = new List<SampleListType>();
 
     [CascadingParameter]
@@ -148,12 +152,22 @@
                     await JsRuntime.InvokeAsync<Object>("persistTheme");
                     this.NavigatePage(sampleData.data.Url.ToLower(), true);
                     SampleBrowser.CurrentUrl = sampleData.data.Url.ToLower();
-                    this.BaseParent.RightPaneObj.ButtonState(SampleBrowser.CurrentUrl);
-                    this.BaseParent.MobileState(SampleBrowser.CurrentUrl);
                     await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
                     await JsRuntime.InvokeAsync<Object>("persistURL", SampleData.Url);
                     await JsRuntime.InvokeAsync<string>("callResizeEvent");
                 }
+            }
+        }
+    }
+
+    public void ArrangeSampleList()
+    {
+        var data = Control.Samples.GroupBy(groupBy => groupBy.Category).Select(Control => Control.ToList()).ToList();
+        for (var i = 0; i < data.Count; i++)
+        {
+            for (var j = 0; j < data[i].Count; j++)
+            {
+                DataList.Add(data[i][j].Url.ToLower());
             }
         }
     }
@@ -193,7 +207,7 @@
                 {
                     for (var j = 0; j < listData[i].Count; j++)
                     {
-                        SampleBrowser.SampleUrls.Add(listData[i][j].Url);
+                        SampleBrowser.SampleUrls.Add(listData[i][j].Url.ToLower());
                     }
                 }
                 ChildItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples });
@@ -210,6 +224,7 @@
     public async void UrlChange(object sender, LocationChangedEventArgs args)
     {
         Service.Data.Update(UriHelper);
+        this.BaseParent.RightPaneObj.ButtonState(Service.Data.CurrentSample.Url);
         if (Service.Data.CurrentControl != null)
         {
             await this.UpdateNavMenu();
@@ -230,7 +245,7 @@
                 }
             }
         }
-        catch (Exception e)
+        catch
         {
 
         }
@@ -239,9 +254,24 @@
     public async Task UpdateNavMenu()
     {
         this.ListDataSource = Control.Samples;
+        this.BaseParent.MobileButtonState(Service.Data.CurrentSample.Url);
         List<string> ActionDescriptionItems = new List<string>();
         List<string> DescriptionItems = new List<string>();
-        // this.setSelectList();
+        //SelectionItem is Restricted, While We Navigate One Component To another using Next button
+        if (!isEnabledSelection && Control.Samples.IndexOf(Service.Data.CurrentSample) != 0)
+        {
+            await this.setSelectList();
+        }
+        //SelectionItem is Restricted, While We Navigate One Component To another using Previous button
+        if (isEnabledSelection)
+        {
+            this.ArrangeSampleList();
+            if (DataList.IndexOf(Service.Data.CurrentSample.Url.ToLower()) != (DataList.Count - 1))
+            {
+                await this.setSelectList();
+            }
+        }
+
         this.BaseParent.UpdateBreadCrumb(Control.Name, SampleData.Category, SampleData.Name);
         await JsRuntime.InvokeAsync<Object>("titleDescription", Control.Name, SampleData.Name);
 
@@ -269,7 +299,11 @@
         {
             await JsRuntime.InvokeAsync<Object>("updateDescription", new List<string>());
         }
-        // JsRuntime.InvokeAsync<string>("ScrollOption");
+        isEnabledSelection = false;
+        DataList.Clear();
+        #pragma warning disable
+        JsRuntime.InvokeAsync<string>("ScrollOption");
+        #pragma warning restore
         await JsRuntime.InvokeAsync<string>("callResizeEvent");
         //JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
         this.StateHasChanged();
@@ -285,8 +319,6 @@
             this.treeviewClass = "e-view time-duration sb-hide";
             this.ListDataSource = ChildList;
             this.NavigatePage(ChildList[0].Url.ToLower());
-            this.BaseParent.RightPaneObj.ButtonState(ChildList[0].Url);
-            this.BaseParent.MobileState(ChildList[0].Url);
             await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
             await JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
         }
@@ -294,9 +326,11 @@
 
     Syncfusion.Blazor.Lists.ListViewFieldSettings ListFields = new Syncfusion.Blazor.Lists.ListViewFieldSettings
     {
+#pragma warning disable
         Id = "UID",
         GroupBy = "Category",
         Text = "Name",
         SortBy = "Order"
+#pragma warning restore
     };
 }

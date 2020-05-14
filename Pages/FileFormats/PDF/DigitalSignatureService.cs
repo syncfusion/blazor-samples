@@ -19,12 +19,12 @@ namespace blazor_samples.Data.FileFormats.PDF
 {
     public class DigitalSignatureService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public DigitalSignatureService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public DigitalSignatureService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }
-     
+
         /// <summary>
         /// Create a simple PDF document
         /// </summary>
@@ -55,7 +55,7 @@ namespace blazor_samples.Data.FileFormats.PDF
                 signature.Certificated = true;
             else
                 signature.Certificated = false;
-            PdfGraphics graphics = signature.Appearence.Normal.Graphics;
+            PdfGraphics graphics = signature.Appearance.Normal.Graphics;
 
             string validto = "Valid To: " + signature.Certificate.ValidTo.ToString();
             string validfrom = "Valid From: " + signature.Certificate.ValidFrom.ToString();
@@ -79,7 +79,6 @@ namespace blazor_samples.Data.FileFormats.PDF
             stream.Position = 0;
             return stream;
 
-            return stream_Empty;
         }
 
         private void SetCryptographicStandard(string cryptographic, PdfSignature signature)

@@ -93,7 +93,6 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/clipboard",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -931,7 +930,6 @@ namespace blazor_samples
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/batch-editing",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

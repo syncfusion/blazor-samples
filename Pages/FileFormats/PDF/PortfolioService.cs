@@ -19,8 +19,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class PortfolioService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public PortfolioService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public PortfolioService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

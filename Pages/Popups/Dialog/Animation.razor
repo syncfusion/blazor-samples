@@ -37,7 +37,6 @@
 </div>
 
 <style>
-
     html,
     body,
     #container {
@@ -66,15 +65,22 @@
 @code {
     SfDialog DialogObj;
 
-    public string BtnContent = "Zoom In or Out";
-    public DialogEffect Effects = DialogEffect.Zoom;
+    private string BtnContent = "Zoom In or Out";
+    private DialogEffect Effects = DialogEffect.Zoom;
+    private ButtonModel Defaultbutton = new ButtonModel { content = "Hide", isPrimary = true };
 
-    private void OnBtnclicked(string value)
+    public class ButtonModel
+    {
+        public string content { get; set; }
+        public bool isPrimary { get; set; }
+    }
+
+    private async Task OnBtnclicked(string value)
     {
         switch (value)
         {
             case "Zoom":
-                this.Effects = DialogEffect.Zoom;                
+                this.Effects = DialogEffect.Zoom;
                 break;
             case "FlipXDown":
                 this.Effects = DialogEffect.FlipXDown;
@@ -91,17 +97,11 @@
         }
         this.BtnContent = value;
         this.StateHasChanged();
-        this.DialogObj.Show();
-    }
-    private void OnClicked(object arg)
-    {
-        this.DialogObj.Hide();
-    }
-    public class ButtonModel
-    {
-        public string content { get; set; }
-        public bool isPrimary { get; set; }
+        await this.DialogObj.Show();
     }
 
-    public ButtonModel Defaultbutton = new ButtonModel { content = "Hide", isPrimary = true };
+    private async Task OnClicked(object arg)
+    {
+        await this.DialogObj.Hide();
+    }
 }

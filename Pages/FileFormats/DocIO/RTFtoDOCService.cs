@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class RTFtoDOCService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public RTFtoDOCService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public RTFtoDOCService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

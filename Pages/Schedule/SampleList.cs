@@ -848,31 +848,32 @@ namespace blazor_samples
                     </p>"
                 }
             },
-            //new Sample
-            //{
-            //    Name = "Quick Info Template",
-            //    Category = "Templates",
-            //    Directory = "Schedule/Scheduler",
-            //    Url = "scheduler/quick-info-template",
-            //    FileName = "QuickInfoTemplate.razor",
-            //    ActionDescription = new string[] {
-            //        @"<p>
-            //            In this demo, the quick popup of appointments and cells is customized using <code>ScheduleQuickInfoTemplates</code> property.
-            //        </p>"
-            //    },
-            //    Description = new string[] {
-            //        @"<p>
-            //            In this demo, the quick popup is customized based on the office required appointment related fields which can be achieved
-            //            by making use of the <code>ScheduleQuickInfoTemplates</code> option.
-            //        </p>
-            //        <p>
-            //            The <code>ScheduleQuickInfoTemplates</code> has three options <code>Header</code>, <code>Content</code> and <code>Footer</code>,
-            //            where we can customize the particular portion of quick popup. We can also customize only cell click quick popup or only event
-            //            click quick popup using <code>TemplateType</code> property in <code>ScheduleQuickInfoTemplates</code> option or the combinations of both using
-            //            <code>ElementType</code> property.
-            //        </p>"
-            //    }
-            //},
+            new Sample
+            {
+                Name = "Quick Info Template",
+                Category = "Templates",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/quick-info-template",
+                FileName = "QuickInfoTemplate.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>
+                        In this demo, the quick popup of appointments and cells is customized using <code>ScheduleQuickInfoTemplates</code> property.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                        In this demo, the quick popup is customized based on the office required appointment related fields which can be achieved
+                        by making use of the <code>ScheduleQuickInfoTemplates</code> option.
+                    </p>
+                    <p>
+                        The <code>ScheduleQuickInfoTemplates</code> has three options <code>Header</code>, <code>Content</code> and <code>Footer</code>,
+                        where we can customize the particular portion of quick popup. We can also customize only cell click quick popup or only event
+                        click quick popup using <code>TemplateType</code> property in <code>ScheduleQuickInfoTemplates</code> option or the combinations of both using
+                        <code>ElementType</code> property.
+                    </p>"
+                }
+            },
             new Sample
             {
                 Name = "Field Validation",

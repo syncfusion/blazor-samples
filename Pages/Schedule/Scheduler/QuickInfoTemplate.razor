@@ -94,9 +94,7 @@
 
     private string GetEventDetails(ScheduleData.RoomData data)
     {
-        DateTime Start = new DateTime(data.StartTime.Year, data.StartTime.Month, data.StartTime.Day, data.StartTime.Hour, data.StartTime.Minute, data.StartTime.Second).ToUniversalTime();
-        DateTime End = new DateTime(data.EndTime.Year, data.EndTime.Month, data.EndTime.Day, data.EndTime.Hour, data.EndTime.Minute, data.EndTime.Second).ToUniversalTime();
-        return Start.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + Start.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + End.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
+          return data.StartTimeValue.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTimeValue.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + data.EndTimeValue.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
     }
     private string GetHeaderStyles(ScheduleData.RoomData data)
     {
@@ -114,16 +112,14 @@
     private async void OnMoreDetailsClick(MouseEventArgs args, ScheduleData.RoomData data, bool isEventData)
     {
         await ScheduleObj.CloseQuickInfoPopup();
-        DateTime StartTime = DateTime.SpecifyKind(data.StartTime.ToUniversalTime(), DateTimeKind.Local);
-        DateTime EndTime = DateTime.SpecifyKind(data.EndTime.ToUniversalTime(), DateTimeKind.Local);
         if (isEventData == false)
         {
             ScheduleData.RoomData eventData = new ScheduleData.RoomData
             {
                 Id = new Random().Next(1000),
                 Subject = SubjectRef.Value ?? "",
-                StartTime = StartTime,
-                EndTime = EndTime,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
                 Location = data.Location,
                 Description = DescriptionRef.Value ?? "",
                 IsAllDay = data.IsAllDay,
@@ -142,8 +138,8 @@
                 Subject = data.Subject,
                 Location = data.Location,
                 Description = data.Description,
-                StartTime = StartTime,
-                EndTime = EndTime,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
                 IsAllDay = data.IsAllDay,
                 RoomId = data.RoomId,
                 RecurrenceException = data.RecurrenceException,
@@ -159,11 +155,11 @@
         await ScheduleObj.CloseQuickInfoPopup();
         ScheduleData.RoomData cloneData = new ScheduleData.RoomData
         {
-            Id = data.Id,
+            Id = new Random().Next(1000),
             Subject = SubjectRef.Value ?? "",
             Description = DescriptionRef.Value ?? "",
-            StartTime = DateTime.SpecifyKind(data.StartTime.ToUniversalTime(), DateTimeKind.Local),
-            EndTime = DateTime.SpecifyKind(data.EndTime.ToUniversalTime(), DateTimeKind.Local),
+            StartTime = data.StartTime,
+            EndTime = data.EndTime,
             RoomId = EventTypeRef.Value,
             Location = data.Location,
             IsAllDay = data.IsAllDay,

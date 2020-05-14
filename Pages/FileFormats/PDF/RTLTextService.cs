@@ -19,8 +19,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class RTLTextService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public RTLTextService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public RTLTextService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

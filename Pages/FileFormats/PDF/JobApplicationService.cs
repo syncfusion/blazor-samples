@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 {
     public class JobApplicationService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public JobApplicationService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public JobApplicationService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

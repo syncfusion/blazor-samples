@@ -18,8 +18,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class EmployeeReportService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public EmployeeReportService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public EmployeeReportService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

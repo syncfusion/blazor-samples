@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class HelloWorldService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public HelloWorldService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public HelloWorldService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

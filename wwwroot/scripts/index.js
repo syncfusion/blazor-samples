@@ -73,7 +73,7 @@ function getTheme() {
       // theme = toInitCap(theme);
     }
 
-    var themeEle = arg.element.querySelector("#" + theme + "menu");
+    var themeEle = arg.element.querySelector("#" + theme);
     if (themeEle) {
       themeEle.classList.add("sb-icon-icon-selection");
       if (!themeEle.classList.contains("sb-icons")) {
@@ -100,7 +100,8 @@ function switchTheme(url) {
 
 function persistTheme() {
   if (/theme=/g.test(location.href)) {
-    currentTheme = location.search.split("=")[1]
+    currentTheme = location.search.split("=")[1];
+    return currentTheme;
   }
 }
 
@@ -126,7 +127,7 @@ function homeButtonClick() {
 }
 
 function refreshTab(code, filename) {
-   setTimeout(function () {
+  setTimeout(function () {
         var tabs = document.querySelector(".sb-src-code");
         if (tabs) {
             tabs.innerHTML = code;

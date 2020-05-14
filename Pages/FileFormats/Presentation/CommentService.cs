@@ -10,12 +10,18 @@ using System.IO;
 using Syncfusion.Presentation;
 using Syncfusion.OfficeChart;
 using System;
+using Microsoft.AspNetCore.Hosting;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class CommentService
     {
-        string basePath = @"wwwroot/Presentation/";
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public CommentService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
@@ -23,7 +29,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateCommentSlide()
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(basePath + @"Images.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Images.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
 
             SlideWithComments(presentation);
@@ -36,6 +42,14 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 return stream;
             }
         }
+		
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
+
 		
         private void SlideWithComments(IPresentation presentation)
         {

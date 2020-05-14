@@ -18,8 +18,8 @@ namespace blazor_samples.Pages.FileFormats.DocIO
 {
     public class WordToWordMLService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public WordToWordMLService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public WordToWordMLService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

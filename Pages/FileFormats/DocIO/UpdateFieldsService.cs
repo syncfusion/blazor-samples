@@ -19,8 +19,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
 {
     public class UpdateFieldsService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public UpdateFieldsService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public UpdateFieldsService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

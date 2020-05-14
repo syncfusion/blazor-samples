@@ -17,8 +17,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class FormatCellsService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public FormatCellsService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public FormatCellsService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

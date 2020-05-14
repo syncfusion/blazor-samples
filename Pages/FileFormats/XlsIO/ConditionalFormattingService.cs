@@ -16,8 +16,8 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 {
     public class ConditionalFormattingService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public ConditionalFormattingService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public ConditionalFormattingService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

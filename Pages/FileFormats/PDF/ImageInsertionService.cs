@@ -14,8 +14,8 @@ namespace blazor_samples.Data.FileFormats.PDF
 { 
     public class ImageInsertionService
     {
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public ImageInsertionService(IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public ImageInsertionService(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

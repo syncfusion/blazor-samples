@@ -14,7 +14,7 @@
                 <SfButton id="toast_mail_remainder" @onclick="@MailBtnclick"> Mail Reminder</SfButton>
                 @if (this.ShowButton)
                 {
-                <SfButton id="Alarm_turn_on" @onclick="@AlarmBtnclick"> Turn on Alarm</SfButton>
+                    <SfButton id="Alarm_turn_on" @onclick="@AlarmBtnclick"> Turn on Alarm</SfButton>
                 }
             </div>
         </div>
@@ -38,7 +38,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="images/Toast/map.jpg" width="100%" height="50%">
+                                <img src="images/Toast/map.jpg" style="width:100%;height:50%;">
                                 <div class="snooze"> Snooze for </div>
                                 <div id='snoozedropDown'>
                                         <SfDropDownList TItem="DropDownValues" Index=0 TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" @bind-Value="@DropValue" Placeholder="Select a snooze time">
@@ -69,63 +69,79 @@
 @code{
     SfToast MailToastObj;
     SfToast AlarmToastObj;
-    ToastFields Model;
     SfDropDownList<string, DropDownValues> DropDownObj;
-    public int ToastFlag { get; set; } = 0;
-    public string ToastFieldData { get; set; }
-    public string ToastImageData { get; set; }
-    public string ToastSubjectData { get; set; }
-    public bool SnoozeFlag { get; set; } = false;
-    public string DropValue { get; set; } = "2";
-    public double AlarmTimeout { get; set; } = 120000;
-    public bool ShowButton { get; set; } = true;
 
-    public List<ToastFields> ToastData = new List<ToastFields>() {
-            new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = "images/Toast/laura.png" },
-            new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = "images/Toast/janat.png" },
-            new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = "images/Toast/camden.png" },
-            new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = "images/Toast/chase.png" },
-            new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = "images/Toast/michael.png" }
-        };
+    private int ToastFlag { get; set; } = 0;
+    private string ToastFieldData { get; set; }
+    private string ToastImageData { get; set; }
+    private string ToastSubjectData { get; set; }
+    private bool SnoozeFlag { get; set; } = false;
+    private string DropValue { get; set; } = "2";
+    private double AlarmTimeout { get; set; } = 120000;
+    private bool ShowButton { get; set; } = true;
 
     public class ToastFields
     {
         public string from { get; set; }
         public string subject { get; set; }
         public string image { get; set; }
-
     }
-    private void MailBtnclick()
+
+    public class DropDownValues
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    private List<ToastFields> ToastData = new List<ToastFields>() {
+        new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = "images/Toast/laura.png" },
+        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = "images/Toast/janat.png" },
+        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = "images/Toast/camden.png" },
+        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = "images/Toast/chase.png" },
+        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = "images/Toast/michael.png" }
+    };
+
+    private List<DropDownValues> DropData = new List<DropDownValues>()
+    {
+        new DropDownValues(){ value= "2", text= "2 minutes" },
+        new DropDownValues(){ value= "5", text= "5 minutes" },
+        new DropDownValues(){ value= "10", text= "10 minutes" }
+    };
+
+    private async Task MailBtnclick()
     {
         string template = "<div id='toastEmail_template'><div class='e-toast-template'><img class='e-toast-icon e-toast-image' src='" + this.ToastData[ToastFlag].image + "' /><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
-        this.MailToastObj.Show(new ToastModel { Template = template, ShowCloseButton = true });
+        await this.MailToastObj.Show(new ToastModel { Template = template, ShowCloseButton = true });
         ToastFlag++;
         if (ToastFlag == ToastData.Count)
         {
             ToastFlag = 0;
         }
     }
-    private void AlarmBtnclick()
+
+    private async Task AlarmBtnclick()
     {
-        this.AlarmToastObj.Show();
+        await this.AlarmToastObj.Show();
     }
-    private void SnoozeBtnclick()
+
+    private async Task SnoozeBtnclick()
     {
-        this.AlarmToastObj.Hide();
+        await this.AlarmToastObj.Hide();
         this.SnoozeFlag = true;
     }
 
-    private void DismissBtnclick()
+    private async Task DismissBtnclick()
     {
-        this.AlarmToastObj.Hide();
+        await this.AlarmToastObj.Hide();
     }
-    private void OnToastClose()
+
+    private async Task OnToastClose()
     {
         if (this.SnoozeFlag)
         {
             this.AlarmTimeout = Int32.Parse(this.DropDownObj.Value) * 60000;
             this.StateHasChanged();
-            this.AlarmToastObj.Show();            
+            await this.AlarmToastObj.Show();
             this.SnoozeFlag = false;
         }
         else
@@ -133,26 +149,17 @@
             this.ShowButton = true;
         }
     }
+
     private void OnToastOpen()
     {
         this.ShowButton = false;
     }
-    private void ListChange(ChangeEventArgs<string> args)
+
+    private async Task ListChange(ChangeEventArgs<string> args)
     {
         this.SnoozeFlag = true;
-        this.AlarmToastObj.Hide();
+        await this.AlarmToastObj.Hide();
     }
-    public class DropDownValues
-    {
-        public string value { get; set; }
-        public string text { get; set; }
-    }
-    List<DropDownValues> DropData = new List<DropDownValues>()
-{
-            new DropDownValues(){ value= "2", text= "2 minutes" },
-            new DropDownValues(){ value= "5", text= "5 minutes" },
-            new DropDownValues(){ value= "10", text= "10 minutes" }
-        };
 }
 
 <style>

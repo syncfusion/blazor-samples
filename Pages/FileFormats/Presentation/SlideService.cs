@@ -8,12 +8,18 @@
 
 using System.IO;
 using Syncfusion.Presentation;
+using Microsoft.AspNetCore.Hosting;
 
 namespace blazor_samples.Data.FileFormats.Presentation
 {
     public class SlideService
     {
-        string basePath = @"wwwroot/Presentation/";
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public SlideService(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         /// <summary>
         /// Create a simple Presentation document
         /// </summary>
@@ -21,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateNewSlide()
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(basePath + @"Slides.pptx", FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Slides.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
 
             //Method call to create slides
@@ -38,6 +44,13 @@ namespace blazor_samples.Data.FileFormats.Presentation
                 return stream;
             }
         }
+		
+        #region HelperMethod
+        private string ResolveApplicationPath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+        }
+        #endregion
 		
        #region Slide
         #region Slide1
@@ -233,7 +246,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
             slide2.Shapes.RemoveAt(2);
 
             //Add a picture to the slide           
-            FileStream imageStream = new FileStream(basePath + @"tablet.jpg", FileMode.Open, FileAccess.Read);
+            FileStream imageStream = new FileStream(ResolveApplicationPath("tablet.jpg"), FileMode.Open, FileAccess.Read);
            
             IPicture picture1 = slide2.Shapes.AddPicture(imageStream, 0.81 * 72, 1.96 * 72, 6.63 * 72, 4.43 * 72);
             imageStream.Dispose();
