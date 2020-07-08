@@ -19,11 +19,11 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to render a default circular gauge. The circular gauge component circularly visualizes the numerical scales values. In this sample, an axis with a pointer has been used. You can use <code>CircularGaugeAxes</code>, <code>CircularGaugeRanges</code>, <code>CircularGaugePointers</code> to customize the default appearance of the gauge.
+                        In this example, you can see how to render a default circular gauge. The circular gauge component circularly visualizes the numerical scales values. In this sample, an axis with a pointer has been used. You can use <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeAxes_properties.html'>CircularGaugeAxes</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRanges_properties.html'>CircularGaugeRanges</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugePointers_properties.html'>CircularGaugePointers</a></code> to customize the default appearance of the gauge.
                     </p>
                     <p>
                         More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/getting-started"">documentation section</a>.
                     </p>"
                 }
             },
@@ -42,11 +42,11 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                    In this example, you can see how to customize the ranges of an axis in the circular gauge. Ranges are used to group the axis values, you can use <code>Start</code>, <code>End</code>, <code>Color</code>, <code>StartWidth</code>, <code>EndWidth</code>, <code>Radius</code> and <code>RoundedCornerRadius</code> properties to customize the ranges. In this sample, an axis is shown with multiple ranges in the circular gauge component and options to customize the range properties with the property panel.
+                    In this example, you can see how to customize the ranges of an axis in the circular gauge. Ranges are used to group the axis values, you can use <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~Start.html'>Start</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~End.html'>End</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~Color.html'>Color</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~StartWidth.html'>StartWidth</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~EndWidth.html'>EndWidth</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~Radius.html'>Radius</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeRange~RoundedCornerRadius.html'>RoundedCornerRadius</a></code> properties to customize the ranges. In this sample, an axis is shown with multiple ranges in the circular gauge component and options to customize the range properties with the property panel.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/gauge-ranges/"">documentation section</a>.
+                        More information on the ranges can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/ranges"">documentation section</a>.
                     </p>"
                 }
             },
@@ -66,14 +66,14 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>                         
                         In this example, you can see how to render and configure the ticks and labels of an axis in the circular gauge. Labels are units that are used to display the values in the axis.
-                        You can customize the labels with the properties like <code>Angle</code>, <code>Font</code>,
-                        <code>Position</code>, and more. Ticks are used to mark some values on the axis. You can also customize the ticks using
-                        <code>CircularGaugeMajorTicks</code>,
-                        <code>CircularGaugeMinorTicks</code> properties.
+                        You can customize the labels with the properties like <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeAnnotation~Angle.html'>Angle</a></code>, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.FontModel_properties.html'>Font</a></code>,
+                        <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeAxisLabelStyle~Position.html'>Position</a></code>, and more. Ticks are used to mark some values on the axis. You can also customize the ticks using
+                        <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeAxis~MajorTicks.html'>CircularGaugeMajorTicks</a></code>,
+                        <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugeAxis~MinorTicks.html'>CircularGaugeMinorTicks</a></code> properties.
                     </p>
                     <p>
                         More information on the labels can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/axes"">documentation section</a>.
                     </p>"
                 }
             },
@@ -106,8 +106,8 @@ namespace blazor_samples
                         In this example, you can see how to customize the gauge elements such as pointers and range. Here a needle and range bar pointers are added to show the current value and its appearance can be customized here.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        More information on the annotations can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/annotations"">documentation section</a>.
                     </p>"
                 }
             },
@@ -130,7 +130,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/user-interaction"">documentation section</a>.
                     </p>"
                 }
             },	
@@ -153,7 +153,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/user-interaction/"">documentation section</a>.
                     </p>"
                 }
 			},
@@ -175,9 +175,28 @@ namespace blazor_samples
                         In this example, you can see how to render a legend in circular gauge. A legend item denotes the ranges in the axis. Any number of items can be added to a legend. You can bind the desired colors and legend text to the corresponding ranges.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/legend/"">documentation section</a>.
+                        More information on the legend can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/legend"">documentation section</a>.
                     </p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Gradient Color",
+                Category = "Circular Gauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/gradient-color",
+                FileName = "GradientColor.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                     @" <p>
+                         This sample shows how linear gradient color and radial gradient color are applied to the circular gauge elements.
+                     </p>"
+                 },
+                 Description = new string[] {
+                     @"<p>
+                         The circular gauge supports gradient coloring in a linear or radial manner. The gradient type can be changed using the <b>Gradient Type</b> dropdown list in the properties panel. In the same way, the element for which the gradient color should be applied is decided by the <b>Elements</b> dropdown list.
+                     </p>"
                 }
             },
              new Sample
@@ -196,10 +215,6 @@ namespace blazor_samples
                  Description = new string[] {
                      @"<p>
                          The circular gauge can be customized as per the user requirement. In this example, a direction compass has been depicted by adding needle tail to the pointer of the circular gauge and by customizing the labels to show the direction.
-                     </p>
-                     <p>
-                         More information on the circular gauge can be found in this
-                         <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
                      </p>"
                 }
             },			 
@@ -219,7 +234,7 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>
                         In this example, you can see how to use the pointer image for an axis in the circular gauge. Pointer value points out the
-                        the actual value set in the circular gauge. You can customize the <code>CircularGaugePointers</code> to improve the
+                        the actual value set in the circular gauge. You can customize the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.CircularGaugePointers_properties.html'>CircularGaugePointers</a></code> to improve the
                         the appearance of the gauge.
                     <br>
                     <p>
@@ -227,7 +242,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/pointers"">documentation section</a>.
                     </p>"
                 }
             },
@@ -238,7 +253,7 @@ namespace blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/pointer-customization",
                 FileName = "PointerCustomization.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
                         This sample visualizes the different types of pointers which are available in the gauge.
@@ -249,8 +264,8 @@ namespace blazor_samples
                         In this example, you can see how to customize the pointer for an axis in the circular gauge. Circular gauge supports different types of pointers like marker, image, needle, range bar.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        More information on the pointer customization can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/pointers"">documentation section</a>.
                     </p>"
                 }
             },
@@ -272,8 +287,8 @@ namespace blazor_samples
                         In this example, you can see how to render and configure multiple axes in gauge. Use axes collection to render multiple axes in gauge. Each axis can be customized with its pointers and ticks.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/gauge-axes/"">documentation section</a>.
+                        More information on the multiple axes can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/axes"">documentation section</a>.
                     </p>"
                 }
 
@@ -285,7 +300,7 @@ namespace blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/pointer-drag",
                 FileName = "PointerDrag.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @" <p>
                         This sample visualizes pointer and ranges drag in circular gauge. The position of pointer value can be changed by using pointer value and we can drag the pointer and ranges by enabling pointer drag and range drag options.
@@ -293,11 +308,11 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to move pointers and ranges in gauge using drag and drop. Use <code>EnablePointerDrag</code> property, to enable or disable the pointer drag functionality. Use <code>EnableRangeDrag</code> property, to enable or disable the range drag functionality.
+                        In this example, you can see how to move pointers and ranges in gauge using drag and drop. Use <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~EnablePointerDrag.html'>EnablePointerDrag</a></code> property, to enable or disable the pointer drag functionality. Use <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~EnableRangeDrag.html'>EnableRangeDrag</a></code> property, to enable or disable the range drag functionality.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        More information on the pointers and range drag can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/pointers/#dragging-pointer"">documentation section</a>.
                     </p>"
                 }
             },
@@ -320,7 +335,7 @@ namespace blazor_samples
                     </p>
                     <p>
                         More information on the tooltip can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/gauge-user-interaction/"">documentation section</a>.
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/user-interaction/#showing-tooltip-at-mouse-position"">documentation section</a>.
                     </p>"
                 }
             },
@@ -331,7 +346,7 @@ namespace blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/export",
                 FileName = "Export.razor",
-                Type = SampleType.New,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the print and export functionality of circular gauge.
@@ -339,11 +354,11 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        In this example, you can see how to export and print the rendered circular gauge. The circular gauge can be exported to <b>JPEG, PNG, SVG</b> and <b>PDF</b> formats.
+                        In this example, you can see how to export and print the rendered circular gauge. The circular gauge can be exported to JPEG, PNG, SVG and PDF formats. Print functionality is done by <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~Print.html'>Print</a></code> method when <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~AllowPrint.html'>AllowPrint</a></code> is set as true. Export functionality is done by <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~Export.html'>Export</a></code> method when <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~AllowImageExport.html'>AllowImageExport</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.CircularGauge.SfCircularGauge~AllowPdfExport.html'>AllowPdfExport</a></code> is set as true.
                     </p>
                     <p>
-                        More information on the tooltip can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        More information on the print and export can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/print"">documentation section</a>.
                     </p>"
                 }
             },
@@ -362,11 +377,7 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                        Pointer values in the gauge can be updated dynamically by using <code>SetPointerValue</code> method. In this example, a stock price changes over the countries, are showed by using a circular gauge.
-                    </p>
-                    <p>
-                        More information on the range and pointer customization can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        Pointer values in the gauge can be updated dynamically by using <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/circular-gauge/methods/?no-cache=1#setpointervalue'>SetPointerValue</a></code> method. In this example, a stock price changes over the countries, are showed by using a circular gauge.
                     </p>"
                 }
             },
@@ -388,8 +399,8 @@ namespace blazor_samples
                         In this example, you can see how to make the circular gauge look like the Apple watch rings. Ranges are rendered with rounded corners and annotations are placed to denote the move, exercise, and stand values.
                     </p>
                     <p>
-                        More information on the circular gauge can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
+                        More information on the annotation can be found in this
+                        <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/circular-gauge/annotations"">documentation section</a>.
                     </p>"
                 }
             },
@@ -409,13 +420,8 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>
                     In this example, you can see how to make circular gauge appear like a speedometer. The labels can be changed, gap can be added between the ranges, or the ranges can be combined to form single range using the options provided in the properties panel.
-                    </p>
-                    <p>
-                        More information on the range and pointer customization can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/circular-gauge/getting-started/"">documentation section</a>.
                     </p>"
                 }
-
             }
         };
     }

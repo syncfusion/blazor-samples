@@ -1,12 +1,10 @@
 ﻿@page "/diagram/hierarchical-tree"
 
 @using Syncfusion.Blazor.Diagrams
-@using System.Collections.ObjectModel
-@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.DropDowns
-@using Newtonsoft.Json
+
 @inherits SampleBaseComponent;
+
 @*Hidden:Lines*@
 <style>
 
@@ -73,7 +71,7 @@
 @*End:Hidden*@
 <div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <SfDiagram @ref="@Diagram" id="diagram" Width="100%" Height="499px" Layout="@LayoutValue" Tool="@DiagramTools.ZoomPan" ConnectorDefaults="@ConnectorDefault" NodeDefaults="@NodeDefaults">
+        <SfDiagram @ref="@Diagram" ID="diagram" Height="499px" Layout="@LayoutValue" Tool="@DiagramTools.ZoomPan" ConnectorDefaults="@ConnectorDefault" NodeDefaults="@NodeDefaults">
             <DiagramDataSource Id="Name" ParentId="Category" DataSource="@DataSource">
                 <DiagramDataMapSettings>
                     <DiagramDataMapSetting Property="Shape.TextContent" Field="Name"></DiagramDataMapSetting>
@@ -83,7 +81,7 @@
             </DiagramDataSource>
             <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
             <DiagramPageSettings>
-                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
             </DiagramPageSettings>
         </SfDiagram>
 
@@ -141,15 +139,12 @@
 
 
 
-@functions{
+@code{
     SfDiagram Diagram;
     public int? HValue { get; set; } = 30;
     public int? VValue { get; set; } = 30;
     static string selecteditem = "image-pattern-style e-selected-style";
     static string unselecteditem = "image-pattern-style";
-     bool CanFit = true;
-    FitModes Mode = FitModes.Width;
-
     
     Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
     TreeInfo LayoutInfo = new TreeInfo()
@@ -207,22 +202,20 @@
 
     }
     public List<object> DataSource = new List<object>()
-{
-                new HierarchicalDetails(){ Name ="Diagram", Category="",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Layout", Category="Diagram",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Tree layout", Category="Layout",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Organizational chart", Category="Layout",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Hierarchical tree", Category="Tree layout",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Radial tree", Category="Tree layout",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Mind map", Category="Hierarchical tree",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Family tree", Category="Hierarchical tree",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Management", Category="Organizational chart",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Human resources", Category="Management",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="University", Category="Management",FillColor="#659be5"},
-                new HierarchicalDetails(){ Name ="Business", Category="#Management",FillColor="#659be5"}
-                };
-
-
+    {
+        new HierarchicalDetails(){ Name ="Diagram", Category="",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Layout", Category="Diagram",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Tree layout", Category="Layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Organizational chart", Category="Layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Hierarchical tree", Category="Tree layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Radial tree", Category="Tree layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Mind map", Category="Hierarchical tree",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Family tree", Category="Hierarchical tree",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Management", Category="Organizational chart",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Human resources", Category="Management",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="University", Category="Management",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Business", Category="#Management",FillColor="#659be5"}
+    };
 
     protected override void OnInitialized()
     {
@@ -261,24 +254,16 @@
     {
         public string Text { get; set; }
     }
-    private List<Syncfusion.Blazor.SplitButtons.ItemModel> Images = new List<Syncfusion.Blazor.SplitButtons.ItemModel>() {
-                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text ="JPG" },
-                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="PNG" },
-                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="BMP" },
-                        new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="SVG" }
-                };
-
-
-    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
         HValue = (int)args.Value;
-        Diagram.Layout.HorizontalSpacing = args.Value;
+        Diagram.Layout.HorizontalSpacing = double.Parse(args.Value.ToString());
         StateHasChanged();
     }
-    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
         VValue = (int)args.Value;
-        Diagram.Layout.VerticalSpacing = args.Value;
+        Diagram.Layout.VerticalSpacing = double.Parse(args.Value.ToString());
         StateHasChanged();
 
     }
@@ -309,7 +294,6 @@
         UpdateSelection("bottomToTop");
         Diagram.Layout.Orientation = LayoutOrientation.BottomToTop;
         StateHasChanged();
-
     }
 }
 

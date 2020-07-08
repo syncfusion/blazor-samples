@@ -2,10 +2,8 @@
 
 @using Syncfusion.Blazor.Diagrams
 @using System.Collections.ObjectModel
-@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.DropDowns
-@using Newtonsoft.Json
+
 @inherits SampleBaseComponent;
 @*Hidden:Lines*@
 <style>
@@ -79,7 +77,7 @@
 @*End:Hidden*@
 <div class="col-lg-9 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagram @ref="@Diagram" id="diagram" Width="100%" Tool="@DiagramTools.ZoomPan" Height="580px" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults" Layout="@LayoutValue">
+        <SfDiagram @ref="@Diagram" ID="diagram" Tool="@DiagramTools.ZoomPan" Height="580px" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults" Layout="@LayoutValue">
             <DiagramDataSource Id="Name" ParentId="ReportingPerson" DataSource="@DataSource">
                 <DiagramDataMapSettings>
                     <DiagramDataMapSetting Property="Style.fill" Field="FillColor"></DiagramDataMapSetting>
@@ -87,14 +85,13 @@
                 </DiagramDataMapSettings>
             </DiagramDataSource>
             <DiagramPageSettings>
-                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
             </DiagramPageSettings>
             <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
         </SfDiagram>
 
     </div>
 </div>
-
 @*Hidden:Lines*@
 <div class="col-lg-3 property-section">
     <div class="property-panel-header">
@@ -164,28 +161,16 @@
     </div>
 </div>
 @*End:Hidden*@
-@functions
-    {
+@code{
     static string selecteditem = "image-pattern-style e-selected-style";
     static string unselecteditem = "image-pattern-style";
-    bool CanFit = true;
-    FitModes Mode = FitModes.Width;
     Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
     SfDiagram Diagram;
     public int? HValue { get; set; } = 40;
     public int? VValue { get; set; } = 40;
     public int? xmargin { get; set; } = 20;
     public int? ymargin { get; set; } = 20;
-    DiagramLayout LayoutValue = new DiagramLayout()
-    {
-        Type = LayoutType.ComplexHierarchicalTree,
-        VerticalAlignment = VerticalAlignment.Top,
-        HorizontalSpacing = 40,
-        VerticalSpacing = 40,
-        Orientation = LayoutOrientation.TopToBottom,
-        Margin = new LayoutMargin() { Left = 20, Top = 20 }
-    };
-   
+    DiagramLayout LayoutValue = new DiagramLayout() { };
 
     TreeInfo LayoutInfo = new TreeInfo()
     {
@@ -199,7 +184,7 @@
         Height = 40,
         Width = 40,
         Annotations = new ObservableCollection<DiagramNodeAnnotation>()
-{
+        {
             new DiagramNodeAnnotation() { Offset = new NodeAnnotationOffset(){ Y =0.5, X= 0.5}, Id = "label"}
         },
         Shape = new DiagramShape() { BasicShape = BasicShapes.Rectangle, CornerRadius = 7, Type = Syncfusion.Blazor.Diagrams.Shapes.Basic }
@@ -213,21 +198,21 @@
         Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" }
     };
 
-    private void hSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void hSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        updateLayoutSettings("horizontalSpacing", args.Value);
+        updateLayoutSettings("horizontalSpacing", double.Parse(args.Value.ToString()));
     }
-    private void vSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void vSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        updateLayoutSettings("verticalSpacing", args.Value);
+        updateLayoutSettings("verticalSpacing", double.Parse(args.Value.ToString()));
     }
-    private void marginTopChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void marginTopChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        updateLayoutSettings("marginTop", args.Value);
+        updateLayoutSettings("marginTop", double.Parse(args.Value.ToString())); 
     }
-    private void marginLeftChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void marginLeftChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        updateLayoutSettings("marginLeft", args.Value);
+        updateLayoutSettings("marginLeft", double.Parse(args.Value.ToString()));
     }
     private void ToptoBottomClick()
     {
@@ -272,23 +257,26 @@
     }
     private void updateLayoutSettings(string propertyName, double propertyValue)
     {
-
         switch (propertyName)
         {
             case "horizontalSpacing":
+                HValue = (int)propertyValue;
                 Diagram.Layout.HorizontalSpacing = propertyValue;
                 break;
             case "verticalSpacing":
+                VValue = (int)propertyValue;
                 Diagram.Layout.VerticalSpacing = propertyValue;
                 break;
             case "marginLeft":
+                xmargin = (int)propertyValue;
                 Diagram.Layout.Margin.Left = propertyValue;
                 break;
             case "marginTop":
+                ymargin = (int)propertyValue;
                 Diagram.Layout.Margin.Top = propertyValue;
                 break;
         }
-        Diagram.DataBind();
+        StateHasChanged();
     }
     public class DataModel
     {
@@ -298,7 +286,7 @@
         public string[] ReportingPerson;
     }
     public object DataSource = new List<object>()
-{
+    {
         new DataModel { Name = "node11", FillColor = "#e7704c", Border = "#c15433" },
         new DataModel {  Name = "node12", ReportingPerson = new string[]{ "node114" }, FillColor = "#efd46e", Border = "#d6b123" },
         new DataModel {  Name = "node13", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
@@ -326,4 +314,17 @@
         new DataModel {  Name = "node116", ReportingPerson = new string[] { "node12", "node22" }, FillColor = "#58b087", Border = "#16955e" }
     };
 
+    protected override void OnInitialized()
+    {
+        LayoutValue = new DiagramLayout()
+        {
+           Type = LayoutType.ComplexHierarchicalTree,
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalSpacing = 40,
+            VerticalSpacing = 40,
+            Orientation = LayoutOrientation.TopToBottom,
+            Margin = new LayoutMargin() { Left = 20, Top = 20 }
+        };
+
+    }
 }

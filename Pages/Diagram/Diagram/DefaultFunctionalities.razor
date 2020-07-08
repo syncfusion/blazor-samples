@@ -1,16 +1,13 @@
 ﻿@page "/diagram/flowchart"
 
 @using Syncfusion.Blazor.Diagrams
-@inherits SampleBaseComponent;
 @using Syncfusion.Blazor.Navigations
 @using System.Collections.ObjectModel
 @using DiagramShapes = Syncfusion.Blazor.Diagrams.Shapes
 @using DiagramSegments = Syncfusion.Blazor.Diagrams.Segments
 
-
-
+@*Hidden:Lines*@
 <div class="control-section">
-    @*Hidden:Lines*@
     <style>
         @@font-face {
             font-family: 'e-ddb-icons';
@@ -137,35 +134,29 @@
             content: "\e700"
         }
     </style>
-    @*End:Hidden*@
     <div style="width: 100%">
         <div class="sb-mobile-palette-bar">
             <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
         </div>
+        @*End:Hidden*@
         <div id="palette-space" class="sb-mobile-palette">
-            <SfSymbolPalette id="symbolPalette" Width="100%" Height="700px"
-                              SymbolHeight="60"
-                              SymbolWidth="60"
-                              ExpandMode="@ExpandMode.Multiple"
-                              SymbolInfo="@SymbolInfo">
+            <SfSymbolPalette ID="symbolPalette" Height="700px"
+                             SymbolHeight="60"
+                             SymbolWidth="60"
+                             ExpandMode="@ExpandMode.Multiple"
+                             SymbolInfo="@SymbolInfo" @ref="@SymbolPalette" Palettes="@Palettes">
                 <SymbolMargin Left="15" Right="15" Bottom="15" Top="15"></SymbolMargin>
-                <SymbolPalettePalettes>
-                    <SymbolPalettePalette Id="FlowShapePalette" Expanded="true" Symbols="@FlowShapeList" IconCss="e-ddb-icons e-flow" Title="Flow Shapes">
-                    </SymbolPalettePalette>
-                    <SymbolPalettePalette Id="ConnectorPalette" Expanded="true" Symbols="@ConnectorList" IconCss="e-ddb-icons e-connector" Title="Connectors">
-                    </SymbolPalettePalette>
-                </SymbolPalettePalettes>
             </SfSymbolPalette>
         </div>
         <div id="diagram-space" class="sb-mobile-diagram">
             <div class="content-wrapper" style="border: 1px solid #D7D7D7">
-                <SfDiagram Width="100%" Height="700px"
-                            Nodes="@NodeCollection"
-                            Connectors="@ConnectorCollection"
-                            NodeDefaults="@NodeDefaults"
-                            ConnectorDefaults="@ConnectorDefaults">
+                <SfDiagram Height="700px"
+                           Nodes="@NodeCollection"
+                           Connectors="@ConnectorCollection"
+                           NodeDefaults="@NodeDefaults"
+                           ConnectorDefaults="@ConnectorDefaults">
                     <DiagramPageSettings>
-                        <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+                        <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
                     </DiagramPageSettings>
 
                     <DiagramSnapSettings>
@@ -177,13 +168,17 @@
                 </SfDiagram>
             </div>
         </div>
+        @*Hidden:Lines*@
     </div>
 </div>
+@*End:Hidden*@
 
-@functions
+@code
 {
     int connectorCount = 0;
     int portCount = 0;
+    public ObservableCollection<SymbolPalettePalette> Palettes;
+    SfSymbolPalette SymbolPalette;
 
     // Defines diagram's nodes collection
     public ObservableCollection<DiagramNode> NodeCollection { get; set; }
@@ -201,15 +196,13 @@
     public double[] GridLineIntervals { get; set; }
 
     // Defines palette's flow-shape collection
-    public ObservableCollection<DiagramNode> FlowShapeList { get; set; }
+    public ObservableCollection<object> FlowShapeList { get; set; }
 
     // Defines palette's connector collection
-    public ObservableCollection<DiagramConnector> ConnectorList { get; set; }
+    public ObservableCollection<object> ConnectorList { get; set; }
 
     // Defines Symbol info
     public SymbolInfo SymbolInfo { get; set; }
-    bool CanFit = true;
-    FitModes Mode = FitModes.Width;
 
 
     protected override void OnInitialized()
@@ -270,17 +263,11 @@
 
     private void InitDiagramDefaults()
     {
-        ObservableCollection<DiagramPort> defaultsPorts = new ObservableCollection<DiagramPort>();
-        defaultsPorts.Add(CreatePort(0, 0.5));
-        defaultsPorts.Add(CreatePort(0.5, 1));
-        defaultsPorts.Add(CreatePort(1, 0.5));
-        defaultsPorts.Add(CreatePort(0.5, 0));
 
         NodeDefaults = new DiagramNode()
         {
             Width = 145,
             Height = 60,
-            Ports = defaultsPorts,
             Annotations = new ObservableCollection<DiagramNodeAnnotation>() { },
             Style = new NodeShapeStyle() { Fill = "#357BD2", StrokeColor = "white" }
         };
@@ -304,6 +291,12 @@
 
     private void CreateNode(string id, double x, double y, FlowShapes shape, string label, bool positionLabel = false)
     {
+        ObservableCollection<DiagramPort> defaultsPorts = new ObservableCollection<DiagramPort>();
+        defaultsPorts.Add(CreatePort(0, 0.5));
+        defaultsPorts.Add(CreatePort(0.5, 1));
+        defaultsPorts.Add(CreatePort(1, 0.5));
+        defaultsPorts.Add(CreatePort(0.5, 0));
+
         DiagramNodeAnnotation annotation = new DiagramNodeAnnotation()
         {
             Content = label,
@@ -328,6 +321,7 @@
             Id = id,
             OffsetX = x,
             OffsetY = y,
+            Ports = defaultsPorts,
             Shape = new DiagramShape() { Type = DiagramShapes.Flow, FlowShape = shape },
             Annotations = new ObservableCollection<DiagramNodeAnnotation>() { annotation }
         };
@@ -369,40 +363,58 @@
 
     private void InitPaletteModel()
     {
+        Palettes = new ObservableCollection<SymbolPalettePalette>();
+
         SymbolInfo = new SymbolInfo() { Fit = true };
 
-        FlowShapeList = new ObservableCollection<DiagramNode>();
-        CreatePaletteNode(FlowShapes.Terminator,"Terminator");
-        CreatePaletteNode(FlowShapes.Process,"Process");
-        CreatePaletteNode(FlowShapes.Decision,"Decision");
-        CreatePaletteNode(FlowShapes.Document,"Document");
-        CreatePaletteNode(FlowShapes.PreDefinedProcess,"Predefined Process");
-        CreatePaletteNode(FlowShapes.PaperTap,"Punched Tape");
-        CreatePaletteNode(FlowShapes.DirectData,"Direct Data");
-        CreatePaletteNode(FlowShapes.SequentialData,"Sequential Data");
-        CreatePaletteNode(FlowShapes.Sort,"Sort");
-        CreatePaletteNode(FlowShapes.MultiDocument,"Multidocument");
-        CreatePaletteNode(FlowShapes.Collate,"Collate");
-        CreatePaletteNode(FlowShapes.SummingJunction,"Summing Junction");
-        CreatePaletteNode(FlowShapes.Or,"Or");
-        CreatePaletteNode(FlowShapes.InternalStorage,"Internal Storage");
-        CreatePaletteNode(FlowShapes.Extract,"Extract");
-        CreatePaletteNode(FlowShapes.SequentialAccessStorage,"Sequential Access Storage");
-        CreatePaletteNode(FlowShapes.Annotation,"Annotation");
-        CreatePaletteNode(FlowShapes.Annotation2,"Annotation2");
-        CreatePaletteNode(FlowShapes.Data,"Data");
-        CreatePaletteNode(FlowShapes.Card,"Card");
-        CreatePaletteNode(FlowShapes.Delay,"Delay");
-
-        ConnectorList = new ObservableCollection<DiagramConnector>();
+        FlowShapeList = new ObservableCollection<object>();
+        CreatePaletteNode(FlowShapes.Terminator, "Terminator");
+        CreatePaletteNode(FlowShapes.Process, "Process");
+        CreatePaletteNode(FlowShapes.Decision, "Decision");
+        CreatePaletteNode(FlowShapes.Document, "Document");
+        CreatePaletteNode(FlowShapes.PreDefinedProcess, "Predefined Process");
+        CreatePaletteNode(FlowShapes.PaperTap, "Punched Tape");
+        CreatePaletteNode(FlowShapes.DirectData, "Direct Data");
+        CreatePaletteNode(FlowShapes.SequentialData, "Sequential Data");
+        CreatePaletteNode(FlowShapes.Sort, "Sort");
+        CreatePaletteNode(FlowShapes.MultiDocument, "Multidocument");
+        CreatePaletteNode(FlowShapes.Collate, "Collate");
+        CreatePaletteNode(FlowShapes.SummingJunction, "Summing Junction");
+        CreatePaletteNode(FlowShapes.Or, "Or");
+        CreatePaletteNode(FlowShapes.InternalStorage, "Internal Storage");
+        CreatePaletteNode(FlowShapes.Extract, "Extract");
+        CreatePaletteNode(FlowShapes.SequentialAccessStorage, "Sequential Access Storage");
+        CreatePaletteNode(FlowShapes.Annotation, "Annotation");
+        CreatePaletteNode(FlowShapes.Annotation2, "Annotation2");
+        CreatePaletteNode(FlowShapes.Data, "Data");
+        CreatePaletteNode(FlowShapes.Card, "Card");
+        CreatePaletteNode(FlowShapes.Delay, "Delay");
+        Palettes.Add(
+            new SymbolPalettePalette()
+            {
+                Id = "Flowshapes",
+                Symbols = FlowShapeList,
+                Expanded = true,
+                Title = "Flow Shapes"
+            });
+        ConnectorList = new ObservableCollection<object>();
         CreatePaletteConnector("Link1", DiagramSegments.Orthogonal, DecoratorShapes.Arrow);
         CreatePaletteConnector("Link2", DiagramSegments.Orthogonal, DecoratorShapes.None);
         CreatePaletteConnector("Link3", DiagramSegments.Straight, DecoratorShapes.Arrow);
         CreatePaletteConnector("Link4", DiagramSegments.Straight, DecoratorShapes.None);
         CreatePaletteConnector("Link5", DiagramSegments.Bezier, DecoratorShapes.None);
+        Palettes.Add(
+            new SymbolPalettePalette()
+            {
+                Id = "Connectors",
+                Symbols = ConnectorList,
+                Expanded = true,
+                Title = "Connectors"
+            }
+        );
     }
 
-    private void CreatePaletteNode(FlowShapes flowShape,string id)
+    private void CreatePaletteNode(FlowShapes flowShape, string id)
     {
         DiagramNode diagramNode = new DiagramNode()
         {
@@ -410,7 +422,7 @@
             PreviewSize = new SymbolSizeModel() { Width = 100, Height = 100 },
             Shape = new DiagramShape() { Type = DiagramShapes.Flow, FlowShape = flowShape }
         };
-        
+
 
 
         FlowShapeList.Add(diagramNode);

@@ -15,6 +15,7 @@ namespace blazor_samples
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                 @"<p>This sample explains the core features of PDF Viewer such as PDF viewing, printing, navigation, text search and selection, zooming, panning, reviewing, and more with their built-in toolbar.</p>"
                 },

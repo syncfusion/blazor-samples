@@ -7,11 +7,11 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Linear",
-                Category = "ProgrssBar",
+                Category = "Progress Bar",
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/linear",
                 FileName = "Linear.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
                   This sample illustrates a linear progress bar with track color customization, segments and animation.
@@ -27,7 +27,7 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Circular",
-                Category = "ProgrssBar",
+                Category = "Progress Bar",
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/circular",
                 FileName = "Circular.razor",
@@ -47,7 +47,7 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Angle",
-                Category = "ProgrssBar",
+                Category = "Progress Bar",
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/angle",
                 FileName = "Angle.razor",
@@ -67,11 +67,11 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Labels",
-                Category = "ProgrssBar",
+                Category = "Progress Bar",
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/labels",
                 FileName = "Labels.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
                   This sample illustrates a linear progress bar to demonstrate different types of labels rendering.
@@ -87,7 +87,7 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Radius",
-                Category = "ProgrssBar",
+                Category = "Progress Bar",
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/radius",
                 FileName = "Radius.razor",
@@ -99,11 +99,51 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>
-                   This demo for Essential JS2 Progress Bar control shows the customizing options for radius, inner-radius, pie progress, track and progress thickness customization.
+                   This demo for Blazor Progress Bar control shows the customizing options for radius, inner-radius, pie progress, track and progress thickness customization.
+                </p>
+                "
+                }
+            },
+            new Sample
+            {
+                Name = "Stripes",
+                Category = "Progress Bar",
+                Directory = "ProgressBar/ProgressBar",
+                Url = "progress-bar/stripes",
+                FileName = "Stripes.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>
+         This sample illustrates a striped linear progress bar with animation.
+    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                   This demo for Blazor Progress Bar control shows the linear striped progress bar with help of IsStriped property.
+                </p>
+                "
+                }
+            },
+			new Sample
+            {
+                Name = "Progress Segment",
+                Category = "Progress Bar",
+                Directory = "ProgressBar/ProgressBar",
+                Url = "progress-bar/progress-segment",
+                FileName = "ProgressSegment.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>
+         This sample illustrates a segmented progress of a task.
+    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                   This demo for Blazor Progress Bar control shows the segmented progress of the progressa task using segmentCount and gapWidth property.
                 </p>
                 "
                 }
             }
         };
-        }
+    }
 }

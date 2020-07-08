@@ -67,6 +67,8 @@ namespace ej2_blazor_templatedata
                 Designation = "Sales Representative",
                 EmployeeID = 4,
                 EmpID = "EMP045",
+                Address = "14 Garrett Hill, London",
+                Contact = "(71) 555-4848",
                 Country = "UK",
                 DOB = new DateTime(1980, 9, 20),
                 ParentId = 1

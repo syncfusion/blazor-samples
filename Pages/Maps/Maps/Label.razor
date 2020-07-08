@@ -7,21 +7,18 @@
 @inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
-    <div class="control-section">
-        <SfMaps>
-            <MapsZoomSettings Enable="false"></MapsZoomSettings>
-            <MapsLayers>
-                <MapsLayer ShapeData="@USA">
-                    <MapsDataLabelSettings Visible="@DatalabelVisible" LabelPath="name" SmartLabelMode="@DatalabelSmartLabelMode" IntersectionAction="@DatalabelInterSectAction"></MapsDataLabelSettings>
-                    <MapsShapeSettings Autofill="true"></MapsShapeSettings>
-                    <MapsLayerTooltipSettings Visible="true" ValuePath="name"></MapsLayerTooltipSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
+    <SfMaps>
+        <MapsZoomSettings Enable="false"/>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/usa.json"}'>
+                <MapsDataLabelSettings Visible="@DatalabelVisible" LabelPath="name" SmartLabelMode="@DatalabelSmartLabelMode" IntersectionAction="@DatalabelInterSectAction"/>
+                <MapsShapeSettings Autofill="true"/>
+                <MapsLayerTooltipSettings Visible="true" ValuePath="name"/>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
 </div>
 <div class="col-lg-3 property-section">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
@@ -32,7 +29,7 @@
                             Show Labels
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@CheckBoxvalue" ValueChange="Showlabel"></SfCheckBox>
+                            <SfCheckBox Checked="@CheckBoxvalue" ValueChange="Showlabel" TChecked="bool"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -41,8 +38,8 @@
                         </td>
                         <td style="width: 50%">
                             <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@SmartLabelModeData" Value="@SmartLabelModeValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="SmartLabelValueChange"></DropDownListEvents>
-                                <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                                <DropDownListEvents TValue="string" ValueChange="SmartLabelValueChange"/>
+                                <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -52,8 +49,8 @@
                         </td>
                         <td style="width: 50%">
                             <SfDropDownList Placeholder="Select intersect action" DataSource="@IntersectactionData" Value="@IntersectActionDataValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="IntersectActionValueChange"></DropDownListEvents>
-                                <DropDownListFieldSettings Text="Name" value="Value"></DropDownListFieldSettings>
+                                <DropDownListEvents TValue="string" ValueChange="IntersectActionValueChange"/>
+                                <DropDownListFieldSettings Text="Name" value="Value"/>
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -70,72 +67,49 @@
     public IntersectAction DatalabelInterSectAction = IntersectAction.None;
     public string SmartLabelModeValue = "Trim";
     public string IntersectActionDataValue = "None";
-    public class IntersectValues
-    {
+    public class LabelIntersectValues {
         public string Value { get; set; }
         public string Name { get; set; }
     };
-    public List<IntersectValues> IntersectactionData = new List<IntersectValues> {
-        new IntersectValues { Value="None", Name="None" },
-        new IntersectValues { Value="Trim", Name="Trim" },
-        new IntersectValues { Value="Hide", Name="Hide" }
+    public List<LabelIntersectValues> IntersectactionData = new List<LabelIntersectValues> {
+        new LabelIntersectValues { Value="None", Name="None" },
+        new LabelIntersectValues { Value="Trim", Name="Trim" },
+        new LabelIntersectValues { Value="Hide", Name="Hide" }
     };
-    public class SmartValues
-    {
+    public class SmartLabelValues {
         public string Value { get; set; }
         public string Name { get; set; }
     };
-    public List<SmartValues> SmartLabelModeData = new List<SmartValues> {
-        new SmartValues { Value="Trim", Name="Trim" },
-        new SmartValues { Value="None", Name="None" },
-        new SmartValues { Value="Hide", Name="Hide" }
+    public List<SmartLabelValues> SmartLabelModeData = new List<SmartLabelValues> {
+        new SmartLabelValues { Value="Trim", Name="Trim" },
+        new SmartLabelValues { Value="None", Name="None" },
+        new SmartLabelValues { Value="Hide", Name="Hide" }
     };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
-    }
-    public MapDataSettings USA = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/usa.json",
-        type = "GET"
-    };
-    public void Showlabel(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    public void Showlabel(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         CheckBoxvalue = args.Checked;
         DatalabelVisible = args.Checked;
     }
-    public void SmartLabelValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
+    public void SmartLabelValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
         SmartLabelModeValue = args.Value;
-        if (args.Value == "None")
-        {
+        if (args.Value == "None") {
             DatalabelSmartLabelMode = SmartLabelMode.None;
         }
-        else if (args.Value == "Hide")
-        {
+        else if (args.Value == "Hide") {
             DatalabelSmartLabelMode = SmartLabelMode.Hide;
         }
-        else
-        {
+        else {
             DatalabelSmartLabelMode = SmartLabelMode.Trim;
         }
     }
-    public void IntersectActionValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
+    public void IntersectActionValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
         IntersectActionDataValue = args.Value;
-        if (args.Value == "Trim")
-        {
+        if (args.Value == "Trim") {
             DatalabelInterSectAction = IntersectAction.Trim;
         }
-        else if (args.Value == "Hide")
-        {
+        else if (args.Value == "Hide") {
             DatalabelInterSectAction = IntersectAction.Hide;
         }
-        else
-        {
+        else {
             DatalabelInterSectAction = IntersectAction.None;
         }
     }

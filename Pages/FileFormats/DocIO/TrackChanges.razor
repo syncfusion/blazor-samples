@@ -1,0 +1,117 @@
+@page "/docio/track-changes"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+
+@using blazor_samples.Data.FileFormats.DocIO
+<div class="control-section">
+    <p style="font-weight:normal">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+    <div class="dropdown-control">
+        <table>
+            <tr class="row">
+                <td>
+                    <h5 class="row">Author Name : </h5>
+                </td>
+                <td>
+                    <div class="drop-control" style="margin-left:4px; width:175px">
+                        <SfDropDownList TItem="string" TValue="string" PopupHeight="230px" Placeholder="All" @bind-Value="@DropVal" DataSource="@Author">
+                            <DropDownListEvents TValue="string" ValueChange="onChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table>
+        <tr class="row">
+            <td colspan="4">
+                <SfRadioButton Label="Accepts all changes made by the author" Name="Accept" Value=@("AcceptBtn") Disabled="@disableRadio" @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+        <tr class="row">
+            <td colspan="4">
+                <SfRadioButton Label="Rejects all changes made by the author" Name="Reject" Value=@("RejectBtn") Disabled="@disableRadio" @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+        <tr class="row">
+            <td colspan="4">
+                <SfRadioButton Label="Accepts all the tracked changes in the Word document" Name="AcceptAll" Value=@("AcceptAllBtnt") @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+        <tr class="row">
+            <td colspan="4">
+                <SfRadioButton Label="Rejects all the tracked changes in the Word document" Name="RejectAll" Value=@("RejectAllBtn")  @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td colspan="4">
+                <div class="button-section">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+
+    public string DropVal { get; set; }
+
+    private List<string> Author = new List<string>() { "All", "Nancy Davolio", "Steven Buchanan", "Stanley Hudson", "Andrew Fuller" };
+
+    bool disableRadio = true;
+    MemoryStream documentStream;
+    string RevisionBtn = "AcceptAllBtnt";
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        int id = 0;
+        int.TryParse(DropVal, out id);
+        TrackChangesService service = new TrackChangesService();
+        documentStream = service.CreateWordDocument(id, RevisionBtn, "Generate Document");
+        await JS.SaveAs("Track Changes.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        TrackChangesService service = new TrackChangesService();
+        documentStream = service.CreateWordDocument(0, RevisionBtn, "View Template");
+        await JS.SaveAs("TrackChangesTemplate.docx", documentStream.ToArray());
+    }
+    private void onChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        //If all author selected disable the radio button, otherwise enabled
+        if (args.Value=="All")
+        {
+            disableRadio = true;
+            RevisionBtn = "AcceptAllBtnt";
+        }
+        else
+        {
+            RevisionBtn = "AcceptBtn";
+            disableRadio = false;
+        }
+    }
+}

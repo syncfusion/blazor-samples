@@ -13,6 +13,9 @@ using Syncfusion.Licensing;
 using Syncfusion.Blazor;
 using System.IO;
 using blazor_samples.Shared;
+using System.Globalization;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Localization;
 
 namespace blazor_samples
 {
@@ -35,9 +38,33 @@ namespace blazor_samples
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+
+            #region Localization
+            // Set the resx file folder path to access
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddSyncfusionBlazor(true);
+            // Register the Syncfusion locale service to customize the  SyncfusionBlazor component locale culture
+            services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(SyncfusionLocalizer));
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                // Define the list of cultures your app will support
+                var supportedCultures = new List<CultureInfo>()
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("de"),
+                new CultureInfo("fr-CH"),
+                new CultureInfo("zh")
+            };
+                // Set the default culture
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+            #endregion
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSyncfusionBlazor();
             services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
             services.AddServerSideBlazor().AddHubOptions(o =>
             {
@@ -49,6 +76,11 @@ namespace blazor_samples
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+		    #region Localization
+            app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value);
+
+            #endregion
+		    
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -67,6 +99,7 @@ namespace blazor_samples
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

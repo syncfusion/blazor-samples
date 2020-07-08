@@ -23,8 +23,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
         }
         public MemoryStream RTFtoDOC(string documentType, string Button)
         {
-            string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"\DocIO\RTFToDoc.rtf";
+            string basePath = @"wwwroot/";
+            string dataPath = basePath + @"/DocIO/RTFToDoc.rtf";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (Button == "View Template")
             {

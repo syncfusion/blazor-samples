@@ -3,24 +3,23 @@
 @using Syncfusion.Blazor.Diagrams
 @using Syncfusion.Blazor.Buttons
 @using System.Collections.ObjectModel
+
 @inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagram @ref="@Diagram" id="diagram" Width="100%" Height="690px" Nodes="@NodeCollection" Connectors="@ConnectorCollection" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefault">
+        <SfDiagram @ref="@Diagram" ID="diagram" Height="690px" Nodes="@NodeCollection" Connectors="@ConnectorCollection" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefault">
             <DiagramEvents SelectionChanged="@SelectionChange"></DiagramEvents>
             <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
             <DiagramPageSettings>
-                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
             </DiagramPageSettings>
-
         </SfDiagram>
     </div>
 </div>
 
 @*Hidden:Lines*@
 <div class="col-lg-3 property-section">
-
     <style>
 
         .image-pattern-style {
@@ -88,7 +87,6 @@
             display: block;
         }
     </style>
-
     <div class="property-panel-header">
         Properties
     </div>
@@ -97,12 +95,10 @@
             Apply To
         </div>
         <div class="row" style="padding-top: 8px">
-            <SfRadioButton @ref="@Radiobutton1" Label="All shapes" Name="NodeSelection" Value="All shapes" Checked="true"></SfRadioButton>
-
+             <SfRadioButton Label="All shapes" Name="NodeSelection" Value=@Value1 @bind-Checked="@CheckValue" TChecked="string"></SfRadioButton>
         </div>
         <div class="row" style="padding-top: 8px">
-            <SfRadioButton @ref="@Radiobutton2" Label="Selected Shapes" Name="NodeSelection" Value="Selected Shapes"></SfRadioButton>
-
+             <SfRadioButton Label="Selected Shapes" Name="NodeSelection" Value=@Value2 @bind-Checked="@CheckValue" TChecked="string"></SfRadioButton>
         </div>
         <div class="row row-header" style="padding-top: 10px;">
             Appearance
@@ -128,12 +124,12 @@
             Behavior
         </div>
         <div class="row" style="padding-top: 8px">
-            <SfCheckBox @ref="@AspectRatiocheckbox" ID="aspectRatio" Checked="@AspectRatioValue" Label="Aspect Ratio" ValueChange="@CheckBoxChanged">
+            <SfCheckBox @ref="@AspectRatiocheckbox" ID="aspectRatio" Checked="@AspectRatioValue" Label="Aspect Ratio" ValueChange="@CheckBoxChanged" TChecked="bool">
             </SfCheckBox>
 
         </div>
         <div class="row" style="padding-top: 8px">
-            <SfCheckBox @ref="@LockRatiocheckbox" ID="lock" Checked="@LockValue" Label="Lock" ValueChange="@LockChanged">
+            <SfCheckBox @ref="@LockRatiocheckbox" ID="lock" Checked="@LockValue" Label="Lock" ValueChange="@LockChanged" TChecked="bool">
             </SfCheckBox>
 
         </div>
@@ -141,20 +137,17 @@
 </div>
 @*End:Hidden*@
 
-@functions{
+@code{
     SfDiagram Diagram;
     bool AspectRatioValue = false;
     bool LockValue = false;
-    SfCheckBox AspectRatiocheckbox;
-    SfCheckBox LockRatiocheckbox;
-    SfRadioButton Radiobutton1;
-    SfRadioButton Radiobutton2;
+    private string CheckValue = "All shapes";
+    SfCheckBox<bool> AspectRatiocheckbox;
+    SfCheckBox<bool> LockRatiocheckbox;
     static string seleceditem = "image-pattern-style e-selected-style";
     static string unseleceditem = "image-pattern-style";
-
-    bool CanFit = true;
-    FitModes Mode = FitModes.Page;
-
+    private string Value1 = "All shapes";
+     private string Value2 = "Selected Shapes";
     Dictionary<string, string> dict = new Dictionary<string, string>() { { "preview0", unseleceditem }, { "preview1", unseleceditem }, { "preview2", unseleceditem }, { "preview3", unseleceditem }, { "preview4", unseleceditem } };
     DiagramConnector ConnectorDefault = new DiagramConnector()
     {
@@ -173,7 +166,7 @@
         },
         Constraints = NodeConstraints.Default,
         Annotations = new ObservableCollection<DiagramNodeAnnotation>()
-{
+        {
             new DiagramNodeAnnotation()
             {
                 Margin = new NodeAnnotationMargin(){Left=0,Right=0 }, Style = new AnnotationStyle()
@@ -188,7 +181,7 @@
     protected override void OnInitialized()
     {
         dict = new Dictionary<string, string>()
-{
+        {
             { "preview0", unseleceditem },
             { "preview1", unseleceditem },
             { "preview2", unseleceditem },
@@ -237,7 +230,7 @@
             Content = content,
         };
         node.Annotations = new ObservableCollection<DiagramNodeAnnotation>()
-{
+        {
             annotation
         };
         NodeCollection.Add(node);
@@ -269,7 +262,7 @@
     private void AppearanceSelect(string id)
     {
         Diagram.BeginUpdate();
-        if (Radiobutton1.Checked)
+        if (CheckValue == "All shapes")
         {
             for (var i = 0; i < Diagram.Nodes.Count; i++)
             {
@@ -277,11 +270,11 @@
             };
 
         }
-        if (Radiobutton2.Checked && Diagram.SelectedItems.Nodes.Count > 0)
+        if (CheckValue == "Selected Shapes" && Diagram.SelectedItems.Nodes.Count > 0)
         {
             for (var i = 0; i < Diagram.SelectedItems.Nodes.Count; i++)
             {
-                this.ApplyPreview(id, Diagram.SelectedItems.Nodes[i]);
+                this.ApplyPreview(id, Diagram.GetNode(Diagram.SelectedItems.Nodes[i].Id));
             }
         };
         Diagram.EndUpdate();
@@ -362,15 +355,15 @@
                 else
                 {
                     dict = new Dictionary<string, string>()
-{
-            { "preview0", unseleceditem },
-            { "preview1", unseleceditem },
-            { "preview2", unseleceditem },
-            { "preview3", unseleceditem },
-            { "preview4", unseleceditem },
-            { "preview5", unseleceditem },
+                    {
+                        { "preview0", unseleceditem },
+                        { "preview1", unseleceditem },
+                        { "preview2", unseleceditem },
+                        { "preview3", unseleceditem },
+                        { "preview4", unseleceditem },
+                        { "preview5", unseleceditem },
 
-        };
+                    };
                 }
             }
         }
@@ -399,7 +392,7 @@
                 Fx = 50,
                 Fy = 50,
                 Stops = new ObservableCollection<DiagramsGradientStop>()
-{
+                {
                     new DiagramsGradientStop() { Color = "#00555b", Offset = 45 },
                     new DiagramsGradientStop() { Color= "#37909A", Offset= 90 }
                 },
@@ -445,7 +438,7 @@
         StateHasChanged();
     }
 
-    private void UpdateAspectRatioValue(Syncfusion.Blazor.Buttons.ChangeEventArgs args, DiagramNode node)
+    private void UpdateAspectRatioValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, DiagramNode node)
     {
         if (AspectRatioValue)
         {
@@ -457,27 +450,27 @@
         }
     }
 
-    private void CheckBoxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    private void CheckBoxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         AspectRatioValue = args.Checked;
-        if (Radiobutton1.Checked)
+        if (CheckValue == "All shapes")
         {
             for (int i = 0; i < Diagram.Nodes.Count; i++)
             {
                 this.UpdateAspectRatioValue(args, Diagram.Nodes[i]);
             }
         }
-        if (Radiobutton2.Checked && Diagram.SelectedItems.Nodes.Count > 0)
+        if (CheckValue == "Selected Shapes" && Diagram.SelectedItems.Nodes.Count > 0)
         {
             for (var i = 0; i < Diagram.SelectedItems.Nodes.Count; i++)
             {
-                this.UpdateAspectRatioValue(args, Diagram.SelectedItems.Nodes[i]);
+                this.UpdateAspectRatioValue(args, Diagram.GetNode(Diagram.SelectedItems.Nodes[i].Id));
             }
         }
         StateHasChanged();
     }
 
-    private void updateLockValue(Syncfusion.Blazor.Buttons.ChangeEventArgs args, DiagramNode node)
+    private void updateLockValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, DiagramNode node)
     {
         if (args.Checked)
         {
@@ -490,21 +483,21 @@
         }
     }
 
-    private void LockChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    private void LockChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         LockValue = args.Checked;
-        if (Radiobutton1.Checked)
+        if (CheckValue == "All shapes")
         {
             for (int i = 0; i < Diagram.Nodes.Count; i++)
             {
                 this.updateLockValue(args, Diagram.Nodes[i]);
             }
         }
-        if (Radiobutton2.Checked && Diagram.SelectedItems.Nodes.Count > 0)
+        if (CheckValue == "Selected Shapes" && Diagram.SelectedItems.Nodes.Count > 0)
         {
             for (var i = 0; i < Diagram.SelectedItems.Nodes.Count; i++)
             {
-                this.updateLockValue(args, Diagram.SelectedItems.Nodes[i]);
+                this.updateLockValue(args, Diagram.GetNode(Diagram.SelectedItems.Nodes[i].Id));
             }
         }
     }

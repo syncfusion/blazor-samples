@@ -20,6 +20,7 @@ namespace ej2_blazor_selfdata
         public int? ParentID { get; set; }
         public bool? isParent { get; set; }
         public bool? Approved { get; set; }
+        public int? ParentItem { get; set;}
         public SelfReferenceData() { }
         public static List<SelfReferenceData> GetTree()
         {

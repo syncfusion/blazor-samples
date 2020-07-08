@@ -1,23 +1,26 @@
 ﻿@page "/tree-grid/keyboard-interaction"
 
 @using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
 
 @*Hidden:Lines*@
 @using blazor_samples
-@using ej2_blazor_wrapdata
+@using ej2_blazor_selfdata
 @inherits SampleBaseComponent;
 @*End:Hidden*@
 
 <div class="col-lg-8 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfTreeGrid DataSource="@TreeData" IdMapping="TaskId" ParentIdMapping="ParentId" TreeColumnIndex="1" Height="894">
-                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Row"></TreeGridEditSettings>
+            <SfTreeGrid DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" AllowPaging="true" TreeColumnIndex="1" AllowSelection="true">
+                <TreeGridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Multiple" Mode="Syncfusion.Blazor.Grids.SelectionMode.Row"></TreeGridSelectionSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.TreeGrid.EditMode.Row"></TreeGridEditSettings>
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" Width="80" IsPrimaryKey="true" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="165"></TreeGridColumn>
-                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type=Syncfusion.Blazor.Grids.ColumnType.Date Width="100" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" EditType=Syncfusion.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
-                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="80" ValidationRules="@(new ValidationRules() { Required = true, Number = true })" IsPrimaryKey="true" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" ValidationRules="@(new ValidationRules() { Required = true })" Width="165"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type=Syncfusion.Blazor.Grids.ColumnType.Date Width="100" ValidationRules="@(new ValidationRules() { Required = true })" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" Edit="@( new { @params= new { format ="M/d/y hh:mm a" } })" EditType=Syncfusion.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" ValidationRules="@(new ValidationRules() { Number = true, Min = 0 })" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
                 </TreeGridColumns>
             </SfTreeGrid>
         </div>
@@ -92,38 +95,6 @@
         </tr>
         <tr style="height:50px;">
             <td style="width: 50%">
-                <b>Ctrl + Home</b>
-            </td>
-            <td style="width: 50%">
-                First row selection
-            </td>
-        </tr>
-        <tr style="height:50px;">
-            <td style="width: 50%">
-                <b>Ctrl + End</b>
-            </td>
-            <td style="width: 50%">
-                Last row selection
-            </td>
-        </tr>
-        <tr style="height:50px;">
-            <td style="width: 50%">
-                <b>Home</b>
-            </td>
-            <td style="width: 50%">
-                First cell selection
-            </td>
-        </tr>
-        <tr style="height:50px;">
-            <td style="width: 50%">
-                <b>End</b>
-            </td>
-            <td style="width: 50%">
-                Last cell selection
-            </td>
-        </tr>
-        <tr style="height:50px;">
-            <td style="width: 50%">
                 <b>Up Arrow</b>
             </td>
             <td style="width: 50%">
@@ -162,22 +133,14 @@
                 Multiple row Selection
             </td>
         </tr>
-        <tr style="height:50px;">
-            <td style="width: 50%">
-                <b>Ctrl + j</b>
-            </td>
-            <td style="width: 50%">
-                Focus TreeGrid element
-            </td>
-        </tr>
     </table>
 </div>
 
 @code {
-    public List<WrapData> TreeData { get; set; }
+    public List<SelfReferenceData> TreeData { get; set; }
 
     protected override void OnInitialized()
     {
-        this.TreeData = WrapData.GetWrapData().ToList();
+        this.TreeData = SelfReferenceData.GetTree().ToList();
     }
 }

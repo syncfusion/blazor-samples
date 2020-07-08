@@ -1,0 +1,129 @@
+@page "/scheduler/context-menu"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Navigations
+@inherits SampleBaseComponent;
+<div class="col-lg-12 control-section">
+    <div class="schedule-wrapper">
+        <SfSchedule TValue="ScheduleData.ContextEventsData" @ref="ScheduleRef" Height="650px" @bind-SelectedDate="@SelectedDate">
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+        <SfContextMenu TValue="ContextMenuItem" @ref="ContextMenuObj" CssClass="schedule-context-menu" Target=".e-schedule">
+            <ContextMenuItems>
+                <ContextMenuItem Text="New Event" IconCss="e-icons new" Id="Add"></ContextMenuItem>
+                <ContextMenuItem Text="New Recurring Event" IconCss="e-icons recurrence" Id="AddRecurrence"></ContextMenuItem>
+                <ContextMenuItem Text="Today" IconCss="e-icons today" Id="Today"></ContextMenuItem>
+                <ContextMenuItem Text="Edit Event" IconCss="e-icons edit" Id="Save"></ContextMenuItem>
+                <ContextMenuItem Text="Edit Event" IconCss="e-icons edit" Id="EditRecurrenceEvent">
+                    <ContextMenuItems>
+                        <ContextMenuItem Text="Edit Occurrence" Id="EditOccurrence"></ContextMenuItem>
+                        <ContextMenuItem Text="Edit Series" Id="EditSeries"></ContextMenuItem>
+                    </ContextMenuItems>
+                </ContextMenuItem>
+                <ContextMenuItem Text="Delete Event" IconCss="e-icons delete" Id="Delete"></ContextMenuItem>
+                <ContextMenuItem Text="Delete Event" IconCss="e-icons delete" Id="DeleteRecurrenceEvent">
+                    <ContextMenuItems>
+                        <ContextMenuItem Text="Delete Occurrence" Id="DeleteOccurrence"></ContextMenuItem>
+                        <ContextMenuItem Text="Delete Series" Id="DeleteSeries"></ContextMenuItem>
+                    </ContextMenuItems>
+                </ContextMenuItem>
+            </ContextMenuItems>
+            <ContextMenuEvents TValue="ContextMenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></ContextMenuEvents>
+        </SfContextMenu>
+    </div>
+</div>
+
+@code{
+    private DateTime SelectedDate = new DateTime(2020, 1, 8);
+    SfSchedule<ScheduleData.ContextEventsData> ScheduleRef;
+    SfContextMenu<ContextMenuItem> ContextMenuObj;
+    public ScheduleData.ContextEventsData EventData { get; set; }
+    public CellClickEventArgs TargetCell { get; set; }
+    public List<ScheduleData.ContextEventsData> DataSource = new ScheduleData().GetContextEventData();
+    public async Task OnOpen(BeforeOpenCloseMenuEventArgs<ContextMenuItem> args)
+    {
+        if (args.ParentItem == null)
+        {
+            string Selector = ".e-appointment,.e-work-cells," +
+            ".e-vertical-view .e-date-header-wrap .e-all-day-cells,.e-vertical-view .e-date-header-wrap .e-header-cells";
+            var Element = await ScheduleRef.GetTargetElement(Selector, (double)args.Left, (double)args.Top);
+            if (Element != null)
+            {
+                TargetCell = await ScheduleRef.GetCellDetails(Element);
+                if (TargetCell == null)
+                {
+                    EventData = await ScheduleRef.GetEventDetails(Element);
+                    if (EventData.RecurrenceRule != null)
+                    {
+                        ContextMenuObj.ShowItems(new List<string> { "EditRecurrenceEvent", "DeleteRecurrenceEvent" }, true);
+                        ContextMenuObj.HideItems(new List<string> { "Add", "AddRecurrence", "Today", "Save", "Delete" }, true);
+                    }
+                    else
+                    {
+                        ContextMenuObj.ShowItems(new List<string> { "Save", "Delete" }, true);
+                        ContextMenuObj.HideItems(new List<string> { "Add", "AddRecurrence", "Today", "EditRecurrenceEvent", "DeleteRecurrenceEvent" }, true);
+                    }
+                }
+                else
+                {
+                    ContextMenuObj.ShowItems(new List<string> { "Add", "AddRecurrence", "Today" }, true);
+                    ContextMenuObj.HideItems(new List<string> { "Save", "Delete", "EditRecurrenceEvent", "DeleteRecurrenceEvent" }, true);
+                }
+            }
+            else
+            {
+                args.Cancel = true;
+            }
+        }
+    }
+    public async Task OnItemSelected(MenuEventArgs<ContextMenuItem> args)
+    {
+        var SelectedMenuItem = args.Item.Id;
+        var ActiveCellsData = TargetCell;
+        var SelectedCells = await ScheduleRef.GetSelectedElements();
+        if (SelectedCells.Count > 0)
+        {
+            ActiveCellsData = await ScheduleRef.GetCellDetails(SelectedCells);
+        }
+        switch (SelectedMenuItem)
+        {
+            case "Today":
+                SelectedDate = DateTime.Now;
+                break;
+
+            case "Add":
+                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add);
+                break;
+
+            case "AddRecurrence":
+                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add, null, 1);
+                break;
+
+            case "Save":
+                await ScheduleRef.OpenEditor(EventData, CurrentAction.Save);
+                break;
+
+            case "EditOccurrence":
+                await ScheduleRef.OpenEditor(EventData, CurrentAction.EditOccurrence);
+                break;
+
+            case "EditSeries":
+                List<ScheduleData.ContextEventsData> Events = await ScheduleRef.GetEvents();
+                EventData = (ScheduleData.ContextEventsData)Events.Where(data => data.Id == EventData.RecurrenceID).FirstOrDefault();
+                await ScheduleRef.OpenEditor(EventData, CurrentAction.EditSeries);
+                break;
+
+            case "Delete":
+                await ScheduleRef.DeleteEvent(EventData);
+                break;
+
+            case "DeleteOccurrence":
+                await ScheduleRef.DeleteEvent(EventData, CurrentAction.DeleteOccurrence);
+                break;
+
+            case "DeleteSeries":
+                await ScheduleRef.DeleteEvent(EventData, CurrentAction.DeleteSeries);
+                break;
+        }
+    }
+}

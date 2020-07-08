@@ -7,53 +7,49 @@
 
 
 <div class="col-lg-9 control-section sb-property-border">
-    <div>
-        <SfTreeMap WeightValuePath="GDP" DataSource="@Economics" RangeColorValuePath="GDP" TValue="Data" LayoutType="@LayoutModes" RenderDirection="@RenderMode">
-            <TreeMapTitleSettings Text="Top 10 countries by GDP Nominal - 2015">
-                <TreeMapTitleTextStyle Size="15px"></TreeMapTitleTextStyle>
-            </TreeMapTitleSettings>
-            <TreeMapTooltipSettings Visible="true" Format="${State}<br>Rank : ${Rank}"></TreeMapTooltipSettings>
-            <TreeMapLeafItemSettings LabelPath="State" LabelFormat="${State}<br>$${GDP} Trillion<br>(${percentage} %)">
-                <TreeMapLeafColorMappings>
-                    <TreeMapLeafColorMapping From="1550" To="17946" Color='@("#9cbb59")' MinOpacity="0.7" MaxOpacity="1"></TreeMapLeafColorMapping>
-                </TreeMapLeafColorMappings>
-                <TreeMapLeafLabelStyle Color="#000000"></TreeMapLeafLabelStyle>
-                <TreeMapLeafBorder Color="#000000" Width="0.5"></TreeMapLeafBorder>
-            </TreeMapLeafItemSettings>
-        </SfTreeMap>
-    </div>
-    <div style="float: right; margin-right: 10px;">
+    <SfTreeMap WeightValuePath="GDP" DataSource="@Economics" RangeColorValuePath="GDP" TValue="LeafData" LayoutType="@LayoutModes" RenderDirection="@RenderMode">
+        <TreeMapTitleSettings Text="Top 10 countries by GDP Nominal - 2015">
+            <TreeMapTitleTextStyle Size="15px"/>
+        </TreeMapTitleSettings>
+        <TreeMapTooltipSettings Visible="true" Format="${State}<br>Rank : ${Rank}"/>
+        <TreeMapLeafItemSettings LabelPath="State" LabelFormat="${State}<br>$${GDP} Trillion<br>(${Percentage} %)">
+            <TreeMapLeafColorMappings>
+                <TreeMapLeafColorMapping From="1550" To="17946" Color="@LeafColor" MinOpacity="0.7" MaxOpacity="1"/>
+            </TreeMapLeafColorMappings>
+            <TreeMapLeafLabelStyle Color="#000000"/>
+            <TreeMapLeafBorder Color="#000000" Width="0.5"/>
+        </TreeMapLeafItemSettings>
+    </SfTreeMap>
+    <div class="urllink">
         Source:
         <a href=" https://www.reinisfischer.com/top-10-largest-economies-world-gdp-nominal-2015" target="_blank">www.reinisfischer.com</a>
     </div>
 </div>
 <div class="col-lg-3 property-section">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
             <table style="width:100%" title="Properties">
                 <tbody>
-
-                    <tr style="height: 35px">
-                        <td style="width: 70%" class="property-text">
+                    <tr>
+                        <td>
                             Layout Type
                         </td>
-                        <td style="width: 50%">
-                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LayoutList" Value="@layoutValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="LayoutTypechange"></DropDownListEvents>
-                                <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                        <td>
+                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LayoutList" Value="@LayoutValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="LayoutTypechange"/>
+                                <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
                     </tr>
-                    <tr style="height: 35px">
-                        <td style="width: 70%" class="property-text">
+                    <tr>
+                        <td>
                             Render Direction
                         </td>
-                        <td style="width: 50%">
-                            <SfDropDownList Placeholder="Select intersect action" DataSource="@RenderingList" Value="@renderValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="RenderDirectionchange"></DropDownListEvents>
-                                <DropDownListFieldSettings text="Name" value="Value"></DropDownListFieldSettings>
+                        <td>
+                            <SfDropDownList Placeholder="Select intersect action" DataSource="@RenderingList" Value="@RenderValue" Width="120px">
+                                <DropDownListEvents TValue="string" ValueChange="RenderDirectionchange"/>
+                                <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -62,14 +58,21 @@
         </div>
     </div>
 </div>
-
+<style>
+    tr {
+        height:40px;
+    }
+    td {
+        width: 50%
+    }
+</style>
 @code {
     public LayoutMode LayoutModes = LayoutMode.Squarified;
+    public string LeafColor = "#9cbb59"; 
     public RenderingMode RenderMode = RenderingMode.TopLeftBottomRight;
-    public string layoutValue = "Squarified";
-    public string renderValue = "TopLeftBottomRight";
-    public class DropdownList
-    {
+    public string LayoutValue = "Squarified";
+    public string RenderValue = "TopLeftBottomRight";
+    public class DropdownList {
         public string Value { get; set; }
         public string Name { get; set; }
     };
@@ -85,66 +88,52 @@
         new DropdownList { Value="BottomLeftTopRight", Name="BottomLeftTopRight" },
         new DropdownList { Value="BottomRightTopLeft", Name="BottomRightTopLeft" }
     };
-    public void LayoutTypechange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
-        layoutValue = args.Value;
-        if (args.Value == "Squarified")
-        {
+    private void LayoutTypechange(ChangeEventArgs<string> args) {
+        LayoutValue = args.Value;
+        if (args.Value == "Squarified") {
             LayoutModes = LayoutMode.Squarified;
         }
-        else if (args.Value == "SliceAndDiceHorizontal")
-        {
+        else if (args.Value == "SliceAndDiceHorizontal") {
             LayoutModes = LayoutMode.SliceAndDiceHorizontal;
         }
-        else if (args.Value == "SliceAndDiceVertical")
-        {
+        else if (args.Value == "SliceAndDiceVertical") {
             LayoutModes = LayoutMode.SliceAndDiceVertical;
         }
-        else
-        {
+        else {
             LayoutModes = LayoutMode.SliceAndDiceAuto;
         }
     }
-
-    public void RenderDirectionchange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
-        renderValue = args.Value;
-        if (args.Value == "TopLeftBottomRight")
-        {
+    private void RenderDirectionchange(ChangeEventArgs<string> args) {
+        RenderValue = args.Value;
+        if (args.Value == "TopLeftBottomRight") {
             RenderMode = RenderingMode.TopLeftBottomRight;
         }
-        else if (args.Value == "BottomLeftTopRight")
-        {
+        else if (args.Value == "BottomLeftTopRight") {
             RenderMode = RenderingMode.BottomLeftTopRight;
         }
-        else if (args.Value == "BottomRightTopLeft")
-        {
+        else if (args.Value == "BottomRightTopLeft") {
             RenderMode = RenderingMode.BottomRightTopLeft;
         }
-        else
-        {
+        else {
             RenderMode = RenderingMode.TopRightBottomLeft;
         }
     }
-
-    public class Data
-    {
+    public class LeafData {
         public string State;
-        public double GDP;
-        public double percentage;
-        public double Rank;
+        public int GDP;
+        public double Percentage;
+        public int Rank;
     };
-    public List<Data> Economics = new List<Data>
-{
-        new Data { State="United States", GDP=17946, percentage=11.08, Rank=1},
-        new Data { State="China", GDP=10866, percentage=28.42, Rank=2 },
-        new Data { State="Japan", GDP=4123, percentage=-30.78, Rank=3},
-        new Data { State="Germany", GDP=3355, percentage=-5.19, Rank=4},
-        new Data { State="United Kingdom", GDP=2848, percentage=8.28, Rank=5 },
-        new Data { State="France", GDP=2421, percentage=-9.69, Rank=6 },
-        new Data { State="India", GDP=2073, percentage=13.65, Rank=7 },
-        new Data { State="Italy", GDP=1814, percentage=-12.45, Rank=8 },
-        new Data { State="Brazil", GDP=1774, percentage=-27.88, Rank=9 },
-        new Data { State="Canada", GDP=1550, percentage=-15.02, Rank=10 }
+    public List<LeafData> Economics = new List<LeafData> {
+        new LeafData { State="United States", GDP=17946, Percentage=11.08, Rank=1},
+        new LeafData { State="China", GDP=10866, Percentage=28.42, Rank=2 },
+        new LeafData { State="Japan", GDP=4123, Percentage=-30.78, Rank=3},
+        new LeafData { State="Germany", GDP=3355, Percentage=-5.19, Rank=4},
+        new LeafData { State="United Kingdom", GDP=2848, Percentage=8.28, Rank=5 },
+        new LeafData { State="France", GDP=2421, Percentage=-9.69, Rank=6 },
+        new LeafData { State="India", GDP=2073, Percentage=13.65, Rank=7 },
+        new LeafData { State="Italy", GDP=1814, Percentage=-12.45, Rank=8 },
+        new LeafData { State="Brazil", GDP=1774, Percentage=-27.88, Rank=9 },
+        new LeafData { State="Canada", GDP=1550, Percentage=-15.02, Rank=10 }
     };
 }

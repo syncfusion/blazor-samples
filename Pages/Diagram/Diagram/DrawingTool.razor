@@ -1,11 +1,8 @@
 ﻿@page "/diagram/drawing-tool"
 
 @using Syncfusion.Blazor.Diagrams
-@using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.DropDowns
-@using Newtonsoft.Json
+
 @inherits SampleBaseComponent;
 @using DiagramShapes = Syncfusion.Blazor.Diagrams.Shapes
 
@@ -83,7 +80,6 @@
 <div class="col-lg-8 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
         <SfDiagram ID="diagram1" @ref="@Diagram" Width="100%" Height="540px" DrawingObject="@Drawingobject" Tool="@Tool">
-
             <DiagramSnapSettings Constraints="SnapConstraints.ShowLines"></DiagramSnapSettings>
             <DiagramRulerSettings ShowRulers="true" DynamicGrid="true"></DiagramRulerSettings>
         </SfDiagram>
@@ -134,13 +130,13 @@
             </div>
         </div>
         <div class="row" style="padding-top: 10px">
-            <SfCheckBox ID="checked" @ref="@CheckBox" Checked="@checkboxvalue" Label="Continuous Draw" OnChange="@OnChangeData" />
+            <SfCheckBox ID="checked" @ref="@CheckBox" Checked="@checkboxvalue" Label="Continuous Draw" ValueChange="@OnChangeData" TChecked="bool" />
         </div>
     </div>
 </div>
 @*End:Hidden*@
 
-@functions
+@code
 {
     const string defaultCssClass = "image-pattern-style";
     const string selectedCssClass = "image-pattern-style e-selected-style";
@@ -149,7 +145,7 @@
 
     // Reference to diagram
     SfDiagram Diagram;
-    SfCheckBox CheckBox;
+    SfCheckBox<bool> CheckBox;
     bool checkboxvalue = true;
 
     public Dictionary<string, string> CssClass { get; set; }
@@ -161,7 +157,7 @@
     protected override void OnInitialized()
     {
         CssClass = new Dictionary<string, string>()
-{
+        {
             { "Rectangle", selectedCssClass },
             { "Ellipse", defaultCssClass },
             { "Hexagon", defaultCssClass },
@@ -243,14 +239,12 @@
         selectedType = objectType;
         CssClass[selectedType] = selectedCssClass;
         Tool = checkboxvalue ? DiagramTools.ContinuousDraw : DiagramTools.DrawOnce;
-        Diagram.DataBind();
         StateHasChanged();
     }
 
-    public void OnChangeData()
+    public void OnChangeData(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         checkboxvalue = CheckBox.Checked;
         Tool = (CheckBox.Checked) ? DiagramTools.ContinuousDraw : DiagramTools.DrawOnce;
-        Diagram.DataBind();
     }
 }

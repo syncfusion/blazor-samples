@@ -5,52 +5,40 @@
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <div>
-        <SfMaps>
-			<MapsEvents TooltipRendering="OnTooltipRendering"></MapsEvents>
-            <MapsTitleSettings Text="Finalist in Cricket World Cup">
-                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
-            </MapsTitleSettings>
-            <MapsZoomSettings Enable="false"></MapsZoomSettings>
-            <MapsLegendSettings Visible="true"
-                                Mode="Syncfusion.Blazor.Maps.LegendMode.Interactive" Position='Syncfusion.Blazor.Maps.LegendPosition.Left'
-                                Orientation="Syncfusion.Blazor.Maps.LegendArrangement.Vertical" Height='70%' Width='10'>
-            </MapsLegendSettings>
-            <MapsLayers>
-                <MapsLayer ShapeData='@MapShapeData' DataSource='@PerformanceReport'
-                           ShapePropertyPath='@("name")' ShapeDataPath="Name">
-                    <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}"></MapsLayerTooltipSettings>
-                    <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Winner">
-                        <MapsShapeColorMappings>
-                            <MapsShapeColorMapping Value="1" Color='@("#b3daff")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping Value="2" Color='@("#80c1ff")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping Value="3" Color='@("#1a90ff")'></MapsShapeColorMapping>
-                            <MapsShapeColorMapping Value="7" Color='@("#005cb3")'></MapsShapeColorMapping>
-                        </MapsShapeColorMappings>
-                    </MapsShapeSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
-    <div style="float: right; margin-right: 10px;">
+    <SfMaps>
+        <MapsEvents TooltipRendering="OnTooltipRendering"/>
+        <MapsTitleSettings Text="Finalist in Cricket World Cup">
+            <MapsTitleTextStyle Size="16px"/>
+        </MapsTitleSettings>
+        <MapsZoomSettings Enable="false"/>
+        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Left" Orientation="LegendArrangement.Vertical" Height="70%" Width="10"/>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/WorldMap.json"}' DataSource="@PerformanceReport"
+                        ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name">
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}"/>
+                <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Winner">
+                    <MapsShapeColorMappings>
+                        <MapsShapeColorMapping Value="1" Color="@ShapeColorOne"/>
+                        <MapsShapeColorMapping Value="2" Color="@ShapeColorTwo"/>
+                        <MapsShapeColorMapping Value="3" Color="@ShapeColorThree"/>
+                        <MapsShapeColorMapping Value="7" Color="@ShapeColorFour"/>
+                    </MapsShapeColorMappings>
+                </MapsShapeSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
         Source:
         <a href="https://en.wikipedia.org/wiki/List_of_Cricket_World_Cup_finals" target="_blank">en.wikipedia.org</a>
     </div>
 </div>
 
 @code {
-    public MapDataSettings MapShapeData = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/WorldMap.json",
-        type = "GET"
-    };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
-    };
+    public string ShapePropertyPath = "name";
+    public string ShapeColorOne = "#b3daff";
+    public string ShapeColorTwo = "#80c1ff";
+    public string ShapeColorThree = "#1a90ff";
+    public string ShapeColorFour = "#005cb3";
     public List<Country> PerformanceReport = new List<Country> {
         new Country { Name="India", Winner="3", Runner="2", City="India" },
         new Country { Name="Dominican Rep.", Winner="3", Runner="2", City="West Indies" },
@@ -66,17 +54,14 @@
         new Country { Name="new  Zealand", Winner="1", Runner="0", City="new  Zealand" },
         new Country { Name="Australia", Winner="7", Runner="5", City="Australia" }
     };
-    public class Country
-    {
+    public class Country {
         public string Name;
         public string Winner;
         public string Runner;
         public string City;
     }
-	public void OnTooltipRendering(Syncfusion.Blazor.Maps.ITooltipRenderEventArgs args)
-    {
-        if (args.Data == null)
-        {
+    public void OnTooltipRendering(Syncfusion.Blazor.Maps.ITooltipRenderEventArgs args) {
+        if (args.Data == null) {
             args.Cancel = true;
         }
     }

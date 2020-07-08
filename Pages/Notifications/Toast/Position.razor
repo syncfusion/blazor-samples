@@ -7,25 +7,23 @@
 @using Syncfusion.Blazor.Inputs
 
 @inherits SampleBaseComponent;
-
 <div class="col-lg-12 control-section toast-pos-section">
     <div class="control_wrapper" id="toast_pos_target">
         <SfToast @ref="ToastObj" Content="@ToastContent" Width="@ToastWidth" Title="@ToastTitle" Target="@ToastTarget" Icon="e-laura">
             <ToastPosition X="@Xvalue" Y="@Yvalue"></ToastPosition>
         </SfToast>
-
         <div id="toast_pos_property">
             <table style="width: 100%">
                 <tbody>
                     <tr>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton Label="Position" Name="toastPos" Value="Position" @bind-Checked="@Checked2" ValueChange="@CheckboxChange"></SfRadioButton>
+                                <SfRadioButton Label="Position" Name="toastPos" Value="Position" @bind-Checked="@Checked2" ValueChange="@CheckboxChange" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton Label="Custom" Name="toastPos" Value="Custom" ValueChange="@CheckboxChange1"></SfRadioButton>
+                                <SfRadioButton Label="Custom" Name="toastPos" Value="Custom"  @bind-Checked="@checkedCustom" ValueChange="@CheckboxChange1" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                     </tr>
@@ -36,7 +34,6 @@
                                     <DropDownListEvents TValue="string" ValueChange="@OnChangeHandler"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
                                 </SfDropDownList>
-
                             </div>
                         </td>
                         <td colspan="1" id="customChoose">
@@ -55,12 +52,12 @@
                     <tr>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton id="radio1" Label="Target" Name="toast" Value="Target" ValueChange="@CheckboxChange2"></SfRadioButton>
+                                <SfRadioButton id="radio1" Label="Target" Name="toast" Value="Target" @bind-Checked="@targetChecked" ValueChange="@CheckboxChange2" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton id="radio2" Label="Global" Name="toast" Value="Global" @bind-Checked="@Checked" ValueChange="@CheckboxChange3"></SfRadioButton>
+                                <SfRadioButton id="radio2" Label="Global" Name="toast" Value="Global" @bind-Checked="@Checked" ValueChange="@CheckboxChange3" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                     </tr>
@@ -73,7 +70,6 @@
         </div>
     </div>
 </div>
-
 <style>
     #toast_pos_property td {
         width: 50%;
@@ -103,13 +99,11 @@
         margin: auto;
     }
 </style>
-
 @code {
     SfToast ToastObj;
     SfTextBox TextboxObj;
     SfTextBox TextboxObj2;
     SfDropDownList<string, Positions> DropdownObj;
-
     private string ToastTarget { get; set; }
     private string Xvalue { get; set; } = "50";
     private string Yvalue { get; set; } = "50";
@@ -121,19 +115,19 @@
     private string ToastWidth { get; set; }
     private string ToastContent { get; set; } = "You have a friend request yet to accept";
     private string ToastTitle { get; set; } = "Matt sent you a friend request";
-    private bool Checked { get; set; } = true;
-    private bool Checked2 { get; set; } = true;
+    private string Checked { get; set; } = "Global";
+    private string Checked2 { get; set; } = "Position";
     private string PositionX { get; set; } = "Left";
+    private string checkedCustom { get; set; } = "Custom";
+    private string targetChecked { get; set; } = "Target";
     private string PositionY { get; set; } = "Top";
-
     public class Positions
     {
         public string value { get; set; }
         public string text { get; set; }
     }
-
     private List<Positions> Positioning = new List<Positions>()
-    {
+{
         new Positions(){ value= "topleft", text= "Top Left" },
         new Positions(){ value= "topright", text= "Top Right" },
         new Positions(){ value= "topcenter", text= "Top Center" },
@@ -143,12 +137,10 @@
         new Positions(){ value= "bottomcenter", text= "Bottom Center" },
         new Positions(){ value= "bottomfullwidth", text= "Bottom Full Width" }
     };
-
     private async Task HideToast()
     {
         await this.ToastObj.Hide("All");
     }
-
     private async Task OnChangeHandler(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> arg)
     {
         await this.HideToast();
@@ -176,7 +168,6 @@
         this.PositionY = this.Yvalue;
         this.StateHasChanged();
     }
-
     private async Task OnBtnClicked()
     {
         if (this.CustomFlag)
@@ -189,8 +180,7 @@
             await this.ToastObj.Show();
         }
     }
-
-    private async Task CheckboxChange(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+    private async Task CheckboxChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.CustomFlag = false;
@@ -200,8 +190,7 @@
         this.Yvalue = this.PositionY;
         this.StateHasChanged();
     }
-
-    private async Task CheckboxChange1(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+    private async Task CheckboxChange1(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.CustomFlag = true;
@@ -209,21 +198,18 @@
         this.DropdownEnable = false;
         this.StateHasChanged();
     }
-
-    private async Task CheckboxChange2(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+    private async Task CheckboxChange2(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.ToastTarget = "#toast_pos_target";
         this.StateHasChanged();
     }
-
-    private async Task CheckboxChange3(Syncfusion.Blazor.Buttons.ChangeArgs arg)
+    private async Task CheckboxChange3(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.ToastTarget = "body";
         this.StateHasChanged();
     }
-
     private async Task SetCustomPosValue()
     {
         this.Xvalue = this.TextboxObj.Value;

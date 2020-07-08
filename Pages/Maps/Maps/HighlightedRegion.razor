@@ -9,149 +9,118 @@
         <img src="styles/images/maps/atm.jpg" style="width:25px;height:25px;float:left">
         <div style="padding-left:30px;font-size:18px;font-weight:400;">ATM locations in Oklahoma, USA</div>
     </div>
-    <div>
-        <SfMaps  ModelType="@typeof(IDataTemplate)">
-            <MapsCenterPosition Latitude="35.65" Longitude="-97.3"></MapsCenterPosition>
-            <MapsZoomSettings Enable="false" ZoomFactor="1.75"></MapsZoomSettings>
-            <MapsLayers>
-                <MapsLayer ShapeData="@MapShapeData">
-                    <MapsShapeSettings Fill="#F5F5F5">
-                        <MapsShapeBorder Color="#EEDA97" Width="1"></MapsShapeBorder>
-                    </MapsShapeSettings>
-                    <MapsMarkerSettings>
-                        <MapsMarker Width="20" Height="20" AnimationDuration="0" Visible="true" Shape="MarkerType.Image" ImageUrl="styles/images/maps/ballon.png" Fill="#000080" DataSource="@AtmMarkerData">
-                            <MapsMarkerBorder Color="transparent"></MapsMarkerBorder>
-                        </MapsMarker>
-                        <MapsMarker Width="130" Height="130" AnimationDuration="0" Visible="true" Shape="MarkerType.Circle" Fill="rgba(70,130,180,0.3)" DataSource="@MarkerAtmGroup">
-                            <MapsMarkerBorder Color="transparent"></MapsMarkerBorder>
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="text"></MapsMarkerTooltipSettings>
-                        </MapsMarker>
-                        <MapsMarker Width="100" Height="100" AnimationDuration="0" Visible="true" Shape="MarkerType.Circle" Fill="rgba(70,130,180,0.3)" DataSource="@AtmMarkerGroup">
-                            <MapsMarkerBorder Color="transparent"></MapsMarkerBorder>
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="text"></MapsMarkerTooltipSettings>
-                        </MapsMarker>
-                        <MapsMarker Visible="true" DataSource="MarkerAtmData">
-                            <MarkerTemplate>
-                                @{
-                                    var data = context as IDataTemplate;
-                                    <div style="margin-left:0px;margin-top:0px">@data.Name</div>
-                                }
-                            </MarkerTemplate>
-                        </MapsMarker>
-                    </MapsMarkerSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
-    <div style="float: right; margin-right: 10px;">
+    <SfMaps ModelType="@typeof(IDataTemplate)">
+        <MapsCenterPosition Latitude="35.65" Longitude="-97.3"/>
+        <MapsZoomSettings Enable="false" ZoomFactor="1.75"/>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/oklahoma.json"}'>
+                <MapsShapeSettings Fill="#F5F5F5">
+                    <MapsShapeBorder Color="#EEDA97" Width="1"/>
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Width="20" Height="20" Visible="true" Shape="MarkerType.Image" ImageUrl="styles/images/maps/ballon.png" Fill="#000080" DataSource="@AtmMarkerData">
+                        <MapsMarkerBorder Color="transparent"/>
+                    </MapsMarker>
+                    <MapsMarker Width="130" Height="130" Visible="true" Shape="MarkerType.Circle" Fill="#4682b4" DataSource="@MarkerAtmGroup" Opacity="0.4">
+                        <MapsMarkerBorder Color="transparent"/>
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Text"/>
+                    </MapsMarker>
+                    <MapsMarker Width="100" Height="100" Visible="true" Shape="MarkerType.Circle" Fill="#4682b4" DataSource="@AtmMarkerGroup" Opacity="0.4">
+                        <MapsMarkerBorder Color="transparent"/>
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Text"/>
+                    </MapsMarker>
+                    <MapsMarker Visible="true" DataSource="MarkerAtmData">
+                        <MarkerTemplate>
+                            @{
+                                var Data = context as IDataTemplate;
+                                <div style="margin-left:0px;margin-top:0px">@Data.Name</div>
+                            }
+                        </MarkerTemplate>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>    
+    <div class="urllink">
         Source:
         <a href="https://www.google.co.in/maps/search/atm+in+oklahoma/35.3864432,-98.2888719,8z/data=!3m1!4b1" target="_blank">www.google.co.in/maps</a>
     </div>
 </div>
-
 @code {
-
-    public MapDataSettings MapShapeData = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/oklahoma.js",
-        type = "GET"
+    public class Marker {
+        public double Latitude;
+        public double Longitude;
+        public string Name;
+    }
+    public class MarkerData {
+        public double Latitude;
+        public double Longitude;
     };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
+    public class MarkerGroup {
+        public double Latitude;
+        public double Longitude;
+        public string Text;
     };
-    public class Data
-    {
-        public double latitude;
-        public double longitude;
-        public string text;
+    public List<MarkerGroup> AtmMarkerGroup = new List<MarkerGroup> {
+        new MarkerGroup { Latitude=35.5112516, Longitude=-97.5843, Text="10/18 ATMs" }
     };
-    public class Marker
-    {
-        public double latitude;
-        public double longitude;
-        public string name;
+    public List<MarkerGroup> MarkerAtmGroup = new List<MarkerGroup> {
+        new MarkerGroup { Latitude=36.0808845, Longitude=-96.0205078, Text="5/18 ATMs" }
     };
-
-    public class MarkerData
-    {
-        public double latitude;
-        public double longitude;
+    public List<MarkerData> AtmMarkerData = new List<MarkerData> {
+        new MarkerData { Latitude=35.6379762, Longitude=-97.4823761 },
+        new MarkerData { Latitude=35.5676663, Longitude=-97.5128031 },
+        new MarkerData { Latitude=35.5412361, Longitude=-97.601552 },
+        new MarkerData { Latitude=35.5451471, Longitude=-97.5661039 },
+        new MarkerData { Latitude=35.5120376, Longitude=-97.5918531 },
+        new MarkerData { Latitude=35.5112516, Longitude=-97.5843 },
+        new MarkerData { Latitude=35.4737072, Longitude=-97.5158072 },
+        new MarkerData { Latitude=35.4575239, Longitude=-97.6179457 },
+        new MarkerData { Latitude=35.4362676, Longitude=-97.5998354 },
+        new MarkerData { Latitude=35.3954872, Longitude=-97.5962305 },
+        new MarkerData { Latitude=35.3492258, Longitude=-97.5294113 },
+        new MarkerData { Latitude=35.5260794, Longitude=-98.7032318 },
+        new MarkerData { Latitude=34.7827916, Longitude=-98.3001709 },
+        new MarkerData { Latitude=34.0793936, Longitude=-98.5583496 },
+        new MarkerData { Latitude=36.1434199, Longitude=-97.0690155 },
+        new MarkerData { Latitude=36.0170318, Longitude=-96.11063 },
+        new MarkerData { Latitude=36.1608845, Longitude=-96.0205078 },
+        new MarkerData { Latitude=36.1323292, Longitude=-95.9624863 },
+        new MarkerData { Latitude=36.1317746, Longitude=-95.9046364 },
+        new MarkerData { Latitude=36.1604341, Longitude=-95.8885002 },
     };
-    public class MarkerGroup
-    {
-        public double latitude;
-        public double longitude;
-        public string text;
-    };
-    public List<MarkerGroup> AtmMarkerGroup = new List<MarkerGroup>
-{
-        new MarkerGroup { latitude = 35.5112516, longitude = -97.5843,  text = "10/18 ATMs"}
-    };
-    public List<MarkerGroup> MarkerAtmGroup = new List<MarkerGroup>
-{
-        new MarkerGroup { latitude = 36.0808845, longitude = -96.0205078,   text = "5/18 ATMs"}
-    };
-    public List<MarkerData> AtmMarkerData = new List<MarkerData>
-{
-        new MarkerData { latitude=35.6379762, longitude=-97.4823761 },
-        new MarkerData { latitude=35.5676663, longitude=-97.5128031 },
-        new MarkerData { latitude=35.5412361, longitude=-97.601552 },
-        new MarkerData { latitude=35.5451471, longitude=-97.5661039 },
-        new MarkerData { latitude=35.5120376, longitude=-97.5918531 },
-        new MarkerData { latitude=35.5112516, longitude=-97.5843 },
-        new MarkerData { latitude=35.4737072, longitude=-97.5158072 },
-        new MarkerData { latitude=35.4575239, longitude=-97.6179457 },
-        new MarkerData { latitude=35.4362676, longitude=-97.5998354 },
-        new MarkerData { latitude=35.3954872, longitude=-97.5962305 },
-        new MarkerData { latitude=35.3492258, longitude=-97.5294113 },
-        new MarkerData { latitude=35.5260794, longitude=-98.7032318 },
-        new MarkerData { latitude=34.7827916, longitude=-98.3001709 },
-        new MarkerData { latitude=34.0793936, longitude=-98.5583496 },
-        new MarkerData { latitude=36.1434199, longitude=-97.0690155 },
-        new MarkerData { latitude=36.0170318, longitude=-96.11063 },
-        new MarkerData { latitude=36.1608845, longitude=-96.0205078 },
-        new MarkerData { latitude=36.1323292, longitude=-95.9624863 },
-        new MarkerData { latitude=36.1317746, longitude=-95.9046364 },
-        new MarkerData { latitude=36.1604341, longitude=-95.8885002 },
-    };
-    public List<Marker> MarkerAtmData = new List<Marker>
-{
-        new Marker { longitude=-101.9450281, latitude=35.2018863, name="Amarillo" },
-        new Marker { longitude=-98.0971969, latitude=35.5514624, name="El Reno" },
-        new Marker { longitude=-97.8432238, latitude=35.5150073, name="Yukon" },
-        new Marker { longitude=-97.2557752, latitude=35.4933852, name="Harrah" },
-        new Marker { longitude=-97.1019391, latitude=35.3620257, name="Shawnee" },
-        new Marker { longitude=-97.072877, latitude=35.6853011, name="Wellston" },
-        new Marker { longitude=-96.2093353, latitude=36.133417, name="Lotsee" },
-        new Marker { longitude=-96.3077788, latitude=36.1879088, name="Sand Springs" },
-        new Marker { longitude=-98.7075369, latitude=35.931371, name="Oakwood" },
-        new Marker { longitude=-98.0003367, latitude=35.0403272, name="Chickasha" },
-        new Marker { longitude=-97.1836494, latitude=36.4595554, name="Red Rock" },
-        new Marker { longitude=-96.7148021, latitude=35.4859752, name="Prague'l" },
-        new Marker { longitude=-97.9339651, latitude=36.1022835, name="Hennessey" },
-        new Marker { longitude=-96.2595621, latitude=35.2453183, name="Wetumka" },
-        new Marker { longitude=-97.4499583, latitude=35.0304344, name="Purcell" },
-        new Marker { longitude=-96.1059044, latitude=35.605942, name="Okmulgee" },
-        new Marker { longitude=-97.9684792, latitude=35.8439429, name="Kingfisher" },
-        new Marker { longitude=-95.7691956, latitude=34.9332303, name="McAlester" },
-        new Marker { longitude=-96.1289978, latitude=34.3853794, name="Atoka" },
-        new Marker { longitude=-97.1191406, latitude=34.5042932, name="Davis" },
-        new Marker { longitude=-98.0310059, latitude=37.1537496, name="Anthony" },
-        new Marker { longitude=-98.3564758, latitude=36.7542898, name="Cherokee" },
-        new Marker { longitude=-95.3695679, latitude=35.7476268, name="Muskogee" },
-        new Marker { longitude=-95.582428, latitude=35.2871057, name="Eufaula" },
-        new Marker { longitude=-96.9412994, latitude=36.0446575, name="Mehan" },
-        new Marker { longitude=-99.0925598, latitude=35.0299964, name="Hobart" },
-        new Marker { longitude=-98.4924316, latitude=33.9137338, name="Wichita Falls" },
-        new Marker { longitude=-98.9675903, latitude=35.5154609, name="Clinton" },
-        new Marker { longitude=-98.923645, latitude=36.1478557, name="Seiling" },
-        new Marker { longitude=-99.2985535, latitude=36.1500735, name="Vici" },
-        new Marker { longitude=-95.3173828, latitude=36.3084855, name="Pryor" },
-        new Marker { longitude=-96.7524719, latitude=34.9596836, name="Konawa" }
-
+    public List<Marker> MarkerAtmData = new List<Marker> {
+        new Marker { Longitude=-101.9450281, Latitude=35.2018863, Name="Amarillo" },
+        new Marker { Longitude=-98.0971969, Latitude=35.5514624, Name="El Reno" },
+        new Marker { Longitude=-97.8432238, Latitude=35.5150073, Name="Yukon" },
+        new Marker { Longitude=-97.2557752, Latitude=35.4933852, Name="Harrah" },
+        new Marker { Longitude=-97.1019391, Latitude=35.3620257, Name="Shawnee" },
+        new Marker { Longitude=-97.072877, Latitude=35.6853011, Name="Wellston" },
+        new Marker { Longitude=-96.2093353, Latitude=36.133417, Name="Lotsee" },
+        new Marker { Longitude=-96.3077788, Latitude=36.1879088, Name="Sand Springs" },
+        new Marker { Longitude=-98.7075369, Latitude=35.931371, Name="Oakwood" },
+        new Marker { Longitude=-98.0003367, Latitude=35.0403272, Name="Chickasha" },
+        new Marker { Longitude=-97.1836494, Latitude=36.4595554, Name="Red Rock" },
+        new Marker { Longitude=-96.7148021, Latitude=35.4859752, Name="Prague'l" },
+        new Marker { Longitude=-97.9339651, Latitude=36.1022835, Name="Hennessey" },
+        new Marker { Longitude=-96.2595621, Latitude=35.2453183, Name="Wetumka" },
+        new Marker { Longitude=-97.4499583, Latitude=35.0304344, Name="Purcell" },
+        new Marker { Longitude=-96.1059044, Latitude=35.605942, Name="Okmulgee" },
+        new Marker { Longitude=-97.9684792, Latitude=35.8439429, Name="Kingfisher" },
+        new Marker { Longitude=-95.7691956, Latitude=34.9332303, Name="McAlester" },
+        new Marker { Longitude=-96.1289978, Latitude=34.3853794, Name="Atoka" },
+        new Marker { Longitude=-97.1191406, Latitude=34.5042932, Name="Davis" },
+        new Marker { Longitude=-98.0310059, Latitude=37.1537496, Name="Anthony" },
+        new Marker { Longitude=-98.3564758, Latitude=36.7542898, Name="Cherokee" },
+        new Marker { Longitude=-95.3695679, Latitude=35.7476268, Name="Muskogee" },
+        new Marker { Longitude=-95.582428, Latitude=35.2871057, Name="Eufaula" },
+        new Marker { Longitude=-96.9412994, Latitude=36.0446575, Name="Mehan" },
+        new Marker { Longitude=-99.0925598, Latitude=35.0299964, Name="Hobart" },
+        new Marker { Longitude=-98.4924316, Latitude=33.9137338, Name="Wichita Falls" },
+        new Marker { Longitude=-98.9675903, Latitude=35.5154609, Name="Clinton" },
+        new Marker { Longitude=-98.923645, Latitude=36.1478557, Name="Seiling" },
+        new Marker { Longitude=-99.2985535, Latitude=36.1500735, Name="Vici" },
+        new Marker { Longitude=-95.3173828, Latitude=36.3084855, Name="Pryor" },
+        new Marker { Longitude=-96.7524719, Latitude=34.9596836, Name="Konawa" }
     };
 }

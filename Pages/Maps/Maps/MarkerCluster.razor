@@ -5,105 +5,89 @@
 @inherits SampleBaseComponent;
 
 <div class="control-section">
-    <div>
-        <SfMaps UseGroupingSeparator="true" Format="N0">
-            <MapsZoomSettings Enable="true"></MapsZoomSettings>
-            <MapsTitleSettings Text="Top 50 largest cities in the World">
-                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
-            </MapsTitleSettings>
-            <MapsLayers>
-                <MapsLayer ShapeData="@MapShapeData">
-                    <MapsShapeSettings Fill="#C1DFF5"></MapsShapeSettings>
-                    <MapsMarkerClusterSettings AllowClustering="true" Shape="MarkerType.Image" Height="40" Width="40" ImageUrl="styles/images/maps/cluster.svg">
-                        <MapsLayerMarkerClusterLabelStyle Color="white"></MapsLayerMarkerClusterLabelStyle>
-                    </MapsMarkerClusterSettings>
-                    <MapsMarkerSettings>
-                        <MapsMarker Visible="true" Shape="MarkerType.Image" ImageUrl="styles/images/maps/ballon.png" Height="20" Width="20" AnimationDuration="0" DataSource="@LargestCities">
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="area" Format="<b>${city}</b><br>Rank: <b>${rank}</b><br>Area: <b>${area} sq kms</b>"></MapsMarkerTooltipSettings>
-                        </MapsMarker>
-                    </MapsMarkerSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
-    <div style="float: right; margin-right: 10px;">
+    <SfMaps UseGroupingSeparator="true" Format="N0">
+        <MapsZoomSettings Enable="true"/>
+        <MapsTitleSettings Text="Top 50 largest cities in the World">
+            <MapsTitleTextStyle Size="16px"/>
+        </MapsTitleSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/WorldMap.json"}'>
+                <MapsShapeSettings Fill="#C1DFF5"/>
+                <MapsMarkerClusterSettings AllowClustering="true" Shape="MarkerType.Image" Height="40" Width="40" ImageUrl="styles/images/maps/cluster.svg">
+                    <MapsLayerMarkerClusterLabelStyle Color="#FFFFFF"/>
+                </MapsMarkerClusterSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Shape="MarkerType.Image" ImageUrl="styles/images/maps/ballon.png" Height="20" Width="20" DataSource="@LargestCities">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Area" Format="<b>${City}</b><br>Rank: <b>${Rank}</b><br>Area: <b>${Area} sq kms</b>"/>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
         Source:
         <a href="http://www.citymayors.com/statistics/largest-cities-area-125.html"
            target="_blank">www.citymayors.com</a>
     </div>
 </div>
 
-@code {
-    public MapDataSettings MapShapeData = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/WorldMap.json",
-        type = "GET"
+@code {    
+    public class LargestCityDetails {
+        public double Latitude;
+        public double Longitude;
+        public string City;
+        public double Area;
+        public double Rank;
     };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
-    };
-    public class City
-    {
-        public double latitude;
-        public double longitude;
-        public string city;
-        public double area;
-        public double rank;
-    };
-    public List<City> LargestCities = new List<City>
-{
-        new City { latitude=40.6971494, longitude=-74.2598747, city="New York", area=8683, rank=1 },
-        new City { latitude=35.4526439, longitude=139.4567198, city="Tokyo", area=6993, rank=2 },
-        new City { latitude=33.1147951, longitude=-94.2114611, city="Atlanta", area=5083, rank=4 },
-        new City { latitude=41.8333925, longitude=-88.0121569, city="Chicago", area=5498, rank=3 },
-        new City { latitude=40.0024137, longitude=-75.2581194, city="Philadelphia", area=4661, rank=5 },
-        new City { latitude=42.3142647, longitude=-71.11037, city="Boston", area=4497, rank=6 },
-        new City { latitude=34.0201613, longitude=-118.6919306, city="Los Angeles", area=4320, rank=7 },
-        new City { latitude=31.2590796, longitude=-95.6476923, city="Houston", area=3355, rank=9 },
-        new City { latitude=42.3526257, longitude=-83.239291, city="Detroit", area=3267, rank=10 },
-        new City { latitude=47.2510905, longitude=-123.1255834, city="Washington", area=2996, rank=11 },
-        new City { latitude=25.7823907, longitude=-80.2994995, city="Miami", area=2891, rank=12 },
-        new City { latitude=35.1468253, longitude=136.7862238, city="Nagoya", area=2875, rank=13 },
-        new City { latitude=48.8588377, longitude=2.2770198, city="Paris", area=2723, rank=14 },
-        new City { latitude=50.1781141, longitude=2.4939991, city="Essen", area=2642, rank=15 },
-        new City { latitude=34.677518, longitude=135.3455988, city="Osaka", area=2564, rank=16 },
-        new City { latitude=47.6129432, longitude=-122.4821496, city="Seattle", area=2470, rank=17 },
-        new City { latitude=-26.1715046, longitude=27.9699835, city="Johannesburg", area=2396, rank=18 },
-        new City { latitude=44.9706114, longitude=-93.4015641, city="Minneapolis", area=2316, rank=19 },
-        new City { latitude=19.3892246, longitude=-70.1305136, city="San Juan", area=2309, rank=20 },
-        new City { latitude=-34.6157437, longitude=-60.5733857, city="Buenos Aires", area=2266,  rank=21 },
-        new City { latitude=40.4313473, longitude=-80.050541, city="Pittsburgh", area=2208, rank=22 },
-        new City { latitude=55.580748, longitude=36.8251027, city="Moscow", area=2150, rank=23 },
-        new City { latitude=38.6530169, longitude=-90.3835487, city="St. Louis", area=2147, rank=24 },
-        new City { latitude=-37.9712368, longitude=144.4926562, city="Melbourne", area=2080, rank=25 },
-        new City { latitude=27.9941986, longitude=-82.7344819, city="Tampa", area=2078, rank=26 },
-        new City { latitude=23.29296, longitude=-105.6587494, city="Mexico", area=2072, rank=27 },
-        new City { latitude=13.0555127, longitude=80.1330167, city="Chennai", area=2069, rank=28 },
-        new City { latitude=32.8242404, longitude=-117.3891773, city="San Diego", area=2026, rank=29 },
-        new City { latitude=-23.6821604, longitude=-46.8755027, city="Sao Paulo", area=1968, rank=30 },
-        new City { latitude=39.1362562, longitude=-84.680488, city="Cincinnati", area=1740, rank=32 },
-        new City { latitude=45.5576996, longitude=-74.0104927, city="Montreal", area=1740, rank=33 },
-        new City { latitude=-33.3465295, longitude=134.409569, city="Sydney", area=1687, rank=34 },
-        new City { latitude=41.497447, longitude=-81.8459461, city="Cleveland", area=1676, rank=35 },
-        new City { latitude=43.6565353, longitude=-79.6010416, city="Toronto", area=1655, rank=36 },
-        new City { latitude=51.528308,  longitude=0.3817841, city="London", area=1623, rank=37 },
-        new City { latitude=3.1384965, longitude=101.5468996, city="Kuala Lumpur", area=1606, rank=38 },
-        new City { latitude=-27.3810232, longitude=152.4326904, city="Brisbane", area=1603, rank=39 },
-        new City { latitude=-22.913885, longitude=-43.7261859, city="Rio de Janeiro", area=1580, rank=40 },
-        new City { latitude=45.4626482, longitude=9.0376468, city="Milan", area=1554, rank=41 },
-        new City { latitude=38.477368, longitude=-100.564023, city="Kansas", area=1514, rank=42 },
-        new City { latitude=39.7797003, longitude=-86.2728365, city="Indianapolis", area=1432, rank=43 },
-        new City { latitude=14.5964957, longitude=120.94454, city="Manila", area=1399, rank=44 },
-        new City { latitude=37.7576793, longitude=-122.5076406, city="San Francisco", area=1365, rank=45 },
-        new City { latitude=36.7953408, longitude=-76.2928249, city="irginia Beach", area=1364, rank=46 },
-        new City { latitude=-6.229728, longitude=106.6894282, city="Jakarta", area=1360, rank=47 },
-        new City { latitude=41.8169712, longitude=-71.4912209, city="Providence", area=1304, rank=48 },
-        new City { latitude=30.0594699, longitude=31.1884235, city="Cairo", area=1295, rank=49 },
-        new City { latitude=28.6466772, longitude=76.8130623, city="Delhi", area=1295, rank=50 }
+    public List<LargestCityDetails> LargestCities = new List<LargestCityDetails> {
+        new LargestCityDetails { Latitude=40.6971494, Longitude=-74.2598747, City="New York", Area=8683, Rank=1 },
+        new LargestCityDetails { Latitude=35.4526439, Longitude=139.4567198, City="Tokyo", Area=6993, Rank=2 },
+        new LargestCityDetails { Latitude=33.1147951, Longitude=-94.2114611, City="Atlanta", Area=5083, Rank=4 },
+        new LargestCityDetails { Latitude=41.8333925, Longitude=-88.0121569, City="Chicago", Area=5498, Rank=3 },
+        new LargestCityDetails { Latitude=40.0024137, Longitude=-75.2581194, City="Philadelphia", Area=4661, Rank=5 },
+        new LargestCityDetails { Latitude=42.3142647, Longitude=-71.11037, City="Boston", Area=4497, Rank=6 },
+        new LargestCityDetails { Latitude=34.0201613, Longitude=-118.6919306, City="Los Angeles", Area=4320, Rank=7 },
+        new LargestCityDetails { Latitude=31.2590796, Longitude=-95.6476923, City="Houston", Area=3355, Rank=9 },
+        new LargestCityDetails { Latitude=42.3526257, Longitude=-83.239291, City="Detroit", Area=3267, Rank=10 },
+        new LargestCityDetails { Latitude=47.2510905, Longitude=-123.1255834, City="Washington", Area=2996, Rank=11 },
+        new LargestCityDetails { Latitude=25.7823907, Longitude=-80.2994995, City="Miami", Area=2891, Rank=12 },
+        new LargestCityDetails { Latitude=35.1468253, Longitude=136.7862238, City="Nagoya", Area=2875, Rank=13 },
+        new LargestCityDetails { Latitude=48.8588377, Longitude=2.2770198, City="Paris", Area=2723, Rank=14 },
+        new LargestCityDetails { Latitude=50.1781141, Longitude=2.4939991, City="Essen", Area=2642, Rank=15 },
+        new LargestCityDetails { Latitude=34.677518, Longitude=135.3455988, City="Osaka", Area=2564, Rank=16 },
+        new LargestCityDetails { Latitude=47.6129432, Longitude=-122.4821496, City="Seattle", Area=2470, Rank=17 },
+        new LargestCityDetails { Latitude=-26.1715046, Longitude=27.9699835, City="Johannesburg", Area=2396, Rank=18 },
+        new LargestCityDetails { Latitude=44.9706114, Longitude=-93.4015641, City="Minneapolis", Area=2316, Rank=19 },
+        new LargestCityDetails { Latitude=19.3892246, Longitude=-70.1305136, City="San Juan", Area=2309, Rank=20 },
+        new LargestCityDetails { Latitude=-34.6157437, Longitude=-60.5733857, City="Buenos Aires", Area=2266,  Rank=21 },
+        new LargestCityDetails { Latitude=40.4313473, Longitude=-80.050541, City="Pittsburgh", Area=2208, Rank=22 },
+        new LargestCityDetails { Latitude=55.580748, Longitude=36.8251027, City="Moscow", Area=2150, Rank=23 },
+        new LargestCityDetails { Latitude=38.6530169, Longitude=-90.3835487, City="St. Louis", Area=2147, Rank=24 },
+        new LargestCityDetails { Latitude=-37.9712368, Longitude=144.4926562, City="Melbourne", Area=2080, Rank=25 },
+        new LargestCityDetails { Latitude=27.9941986, Longitude=-82.7344819, City="Tampa", Area=2078, Rank=26 },
+        new LargestCityDetails { Latitude=23.29296, Longitude=-105.6587494, City="Mexico", Area=2072, Rank=27 },
+        new LargestCityDetails { Latitude=13.0555127, Longitude=80.1330167, City="Chennai", Area=2069, Rank=28 },
+        new LargestCityDetails { Latitude=32.8242404, Longitude=-117.3891773, City="San Diego", Area=2026, Rank=29 },
+        new LargestCityDetails { Latitude=-23.6821604, Longitude=-46.8755027, City="Sao Paulo", Area=1968, Rank=30 },
+        new LargestCityDetails { Latitude=39.1362562, Longitude=-84.680488, City="Cincinnati", Area=1740, Rank=32 },
+        new LargestCityDetails { Latitude=45.5576996, Longitude=-74.0104927, City="Montreal", Area=1740, Rank=33 },
+        new LargestCityDetails { Latitude=-33.3465295, Longitude=134.409569, City="Sydney", Area=1687, Rank=34 },
+        new LargestCityDetails { Latitude=41.497447, Longitude=-81.8459461, City="Cleveland", Area=1676, Rank=35 },
+        new LargestCityDetails { Latitude=43.6565353, Longitude=-79.6010416, City="Toronto", Area=1655, Rank=36 },
+        new LargestCityDetails { Latitude=51.528308,  Longitude=0.3817841, City="London", Area=1623, Rank=37 },
+        new LargestCityDetails { Latitude=3.1384965, Longitude=101.5468996, City="Kuala Lumpur", Area=1606, Rank=38 },
+        new LargestCityDetails { Latitude=-27.3810232, Longitude=152.4326904, City="Brisbane", Area=1603, Rank=39 },
+        new LargestCityDetails { Latitude=-22.913885, Longitude=-43.7261859, City="Rio de Janeiro", Area=1580, Rank=40 },
+        new LargestCityDetails { Latitude=45.4626482, Longitude=9.0376468, City="Milan", Area=1554, Rank=41 },
+        new LargestCityDetails { Latitude=38.477368, Longitude=-100.564023, City="Kansas", Area=1514, Rank=42 },
+        new LargestCityDetails { Latitude=39.7797003, Longitude=-86.2728365, City="Indianapolis", Area=1432, Rank=43 },
+        new LargestCityDetails { Latitude=14.5964957, Longitude=120.94454, City="Manila", Area=1399, Rank=44 },
+        new LargestCityDetails { Latitude=37.7576793, Longitude=-122.5076406, City="San Francisco", Area=1365, Rank=45 },
+        new LargestCityDetails { Latitude=36.7953408, Longitude=-76.2928249, City="irginia Beach", Area=1364, Rank=46 },
+        new LargestCityDetails { Latitude=-6.229728, Longitude=106.6894282, City="Jakarta", Area=1360, Rank=47 },
+        new LargestCityDetails { Latitude=41.8169712, Longitude=-71.4912209, City="Providence", Area=1304, Rank=48 },
+        new LargestCityDetails { Latitude=30.0594699, Longitude=31.1884235, City="Cairo", Area=1295, Rank=49 },
+        new LargestCityDetails { Latitude=28.6466772, Longitude=76.8130623, City="Delhi", Area=1295, Rank=50 }
     };
 }
 

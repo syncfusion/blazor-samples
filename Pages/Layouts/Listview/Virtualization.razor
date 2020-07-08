@@ -1,25 +1,29 @@
 ﻿@page "/listview/virtualization"
 
-
 @using Syncfusion.Blazor.Lists
-
 @using Newtonsoft.Json
-
 @inherits SampleBaseComponent
 
 <div class="col-lg-12 control-section sb-property-border">
-    <SfListView DataSource="@DataSource"
-                 EnableVirtualization="true"
-                 CssClass="e-list-template ui-list"
-                 Height="500"
-                 HeaderTitle="Contacts"
-                 ShowHeader="true"
-                 Template="@Template"
-                 >
+    <SfListView DataSource="@DataSource" TValue="DataModel" EnableVirtualization="true" CssClass="e-list-template ui-list" HeaderTitle="Contacts" Height="500px" ShowHeader="true">
+        <ListViewTemplates TValue="DataModel">
+            <Template>
+                <div class='e-list-wrapper e-list-avatar'>
+                    @if (context.ImgUrl != "")
+                    {
+                        <img id='showUI' class='e-avatar e-avatar-circle' src=@context.ImgUrl />
+                    }
+                    else
+                    {
+                        <span id="showUI" class='e-avatar e-avatar-circle' icon=@context.Icon> @context.Icon</span>
+                    }
+                    <span class='e-list-content'>@context.Name</span>
+                </div>
+            </Template>
+        </ListViewTemplates>
+        <ListViewFieldSettings Id="Id" Text="Name"></ListViewFieldSettings>
     </SfListView>
 </div>
-
-
 @code {
     List<DataModel> CommonData = new List<DataModel>();
     List<DataModel> DataSource = new List<DataModel>();
@@ -31,12 +35,6 @@
         new DataModel{ Id = "3", Name = "10k", Value = 10000  },
         new DataModel{ Id = "4", Name = "25k", Value = 25000  },
     };
-
-     string Template  = "<div class='e-list-wrapper e-list-avatar'>" +
-                 "<span id=\"${$ImgUrl ? \'hideUI\' : \'showUI\' }\" class='e-avatar e-avatar-circle' icon='${Icon}'> " +
-            "${Icon}</span> <img id=\"${$ImgUrl ? \'showUI\' : \'hideUI\' }\" class='e-avatar e-avatar-circle' src=\"${$ImgUrl ?  $ImgUrl : \' \' }\" />" +
-            "<span class='e-list-content'>${Name}</span></div>";
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -115,10 +113,6 @@
 
     .ui-list.e-listview #showUI {
         display: flex;
-    }
-
-    .ui-list.e-listview #hideUI {
-        display: none;
     }
 
     .ui-list.e-listview .e-list-item {

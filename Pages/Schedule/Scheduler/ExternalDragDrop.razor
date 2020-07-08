@@ -37,7 +37,7 @@
             <div class="title-container">
                 <h2 class="title-text">Waiting List</h2>
             </div>
-            <SfTreeView TValue="ScheduleData.HospitalData" AllowDragAndDrop="true" CssClass="treeview-external-drag">
+            <SfTreeView TValue="ScheduleData.HospitalData" @ref="TreeViewRef" AllowDragAndDrop="true" CssClass="treeview-external-drag">
                 <TreeViewEvents TValue="ScheduleData.HospitalData" OnNodeDragged="OnTreeViewDragStop"></TreeViewEvents>
                 <TreeViewFieldsSettings DataSource="@TreeViewData" Id="Id" Text="Name"></TreeViewFieldsSettings>
                 <TreeViewTemplates>
@@ -57,6 +57,7 @@
 
 @code{
     SfSchedule<ScheduleData.HospitalData> ScheduleRef;
+    SfTreeView<ScheduleData.HospitalData> TreeViewRef;
     public List<ScheduleData.HospitalData> DataSource = new ScheduleData().GetHospitalData();
     public List<ScheduleData.HospitalData> TreeViewData = new ScheduleData().GetWaitingListData();
     public string[] Resources = new string[] { "Departments", "Consultants" };
@@ -88,6 +89,7 @@
     public async void OnTreeViewDragStop(DragAndDropEventArgs args)
     {
         args.Cancel = true;
+        List<ScheduleData.HospitalData> TreeViewData = await TreeViewRef.GetTreeData(args.DraggedNodeData.Id);
         object isScheduleSlot = await args.Target.GetAttribute("role");
         if (isScheduleSlot != null && isScheduleSlot.ToString() == "gridcell")
         {
@@ -99,12 +101,14 @@
             ScheduleData.HospitalData eventData = new ScheduleData.HospitalData
             {
                 Id = Id,
-                Name = args.DraggedNodeData.Text,
+                Name = TreeViewData[0].Name,
                 StartTime = cellData.StartTime,
                 EndTime = cellData.EndTime,
                 IsAllDay = cellData.IsAllDay,
                 ConsultantID = groupData.ConsultantID,
-                DepartmentID = groupData.DepartmentID
+                DepartmentID = groupData.DepartmentID,
+                Description = TreeViewData[0].Description,
+                DepartmentName = TreeViewData[0].DepartmentName
             };
             await ScheduleRef.OpenEditor(eventData, CurrentAction.Add, true);
         }

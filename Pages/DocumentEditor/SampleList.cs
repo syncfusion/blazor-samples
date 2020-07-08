@@ -242,6 +242,29 @@ namespace blazor_samples
                 </p>"
                 }
             },
+              new Sample
+            {
+                Name = "Form Fields",
+                Category = "Editing Features",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/form-fields",
+                FileName = "FormFields.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                @"<p>This example demonstrate the design and fill legacy form fields(text, check box, and drop down).To unprotect the document, use password '123'.</p>"
+                },
+                Description = new string[] {
+                @"<p>In this example you can find legacy form fields.</p>
+                <ul>
+                    <li>Text form field.</li>
+                    <li>Check box form field.</li>
+                    <li>Drop down field .</li>
+                </ul>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
              new Sample
             {
                 Name = "Right To Left",
@@ -292,8 +315,7 @@ namespace blazor_samples
                 Category = "Customization",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/toolbar-customization",
-                FileName = "ToolbarCustomization.razor",
-                Type = SampleType.New,
+                FileName = "ToolbarCustomization.razor",                
                 ActionDescription = new string[] {
                 @"<p>This example explains how to show or hide existing items in the toolbar.</p>"
                 },
@@ -352,7 +374,6 @@ namespace blazor_samples
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/web-layout",
                 FileName = "WebLayout.razor",
-                Type = SampleType.New,
                 ActionDescription = new string[] {
                 @"<p>This example explains about the continuous layout type to display the document in a single page. </p>"
                 },
@@ -374,6 +395,7 @@ namespace blazor_samples
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/comments",
                 FileName = "Comments.razor",
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                 @"<p>This example demonstrates how to add and edit comments in a Word document using DocumentEditor.</p>"
                 },
@@ -383,6 +405,30 @@ namespace blazor_samples
                     <li>Add a comment.</li>
                     <li>Reply to a comment.</li>
                     <li>Resolving the comment discussion.</li>
+                </ul>
+                <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
+                    href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>
+                </p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Track Changes",
+                Category = "Review",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/track-changes",
+                FileName = "TrackChanges.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                @"<p>This example demonstrates the track changes in DocumentEditor to view, make and accept or reject the changes.</p>"
+                },
+                Description = new string[] {
+                @"<p>In this example, you can find track changes feature in the document editor.</p>
+                <ul>
+                    <li>Accept changes.</li>
+                    <li>Reject changes.</li>
+                    <li>Accept all.</li>
+                    <li>Reject all.</li>
                 </ul>
                 <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank""
                     href=""https://ej2.syncfusion.com/blazor/documentation/"">documentation section.</a>

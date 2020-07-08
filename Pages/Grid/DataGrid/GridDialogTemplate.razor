@@ -13,7 +13,7 @@
     <div class="content-wrapper">
         <div class="row">
             <SfGrid DataSource="@GridData" AllowPaging="true" Toolbar="@(new string[] {"Add", "Edit" ,"Delete","Update","Cancel" })">
-			    <GridEvents OnActionComplete="ActionCompleteHandler" TValue="OrdersDetails"></GridEvents>
+                <GridEvents OnActionComplete="ActionCompleteHandler" TValue="OrdersDetails"></GridEvents>
                 <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="@EditMode.Dialog" Dialog="DialogParams">
                     <Template>
                         @{
@@ -22,47 +22,47 @@
                         <div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <SfTextBox ID="OrderID" Value="@(Order.OrderID.ToString())" Enabled="@Check" FloatLabelType="FloatLabelType.Always" Placeholder="Order ID"></SfTextBox>
+                                    <SfNumericTextBox ID="OrderID" @bind-Value="@(Order.OrderID)" Enabled="@Check" FloatLabelType="FloatLabelType.Always" Placeholder="Order ID"></SfNumericTextBox>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <SfAutoComplete TItem="OrdersDetails" ID="CustomerID" Value="@(Order.CustomerID)" TValue="string" DataSource="@GridData" FloatLabelType="FloatLabelType.Always" Placeholder="Customer Name">
+                                    <SfAutoComplete TItem="OrdersDetails" ID="CustomerID" @bind-Value="@(Order.CustomerID)" TValue="string" DataSource="@GridData" FloatLabelType="FloatLabelType.Always" Placeholder="Customer Name">
                                         <AutoCompleteFieldSettings Value="CustomerID"></AutoCompleteFieldSettings>
                                     </SfAutoComplete>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <SfNumericTextBox ID="Freight" Value="@(Order.Freight)" TValue="double?" FloatLabelType="FloatLabelType.Always" Placeholder="Freight"></SfNumericTextBox>
+                                    <SfNumericTextBox ID="Freight" @bind-Value="@(Order.Freight)" TValue="double?" FloatLabelType="FloatLabelType.Always" Placeholder="Freight"></SfNumericTextBox>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <SfDatePicker ID="OrderDate" Value="@(Order.OrderDate)" FloatLabelType="FloatLabelType.Always" Placeholder="Order Date">
+                                    <SfDatePicker ID="OrderDate" @bind-Value="@(Order.OrderDate)" FloatLabelType="FloatLabelType.Always" Placeholder="Order Date">
                                     </SfDatePicker>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <SfDropDownList ID="ShipCountry" TItem="OrdersDetails" Value="@(Order.ShipCountry)" TValue="string" DataSource="@GridData" FloatLabelType="FloatLabelType.Always" Placeholder="Ship Country">
+                                    <SfDropDownList ID="ShipCountry" TItem="OrdersDetails" @bind-Value="@(Order.ShipCountry)" TValue="string" DataSource="@GridData" FloatLabelType="FloatLabelType.Always" Placeholder="Ship Country">
                                         <DropDownListFieldSettings Value="ShipCountry" Text="ShipCountry"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <SfDropDownList ID="ShipCity" TItem="OrdersDetails" Value="@(Order.ShipCity)" TValue="string" DataSource="@GridData" FloatLabelType="FloatLabelType.Always" Placeholder="Ship City">
+                                    <SfDropDownList ID="ShipCity" TItem="OrdersDetails" @bind-Value="@(Order.ShipCity)" TValue="string" DataSource="@GridData" FloatLabelType="FloatLabelType.Always" Placeholder="Ship City">
                                         <DropDownListFieldSettings Value="ShipCity" Text="ShipCity"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
-                                        <SfTextBox ID="ShipAddress" Value="@(Order.ShipAddress)" FloatLabelType="FloatLabelType.Always" Placeholder="Ship Address"></SfTextBox>
-                                    </div>
+                                    <SfTextBox ID="ShipAddress" @bind-Value="@(Order.ShipAddress)" FloatLabelType="FloatLabelType.Always" Placeholder="Ship Address"></SfTextBox>
                                 </div>
+                            </div>
                         </div>
                     </Template>
                 </GridEditSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new { required=true, number=true})" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" ValidationRules="@(new { required=true})" Width="150"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" Width="140" TextAlign="@TextAlign.Right" HeaderTextAlign="@TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="@TextAlign.Center" HeaderTextAlign="@TextAlign.Center" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" ValidationRules="@(new ValidationRules{ Required=true})" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" Width="140" TextAlign="@TextAlign.Right" ValidationRules="@(new ValidationRules{ Required=true, Range = new double[]{1, 1000}})" HeaderTextAlign="@TextAlign.Right"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" TextAlign="TextAlign.Right" Type="ColumnType.Date" Width="160"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
                 </GridColumns>
@@ -74,19 +74,15 @@
 @code{
 
     public List<OrdersDetails> GridData { get; set; }
-	
-	private Boolean Check = false;
 
-    private object DialogParams = new
-    {
-    @@params = new DialogModel { MinHeight = "400px", Width = "450px" }
-    };
+    private Boolean Check = false;
+
+    private DialogSettings DialogParams = new DialogSettings { MinHeight = "400px", Width = "450px" };
 
     protected override void OnInitialized()
     {
         GridData = OrdersDetails.GetAllRecords();
     }
-	 
     public void ActionCompleteHandler(ActionEventArgs<OrdersDetails> args)
     {
         if (args.RequestType.ToString() == "Add")

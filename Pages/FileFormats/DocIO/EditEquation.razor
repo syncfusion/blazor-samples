@@ -1,0 +1,64 @@
+@page "/docio/edit-equation"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using blazor_samples.Data.FileFormats.DocIO
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment
+    <div class="control-section">
+        <p style="font-weight:normal">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="PDF" Name="PDF" Value=@("PDF") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async void GenerateDocument(MouseEventArgs args)
+    {
+        EditEquationService service = new EditEquationService(hostingEnvironment);
+        documentStream = service.EditEquation(documentType);
+        if (documentType == "DOCX")
+            await JS.SaveAs("EditEquation.docx", documentStream.ToArray());
+        else if (documentType == "PDF")
+            await JS.SaveAs("EditEquation.pdf", documentStream.ToArray());        
+    }
+}

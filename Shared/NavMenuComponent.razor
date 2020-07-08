@@ -106,6 +106,7 @@
 
     public async Task setSelectList() {
         await SampleList.SelectItem(SampleData);
+        await JsRuntime.InvokeAsync<string>("setScrollTop");
     }
 
     private async Task OnSampleSelect(Syncfusion.Blazor.Lists.SelectEventArgs<Sample> args)
@@ -152,7 +153,7 @@
                     await JsRuntime.InvokeAsync<Object>("persistTheme");
                     this.NavigatePage(sampleData.data.Url.ToLower(), true);
                     SampleBrowser.CurrentUrl = sampleData.data.Url.ToLower();
-                    await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+                    this.BaseParent.RightPaneObj.TabSelectedItemChange();
                     await JsRuntime.InvokeAsync<Object>("persistURL", SampleData.Url);
                     await JsRuntime.InvokeAsync<string>("callResizeEvent");
                 }
@@ -224,7 +225,6 @@
     public async void UrlChange(object sender, LocationChangedEventArgs args)
     {
         Service.Data.Update(UriHelper);
-        this.BaseParent.RightPaneObj.ButtonState(Service.Data.CurrentSample.Url);
         if (Service.Data.CurrentControl != null)
         {
             await this.UpdateNavMenu();
@@ -255,6 +255,7 @@
     {
         this.ListDataSource = Control.Samples;
         this.BaseParent.MobileButtonState(Service.Data.CurrentSample.Url);
+        this.BaseParent.RightPaneObj.ButtonState(Service.Data.CurrentSample.Url);
         List<string> ActionDescriptionItems = new List<string>();
         List<string> DescriptionItems = new List<string>();
         //SelectionItem is Restricted, While We Navigate One Component To another using Next button
@@ -301,9 +302,6 @@
         }
         isEnabledSelection = false;
         DataList.Clear();
-        #pragma warning disable
-        JsRuntime.InvokeAsync<string>("ScrollOption");
-        #pragma warning restore
         await JsRuntime.InvokeAsync<string>("callResizeEvent");
         //JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
         this.StateHasChanged();
@@ -319,7 +317,7 @@
             this.treeviewClass = "e-view time-duration sb-hide";
             this.ListDataSource = ChildList;
             this.NavigatePage(ChildList[0].Url.ToLower());
-            await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+            this.BaseParent.RightPaneObj.TabSelectedItemChange();
             await JsRuntime.InvokeAsync<Object>("viewSwitch", this.listClass);
         }
     }
