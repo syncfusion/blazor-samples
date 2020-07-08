@@ -6,7 +6,6 @@
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
 @using Newtonsoft.Json.Linq;
-@using Newtonsoft.Json
 
 @inherits SampleBaseComponent;
 
@@ -164,17 +163,14 @@
         }
     </style>
     @*End:Hidden*@
-
-
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagram Width="100%" Height="@Height" Constraints="@Constraints" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
-            <DiagramSnapSettings Constraints="@SnapConstraint"></DiagramSnapSettings>
+        <SfDiagram Height="645px" Constraints="@Constraints" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
+            <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
             <DiagramEvents SelectionChanged="@SelectionChange"></DiagramEvents>
             <DiagramPageSettings>
-                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
             </DiagramPageSettings>
         </SfDiagram>
-
     </div>
 </div>
 @*Hidden:Lines*@
@@ -212,13 +208,13 @@
             </div>
             <div class="row" style="padding-top: 8px">
                 <div class="buttonstyle">
-                    <SfButton @ref="@BoldButton" id="bold" OnClick="FontBold" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-bold e-icons"></SfButton>
+                    <SfButton @ref="@BoldButton" ID="bold" OnClick="FontBold" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-bold e-icons"></SfButton>
                 </div>
                 <div class="buttonstyle ">
-                    <SfButton @ref="@ItalicButton" id="italic" OnClick="FontItalic" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-italic e-icons"></SfButton>
+                    <SfButton @ref="@ItalicButton" ID="italic" OnClick="FontItalic" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-italic e-icons"></SfButton>
                 </div>
                 <div class="buttonstyle">
-                    <SfButton @ref="@UnderlineButton" id="underline" OnClick="FontUnderLine" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-underline e-icons"></SfButton>
+                    <SfButton @ref="@UnderlineButton" ID="underline" OnClick="FontUnderLine" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-underline e-icons"></SfButton>
 
                 </div>
             </div>
@@ -227,7 +223,7 @@
                     Font Size
                 </div>
                 <div class="col-xs-6" style="width:170px">
-                    <SfNumericTextBox @ref="@fontsize" id="fontSize" TValue="int" @bind-Value="@fontsizeValue" Min="1" Max="50" Enabled="true" Format="##.##" Step="1" Width="100%" CssClass="textboxstyle">
+                    <SfNumericTextBox @ref="@fontsize" ID="fontSize" TValue="int" @bind-Value="@fontsizeValue" Min="1" Max="50" Enabled="true" Format="##.##" Step="1" Width="100%" CssClass="textboxstyle">
                         <NumericTextBoxEvents TValue="int" ValueChange="@FontSizeChange"></NumericTextBoxEvents>
                     </SfNumericTextBox>
                 </div>
@@ -248,7 +244,6 @@
                     Font Color
                 </div>
                 <div class="col-xs-6">
-                    @*<SfColorPicker CssClass="e-colorpicker-wrapper" id="fontColor"  ValueChange="@FontColorChange"@bind-Value="@FontColorValue"></SfColorPicker>*@
                     <SfColorPicker CssClass="e-colorpicker-wrapper" ValueChange="OnFillColorChange" @bind-Value="@fillColor"></SfColorPicker>
                 </div>
             </div>
@@ -259,7 +254,7 @@
                 Behavior
             </div>
             <div class="row" style="padding-top: 8px">
-                <SfCheckBox ID="labelConstraints" Label="Label interaction" Checked="@InteractionValue" ValueChange="OnLabelInteractionChange"></SfCheckBox>
+                <SfCheckBox ID="labelConstraints" Label="Label interaction" Checked="@InteractionValue" ValueChange="OnLabelInteractionChange" TChecked="bool"></SfCheckBox>
             </div>
         </div>
     </div>
@@ -267,6 +262,8 @@
 </div>
 @*End:Hidden*@
 @code{
+
+    private bool isUpdatePanelOnly = false;
     string appearance = "e-remove-selection";
     SfButton BoldButton;
     SfButton ItalicButton;
@@ -281,13 +278,8 @@
     SfDiagram Diagram;
     SfNumericTextBox<int> fontsize;
 
-    public string Height { get; set; } = "645px";
     public DiagramConstraints Constraints { get; set; }
     public DiagramSnapSettings SnapSettings { get; set; }
-    bool CanFit = true;
-    FitModes Mode = FitModes.Width;
-    SnapConstraints SnapConstraint = SnapConstraints.None;
-
 
     public ObservableCollection<DiagramNode> NodeCollection = new ObservableCollection<DiagramNode>();
 
@@ -388,7 +380,7 @@
         new  { direction= "Top", type= "Orthogonal", length= 100 }
     };
 
-    private void OnLabelInteractionChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    private void OnLabelInteractionChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         InteractionValue = args.Checked;
         UpdateAnnotation("interaction", 0);
@@ -411,7 +403,7 @@
     {
         UpdateAnnotation("fontfamily", args.Value);
     }
-    private void FontSizeChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private void FontSizeChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
     {
         fontsizeValue = int.Parse(args.Value.ToString());
         UpdateAnnotation("fontsize", args.Value);
@@ -521,6 +513,7 @@
 
             if (node != null)
             {
+                isUpdatePanelOnly = true;
                 List<DiagramNodeAnnotation> annotations = (node.Annotations as ObservableCollection<DiagramNodeAnnotation>).ToList();
                 NodeAnnotationOffset offset = annotations[0].Offset;
                 if (annotations[0].Style.Bold && annotations[0].Style.TextDecoration != TextDecoration.Underline)
@@ -561,6 +554,7 @@
                 {
                     UpdatePosition("bottomcenter_top", arg.NewValue.Nodes);
                 }
+                isUpdatePanelOnly = false;
             }
             EnableOptions(arg);
         }
@@ -593,26 +587,29 @@
     private void updateAnnotation(string id, DiagramNodeAnnotation annotation)
     {
         Diagram.BeginUpdate();
-        switch (id)
+        if (!isUpdatePanelOnly)
         {
-            case "left":
-                setAnnotationPosition(annotation, 0, 0, VerticalAlignment.Top, HorizontalAlignment.Left);
-                break;
-            case "right":
-                setAnnotationPosition(annotation, 1, 0, VerticalAlignment.Top, HorizontalAlignment.Right);
-                break;
-            case "bottoml":
-                setAnnotationPosition(annotation, 0, 1, VerticalAlignment.Bottom, HorizontalAlignment.Left);
-                break;
-            case "bottomr":
-                setAnnotationPosition(annotation, 1, 1, VerticalAlignment.Bottom, HorizontalAlignment.Right);
-                break;
-            case "center":
-                setAnnotationPosition(annotation, 0.5f, .5f, VerticalAlignment.Center, HorizontalAlignment.Center);
-                break;
-            case "bottomcenter_top":
-                setAnnotationPosition(annotation, 0.5f, 1, VerticalAlignment.Top, HorizontalAlignment.Center);
-                break;
+            switch (id)
+            {
+                case "left":
+                    setAnnotationPosition(annotation, 0, 0, VerticalAlignment.Top, HorizontalAlignment.Left);
+                    break;
+                case "right":
+                    setAnnotationPosition(annotation, 1, 0, VerticalAlignment.Top, HorizontalAlignment.Right);
+                    break;
+                case "bottoml":
+                    setAnnotationPosition(annotation, 0, 1, VerticalAlignment.Bottom, HorizontalAlignment.Left);
+                    break;
+                case "bottomr":
+                    setAnnotationPosition(annotation, 1, 1, VerticalAlignment.Bottom, HorizontalAlignment.Right);
+                    break;
+                case "center":
+                    setAnnotationPosition(annotation, 0.5f, .5f, VerticalAlignment.Center, HorizontalAlignment.Center);
+                    break;
+                case "bottomcenter_top":
+                    setAnnotationPosition(annotation, 0.5f, 1, VerticalAlignment.Top, HorizontalAlignment.Center);
+                    break;
+            }
         }
         updateSelection(id);
         upateProprtyPanel(annotation);
@@ -634,7 +631,7 @@
         {
             InteractionValue = false;
         }
-        fontsize.DataBind();
+        //fontsize.DataBind();
     }
     private void updateSelection(string id)
     {
@@ -660,8 +657,10 @@
     //set the Annotation Position
     private void setAnnotationPosition(DiagramNodeAnnotation annotation, float offsetX, float offsetY, VerticalAlignment vAlignment, HorizontalAlignment hAlignment)
     {
-        annotation.Offset.X = offsetX;
-        annotation.Offset.Y = offsetY;
+        if (annotation.Offset.X != offsetX)
+            annotation.Offset.X = offsetX;
+        if (annotation.Offset.Y != offsetY)
+            annotation.Offset.Y = offsetY;
         annotation.VerticalAlignment = vAlignment;
         annotation.HorizontalAlignment = hAlignment;
         if (vAlignment == VerticalAlignment.Top && hAlignment == HorizontalAlignment.Left)

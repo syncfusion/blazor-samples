@@ -1,0 +1,50 @@
+@page "/docio/encrypt-and-decrypt"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using blazor_samples.Data.FileFormats.DocIO
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment;
+<div class="control-section">
+    <p style="font-weight:normal">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+    <table>
+        <tr class="row">
+            <SfRadioButton Label="Encrypt Document" Name="Encrypt" Value=@("Encrypt") @bind-Checked="@Group1"></SfRadioButton>
+        </tr>
+        <tr class="row">
+            <SfRadioButton Label="Decrypt Document" Name="Decrypt" Value=@("Decrypt") @bind-Checked="@Group1"></SfRadioButton>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div class="button-section">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string Group1 = "Encrypt";
+    /// <summary>
+    /// Encrypt and decrypt and download the Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        EncryptDecryptService service = new EncryptDecryptService(hostingEnvironment);
+        documentStream = service.EncryptDecryptDocument(Group1);
+        await JS.SaveAs("Encrypt and Decrypt.docx", documentStream.ToArray());
+    }
+}

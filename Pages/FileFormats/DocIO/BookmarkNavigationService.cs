@@ -24,8 +24,20 @@ namespace blazor_samples.Data.FileFormats.DocIO
         /// Navigate between the bookmarks in a Word document and edit its content using Bookmark Navigation functionality
         /// </summary>
         /// <returns>Return the created Word document as stream</returns>
-        public MemoryStream BookmarkNavigation(string documentType)
+        public MemoryStream BookmarkNavigation(string documentType,string button)
         {
+            string basePath = @"wwwroot/";
+            string dataPath = basePath + @"/DocIO/Bookmark_Template.docx";
+            FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            if (button == "View Template")
+            {
+                MemoryStream ms = new MemoryStream();
+                fileStream.Position = 0;
+                fileStream.CopyTo(ms);
+                fileStream.Close();
+                return ms;
+            }
+
             #region BookmarkNavigation
             // Creating a new document.
             WordDocument document = new WordDocument();
@@ -37,12 +49,12 @@ namespace blazor_samples.Data.FileFormats.DocIO
             document.LastParagraph.AppendBookmarkStart("NorthwindDatabase");
             document.LastParagraph.AppendText("Northwind database with normalization concept");
             document.LastParagraph.AppendBookmarkEnd("NorthwindDatabase");
-            string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"/DocIO/Bookmark_Template.doc";
-            string dataPathTemp = basePath + @"/DocIO/BkmkDocumentPart_Template.doc";
+            basePath = _hostingEnvironment.WebRootPath;
+            dataPath = basePath + @"/DocIO/Bookmark_Template.docx";
+            string dataPathTemp = basePath + @"/DocIO/BkmkDocumentPart_Template.docx";
             // Open an existing template document with single section to get Northwind.information            
             WordDocument nwdInformation = new WordDocument();
-            FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             nwdInformation.Open(fileStream, FormatType.Doc);
             fileStream.Dispose();
             fileStream = null;
@@ -77,6 +89,23 @@ namespace blazor_samples.Data.FileFormats.DocIO
             bk.MoveToBookmark("Northwind_Information");
             // Replacing content of Northwind_Information bookmark.
             bk.ReplaceBookmarkContent(bodyPart);
+            #region Bookmark selection for table
+            // Creating a bookmark navigator. Which help us to navigate through the 
+            // bookmarks in the Northwind information document.
+            bk = new BookmarksNavigator(nwdInformation);
+            bk.MoveToBookmark("SuppliersTable");
+            //Sets the column index where the bookmark starts within the table
+            bk.CurrentBookmark.FirstColumn = 1;
+            //Sets the column index where the bookmark ends within the table
+            bk.CurrentBookmark.LastColumn = 5;
+            // Get the content of suppliers table bookmark.
+            bodyPart = bk.GetBookmarkContent();
+            // Creating a bookmark navigator. Which help us to navigate through the 
+            // bookmarks in the destination document.
+            bk = new BookmarksNavigator(document);
+            bk.MoveToBookmark("Table");
+            bk.ReplaceBookmarkContent(bodyPart);
+            #endregion
             // Move to the text bookmark
             bk.MoveToBookmark("Text");
             //Deletes the bookmark content

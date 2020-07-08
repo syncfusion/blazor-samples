@@ -624,13 +624,13 @@ namespace blazor_samples
                 }
             }
         };
-        public List<Sample> Slider { get; set; } = new List<Sample>{
+        public List<Sample> RangeSlider { get; set; } = new List<Sample>{
             new Sample
             {
                 Name = "Default",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/default",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/default",
                 FileName = "Default.razor",
                 ActionDescription = new string[] {
                     @"<p>
@@ -656,9 +656,9 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Ticks",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/ticks",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/ticks",
                 FileName = "Ticks.razor",
                 ActionDescription = new string[] {
                     @"<p>
@@ -690,9 +690,9 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Tooltip",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/tooltip",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/tooltip",
                 FileName = "Tooltip.razor",
                 ActionDescription = new string[] {
                     @"<p>
@@ -716,9 +716,9 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Vertical Orientation",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/vertical-orientation",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/vertical-orientation",
                 FileName = "VerticalOrientation.razor",
                 ActionDescription = new string[] {
                     @"<p>
@@ -743,9 +743,9 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Limits",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/limits",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/limits",
                 FileName = "Limits.razor",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the rendering of Slider component with limits. Drag the thumb over the bar for selecting the values between assigned limit values.</p>"
@@ -772,9 +772,9 @@ namespace blazor_samples
             new Sample
             {
                 Name = "API",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/api",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/api",
                 FileName = "API.razor",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the customization of Slider component by using its properties from property pane. Select any
@@ -794,9 +794,9 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Events",
-                Category = "Slider",
-                Directory = "Inputs/Slider",
-                Url = "slider/events",
+                Category = "RangeSlider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/events",
                 FileName = "Events.razor",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the events that have been triggered on the Slider operations with the help of event trace panel.
@@ -819,8 +819,8 @@ namespace blazor_samples
             {
                 Name = "Thumb",
                 Category = "Customization",
-                Directory = "Inputs/Slider",
-                Url = "slider/custom-thumb",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/custom-thumb",
                 FileName = "CustomThumb.razor",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the customization of Slider's thumb. Drag the thumb over the bar for selecting the values between
@@ -841,8 +841,8 @@ namespace blazor_samples
             {
                 Name = "Bar",
                 Category = "Customization",
-                Directory = "Inputs/Slider",
-                Url = "slider/custom-bar",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/custom-bar",
                 FileName = "CustomBar.razor",
                 ActionDescription = new string[] {
                     @"<p>This sample demonstrates the customization of Slider's selection bar. Drag the thumb over the bar for selecting the values between Min and Max.</p>"

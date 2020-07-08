@@ -37,7 +37,7 @@ namespace blazor_samples
                     @"<p>This sample demonstrates the default rendering of the DataGrid with minimum configuration.</p>"
                 },
                 Description = new string[]{
-                    @"<p>The DataGrid is used to display and manipulate tabular data with configuration options to control the way the data is presented and manipulated. It can pull the data from data sources, like IEnumerable, OData web services, or <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager.html'>DataManager</a></code> and bind the data fields to columns. It also displays a column header to identify the field with support for grouped records.</p>
+                    @"<p>The DataGrid is used to display and manipulate tabular data with configuration options to control the way the data is presented and manipulated. It can pull the data from data sources, like IEnumerable, OData web services, or <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager.html'>SfDataManager</a></code> and bind the data fields to columns. It also displays a column header to identify the field with support for grouped records.</p>
                     <p>In this demo, the DataGrid is populated with its minimum default settings.</p>
                     <p>More information on the Blazor DataGrid can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/getting-started/?no-cache=1'>documentation section</a>.</p>"
                 }
@@ -74,8 +74,8 @@ namespace blazor_samples
                     @"<p>The DataGrid supports data binding. The DataManager component can be used to configure DataGrid to bind remote data.</p>
                     <p>The DataManager, which will act as an interface between the service endpoint and the DataGrid, will require the below minimal information to interact with service endpoint properly,</p>
                     <ul>
-                        <li><code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager~Url.html'>DataManager.Url</a></code> - Defines the service endpoint to fetch the data</li>
-                        <li><code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager~Adaptor.html'>DataManager.Adaptor</a></code> - Defines the adaptor option. By default, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Data.UrlAdaptor.html'>ODataAdaptor</a></code> is used for remote binding.</li>
+                        <li><code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager~Url.html'>SfDataManager.Url</a></code> - Defines the service endpoint to fetch the data</li>
+                        <li><code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DataManager~Adaptor.html'>SfDataManager.Adaptor</a></code> - Defines the adaptor option. By default, <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Data.UrlAdaptor.html'>ODataAdaptor</a></code> is used for remote binding.</li>
                     </ul>
                     <p>Adaptor is responsible for processing the response and request from/to the service endpoint. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Data_namespace.html'>Syncfusion.Blazor.Data</a></code> namespace provides some predefined adaptors which are designed to interact with particular service endpoints. The predefined adaptors are,</p>
                     <ul>
@@ -96,14 +96,15 @@ namespace blazor_samples
                 FileName = "CustomBinding.razor",
                 Type = SampleType.None,
                 ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the usage of custom data binding in DataGrid component.
-                    </p>"
+                    @"<p>This sample demonstrates the usage of custom data binding in DataGrid component.</p>
+                    <p>The custom adaptor class has to be added as service using <strong>AddScoped/AddSingleton</strong> method in the <strong>Startup.cs</strong>. You can inject your own services or DB context into custom adaptor class using <strong>Inject</strong> attribute on the particular property.</p>"
                 },
                 Description = new string[]{
                     @"<p>
                         The custom data binding can be performed in the DataGrid component by providing the custom adaptor class
-                        and overriding the <strong>Read or ReadAsync</strong> method of the DataAdaptor abstract class.
-                        The CRUD operations for the custom bounded data in the DataGrid component can be
+                        and overriding the <strong>Read or ReadAsync</strong> method of the DataAdaptor abstract class.</p>
+                        <p>The custom adaptor class has to be added as service using <strong>AddScoped/AddSingleton</strong> method in the <strong>Startup.cs</strong>. You can inject your own services or DB context into custom adaptor class using <strong>Inject</strong> attribute on the particular property.</p>
+                        <p>The CRUD operations for the custom bounded data in the DataGrid component can be
                         implemented by overriding the following CRUD methods of the DataAdaptor abstract class,
                         <br>
                     </p>
@@ -253,8 +254,7 @@ namespace blazor_samples
                     </p>"
                 },
                 Description = new string[]{
-                    @"<p>The DataGrid columns can be stacked/grouped in order to show multiple levels of column headers. It can be done by nesting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Columns.html'>GridColumn</a></code> component within another <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component.</p>
-                    <p>The DataGrid columns can be resized by clicking at the right end of the column header and dragging it. To enable column resize behavior, set <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowResizing.html'>AllowResizing</a></code> property as true. You can also prevent the resize of particular columns by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~AllowResizing.html'>AllowResizing</a></code> property as false in the column definition.</p>
+                    @"<p>The DataGrid columns can be stacked/grouped in order to show multiple levels of column headers. It can be done by nesting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn~Columns.html'>GridColumn</a></code> component within another <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridColumn.html'>GridColumn</a></code> component. The Column Resizing is enabled for normal and stacked column .</p>
                     <p>In this demo, the columns <strong>OrderDate, Freight</strong> are grouped under <strong>Order Details</strong> and the columns <strong>ShippedDate, ShipCountry</strong> are grouped under <strong>Shipped Details</strong>.</p>
                     <p>More information on column stacked header can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#resize-stacked-column'>documentation section</a>.</p>"
                 }
@@ -379,21 +379,21 @@ namespace blazor_samples
                     <p>In this demo, the Row drag and drop feature is enabled in both the DataGrids. To drag and drop rows between DataGrids select rows, drag and drop them to the adjacent DataGrid.</p>"                 
                 }
              },
-            // new Sample
-            // {
-            //    Name = "Row Drag And Drop Within Grid",
-            //    Category = "Rows",
-            //    Directory = "Grid/DataGrid",
-            //    Url = "datagrid/draganddrop-within-grid",
-            //    FileName = "DragAndDropWithinGrid.razor",
-            //    Type = SampleType.New,
-            //    ActionDescription = new string[] {
-            //         @"<p>This sample demonstrates the Grid component with the row drag and drop feature within same grid. You can rearrange the grid rows by using drag icon in left side of grid column.Here you can drag and drop the grid rows between the decided rows.</p>"
-            //     },
-            //     Description = new string[]{
-            //         @"<p>Row drag and drop can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowRowDragAndDrop.html'>AllowRowDragAndDrop</a></code> property as true.</p>"
-            //     }
-            // },
+            new Sample
+            {
+               Name = "Row Drag And Drop Within Grid",
+               Category = "Rows",
+               Directory = "Grid/DataGrid",
+               Url = "datagrid/draganddrop-within-grid",
+               FileName = "DragAndDropWithinGrid.razor",
+               Type = SampleType.None,
+               ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the Grid component with the row drag and drop feature within same grid. You can rearrange the grid rows by using drag icon in left side of grid column.Here you can drag and drop the grid rows between the decided rows.</p>"
+                },
+                Description = new string[]{
+                    @"<p>Row drag and drop can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowRowDragAndDrop.html'>AllowRowDragAndDrop</a></code> property as true.</p>"
+                }
+            },
             new Sample
             {
                 Name = "Inline Editing",
@@ -1030,6 +1030,22 @@ namespace blazor_samples
                         <li>Filter the data based on the selected record and bind the result to the Detail DataGrid`s <code>dataSource</code>property.</li>
                     </ul>
                    <p>In this demo, simply click the row in master DataGrid, which shows the details in another(Detail) DataGrid.</p>"
+                }
+            },
+            new Sample
+            {
+                Name = "ExpandoObject Binding",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/expandoobject",
+                FileName = "GridExpandoObject.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>This sample demonstrates the usage of ExpandoObject (dynamic) data binding with CRUD operations, grouping, sorting, filtering functionalities in DataGrid component with ExpandoObject.</p>"
+                },
+                Description = new string[]{
+                    @"<p>The DataGrid supports dynamic data binding. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~DataSource.html'>DataSource</a></code>  property can be assigned as list of ExpandoObject.</p>
+                    <p>In this demo, we have bound the dynamic list of objects as dataSource to DataGrid using the ExpandoObjects.</p>"
                 }
             },
         };

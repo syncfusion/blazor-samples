@@ -42,6 +42,7 @@ namespace blazor_samples
                         <li>Timeline Work Week</li>
                         <li>Timeline Month</li>
                         <li>Timeline Year</li>
+                        <li>Year</li>
                     </ul>
                     <p>
                         To navigate between views and dates, the navigation options are available at the Scheduler header bar and the
@@ -299,11 +300,40 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Inline Editing",
+                Category = "Appointments",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/inline-editing",
+                FileName = "InlineEditing.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>
+                        This demo shows the experience of adding a new appointment or editing the existing appointment through inline
+                        mode. Click on the cells to add an appointment with the subject alone and click on the appointment to edit the
+                        subject of the appointment.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                        The features enable user to add or edit the appointment through inline mode. Click on the cells or the existing
+                        appointments to enable inline mode. You can press the ENTER key on the selected cell or appointment.
+                        <p>
+                            The feature activates when you enable the <code>AllowInline</code> property.
+                            For adding an appointment, the appointment will be created based on the selected time and subject once you focused-out
+                            or press ENTER key.
+                            For editing an appointment, the appointment will be saved based on the modified subject.
+                        </p>
+                    </p>"
+                }
+            },
+            new Sample
+            {
                 Name = "Virtual Scrolling",
                 Category = "Scrolling",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/virtual-scrolling",
                 FileName = "VirtualScrolling.razor",
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
                         This example illustrates how to dynamically load the resources and events as you scroll through the Scheduler.
@@ -482,16 +512,18 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/year-view",
                 FileName = "Year.razor",
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
-                        This demo showcases how the Scheduler looks like in Year view with its default set of configurations.
+                        This demo shows the experience of showing the annual year events in a single view with different orientations.
                     </p>"
                 },
                 Description = new string[] {
                     @"<p>
-                        This demo showcases how the Scheduler looks like in Year view with its default set of configurations. In this demo, the active view of Scheduler is set to
-                        <code>Vertical Year</code> and <code>Horizontal Year</code> view options are provided to
-                        <code>ScheduleViews</code>
+                        In this demo, we have showcased the <code>Year</code> and <code>TimelineYear</code> views that help to view the
+                        appointment in an annual calendar view. The view options are enabled by using the <code>ScheduleView</code> property. In the
+                        <code>TimelineYear</code>, <code>Horizontal</code> and <code>Vertical</code> orientations are available to view
+                        the events with a different layout.
                     </p>"
                 }
             },
@@ -993,6 +1025,30 @@ namespace blazor_samples
                         <code>TimeScale</code>. The time header text can be customized by making use of the
                         <code>MajorSlotTemplate</code> and
                         <code>MinorSlotTemplate</code> properties.
+                    </p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Context Menu",
+                Category = "Customization",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/context-menu",
+                FileName = "ContextMenu.razor",
+                Type = SampleType.New,
+                ActionDescription = new string[] {
+                    @"<p>
+                        This example illustrates how to enable the context menu on Scheduler and perform its related actions based on
+                        the selected menu options.
+                    </p>"
+                },
+                Description = new string[] {
+                    @"<p>
+                        In this example, we have integrated the ContextMenu control separately from application end and set its target
+                        to Scheduler control. Also, we have used the public methods <code>OpenEditor</code> through which the default event editor
+                        is set to open for saving or updating the appointments, <code>DeleteEvent</code> to delete the selected appointment, and
+                        <code>SelectedDate</code> to navigate to today's date. In mobile devices, the context menu will open when you tap hold on
+                        the cells or events.
                     </p>"
                 }
             },

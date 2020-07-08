@@ -6,21 +6,17 @@
 @using Newtonsoft.Json;
 @using Syncfusion.Blazor.Inputs
 @using System.Collections.ObjectModel
-@using System.Text.RegularExpressions
 
 @inherits SampleBaseComponent;
 
-
-
 <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagram Width="100%" Height="600px" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
+        <SfDiagram Height="600px" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
             <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
             <DiagramEvents HistoryChanged="@HistoryChanged"></DiagramEvents>
             <DiagramPageSettings>
-                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"></DiagramFitOptions>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
             </DiagramPageSettings>
-
         </SfDiagram>
     </div>
 
@@ -141,7 +137,9 @@
                     <div style="display: table-cell; vertical-align: middle">Stack Limit</div>
                 </div>
                 <div class="col-xs-6" style="padding-left: 0px; padding-right: 0px">
-                    <SfNumericTextBox TValue="int" ID="StackLimit" Format="n0" Min="0" Value="@StackValue" Step="1" ValueChanged="@SetStackLimit"></SfNumericTextBox>
+                    <SfNumericTextBox TValue="int" ID="StackLimit" Format="n0" Min="0" Value="@StackValue" Step="1">
+                        <NumericTextBoxEvents TValue="int" ValueChange="@SetStackLimit"></NumericTextBoxEvents>
+                    </SfNumericTextBox>
                 </div>
             </div>
             <div class="row" style="padding-top: 10px">
@@ -157,7 +155,7 @@
 </div>
 @*End:Hidden*@
 
-@functions
+@code
     {
     SfDiagram Diagram;
     SfButton groupaction;
@@ -166,25 +164,25 @@
     private int StackValue = 0;
     string actioncontent = "Start Group Action";
 
-    public void OnToggleClick(MouseEventArgs args)
+    public async Task OnToggleClick(MouseEventArgs args)
     {
-        Diagram.Undo();
+        await Diagram.Undo();
     }
-    public void Redo(MouseEventArgs args)
+    public async Task Redo(MouseEventArgs args)
     {
-        Diagram.Redo();
+        await Diagram.Redo();
     }
-    public void Startaction(MouseEventArgs args)
+    public async Task Startaction(MouseEventArgs args)
     {
         if (groupaction.Content == "Start Group Action")
         {
             actioncontent = "End Group Action";
-            Diagram.StartGroupAction();
+            await Diagram.StartGroupAction();
         }
         else
         {
             actioncontent = "Start Group Action";
-            Diagram.EndGroupAction();
+            await Diagram.EndGroupAction();
         }
 
         StateHasChanged();
@@ -212,10 +210,10 @@
         await this.Updatevalue();
     }
 
-    public async Task SetStackLimit(int value)
+    public async Task SetStackLimit(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
     {
-        StackValue = value;
-        await Diagram.SetStackLimit(value);
+        StackValue = args.Value;
+        await Diagram.SetStackLimit(args.Value);
     }
     public async Task Updatevalue()
     {
@@ -292,8 +290,6 @@
 
         StateHasChanged();
     }
-    bool CanFit = true;
-    FitModes Mode = FitModes.Width;
 
     public ObservableCollection<DiagramNode> NodeCollection = new ObservableCollection<DiagramNode>();
     public ObservableCollection<DiagramConnector> ConnectorCollection = new ObservableCollection<DiagramConnector>();

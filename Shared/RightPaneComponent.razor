@@ -2,6 +2,7 @@
 @using Syncfusion.Blazor.Navigations;
 @using Syncfusion.Blazor.Popups;
 @using Microsoft.AspNetCore.Components;
+@using System.Globalization;
 @using blazor_samples
 @using blazor_samples.Shared 
 @inject IJSRuntime JsRuntime;
@@ -31,7 +32,7 @@
                 </SfTooltip>
             </div>
             <div class='sb-toolbar-splitter sb-custom-item'></div>
-            <SfTab CssClass='sb-content-tab' id='content-tab' LoadOn="ContentLoad.Demand">
+            <SfTab CssClass='sb-content-tab' id='content-tab' LoadOn="ContentLoad.Demand" @bind-SelectedItem="TabSelectedItem">
                 <TabEvents Selecting="OnSourceTabSelecting" Selected="OnSourceTabSelected"></TabEvents>
                 <TabItems>
                     <TabItem>
@@ -102,7 +103,7 @@
     public RenderFragment Body { get; set; }
 
     [Parameter]
-    public bool IsDisabled { get; set; } = true;
+    public bool IsDisabled { get; set; }
 
     [Parameter]
     public bool IsLastDisabled { get; set; }
@@ -117,8 +118,9 @@
     [CascadingParameter]
     public MainLayout BaseParent { get; set; }
 
-    object PrevContent = "Previous Sample";
-    object NextContent = "Next Sample";
+    string PrevContent = "Previous Sample";
+    string NextContent = "Next Sample";
+    public int TabSelectedItem { get; set; }
 
     private void OnSourceTabSelecting(Syncfusion.Blazor.Navigations.SelectingEventArgs args)
     {
@@ -142,6 +144,12 @@
         this.StateHasChanged();
     }
 
+    public void TabSelectedItemChange()
+    {
+        this.TabSelectedItem = 0;
+        this.StateHasChanged();
+    }
+
     public void UpdateBreadCrumb(string control, string category, string sample)
     {
         this.BreadCrumbObj.UpdatePath(control, category, sample);
@@ -160,7 +168,9 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        var year = DateTime.Now.ToString("yyyy");
-        this.CopyRight = "Copyright © 2001 - " + year + " Syncfusion Inc.";
+        GregorianCalendar calendar = new GregorianCalendar();
+        var year = DateTime.Now;
+        var currentyear = calendar.GetYear(year);
+        this.CopyRight = "Copyright © 2001 - " + currentyear + " Syncfusion Inc.";
     }
 }

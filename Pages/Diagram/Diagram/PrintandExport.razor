@@ -3,14 +3,8 @@
 @using Syncfusion.Blazor.Diagrams
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.CircularGauge
-@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.SplitButtons
-
-
-
 
     <div class="control-section" style="padding-top: 0px;border-right: 1px solid #D7D7D7;border-left: 1px solid #D7D7D7;">
         @*Hidden:Lines*@
@@ -122,21 +116,20 @@
                     padding: 6px 12px 4px;
                 }
         </style>
-
+        @*End:Hidden*@
         <div id="toolbar_default">
             <SfToolbar>
                 <ToolbarItems>
                     <ToolbarItem>
                         <Template>
                             <SfDropDownButton Content="Export" IconCss="e-ddb-icons e-export">
-                                <DropDownButtonItems>
-                                    <DropDownButtonItem Text="JPG"></DropDownButtonItem>
-                                    <DropDownButtonItem Text="PNG"></DropDownButtonItem>
-                                    <DropDownButtonItem Text="BMP"></DropDownButtonItem>
-                                    <DropDownButtonItem Text="SVG"></DropDownButtonItem>
-                                </DropDownButtonItems>
-
-                                <DropDownButtonEvents ItemSelected="onselect"></DropDownButtonEvents>
+                                <DropDownMenuItems>
+                                    <DropDownMenuItem Text="JPG"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="PNG"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="BMP"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="SVG"></DropDownMenuItem>
+                                </DropDownMenuItems>
+                                <DropDownButtonEvents ItemSelected="@onselect"></DropDownButtonEvents>
                             </SfDropDownButton>
                         </Template>
                     </ToolbarItem>
@@ -154,30 +147,24 @@
                 </ToolbarItems>
             </SfToolbar>
         </div>
-        @*End:Hidden*@
-        <SfDiagram ID="diagram" Width="100%" Height="@Height" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
+        <SfDiagram ID="diagram" Height="580px" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
             <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
             <DiagramPageSettings Width="550" Height="500" MultiplePage="true">
-                <DiagramFitOptions CanFit="@CanFit" Mode="@Mode"> </DiagramFitOptions>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"> </DiagramFitOptions>
             </DiagramPageSettings>
         </SfDiagram>
-
     </div>
 
 
 @code{
     SfDiagram Diagram;
-     bool CanFit = true;
-    FitModes Mode = FitModes.Width;
 
-    SfCheckBox checkBox;
+    SfCheckBox<bool> checkBox;
     public class ImageFields
     {
         public string Text { get; set; }
     }
 
-
-    public string Height { get; set; } = "580px";
 
     public double length = 70;
 
@@ -195,9 +182,7 @@
         set;
     }
 
-    
-
-    private void onselect(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
+    private async Task onselect(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
     {
         IExportOptions options = new IExportOptions()
         {
@@ -205,33 +190,29 @@
             Region = DiagramRegions.PageSettings,
             MultiplePage = checkBox.Checked,
             FileName = "Export",
-            Margin = new Syncfusion.Blazor.Diagrams.MarginModel() { Bottom = 0, Left = 0, Right = 0, Top = 0 },
+            Margin = new DiagramMargin() { Bottom = 0, Left = 0, Right = 0, Top = 0 },
             Stretch = Stretch.None,
             Format = (FileFormats)(Enum.Parse(typeof(FileFormats), args.Item.Text, true))
         };
 
-        Diagram.ExportDiagram(options);
+        await Diagram.ExportDiagram(options);
     }
-    private void onItemClick()
+    private async Task onItemClick()
     {
         IPrintOptions options = new IPrintOptions()
         {
             MultiplePage = checkBox.Checked,
             Stretch = Stretch.None,
-            Margin = new Syncfusion.Blazor.Diagrams.MarginModel() { Bottom = 0, Left = 0, Right = 0, Top = 0 },
+            Margin = new DiagramMargin() { Bottom = 0, Left = 0, Right = 0, Top = 0 },
             Region = DiagramRegions.PageSettings,
         };
-        Diagram.Print(options);
-
+        await Diagram.Print(options);
     }
-
-
 
     protected override void OnInitialized()
     {
         #region Nodes
-        NodeCollection = new ObservableCollection<DiagramNode>
-            ();
+        NodeCollection = new ObservableCollection<DiagramNode>();
         DiagramNode sourceNode1 = new DiagramNode()
         {
             OffsetX = 120,
@@ -421,7 +402,7 @@
             TargetID = "booksNode3",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "No", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -433,7 +414,7 @@
             TargetID = "nontraditionalNode6",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "No", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -445,7 +426,7 @@
             TargetID = "recordNode4",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -457,7 +438,7 @@
             TargetID = "traditionalNode5",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -469,7 +450,7 @@
             TargetID = "radial2",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -481,7 +462,7 @@
             TargetID = "radial3",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -493,7 +474,7 @@
             TargetID = "radial4",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -505,7 +486,7 @@
             TargetID = "radial5",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
@@ -517,14 +498,13 @@
             TargetID = "radial6",
             Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" },
             Annotations = new ObservableCollection<DiagramConnectorAnnotation>()
-{
+            {
                 new DiagramConnectorAnnotation(){ Content = "Yes", Style = new AnnotationStyle(){ Fill = "White" } },
             }
         };
         ConnectorCollection.Add(connector10);
         #endregion
     }
-
 }
 
 

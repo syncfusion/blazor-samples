@@ -9,18 +9,18 @@
 
 @inherits SampleBaseComponent;
     <div class="col-lg-9 control-section sb-property-border">
-        <SfMaps @ref="@maps" AllowPdfExport="true" AllowImageExport="true">
+        <SfMaps @ref="@Maps" AllowPdfExport="true" AllowImageExport="true">
             <MapsTitleSettings Text="Location of the Wonders in the World">
-                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
+                <MapsTitleTextStyle Size="16px"/>
             </MapsTitleSettings>
             <MapsLayers>
-                <MapsLayer ShapeData="@MapShapeData" LayerType="@layerValue">
-                    <MapsShapeSettings Fill="lightgrey">
-                        <MapsShapeBorder Color="black" Width="0.1"></MapsShapeBorder>
+                <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/WorldMap.json"}' LayerType="@LayerValue">
+                    <MapsShapeSettings Fill="#D3D3D3">
+                        <MapsShapeBorder Color="#000000" Width="0.1"/>
                     </MapsShapeSettings>
                     <MapsMarkerSettings>
-                        <MapsMarker Visible="true" AnimationDuration="0" Shape="MarkerType.Balloon" Fill="#E13E40" Height="20" Width="15" DataSource="@MarkerDataSource">
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="name"></MapsMarkerTooltipSettings>
+                        <MapsMarker Visible="true" Shape="MarkerType.Balloon" Fill="#E13E40" Height="20" Width="15" DataSource="@MarkerDataSource">
+                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name"/>
                         </MapsMarker>
                     </MapsMarkerSettings>
                 </MapsLayer>
@@ -39,9 +39,9 @@
                 </td>
                 <td style="width: 60%;">
                     <div>
-                        <SfDropDownList TValue="string" TItem="MapType" DataSource="@mapTypes" Value="@mapValue" Width="95%">
-                            <DropDownListEvents TValue="string" ValueChange="mapValueChange"></DropDownListEvents>
-                            <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                        <SfDropDownList TValue="string" TItem="MapType" DataSource="@MapLayerTypes" Value="@MapValue" Width="95%">
+                            <DropDownListEvents TValue="string" ValueChange="MapLayerTypeValueChange"/>
+                            <DropDownListFieldSettings Text="Text" Value="Text"/>
                         </SfDropDownList>
                     </div>
 
@@ -53,14 +53,21 @@
                         Export Type
                     </div>
                 </td>
-                <td style="width: 60%;">
+                <td style="width: 60%;margin-Top:6%;display:@GeoDisplay">
                     <div>
-                        <SfDropDownList TValue="string" TItem="FileFormatType" DataSource="@FileTypes" Value="@fileType" Width="95%">
-                            <DropDownListEvents TValue="string" ValueChange="TreemapValueChange"></DropDownListEvents>
-                            <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                        <SfDropDownList TValue="string" TItem="FileFormatType" DataSource="@GeometryFileTypes" Value="@FileType" Width="95%">
+                            <DropDownListEvents TValue="string" ValueChange="MapFileValueChange"/>
+                            <DropDownListFieldSettings Text="Text" Value="Text"/>
                         </SfDropDownList>
                     </div>
-
+                </td>
+                 <td style="width: 60%;margin-Top:6%;display:@OsmDisplay">
+                    <div>
+                        <SfDropDownList TValue="string" TItem="FileFormatType" DataSource="@OsmFileTypes" Value="@FileType" Width="95%">
+                            <DropDownListEvents TValue="string" ValueChange="MapFileValueChange"/>
+                            <DropDownListFieldSettings Text="Text" Value="Text"/>
+                        </SfDropDownList>
+                    </div>
                 </td>
             </tr>
             <tr style="height: 50px">
@@ -69,15 +76,14 @@
                 </td>
                 <td style="width: 40%;">
                     <div class="e-float-input" style='margin-top: 0px;'>
-                        <SfTextBox Value="@fileName" ValueChange="@NameChange"></SfTextBox>
+                        <SfTextBox Value="@FileName" ValueChange="@NameChange"/>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
                     <div style="height: 45px;margin-left:70%; text-transform:none !important; width: 80px; ">
-                        <SfButton Content="Export" OnClick="ExportClick" CssClass="e-info" IsToggle="true" IsPrimary="true">
-                        </SfButton>
+                        <SfButton Content="Export" OnClick="ExportClick" CssClass="e-info" IsToggle="true" IsPrimary="true"/>
                     </div>
                 </td>
             </tr>
@@ -85,103 +91,85 @@
         </tbody>
     </table>
 </div>
-
 @code {
-    SfMaps maps;
-    public string fileType { get; set; } = "JPEG";
-    public string mapValue { get; set; } = "Geometry";
-    public ShapeLayerType layerValue = ShapeLayerType.Geometry;
-    public string fileName { get; set; } = "Maps";
-    public MapDataSettings MapShapeData = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/WorldMap.json",
-        type = "GET"
+    SfMaps Maps;
+    public string GeoDisplay = "block";
+    public string OsmDisplay = "none";
+    public string FileType { get; set; } = "JPEG";
+    public string MapValue { get; set; } = "Geometry";
+    public ShapeLayerType LayerValue = ShapeLayerType.Geometry;
+    public string FileName { get; set; } = "Maps";
+    public class MarkerData {
+        public double Latitude;
+        public double Longitude;
+        public string Name;
     };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
+    public List<MarkerData> MarkerDataSource = new List<MarkerData> {
+        new MarkerData { Longitude=116.5703749, Latitude=40.4319077, Name="The Great Wall of China, China" },
+        new MarkerData { Longitude=35.4443622, Latitude=30.3284544, Name="Petra, Jorden" },
+        new MarkerData { Longitude=78.0421552, Latitude=27.1750151, Name="Taj Mahal, Agra, India" },
+        new MarkerData { Longitude=12.4922309, Latitude=41.8902102, Name="The Roman Colosseum, Rome, Italy" },
+        new MarkerData { Longitude=-88.5677826, Latitude=20.6842849, Name="The Chichen Itza, Mexico" },
+        new MarkerData { Longitude=-72.5449629, Latitude=-13.1631412, Name="Machu Picchu, Peru" },
+        new MarkerData { Longitude=-43.2104872, Latitude=-22.951916, Name="Christ Redeemer, Rio de janeiro, Brazil" }
     };
-    public class MarkerData
-    {
-        public double latitude;
-        public double longitude;
-        public string name;
-    };
-    public List<MarkerData> MarkerDataSource = new List<MarkerData>
-{
-        new MarkerData { longitude=116.5703749, latitude=40.4319077, name="The Great Wall of China, China" },
-        new MarkerData { longitude=35.4443622, latitude=30.3284544, name="Petra, Jorden" },
-        new MarkerData { longitude=78.0421552, latitude=27.1750151, name="Taj Mahal, Agra, India" },
-        new MarkerData { longitude=12.4922309, latitude=41.8902102, name="The Roman Colosseum, Rome, Italy" },
-        new MarkerData { longitude=-88.5677826, latitude=20.6842849, name="The Chichen Itza, Mexico" },
-        new MarkerData { longitude=-72.5449629, latitude=-13.1631412, name="Machu Picchu, Peru" },
-        new MarkerData { longitude=-43.2104872, latitude=-22.951916, name="Christ Redeemer, Rio de janeiro, Brazil" }
-    };
-    public class MapType
-    {
-        public string id { get; set; }
-        public string text { get; set; }
+    public class MapType {
+        public string Id { get; set; }
+        public string Text { get; set; }
     }
-
-    private List<MapType> mapTypes = new List<MapType>()
-    {
-        new MapType(){ id= "Geometry", text= "Geometry" },
-        new MapType(){ id= "OSM", text= "OSM" },
+    private List<MapType> MapLayerTypes = new List<MapType>() {
+        new MapType(){ Id= "Geometry", Text= "Geometry" },
+        new MapType(){ Id= "OSM", Text= "OSM" },
     };
-    public class FileFormatType
-    {
-        public string id { get; set; }
-        public string text { get; set; }
+    public class FileFormatType {
+        public string Id { get; set; }
+        public string Text { get; set; }
     }
-
-    private List<FileFormatType> FileTypes = new List<FileFormatType>()
-{
-        new FileFormatType(){ id= "JPEG", text= "JPEG" },
-        new FileFormatType(){ id= "PNG", text= "PNG" },
-        new FileFormatType(){ id= "SVG", text= "SVG" },
-        new FileFormatType(){ id= "PDF", text= "PDF" },
+    private List<FileFormatType> GeometryFileTypes = new List<FileFormatType>() {
+        new FileFormatType(){ Id= "JPEG", Text= "JPEG" },
+        new FileFormatType(){ Id= "PNG", Text= "PNG" },
+        new FileFormatType(){ Id= "SVG", Text= "SVG" },
+        new FileFormatType(){ Id= "PDF", Text= "PDF" },
     };
-    private void NameChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
-    {
-        fileName = args.Value;
+    private List<FileFormatType> OsmFileTypes = new List<FileFormatType>() {
+        new FileFormatType(){ Id= "JPEG", Text= "JPEG" },
+        new FileFormatType(){ Id= "PNG", Text= "PNG" },
+        new FileFormatType(){ Id= "PDF", Text= "PDF" },
+    };
+    private void NameChange(ChangedEventArgs args) {
+        FileName = args.Value;
     }
-    private void TreemapValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
-        fileType = args.Value;
+    private void MapFileValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+        FileType = args.Value;
     }
-    public void mapValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
-        mapValue = args.Value;
-        if (mapValue == "Geometry")
-        {
-            layerValue = ShapeLayerType.Geometry;
-        } else
-        {
-            layerValue = ShapeLayerType.OSM;
+    public void MapLayerTypeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+        MapValue = args.Value;
+        if (MapValue == "Geometry") {
+            LayerValue = ShapeLayerType.Geometry;
+            GeoDisplay = "block";
+            OsmDisplay = "none";
+        } else {
+            LayerValue = ShapeLayerType.OSM;
+            GeoDisplay = "none";
+            OsmDisplay = "block";
         }
     }
-    private void ExportClick(MouseEventArgs args)
-    {
-
-        ExportType exportFileType = ExportType.JPEG;
-        switch (fileType)
-        {
+    private void ExportClick(MouseEventArgs args) {
+        ExportType ExportFileType = ExportType.JPEG;
+        switch (FileType) {
             case "JPEG":
-                exportFileType = ExportType.JPEG;
+                ExportFileType = ExportType.JPEG;
                 break;
             case "PNG":
-                exportFileType = ExportType.PNG;
+                ExportFileType = ExportType.PNG;
                 break;
             case "SVG":
-                exportFileType = ExportType.SVG;
+                ExportFileType = ExportType.SVG;
                 break;
             case "PDF":
-                exportFileType = ExportType.PDF;
+                ExportFileType = ExportType.PDF;
                 break;
         }
-        maps.Export(exportFileType, fileName);
+        Maps.Export(ExportFileType, FileName);
     }
 }

@@ -4,51 +4,97 @@
 
 @inherits SampleBaseComponent;
 
-    <div class="control-section">
-            <SfMaps>
-                <MapsCenterPosition Latitude="1.5053645409602877" Longitude="105.14038085937499"></MapsCenterPosition>
-                <MapsZoomSettings Enable="false" ZoomFactor="7" MouseWheelZoom="false"></MapsZoomSettings>
-                <MapsAreaSettings Background="#AEE2FA"></MapsAreaSettings>
-                <MapsTitleSettings Text="7.6 Magnitude earthquake strikes Sumatra - 2009">
-                    <MapsTitleTextStyle Size="18px"></MapsTitleTextStyle>
-                </MapsTitleSettings>
-                <MapsLayers>
-                    <MapsLayer ShapeData="@Asia" AnimationDuration="1000" ShapeDataPath="name" ShapePropertyPath='@("name")'>
-                        <MapsShapeSettings Fill="#FFFDCF">
-                            <MapsShapeBorder Color="#3497C3" Width="0.5"></MapsShapeBorder>
-                        </MapsShapeSettings>
-                        <MapsMarkerSettings>
-                            <MapsMarker Visible="true" Shape="MarkerType.Circle" Fill="red" Height="20" Width="20" DataSource="@EarthQuakeIndication"></MapsMarker>
-                        </MapsMarkerSettings>
-                    </MapsLayer>
-                </MapsLayers>
-
-            </SfMaps>
-        <div style="float: right; margin-right: 10px;">
-            Source:
-            <a href="https://en.wikipedia.org/wiki/2009_Sumatra_earthquakes" target="_blank">en.wikipedia.org</a>
-        </div>
+<div class="control-section">
+    <SfMaps ModelType="@typeof(IDataTemplate)">
+        <MapsCenterPosition Latitude="1.5053645409602877" Longitude="105.14038085937499"/>
+        <MapsZoomSettings Enable="false" ZoomFactor="7"/>
+        <MapsAreaSettings Background="#AEE2FA"/>
+        <MapsTitleSettings Text="7.6 Magnitude earthquake strikes Sumatra - 2009">
+            <MapsTitleTextStyle Size="18px"/>
+        </MapsTitleSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/asia.json"}' ShapePropertyPath="@ShapePropertyPath">
+                <MapsShapeSettings Fill="#FFFDCF">
+                    <MapsShapeBorder Color="#3497C3" Width="0.5"/>
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Fill="#FF0000" Height="20" Width="20" DataSource="@EarthQuakeIndication">
+                        <MarkerTemplate>
+                        @{
+                            <div id="template" style="display:block">
+                                <div class="pulse-container">
+                                    <div class="pulse-box">
+                                        <div class="pulse-css"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        </MarkerTemplate>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/2009_Sumatra_earthquakes" target="_blank">en.wikipedia.org</a>
     </div>
-
+</div>     
+<style>
+.pulse-css {
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background:#E94430;
+  position: relative;
+}
+.pulse-css:before, .pulse-css:after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-color: #E94430;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  transform: scale(0.5);
+  transform-origin: center center;
+  animation: pulse-me 3s linear infinite;
+}
+.pulse-css:after {
+  animation-delay: 2s;
+}
+@@keyframes pulse-me {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  70% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+</style>
 @code {
-    public MapDataSettings Asia = new MapDataSettings{
-        async= true,
-        dataOptions= "scripts/MapsData/asia.json",
-        type= "GET"
+    public string ShapePropertyPath = "name";
+    public class MarkerDataSource {
+        public double Latitude;
+        public double Longitude;
     };
-    public class MapDataSettings
-    {
-        public Boolean async{ get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
-    };
-    public class Continent
-    {
-        public double latitude;
-        public double longitude;
-    };
-    public List<Continent> EarthQuakeIndication = new List<Continent>
-    {
-        new Continent { latitude=1.625758360412755, longitude=98.5693359375}
+    public List<MarkerDataSource> EarthQuakeIndication = new List<MarkerDataSource> {
+        new MarkerDataSource { Latitude=1.625758360412755, Longitude=98.5693359375 }
     };
 }

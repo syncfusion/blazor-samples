@@ -2,18 +2,15 @@
 
 @using Syncfusion.Blazor.Diagrams
 @using System.Collections.ObjectModel
-@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.DropDowns
-@using Newtonsoft.Json
+
 @inherits SampleBaseComponent;
+
 @*Hidden:Lines*@
 <style>
     #diagram {
         display: block;
     }
-
-
     .image-pattern-style {
         background-color: white;
         background-size: contain;
@@ -89,7 +86,7 @@
 @*End:Hidden*@
 <div class="col-lg-8 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagram @ref="@Diagram" id="diagram" Width="100%" Height="690px" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults" Layout="@LayoutValue">
+        <SfDiagram @ref="@Diagram" ID="diagram" Height="690px" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults" Layout="@LayoutValue">
             <DiagramDataSource Id="Id" ParentId="Manager" DataSource="@DataSource">
                 <DiagramDataMapSettings>
                     <DiagramDataMapSetting Property="Annotations[0].Content" Field="Role"></DiagramDataMapSetting>
@@ -98,7 +95,6 @@
             </DiagramDataSource>
             <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
         </SfDiagram>
-
     </div>
 </div>
 @*Hidden:Lines*@
@@ -183,7 +179,7 @@
     </div>
 </div>
 @*End:Hidden*@
-@functions
+@code
     {
     static string selecteditem = "image-pattern-style  e-selected-orientation-style";
     static string unselecteditem = "image-pattern-style";
@@ -224,7 +220,7 @@
         Height = 50,
         Width = 120,
         Annotations = new ObservableCollection<DiagramNodeAnnotation>()
-{
+        {
             new DiagramNodeAnnotation() { Offset = new NodeAnnotationOffset(){ Y =0.5, X= 0.5}, Id = "label",
              Style= new AnnotationStyle(){ Color="white"} }
         },
@@ -254,7 +250,7 @@
 
     }
     public List<object> DataSource = new List<object>()
-{
+    {
         new OrganizationalDetails(){Id= "parent", Role= "Board", Color = "#71AF17", Manager = "",ChartType = "" },
         new OrganizationalDetails() { Id = "1",Role=  "General manager", Color = "#71AF17", Manager =  "parent", ChartType ="right"},
         new OrganizationalDetails() { Id = "11", Role= "Assistant general manager",Color =  "#71AF17", Manager =  "1",ChartType = ""},
@@ -286,7 +282,7 @@
         };
     }
 
-    public void OnClickconnector()
+    public async Task OnClickconnector()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -298,7 +294,7 @@
             }
         }
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
     public void LeftToRight()
     {
@@ -310,20 +306,11 @@
     {
         public string Text { get; set; }
     }
-    private List<Syncfusion.Blazor.SplitButtons.ItemModel> Images = new List<Syncfusion.Blazor.SplitButtons.ItemModel>
-    () {
-    new Syncfusion.Blazor.SplitButtons.ItemModel(){Text ="JPG" },
-    new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="PNG" },
-    new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="BMP" },
-    new Syncfusion.Blazor.SplitButtons.ItemModel(){Text="SVG" }
-    };
-
-
-    private void onItemClick()
+    private async Task onItemClick()
     {
         IPrintOptions options = new IPrintOptions()
         {
-            Margin = new Syncfusion.Blazor.Diagrams.MarginModel()
+            Margin = new Syncfusion.Blazor.Diagrams.DiagramMargin()
             {
                 Left = 0,
                 Right = 0,
@@ -332,21 +319,21 @@
             },
             Region = DiagramRegions.PageSettings,
         };
-        Diagram.Print(options);
+        await Diagram.Print(options);
 
     }
 
-    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private async Task HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
         HValue = (int)args.Value;
-        Diagram.Layout.HorizontalSpacing = args.Value;
-        Diagram.DataBind();
+        Diagram.Layout.HorizontalSpacing = double.Parse(args.Value.ToString());
+        await Diagram.DataBind();
     }
-    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs args)
+    private async Task VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
         VValue = (int)args.Value;
-        Diagram.Layout.VerticalSpacing = args.Value;
-        Diagram.DataBind();
+        Diagram.Layout.VerticalSpacing = double.Parse(args.Value.ToString());
+        await Diagram.DataBind();
     }
 
     private void ToptoBottomClick()
@@ -369,7 +356,7 @@
         Diagram.Layout.Orientation = LayoutOrientation.BottomToTop;
         updateSelection("bottomToTop");
     }
-    private void Pattern1Click()
+    private async Task Pattern1Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -383,9 +370,9 @@
         }
         updatePatternSelection("pattern1");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
-    private void Pattern2Click()
+    private async Task Pattern2Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -399,9 +386,9 @@
         }
         updatePatternSelection("pattern2");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
-    private void Pattern3Click()
+    private async Task Pattern3Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -415,11 +402,9 @@
         }
         updatePatternSelection("pattern3");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
-
-
+        await Diagram.DoLayout();
     }
-    private void Pattern4Click()
+    private async Task Pattern4Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -433,9 +418,9 @@
         }
         updatePatternSelection("pattern4");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
-    private void Pattern5Click()
+    private async Task Pattern5Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -449,10 +434,9 @@
         }
         updatePatternSelection("pattern5");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
-
+        await Diagram.DoLayout();
     }
-    private void Pattern6Click()
+    private async Task Pattern6Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -466,9 +450,9 @@
         }
         updatePatternSelection("pattern6");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
-    private void Pattern7Click()
+    private async Task Pattern7Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -482,9 +466,9 @@
         }
         updatePatternSelection("pattern7");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
-    private void Pattern8Click()
+    private async Task Pattern8Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -498,9 +482,9 @@
         }
         updatePatternSelection("pattern8");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
-    private void Pattern9Click()
+    private async Task Pattern9Click()
     {
         Diagram.BeginUpdate();
         foreach (var node in Diagram.Nodes)
@@ -514,7 +498,7 @@
         }
         updatePatternSelection("pattern9");
         Diagram.EndUpdate();
-        Diagram.DoLayout();
+        await Diagram.DoLayout();
     }
     private void updatePatternSelection(string id)
     {

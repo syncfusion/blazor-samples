@@ -219,7 +219,7 @@ namespace ej2_blazor_ganttdata
             TaskData Record5 = new TaskData()
             {
                 TaskId = 11,
-                TaskName = "Site wwork",
+                TaskName = "Site work",
                 StartDate = new DateTime(2019, 04, 04),
                 EndDate = new DateTime(2019, 04, 21),
                 SubTasks = new List<TaskData>(),

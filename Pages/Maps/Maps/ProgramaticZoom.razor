@@ -7,34 +7,31 @@
 @inherits SampleBaseComponent;
 
 <div class="col-lg-9 control-section sb-property-border">
-    <div>
-        <SfMaps UseGroupingSeparator="true" Format="n">
-            <MapsZoomSettings Enable="true" ShouldZoomInitially="@ZoomIntiatally"></MapsZoomSettings>
-            <MapsTitleSettings Text="Capitals of South American Countries">
-                <MapsTitleTextStyle Size="16px"></MapsTitleTextStyle>
-            </MapsTitleSettings>
-            <MapsLayers>
-                <MapsLayer ShapeData="@MapShapeData">
-                    <MapsShapeSettings Fill="#C1DFF5">
-                        <MapsShapeBorder Width="0.5" Color="black"></MapsShapeBorder>
-                    </MapsShapeSettings>
-                    <MapsMarkerSettings>
-                        <MapsMarker Visible="true" Shape="MarkerType.Image" ImageUrl="styles/images/maps/ballon.png" Height="20" Width="20" AnimationDuration="0" DataSource="@SouthAmericanCapital">
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="name" Format="<b>Capital</b> : ${name}<br><b>country</b> : ${country}"></MapsMarkerTooltipSettings>
-                        </MapsMarker>
-                    </MapsMarkerSettings>
-                </MapsLayer>
-            </MapsLayers>
-        </SfMaps>
-    </div>
-    <div style="float: right; margin-right: 10px;">
+    <SfMaps>
+        <MapsZoomSettings Enable="true" ShouldZoomInitially="@ZoomIntiatally"/>
+        <MapsTitleSettings Text="Capitals of South American Countries">
+            <MapsTitleTextStyle Size="16px"/>
+        </MapsTitleSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/WorldMap.json"}'>
+                <MapsShapeSettings Fill="#C1DFF5">
+                    <MapsShapeBorder Width="0.5" Color="#000000"/>
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Shape="MarkerType.Image" ImageUrl="styles/images/maps/ballon.png" Height="20" Width="20" DataSource="@SouthAmericanCapital">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name" Format="<b>Capital</b> : ${Name}<br><b>Country</b> : ${Country}"/>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
         Source:
         <a href="http://www.citymayors.com/statistics/largest-cities-area-125.html"
            target="_blank">www.citymayors.com</a>
     </div>
 </div>
 <div class="col-lg-3 property-section">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
@@ -45,7 +42,7 @@
                             Zoom to fit all the makers in maps
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@ZoomIntiatally" ValueChange="@zoomCheckBox"></SfCheckBox>
+                            <SfCheckBox Checked="@ZoomIntiatally" ValueChange="@ZoomCheckBox" TChecked="bool"/>
                         </td>
                     </tr>
                 </tbody>
@@ -55,123 +52,31 @@
 </div>
 
 @code {
-    public Boolean ZoomIntiatally = false;
-    public MapDataSettings MapShapeData = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/WorldMap.json",
-        type = "GET"
+    public bool ZoomIntiatally = false;
+    public class Capital {
+        public string Name;
+        public double Latitude;
+        public double Longitude;
+        public string Country;
     };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
-    };
-    public class Capital
-    {
-        public string name;
-        public double latitude;
-        public double longitude;
-        public string country;
-        public string continent;
-    };
-    private void zoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    private void ZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         ZoomIntiatally = args.Checked;
     }
-    public List<Capital> SouthAmericanCapital = new List<Capital>
-{
-        new Capital{
-            name= "Buenos Aires",
-            latitude= -34.603722,
-            longitude= -58.381592,
-            country= "Argentina",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Sucre",
-            latitude= -19.019585,
-            longitude= -65.261963,
-            country= "Bolivia",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Bras�lia",
-            latitude= -15.793889,
-            longitude= -47.882778,
-            country= "Brazil",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Santiago",
-            latitude= -33.447487,
-            longitude= -70.673676,
-            country= "Chile",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Bogota",
-            latitude= 4.624335,
-            longitude= -74.063644,
-            country= "Colombia",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Quito",
-            latitude= -0.180653,
-            longitude= -78.467834,
-            country= "Ecuador",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Georgetown",
-            latitude= 6.8045,
-            longitude= -58.1553,
-            country= "Guyana",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Asuncion",
-            latitude= -25.3006592,
-            longitude= -57.63591,
-            country= "Paraguay",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Lima",
-            latitude= -12.046374,
-            longitude= -77.042793,
-            country= "Peru",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Paramaribo",
-            latitude=  5.8663802,
-            longitude= -55.1668205,
-            country= "Suri name",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Montevideo",
-            latitude= -34.901112,
-            longitude= -56.164532,
-            country= "Uruguay",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Caracas",
-            latitude= 10.500000,
-            longitude= -66.916664,
-            country= "Vanezuela",
-            continent= "South America"
-        },
-        new Capital{
-            name= "Cayenne",
-            latitude= 4.937200,
-            longitude= -52.326000,
-            country= "French Guiana",
-            continent= "South America"
-        }    };
+    public List<Capital> SouthAmericanCapital = new List<Capital> {
+        new Capital{ Name="Buenos Aires", Latitude=-34.603722, Longitude=-58.381592, Country="Argentina" },
+        new Capital{ Name="Sucre", Latitude=-19.019585, Longitude=-65.261963, Country="Bolivia" },
+        new Capital{ Name="Bras�lia", Latitude=-15.793889, Longitude=-47.882778, Country="Brazil" },
+        new Capital{ Name="Santiago", Latitude=-33.447487, Longitude=-70.673676, Country="Chile" },
+        new Capital{ Name="Bogota", Latitude=4.624335, Longitude=-74.063644, Country="Colombia"  },
+        new Capital{ Name="Quito", Latitude=-0.180653, Longitude=-78.467834, Country="Ecuador" },
+        new Capital{ Name="Georgetown", Latitude=6.8045, Longitude=-58.1553, Country="Guyana" },
+        new Capital{ Name="Asuncion", Latitude=-25.3006592, Longitude=-57.63591, Country="Paraguay" },
+        new Capital{ Name="Lima", Latitude=-12.046374, Longitude=-77.042793, Country="Peru" },
+        new Capital{ Name="Paramaribo", Latitude= 5.8663802, Longitude=-55.1668205, Country="Suri name" },
+        new Capital{ Name="Montevideo", Latitude=-34.901112, Longitude=-56.164532, Country="Uruguay" },
+        new Capital{ Name="Caracas", Latitude=10.500000, Longitude=-66.916664, Country="Vanezuela" },
+        new Capital{ Name="Cayenne", Latitude=4.937200, Longitude=-52.326000, Country="French Guiana" }    
+    };
 }
 

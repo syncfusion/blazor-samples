@@ -7,16 +7,17 @@
 @inherits SampleBaseComponent;
 <div class="col-lg-8 control-section sb-property-border">
     <SfMaps>
-        <MapsZoomSettings Enable="@ZoomCheckedState" EnablePanning="@PanCheckedState" Toolbars="@zoomToolbar" ZoomOnClick="SingleClickCheckedState" PinchZooming="@PinchZoomCheckedState" MouseWheelZoom="@MouseWheelCheckedState" DoubleClickZoom="@DoubleClickCheckedState"></MapsZoomSettings>
+        <MapsZoomSettings Enable="@ZoomCheckedState" EnablePanning="@PanCheckedState" Toolbars="@ZoomToolbar" ZoomOnClick="SingleClickCheckedState" PinchZooming="@PinchZoomCheckedState" 
+            MouseWheelZoom="@MouseWheelCheckedState" DoubleClickZoom="@DoubleClickCheckedState"/>
         <MapsLayers>
-            <MapsLayer ShapeData="@WorldMap" ShapeDataPath="continent" ShapePropertyPath='@("continent")' AnimationDuration="@AnimationCheckState" DataSource="@ZoomingDataSource">
-                <MapsShapeSettings Autofill="true" ColorValuePath="color"></MapsShapeSettings>
+            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/WorldMap.json"}' ShapeDataPath="Continent"
+                 ShapePropertyPath="@ShapePropertyPath" AnimationDuration="@AnimationCheckState" DataSource="@ZoomingDataSource">
+                <MapsShapeSettings Autofill="true" ColorValuePath="Color"/>
             </MapsLayer>
         </MapsLayers>
     </SfMaps>
 </div>
 <div class="col-lg-3 property-section">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
@@ -27,7 +28,7 @@
                             Zooming
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@ZoomCheckedState" ValueChange="@ZoomCheckBox"></SfCheckBox>
+                            <SfCheckBox Checked="@ZoomCheckedState" ValueChange="@ZoomCheckBox" TChecked="bool"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -35,7 +36,7 @@
                             Panning
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@PanCheckedState" ValueChange="@PanCheckBox"></SfCheckBox>
+                            <SfCheckBox Checked="@PanCheckedState" ValueChange="@PanCheckBox" TChecked="bool"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -43,7 +44,7 @@
                             Mouse Wheel Zoom
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@MouseWheelCheckedState" ValueChange="@MouseWheelCheckBox"></SfCheckBox>
+                            <SfCheckBox Checked="@MouseWheelCheckedState" ValueChange="@MouseWheelCheckBox" TChecked="bool"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -51,7 +52,7 @@
                             Pinch zoom
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@PinchZoomCheckedState" ValueChange="@PinchZoomCheckBox"></SfCheckBox>
+                            <SfCheckBox Checked="@PinchZoomCheckedState" ValueChange="@PinchZoomCheckBox" TChecked="bool"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -59,7 +60,7 @@
                             Single click Zoom
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@SingleClickCheckedState" ValueChange="@SingleClickCheckBox" Disabled="@SingleClickDisable"></SfCheckBox>
+                            <SfCheckBox Checked="@SingleClickCheckedState" ValueChange="@SingleClickCheckBox" TChecked="bool" Disabled="@SingleClickDisable"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -67,7 +68,7 @@
                             DoubleClick Zoom
                         </td>
                         <td style="width: 50%">
-                            <SfCheckBox Checked="@DoubleClickCheckedState" ValueChange="@DoubleClickCheckBox" Disabled="@DoubleClickDisable"></SfCheckBox>
+                            <SfCheckBox Checked="@DoubleClickCheckedState" ValueChange="@DoubleClickCheckBox" TChecked="bool" Disabled="@DoubleClickDisable"/>
                         </td>
                     </tr>
                     <tr style="height: 35px">
@@ -76,7 +77,7 @@
                         </td>                        
                         <td style="width: 50%">
                             <SfSlider TValue="double" Value="@AnimationCheckState" Step="250" Min="0" Max="1000" Type=SliderType.MinRange>
-                                <SliderEvents TValue="double" ValueChange="AnimationSlider"></SliderEvents>
+                                <SliderEvents TValue="double" ValueChange="AnimationSlider"/>
                             </SfSlider>
                         </td>
                     </tr>
@@ -87,73 +88,51 @@
 </div>
 
 @code {
-    public Boolean DoubleClickDisable = false;
-    public Boolean SingleClickDisable = false;
+    public string ShapePropertyPath = "continent";
+    public bool DoubleClickDisable = false;
+    public bool SingleClickDisable = false;
     public double AnimationCheckState = 500;
-    private Boolean SingleClickCheckedState = false;
-    public string[] zoomToolbar = new string[] { "Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset" };
-    private Boolean ZoomCheckedState = true;
-    private Boolean PanCheckedState = true;
-    public Boolean MouseWheelCheckedState = true;
-    public Boolean PinchZoomCheckedState = true;
-    public Boolean DoubleClickCheckedState;
-    public MapDataSettings WorldMap = new MapDataSettings
-    {
-        async = true,
-        dataOptions = "scripts/MapsData/WorldMap.json",
-        type = "GET"
+    public bool SingleClickCheckedState = false;
+    public string[] ZoomToolbar = new string[] { "Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset" };
+    public bool ZoomCheckedState = true;
+    public bool PanCheckedState = true;
+    public bool MouseWheelCheckedState = true;
+    public bool PinchZoomCheckedState = true;
+    public bool DoubleClickCheckedState;
+    public class ZoomData {
+        public string Continent;
+        public string Color;
     };
-    public class MapDataSettings
-    {
-        public Boolean async { get; set; }
-        public String dataOptions { get; set; }
-        public String type { get; set; }
+    public List<ZoomData> ZoomingDataSource = new List<ZoomData> {
+        new ZoomData { Continent= "Europe", Color= "#EC9B79" },
+        new ZoomData { Continent= "Asia", Color= "#7BC1E8" },
+        new ZoomData { Continent= "North America", Color= "#B5E485" },
+        new ZoomData { Continent= "South America", Color= "#78D0D3" },
+        new ZoomData { Continent= "Asia", Color= "#7BC1E8" },
+        new ZoomData { Continent= "Australia", Color= "#D6D572" },
+        new ZoomData { Continent= "Africa", Color= "#DF819C" }
     };
-    public class ZoomData
-    {
-        public string country;
-        public string continent;
-        public string CategoryName;
-        public double Sales;
-        public string color;
-    };
-    public List<ZoomData> ZoomingDataSource = new List<ZoomData>
-{
-        new ZoomData { country="RUS", continent="Europe", CategoryName="Books", Sales=3746, color="#EC9B79" },
-        new ZoomData { country="IND", continent="Asia", CategoryName="Books", Sales=10688, color="#7BC1E8" },
-        new ZoomData { country="CAN", continent="North America", CategoryName="Books", Sales=10882, color="#B5E485" },
-        new ZoomData { country="BRA", continent="South America", CategoryName="Books", Sales=13776, color="#78D0D3" },
-        new ZoomData { country="JPN", continent="Asia", CategoryName="Books", Sales=19390, color="#7BC1E8" },
-        new ZoomData { country="AUS", continent="Australia", CategoryName="Books", Sales=30716, color="#D6D572" },
-        new ZoomData { country="CAF", continent="Africa", CategoryName="Books", Sales=18718.0, color="#DF819C" }
-    };
-    private void AnimationSlider(Syncfusion.Blazor.Inputs.SliderChangeEventArgs<double> args)
+    private void AnimationSlider(SliderChangeEventArgs<double> args)
     {
         AnimationCheckState = args.Value;
     }
-    private void ZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    private void ZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         ZoomCheckedState = args.Checked;
     }
-    private void MouseWheelCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    private void MouseWheelCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         MouseWheelCheckedState = args.Checked;
     }
-    private void PanCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    private void PanCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         PanCheckedState = args.Checked;
     }
-    private void PinchZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    private void PinchZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         PinchZoomCheckedState = args.Checked;
     }
-    private void SingleClickCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    private void SingleClickCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         SingleClickCheckedState = args.Checked;
         DoubleClickDisable = (SingleClickCheckedState) ? true : false;
     }
-    private void DoubleClickCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
-    {
+    private void DoubleClickCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
         DoubleClickCheckedState = args.Checked;
         SingleClickDisable = (DoubleClickCheckedState) ? true : false;
     }

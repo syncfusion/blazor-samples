@@ -30,6 +30,15 @@
                             <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
                         </SfDropDownList>
                     </div>
+                    <div class='sb-setting-item sb-setting-culture'>
+                        <div class='setting-label'>
+                            <div class='sb-icons sb-setting-icons sb-icon-Localization'></div>
+                            <div class='sb-setting-text'>Localization</div>
+                        </div>
+                        <div>
+                            <CultureSwitcher />
+                        </div>
+                    </div>
                     @*<div class="sb-name">Choose Theme</div>*@
                 </ChildContent>
             </SfSidebar>
@@ -48,7 +57,8 @@
     </div>
 </CascadingValue>
 @code {
-
+    [Inject]
+    SyncfusionBlazorService SyncfusionService { get; set; }
     public SfSidebar MobilePreferences { get; set; }
 
     public LeftPaneComponent LeftPaneObject { get; set; }
@@ -60,7 +70,7 @@
     [Parameter]
     public string controlName { get; set; } = "ControlName";
 
-    public bool IsPrevDisabled { get; set; } 
+    public bool IsPrevDisabled { get; set; }
 
     public bool IsNextDisabled { get; set; }
 
@@ -89,13 +99,13 @@
         JsRuntime.InvokeAsync<string>("mobileThemeChange", args.Value.ToString());
     }
 
-	public void MobileButtonState(string currentUrl)
+    public void MobileButtonState(string currentUrl)
     {
         IsPrevDisabled = (SampleBrowser.SampleUrls.IndexOf(currentUrl) == 0) ? true : false;
         IsNextDisabled = currentUrl.Equals(SampleBrowser.SampleUrls[SampleBrowser.SampleUrls.Count - 1]) ? true : false;
         this.StateHasChanged();
     }
-	
+
     public async Task OnPrevSampleClick()
     {
         var themeName = await JsRuntime.InvokeAsync<string>("persistTheme");
@@ -104,7 +114,7 @@
         if (CurrentIndex != 0)
         {
             UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString() + "?theme=" + themeName);
-            await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+            this.RightPaneObj.TabSelectedItemChange();;
         }
     }
 
@@ -114,7 +124,7 @@
         var currentUrl = Service.Data.CurrentSample.Url.ToLower();
         int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
         UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex + 1].ToString() + "?theme=" + themeName);
-        await JsRuntime.InvokeAsync<Object>("destroyControl", new List<string>());
+        this.RightPaneObj.TabSelectedItemChange();
     }
 
     public List<TabItem> sourceCodeItems;
@@ -143,6 +153,11 @@
         //Spinner.PropertyChanged = this.OnPropertyChanged;
         Service.Notify += OnNotify;
         //UriHelper.NavigateTo("Buttons/DefaultFunctionalities?theme=material");
+
+        if (UriHelper.Uri.IndexOf("material") > 0)
+        {
+            SyncfusionService.EnableRipple();
+        }
     }
 
     public async Task OnNotify(NotifyProperties prop)
@@ -166,14 +181,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if (UriHelper.Uri.IndexOf("material") > 0)
-        {
-            JsRuntime.Sf().EnableRipple(true);
-        }
-        else
-        {
-            JsRuntime.Sf().EnableRipple(false);
-        }
+
         if(this.SpinnerObj.TransClass == "sb-trans")
         {
             this.SpinnerObj.Hide();
@@ -181,7 +189,7 @@
             this.Service.Prop.RestricMouseEvents = false;
         }
     }
-    
+
     public void Dispose()
     {
         Service.Notify -= OnNotify;

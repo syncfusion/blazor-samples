@@ -53,6 +53,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             MailMergeDataTable mailMergeDataTableStock = GetMailMergeDataTableStock();
             // Execute Mail Merge with groups.
             document.MailMerge.ExecuteGroup(mailMergeDataTableStock);
+
             //Update fields in the document.
             document.UpdateDocumentFields();
 

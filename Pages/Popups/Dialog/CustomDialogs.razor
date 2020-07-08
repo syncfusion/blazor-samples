@@ -1,14 +1,12 @@
 ﻿@page "/dialog/custom-dialogs"
 
-@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Popups
-@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
 
 <div id="target" class=" col-lg-12 control-section">
     <div>
-        @if (this.ShowButton)
+        @if (this.ShowButtons)
         {
             <button class="e-btn dlgbtn" @onclick="@AlertBtn">Alert</button>
             <button class="e-btn dlgbtn" @onclick="@ConfirmBtn">Confirm</button>
@@ -25,13 +23,12 @@
                 10% of battery remaining
             </Content>
         </DialogTemplates>
-        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
         <DialogButtons>
-            <DialogButton OnClick="@AlertBtnClick">
-                <DialogButtonModel Content="Dismiss" IsPrimary="true"></DialogButtonModel>
-            </DialogButton>
+            <DialogButton Content="Dismiss" IsPrimary="true" OnClick="@HideDialog" />
         </DialogButtons>
     </SfDialog>
+
     <SfDialog @bind-Visible="@ConfirmDlgVisible" Width="400px" Target="#target" ShowCloseIcon="true">
         <DialogTemplates>
             <Header>
@@ -41,33 +38,45 @@
                 Are you sure you want to permanently delete these items ?
             </Content>
         </DialogTemplates>
-        <DialogEvents Opened="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
         <DialogButtons>
-            <DialogButton OnClick="@ConfirmBtnClick">
-                <DialogButtonModel Content="Yes" IsPrimary="true"></DialogButtonModel>
-            </DialogButton>
-            <DialogButton OnClick="@ConfirmBtnClick">
-                <DialogButtonModel Content="No"></DialogButtonModel>
-            </DialogButton>
+            <DialogButton Content="Yes" IsPrimary="true" OnClick="@HideDialog" />
+            <DialogButton Content="No" OnClick="@HideDialog" />
         </DialogButtons>
     </SfDialog>
+
     <SfDialog ID="prompt_dialog" @bind-Visible="@PromptDlgVisible" Target="#target" Width="330px">
         <DialogTemplates>
             <Header>
                 Join Wi-Fi network
             </Header>
             <Content>
-                <table class='Table'><tbody><tr><td>SSID:</td></tr><tr><td><b>AndroidAP</b></td></tr><tr><td>Password:</td></tr><tr><td><span class='e-input-group'><input type='password' id='password' name='Required' class='e-input'></span></td></tr></tbody></table>
+                <table class="Table">
+                    <tbody>
+                        <tr>
+                            <td>SSID:</td>
+                        </tr>
+                        <tr>
+                            <td><b>AndroidAP</b></td>
+                        </tr>
+                        <tr>
+                            <td>Password:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="e-input-group">
+                                    <input type="password" id="password" name="Required" class="e-input">
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </Content>
         </DialogTemplates>
-        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
         <DialogButtons>
-            <DialogButton OnClick="@PromptBtnClick">
-                <DialogButtonModel Content="Connect" IsPrimary="true"></DialogButtonModel>
-            </DialogButton>
-            <DialogButton OnClick="@PromptBtnClick">
-                <DialogButtonModel Content="Cancel"></DialogButtonModel>
-            </DialogButton>
+            <DialogButton Content="Connect" IsPrimary="true" OnClick="@HideDialog" />
+            <DialogButton Content="Cancel" OnClick="@HideDialog" />
         </DialogButtons>
     </SfDialog>
 </div>
@@ -115,10 +124,10 @@
 </style>
 
 @code {
+    private bool ShowButtons { get; set; } = true;
     private bool AlertVisibility { get; set; } = false;
     private bool ConfirmDlgVisible { get; set; } = false;
     private bool PromptDlgVisible { get; set; } = false;
-    private bool ShowButton { get; set; } = true;
 
     private void AlertBtn()
     {
@@ -135,28 +144,20 @@
         this.PromptDlgVisible = true;
     }
 
-    private void AlertBtnClick(Object e)
+    private void HideDialog(Object e)
     {
         this.AlertVisibility = false;
-    }
-
-    private void ConfirmBtnClick(Object e)
-    {
         this.ConfirmDlgVisible = false;
-    }
-
-    private void PromptBtnClick(Object e)
-    {
         this.PromptDlgVisible = false;
     }
 
-    private void DialogOpen(Object args)
+    private void BeforeDialogOpen(BeforeOpenEventArgs args)
     {
-        this.ShowButton = false;
+        this.ShowButtons = false;
     }
 
-    private void DialogClose(Object args)
+    private void DialogClose(CloseEventArgs args)
     {
-        this.ShowButton = true;
+        this.ShowButtons = true;
     }
 }

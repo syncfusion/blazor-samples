@@ -1,13 +1,36 @@
 ﻿@page "/pivot-table/remote-data"
 
 @using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Data
 @inherits SampleBaseComponent;
 
 
 <div class="control-section">
+
+    <div id="dropdown-control" style="margin-bottom:5px;">
+        <table style="width: 350px;">
+            <tbody>
+                <tr style="height: 50px">
+                    <td>
+                        <div>
+                            <b>Content Type:</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList TValue="string" TItem="DropDownData" Index=0 DataSource="@ContentTypes">
+                                <DropDownListEvents TValue="string" ValueChange="OnContentTypeChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <div class="content-wrapper">
-        <SfPivotView TValue="PivotProductDetails" Height="300" EnableValueSorting=true ShowTooltip=false>
+        <SfPivotView TValue="PivotProductDetails" @ref="Pivot" Height="300" EnableValueSorting=true ShowTooltip=false>
             <PivotViewDataSourceSettings TValue="PivotProductDetails" ExpandAll=true EnableSorting=true>
                 <SfDataManager Url="https://bi.syncfusion.com/northwindservice/api/orders" Adaptor="Syncfusion.Blazor.Adaptors.WebApiAdaptor"></SfDataManager>
                 <PivotViewColumns>
@@ -34,9 +57,64 @@
     .e-pivotview {
         min-height: 200px;
     }
+    .control-section {
+        padding-top: 5px;
+    }
 </style>
 
 @code{
+    SfPivotView<PivotProductDetails> Pivot;
+
+    public PivotViewDataSourceSettings<PivotProductDetails> JSONReport = new PivotViewDataSourceSettings<PivotProductDetails>()
+    {
+        DataManager = new SfDataManager()
+        {
+            Url = "https://bi.syncfusion.com/northwindservice/api/orders",
+            Adaptor = Syncfusion.Blazor.Adaptors.WebApiAdaptor
+        },
+        Type = DataSourceType.JSON,
+        ExpandAll = true,
+        Columns = new List<PivotViewColumn>() { new PivotViewColumn() { Name = "ProductName" } },
+        Rows = new List<PivotViewRow>() { new PivotViewRow() { Name = "ShipCountry" }, new PivotViewRow() { Name = "ShipCity" } },
+        Values = new List<PivotViewValue>() { new PivotViewValue() { Name = "Quantity" }, new PivotViewValue() { Name = "UnitPrice", Caption= "Unit Price" } },
+        FormatSettings = new List<PivotViewFormatSetting>() { new PivotViewFormatSetting() { Name = "UnitPrice", Format = "C0", UseGrouping = true } }
+    };
+
+    public PivotViewDataSourceSettings<PivotProductDetails> CSVReport = new PivotViewDataSourceSettings<PivotProductDetails>()
+    {
+        Url = "https://bi.syncfusion.com/productservice/api/sales",
+        Type = DataSourceType.CSV,
+        ExpandAll = false,
+        Columns = new List<PivotViewColumn>() { new PivotViewColumn() { Name = "Item Type" }, new PivotViewColumn() { Name = "Sales Channel" } },
+        Rows = new List<PivotViewRow>() { new PivotViewRow() { Name = "Region" }, new PivotViewRow() { Name = "Country" } },
+        Values = new List<PivotViewValue>() { new PivotViewValue() { Name = "Total Cost" }, new PivotViewValue() { Name = "Total Revenue" }, new PivotViewValue() { Name = "Total Profit" } },
+        FormatSettings = new List<PivotViewFormatSetting>() { new PivotViewFormatSetting() { Name = "Total Cost", Format = "C0", UseGrouping = true }, new PivotViewFormatSetting() { Name = "Total Revenue", Format = "C0", UseGrouping = true }, new PivotViewFormatSetting() { Name = "Total Profit", Format = "C0", UseGrouping = true } },
+        DrilledMembers = new List<PivotViewDrilledMember>() { new PivotViewDrilledMember() { Name = "Total Cost", Items = new string[] { "Baby Food" } } }
+    };
+
+    public void OnContentTypeChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        if (args.Value == "JSON")
+        {
+            this.Pivot.DataSourceSettings = this.JSONReport;
+        }
+        else if (args.Value == "CSV")
+        {
+            this.Pivot.DataSourceSettings = this.CSVReport;
+
+        }
+    }
+
+    List<DropDownData> ContentTypes = new List<DropDownData>() {
+        new DropDownData { Name = "JSON", Value = "JSON" },
+        new DropDownData { Name = "CSV", Value = "CSV" }
+    };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
 
     public class PivotProductDetails
     {

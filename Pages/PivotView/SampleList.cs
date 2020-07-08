@@ -40,12 +40,12 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
-                  @"<p>This sample demonstrates basic rendering of the pivot table bound to JSON data pulled from a remote server.</p>"
+                  @"<p>This sample demonstrates basic rendering of the pivot table bound to JSON or CSV data pulled from a remote server.</p>"
                 },
                 Description = new string[] {
-                  @"<p>The pivot table supports JSON data source. The
+                  @"<p>The pivot table supports JSON and CSV data source. The
                         <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601~DataSource.html'>DataSource</a></code> property in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601_members.html'>PivotViewDataSourceSettings</a></code> class can be assigned with the result of <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.BaseComponent~DataManager.html'>DataManager</a></code> to bind remote data.</p>
                     The
                     <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.BaseComponent~DataManager.html'>SfDataManager</a></code>, which will act as an interface between the service endpoint and the pivot table, will require the below minimal
@@ -66,7 +66,7 @@ namespace blazor_samples
                     </ul>
                     In this demo, remote data is bound by assigning service data as an instance of
                     <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.BaseComponent~DataManager.html'>DataManager</a></code> to the
-                    <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601~DataSource.html'>DataSource</a></code> property in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601_members.html'>PivotViewDataSourceSettings</a></code> class.
+                    <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601~DataSource.html'>DataSource</a></code> property in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601_members.html'>PivotViewDataSourceSettings</a></code> class. But for CSV, the service URL is directly set to <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601~Url.html'>Url</a></code> for remote data consumption.
 <p>More information on the remote data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/data-binding/#remote-data'>documentation section</a>.</p>"
                 }
             },
@@ -175,7 +175,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/pivot-chart",
                 FileName = "Chart.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates rendering a pivot chart using pivot data. User can explore the data through drill-up
@@ -205,6 +205,10 @@ namespace blazor_samples
                             <code>Radar</code>.</br></br>
                             In the sample, the field list option is also enabled, through which you can see the result in the chart by altering
                             the report dynamically.
+                            </br>
+                        </p>
+                        <p>
+                            The drill down/up operation in the accumulation charts, such as pie, doughnut, funnel and pyramid, can be performed using the context menu on the click over the appropriate series.
                             </br>
                         </p>
 <p>More information on the pivot chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/pivot-chart/'>documentation section</a>.</p>"

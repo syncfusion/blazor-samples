@@ -27,8 +27,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
         }
         public MemoryStream MailMergeEvent(string Group1, string Button)
         {
-            string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"\DocIO\MailMergeEventTemplate.doc";
+            string basePath = @"wwwroot/";
+            string dataPath = basePath + @"/DocIO/MailMergeEventTemplate.doc";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             
             if (Button == "View Template")

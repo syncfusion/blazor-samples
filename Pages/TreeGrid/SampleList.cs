@@ -40,53 +40,55 @@ namespace blazor_samples
                     </p>
                     <p>
                         In this demo, the Tree Grid is populated with its minimum default settings.
-                    </p>"
+                    </p>
+                   <p>
+                        More information on the Blazor Tree Grid  can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/getting-started/'>documentation section</a>.</p>"
                 }
             },
-             //new Sample
-             //{
-             //    Name = "Grid Lines",
-             //    Category = "Tree Grid",
-             //    Directory = "TreeGrid/TreeGrid",
-             //    Url = "tree-grid/grid-lines",
-             //    Type = SampleType.None,
-             //    TitleTag = "TreeGrid . Grid Lines . Syncfusion Blazor Components",
-             //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component demonstrates the visibility of the TreeGrid lines that separate the rows and columns.",
-             //    SourceFiles = new List<SourceCollection>()
-             //    {
-             //        new SourceCollection
-             //        {
-             //            Id="GridLines",
-             //            FileName="GridLines.razor"
-             //        },
-             //        new SourceCollection
-             //        {
-             //            Id="LinesData",
-             //            FileName="SelfData.cs"
-             //        }
-             //    },
-             //    ActionDescription = new string[] {
-             //        @"<p>
-             //            This sample demonstrates visibility of the treegrid lines that separates the rows and columns.
-             //        </p>"
-             //    },
-             //    Description = new string[] {
-             //        @"<p>
-             //            The <code>GridLines</code> property is used to control the line visibility that separates the rows and columns. 
-             //            TreeGrid allows us to display the following grid lines,
-             //        </p>
-             //        <ul>
-             //        <li><code>GridLine.Default</code> - Shows the Horizontal line.</li>
-             //        <li><code>GridLine.None</code> - Shows no line.</li>
-             //        <li><code>GridLine.Both</code> - Shows both Horizontal and Vertical lines.</li>
-             //        <li><code>GridLine.Horizontal</code> - Shows the Horizontal line.</li>
-             //        <li><code>GridLine.Vertical</code> - Shows the Vertical line.</li>
-             //        </ul>
-             //        <p>
-             //            In this demo, we set the vertical GridLine mode for the treegrid component.
-             //        </p"
-             //    }
-             //},
+          //   new Sample
+          //   {
+          //     Name = "Grid Lines",
+          //       Category = "Tree Grid",
+          //       Directory = "TreeGrid/TreeGrid",
+          //      Url = "tree-grid/grid-lines",
+          //       Type = SampleType.None,
+          //       TitleTag = "TreeGrid . Grid Lines . Syncfusion Blazor Components",
+          //       MetaDescription = "This demo for Syncfusion Blazor TreeGrid component demonstrates the visibility of the TreeGrid lines that separate the rows and columns.",
+          //       SourceFiles = new List<SourceCollection>()
+          //       {
+          //           new SourceCollection
+          //         {
+          //               Id="GridLines",
+          //               FileName="GridLines.razor"
+          //           },
+          //           new SourceCollection
+          //           {
+          //               Id="LinesData",
+          //               FileName="SelfData.cs"
+          //           }
+          //      },
+          //       ActionDescription = new string[] {
+          //           @"<p>
+          //               This sample demonstrates visibility of the treegrid lines that separates the rows and columns.
+          //           </p>"
+          //       },
+          //       Description = new string[] {
+          //           @"<p>
+          //               The <code>GridLines</code> property is used to control the line visibility that separates the rows and columns. 
+          //               TreeGrid allows us to display the following grid lines,
+          //           </p>
+          //           <ul>
+          //           <li><code>GridLine.Default</code> - Shows the Horizontal line.</li>
+          //           <li><code>GridLine.None</code> - Shows no line.</li>
+          //           <li><code>GridLine.Both</code> - Shows both Horizontal and Vertical lines.</li>
+          //           <li><code>GridLine.Horizontal</code> - Shows the Horizontal line.</li>
+          //          <li><code>GridLine.Vertical</code> - Shows the Vertical line.</li>
+          //           </ul>
+          //           <p>
+          //               In this demo, we set the vertical GridLine mode for the treegrid component.
+          //           </p"
+          //       }
+          //   },
             new Sample
             {
                 Name = "Clipboard",
@@ -118,7 +120,10 @@ namespace blazor_samples
                     <ul>
                         <li><code>Ctrl + C</code> - Selected rows or cells data without header.</li>
                         <li><code>Ctrl + Shift + H</code> - Selected rows or cells data with header.</li>
-                    </ul>"
+                    </ul>
+                    <p>
+                        More information on the clipboard can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/clipboard/'>documentation section</a>.</p>"
+
                 }
             },
 
@@ -128,7 +133,6 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/context-menu",
-                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -166,8 +170,8 @@ namespace blazor_samples
                         <li><code>NextPage</code> - Go to the next page.</li>
                     </ul>
                     <p>While using the Tree Grid in a touch environment, touch and hold the Tree Grid row cell to show the context menu.</p>
-                    <p>In this demo, Context Menu feature is enabled by defining the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.TreeGrid.TreeGridModel%601~ContextMenuItems.html'>ContextMenuItems</a></code> property with the default items.</p>"
-                }
+                    <p>In this demo, Context Menu feature is enabled by defining the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.EJ2.Blazor~Syncfusion.EJ2.Blazor.TreeGrid.TreeGridModel%601~ContextMenuItems.html'>ContextMenuItems</a> property with the default items.</p>"
+                    }
 
             },
             new Sample
@@ -187,11 +191,11 @@ namespace blazor_samples
                     @"<p>Tree Grid can be bound to remote services by assigning the <code>DataSource</code> property with the instance of
                             DataManager.</p>
 
-                    <p>The EjsDataManager, which will act as an interface between the service endpoint and the Tree Grid, will require the below minimal information to interact with service endpoint properly.
+                    <p>The SfDataManager, which will act as an interface between the service endpoint and the Tree Grid, will require the below minimal information to interact with service endpoint properly.
                     </p>
                     <ul>
-                        <li><code>EjsDataManager->Url</code> - Defines the service endpoint to fetch data</li>
-                        <li><code>EjsDataManager->Adaptor</code> - Defines the adaptor option. By default, <code>ODataAdaptor</code> is used
+                        <li><code>SfDataManager->Url</code> - Defines the service endpoint to fetch data</li>
+                        <li><code>SfDataManager->Adaptor</code> - Defines the adaptor option. By default, <code>ODataAdaptor</code> is used
                             for remote binding.</li>
                     </ul>
                     <p>Adaptor is responsible for processing response and request from/to the service endpoint.
@@ -206,7 +210,7 @@ namespace blazor_samples
                         <li><code>WebMethodAdaptor</code> - Use this to interact with web methods.</li>
                     </ul>
                     <p>
-                        More information on the data binding can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/data-binding/?no-cache=1' >Data Binding</a></code>documentation section.
+                        More information on the data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/data-binding/?no-cache=1' > documentation</a> section.
                     </p>"
                 }
             },
@@ -238,7 +242,7 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>The appearance of cells can be customized by using the <code>QueryCellInfo</code> event. The QueryCellInfo event triggers for every cell. In that event handler, you can get <code>QueryCellInfoEventArgs</code> that contains the details of the cell.
                 </p>
-                    <p>More information about conditional formatting can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/cell/#customize-cell-styles'> documentation</a></code>section.</p>"
+                    <p>More information about conditional formatting can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/cell/#customize-cell-styles'> documentation</a> section.</p>"
                 }
             },
             new Sample
@@ -283,45 +287,79 @@ namespace blazor_samples
                 <p>
                     In this demo, the <code>FooterTemplate</code> property is used to display the Sum value for Duration column
                     TrueCount value for the Approved column.    
-                </p>"
+                </p>
+               <p>More information about conditional formatting can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/aggregate/'> documentation</a> section.</p>"
+
                 }
             },
-             //new Sample
-             //{
-             //    Name = "Column Formatting",
-             //    Category = "Columns",
-             //    Directory = "TreeGrid/TreeGrid",
-             //    Url = "tree-grid/column-formatting",
-             //    Type = SampleType.None,
-             //    TitleTag = "TreeGrid . Column Formatting . Syncfusion Blazor Components",
-             //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how to display the content of TreeGrid columns based on the specified format in TreeGrid component.",
-             //    SourceFiles = new List<SourceCollection>()
-             //    {
-             //        new SourceCollection
-             //        {
-             //            Id="Formatting",
-             //            FileName="ColumnFormatting.razor"
-             //        },
-             //        new SourceCollection
-             //        {
-             //            Id="FormatData",
-             //            FileName="FormatData.cs"
-             //        }
-             //    },
-             //    ActionDescription = new string[] {
-             //        @"<p>
-             //            This sample demonstrates the way of displaying the content of TreeGrid columns based on the specified format.
-             //        </p>"
-             //    },
-             //    Description = new string[] {
-             //        @"<p>Format is the process of customizing the particular column data/values based on specific culture. The TreeGrid uses Internationalization library to format number and date values. 
-             //            The format can be specified by using <code>
-             //            Format</code> property of columns.</p>
-             //            <p>
-             //            In this demo, select the column and format from the property panel to format the corresponding column values.
-             //            </p>"
-             //    }
-             //},
+            new Sample
+             {
+                 Name = "Column Chooser",
+                 Category = "Columns",
+                 Directory = "TreeGrid/TreeGrid",
+                 Url = "tree-grid/columnchooser",
+                 Type = SampleType.New,
+                 SourceFiles = new List<SourceCollection>()
+                 {
+                     new SourceCollection
+                     {
+                         Id="ColumnChooser",
+                         FileName="TreeColumnChooser.razor"
+                     },
+                     new SourceCollection
+                     {
+                         Id="TreeData",
+                         FileName="SelfData.cs"
+                     }
+                 },
+                 ActionDescription = new string[] {
+                     @"<p>This sample demonstrates the Tree Grid column chooser feature. Click the column chooser
+                    icon in the toolbar to open column chooser and you can select columns to hide/show from the checkbox list. 
+                    </p>"
+                 },
+                 Description = new string[] {
+                    @"<p>The Tree Grid columns can be shown/hidden dynamically by using column chooser functionality. To enable column chooser, set <code><a>ShowColumnChooser</a></code> property as true. You can also prevent the display of a column in 
+                         column chooser by setting <code><a>ShowInColumnChooser</a></code> as false in the columns definition.</p>
+                    <p>In this demo, when the user clicks column chooser icon from the toolbar, the column chooser menu will open. Here the user can show or hide the columns by changing the state of the checkbox.</p>
+                    <p>More information on the column chooser can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#column-chooser'>documentation section</a>.</p>"
+                 }
+             },
+            // new Sample
+            // {
+            //     Name = "Column Formatting",
+            //     Category = "Columns",
+            //     Directory = "TreeGrid/TreeGrid",
+            //     Url = "tree-grid/column-formatting",
+            //     Type = SampleType.None,
+            //     TitleTag = "TreeGrid . Column Formatting . Syncfusion Blazor Components",
+            //     MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how to display the content of TreeGrid columns based on the specified format in TreeGrid component.",
+            //     SourceFiles = new List<SourceCollection>()
+            //     {
+            //         new SourceCollection
+            //         {
+            //             Id="Formatting",
+            //             FileName="ColumnFormatting.razor"
+            //         },
+            //         new SourceCollection
+            //         {
+            //             Id="FormatData",
+            //             FileName="FormatData.cs"
+            //         }
+            //     },
+            //     ActionDescription = new string[] {
+            //         @"<p>
+            //             This sample demonstrates the way of displaying the content of TreeGrid columns based on the specified format.
+            //         </p>"
+            //     },
+            //     Description = new string[] {
+            //         @"<p>Format is the process of customizing the particular column data/values based on specific culture. The TreeGrid uses Internationalization library to format number and date values. 
+            //             The format can be specified by using <code>
+            //             Format</code> property of columns.</p>
+            //             <p>
+            //             In this demo, select the column and format from the property panel to format the corresponding column values.
+            //             </p>"
+            //     }
+            // },
             new Sample
             {
                 Name = "Column Template",
@@ -350,7 +388,9 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>The Tree Grid provides a way to use a custom layout for each cell using column template feature. The TreeGridcolumn <code>Template</code> sub component is used to insert the column template for the columns.
                         </p>
-                        <p>In this demo, using column template, we have presented Employee Image column with Employee Photo.</p>"
+                        <p>In this demo, using column template, we have presented Employee Image column with Employee Photo.</p>
+                        <p>More information on the column template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#column-template'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -386,7 +426,7 @@ namespace blazor_samples
                     <p>In this demo, the <code>AllowTextWrap</code> property is enabled, and you can also see that the Task Name column whose content exceeded the cell width is wrapped into multiple lines.
                     </p>
                     <p>
-                        More information about Auto wrap cells can be found <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/cell/#auto-wrap'>Auto wrap</a></code> in this documentation section.
+                        More information about Auto wrap cells can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/cell/#auto-wrap'>documentation</a> section.
                     </p>"
                 }
             },
@@ -424,7 +464,9 @@ namespace blazor_samples
                     <code>TreeGridColumn->HeaderText</code> value.</p>
                 <br/>
                 <p>The <code>TreeGridColumn->Visible</code> property specifies the visibility of a column.
-                To hide a column at the initial rendering, set the <code>Visible</code> property of TreeGridColumn component to false.</p>"
+                To hide a column at the initial rendering, set the <code>Visible</code> property of TreeGridColumn component to false.</p>
+                <p>More information on the show hide column can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#showhide-columns-by-external-button'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -455,90 +497,92 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>The Tree Grid provides a way to define a custom element in header element. By inducing <code>HeaderTemplate</code> sub component in the columns, which will be used as the template for the header cell.
                         </p>
-                        <p>In this demo, we have render customized template for all column headers.</p>"
+                        <p>In this demo, we have render customized template for all column headers.</p>
+                         <p>More information on the header template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#header-template'>documentation section</a>.</p>"
+
                 }
             },
-             //new Sample
-             //{
-             //    Name = "Cell Alignment",
-             //    Category = "Columns",
-             //    Directory = "TreeGrid/TreeGrid",
-             //    Url = "tree-grid/cell-alignment",
-             //    Type = SampleType.None,
-             //    TitleTag = "TreeGrid . Cell Alignment . Syncfusion Blazor Components",
-             //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component shows how to align the content inside the cells of TreeGrid columns and headers.",
-             //    SourceFiles = new List<SourceCollection>()
-             //    {
-             //        new SourceCollection
-             //        {
-             //            Id="CellAlignment",
-             //            FileName="CellAlignment.razor"
-             //        },
-             //        new SourceCollection
-             //        {
-             //            Id="CellData",
-             //            FileName="SelfData.cs"
-             //        }
-             //    },
-             //    ActionDescription = new string[] {
-             //        @"<p>
-             //            This sample demonstrates the text alignment functionalities of the treegrid columns.
-             //        </p>"
-             //    },
-             //    Description = new string[] {
-             //        @"<p>
-             //            Align both content and header text of particular column using the <code>TextAlign
-             //            </code> property of columns. There are four possible ways to align content and header text of column, they are.
-             //        <br>
-             //    </p>
-             //    <ul>
-             //        <li><code>Right</code></li>
-             //        <li><code>Left</code></li>
-             //        <li><code>Center</code></li>
-             //        <li><code>Justify</code></li>
-             //    </ul>
-             //    <p>
-             //        In this sample, we have initially set the <code>TextAlign</code> property as Right for Duration, Start Date and End Date columns.        
-             //    </p>"
-             //    }
-             //},
-             //new Sample
-             //{
-             //    Name = "Stacked Header",
-             //    Category = "Columns",
-             //    Directory = "TreeGrid/TreeGrid",
-             //    Url = "tree-grid/stacked-header",
-             //    Type = SampleType.None,
-             //    TitleTag = "TreeGrid . Stacked Header . Syncfusion Blazor Components",
-             //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains explains how to provide a common header for the group of columns in TreeGrid component.",
-             //    SourceFiles = new List<SourceCollection>()
-             //    {
-             //        new SourceCollection
-             //        {
-             //            Id="StackedHeader",
-             //            FileName="StackedHeader.razor"
-             //        },
-             //        new SourceCollection
-             //        {
-             //            Id="StackedData",
-             //            FileName="ShipmentData.cs"
-             //        }
-             //    },
-             //    ActionDescription = new string[] {
-             //        @"<p>
-             //            This sample demonstrates the TreeGrid component with the stacked header feature. In this sample, we have shown multiple levels of column header.
-             //        </p>"
-             //    },
-             //    Description = new string[] {
-             //        @"<p>The TreeGrid columns can be stacked/grouped in order to show multiple levels of column header.
-             //        It can be done by setting the <code>TreeGridColumns</code> property.
-             //    </p>
-             //    <p>
-             //        In this demo, the columns <strong>Order ID, Order Name, Order Date</strong> are grouped under Order Details, the columns <strong>Shipment Category, Shipped Date, Units</strong> are grouped under Shipment Details and <strong>Price per Unit, Total Price</strong> are grouped under Price details.
-             //    </p>"
+            // new Sample
+            // {
+            //     Name = "Cell Alignment",
+            //     Category = "Columns",
+            //     Directory = "TreeGrid/TreeGrid",
+            //     Url = "tree-grid/cell-alignment",
+            //     Type = SampleType.None,
+            //     TitleTag = "TreeGrid . Cell Alignment . Syncfusion Blazor Components",
+            //     MetaDescription = "This demo for Syncfusion Blazor TreeGrid component shows how to align the content inside the cells of TreeGrid columns and headers.",
+            //     SourceFiles = new List<SourceCollection>()
+            //     {
+            //         new SourceCollection
+            //         {
+            //             Id="CellAlignment",
+            //             FileName="CellAlignment.razor"
+            //         },
+            //         new SourceCollection
+            //         {
+            //             Id="CellData",
+            //             FileName="SelfData.cs"
+            //         }
+            //     },
+            //     ActionDescription = new string[] {
+            //         @"<p>
+            //             This sample demonstrates the text alignment functionalities of the treegrid columns.
+            //         </p>"
+            //     },
+            //     Description = new string[] {
+            //         @"<p>
+            //             Align both content and header text of particular column using the <code>TextAlign
+            //             </code> property of columns. There are four possible ways to align content and header text of column, they are.
+            //         <br>
+            //     </p>
+            //     <ul>
+            //        <li><code>Right</code></li>
+            //         <li><code>Left</code></li>
+            //         <li><code>Center</code></li>
+            //         <li><code>Justify</code></li>
+            //     </ul>
+            //     <p>
+            //         In this sample, we have initially set the <code>TextAlign</code> property as Right for Duration, Start Date and End Date columns.        
+            //     </p>"
+            //     }
+            // },
+           //  new Sample
+           //  {
+           //      Name = "Stacked Header",
+           //      Category = "Columns",
+           //      Directory = "TreeGrid/TreeGrid",
+           //      Url = "tree-grid/stacked-header",
+           //      Type = SampleType.None,
+           //      TitleTag = "TreeGrid . Stacked Header . Syncfusion Blazor Components",
+           //      MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains explains how to provide a common header for the group of columns in TreeGrid component.",
+           //      SourceFiles = new List<SourceCollection>()
+           //      {
+           //          new SourceCollection
+           //          {
+           //              Id="StackedHeader",
+           //              FileName="StackedHeader.razor"
+           //          },
+           //          new SourceCollection
+           //          {
+           //              Id="StackedData",
+           //              FileName="ShipmentData.cs"
+           //          }
+           //      },
+           //      ActionDescription = new string[] {
+           //          @"<p>
+           //              This sample demonstrates the TreeGrid component with the stacked header feature. In this sample, we have shown multiple levels of column header.
+           //          </p>"
+           //      },
+           //      Description = new string[] {
+           //          @"<p>The TreeGrid columns can be stacked/grouped in order to show multiple levels of column header.
+           //          It can be done by setting the <code>TreeGridColumns</code> property.
+           //      </p>
+           //      <p>
+           //          In this demo, the columns <strong>Order ID, Order Name, Order Date</strong> are grouped under Order Details, the columns <strong>Shipment Category, Shipped Date, Units</strong> are grouped under Shipment Details and <strong>Price per Unit, Total Price</strong> are grouped under Price details.
+           //      </p>"
 
-             //    }
-             //},
+           //      }
+           //  },
             new Sample
             {
                 Name = "Column Menu",
@@ -579,12 +623,16 @@ namespace blazor_samples
                 <p>
                     In this demo, Column Menu feature has enabled by defining <code>ShowColumnMenu
                     </code> as true with sorting, filtering and column chooser options.
-                </p>"
+                </p>
+                 <p>More information on the Column Menu can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#column-menu'>documentation section</a>.</p>"
+
                 },
                 ActionDescription = new string[] {
                     @"<p>
                         This sample demonstrates the default functionalities of the Column Menu. Click on multiple icon of each column to open the column menu.
                     </p>"
+
+
                 }
             },
             new Sample
@@ -620,7 +668,8 @@ namespace blazor_samples
                     </p>
                     <p>
                         In this demo, the Tree Grid is populated with its minimum default settings.
-                    </p>"
+                    </p>
+                      <p>More information on the Resizing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#column-resizing'>documentation section</a>.</p>"
 
                 }
             },
@@ -659,7 +708,7 @@ namespace blazor_samples
                     </p>
 
                     <p>
-                        More information on the Reorder can be found in <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/columns/#reorder' >Reorder</a></code> documentation section.
+                        More information on the Reorder can be found in <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#reorder' >Reorder</a> documentation section.
                     </p>"
                 }
             },
@@ -695,6 +744,7 @@ namespace blazor_samples
                     <p>
                         In this demo sample, the first column is set to frozen by using the FrozenColumns properties.
                     </p>"
+                   
                 }
             },
             new Sample
@@ -730,6 +780,7 @@ namespace blazor_samples
                 </p>
                 <p>In this demo, by enabling the <code>EnableHover
                 </code> property, you can move the mouse over Tree Grid rows to see the hover effect.</p>"
+               
                 }
             },
             new Sample
@@ -765,7 +816,9 @@ namespace blazor_samples
                 </p>
                 <p>
                     In this sample, we have enabled an option in Toolbar to customize the row height of Tree Grid to 20px, 40px and 60px.
-                </p>"
+                </p> 
+                <p>More information on the Row Height can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/rows/#row-height'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -829,7 +882,9 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>The detail row template provides an additional information about a data row. The template can be provided with the 
                     <code>DetailTemplate</code> sub component.</p>
-                    <p>In this demo, we have presented Employee Information with image in the detail row.</p>"
+                    <p>In this demo, we have presented Employee Information with image in the detail row.</p>
+                <p>More information on the Detail template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/rows/#detail-template'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -880,7 +935,7 @@ namespace blazor_samples
                     In this demo, Row mode is enabled for editing by default. You can start editing any row by double clicking on it or clicking on toolbar’s Edit button, then the currently selected row will be changed to edited state. You can change the row values and save edited data to the datasource.
                     </p>
                     <p>
-                        More information about Edit Modes can be found in the<code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/edit/?no-cache=1#edit-modes' >Edit modes</a></code> documentation section.
+                        More information about Edit Modes can be found in the <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#edit-modes' > documentation</a> section.
                     </p>"
                 }
             },
@@ -918,10 +973,12 @@ namespace blazor_samples
                     <li><code>EditMode.Row</code></li>
                     <li><code>EditMode.Cell</code></li>
                     <li><code>EditMode.Dialog</code></li>
-                    <li><code>EditMode.Batch</code></li>
+                   <li><code>EditMode.Batch</code></li>
                 </ul>
                 <p>
-                    In this demo, Dialog mode is enabled for editing by defining <code>Mode</code> as <code>EditMode.Dialog</code>. You can start editing by double clicking a row or clicking on toolbar's Edit button, then the currently selected row will be shown on a dialog and you can change the row values and save edited data to the datasource.</p>"
+                    In this demo, Dialog mode is enabled for editing by defining <code>Mode</code> as <code>EditMode.Dialog</code>. You can start editing by double clicking a row or clicking on toolbar's Edit button, then the currently selected row will be shown on a dialog and you can change the row values and save edited data to the datasource.</p>
+                <p>More information on the dialog editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#dialog'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -951,20 +1008,22 @@ namespace blazor_samples
                     The Tree Grid supports CRUD operations. This CRUD operations can be configured in Tree Grid using <code>TreeGridEditSettings</code>. Also, it has different modes to manipulate the datasource.
                 </p>
                 <p>
-                    The available modes are,
+                   The available modes are,
                 </p>
                 <ul>
                     <li><code>EditMode.Row</code></li>
                     <li><code>EditMode.Cell</code></li>
                     <li><code>EditMode.Dialog</code></li>
                     <li><code>EditMode.Batch</code></li>
-                </ul>
+               </ul>
                 <p>
                     In this demo, Batch mode is enabled for editing by defining <code>Mode</code> as <code>EditMode.Batch</code> with
              <code>NewRowPosition</code> as <code>RowPosition.Below</code>.
             You can start editing by double clicking a cell and can change the cell value. The edited cell will be highlighted while
              navigating to a new cell, so that you know which cells had been edited.
-            You can bulk save the edited data to the datasource by click on the toolbar's update button.</p>"
+            You can bulk save the edited data to the datasource by click on the toolbar's update button.</p>
+                <p>More information on the batch editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#batch'>documentation section</a>.</p>"
+
                 }
             },
              new Sample
@@ -999,6 +1058,7 @@ namespace blazor_samples
                     <li><code>DateTimePicker</code> component for dateTime data type.</li>
                     <li><code>Checkbox</code> component for boolean data type</li>
                 </ul>"
+
                 },
                 Description = new string[] {
                     @"<p>
@@ -1013,7 +1073,9 @@ namespace blazor_samples
                         <li><code>DatePicker</code></li>
                         <li><code>DefaultEdit</code></li>
                         <li><code>Checkbox</code></li>
-                    </ul>"
+                    </ul>
+                <p>More information on the cell edit type can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#cell-edit-type-and-its-params'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -1044,7 +1106,7 @@ namespace blazor_samples
                         <li><code>Edit</code> - To edit record, double click a row or click Edit button from command column after selected a row.</li>
                         <li><code>Delete</code> - To delete record, click Delete button from command column after selected a row.</li>
                         <li><code>Update, Cancel</code> -You can save or discard changes by click Update and Cancel button from command column respectively.</li>
-                    </ul>"
+                   </ul>"
                 },
                 Description = new string[] {
                     @"<p>
@@ -1060,7 +1122,7 @@ namespace blazor_samples
                         <li><code>CommandButtonType.Save</code></li>
                     </ul>
                     <p>
-                    More information on the command column configuration can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/edit/#command-column'>command column</a></code> documentation section.
+                    More information on the command column configuration can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#command-column'>documentation</a> section.
                     </p>"
                 }
             },
@@ -1074,7 +1136,7 @@ namespace blazor_samples
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
-                    {
+                   {
                         Id="CellEditTemplate",
                         FileName="CellEditTemplate.razor"
                     },
@@ -1091,7 +1153,9 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                     @"<p>In this demo, we have rendered the AutoComplete component for “Task Name” column of Tree Grid using <code>EditTemplate</code> sub component in the column.
-                    </p>"
+                    </p>
+                <p>More information on the cell edit template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#cell-edit-template'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -1135,7 +1199,9 @@ namespace blazor_samples
                     <ul>
                         <li>Simply click the column header to sort a column.</li>
                     </li>
-                </ul>"
+                </ul>
+                <p>More information on the sorting can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/sorting/'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -1195,7 +1261,9 @@ namespace blazor_samples
                         </li>
                         <li><code>None</code> - Only the filtered records are displayed.</li>
                     </ul>
-                    <p>In this demo, <code>Parent</code> hierarchy mode is enabled.</p>"
+                    <p>In this demo, <code>Parent</code> hierarchy mode is enabled.</p>
+                <p>More information on the filtering can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/filtering/'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -1226,7 +1294,9 @@ namespace blazor_samples
                 Description = new string[] {
                     @"<p>The Tree Grid provides a way to use custom control for filterbar using filter template feature. 
                         </p>
-                        <p>In this demo, using FilterTemplate, we have rendered dropdownlist for Duration Column, from which a value can be selected to filter the column.</p>"
+                        <p>In this demo, using FilterTemplate, we have rendered dropdownlist for Duration Column, from which a value can be selected to filter the column.</p>
+                <p>More information on the filter bar template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/filtering/#filter-bar'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -1278,7 +1348,9 @@ namespace blazor_samples
                     <li><code>None</code> - Only the filtered records are displayed.</li>
                     </ul>
 
-                    <p>In this demo, filter menu enabled by default, you can switch to other hierarchy mode of filtering by using dropdown.</p>"
+                    <p>In this demo, filter menu enabled by default, you can switch to other hierarchy mode of filtering by using dropdown.</p>
+                <p>More information on the menu filter can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/filtering/#filter-menu'>documentation section</a>.</p>"
+
                 }
             },
             new Sample
@@ -1330,7 +1402,7 @@ namespace blazor_samples
                     And also we have an option to change the searching hierarchy mode through property panel.</p>
 
                 <p> 
-                    For more information check in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/searching/?no-cache=1' >Searching</a></code> documentation section.
+                    For more information check in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/#searching/' > documentation</a> section.
                 </p>"
                 }
             },
@@ -1364,7 +1436,7 @@ namespace blazor_samples
                     Selection provides an interactive support to highlight the row or cell that you select. 
                     Selection can be done through a simple
                     Mouse down or Keyboard interaction. To enable selection, set <code>
-                    AllowSelection
+                   AllowSelection
                     </code> as true.
                 </p>
                 <p>Tree Grid supports two types of selection which can be set using 
@@ -1380,10 +1452,12 @@ namespace blazor_samples
                 <p>While using the Tree Grid in a touch device environment, there is an option for multi-selection 
                     through single tap on the row and it will show a popup with the multi-selection symbol. 
                     Tap the icon to enable multi-selection in a single tap.
-                </p>"
+               </p>
+                <p>More information on the selection can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/selection/'>documentation section</a>.</p>"
+
                 }
             },
-            new Sample
+           new Sample
             {
                 Name = "Selection API",
                 Category = "Selection",
@@ -1454,10 +1528,10 @@ namespace blazor_samples
                 </p>
 
                 <p>
-                    More information on the selection configuration can be found in the <code><a target='_blank' class='code'
-                    href='https://blazor.syncfusion.com/documentation/tree-grid/selection/'>
+                    More information on the selection configuration can be found in the <a target='_blank'
+                    href='https://blazor.syncfusion.com/documentation/treegrid/selection/'>
                     documentation
-                    </a></code> section.
+                    </a> section.
                 </p>"
                 }
             },
@@ -1495,7 +1569,7 @@ namespace blazor_samples
                         have an option to change the pagesize of Tree Grid dynamically.
                     </p>
                     <p>
-                        More information on the paging feature can be found in this  <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/paging/?no-cache=1' >Paging</a></code> documentation section.
+                        More information on the paging feature can be found in this  <a target='_blank'  href='https://blazor.syncfusion.com/documentation/treegrid/paging/' >documentation</a> section.
                     </p>"
                 }
             },
@@ -1535,52 +1609,52 @@ namespace blazor_samples
                         In this demo, Tree Grid mutliple selection has been enabled with selection persistance.
                     </p>
                     <p>
-                        More information on the checkbox selection configuration can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/tree-grid/selection/#checkbox-selection'>documentation section.
+                        More information on the checkbox selection configuration can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/selection/#checkbox-selection'>documentation section.
                     </p>"
                 }
             },
-             //new Sample
-             //{
-             //    Name = "Checkbox Column",
-             //    Category = "Columns",
-             //    Directory = "TreeGrid/TreeGrid",
-             //    Url = "tree-grid/checkbox-column",
-             //    Type = SampleType.None,
-             //    TitleTag = "TreeGrid . Checkbox Column . Syncfusion Blazor Components",
-             //    MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how the hierarchy selection between the records using column checkboxes.",
-             //    SourceFiles = new List<SourceCollection>()
-             //    {
-             //        new SourceCollection
-             //        {
-             //            Id="Checkbox",
-             //            FileName="CheckboxColumn.razor"
-             //        },
-             //        new SourceCollection
-             //        {
-             //            Id="CheckboxData",
-             //            FileName="SelfData.cs"
-             //        }
-             //    },
-             //    ActionDescription = new string[] {
-             //        @"<p>
-             //            This sample demonstrates the checkbox column selection functionality of TreeGrid. Click on any parent record checkbox then the child record checkboxes will get selected and parent record checkbox will get selected while checking all of its child items.
-             //        </p>"
-             //    },
-             //    Description = new string[] {
-             //        @"<p>
-             //            The TreeGrid component can be rendered with checkbox on existing column and also this can be enabled by <code>ShowCheckbox</code> property as true in columns API.
-             //        </p>
-             //        <p>
-             //            For hierarchy selection between the records, we need to enable the <code>AutoCheckHierarchy</code> property.
-             //        </p>
-             //        <p>
-             //            While using TreeGrid in a touch device, you have an option to select the checkboxes by tapping on the checkbox.
-             //        </p>
-             //        <p>
-             //            More information on the Checkbox column can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/columns/?no-cache=1#checkbox-column' >Checkbox</a></code> documentation section.
-             //        </p>"
-             //    }
-             //},
+            // new Sample
+            //{
+            //     Name = "Checkbox Column",
+            //     Category = "Columns",
+            //     Directory = "TreeGrid/TreeGrid",
+            //     Url = "tree-grid/checkbox-column",
+            //     Type = SampleType.None,
+            //     TitleTag = "TreeGrid . Checkbox Column . Syncfusion Blazor Components",
+            //     MetaDescription = "This demo for Syncfusion Blazor TreeGrid component explains how the hierarchy selection between the records using column checkboxes.",
+            //     SourceFiles = new List<SourceCollection>()
+            //     {
+            //         new SourceCollection
+            //         {
+            //             Id="Checkbox",
+            //             FileName="CheckboxColumn.razor"
+            //         },
+            //         new SourceCollection
+            //         {
+            //             Id="CheckboxData",
+            //             FileName="SelfData.cs"
+            //         }
+            //     },
+            //     ActionDescription = new string[] {
+            //         @"<p>
+            //             This sample demonstrates the checkbox column selection functionality of TreeGrid. Click on any parent record checkbox then the child record checkboxes will get selected and parent record checkbox will get selected while checking all of its child items.
+            //         </p>"
+            //     },
+            //     Description = new string[] {
+            //         @"<p>
+            //             The TreeGrid component can be rendered with checkbox on existing column and also this can be enabled by <code>ShowCheckbox</code> property as true in columns API.
+            //         </p>
+            //         <p>
+            //             For hierarchy selection between the records, we need to enable the <code>AutoCheckHierarchy</code> property.
+            //         </p>
+            //         <p>
+            //             While using TreeGrid in a touch device, you have an option to select the checkboxes by tapping on the checkbox.
+            //         </p>
+            //         <p>
+            //             More information on the Checkbox column can be found in this <a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/treegrid/columns/checkbox-column' >Checkbox</a> documentation section.
+            //         </p>"
+            //     }
+            // },
             new Sample
             {
                 Name = "Default Exporting",
@@ -1608,44 +1682,44 @@ namespace blazor_samples
                     @"<p>Tree Grid supports client-side exporting which allows you to export its data to the Excel, Pdf and CSV formats.</p>
                 <p>In this demo, for the toolbar items of exporting, we have defined actions in <code>OnToolbarClick</code> event to export the Tree Grid data using the <code>ExcelExport</code>, <code>PdfExport</code> and <code>CsvExport</code> methods.</p>
                 <p>
-                        More information on the exporting can be found in <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/excel-export/' >Excel Export</a></code> and <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/exporting/' >Pdf Export</a></code> documentation section.
+                        More information on the exporting can be found in <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/excel-export/' >Excel Export</a> and <a target='_blank'  href='https://blazor.syncfusion.com/documentation/treegrid/exporting/' >Pdf Export</a> documentation section.
                     </p>"
                 }
             },
-            new Sample
+           new Sample
             {
-                Name = "Print",
-                Category = "Exporting",
-                Directory = "TreeGrid/TreeGrid",
-                Url = "tree-grid/print",
-                Type = SampleType.None,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="Print",
-                        FileName="Print.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="PrintData",
-                        FileName="SelfData.cs"
-                    }
-                },
-                ActionDescription = new string[] {
-                    @"<p>This sample demonstrates the option to print the Tree Grid. Click the print button from the toolbar item to print Tree Grid.</p>"
-                },
-                Description = new string[] {
-                    @"<p>The Tree Grid can be printed using the <code>Print</code> method. While printing the pager and 
-                scrollbar will be removed if they are enabled in Tree Grid.</p>
-                <p>By default, all pages will be printed. 
-                    We can print current page alone by setting the <code>PrintMode</code>property
-                    value as <code>CurrentPage</code>.</p>
-                <p>In this demo, click the print icon to print Tree Grid.</p>
-                <p>
-                    More information on the print feature can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/print/'> documentation</a></code>section.
-                </p>"
-                }
+               Name = "Print",
+               Category = "Exporting",
+               Directory = "TreeGrid/TreeGrid",
+               Url = "tree-grid/print",
+               Type = SampleType.None,
+               SourceFiles = new List<SourceCollection>()
+               {
+                   new SourceCollection
+                   {
+                       Id="Print",
+                       FileName="Print.razor"
+                   },
+                   new SourceCollection
+                   {
+                       Id="PrintData",
+                       FileName="SelfData.cs"
+                   }
+               },
+               ActionDescription = new string[] {
+                   @"<p>This sample demonstrates the option to print the Tree Grid. Click the print button from the toolbar item to print Tree Grid.</p>"
+               },
+               Description = new string[] {
+                   @"<p>The Tree Grid can be printed using the <code>Print</code> method. While printing the pager and 
+               scrollbar will be removed if they are enabled in Tree Grid.</p>
+               <p>By default, all pages will be printed. 
+                   We can print current page alone by setting the <code>PrintMode</code>property
+                   value as <code>CurrentPage</code>.</p>
+               <p>In this demo, click the print icon to print Tree Grid.</p>
+               <p>
+                   More information on the print feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/print/'> documentation</a>section.
+               </p>"
+               }
             },
             new Sample
             {
@@ -1677,7 +1751,9 @@ namespace blazor_samples
                     Custom toolbar items can be added by defining the toolbar as a collection of ItemModels. Actions for this customized toolbar items are defined in the <code>OnToolbarClick</code> event.
                     </p>
                     <p>In this sample, rendered the custom template element Quick Filter along with predefined toolbar items ExpandAll and CollapseAll. While click on the Quick Filter button then the filtering is applied for Task Name column.
-                    </p>"
+                    </p>
+                <p>More information on the toolbar template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/toolbar/'>documentation section</a>.</p>"
+
                 }
             },
              new Sample
@@ -1746,7 +1822,7 @@ namespace blazor_samples
                     </table>
                     </p>
 
-            <p> For more information check in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/tree-grid/accessibility/?no-cache=1' >Accessibility</a></code> documentation section.</p>"
+            <p> For more information check in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/accessibility/?no-cache=1' >documentation </a> section.</p>"
                 }
              }
         };

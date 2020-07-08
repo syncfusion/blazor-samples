@@ -79,7 +79,7 @@ namespace blazor_samples
                         The property provides the following options to change its related settings:
                     </p>
                     <ul>
-                        <li>Sorting the swimlane cards using the <code>KanbanSwimlaneSettings.SortBy</code> property</li>
+                        <li>Sorting the swimlane cards using the <code>KanbanSwimlaneSettings.SortDirection</code> property</li>
                         <li>Component the drag-and-drop of the cards across swimlane using the <code>KanbanSwimlaneSettings.AllowDragAndDrop</code> property.</li>
                         <li>Show or hide the empty swimlane row using the <code>KanbanSwimlaneSettings.ShowEmptyRow</code> property.</li>
                         <li>Show or hide the items count in the swimlane header using the <code>KanbanSwimlaneSettings.ShowItemCount</code> property.</li>

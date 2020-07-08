@@ -2,10 +2,7 @@
 
 @using Syncfusion.Blazor.Diagrams
 @using System.Collections.ObjectModel
-@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.DropDowns
-@using Newtonsoft.Json
+
 @inherits SampleBaseComponent;
 @*Hidden:Lines*@
 <style>
@@ -49,7 +46,7 @@
 @*End:Hidden*@
 <div class="col-lg-9 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagram @ref="@Diagram" Width="100%" Height="645px" NodeDefaults="@NodeDefaults" Layout="@Layout">
+        <SfDiagram @ref="@Diagram" Height="645px" NodeDefaults="@NodeDefaults" Layout="@Layout">
             <DiagramCommandManager>
                 <DiagramCommands>
                     <DiagramCommand Name="customGroup">
@@ -196,7 +193,7 @@
 </div>
 @*End:Hidden*@
 
-@functions
+@code
 {
     SfDiagram Diagram;
 
@@ -218,8 +215,6 @@
                 Style = new AnnotationStyle() { Color = "white"}
             }
         }
-
-
     };
 
 
@@ -276,8 +271,6 @@
 
     }
 
-
-
     //Get node elements
     private List<DiagramNode> getNode(string name, bool isParent)
     {
@@ -293,12 +286,12 @@
         return nodes;
     }
 
-    private void SelectNode(List<DiagramNode> node)
+    private async Task SelectNode(List<DiagramNode> node)
     {
         if (node != null && node.Count > 0)
         {
-            Diagram.ClearSelection();
-            Diagram.Select(node);
+            await Diagram.ClearSelection();
+            await Diagram.Select(node);
         }
     }
 
@@ -314,7 +307,7 @@
                 {
                     string connectorId = edges[0];
                     List<DiagramNode> altNode = this.getNode(connectorId, (isParent ? false : true)) as List<DiagramNode>;
-                    this.SelectNode(altNode);
+                    await this.SelectNode(altNode);
                 }
             }
         }
@@ -348,7 +341,7 @@
                             }
                         }
                         List<DiagramNode> sibling = this.getNode(altConnectorId, false);
-                        this.SelectNode(sibling);
+                        await this.SelectNode(sibling);
                     }
                 }
             }

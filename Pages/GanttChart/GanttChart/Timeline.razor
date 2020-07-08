@@ -11,13 +11,14 @@
 <div class="col-lg-8 control-section sb-property-border">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt @ref="GanttObject" DataSource="@TaskCollection" AllowSelection="false" Height="450px" Width="100%" Resources="@ResourceCollection"
-                      ResourceNameMapping="ResourceName" ResourceIDMapping="ResourceId" ProjectStartDate="02/03/2019" ProjectEndDate="03/23/2019">
+            <SfGantt @ref="GanttObject" DataSource="@TaskCollection" Height="450px" Width="100%" Resources="@ResourceCollection"
+                      ResourceNameMapping="ResourceName" ResourceIDMapping="ResourceId" 
+                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  Dependency="Predecessor" Child="SubTasks" Notes="Notes" ResourceInfo="ResourceId">
                 </GanttTaskFields>
                 <GanttEventMarkers>
-                    <GanttEventMarker Day="02/08/2019" Label="Project kick-off"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay1" Label="Project kick-off"></GanttEventMarker>
                 </GanttEventMarkers>
                 <GanttLabelSettings>
                     <RightLabelTemplate>
@@ -46,7 +47,7 @@
                         </td>
                         <td style="width: 50%;padding-right: 10px">
                             <div>
-                                <SfNumericTextBox TValue="int?" Format="n" Value="@DefaultUnitWidth" Min="10">
+                                <SfNumericTextBox TValue="int?" Format="n0" Value="@DefaultUnitWidth" Min="10">
                                     <NumericTextBoxEvents TValue="int?" ValueChange="@(e => { DefaultUnitWidth = (int)e.Value; })"></NumericTextBoxEvents>
                                 </SfNumericTextBox>
                             </div>
@@ -57,7 +58,7 @@
                         <td style="width:30%;"><div><b>Top tier</b></div></td>
                         <td style="width: 70%">
                             <div>
-                                <SfCheckBox ValueChange="@TopTierCheckChange" @bind-Checked="@TopCheckboxEnabled"></SfCheckBox>
+                                <SfCheckBox ValueChange="@TopTierCheckChange" @bind-Checked="@TopCheckboxEnabled" TChecked="bool"></SfCheckBox>
                             </div>
                         </td>
                     </tr>
@@ -66,7 +67,7 @@
                         <td style="width:30%;"><div>Count</div></td>
                         <td style="width: 70%">
                             <div>
-                                <SfNumericTextBox Enabled="@EnableTopNumericBox"  TValue="int?" Format="n" Value="@TopTierCount" Min="1" Max="50">
+                                <SfNumericTextBox Enabled="@EnableTopNumericBox"  TValue="int?" Format="n0" Value="@TopTierCount" Min="1" Max="50">
                                     <NumericTextBoxEvents TValue="int?" ValueChange="@(e => { TopTierCount = (int)e.Value; })"></NumericTextBoxEvents>
                                 </SfNumericTextBox>
                             </div>
@@ -102,7 +103,7 @@
                         <td style="width:30%;"><div><b>Bottom tier</b></div></td>
                         <td style="width: 70%">
                             <div>
-                                <SfCheckBox ValueChange="@BottomTierCheckChange" @bind-Checked="@BottomCheckEnabled"></SfCheckBox>
+                                <SfCheckBox ValueChange="@BottomTierCheckChange" @bind-Checked="@BottomCheckEnabled" TChecked="bool"></SfCheckBox>
                             </div>
                         </td>
                     </tr>
@@ -111,7 +112,7 @@
                         <td style="width:30%;"><div>Count</div></td>
                         <td style="width: 70%">
                             <div>
-                                <SfNumericTextBox Enabled="@EnableBottomNumericBox" TValue="int?" Format="n" Value="@BottomTierCount" Min="1" Max="50">
+                                <SfNumericTextBox Enabled="@EnableBottomNumericBox" TValue="int?" Format="n0" Value="@BottomTierCount" Min="1" Max="50">
                                     <NumericTextBoxEvents TValue="int?" ValueChange="@(e => { BottomTierCount = (int)e.Value; })"></NumericTextBoxEvents>
                                 </SfNumericTextBox>
                             </div>
@@ -148,6 +149,9 @@
 </div>
 
 @code{
+    public DateTime ProjectStart = new DateTime(2019, 2, 3);
+    public DateTime ProjectEnd = new DateTime(2019, 3, 23);
+	public DateTime EventDay1 = new DateTime(2019, 2, 8);
     public List<TimelineData.TaskData> TaskCollection { get; set; }
     public List<TimelineData.TaskResources> ResourceCollection { get; set; }
     public int DefaultUnitWidth = 33;
@@ -241,7 +245,7 @@
         this.TaskCollection = TimelineData.TimelineRecord();
         this.ResourceCollection = TimelineData.EditingResources();
     }
-    public void TopTierCheckChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    public void TopTierCheckChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         if (args.Checked)
         {
@@ -259,7 +263,7 @@
         }
     }
 
-    public void BottomTierCheckChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    public void BottomTierCheckChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         if (args.Checked)
         {
@@ -276,7 +280,7 @@
             EnableBottomFormatDropDown = false;
         }
     }
-    public void TopUnitChange(ChangeEventArgs<string> args)
+    public void TopUnitChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         TimelineViewMode changedTopUnit;
         switch (args.Value)
@@ -312,7 +316,7 @@
 
     }
 
-    public void BottomUnitChange(ChangeEventArgs<string> args)
+    public void BottomUnitChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         TimelineViewMode changedBottomUnit;
         switch (args.Value)
@@ -345,11 +349,11 @@
         BottomTierUnit = changedBottomUnit;
     }
 
-    public void TopFormatChange(ChangeEventArgs<string> args)
+    public void TopFormatChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         TopTierFormat = args.Value;
     }
-    public void BottomFormatChange(ChangeEventArgs<string> args)
+    public void BottomFormatChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
         BottomTierFormat = args.Value;
     }

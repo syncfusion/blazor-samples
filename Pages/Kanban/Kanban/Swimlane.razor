@@ -19,7 +19,7 @@
                 }
             </KanbanColumns>
             <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
-            <KanbanSwimlaneSettings KeyField="Assignee" AllowDragAndDrop="@allowDragAndDrop" ShowItemCount="@showItemCount" SortBy="@sortType"></KanbanSwimlaneSettings>
+            <KanbanSwimlaneSettings KeyField="Assignee" AllowDragAndDrop="@allowDragAndDrop" ShowItemCount="@showItemCount" SortDirection="@sortDirection"></KanbanSwimlaneSettings>
         </SfKanban>
     </div>
 </div>
@@ -27,13 +27,13 @@
     <table id="property" title="Properties">
         <tr>
             <td>
-                <div>Sort by</div>
+                <div>Sort Direction</div>
             </td>
             <td>
                 <div>
-                    <SfDropDownList TItem="KanbanDataModel" TValue="SortType" DataSource="@SortData" Index="0" PopupHeight="200px">
+                    <SfDropDownList TItem="KanbanDataModel" TValue="SortDirection" DataSource="@SortData" Index="0" PopupHeight="200px">
                         <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
-                        <DropDownListEvents TValue="SortType" ValueChange="@ChangeSortOrder"></DropDownListEvents>
+                        <DropDownListEvents TValue="SortDirection" ValueChange="@ChangeSortOrder"></DropDownListEvents>
                     </SfDropDownList>
                 </div>
             </td>
@@ -43,7 +43,7 @@
                 <div>Enable Swimlane Drag And Drop</div>
             </td>
             <td>
-                <SfCheckBox Checked="false" ValueChange="@OnDragChange"></SfCheckBox>
+                <SfCheckBox Checked="@allowDragAndDrop" ValueChange="@OnDragChange" TChecked="bool"></SfCheckBox>
             </td>
         </tr>
         <tr>
@@ -51,7 +51,7 @@
                 <div>Show Swimlane Item Count</div>
             </td>
             <td>
-                <SfCheckBox Checked="true" ValueChange="@OnItemChange"></SfCheckBox>
+                <SfCheckBox Checked="@showItemCount" ValueChange="@OnItemChange" TChecked="bool"></SfCheckBox>
             </td>
         </tr>
     </table>
@@ -75,7 +75,7 @@
 @code {
     private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
     private List<KanbanDataModel> SortData = new KanbanDataModel().SortDropDowns();
-    private SortType sortType { get; set; } = SortType.Ascending;
+    private SortDirection sortDirection { get; set; } = SortDirection.Ascending;
     private bool allowDragAndDrop { get; set; } = false;
     private bool showItemCount { get; set; } = true;
 
@@ -85,18 +85,18 @@
         new ColumnsModel(){ HeaderText= "Done", KeyField= "Close" }
     };
 
-    private void OnItemChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    private void OnItemChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.showItemCount = args.Checked;
     }
 
-    private void OnDragChange(Syncfusion.Blazor.Buttons.ChangeEventArgs args)
+    private void OnDragChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.allowDragAndDrop = args.Checked;
     }
 
-    private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<SortType> args)
+    private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<SortDirection> args)
     {
-        this.sortType = args.Value;
+        this.sortDirection = args.Value;
     }
 }

@@ -138,6 +138,7 @@ namespace blazor_samples
                 Name = "Bookmark Navigation",
                 Category = "Editing",
                 Directory = "FileFormats/DocIO",
+                Type = SampleType.Updated,
                 Url = "docio/bookmark-navigation",
                 FileName = "BookmarkNavigation.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -159,7 +160,7 @@ namespace blazor_samples
                 Description = new string[] {
                 @"<p>DocIO allows you to insert or delete bookmarks in the Word document and edit its content.</p><p><ul><li>You can easily identify a part of the document for future reference by adding bookmark.</li><li>
                 Bookmark navigation lets you navigate to a specific bookmark and get its content as new document.</li><li>
-                You can insert, replace or delete the contents of a specific bookmark in the Word document.</li></ul></p>&nbsp;<p>More information about the bookmarks can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-bookmarks"">documentation</a> section.</p>"
+                You can insert, replace or delete the contents of a specific bookmark in the Word document.</li><li>You can select the column range for bookmarks inside tables in Word documents using FirstColumn and LastColumn APIs.</li></ul></p>&nbsp;<p>More information about the bookmarks can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-bookmarks"">documentation</a> section.</p>"
                 }
             },
             new Sample
@@ -190,6 +191,70 @@ namespace blazor_samples
                 You can create form using legacy form fields like text, check box, and drop down.</li><li>
                 You can open an existing Word document with form fields and fill them.</li><li>
                 You can also set editing restriction that does not allow the users to edit the Word document, except filling the form fields.</li></ul></p>&nbsp;<p>More information about the forms can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-form-fields"">documentation</a> section.</p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Create Equation",
+                Category = "Mathematical Equation",
+                Directory = "FileFormats/DocIO",
+                Url = "docio/create-equation",
+                FileName = "CreateEquation.razor",
+                Type = SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CreateEquation",
+                        FileName="CreateEquation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CreateEquationService",
+                        FileName="CreateEquationService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>This sample demonstrates how to create a Word document with mathematical equations using Essential DocIO. </p>"
+                },
+               Description = new string[] {
+                @"<p>With DocIO, you can create mathematical equations from scratch and insert it into Word documents (DOCX, DOTX, DOCM, DOTM, and XML). <p>
+                <p>	<ul><li>You can insert an equation in line with text or floating within a line.</li>
+				<li>You can create all types of mathematical equations such as fraction, summation, integral, matrix, and more.</li>
+			</ul>
+		</p>&nbsp;<p>More information about the headers and footers can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-sections?&_ga=2.47606244.2146113924.1583722381-1646022479.1561364938#working-with-headers-and-footers"">documentation</a> section.</p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Edit Equation",
+                Category = "Mathematical Equation",
+                Directory = "FileFormats/DocIO",
+                Url = "docio/edit-equation",
+                FileName = "EditEquation.razor",
+                Type = SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EditEquation",
+                        FileName="EditEquation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EditEquationService",
+                        FileName="EditEquationService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>This sample demonstrates how to modify a mathematical equation in a Word document using Essential DocIO.</p>"
+                },
+               Description = new string[] {
+                @"<p>DocIO allows you to modify a mathematical equation in the Word document.<p>
+                <p>	<ul><li>You can modify the text in the equation field.</li>
+				<li>You can change the format of an equation. </li> 
+			</ul>
+		</p>&nbsp;<p>More information about the headers and footers can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-sections?&_ga=2.47606244.2146113924.1583722381-1646022479.1561364938#working-with-headers-and-footers"">documentation</a> section.</p>"
                 }
             },
 			new Sample
@@ -262,6 +327,7 @@ namespace blazor_samples
                 Name = "Image Insertion",
                 Category = "Insert Content",
                 Directory = "FileFormats/DocIO",
+                Type = SampleType.Updated,
                 Url = "docio/image-insertion",
                 FileName = "ImageInsertion.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -285,7 +351,7 @@ namespace blazor_samples
                 <p><ul><li>You can insert image as ""in line with text"" or ""position relative to the page"" in the Word document.</li>
                 <li>Images in the Word document can be accessed by its name, title, etc., and resized to required size.</li>
                 <li>You can make images in the Word document accessible by defining alternate text.</li>
-                <li>You can also add caption to an image.</li>
+                <li>You can add caption to an image and update the caption numbers (Sequence fields).</li>
                 </ul></p>
                 <p>More information about the images support can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-paragraph#working-with-images"">documentation</a> section.</p>"
                 }
@@ -440,6 +506,7 @@ namespace blazor_samples
                 Name = "Word to PDF",
                 Category = "Import and Export",
                 Directory = "FileFormats/DocIO",
+                 Type = SampleType.Updated,
                 Url = "docio/word-to-pdf",
                 FileName = "WordToPDF.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -574,6 +641,100 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                 @"<p>DocIO provides support to convert the Word document to Open Document Text format.</p>&nbsp;<p>More information about ODT conversion can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/word-to-odt"">documentation</a> section.</p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Track Changes",
+                Category = "Review",
+                Directory = "FileFormats/DocIO",
+                Type = SampleType.New,
+                Url = "docio/track-changes",
+                FileName = "TrackChanges.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="TrackChanges",
+                        FileName="TrackChanges.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TrackChangesService",
+                        FileName="TrackChangesService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>This sample demonstrates how to accept or reject the tracked changes in the Word document using Essential DocIO.</p>"
+                },
+                Description = new string[] {
+                @"<p>With DocIO, you can accept or reject the tracked changes from an existing Word document (DOCX).</p>
+        <ul>
+            <li>
+                You can accept or reject the tracked changes based on author, date, and type of revision.
+            </li>
+            <li>
+                You can accept or reject all the tracked changes in the Word document.
+            </li>
+        </ul>
+    <p>More information about accepting or rejecting track changes can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/accepting-or-rejecting-track-changes"">documentation</a> section.</p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Table of Content",
+                Category = "Reference",
+                Directory = "FileFormats/DocIO",
+                Type = SampleType.New,
+                Url = "docio/table-of-content",
+                FileName = "TableofContent.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="TableofContent",
+                        FileName="TableofContent.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TableofContentService",
+                        FileName="TableofContentService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>DocIO supports to insert Table of Contents based on custom and default heading styles, include page numbers, hyperlinks to easily navigate to specific topic or heading within the document, specify the outline levels..</p>"
+                },
+                Description = new string[] {
+                @"<p>You can draft books in Word document with table of contents that provides outline of the book like chapter, section titles, sub titles with its commencing page number.</p><p><ul><li>You can update or rebuild the Table of Contents in an existing Word document.</li>
+                </ul></p>&nbsp;<p>More information about the Table of Contents can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-table-of-contents"">documentation</a> section.</p>"
+                }
+            },
+            new Sample
+            {
+                Name = "Encrypt and Decrypt",
+                Category = "Security",
+                Directory = "FileFormats/DocIO",
+                Type = SampleType.New,
+                Url = "docio/encrypt-and-decrypt",
+                FileName = "EncryptDecrypt.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EncryptDecrypt",
+                        FileName="EncryptDecrypt.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EncryptDecryptService",
+                        FileName="EncryptDecryptService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>DocIO supports to encrypt a Word document with password that restrict others from accessing or modifying confidential contents. You can also open an encrypted Word document using DocIO with valid password.</p>"
+                },
+                Description = new string[] {
+                @"<p>More information about the encrypt and decrypt options can be found in this <a href=""https://help.syncfusion.com/file-formats/docio/working-with-security"">documentation</a> section.</p>"
                 }
             }
         };
@@ -929,6 +1090,42 @@ namespace blazor_samples
     </ul>
     <br />"
                 }
+            },
+            new Sample
+            {
+                Name = "OLE Object",
+                Category = "Slide Elements",
+                Directory = "FileFormats/Presentation",
+                Url = "presentation/ole-object",
+                FileName = "OLEObject.razor",
+                Type = SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="OLEObject",
+                        FileName="OLEObject.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="OLEObjectService",
+                        FileName="OLEObjectService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>This sample demonstrates how to insert and open a OLE Object in PowerPoint presentation.</p>"
+                },
+                Description = new string[] {
+                @"<b>Features:</b>
+    <br />
+    <ul>
+			<li>Add new OLE Object into a PowerPoint slide.</li>
+            <li>Extract a embedded OLE Object data.</li>
+            <li>Gets the file path of a linked OLE Object.</li>
+			<li>Gets the file name of a OLE Object.</li>
+    </ul>
+    <br />"
+                }
             },            
             new Sample
             {
@@ -1206,6 +1403,39 @@ namespace blazor_samples
 <ul>
 <li>Writing conditional formatting on a range of cells</li>
 <li>Advanced options of Excel, such as color scales, icon sets, and data bars</li>
+</ul>"
+                }
+            },
+			new Sample
+            {
+                Name = "Import HTML Table",
+                Category = "Data Binding",
+                Directory = "FileFormats/XlsIO",
+                Url = "xlsio/import-html-table",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ImportHTMLTable",
+                        FileName="ImportHTMLTable.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ImportHTMLTable",
+                        FileName="ImportHTMLTable.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+@"<p>This sample demonstrates how to import HTML table to worksheet using Essential XlsIO.</p>"
+},
+    Description = new string[] {
+@"<p>Essential XlsIO supports importing HTML tables into Excel worksheets. The ImportHtmlTable method loads an HTML file and imports all the tables in the file to the worksheet.</p>
+<p style='display: block'><b>Features:</b></p>
+<p style='display: block'>This sample demonstrates following features:</p>
+<ul>
+<li>Imports HTML table</li>
+<li>Imports with table formatting</li>
 </ul>"
                 }
             },
@@ -1496,6 +1726,41 @@ namespace blazor_samples
                 },
                 Description = new string[] {
                 @"<p>This sample demonstrates how a worksheet or workbook is converted to HTML. The output file can be saved to disc and also as a memory stream.</p>"
+                }
+            },
+			new Sample
+            {
+                Name = "Excel To JSON",
+                Category = "Export",
+                Directory = "FileFormats/XlsIO",
+                Url = "xlsio/excel-to-json",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExcelToJSON",
+                        FileName="ExcelToJSON.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ExcelToJSONService",
+                        FileName="ExcelToJSONService.cs"
+                    }
+                },
+                ActionDescription = new string[] {
+                @"<p>This sample demonstrates the conversion of Excel documents to JSON file using Essential XlsIO.</p>"
+                },
+                Description = new string[] {
+                @"<p>Essential XlsIO supports to convert Excel data to JSON files by simply saving the workbook using the SaveAsJson method.</p>
+<p style='display: block'><b>Features:</b></p>
+<ul>
+<li>Save as a simple JSON file or a JSON file with XML schema</li>
+<li>Save a workbook to JSON</li>
+<li>Save a worksheet to JSON</li>
+<li>Save a range to JSON</li>
+<li>Save as a stream with the above features</li>
+</ul>"
                 }
             },
             new Sample
@@ -2110,6 +2375,34 @@ section.
                     }
                 }
                },
+			   new Sample
+               {
+                Name= "Annotations",
+                Category="User Interaction",
+                Directory="FileFormats/PDF",
+                Url="pdf/annotations",
+                Type = SampleType.New,
+                ActionDescription = new string[] { @"<p>This sample demonstrates the creation of different type of annotations such as ink, free text, pop up, text markup annotation and more. The Essential PDF supports <a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-annotations#supported-annotation-types"">20+ annotations</a> with create, edit, and delete support.</p>"
+    },
+
+                Description = new string[]{
+      @"<p>This feature can be used for reviewing purpose. More information about the annotations can be found in this documentation <a target=""_blank"" href=""https://help.syncfusion.com/file-formats/pdf/working-with-annotations"">section.</a></p>"
+    },
+                SourceFiles=new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Annotations",
+                        FileName="Annotations.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Annotations",
+                        FileName="AnnotationsService.cs"
+                    }
+                }
+               },
+
                   new Sample
                {
                 Name= "Overlay Documents",

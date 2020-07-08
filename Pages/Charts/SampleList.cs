@@ -1351,7 +1351,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/smart-labels",
                 FileName = "SmartLabels.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 ActionDescription = new string[] {
                     @"This sample illustrates the Rio Olympic’s gold medal count by using smart labels in the chart. The smart label placement for a series can be shown, when it contains more of points."
                 },
@@ -2101,7 +2101,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/selection",
                 FileName = "Selection.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates the selection feature in chart. To select a specific point, click the point. To select a specific point, click the point. The selection mode can be changed by changing Selection Mode in panel. <code>Multiple selection</code> also can be enabled by <code>Enable MultipleSelection</code>.
@@ -2612,29 +2612,29 @@ namespace blazor_samples
                     // </p>"
                     // }
             //  },
-              new Sample
-              {
-                  Name = "Range Band",
-                  Category = "Sparkline Charts",
-                  Directory = "Charts/Sparkline",
-                  Url = "sparkline/range-band",
-                  FileName = "RangeBand.razor",
-                  Type = SampleType.None,
-                  ActionDescription = new string[] {
-                        @"<p>
-                    This sample depicts the range band feature in sparklines component.
-                    </p>"
-                    },
-                    Description = new string[] {
-                        @" <p>
-                        In this example, you can see how to render sparkline with a range band. Here, the sparklines are placed inside the data grid control.
-                    </p>
-                    <p>
-                        More information about sparkline can be found in this
-                        <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
-                    </p>"
-                    }
-              }
+              //new Sample
+              //{
+              //    Name = "Range Band",
+              //    Category = "Sparkline Charts",
+              //    Directory = "Charts/Sparkline",
+              //    Url = "sparkline/range-band",
+              //    FileName = "RangeBand.razor",
+              //    Type = SampleType.None,
+              //    ActionDescription = new string[] {
+              //          @"<p>
+              //      This sample depicts the range band feature in sparklines component.
+              //      </p>"
+              //      },
+              //      Description = new string[] {
+              //          @" <p>
+              //          In this example, you can see how to render sparkline with a range band. Here, the sparklines are placed inside the data grid control.
+              //      </p>
+              //      <p>
+              //          More information about sparkline can be found in this
+              //          <a target=""_blank"" href=""https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started"">documentation section</a>.
+              //      </p>"
+              //      }
+              //}
         };
 
         public List<Sample> SmithChart { get; set; } = new List<Sample>{
@@ -3025,8 +3025,7 @@ namespace blazor_samples
                 Category = "Bullet Chart",
                 Directory = "Charts/BulletChart",
                 Url = "bullet-chart/legend",
-                FileName = "Legend.razor",
-                Type = SampleType.New,
+                FileName = "Legend.razor",               
                 ActionDescription = new string[] {
                     @"<p>
                     This sample illustrates a bullet chart with legend. Legend is used to know what the colors and shapes represent in bullet chart.

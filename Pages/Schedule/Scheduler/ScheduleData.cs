@@ -228,7 +228,227 @@ namespace blazor_samples.Pages.Schedule.Scheduler
             });
             return appData;
         }
-
+        public List<ContextEventsData> GetContextEventData()
+        {
+            List<ContextEventsData> appData = new List<ContextEventsData>();
+            appData.Add(new ContextEventsData
+            {
+                Id = 1,
+                Subject = "Explosion of Betelgeuse Star",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 5, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 5, 11, 0, 0),
+                CategoryColor = "#1aaa55"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 2,
+                Subject = "Thule Air Crash Report",
+                Location = "Newyork City",
+                StartTime = new DateTime(2020, 1, 6, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 14, 0, 0),
+                CategoryColor = "#357cd2"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 3,
+                Subject = "Blue Moon Eclipse",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 7, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 11, 0, 0),
+                CategoryColor = "#7fa900"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 4,
+                Subject = "Meteor Showers in 2018",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 8, 13, 0, 0),
+                EndTime = new DateTime(2020, 1, 8, 14, 30, 0),
+                CategoryColor = "#ea7a57"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 5,
+                Subject = "Milky Way as Melting pot",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 9, 12, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 14, 0, 0),
+                CategoryColor = "#00bdae"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 6,
+                Subject = "Mysteries of Bermuda Triangle",
+                Location = "Bermuda",
+                StartTime = new DateTime(2020, 1, 9, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 9, 11, 0, 0),
+                CategoryColor = "#f57f17"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 7,
+                Subject = "Glaciers and Snowflakes",
+                Location = "Himalayas",
+                StartTime = new DateTime(2020, 1, 10, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 10, 12, 30, 0),
+                CategoryColor = "#1aaa55"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 8,
+                Subject = "Life on Mars",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 11, 9, 0, 0),
+                EndTime = new DateTime(2020, 1, 11, 10, 0, 0),
+                CategoryColor = "#357cd2"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 9,
+                Subject = "Alien Civilization",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 13, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 13, 13, 0, 0),
+                CategoryColor = "#7fa900"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 10,
+                Subject = "Wildlife Galleries",
+                Location = "Africa",
+                StartTime = new DateTime(2020, 1, 15, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 15, 13, 0, 0),
+                CategoryColor = "#ea7a57"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 11,
+                Subject = "Best Photography 2018",
+                Location = "London",
+                StartTime = new DateTime(2020, 1, 16, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 16, 11, 0, 0),
+                CategoryColor = "#00bdae"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 12,
+                Subject = "Smarter Puppies",
+                Location = "Sweden",
+                StartTime = new DateTime(2020, 1, 3, 10, 0, 0),
+                EndTime = new DateTime(2020, 1, 3, 11, 30, 0),
+                CategoryColor = "#f57f17"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 13,
+                Subject = "Myths of Andromeda Galaxy",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 1, 10, 30, 0),
+                EndTime = new DateTime(2020, 1, 1, 12, 30, 0),
+                CategoryColor = "#1aaa55"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 14,
+                Subject = "Aliens vs Humans",
+                Location = "Research Centre of USA",
+                StartTime = new DateTime(2019, 12, 31, 10, 0, 0),
+                EndTime = new DateTime(2019, 12, 31, 11, 30, 0),
+                CategoryColor = "#357cd2"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 15,
+                Subject = "Facts of Humming Birds",
+                Location = "California",
+                StartTime = new DateTime(2020, 1, 14, 9, 30, 0),
+                EndTime = new DateTime(2020, 1, 14, 11, 0, 0),
+                CategoryColor = "#7fa900"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 16,
+                Subject = "Sky Gazers",
+                Location = "Alaska",
+                StartTime = new DateTime(2020, 1, 17, 11, 0, 0),
+                EndTime = new DateTime(2020, 1, 17, 13, 0, 0),
+                CategoryColor = "#ea7a57"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 17,
+                Subject = "The Cycle of Seasons",
+                Location = "Research Centre of USA",
+                StartTime = new DateTime(2020, 1, 6, 5, 30, 0),
+                EndTime = new DateTime(2020, 1, 6, 7, 30, 0),
+                CategoryColor = "#00bdae"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 18,
+                Subject = "Space Galaxies and Planets",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 6, 17, 0, 0),
+                EndTime = new DateTime(2020, 1, 6, 18, 30, 0),
+                CategoryColor = "#f57f17"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 19,
+                Subject = "Lifecycle of Bumblebee",
+                Location = "San Fransisco",
+                StartTime = new DateTime(2020, 1, 9, 6, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 7, 30, 0),
+                CategoryColor = "#7fa900"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 20,
+                Subject = "Alien Civilization",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 9, 16, 0, 0),
+                EndTime = new DateTime(2020, 1, 9, 18, 0, 0),
+                CategoryColor = "#ea7a57"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 21,
+                Subject = "Alien Civilization",
+                Location = "Space Centre USA",
+                StartTime = new DateTime(2020, 1, 5, 14, 0, 0),
+                EndTime = new DateTime(2020, 1, 5, 16, 0, 0),
+                CategoryColor = "#ea7a57"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 22,
+                Subject = "The Cycle of Seasons",
+                Location = "Research Centre of USA",
+                StartTime = new DateTime(2020, 1, 7, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 7, 16, 0, 0),
+                CategoryColor = "#00bdae"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 23,
+                Subject = "Sky Gazers",
+                Location = "Greenland",
+                StartTime = new DateTime(2020, 1, 10, 14, 30, 0),
+                EndTime = new DateTime(2020, 1, 10, 16, 0, 0),
+                CategoryColor = "#ea7a57"
+            });
+            appData.Add(new ContextEventsData
+            {
+                Id = 24,
+                Subject = "Facts of Humming Birds",
+                Location = "California",
+                StartTime = new DateTime(2020, 1, 11, 12, 30, 0),
+                EndTime = new DateTime(2020, 1, 11, 14, 30, 0),
+                CategoryColor = "#7fa900"
+            });
+            return appData;
+        }
         public List<AppointmentData> GetZooEventData()
         {
             List<AppointmentData> zooEventData = new List<AppointmentData>();
@@ -6958,6 +7178,10 @@ namespace blazor_samples.Pages.Schedule.Scheduler
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
         }
+        public class ContextEventsData : AppointmentData
+        {
+            public virtual Guid Guid { get; set; }
+        }
         public class ReadonlyEventsData : AppointmentData
         {
             public bool IsReadonly { get; set; }
@@ -6998,14 +7222,14 @@ namespace blazor_samples.Pages.Schedule.Scheduler
             public int RoomId { get; set; }
             public bool IsBlock { get; set; }
             public virtual string ElementType { get; set; }
-            public virtual DateTime StartTimeValue { get; set; }
-            public virtual DateTime EndTimeValue { get; set; }
+            public virtual DateTime? StartTimeValue { get; set; }
+            public virtual DateTime? EndTimeValue { get; set; }
             public RoomsData ResourceData { get; set; }
         }
         public class RoomsData
         {
             public string Name { get; set; }
-            public int Id { get; set; }
+            public int? Id { get; set; }
             public int Capacity { get; set; }
             public string Color { get; set; }
             public string Type { get; set; }

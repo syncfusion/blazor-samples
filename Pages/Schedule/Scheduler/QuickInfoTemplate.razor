@@ -29,7 +29,7 @@
                                 <SfTextBox @ref="SubjectRef" Value="@((context as ScheduleData.RoomData).Subject)" Placeholder="Title"></SfTextBox>
                             </div>
                             <div class="content-area">
-                                <SfDropDownList @ref="EventTypeRef" TValue="int" TItem="ScheduleData.RoomsData" Index="0" DataSource="@ResourceData" Placeholder="Choose Type">
+                                <SfDropDownList @ref="EventTypeRef" TValue="int?" TItem="ScheduleData.RoomsData" Index="0" DataSource="@ResourceData" Placeholder="Choose Type">
                                     <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
@@ -88,13 +88,13 @@
 
 @code{
     SfSchedule<ScheduleData.RoomData> ScheduleObj;
-    SfDropDownList<int, ScheduleData.RoomsData> EventTypeRef;
+    SfDropDownList<int?, ScheduleData.RoomsData> EventTypeRef;
     SfTextBox SubjectRef;
     SfTextBox DescriptionRef;
 
     private string GetEventDetails(ScheduleData.RoomData data)
     {
-          return data.StartTimeValue.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTimeValue.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + data.EndTimeValue.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
+          return data.StartTimeValue.Value.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTimeValue.Value.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + data.EndTimeValue.Value.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
     }
     private string GetHeaderStyles(ScheduleData.RoomData data)
     {
@@ -123,7 +123,7 @@
                 Location = data.Location,
                 Description = DescriptionRef.Value ?? "",
                 IsAllDay = data.IsAllDay,
-                RoomId = EventTypeRef.Value,
+                RoomId = EventTypeRef.Value.Value,
                 RecurrenceException = data.RecurrenceException,
                 RecurrenceID = data.RecurrenceID,
                 RecurrenceRule = data.RecurrenceRule
@@ -156,11 +156,11 @@
         ScheduleData.RoomData cloneData = new ScheduleData.RoomData
         {
             Id = new Random().Next(1000),
-            Subject = SubjectRef.Value ?? "",
-            Description = DescriptionRef.Value ?? "",
+            Subject = SubjectRef.Value ?? "Add title",
+            Description = DescriptionRef.Value ?? "Add notes",
             StartTime = data.StartTime,
             EndTime = data.EndTime,
-            RoomId = EventTypeRef.Value,
+            RoomId = EventTypeRef.Value.Value,
             Location = data.Location,
             IsAllDay = data.IsAllDay,
             RecurrenceException = data.RecurrenceException,

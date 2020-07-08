@@ -1,0 +1,56 @@
+@inject NavigationManager NavigationManager
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor;
+@inject SampleService Service;
+
+ <div class="setting-culturecontent">
+     <SfDropDownList TValue="string" TItem="Culture" Placeholder="Select Language" @bind-Value="@culture" DataSource="@GetCultureValue">
+         <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+         <DropDownListEvents TValue="string" ValueChange="@OnSelected"></DropDownListEvents>
+     </SfDropDownList>
+ </div>
+
+    @code {
+        [Inject]
+        SyncfusionBlazorService SyncfusionService { get; set; }
+        private string culture { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            this.culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+        }
+
+        public class Culture
+        {
+            public string ID { get; set; }
+            public string Text { get; set; }
+        }
+
+        List<Culture> GetCultureValue = new List<Culture> {
+                new Culture() { ID= "en-US", Text= "English" },
+                new Culture() { ID= "de", Text= "German - Germany*" },
+                new Culture() { ID= "fr-CH", Text= "French - Switzerland*" },
+                new Culture() { ID= "zh", Text= "Chinese - China*" },
+            };
+
+        private void OnSelected(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+        {
+            var culture = (string)args.Value;
+            string currenturi = Service.Data.CurrentSample.Url.ToLower();
+            string themeName = NavigationManager.Uri.Split('?')[1];
+            var uri = new Uri(NavigationManager.Uri)
+                .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+            var path = uri.Replace(currenturi + '?' + themeName, "").Trim('/');
+            var query = $"?culture={Uri.EscapeDataString(culture)}&" +
+                $"redirectUri={Uri.EscapeDataString(uri)}";
+            if (String.IsNullOrEmpty(path))
+            {
+                NavigationManager.NavigateTo("/Culture/SetCulture"+ query, forceLoad: true);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/" + path + "/Culture/SetCulture" + query, forceLoad: true);
+            }
+        }
+    }
