@@ -68,7 +68,6 @@ namespace blazor_samples
             //services.AddSignalR().AddAzureSignalR(options =>
             //{
             //    options.ServerStickyMode = Microsoft.Azure.SignalR.ServerStickyMode.Required;
-            //    options.ConnectionString = "Endpoint=https://blazor-signalr.service.signalr.net;AccessKey=mbhqcXEmMOYWjK/1hUlrByz10gvrfabG1xlNbryNABA=;Version=1.0;";
             //});
 #endif
             services.AddScoped<SampleService>();
