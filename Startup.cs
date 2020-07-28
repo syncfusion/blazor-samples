@@ -1,21 +1,16 @@
-using System;
+using System.IO;
+using Syncfusion.Blazor;
+using Syncfusion.Licensing;
+using System.Globalization;
+using blazor_samples.Shared;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using blazor_samples.Data;
-using Syncfusion.Licensing;
-using Syncfusion.Blazor;
-using System.IO;
-using blazor_samples.Shared;
-using System.Globalization;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace blazor_samples
 {
@@ -29,7 +24,6 @@ namespace blazor_samples
                 string licenseKey = System.IO.File.ReadAllText(System.IO.Directory.GetCurrentDirectory() + "/SyncfusionLicense.txt");
                 SyncfusionLicenseProvider.RegisterLicense(licenseKey);
             }
-
         }
 
         public IConfiguration Configuration { get; }
@@ -70,16 +64,23 @@ namespace blazor_samples
             {
                 o.MaximumReceiveMessageSize = 102400000;
             });
+#if (!DEBUG)
+            //services.AddSignalR().AddAzureSignalR(options =>
+            //{
+            //    options.ServerStickyMode = Microsoft.Azure.SignalR.ServerStickyMode.Required;
+            //    options.ConnectionString = "Endpoint=https://blazor-signalr.service.signalr.net;AccessKey=mbhqcXEmMOYWjK/1hUlrByz10gvrfabG1xlNbryNABA=;Version=1.0;";
+            //});
+#endif
             services.AddScoped<SampleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-		    #region Localization
+#region Localization
             app.UseRequestLocalization(app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value);
 
-            #endregion
+#endregion
 		    
             if (env.IsDevelopment())
             {

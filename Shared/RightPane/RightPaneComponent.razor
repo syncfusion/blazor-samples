@@ -1,0 +1,186 @@
+﻿@using System.Globalization;
+@using Syncfusion.Blazor.Navigations;
+
+@namespace blazor_samples.Shared
+
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+
+<CascadingValue Value="@this">
+    <div class="@rootClass" id='right-pane'>
+        <div class='sb-desktop-wrapper'>
+            <BreadCrumbComponent @ref="BreadCrumbRef"></BreadCrumbComponent>
+            <SampleDescription @ref="SampleDescriptionRef" Visible="true">
+                @sampleDescription
+            </SampleDescription>
+            <div id="sb-content" class='sb-content-section'>
+                <SampleNavigator @ref="SampleNavigatorRef" DeviceMode="false"></SampleNavigator>
+                <div class='sb-toolbar-splitter sb-custom-item'></div>
+                <SfTab CssClass='sb-content-tab' id='content-tab' LoadOn="ContentLoad.Demand" @bind-SelectedItem="tabSelectedItem">
+                    <TabEvents Selecting="OnSourceTabSelecting" Selected="OnSourceTabSelected"></TabEvents>
+                    <TabItems>
+                        <TabItem>
+                            <ChildContent>
+                                <TabHeader Text="DEMO" IconCss="sb-icons sb-icon-demo"></TabHeader>
+                            </ChildContent>
+                            <ContentTemplate>
+                                <div>
+                                    <div class='sb-demo-section'>
+                                        <div class="control-fluid">
+                                            <div class="container-fluid">
+                                                <div id="control-content">
+                                                    @ChildContent
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ContentTemplate>
+                        </TabItem>
+                        <TabItem>
+                            <ChildContent>
+                                <TabHeader Text="SOURCE" IconCss="sb-icons sb-icon-code"></TabHeader>
+                            </ChildContent>
+                            <ContentTemplate>
+                                <div>
+                                    <SourceCodeComponent @ref="SourceCodeRef"></SourceCodeComponent>
+                                </div>
+                            </ContentTemplate>
+                        </TabItem>
+                    </TabItems>
+                </SfTab>
+            </div>
+            <ActionDescription @ref="ActionDescriptionRef" Visible="true">
+                @actionDescription
+            </ActionDescription>
+            <div class="sb-footer">
+                <div class="sb-footer-left">
+                    <div class="sb-footer-links">
+                        <a href="https://ej2.syncfusion.com/blazor/documentation/" target="_blank">
+                            <div class="sb-footer-link">Documentation</div>
+                        </a>
+                        <a href="https://www.syncfusion.com/forums/blazor-components/" target="_blank">
+                            <div class="sb-footer-link">Forum</div>
+                        </a>
+                        <a href="https://www.syncfusion.com/blogs/" target="_blank">
+                            <div class="sb-footer-link">Blog</div>
+                        </a>
+                        <a href="https://www.syncfusion.com/kb" target="_blank">
+                            <div class="sb-footer-link">Knowledge Base</div>
+                        </a>
+                    </div>
+                    <div class="sb-footer-copyright">@copyRight</div>
+                </div>
+                <div class="sb-footer-logo">
+                    <a href="https://www.syncfusion.com/" target="_blank">
+                        <div class="sb-footer-logo-icon"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</CascadingValue>
+
+@code {
+    private string copyRight { get; set; }
+    private int tabSelectedItem { get; set; }
+    private RenderFragment actionDescription { get; set; }
+    private RenderFragment sampleDescription { get; set; }
+    private string rootClass = "sb-right-pane e-view " + SampleUtils.RIGHT_PANE;
+
+    protected SourceCodeComponent SourceCodeRef { get; set; }
+    protected ActionDescription ActionDescriptionRef { get; set; }
+    protected SampleDescription SampleDescriptionRef { get; set; }
+
+    [CascadingParameter]
+    protected MainLayout Layout { get; set; }
+
+    /// <summary>
+    /// BreadCrumb reference for outside usage.
+    /// </summary>
+    public BreadCrumbComponent BreadCrumbRef { get; set; }
+
+    /// <summary>
+    /// SampleNavigator reference for outside usage.
+    /// </summary>
+    public SampleNavigator SampleNavigatorRef { get; set; }
+
+    /// <summary>
+    /// Child content of RightPane component.
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Refresh action description for current sample.
+    /// </summary>
+    public void RefreshActionDescription(RenderFragment description)
+    {
+        actionDescription = description;
+        ActionDescriptionRef.Refresh();
+    }
+
+    /// <summary>
+    /// Refresh sample description for current sample.
+    /// </summary>
+    public void RefreshSampleDescription(RenderFragment description)
+    {
+        SampleService.Update(UriHelper);
+        BreadCrumbRef.Refresh(SampleService.ComponentName, SampleService.SampleInfo.Category, SampleService.SampleInfo.Name);
+        sampleDescription = description;
+        SampleDescriptionRef.Refresh();
+    }
+
+    /// <summary>
+    /// Re-render the source code tab with first indexed tab item.
+    /// </summary>
+    public void TabSelectedItemChange()
+    {
+        this.tabSelectedItem = 0;
+        StateHasChanged();
+    }
+
+    // Source tab selecting handler.
+    private void OnSourceTabSelecting(Syncfusion.Blazor.Navigations.SelectingEventArgs args)
+    {
+        if (args.IsSwiped)
+        {
+            args.Cancel = true;
+        }
+    }
+
+    // Source tab selected handler.
+    private async Task OnSourceTabSelected(Syncfusion.Blazor.Navigations.SelectEventArgs args)
+    {
+        if (this.SourceCodeRef != null)
+        {
+            await this.SourceCodeRef.OnSourceTabSelected(args);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // Set copyright information.
+        GregorianCalendar calendar = new GregorianCalendar();
+        var year = DateTime.Now;
+        var currentyear = calendar.GetYear(year);
+        this.copyRight = "Copyright © 2001 - " + currentyear + " Syncfusion Inc.";
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        // Expand or collapse right pane based on the condition.
+        if (this.Layout.LeftPaneRef == null || this.Layout.LeftPaneRef.IsExpanded())
+        {
+            this.rootClass = SampleUtils.RemoveClass(rootClass, SampleUtils.RIGHT_PANE_EXPAND);
+            this.rootClass = SampleUtils.AddClass(rootClass, SampleUtils.RIGHT_PANE_COLLAPSE);
+        }
+        else
+        {
+            this.rootClass = SampleUtils.RemoveClass(rootClass, SampleUtils.RIGHT_PANE_COLLAPSE);
+            this.rootClass = SampleUtils.AddClass(rootClass, SampleUtils.RIGHT_PANE_EXPAND);
+        }
+    }
+}

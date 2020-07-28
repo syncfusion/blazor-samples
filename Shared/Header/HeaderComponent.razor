@@ -1,0 +1,140 @@
+﻿@using Syncfusion.Blazor.Navigations;
+
+@namespace blazor_samples.Shared
+@implements IDisposable;
+
+@inject IJSRuntime JsRuntime;
+@inject NavigationManager UriHelper;
+
+<div id='sample-header' class="sb-header e-view" role="banner">
+    <div class='sb-header-left sb-left sb-table'>
+        <div class='sb-header-item sb-table-cell'>
+            <div id="sb-toggle-left" @onclick="OnToggleClick" @onclick:stopPropagation="true" role="button" tabindex="0" class="sb-slide-nav sb-icons toggle-active sb-icon-hamburger" aria-label="toggle all controls navigation"
+                 title='toggle leftpane'></div>
+        </div>
+        <div class='sb-header-item sb-table-cell' id="sb-header-text" style="padding-left:20px">
+            <span>Essential Studio for Blazor </span>
+        </div>
+    </div>
+    <div class='sb-header-right sb-right sb-table'>
+        <div class="sb-header-item sb-table-cell">
+            <div id="header-theme-switcher" role="button" tabindex="0" title='Change theme of sample browser'>
+                <SfMenu ID='theme-menu' ShowItemOnClick="true" Items='@themeList' CssClass="e-sample-theme-menu">
+                    <MenuEvents ItemSelected="OnThemeChange" OnOpen="OnPopupOpen"></MenuEvents>
+                </SfMenu>
+            </div>
+        </div>
+
+        <div class='sb-header-item sb-table-cell sb-settings-wrapper'>
+            <div class='sb-setting-btn' role="button" tabindex="0" aria-label="toggle settings menu">
+                <span class='sb-settings sb-icons sb-icon-settings-preferences'></span>
+            </div>
+        </div>
+
+        <div class='sb-header-item sb-table-cell sb-download-wrapper'>
+            <a href='https://github.com/syncfusion/blazor-samples' target="_blank">
+                <button id='github' class='sb-github-btn'>
+                    <div class="github-image">
+                        <img src='styles/images/mark.svg' alt="Github Link">
+                    </div>
+                </button>
+            </a>
+        </div>
+        <div class="sb-header-splitter sb-download-splitter"></div>
+        <div class='sb-header-item sb-table-cell sb-download-wrapper'>
+            <a href='https://www.syncfusion.com/downloads/blazor/' target="_blank">
+                <button id='download-now' class='sb-download-btn'>
+                    <span class='sb-download-text'>Download Now</span>
+                </button>
+            </a>
+        </div>
+        <div class="sb-header-item sb-table-cell sb-header-settings sb-icons" @onclick="@OnRightToggleClick" @onclick:stopPropagation="true" role="button"></div>
+    </div>
+</div>
+
+<div id='sb-popup-section' class='sb-popups'>
+    <div id='settings-popup' class='sb-setting-popup'>
+        <div class='sb-setting-header'>
+            <span>Preferences</span>
+        </div>
+        <div class='sb-setting-content'>
+            <div class='sb-setting-item sb-responsive-section'>
+                <div class='setting-label'>
+                    <div class='sb-icons sb-setting-icons sb-icon-responsive'></div>
+                    <div class='sb-setting-text'>Mode Selection</div>
+                </div>
+                <div class='setting-content btn-group setting-responsive'>
+                    <div id='touch' role="button" tabindex="0" class="sb-responsive-items set-border-radious-touch" title="Increased padding for actionable items to accommodate user touches">Touch</div>
+                    <div id='mouse' role="button" tabindex="0" class="sb-responsive-items set-border-radious-mouse" title="Default control sizes, optimized for use with mouse">Mouse</div>
+                </div>
+            </div>
+            <div class='sb-setting-item sb-setting-culture'>
+                <div class='setting-label'>
+                    <div class='sb-icons sb-setting-icons sb-icon-localization'></div>
+                    <div class='sb-setting-text'>Localization</div>
+                </div>
+                <div>
+                    <CultureSwitcher />
+                </div>
+            </div>
+            <div class="sb-setting-translate">
+                <span>*Translated by Google Translator.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Triggers event callback on left toggle button action.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnToggleClick { get; set; }
+
+    /// <summary>
+    /// Triggers event callback on right toggle button action in device rendering.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnRightToggleClick { get; set; }
+
+#pragma warning disable
+    private List<MenuItem> themeList = new List<MenuItem>
+    {
+        new MenuItem {
+            Text = "CHOOSE THEME",
+            Items = new ThemeSwitcher().GetThemeList()
+        }
+    };
+#pragma warning restore
+
+    // Theme switcher change handler
+    private void OnThemeChange(Syncfusion.Blazor.Navigations.MenuEventArgs<MenuItemModel> args)
+    {
+        if (args.Item.Text != "CHOOSE THEME")
+        {
+            var url = SampleUtils.GetThemeUrl(UriHelper.Uri, args.Item.Id);
+            UriHelper.NavigateTo(url, true);
+        }
+    }
+
+    // Theme switcher popup open handler
+    private async Task OnPopupOpen(BeforeOpenCloseMenuEventArgs<MenuItemModel> args)
+    {
+        var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        await JsRuntime.InvokeVoidAsync("setThemeSelection", currentTheme);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("renderPreferences");
+        }
+    }
+
+    public void Dispose()
+    {
+        themeList = null;
+    }
+}

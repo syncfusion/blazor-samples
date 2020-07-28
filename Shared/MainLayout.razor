@@ -1,197 +1,205 @@
-@inherits LayoutComponentBase
-@using blazor_samples
-@using Syncfusion.Blazor.Navigations;
-@using Syncfusion.Blazor.DropDowns;
-@using Syncfusion.Blazor.Buttons;
-@using Microsoft.AspNetCore.Components;
+
 @using Syncfusion.Blazor;
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
+@using Syncfusion.Blazor.DropDowns;
+@using Microsoft.AspNetCore.Components;
+
 @inject IJSRuntime JsRuntime;
-@inject SampleService Service;
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+
+@inherits LayoutComponentBase;
 
 <CascadingValue Value="@this">
-    <SpinnerComponent @ref="SpinnerObj"></SpinnerComponent>
-    <div class="sample-browser e-view sf-new">
-        <div class="sb-mobile-overlay sb-hide"></div>
-        <HeaderComponent OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick"></HeaderComponent>
-        <div class="sb-content e-view">
-            <LeftPaneComponent @ref="LeftPaneObject"></LeftPaneComponent>
-            <RightPaneComponent Body="@Body" @ref="RightPaneObj"></RightPaneComponent>
-            <SfSidebar ID="right-sidebar" @ref="MobilePreferences" EnableGestures="false" Position="@Position" Type="@Type">
-                <ChildContent>
-                    <div class="sb-left-pane-header">
-                        <div class="sb-setting-header">Preferences</div>
-                    </div>
-                    <div class="sb-setting-item sb-setting-theme-section">
-                        <div class="sb-icons sb-setting-icons sb-icon-Palette"></div>
-                        <div class="sb-setting-text">Theme Selection</div>
-                        <SfDropDownList ID="mobileTheme" TValue="string" TItem="typeData" PopupWidth="180px" DataSource="@data">
-                            <DropDownListEvents ValueChange="ThemeChange" TValue="string"></DropDownListEvents>
-                            <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
-                        </SfDropDownList>
-                    </div>
-                    <div class='sb-setting-item sb-setting-culture'>
-                        <div class='setting-label'>
-                            <div class='sb-icons sb-setting-icons sb-icon-Localization'></div>
-                            <div class='sb-setting-text'>Localization</div>
+    <SpinnerComponent @ref="spinnerRef"></SpinnerComponent>
+    @*Set empty layout to home page and components which have open in new window functionality.*@
+    @{ 
+        SampleService.Update(UriHelper);
+        var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
+    }
+    @if (UriHelper.BaseUri == UriHelper.Uri || isEmptyLayout)
+    {
+        @Body
+    }
+    else
+    {
+        <div class="sample-browser e-view sf-new" @onclick="OnAppClick">
+            <div class="sb-mobile-overlay sb-hide"></div>
+            <HeaderComponent OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick"></HeaderComponent>
+            <div class="sb-content e-view">
+                <LeftPaneComponent @ref="LeftPaneRef"></LeftPaneComponent>
+                <RightPaneComponent @ref="RightPaneRef">@Body</RightPaneComponent>
+                @if (SampleService.IsDevice)
+                {
+                    <SideBarComponent IsExpanded="@rightSidebarExpanded" Position="SidebarPlacement.Right">
+                        <div class="sb-left-pane-header">
+                            <div class="sb-setting-header">Preferences</div>
                         </div>
-                        <div>
-                            <CultureSwitcher />
+                        <div class="sb-setting-item sb-setting-theme-section">
+                            <div class="sb-icons sb-setting-icons sb-icon-palette"></div>
+                            <div class="sb-setting-text">Theme Selection</div>
+                            @{
+                                List<DropDownData> themeData = new ThemeSwitcher().GetThemeData();
+                            }
+                            <SfDropDownList ID="mobileTheme" TValue="string" Index="3" TItem="DropDownData" PopupWidth="180px" DataSource="@themeData">
+                                <DropDownListEvents ValueChange="OnThemeChange" TValue="string"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                            </SfDropDownList>
                         </div>
-                    </div>
-                    @*<div class="sb-name">Choose Theme</div>*@
-                </ChildContent>
-            </SfSidebar>
-            @*<div class="sb-body-overlay sb-hide">
-                    <div class="sb-loading">
-                        <svg class="circular" height="40" width="40">
-                            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
-                        </svg>
-                    </div>
-                </div>*@
-        <div class='sb-mobilefooter e-view sample-navigation' id='mobile-footer'>
-           <SfButton ID="mobile-prev-sample" IsPrimary="true" CssClass="e-flat sb-navigation-prev sb-left" Disabled="@IsPrevDisabled" OnClick="OnPrevSampleClick" Content="PREVIOUS"></SfButton>
-           <SfButton ID="mobile-next-sample" IsPrimary="true" CssClass="e-flat sb-navigation-next sb-right" Disabled="@IsNextDisabled" OnClick="OnNextSampleClick" Content="NEXT"></SfButton>
+                        <div class='sb-setting-item sb-setting-culture'>
+                            <div class='setting-label'>
+                                <div class='sb-icons sb-setting-icons sb-icon-localization'></div>
+                                <div class='sb-setting-text'>Localization</div>
+                            </div>
+                            <div>
+                                <CultureSwitcher />
+                            </div>
+                        </div>
+                    </SideBarComponent>
+                    <SampleNavigator @ref="SampleNavigatorRef"></SampleNavigator>
+                }
+            </div>
         </div>
-        </div>
-    </div>
+    }
 </CascadingValue>
+
 @code {
     [Inject]
-    SyncfusionBlazorService SyncfusionService { get; set; }
-    public SfSidebar MobilePreferences { get; set; }
+    protected SyncfusionBlazorService SyncfusionService { get; set; }
 
-    public LeftPaneComponent LeftPaneObject { get; set; }
+    private bool rightSidebarExpanded { get; set; }
+    private SpinnerComponent spinnerRef { get; set; }
+    private string rightPaneClass = SampleUtils.RIGHT_PANE;
 
-    public SidebarPosition Position { get; set; } = SidebarPosition.Right;
+    /// <summary>
+    /// LeftPane reference for outside usage.
+    /// </summary>
+    public LeftPaneComponent LeftPaneRef { get; set; }
+    /// <summary>
+    /// RightPane reference for outside usage.
+    /// </summary>
+    public RightPaneComponent RightPaneRef { get; set; }
 
-    public SidebarType Type { get; set; } = SidebarType.Push;
+    /// <summary>
+    /// SampleNavigator reference for outside usage.
+    /// </summary>
+    public SampleNavigator SampleNavigatorRef { get; set; }
 
-    [Parameter]
-    public string controlName { get; set; } = "ControlName";
-
-    public bool IsPrevDisabled { get; set; }
-
-    public bool IsNextDisabled { get; set; }
-
-    public SpinnerComponent SpinnerObj { get; set; }
-
-    public RightPaneComponent RightPaneObj { get; set; }
-
-    [Parameter]
-    public string theme { get; set; }
-
-    public class typeData
+    // Theme switcher handler for devices
+    private void OnThemeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
     {
-        public string text { get; set; }
-    }
-
-    private List<typeData> data { get; set; } = new List<typeData> {
-        new typeData { text = "Material" },
-        new typeData { text = "Fabric" },
-        new typeData { text = "Bootstrap" },
-        new typeData { text = "High Contrast" },
-        new typeData { text = "Bootstrap V4" }
-    };
-
-    private void ThemeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
-        JsRuntime.InvokeAsync<string>("mobileThemeChange", args.Value.ToString());
-    }
-
-    public void MobileButtonState(string currentUrl)
-    {
-        IsPrevDisabled = (SampleBrowser.SampleUrls.IndexOf(currentUrl) == 0) ? true : false;
-        IsNextDisabled = currentUrl.Equals(SampleBrowser.SampleUrls[SampleBrowser.SampleUrls.Count - 1]) ? true : false;
-        this.StateHasChanged();
-    }
-
-    public async Task OnPrevSampleClick()
-    {
-        var themeName = await JsRuntime.InvokeAsync<string>("persistTheme");
-        var currentUrl = Service.Data.CurrentSample.Url.ToLower();
-        int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
-        if (CurrentIndex != 0)
+        var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        if (currentTheme != args.Value)
         {
-            UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex - 1].ToString() + "?theme=" + themeName);
-            this.RightPaneObj.TabSelectedItemChange();;
+            var url = SampleUtils.GetThemeUrl(UriHelper.Uri, args.Value);
+            UriHelper.NavigateTo(url, true);
         }
     }
 
-    public async Task OnNextSampleClick()
-    {
-        var themeName = await JsRuntime.InvokeAsync<string>("persistTheme");
-        var currentUrl = Service.Data.CurrentSample.Url.ToLower();
-        int CurrentIndex = SampleBrowser.SampleUrls.IndexOf(currentUrl);
-        UriHelper.NavigateTo(SampleBrowser.SampleUrls[CurrentIndex + 1].ToString() + "?theme=" + themeName);
-        this.RightPaneObj.TabSelectedItemChange();
-    }
-
-    public List<TabItem> sourceCodeItems;
-
+    // Left sidebar click handler
     private async Task OnToggleClick()
     {
-        await this.LeftPaneObject.SideBar.Toggle();
+        // Update left sidebar expand and collapse status
+        this.LeftPaneRef.UpdateExpandedState();
+        // Collapse right sidebar if it is expanded
+        if (SampleService.IsDevice && rightSidebarExpanded)
+        {
+            rightSidebarExpanded = !rightSidebarExpanded;
+        }
         await JsRuntime.InvokeAsync<string>("callResizeEvent");
     }
 
-    public async Task OnRightToggleClick()
+    // Right sidebar click handler
+    private void OnRightToggleClick()
     {
-        await JsRuntime.InvokeAsync<Object>("mobileSideBarVisibility");
-        await this.MobilePreferences.Toggle();
-        await JsRuntime.InvokeAsync<Object>("mobileThemePersist");
+        // Update right sidebar expand and collapse status
+        rightSidebarExpanded = !rightSidebarExpanded;
+        // Collapse left sidebar if it is expanded
+        if (LeftPaneRef.IsExpanded())
+        {
+            LeftPaneRef.UpdateExpandedState();
+        }
     }
 
-    protected override bool ShouldRender()
+    // App click handler for collapse the sidebar components in device rendering.
+    private void OnAppClick()
     {
-        return true;
+        this.CollapseSideBar();
     }
 
-    protected override async Task OnInitializedAsync()
+    /// <summary>
+    /// Collapse both right and left sidebar component.
+    /// </summary>
+    public void CollapseSideBar()
     {
-        await base.OnInitializedAsync();
-        //Spinner.PropertyChanged = this.OnPropertyChanged;
-        Service.Notify += OnNotify;
-        //UriHelper.NavigateTo("Buttons/DefaultFunctionalities?theme=material");
+        if (SampleService.IsDevice)
+        {
+            // Collapse left sidebar if it is expanded on document click
+            if (LeftPaneRef.IsExpanded())
+            {
+                LeftPaneRef.UpdateExpandedState();
+            }
+            // Collapse right sidebar if it is expanded on document click
+            if (rightSidebarExpanded)
+            {
+                rightSidebarExpanded = !rightSidebarExpanded;
+            }
+        }
+    }
 
+    /// <summary>
+    /// Update BreadCrumb component with current sample details.
+    /// </summary>
+    /// <param name="componentName">Specifies the current component name.</param>
+    /// <param name="category">Specifies the current sample category name.</param>
+    /// <param name="sampleName">Specifies the current sample name.</param>
+    public void UpdateBreadCrumb(string componentName, string category, string sampleName)
+    {
+        this.RightPaneRef.BreadCrumbRef?.Refresh(componentName, category, sampleName);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // Enable ripple effect to the material theme.
         if (UriHelper.Uri.IndexOf("material") > 0)
         {
             SyncfusionService.EnableRipple();
         }
     }
 
-    public async Task OnNotify(NotifyProperties prop)
-    {
-        await InvokeAsync(() =>
-        {
-            this.SpinnerObj.Hide();
-            this.Service.Prop.HideSpinner = false;
-            this.Service.Prop.RestricMouseEvents = false;
-
-        });
-    }
-
-    public void UpdateBreadCrumb(string control, string category, string sample)
-    {
-        this.RightPaneObj.UpdateBreadCrumb(control, category, sample);
-
-    }
-
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if(this.SpinnerObj.TransClass == "sb-trans")
+        if (firstRender)
         {
-            this.SpinnerObj.Hide();
-            this.Service.Prop.HideSpinner = false;
-            this.Service.Prop.RestricMouseEvents = false;
+            // Add Spinner ref to the sample servie to get access in SampleBaseComponent class.
+            if (SampleService.Spinner == null)
+            {
+                SampleService.Spinner = spinnerRef;
+            }
+
+            // Get device information for mobile sidebar rendering
+            this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazor.isDevice");
+            if (this.SampleService.IsDevice && (UriHelper.Uri != UriHelper.BaseUri))
+            {
+                LeftPaneRef?.UpdateExpandedState();
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            // Refresh meta data for home page navigation.
+            if (UriHelper.BaseUri == UriHelper.Uri)
+            {
+                SampleService.MetaData?.Refresh();
+            }
+        }
+        if (!this.SampleService.IsDevice)
+        {
+            // Render sample navigator in the right pane for desktop.
+            RightPaneRef?.SampleNavigatorRef.Rerender(SampleService.IsDevice);
         }
     }
-
-    public void Dispose()
-    {
-        Service.Notify -= OnNotify;
-    }
 }
+
