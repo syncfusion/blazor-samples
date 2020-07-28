@@ -1,0 +1,238 @@
+﻿@namespace blazor_samples.Shared
+@implements IDisposable;
+
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+
+<CascadingValue Value="@this">
+    <TreeComponent @ref="TreeRef" DataSource="@TreeDataSource" OnNodeSelect="@OnComponentSelection">
+        <TreeTemplate>
+            <div>
+                <span class="tree-text">@context.Name</span>
+                @if (context.Type != SampleType.None)
+                {
+                    <span class="e-badge sb-badge e-samplestatus @(context.Type.ToString().ToLower()) tree tree-badge"></span>
+                }
+            </div>
+        </TreeTemplate>
+    </TreeComponent>
+    <div class="@samplesClass">
+        <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
+            <div class="sb-icons sb-back-icon"></div>
+            <div class='control-name'>All Components</div>
+        </div>
+        <ListComponent @ref="ListRef" DataSource="@ListDataSource" OnSelectList="OnSampleSelection">
+            <Template>
+                @{
+                    <div class="sf-text-content">
+                        <span class="sf-list-text">@context.Name</span>
+                        @if (@context.Type != SampleType.None)
+                        {
+                            <span class="e-badge sb-badge e-samplestatus @(context.Type.ToString().ToLower())"></span>
+                        }
+                    </div>
+                }
+            </Template>
+            <GroupTemplate>
+                @{
+                    <div class="sf-text-content" role="presentation">
+                        <span class="sf-list-text">@context.Category</span>
+                    </div>
+                }
+            </GroupTemplate>
+        </ListComponent>
+    </div>
+</CascadingValue>
+@code {
+    private bool isCurrentComponent { get; set; }
+    private string samplesClass = "sb-component-samples";
+
+    protected TreeComponent TreeRef { get; set; }
+    protected ListComponent ListRef { get; set; }
+
+    protected List<Sample> ListDataSource { get; set; } = new List<Sample>();
+    protected List<SampleListType> TreeDataSource { get; set; } = new List<SampleListType>();
+
+    [CascadingParameter]
+    protected MainLayout Layout { get; set; }
+
+    // List to tree navigation handler.
+    private void OnTreeNavigation()
+    {
+        // Hides list component and show tree component.
+        samplesClass = SampleUtils.AddClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
+        TreeRef.ShowTree();
+    }
+
+    // List sample selection handler.
+    private void OnSampleSelection(Sample item)
+    {
+        this.isCurrentComponent = true;
+        SampleService.Spinner.ShowModalSpinner();
+        Layout.RightPaneRef.TabSelectedItemChange();
+        Layout.CollapseSideBar();
+        var currentUrl = item.Url.ToLower();
+        RefreshSampleNavigator(currentUrl);
+        this.NavigatePage(currentUrl);
+    }
+
+    // Tree component selection handler.
+    private void OnComponentSelection(SampleListType nodeItem)
+    {
+        this.isCurrentComponent = false;
+        this.ListDataSource = nodeItem.Samples;
+
+        // Hides tree component and show list component.
+        TreeRef.ShowTree(false);
+        samplesClass = SampleUtils.RemoveClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
+
+        // Select first item in list component.
+        var firstItem = this.ListDataSource.FirstOrDefault();
+        ListRef.SelectItem(firstItem);
+
+        Layout.RightPaneRef.TabSelectedItemChange();
+        Layout.CollapseSideBar();
+        var currentUrl = firstItem.Url.ToLower();
+        RefreshSampleNavigator(currentUrl);
+        this.NavigatePage(currentUrl);
+    }
+
+    // Handles query param and navigate to the Url.
+    private void NavigatePage(string url)
+    {
+        if (UriHelper.Uri.IndexOf("?") >= 0 && url.IndexOf("?") < 0)
+        {
+            string[] themeurl = UriHelper.Uri.Split("?");
+            url += themeurl.Length > 0 ? "?" + themeurl[themeurl.Length - 1] : string.Empty;
+        }
+        else if (url.IndexOf("?") < 0)
+        {
+            url += "?theme=bootstrap4";
+        }
+        UriHelper.NavigateTo(url);
+    }
+
+    // Refresh sample navigator button states for device and desktop.
+    private void RefreshSampleNavigator(string url)
+    {
+        this.Layout.SampleNavigatorRef?.RefreshState(url, true);
+        this.Layout.RightPaneRef?.SampleNavigatorRef?.RefreshState(url, true);
+    }
+
+    // Select tree node for the current sample.
+    private void SelectTreeNode(string componentName)
+    {
+        foreach (var parentData in TreeDataSource)
+        {
+            var treeSelectedNode = parentData.SourceData.Where(data => data.Name == componentName).ToList();
+            if (treeSelectedNode.Count > 0)
+            {
+                this.TreeRef.SelectNode(treeSelectedNode.First());
+                break;
+            }
+        }
+    }
+
+    // Returns samples list of the current component.
+    private List<Sample> GetSampleDataSource()
+    {
+        var sampleData = this.ListDataSource;
+        // Validate the selected sample is in the current list.
+        if (!this.isCurrentComponent)
+        {
+            // Get the current uri to get the sample list.
+            var currentUri = UriHelper.Uri.Replace(UriHelper.BaseUri, string.Empty);
+            if (currentUri.Contains("?"))
+            {
+                currentUri = currentUri.Split("?")[0];
+            }
+            // Iterate and get the sample list from overall collections.
+            foreach (var samplesInfo in SampleBrowser.SampleList)
+            {
+                var currentSample = samplesInfo.Samples.Where<Sample>(sample => sample.Url.ToLower() == currentUri).ToList();
+                if (currentSample.Count > 0)
+                {
+                    sampleData = samplesInfo.Samples;
+                    // Select tree node for sample navigator.
+                    if (TreeRef != null)
+                    {
+                        this.SelectTreeNode(samplesInfo.Name);
+                    }
+                    break;
+                }
+            }
+        }
+        return sampleData;
+    }
+
+    /// <summary>
+    /// Set selection to the list component based on given item.
+    /// </summary>
+    /// <param name="item">Item that need to be selected.</param>
+    public void SelectItem(Sample item)
+    {
+        var currentSample = this.ListDataSource.Where(sample => sample.Url == item.Url).ToList();
+        // Update list datasource when the current selected sample is not in the component source data.
+        if (currentSample.Count == 0)
+        {
+            this.isCurrentComponent = false;
+            this.ListDataSource = GetSampleDataSource();
+            StateHasChanged();
+        }
+        this.ListRef.SelectItem(item);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Gets the tree datasource.
+        this.TreeDataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
+        {
+            List<SampleList> sampleItems = samples.ToList();
+            List<SampleListType> childItems = new List<SampleListType>();
+            sampleItems.ForEach(item =>
+            {
+                var listData = item.Samples.GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                for (var i = 0; i < listData.Count; i++)
+                {
+                    for (var j = 0; j < listData[i].Count; j++)
+                    {
+                        SampleBrowser.SampleUrls.Add(listData[i][j].Url.ToLower());
+                    }
+                }
+                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples });
+                // Update first sample information in the sample service.
+                if (SampleService.SampleInfo == null)
+                {
+                    SampleService.Update(UriHelper);
+                }
+            });
+            return new SampleListType() { SourceData = childItems, Name = sampleItems[0].Category };
+        }).ToList<SampleListType>();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        // Set the list datasource.
+        this.ListDataSource = GetSampleDataSource();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            Layout.UpdateBreadCrumb(SampleService.ComponentName, SampleService.SampleInfo.Category, SampleService.SampleInfo.Name);
+            this.SelectTreeNode(SampleService.ComponentName);
+        }
+        SampleService.MetaData?.Refresh();
+    }
+
+    public void Dispose()
+    {
+        ListDataSource = null;
+        TreeDataSource = null;
+    }
+}
