@@ -56,7 +56,9 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/PivotView">Pivot Table</a>
         </td>
-        <td></td>
+        <td>
+            <a href="Pages/TreeGrid">Tree Grid</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
@@ -100,7 +102,20 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/TreeMap">TreeMap</a>
         </td>
-        <td></td>
+        <td>
+            <a href="Pages/Barcodes">Barcodes</a>
+        </td>
+        <td>
+            <a href="Pages/Charts/"StockChart>StockChart</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Pages/Charts/BulletChart">Bullet Chart</a>
+        </td>
+        <td>
+            <a href="Pages/Kanban">Kanban</a>
+        </td>
         <td></td>
     </tr>
     <tr>
@@ -115,7 +130,9 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/DocumentEditor">Word Processor</a>
         </td>
-        <td></td>
+        <td>
+            <a href="Pages/Editors/InPlaceEditor">In-place Editor</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
@@ -145,6 +162,15 @@ The Syncfusion license that contains the terms and conditions can be found at
         </td>
     </tr>
     <tr>
+        <td>
+            <a href="Pages/GanttChart">Gantt Chart</a>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
         <td colspan="3" rowspan="1">
             <b>BUTTONS<b>
         </td>
@@ -156,13 +182,16 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/Buttons/Button/DropDownButton.razor">Dropdown Menu</a>
         </td>
-    </tr>
-    <tr>
         <td>
             <a href="Pages/Buttons/Button/ProgressButton.razor">Progress Button</a>
         </td>
+    </tr>
+    <tr>
         <td>
             <a href="Pages/Buttons/Button/SplitButton.razor">Split Button</a>
+        </td>
+        <td>
+            <a href="Pages/Buttons/Chips">Chips</a>
         </td>
         <td></td>
     </tr>
@@ -186,7 +215,9 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/DropDowns/MultiSelect">MultiSelect Dropdown</a>
         </td>
-        <td></td>
+        <td>
+            <a href="Pages/DropDowns/ListBox">ListBox</a>
+        </td>
         <td></td>
     </tr>
     <tr>
@@ -220,7 +251,8 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/Navigations/TreeView">TreeView</a>
         </td>
-        <td></td>
+        <td>
+        </td>
         <td></td>
     </tr>
     <tr>
@@ -293,6 +325,16 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="Pages/Notifications/Toast">Toast</a>
         </td>
         <td></td>
+    </tr>
+    <tr>
+        <td colspan="3" rowspan="1">
+            <b>FORMS<b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Pages/Forms/QueryBuilder">Query Builder</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
