@@ -78,7 +78,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Diagrams">Diagram</a>
+            <a href="Pages/Diagram">Diagram</a>
         </td>
         <td>
             <a href="Pages/HeatMapChart">Heatmap chart</a>
@@ -106,7 +106,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="Pages/Barcodes">Barcodes</a>
         </td>
         <td>
-            <a href="Pages/Charts/"StockChart>StockChart</a>
+            <a href="Pages/Charts/StockChart">StockChart</a>
         </td>
     </tr>
     <tr>
@@ -177,7 +177,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Buttons">Button</a>
+            <a href="Pages/Buttons/Button">Button</a>
         </td>
         <td>
             <a href="Pages/Buttons/Button/DropDownButton.razor">Dropdown Menu</a>
@@ -241,7 +241,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="Pages/Navigations/Sidebar">Sidebar</a>
         </td>
         <td>
-            <a href="Pages/Navigations/Tab">Tabs</a>
+            <a href="Pages/Navigations/Tabs">Tabs</a>
         </td>
         <td>
             <a href="Pages/Navigations/Toolbar">Toolbar</a>
@@ -252,6 +252,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="Pages/Navigations/TreeView">TreeView</a>
         </td>
         <td>
+             <a href="Pages/Navigations/FileManager">File Manager</a>
         </td>
         <td></td>
     </tr>
@@ -287,7 +288,7 @@ The Syncfusion license that contains the terms and conditions can be found at
             <a href="Pages/Inputs/Uploader">File Upload</a>
         </td>
         <td>
-            <a href="Pages/Inputs/Slider">Range Slider</a>
+            <a href="Pages/Inputs/RangeSlider">Range Slider</a>
         </td>
         <td>
             <a href="Pages/Buttons/Button/Switch.razor">Toggle Switch Button</a>
@@ -300,17 +301,25 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Layout/Dialog">Dialog</a>
+            <a href="Pages/Popups/Dialog">Dialog</a>
         </td>
-    </tr>
-    <tr>
         <td>
-            <a href="Pages/Lists/ListView">ListView</a>
+            <a href="Pages/Layouts/Listview">ListView</a>
         </td>
         <td>
             <a href="Pages/Popups/Tooltip">Tooltip</a>
         </td>
-        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Pages/Layouts/Splitter">Splitter</a>
+        </td>
+        <td>
+            <a href="Pages/Layouts/DashboardLayout">Dashboard Layout</a>
+        </td>
+        <td>
+            <a href="Pages/Cards/Card">Card</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
@@ -319,11 +328,36 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Notifications/Badge">Badge</a>
+            <a href="Pages/ProgressBar/ProgressBar">ProgressBar</a>
         </td>
         <td>
             <a href="Pages/Notifications/Toast">Toast</a>
         </td>
+        <td>
+            <a href="Pages/Notifications/Spinner">Spinner</a>
+        </td>
+    </tr>
+     <tr>
+        <td colspan="3" rowspan="1">
+            <b>FILE FORMAT<b>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Pages/FileFormats/DocIO">DocIO</a>
+        </td>
+        <td>
+            <a href="Pages/FileFormats/PDF">PDF</a>
+        </td>
+        <td>
+            <a href="Pages/FileFormats/Presentation">Presentation</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Pages/FileFormats/XlsIO">XlsIO</a>
+        </td>
+        <td></td>
         <td></td>
     </tr>
     <tr>
@@ -335,6 +369,8 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/Forms/QueryBuilder">Query Builder</a>
         </td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <td colspan="3" rowspan="1">
@@ -345,6 +381,8 @@ The Syncfusion license that contains the terms and conditions can be found at
         <td>
             <a href="Pages/Viewer/PdfViewer">PDF Viewer</a>
         </td>
+        <td></td>
+        <td></td>
     </tr>
 </table>
 
