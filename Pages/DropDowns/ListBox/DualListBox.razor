@@ -25,26 +25,28 @@
         <div class="dual-list-wrapper">
             <div class="dual-list-groupa">
                 <h4> Group A</h4>
-                <SfListBox ID="listbox1" Scope="#listbox2" DataSource="@GroupA" TItem="ListData" Height="330px" TValue="string[]">
-                    <ListBoxFieldSettings Text="Name"></ListBoxFieldSettings>
+                <SfListBox @ref="listbox1" Scope="@scope1" DataSource="@GroupA" TItem="ListData" Height="330px" TValue="string[]">
+                    <ListBoxFieldSettings Text="Name" Value="Code"></ListBoxFieldSettings>
                     <ListBoxToolbarSettings Items="@Items"></ListBoxToolbarSettings>
                 </SfListBox>
             </div>
             <div class="dual-list-groupb">
                 <h4>Group B</h4>
-                <SfListBox ID="listbox2" DataSource="@GroupB" Height="330px" TItem="ListData" TValue="string[]">
-                    <ListBoxFieldSettings Text="Name"></ListBoxFieldSettings>
+                <SfListBox @ref="listbox2" Scope="@scope2" DataSource="@GroupB" Height="330px" TItem="ListData" TValue="string[]">
+                    <ListBoxFieldSettings Text="Name" Value="Code"></ListBoxFieldSettings>
                 </SfListBox>
             </div>
         </div>
     </div>
 </div>
 
-
-@code{
-
-    public string[] Items = new string[] { "moveUp", "moveDown", "moveTo", "moveFrom", "moveAllTo", "moveAllFrom" };
-
+@code
+{
+    SfListBox<string[], ListData> listbox1;
+    SfListBox<string[], ListData> listbox2;
+    SfListBox<string[], ListData> scope1;
+    SfListBox<string[], ListData> scope2;
+    public string[] Items = new string[] { "MoveUp", "MoveDown", "MoveTo", "MoveFrom", "MoveAllTo", "MoveAllFrom" };
     public List<ListData> GroupA = new List<ListData> {
         new ListData { Name = "Australia", Code = "AU" },
         new ListData { Name = "Bermuda", Code = "BM" },
@@ -56,26 +58,32 @@
         new ListData { Name = "Germany", Code = "DE" },
         new ListData { Name = "Hong Kong", Code = "HK" }
     };
-
     public List<ListData> GroupB = new List<ListData> {
-                new ListData { Name = "India", Code = "IN" },
-                new ListData { Name = "Italy", Code = "IT" },
-                new ListData { Name = "Japan", Code = "JP" },
-                new ListData { Name = "Mexico", Code = "MX" },
-                new ListData { Name = "Norway", Code = "NO" },
-                new ListData { Name = "Poland", Code = "PL" },
-                new ListData { Name = "Switzerland", Code = "CH" },
-                new ListData { Name = "United Kingdom", Code = "GB" },
-                new ListData { Name = "United States", Code = "US" }
+        new ListData { Name = "India", Code = "IN" },
+        new ListData { Name = "Italy", Code = "IT" },
+        new ListData { Name = "Japan", Code = "JP" },
+        new ListData { Name = "Mexico", Code = "MX" },
+        new ListData { Name = "Norway", Code = "NO" },
+        new ListData { Name = "Poland", Code = "PL" },
+        new ListData { Name = "Switzerland", Code = "CH" },
+        new ListData { Name = "United Kingdom", Code = "GB" },
+        new ListData { Name = "United States", Code = "US" }
     };
-
-     public class ListData
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            scope1 = listbox2;
+            scope2 = listbox1;
+            StateHasChanged(); // Re-render component to update the ListBox component Scope references in each connected ListBox.
+        }
+    }
+    public class ListData
     {
         public string Name { get; set; }
-
         public string Code { get; set; }
     }
-
 }
 
 <style>
@@ -90,7 +98,7 @@
         width: 50%;
     }
 
-    .dual-list-groupb .e-listbox-wrapper,
+    .dual-list-groupb .e-listbox-container,
     .dual-list-groupb h4 {
         width: 87%;
         margin-left: 15px;

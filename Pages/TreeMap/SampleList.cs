@@ -86,7 +86,7 @@ namespace blazor_samples
                 Directory = "TreeMap/TreeMap",
                 Url = "treemap/print",
                 FileName = "Print.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
                 new Sample
             {

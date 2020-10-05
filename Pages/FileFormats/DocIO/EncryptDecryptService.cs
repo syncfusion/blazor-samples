@@ -54,7 +54,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             else
             {
                 string basePath = @"wwwroot/";
-                string dataPath = basePath + @"/DocIO/Security Settings.docx";
+                string dataPath = basePath + @"data/docio/security-settings.docx";
                 FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 document = new WordDocument();
                 //Open an existing template document.

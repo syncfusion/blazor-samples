@@ -14,22 +14,22 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="EventData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 1))">
+        <SfSchedule TValue="EventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
             <ScheduleTemplates>
                 <ResourceHeaderTemplate>
                     <div class='template-wrap'>
-                        <div class="employee-name"><b>@(((context as EventData).ResourceData as ResourceData).Name)</b></div>
-                        <div class="employee-designation">@(((context as EventData).ResourceData as ResourceData).Designation)</div>
+                        <div class="employee-name"><b>@(((context as TemplateContext).ResourceData as ResourceData).Name)</b></div>
+                        <div class="employee-designation">@(((context as TemplateContext).ResourceData as ResourceData).Designation)</div>
                     </div>
                 </ResourceHeaderTemplate>
             </ScheduleTemplates>
             <ScheduleGroup EnableCompactView="false" Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource TValue="ResourceData" DataSource="@ResourceDatasource" Field="ResourceId" Title="Resource" Name="Resources" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
+                <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@ResourceDatasource" Field="ResourceId" Title="Resource" Name="Resources" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
             <ScheduleEventSettings DataSource="@AppointmentData"></ScheduleEventSettings>
             <ScheduleViews>
-                <ScheduleView Option="View.TimelineMonth" AllowVirtualScrolling="true"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="1" Option="View.TimelineMonth" AllowVirtualScrolling="true"></ScheduleView>
             </ScheduleViews>
         </SfSchedule>
     </div>
@@ -38,6 +38,7 @@
     public static List<ResourceData> ResourceDatasource = GenerateResourceData();
     public static List<EventData> AppointmentData = GenerateStaticEvents();
     public string[] GroupData { get; set; } = { "Resources" };
+    public DateTime CurrentDate = new DateTime(2020, 1, 1);
     static public List<ResourceData> GenerateResourceData()
     {
         List<ResourceData> resources = new List<ResourceData>(300);
@@ -118,7 +119,6 @@
         public string StartTimezone { get; set; }
         public string EndTimezone { get; set; }
         public int ResourceId { get; set; }
-        public ResourceData ResourceData { get; set; }
     }
 
     public class ResourceData

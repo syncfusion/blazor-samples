@@ -16,12 +16,12 @@
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-CurrentView="@WorkWeek" SelectedDate="@(new DateTime(2020, 1, 16))" WorkDays="@WorkingDays" FirstDayOfWeek="@FirstDay">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate" WorkDays="@WorkingDays" FirstDayOfWeek="@FirstDay">
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
                 <ScheduleView Option="View.WorkWeek"></ScheduleView>
-                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
@@ -42,8 +42,8 @@
                         </td>
                         <td style="width: 70%;">
                             <div>
-                                <SfDropDownList TValue="string" TItem="DropDownData" Index=0 DataSource="@WorkDaysData" PopupWidth="auto">
-                                    <DropDownListEvents TValue="string" ValueChange="OnChange"></DropDownListEvents>
+                                <SfDropDownList TValue="string" TItem="DropDownData" @bind-Index="@workIndex" DataSource="@WorkDaysData" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnChange"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
@@ -57,8 +57,8 @@
                         </td>
                         <td style="width: 70%;">
                             <div>
-                                <SfDropDownList TValue="string" TItem="DropDownData" Index=1 DataSource="@FirstDayOfWeek" PopupWidth="auto">
-                                    <DropDownListEvents TValue="string" ValueChange="OnDayChange"></DropDownListEvents>
+                                <SfDropDownList TValue="string" TItem="DropDownData" @bind-Index="@dayIndex" DataSource="@FirstDayOfWeek" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnDayChange"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
@@ -71,16 +71,19 @@
 </div>
 
 @code{
+    private int? workIndex {get;set;} = 0;
+    private int? dayIndex {get;set;} = 1;
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetEmployeeEventData();
-    public View WorkWeek = View.WorkWeek;
+    public View CurrentView = View.WorkWeek;
+    public DateTime CurrentDate = new DateTime(2020, 1, 16);
     public int[] WorkingDays = new int[] { 1, 3, 5 };
     public int FirstDay = 1;
-    public void OnChange(ChangeEventArgs<string> args)
+    public void OnChange(ChangeEventArgs<string, DropDownData> args)
     {
         var numbers = (args.Value).Split(',').Select(Int32.Parse).ToArray();
         this.WorkingDays = numbers;
     }
-    public void OnDayChange(ChangeEventArgs<string> args)
+    public void OnDayChange(ChangeEventArgs<string, DropDownData> args)
     {
         this.FirstDay = Convert.ToInt32(args.Value);
     }

@@ -38,7 +38,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 
                 //A new workbook is created.[Equivalent to creating a new workbook in Microsoft Excel]
                 //Open workbook with Data
-                FileStream inputStream = new FileStream(ResolveApplicationPath("EmbeddedChart.xlsx"), FileMode.Open, FileAccess.Read);
+                FileStream inputStream = new FileStream(ResolveApplicationPath("embedded-chart.xlsx"), FileMode.Open, FileAccess.Read);
                 IWorkbook workbook = application.Workbooks.Open(inputStream);
 
                 //Set the default version
@@ -139,7 +139,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

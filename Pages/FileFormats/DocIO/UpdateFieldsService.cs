@@ -32,7 +32,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream UpdateFields(string documentType, string button)
         {
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"/DocIO/TemplateUpdateFields.docx";
+            string dataPath = basePath + @"/data/docio/template-update-fields.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);            
             if (button == "View Template")
             {               
@@ -43,7 +43,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
                 return ms;
             }
             //Loads the template document.
-            string dataPathField = basePath + @"/DocIO/TemplateUpdateFields.docx";
+            string dataPathField = basePath + @"/data/docio/template-update-fields.docx";
             FileStream fileStreamField = new FileStream(dataPathField, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             WordDocument document = new WordDocument(fileStreamField, FormatType.Docx);
             fileStreamField.Dispose();
@@ -80,7 +80,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetMailMergeDataTableStock()
         {
             List<StockDetails> stockDetails = new List<StockDetails>();
-            FileStream fs = new FileStream(@"wwwroot/DocIO/StockDetails.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/stock-details.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
             if (reader == null)
                 throw new Exception("reader");

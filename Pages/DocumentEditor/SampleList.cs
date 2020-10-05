@@ -95,16 +95,7 @@ namespace blazor_samples
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/form-fields",
-                FileName = "FormFields.razor",
-                Type = SampleType.New
-            },
-             new Sample
-            {
-                Name = "Right To Left",
-                Category = "RTL",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/right-to-left",
-                FileName = "RightToLeft.razor"
+                FileName = "FormFields.razor"
             },
              new Sample
             {
@@ -152,8 +143,7 @@ namespace blazor_samples
                 Category = "Review",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/comments",
-                FileName = "Comments.razor",
-                Type = SampleType.Updated
+                FileName = "Comments.razor"
             },
             new Sample
             {
@@ -161,8 +151,7 @@ namespace blazor_samples
                 Category = "Review",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/track-changes",
-                FileName = "TrackChanges.razor",
-                Type = SampleType.New
+                FileName = "TrackChanges.razor"
             }
         };
     }

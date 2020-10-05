@@ -62,7 +62,7 @@ namespace blazor_samples.Data.FileFormats.PDF
 
             #region QR Barcode
             font = new PdfStandardFont(PdfFontFamily.Helvetica, 12f, PdfFontStyle.Bold);
-            g.DrawString("QR Barcode", font, brush, new PointF(10, 90));
+            g.DrawString("QR Barcode", font, brush, new PointF(10, 70));
 
             PdfQRBarcode qrBarcode = new PdfQRBarcode();
 
@@ -76,24 +76,24 @@ namespace blazor_samples.Data.FileFormats.PDF
             qrBarcode.ErrorCorrectionLevel = PdfErrorCorrectionLevel.High;
 
             // Set dimension for each block
-            qrBarcode.XDimension = 4;
+            qrBarcode.XDimension = 2;
             qrBarcode.Text = "Syncfusion Essential Studio Enterprise edition $995";
 
             // Draw the QR barcode
-            qrBarcode.Draw(page, new PointF(25, 120));
+            qrBarcode.Draw(page, new PointF(25, 100));
 
             font = new PdfStandardFont(PdfFontFamily.TimesRoman, 9, PdfFontStyle.Regular);
 
-            g.DrawString("Input Type :   Eight Bit Binary", font, brush, new PointF(250, 160));
-            g.DrawString("Encoded Data : Syncfusion Essential Studio Enterprise edition $995", font, brush, new PointF(250, 180));
+            g.DrawString("Input Type :   Eight Bit Binary", font, brush, new PointF(250, 140));
+            g.DrawString("Encoded Data : Syncfusion Essential Studio Enterprise edition $995", font, brush, new PointF(250, 160));
 
-            g.DrawLine(pen, new PointF(0, 320), new PointF(width, 320));
+            g.DrawLine(pen, new PointF(0, 230), new PointF(width, 230));
 
             #endregion
 
             #region Datamatrix
             font = new PdfStandardFont(PdfFontFamily.Helvetica, 12f, PdfFontStyle.Bold);
-            g.DrawString("DataMatrix Barcode", font, brush, new PointF(10, 340));
+            g.DrawString("DataMatrix Barcode", font, brush, new PointF(10, 270));
 
             PdfDataMatrixBarcode dataMatrixBarcode = new PdfDataMatrixBarcode("5575235 Win7 4GB 64bit 7Jun2010");
 
@@ -101,15 +101,15 @@ namespace blazor_samples.Data.FileFormats.PDF
             dataMatrixBarcode.XDimension = 4;
 
             // Draw the barcode
-            dataMatrixBarcode.Draw(page, new PointF(25, 540));
+            dataMatrixBarcode.Draw(page, new PointF(25, 310));
 
             font = new PdfStandardFont(PdfFontFamily.TimesRoman, 9, PdfFontStyle.Regular);
 
-            g.DrawString("Symbol Type : Square", font, brush, new PointF(250, 590));
-            g.DrawString("Encoded Data : 5575235 Win7 4GB 64bit 7Jun2010", font, brush, new PointF(250, 610));
+            g.DrawString("Symbol Type : Square", font, brush, new PointF(250, 360));
+            g.DrawString("Encoded Data : 5575235 Win7 4GB 64bit 7Jun2010", font, brush, new PointF(250, 380));
 
             pen = new PdfPen(brush, 0.5f);
-            g.DrawLine(pen, new PointF(0, 700), new PointF(width, 700));
+            g.DrawLine(pen, new PointF(0, 430), new PointF(width, 430));
 
             string text = "TYPE 3523 - ETWS/N FE- SDFHW 06/08";
 
@@ -120,12 +120,28 @@ namespace blazor_samples.Data.FileFormats.PDF
 
             dataMatrixBarcode.XDimension = 4;
 
-            dataMatrixBarcode.Draw(page, new PointF(25, 400));
+            dataMatrixBarcode.Draw(page, new PointF(25, 470));
 
-            g.DrawString("Symbol Type : Rectangle", font, brush, new PointF(250, 420));
-            g.DrawString("Encoded Data : " + text, font, brush, new PointF(250, 440));
+            g.DrawString("Symbol Type : Rectangle", font, brush, new PointF(250, 490));
+            g.DrawString("Encoded Data : " + text, font, brush, new PointF(250, 510));
 
             pen = new PdfPen(brush, 0.5f);
+
+            g.DrawLine(pen, new PointF(0, 570), new PointF(width, 570));
+            font = new PdfStandardFont(PdfFontFamily.Helvetica, 12f, PdfFontStyle.Bold);
+            g.DrawString("PDF417 Barcode", font, brush, new PointF(10, 620));
+            Pdf417Barcode pdf417Barcode = new Pdf417Barcode();
+            pdf417Barcode.Text = "https://www.syncfusion.com/";
+            pdf417Barcode.ErrorCorrectionLevel = Pdf417ErrorCorrectionLevel.Auto;
+            pdf417Barcode.XDimension = 1f;
+            pdf417Barcode.Size = new SizeF(200, 50);
+            pdf417Barcode.Draw(page,new PointF(25,670));
+
+
+            font = new PdfStandardFont(PdfFontFamily.TimesRoman, 9, PdfFontStyle.Regular);
+            g.DrawString("Encoded Data : https://www.syncfusion.com/", font, brush, new PointF(250, 680));
+
+
             #endregion
             # endregion
 
@@ -365,12 +381,5 @@ namespace blazor_samples.Data.FileFormats.PDF
             return ms;            
         }      
 
-
-        #region HelperMethod
-        private string ResolveApplicationPath(string fileName)
-        {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
-        }
-        #endregion
     }
 }

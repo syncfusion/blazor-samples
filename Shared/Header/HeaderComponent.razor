@@ -1,10 +1,10 @@
-﻿@using Syncfusion.Blazor.Navigations;
+﻿@using Syncfusion.Blazor.Buttons;
 
 @namespace blazor_samples.Shared
-@implements IDisposable;
 
 @inject IJSRuntime JsRuntime;
 @inject NavigationManager UriHelper;
+@inject SampleService SampleService;
 
 <div id='sample-header' class="sb-header e-view" role="banner">
     <div class='sb-header-left sb-left sb-table'>
@@ -19,77 +19,78 @@
     <div class='sb-header-right sb-right sb-table'>
         <div class="sb-header-item sb-table-cell">
             <div id="header-theme-switcher" role="button" tabindex="0" title='Change theme of sample browser'>
-                <SfMenu ID='theme-menu' ShowItemOnClick="true" Items='@themeList' CssClass="e-sample-theme-menu">
-                    <MenuEvents ItemSelected="OnThemeChange" OnOpen="OnPopupOpen"></MenuEvents>
-                </SfMenu>
+                <DropDownComponent DataSource="@SampleUtils.ThemeData" DefaultValue="CHOOSE THEME" OnSelect="OnThemeChange">
+                    <ItemTemplate>
+                        @if (currentTheme == context.ID)
+                        {
+                            <span class="sb-icons sf-theme-selection-icon"></span>
+                        }
+                        <span>@context.Text</span>
+                    </ItemTemplate>
+                </DropDownComponent>
             </div>
         </div>
 
-        <div class='sb-header-item sb-table-cell sb-settings-wrapper'>
-            <div class='sb-setting-btn' role="button" tabindex="0" aria-label="toggle settings menu">
+        <div class='sb-header-item sb-table-cell sb-search-container'>
+            <div class="@searchClass" role="button" tabindex="0" aria-label="toggle sample search" title="Toggle sample search" @onclick="@OnSearchRender">
+                <span class="sb-settings sb-icons sb-icon-search"></span>
+            </div>
+        </div>
+
+        <div class='sb-header-item sb-table-cell sb-settings-container'>
+            <div class='@preferenceClass' role="button" tabindex="0" aria-label="toggle settings menu" title="Toggle sample browser preferences" @onclick="@OnPreferenceClick">
                 <span class='sb-settings sb-icons sb-icon-settings-preferences'></span>
             </div>
+            <Preferences @ref="@preferenceRef"></Preferences>
         </div>
 
-        <div class='sb-header-item sb-table-cell sb-download-wrapper'>
+        <div class='sb-header-item sb-table-cell sb-download-container'>
             <a href='https://github.com/syncfusion/blazor-samples' target="_blank">
                 <button id='github' class='sb-github-btn'>
-                    <div class="github-image">
-                        <img src='styles/images/mark.svg' alt="Github Link">
-                    </div>
+                    <div class="github-logo" title="Explore in Github"></div>
                 </button>
             </a>
         </div>
         <div class="sb-header-splitter sb-download-splitter"></div>
-        <div class='sb-header-item sb-table-cell sb-download-wrapper'>
+        <div class='sb-header-item sb-table-cell sb-download-container'>
             <a href='https://www.syncfusion.com/downloads/blazor/' target="_blank">
                 <button id='download-now' class='sb-download-btn'>
-                    <span class='sb-download-text'>Download Now</span>
+                    <span class='sb-download-text'>FREE TRIAL</span>
                 </button>
             </a>
         </div>
+
+        <div class='sb-header-item sb-table-cell sb-install-nuget-container'>
+            <a href='https://www.nuget.org/packages/Syncfusion.Blazor/' target="_blank">
+                <SfButton CssClass="sb-install-nuget-btn e-outline" IconCss="sb-icons sb-nuget-logo">Install NuGet</SfButton>
+            </a>
+        </div>
+
         <div class="sb-header-item sb-table-cell sb-header-settings sb-icons" @onclick="@OnRightToggleClick" @onclick:stopPropagation="true" role="button"></div>
     </div>
 </div>
 
-<div id='sb-popup-section' class='sb-popups'>
-    <div id='settings-popup' class='sb-setting-popup'>
-        <div class='sb-setting-header'>
-            <span>Preferences</span>
-        </div>
-        <div class='sb-setting-content'>
-            <div class='sb-setting-item sb-responsive-section'>
-                <div class='setting-label'>
-                    <div class='sb-icons sb-setting-icons sb-icon-responsive'></div>
-                    <div class='sb-setting-text'>Mode Selection</div>
-                </div>
-                <div class='setting-content btn-group setting-responsive'>
-                    <div id='touch' role="button" tabindex="0" class="sb-responsive-items set-border-radious-touch" title="Increased padding for actionable items to accommodate user touches">Touch</div>
-                    <div id='mouse' role="button" tabindex="0" class="sb-responsive-items set-border-radious-mouse" title="Default control sizes, optimized for use with mouse">Mouse</div>
-                </div>
-            </div>
-            <div class='sb-setting-item sb-setting-culture'>
-                <div class='setting-label'>
-                    <div class='sb-icons sb-setting-icons sb-icon-localization'></div>
-                    <div class='sb-setting-text'>Localization</div>
-                </div>
-                <div>
-                    <CultureSwitcher />
-                </div>
-            </div>
-            <div class="sb-setting-translate">
-                <span>*Translated by Google Translator.</span>
-            </div>
-        </div>
-    </div>
-</div>
+<style>
+    .github-logo {
+        background: url(@(SampleService.ImagePath + "github-logo.svg")) no-repeat center;
+    }
+</style>
 
 @code {
+    private string searchClass { get; set; }
+    private string currentTheme { get; set; }
+    private string preferenceClass { get; set; }
+    private bool isPreferenceClicked { get; set; }
+    private Preferences preferenceRef { get; set; }
+
     /// <summary>
     /// Triggers event callback on left toggle button action.
     /// </summary>
     [Parameter]
     public EventCallback OnToggleClick { get; set; }
+
+    [CascadingParameter]
+    protected MainLayout Layout { get; set; }
 
     /// <summary>
     /// Triggers event callback on right toggle button action in device rendering.
@@ -97,44 +98,58 @@
     [Parameter]
     public EventCallback OnRightToggleClick { get; set; }
 
-#pragma warning disable
-    private List<MenuItem> themeList = new List<MenuItem>
-    {
-        new MenuItem {
-            Text = "CHOOSE THEME",
-            Items = new ThemeSwitcher().GetThemeList()
-        }
-    };
-#pragma warning restore
-
     // Theme switcher change handler
-    private void OnThemeChange(Syncfusion.Blazor.Navigations.MenuEventArgs<MenuItemModel> args)
+    private void OnThemeChange(DropDownData args)
     {
-        if (args.Item.Text != "CHOOSE THEME")
+        var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        if (currentTheme != args.ID)
         {
-            var url = SampleUtils.GetThemeUrl(UriHelper.Uri, args.Item.Id);
+            var url = SampleUtils.GetThemeUrl(UriHelper.Uri, args.ID);
             UriHelper.NavigateTo(url, true);
         }
     }
 
-    // Theme switcher popup open handler
-    private async Task OnPopupOpen(BeforeOpenCloseMenuEventArgs<MenuItemModel> args)
+    // Search icon click handler.
+    private async Task OnSearchRender()
     {
-        var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
-        await JsRuntime.InvokeVoidAsync("setThemeSelection", currentTheme);
+        await Layout.ShowSearchLayout(true);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    // Preferences icon click handler.
+    private void OnPreferenceClick()
     {
-        await base.OnAfterRenderAsync(firstRender);
-        if (firstRender)
+        isPreferenceClicked = true;
+        var isActive = preferenceClass.Contains(SampleUtils.ACTIVE_CLASS);
+        if (isActive)
         {
-            await JsRuntime.InvokeVoidAsync("renderPreferences");
+            preferenceClass = SampleUtils.RemoveClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
         }
+        else
+        {
+            preferenceClass = SampleUtils.AddClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
+        }
+        preferenceRef.ShowPopup(!isActive);
     }
 
-    public void Dispose()
+    /// <summary>
+    /// Hides the preferences popup element.
+    /// </summary>
+    public void HidePreferences()
     {
-        themeList = null;
+        if (!isPreferenceClicked && !preferenceRef.IsPopupClicked())
+        {
+            preferenceClass = SampleUtils.RemoveClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
+            preferenceRef.ShowPopup(false);
+            StateHasChanged();
+        }
+        isPreferenceClicked = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        searchClass = SampleUtils.HEADER_SEARCH_CLASS;
+        preferenceClass = SampleUtils.HEADER_PREFERENCES_CLASS;
     }
 }

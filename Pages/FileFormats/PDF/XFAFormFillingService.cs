@@ -31,7 +31,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         public MemoryStream XFAFormFillingPDF()
         {
             //Read the file
-            FileStream file1 = new FileStream(ResolveApplicationPath( "xfaTemplate.pdf"), FileMode.Open, FileAccess.Read,FileShare.ReadWrite);
+            FileStream file1 = new FileStream(ResolveApplicationPath( "xfa-template.pdf"), FileMode.Open, FileAccess.Read,FileShare.ReadWrite);
 
             //Load the existing XFA document.
             PdfLoadedXfaDocument ldoc = new PdfLoadedXfaDocument(file1);
@@ -95,7 +95,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

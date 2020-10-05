@@ -1,32 +1,31 @@
 ﻿@page "/kanban/dialog-editing"
+@inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
-
 @using Syncfusion.Blazor.Kanban
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
-
-@inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>This sample showcases the CRUD (Create, Read, Update, and Delete) operations of the Kanban component.You can add a new card using the button from the property panel and read, update, or delete a card by opening the card details in dialog by double-clicking it.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The sample is designed to showcase the CRUD operations of the Kanban board.The Kanban provides the essential methods to handle the CRUD operation from the application-end.</p>
-      <ol><li>UpdateCard</li>
-          <li>AddCard</li>
-          <li>DeleteCard</li>
-      </ol>
+    <p>The sample is designed to showcase the CRUD operations of the Kanban board.The Kanban provides the essential methods to handle the CRUD operation from the application-end.</p>
+    <ol>
+        <li>UpdateCard</li>
+        <li>AddCard</li>
+        <li>DeleteCard</li>
+    </ol>
     <p>The double click event of the card is used to open the card details in a dialog and read, edit, or delete a card.</p>
 </ActionDescription>
 
-<div class="col-lg-8 control-section">
+<div class="col-lg-9 control-section">
     <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="Tasks">
         <KanbanColumns>
-            <KanbanColumn HeaderText="Backlog" KeyField="Open"></KanbanColumn>
-            <KanbanColumn HeaderText="In Progress" KeyField="InProgress"></KanbanColumn>
-            <KanbanColumn HeaderText="Testing" KeyField="Testing"></KanbanColumn>
-            <KanbanColumn HeaderText="Done" KeyField="Close"></KanbanColumn>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
         </KanbanColumns>
         <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
         <KanbanDialogSettings>
@@ -76,10 +75,9 @@
                 }
             </Template>
         </KanbanDialogSettings>
-        <KanbanEvents TValue="KanbanDataModel" DialogClose="@OnDialogClose"></KanbanEvents>
     </SfKanban>
 </div>
-<div class="col-lg-4 property-section">
+<div class="col-lg-3 property-section">
     <table id="property" title="Properties">
         <tbody>
             <tr><td style="padding: 22px;font-weight: 600;font-size: 15px;"><b>Properties</b></td></tr>
@@ -92,7 +90,7 @@
     </table>
 </div>
 
-@code {
+@code{
     SfKanban<KanbanDataModel> KanbanRef;
     SfDropDownList<string, DropDownModel> StatusRef;
     SfDropDownList<string, DropDownModel> AssigneeRef;
@@ -100,6 +98,12 @@
     SfTextBox SummaryRef;
 
     private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "Backlog", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" } },
+        new ColumnModel(){ HeaderText= "Testinge", KeyField= new List<string>() { "Testing" } },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
+    };
 
     private class DropDownModel
     {
@@ -107,16 +111,14 @@
         public string Value { get; set; }
     }
 
-    private List<DropDownModel> StatusData = new List<DropDownModel>()
-    {
+    private List<DropDownModel> StatusData = new List<DropDownModel>() {
         new DropDownModel { Id = 0, Value = "Open" },
         new DropDownModel { Id = 1, Value = "InProgress" },
         new DropDownModel { Id = 2, Value = "Testing" },
         new DropDownModel { Id = 3, Value = "Close" }
     };
 
-    private List<DropDownModel> AssigneeData = new List<DropDownModel>()
-    {
+    private List<DropDownModel> AssigneeData = new List<DropDownModel>() {
         new DropDownModel { Id = 0, Value = "Nancy Davloio" },
         new DropDownModel { Id = 1, Value = "Andrew Fuller" },
         new DropDownModel { Id = 2, Value = "Janet Leverling" },
@@ -126,8 +128,7 @@
         new DropDownModel { Id = 6, Value = "Michael Suyama" }
     };
 
-    private List<DropDownModel> PriorityData = new List<DropDownModel>()
-    {
+    private List<DropDownModel> PriorityData = new List<DropDownModel>() {
         new DropDownModel { Id = 0, Value = "Low" },
         new DropDownModel { Id = 1, Value = "Normal" },
         new DropDownModel { Id = 2, Value = "Critical" },
@@ -135,45 +136,11 @@
         new DropDownModel { Id = 4, Value = "High" }
     };
 
-    private async void OnDialogClose(DialogCloseEventArgs args)
-    {
-        if (args.Interaction != "Cancel" && args.Interaction != "Close")
-        {
-            if (args.RequestType == CurrentAction.Edit)
-            {
-                KanbanDataModel data = args.Data as KanbanDataModel;
-                data.Status = this.StatusRef.Value;
-                data.Assignee = this.AssigneeRef.Value;
-                data.Priority = this.PriorityRef.Value;
-                data.Summary = this.SummaryRef.Value;
-                await this.KanbanRef.UpdateCard(data);
-            }
-            else if (args.RequestType == CurrentAction.Add)
-            {
-                KanbanDataModel data = new KanbanDataModel()
-                {
-                    Id = (this.Tasks.Count() + 1).ToString(),
-                    Title = "BLAZ-29040",
-                    Status = this.StatusRef.Value,
-                    Summary = this.SummaryRef.Value,
-                    Type = "Story",
-                    Priority = this.PriorityRef.Value,
-                    Tags = "Analyze,Customer",
-                    Estimate = 3.5,
-                    Assignee = this.AssigneeRef.Value,
-                    RankId = 1,
-                    Color = "#8b447a"
-                };
-                await this.KanbanRef.AddCard(data);
-            }
-        }
-    }
-
-    private void ShowAddCardDialog()
+    private async void ShowAddCardDialog()
     {
         KanbanDataModel data = new KanbanDataModel()
         {
-            Id = (this.Tasks.Count() + 1).ToString(),
+            Id = "Task " + (this.Tasks.Count() + 1).ToString(),
             Title = "",
             Tags = "",
             Estimate = 0,
@@ -183,6 +150,6 @@
             Priority = "Low",
             Assignee = "Nancy Davloio"
         };
-        this.KanbanRef.OpenDialog(CurrentAction.Add, data);
+        await this.KanbanRef.OpenDialog(CurrentAction.Add, data);
     }
 }

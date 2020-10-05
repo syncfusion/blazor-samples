@@ -14,16 +14,8 @@ namespace blazor_samples
                 Category = "PDF Viewer",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated
-            }, new Sample
-            {
-                Name = "Right To Left",
-                Category = "PDF Viewer",
-                Directory = "Viewer/PdfViewer",
-                Url = "pdf-viewer/right-to-left",
-                FileName = "RightToLeft.razor"
-            },
+                FileName = "DefaultFunctionalities.razor"
+            }, 
             new Sample
             {
                 Name = "Form Filling",

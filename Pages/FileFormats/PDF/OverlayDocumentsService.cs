@@ -29,8 +29,8 @@ namespace blazor_samples.Data.FileFormats.PDF
         public MemoryStream CreatePdfDocument()
         {
 
-            string dataPath1 = ResolveApplicationPath("BorderTemplate.pdf");
-            string dataPath2 = ResolveApplicationPath("SourceTemplate.pdf");
+            string dataPath1 = ResolveApplicationPath("border-template.pdf");
+            string dataPath2 = ResolveApplicationPath("source-template.pdf");
 
             Stream stream1 = new FileStream(dataPath2, FileMode.Open, FileAccess.Read);
             FileStream file = new FileStream(dataPath1, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -67,7 +67,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

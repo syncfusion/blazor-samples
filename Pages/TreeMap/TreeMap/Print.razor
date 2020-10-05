@@ -10,7 +10,7 @@
     <p>This sample depicts the top 10 best-selling smartphone brands. Print and export options have been enabled in this sample.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to export and print the rendered treemap. The treemap component can be exported to JPEG, PNG, SVG, and PDF formats. Print functionality is done by <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/treemap/methods/?no-cache=1#print'>Print</a></code> method when <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.TreeMap.ITreeMap~AllowPrint.html'>AllowPrint</a></code> is set as true. Export functionality is done by <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/treemap/methods/?no-cache=1#export'>Export</a></code> method when <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.TreeMap.ITreeMap~AllowImageExport.html'>AllowImageExport</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.TreeMap.ITreeMap~AllowPdfExport.html'>AllowPdfExport</a></code> is set as true. Tooltip is enabled in this example.</p>
+   <p>In this example, you can see how to export and print the rendered treemap. The treemap component can be exported to JPEG, PNG, SVG, and PDF formats. Print functionality is done by <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/treemap/methods/?no-cache=1#print'>Print</a></code> method when <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeMap.ITreeMap.html#Syncfusion_Blazor_TreeMap_ITreeMap_AllowPrint'>AllowPrint</a></code> is set as true. Export functionality is done by <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/treemap/methods/?no-cache=1#export'>Export</a></code> method when <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeMap.ITreeMap.html#Syncfusion_Blazor_TreeMap_ITreeMap_AllowImageExport'>AllowImageExport</a></code> and <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeMap.ITreeMap.html#Syncfusion_Blazor_TreeMap_ITreeMap_AllowPdfExport'>AllowPdfExport</a></code> is set as true. Tooltip is enabled in this example.</p>
    <p>More information about print and export can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/print-and-export'>documentation section</a>.</p>
 </ActionDescription>
 
@@ -21,7 +21,7 @@
         <TreeMapTooltipSettings Visible="true" Format="${Product} (+${Percentage}) %"/>
         <TreeMapLeafItemSettings LabelPath="Product" Fill="#6699cc" LabelFormat="${Product} (+${Percentage}) %" LabelPosition="@Syncfusion.Blazor.TreeMap.LabelPosition.Center">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping From="1.3" To="22" Color="@LeafColor" MinOpacity="0.5" MaxOpacity="1"/>
+                <TreeMapLeafColorMapping StartRange="1.3" EndRange="22" Color="@LeafColor" MinOpacity="0.5" MaxOpacity="1"/>
             </TreeMapLeafColorMappings>
             <TreeMapLeafBorder Color="#000000" Width="0.5"/>
         </TreeMapLeafItemSettings>
@@ -44,7 +44,7 @@
                 <td>
                     <div style="width:60%;margin-left: 10px">
                         <SfDropDownList TValue="string" TItem="FileTypeList" DataSource="@FileTypes" Value="@FileType">
-                            <DropDownListEvents TValue="string" ValueChange="TreemapValueChange"/>
+                            <DropDownListEvents TItem="FileTypeList" TValue="string" ValueChange="TreemapValueChange"/>
                             <DropDownListFieldSettings Text="Name" Value="Name"/>
                         </SfDropDownList>
                     </div>
@@ -83,7 +83,7 @@
     }
 </style> 
 @code {
-    private string LeafColor = "#FAB665";
+    private string[] LeafColor = new string[] { "#FAB665" };
     private string FileType { get; set; } = "JPEG";
     private string FileName { get; set; } = "TreeMap";
     SfTreeMap<SmartPhoneData> TreemapRef;
@@ -98,7 +98,7 @@
         new FileTypeList { Name="SVG" },
         new FileTypeList { Name="PDF" }
     };
-    private void ExportClick(MouseEventArgs args) {
+    private async Task ExportClick(MouseEventArgs args) {
         ExportType ExportFileType = ExportType.JPEG;
         switch (FileType) {
             case "JPEG":
@@ -114,20 +114,20 @@
                 ExportFileType = ExportType.PDF;
                 break;
         }
-        TreemapRef.Export(ExportFileType, FileName);
+        await TreemapRef.Export(ExportFileType, FileName);
     }
-    private void TreemapValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+    private void TreemapValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, FileTypeList> args) {
         FileType = args.Value;
     }
     private void NameChange(ChangedEventArgs args) {
         FileName = args.Value;
     }
-    public void PrintButton() {
-        TreemapRef.Print();
+    public async Task PrintButton() {
+        await TreemapRef.Print();
     }
     public class SmartPhoneData {
-        public string Product;
-        public double Percentage;
+        public string Product { get; set; }
+        public double Percentage { get; set; }
     }
     public List<SmartPhoneData> LeafDatasource = new List<SmartPhoneData> {
         new SmartPhoneData{ Product="Samsung", Percentage=22 },

@@ -65,7 +65,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                 //The first worksheet object in the worksheets collection is accessed.
                 IWorksheet sheet = workbook.Worksheets[0];
 
-                FileStream imageStream = new FileStream(ResolveApplicationImagePath("contact_sales.gif"), FileMode.Open, FileAccess.Read);
+                FileStream imageStream = new FileStream(ResolveApplicationImagePath("contact-sales.gif"), FileMode.Open, FileAccess.Read);
                 sheet.Pictures.AddPicture(2, 3, imageStream);
 
                 sheet[4, 3].Text = "Phone";
@@ -242,7 +242,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         }
         private string ResolveApplicationImagePath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Images//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//images//xlsio//" + fileName;
         }
         #endregion
     }

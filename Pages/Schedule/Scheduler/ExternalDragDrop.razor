@@ -2,7 +2,6 @@
 
 @using Syncfusion.Blazor.Schedule
 @using Syncfusion.Blazor.Navigations
-@using Newtonsoft.Json;
 
 @inherits SampleBaseComponent;
 
@@ -20,15 +19,15 @@
             <div class="title-container">
                 <h1 class="title-text">Doctor's Appointments</h1>
             </div>
-            <SfSchedule TValue="ScheduleData.HospitalData" @ref="ScheduleRef" Width="100%" Height="650px" CssClass="schedule-drag-drop" SelectedDate="@(new DateTime(2020, 1, 6))">
+            <SfSchedule TValue="ScheduleData.HospitalData" @ref="ScheduleRef" Width="100%" Height="650px" CssClass="schedule-drag-drop" @bind-SelectedDate="@CurrentDate">
                 <ScheduleGroup EnableCompactView="false" Resources="@Resources"></ScheduleGroup>
                 <ScheduleResources>
-                    <ScheduleResource TValue="ResourceData" DataSource="@Departments" Field="DepartmentID" Title="Department" Name="Departments" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
-                    <ScheduleResource TValue="ResourceData" DataSource="@Consultants" Field="ConsultantID" Title="Consultant" Name="Consultants" TextField="Text" IdField="Id" ColorField="Color" GroupIDField="GroupId" AllowMultiple="false"></ScheduleResource>
+                    <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@Departments" Field="DepartmentID" Title="Department" Name="Departments" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+                    <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@Consultants" Field="ConsultantID" Title="Consultant" Name="Consultants" TextField="Text" IdField="Id" ColorField="Color" GroupIDField="GroupId" AllowMultiple="false"></ScheduleResource>
                 </ScheduleResources>
                 <ScheduleViews>
-                    <ScheduleView Option="View.TimelineDay"></ScheduleView>
-                    <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+                    <ScheduleView MaxEventsPerRow="1" Option="View.TimelineDay"></ScheduleView>
+                    <ScheduleView MaxEventsPerRow="1" Option="View.TimelineMonth"></ScheduleView>
                 </ScheduleViews>
                 <ScheduleWorkHours Highlight="true" Start="08:00" End="18:00"></ScheduleWorkHours>
                 <ScheduleEventSettings DataSource="@DataSource">
@@ -46,9 +45,9 @@
                 <h2 class="title-text">Waiting List</h2>
             </div>
             <SfTreeView TValue="ScheduleData.HospitalData" @ref="TreeViewRef" AllowDragAndDrop="true" CssClass="treeview-external-drag">
-                <TreeViewEvents TValue="ScheduleData.HospitalData" OnNodeDragged="OnTreeViewDragStop"></TreeViewEvents>
+                <TreeViewEvents TValue="ScheduleData.HospitalData" OnNodeDragStop="OnTreeViewDragStop"></TreeViewEvents>
                 <TreeViewFieldsSettings DataSource="@TreeViewData" Id="Id" Text="Name"></TreeViewFieldsSettings>
-                <TreeViewTemplates>
+                <TreeViewTemplates TValue="ScheduleData.HospitalData">
                     <NodeTemplate>
                         <div id="waiting">
                             <div id="waitdetails">
@@ -64,6 +63,7 @@
 </div>
 
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 1, 6);
     SfSchedule<ScheduleData.HospitalData> ScheduleRef;
     SfTreeView<ScheduleData.HospitalData> TreeViewRef;
     public List<ScheduleData.HospitalData> DataSource = new ScheduleData().GetHospitalData();
@@ -89,36 +89,29 @@
         public string Color { get; set; }
         public string Designation { get; set; }
     }
-    class GroupData
-    {
-        public int DepartmentID { get; set; }
-        public int ConsultantID { get; set; }
-    }
     public async void OnTreeViewDragStop(DragAndDropEventArgs args)
     {
         args.Cancel = true;
-        List<ScheduleData.HospitalData> TreeViewData = await TreeViewRef.GetTreeData(args.DraggedNodeData.Id);
-        object isScheduleSlot = await args.Target.GetAttribute("role");
-        if (isScheduleSlot != null && isScheduleSlot.ToString() == "gridcell")
+        CellClickEventArgs cellData = await ScheduleRef.GetTargetCell((int)args.Left, (int)args.Top);
+        if (cellData != null)
         {
-            CellClickEventArgs cellData = await ScheduleRef.GetCellDetails(args.Target);
-            var resourceDetails = await ScheduleRef.GetResourcesByIndex(cellData.GroupIndex);
-            GroupData groupData = JsonConvert.DeserializeObject<GroupData>(JsonConvert.SerializeObject(resourceDetails.GroupData));
+            var resourceDetails = ScheduleRef.GetResourceByIndex(cellData.GroupIndex);
             Random rnd = new Random();
             int Id = rnd.Next(1000);
+            ScheduleData.HospitalData TreeData = TreeViewData.Where(data => data.Id.ToString() == args.DraggedNodeData.Id).First(); 
             ScheduleData.HospitalData eventData = new ScheduleData.HospitalData
             {
                 Id = Id,
-                Name = TreeViewData[0].Name,
+                Name = TreeData.Name,
                 StartTime = cellData.StartTime,
                 EndTime = cellData.EndTime,
                 IsAllDay = cellData.IsAllDay,
-                ConsultantID = groupData.ConsultantID,
-                DepartmentID = groupData.DepartmentID,
-                Description = TreeViewData[0].Description,
-                DepartmentName = TreeViewData[0].DepartmentName
+                ConsultantID = resourceDetails.GroupData.ConsultantID,
+                DepartmentID = resourceDetails.GroupData.DepartmentID,
+                Description = TreeData.Description,
+                DepartmentName = TreeData.DepartmentName
             };
-            await ScheduleRef.OpenEditor(eventData, CurrentAction.Add, true);
+            await ScheduleRef.OpenEditor(eventData, CurrentAction.Add);
         }
     }
 }

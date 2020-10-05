@@ -38,7 +38,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             PdfPage page = document.Pages.Add();
 
             //Create font
-            FileStream fontFileStream = new FileStream(ResolveApplicationPath("NotoSerif-Black.otf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fontFileStream = new FileStream(ResolveApplicationPath("noto-serif-black.otf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             PdfFont font = new PdfTrueTypeFont(fontFileStream, 14);
 
             //Text to draw         
@@ -64,7 +64,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

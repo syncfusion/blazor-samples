@@ -1,19 +1,18 @@
 ﻿@page "/kanban/swimlane"
+@inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
-
-@using Syncfusion.Blazor.Kanban;
-@using Syncfusion.Blazor.Buttons;
-@using Syncfusion.Blazor.DropDowns;
-
-@inherits SampleBaseComponent;
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
 
 <SampleDescription>
     <p>This example demonstrates the swimlane functionalities of Kanban component.Provided options in the property panel to sort the cards, enable drag-and-drop across swimlanes, show or hide the empty row and the items count.Also, you can expand/collapse the swimlane row in the Kanban board.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample renders the assignee field as a swimlane header using the <code>KanbanSwimlaneSettings</code> property.The property provides the following options to change its related settings:</p>
-    <ul><li>Sorting the swimlane cards using the <code>KanbanSwimlaneSettings.SortDirection</code> property</li>
+    <p>This sample renders the assignee field as a swimlane header using the <code>KanbanSwimlaneSettings</code> property.The property provides the following options to change its related settings:</p>
+    <ul>
+        <li>Sorting the swimlane cards using the <code>KanbanSwimlaneSettings.SortDirection</code> property</li>
         <li>Component the drag-and-drop of the cards across swimlane using the <code>KanbanSwimlaneSettings.AllowDragAndDrop</code> property.</li>
         <li>Show or hide the empty swimlane row using the <code>KanbanSwimlaneSettings.ShowEmptyRow</code> property.</li>
         <li>Show or hide the items count in the swimlane header using the <code>KanbanSwimlaneSettings.ShowItemCount</code> property.</li>
@@ -24,10 +23,9 @@
     <div class="control-section">
         <SfKanban KeyField="Status" DataSource="@Tasks">
             <KanbanColumns>
-                @foreach (ColumnsModel item in columnData)
+                @foreach (ColumnModel item in columnData)
                 {
-                    <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField">
-                    </KanbanColumn>
+                    <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
                 }
             </KanbanColumns>
             <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
@@ -43,9 +41,9 @@
             </td>
             <td>
                 <div>
-                    <SfDropDownList TItem="KanbanDataModel" TValue="SortDirection" DataSource="@SortData" Index="0" PopupHeight="200px">
+                    <SfDropDownList TItem="KanbanDataModel" TValue="SortDirection" DataSource="@SortData" @bind-Index="@index" PopupHeight="200px">
                         <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
-                        <DropDownListEvents TValue="SortDirection" ValueChange="@ChangeSortOrder"></DropDownListEvents>
+                        <DropDownListEvents TItem="KanbanDataModel" TValue="SortDirection" ValueChange="@ChangeSortOrder"></DropDownListEvents>
                     </SfDropDownList>
                 </div>
             </td>
@@ -84,31 +82,29 @@
     }
 </style>
 
-@code {
+@code{
     private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
     private List<KanbanDataModel> SortData = new KanbanDataModel().SortDropDowns();
     private SortDirection sortDirection { get; set; } = SortDirection.Ascending;
     private bool allowDragAndDrop { get; set; } = false;
     private bool showItemCount { get; set; } = true;
-
-    private List<ColumnsModel> columnData = new List<ColumnsModel>() {
-        new ColumnsModel(){ HeaderText= "To Do", KeyField= "Open" },
-        new ColumnsModel(){ HeaderText= "In Progress", KeyField= "InProgress"},
-        new ColumnsModel(){ HeaderText= "Done", KeyField= "Close" }
+    private int? index { get; set; } = 0;
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress"} },
+        new ColumnModel(){ HeaderText= "Done", KeyField= new List<string>() { "Close" } }
     };
 
     private void OnItemChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.showItemCount = args.Checked;
     }
-
     private void OnDragChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.allowDragAndDrop = args.Checked;
     }
-
-    private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<SortDirection> args)
+    private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<SortDirection, KanbanDataModel> args)
     {
-        this.sortDirection = args.Value;
+        this.sortDirection = args.Value == SortDirection.Ascending ? SortDirection.Ascending : SortDirection.Descending;
     }
 }

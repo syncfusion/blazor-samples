@@ -8,17 +8,17 @@
     <p>This demo depicts how to restrict the start and end hours of Schedule, thus limiting it to display only the given hour range. </p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this demo, the Scheduler is made to display from 8 AM to 8 PM and the rest of the hours are hidden, as it is restricted to start from <code>08:00</code> hours and end on <code>20:00</code> hours by setting to <code>StartHour</code> and <code>EndHour</code> properties respectively. </p>
+    <p>In this demo, the Scheduler is made to display from 8 AM to 8 PM and the rest of the hours are hidden, as it is restricted to start from <code>08:00</code> hours and end on <code>20:00</code> hours by setting to <code>StartHour</code> and <code>EndHour</code> properties respectively. </p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" StartHour="@ScheduleStartHour" EndHour="@ScheduleEndHour" SelectedDate="@(new DateTime(2020, 1, 16))">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" StartHour="@ScheduleStartHour" EndHour="@ScheduleEndHour" @bind-SelectedDate="@CurrentDate">
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
-                <ScheduleView Option="View.TimelineDay"></ScheduleView>
-                <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="12" Option="View.TimelineDay"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWeek"></ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
@@ -39,7 +39,7 @@
                         </td>
                         <td style="width: 50%;">
                             <div>
-                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0)">
+                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" @bind-Value="@startTime">
                                     <TimePickerEvents TValue="DateTime?" ValueChange="StartHourChange"></TimePickerEvents>
                                 </SfTimePicker>
                             </div>
@@ -53,7 +53,7 @@
                         </td>
                         <td style="width: 50%;">
                             <div>
-                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0)">
+                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" @bind-Value="@endTime">
                                     <TimePickerEvents TValue="DateTime?" ValueChange="EndHourChange"></TimePickerEvents>
                                 </SfTimePicker>
                             </div>
@@ -65,9 +65,12 @@
     </div>
 </div>
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 1, 16);
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetEmployeeEventData();
     public string ScheduleStartHour = "08:00";
     public string ScheduleEndHour = "20:00";
+    private DateTime? startTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0);
+    private DateTime? endTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0);
     public void StartHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
     {
         this.ScheduleStartHour = args.Text;

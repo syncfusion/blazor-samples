@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         public MemoryStream ExceltoPDFXlsIO(string option)
         {
             XlsIORenderer renderer = new XlsIORenderer();
-            FileStream inputStream = new FileStream(ResolveApplicationPath("ExcelToPDF.xlsx"), FileMode.Open, FileAccess.Read);
+            FileStream inputStream = new FileStream(ResolveApplicationPath("excel-to-pdf.xlsx"), FileMode.Open, FileAccess.Read);
             inputStream.Position = 0;
 
             //Intialize the PdfDocument Class
@@ -67,7 +67,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

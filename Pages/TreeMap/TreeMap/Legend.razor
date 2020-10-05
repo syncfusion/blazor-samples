@@ -18,8 +18,8 @@
         <TreeMapTitleSettings Text="US Presidential election result - 2016"/>
         <TreeMapLeafItemSettings LabelPath="State" Fill="6699cc">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping Value="Trump" Color="@LeafColorOne"/>
-                <TreeMapLeafColorMapping Value="Clinton" Color="@LeafColorTwo"/>
+                <TreeMapLeafColorMapping LeafValue="Trump" Color="@LeafColorOne"/>
+                <TreeMapLeafColorMapping LeafValue="Clinton" Color="@LeafColorTwo"/>
             </TreeMapLeafColorMappings>
             <TreeMapLeafBorder Color="#FFFFFF" Width="0.5"/>
         </TreeMapLeafItemSettings>
@@ -42,8 +42,8 @@
                             Legend Type
                         </td>
                         <td>
-                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LegendType" Value="@LegendTypeValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="LegendTypeChange"/>
+                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LegendType" @bind-Value="@LegendTypeValue" Width="120px">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendTypeChange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -54,7 +54,7 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select intersect action" DataSource="@LegendPositionList" Value="@LegendPositionValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="LegendPositionChange"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendPositionChange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -73,8 +73,8 @@
     }
 </style>
 @code {
-    public string LeafColorOne = "#D84444";
-    public string LeafColorTwo = "#316DB5";
+    public string[] LeafColorOne = new string[] { "#D84444" };
+    public string[] LeafColorTwo = new string[] { "#316DB5" };
     public LegendMode LegendModes = LegendMode.Default;
     public LegendPosition LegendPositions = LegendPosition.Top;
     public string LegendTypeValue = "Default";
@@ -94,7 +94,7 @@
         new DropdownList { Value="Right", Name="Right" },
         new DropdownList { Value="Auto", Name="Auto" }
     };
-    public void LegendTypeChange(ChangeEventArgs<string> args) {
+    public void LegendTypeChange(ChangeEventArgs<string, DropdownList> args) {
         LegendTypeValue = args.Value;
         if (args.Value == "Default") {
             LegendModes = LegendMode.Default;
@@ -103,7 +103,7 @@
             LegendModes = LegendMode.Interactive;
         }
     }
-    public void LegendPositionChange(ChangeEventArgs<string> args) {
+    public void LegendPositionChange(ChangeEventArgs<string, DropdownList> args) {
         LegendPositionValue = args.Value;
         if (args.Value == "Top") {
             LegendPositions = LegendPosition.Top;
@@ -122,12 +122,12 @@
         }
     }
     public class USAElectionResult {
-        public string State;
-        public double Trump;
-        public double Clinton;
-        public double WinPercentage;
-        public string Winner;
-        public double Population;
+        public string State { get; set; }
+        public double Trump { get; set; }
+        public double Clinton { get; set; }
+        public double WinPercentage { get; set; }
+        public string Winner { get; set; }
+        public double Population { get; set; }
     }
     public List<USAElectionResult> DataSource = new List<USAElectionResult> {
         new USAElectionResult { State="Alabama", Trump=62.9, Clinton=34.6, WinPercentage= 62.9, Winner="Trump", Population=4780127 },

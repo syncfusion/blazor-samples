@@ -57,7 +57,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             PdfPage page1 = document.Pages.Add();
 
             //Load the image from the disk.
-            FileStream fileStream1 = new FileStream(ResolveApplicationPath("CustomTag.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fileStream1 = new FileStream(ResolveApplicationPath("custom-tag.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             PdfBitmap image = new PdfBitmap(fileStream1);
 
             PdfStructureElement imageElement = new PdfStructureElement(PdfTagType.Figure);
@@ -301,7 +301,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

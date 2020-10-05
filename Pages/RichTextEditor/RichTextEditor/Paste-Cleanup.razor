@@ -1,45 +1,58 @@
 ﻿
 @page "/rich-text-editor/paste-cleanup"
 
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.RichTextEditor
 @using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.RichTextEditor
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-  <p>This example demonstrates the paste cleanup feature of the Rich Text Editor control. Copy your content from MS Word or other website, and paste it within the editor to cleanup.</p>  
+    <p>This example demonstrates the paste cleanup feature of the Rich Text Editor control. Copy your content from MS Word or other website, and paste it within the editor to cleanup.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The Rich Text Editor allows to paste the HTML content from MS Word or other websites. The editor cleanup the pasted HTML content by considering the following items.</p>
-   <ul><li>The unformatted HTML element (MOS XML format) content to standard HTML elements.</li>
+    <p>The Rich Text Editor allows to paste the HTML content from MS Word or other websites. The editor cleanup the pasted HTML content by considering the following items.</p>
+    <ul>
+        <li>The unformatted HTML element (MOS XML format) content to standard HTML elements.</li>
         <li>The MS Office prefixed style properties is converted to proper CSS style properties.</li>
         <li>The unwanted tags, CSS styles, and comments are removed from the copied content.</li>
-   </ul>
+    </ul>
     <p>The following settings are available to cleanup the content in pasteCleanup settings property:</p>
-    <ul><li>Select any option in <code>Format Option</code> drop down list for the paste content.
-        <ul>
-            <li>Select the <code>Prompt</code> option to invoke prompt dialog with paste options on pasting the content in editor.</li>
-            <li>Select the <code>Plain Text</code> option to paste the content as plain text.</li>
-            <li>Select the <code>Keep Format</code> option to keep the same format in the copied content.</li>
-            <li>Select the <code>Clean Format</code> option to remove the style format in the copied content.</li>
-        </ul>
+    <ul>
+        <li>
+            Select any option in <code>Format Option</code> drop down list for the paste content.
+            <ul>
+                <li>Select the <code>Prompt</code> option to invoke prompt dialog with paste options on pasting the content in editor.</li>
+                <li>Select the <code>Plain Text</code> option to paste the content as plain text.</li>
+                <li>Select the <code>Keep Format</code> option to keep the same format in the copied content.</li>
+                <li>Select the <code>Clean Format</code> option to remove the style format in the copied content.</li>
+            </ul>
         </li>
-        <li>Fill the <code>Denied Tags</code> text box to ignore the tags when pasting HTML content. For example:
-        <ul> <li><b>['a[!href]']</b> - paste the content by filtering anchor tags that don’t have the 'href' attribute.</li>
-              <li><b>['a[href, target]']</b> - paste the content by filtering anchor tags that have the 'href' and 'target' attributes.</li>
-        </ul></li><br/>
-        <li>Fill the <code>Denied Attributes</code> to paste the content by filtering out these attributes from the content. For example:
-        <ul><b>['id', 'title']</b> - This will remove the attributes 'id' and 'title' from all tags.</ul></li><br/>
-        <li>Fill the <code>Allowed Style properties</code> to paste the content by accepting these style attributes and removing other attributes. For example:<ul>
-        <b>['color', 'margin']</b> - This will allow only the style properties 'color' and 'margin' in each pasted element.</ul></li>
+        <li>
+            Fill the <code>Denied Tags</code> text box to ignore the tags when pasting HTML content. For example:
+            <ul>
+                <li><b>['a[!href]']</b> - paste the content by filtering anchor tags that don’t have the 'href' attribute.</li>
+                <li><b>['a[href, target]']</b> - paste the content by filtering anchor tags that have the 'href' and 'target' attributes.</li>
+            </ul>
+        </li>
+        <br />
+        <li>
+            Fill the <code>Denied Attributes</code> to paste the content by filtering out these attributes from the content. For example:
+            <ul><b>['id', 'title']</b> - This will remove the attributes 'id' and 'title' from all tags.</ul>
+        </li>
+        <br />
+        <li>
+            Fill the <code>Allowed Style properties</code> to paste the content by accepting these style attributes and removing other attributes. For example:<ul>
+                <b>['color', 'margin']</b> - This will allow only the style properties 'color' and 'margin' in each pasted element.
+            </ul>
+        </li>
     </ul>
 </ActionDescription>
 
 <div class="col-lg-8 control-section">
     <div class="control-section">
-        <SfRichTextEditor value="@Value">
-            <RichTextEditorPasteCleanupSettings Prompt="@Prompt" PlainText="@Plaintext" KeepFormat="@Keepformat" DeniedAttrs="@Deniedattr" AllowedStyleProps="@Allowedstyle" DeniedTags="@Deniedtags"></RichTextEditorPasteCleanupSettings>
+        <SfRichTextEditor Value="@Value">
+            <RichTextEditorPasteCleanupSettings Prompt="@Prompt" PlainText="@Plaintext" KeepFormat="@Keepformat" DeniedAttrs="@Deniedattr"
+                                                AllowedStyleProps="@Allowedstyle" DeniedTags="@Deniedtags" />
         </SfRichTextEditor>
     </div>
 </div>
@@ -53,9 +66,9 @@
                     </td>
                     <td>
                         <div>
-                            <SfDropDownList @ref="DropObj" TItem="GameFields" TValue="string" PopupHeight="200px" Index="@Index" DataSource="@Options">
-                                <DropDownListEvents TValue="string" ValueChange="valueChange"></DropDownListEvents>
-                                <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                            <SfDropDownList @ref="DropObj" TItem="GameFields" TValue="string" PopupHeight="200px" @bind-Value="pasteDefaultValue" DataSource="@Options">
+                                <DropDownListFieldSettings Text="Text" Value="ID" />
+                                <DropDownListEvents TValue="string" TItem="GameFields" ValueChange="valueChange" />
                             </SfDropDownList>
                         </div>
                     </td>
@@ -107,18 +120,18 @@
 </style>
 
 @code {
-    SfDropDownList<string, GameFields> DropObj;
+	SfDropDownList<string, GameFields> DropObj;
 
-    private string DeniedTagsvalue;
-    private string DeniedAttributesvalue;
-    private string AllowedStylePropertiesvalue;
-    private int? Index = 0;
+    private string pasteDefaultValue { get; set; } = "prompt";
     private bool Prompt = true;
+    private string DeniedTagsvalue;
     private bool Plaintext = false;
     private bool Keepformat = false;
-    private string[] Deniedattr { get; set; }
-    private string[] Allowedstyle { get; set; }
+    private string DeniedAttributesvalue;
     private string[] Deniedtags { get; set; }
+    private string[] Deniedattr { get; set; }
+    private string AllowedStylePropertiesvalue;
+    private string[] Allowedstyle { get; set; }
     private string Value { get; set; } = @"<p>Rich Text Editor is a WYSIWYG editing control which will reduce the effort for users while trying to express their formatting word content as HTML or Markdown format.</p><p><b>Paste Cleanup properties:</b></p><ul><li><p>Prompt - specifies whether to enable the prompt when pasting in Rich Text Editor.</p></li><li><p>PlainText - specifies whether to paste as plain text or not in Rich Text Editor.</p></li><li><p>KeepFormat- specifies whether to keep or remove the format when pasting in Rich Text Editor.</p></li><li><p>DeniedTags - specifies the tags to restrict when pasting in Rich Text Editor.</p></li><li><p>DeniedAttributes - specifies the attributes to restrict when pasting in Rich Text Editor.</p></li><li><p>AllowedStyleProperties - specifies the allowed style properties when pasting in Rich Text Editor.</p></li></ul>";
 
     private class GameFields
@@ -127,15 +140,15 @@
         public string Text { get; set; }
     }
 
-    private List<GameFields> Options = new List<GameFields> ()
-    {
+    private List<GameFields> Options = new List<GameFields>()
+        {
         new GameFields(){ ID= "prompt", Text= "Prompt" },
         new GameFields(){ ID= "plainText", Text= "Plain Text" },
         new GameFields(){ ID= "keepFormat", Text= "Keep Format" },
         new GameFields(){ ID= "cleanFormat", Text= "Clean Format" },
     };
 
-    private void valueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void valueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, GameFields> args)
     {
         if (args.Value == "prompt")
         {
@@ -182,5 +195,5 @@
         {
             this.Allowedstyle = this.AllowedStylePropertiesvalue.Split(',');
         }
-    }
+    } 
 }

@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             if (id == 0)
                 id = 10248;
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/SalesInvoiceDemo.doc";
+            string dataPath = basePath + @"data/docio/sales-invoice-demo.doc";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);            
             if (button == "View Template")
             {               
@@ -86,7 +86,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetTestOrder(int TestOrderId)
         {
             List<TestOrder> orders = new List<TestOrder>();
-            FileStream fs = new FileStream(@"wwwroot/DocIO/TestOrder.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/test-order.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
 
             if (reader == null)
@@ -137,7 +137,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetTestOrderDetails(int TestOrderId)
         {
             List<TestOrderDetail> orders = new List<TestOrderDetail>();
-            FileStream fs = new FileStream(@"wwwroot/DocIO/TestOrderDetails.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/test-order-details.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
 
             if (reader == null)
@@ -187,7 +187,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetTestOrderTotals(int TestOrderId)
         {
             List<TestOrderTotal> orders = new List<TestOrderTotal>();
-            FileStream fs = new FileStream(@"wwwroot/DocIO/OrderTotals.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/order-totals.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
 
             if (reader == null)
@@ -325,7 +325,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         }
         private ArrayList GetTestOrderID()
         {
-            FileStream fs = new FileStream(@"wwwroot/DocIO/TestOrder.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/test-order.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
 
             if (reader == null)

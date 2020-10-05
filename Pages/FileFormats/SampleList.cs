@@ -96,8 +96,7 @@ namespace blazor_samples
             {
                 Name = "Bookmark Navigation",
                 Category = "Editing",
-                Directory = "FileFormats/DocIO",
-                Type = SampleType.Updated,
+                Directory = "FileFormats/DocIO",                
                 Url = "docio/bookmark-navigation",
                 FileName = "BookmarkNavigation.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -135,50 +134,48 @@ namespace blazor_samples
                     }
                 }
             },
-            //new Sample
-            //{
-            //    Name = "Create Equation",
-            //    Category = "Mathematical Equation",
-            //    Directory = "FileFormats/DocIO",
-            //    Url = "docio/create-equation",
-            //    FileName = "CreateEquation.razor",
-            //    Type = SampleType.Updated,
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="CreateEquation",
-            //            FileName="CreateEquation.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="CreateEquationService",
-            //            FileName="CreateEquationService.cs"
-            //        }
-            //    }
-            //},
-            //new Sample
-            //{
-            //    Name = "Edit Equation",
-            //    Category = "Mathematical Equation",
-            //    Directory = "FileFormats/DocIO",
-            //    Url = "docio/edit-equation",
-            //    FileName = "EditEquation.razor",
-            //    Type = SampleType.Updated,
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="EditEquation",
-            //            FileName="EditEquation.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="EditEquationService",
-            //            FileName="EditEquationService.cs"
-            //        }
-            //    }
-            //},
+            new Sample
+            {
+                Name = "Create Equation",
+                Category = "Mathematical Equation",
+                Directory = "FileFormats/DocIO",
+                Url = "docio/create-equation",
+                FileName = "CreateEquation.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CreateEquation",
+                        FileName="CreateEquation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CreateEquationService",
+                        FileName="CreateEquationService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Edit Equation",
+                Category = "Mathematical Equation",
+                Directory = "FileFormats/DocIO",
+                Url = "docio/edit-equation",
+                FileName = "EditEquation.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EditEquation",
+                        FileName="EditEquation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EditEquationService",
+                        FileName="EditEquationService.cs"
+                    }
+                }
+            },
 			new Sample
             {
                 Name = "Bookmarks",
@@ -226,7 +223,6 @@ namespace blazor_samples
                 Name = "Image Insertion",
                 Category = "Insert Content",
                 Directory = "FileFormats/DocIO",
-                Type = SampleType.Updated,
                 Url = "docio/image-insertion",
                 FileName = "ImageInsertion.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -348,33 +344,34 @@ namespace blazor_samples
                     }
                 }
             },
-			//new Sample
-   //         {
-   //             Name = "Word to PDF",
-   //             Category = "Import and Export",
-   //             Directory = "FileFormats/DocIO",
-   //              Type = SampleType.Updated,
-   //             Url = "docio/word-to-pdf",
-   //             FileName = "WordToPDF.razor",
-   //             SourceFiles = new List<SourceCollection>()
-   //             {
-   //                 new SourceCollection
-   //                 {
-   //                     Id="WordToPDF",
-   //                     FileName="WordToPDF.razor"
-   //                 },
-   //                 new SourceCollection
-   //                 {
-   //                     Id="WordToPDFService",
-   //                     FileName="WordToPDFService.cs"
-   //                 }
-   //             }
-   //         },
+			new Sample
+            {
+                Name = "Word to PDF",
+                Category = "Import and Export",
+                Directory = "FileFormats/DocIO",
+                Type = SampleType.Updated,
+                Url = "docio/word-to-pdf",
+                FileName = "WordToPDF.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="WordToPDF",
+                        FileName="WordToPDF.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WordToPDFService",
+                        FileName="WordToPDFService.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "RTF to Word",
                 Category = "Import and Export",
                 Directory = "FileFormats/DocIO",
+                Type = SampleType.Updated,
                 Url = "docio/rtf-to-doc",
                 FileName = "RTFtoDOC.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -459,7 +456,6 @@ namespace blazor_samples
                 Name = "Track Changes",
                 Category = "Review",
                 Directory = "FileFormats/DocIO",
-                Type = SampleType.New,
                 Url = "docio/track-changes",
                 FileName = "TrackChanges.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -476,34 +472,32 @@ namespace blazor_samples
                     }
                 }
             },
-            //new Sample
-            //{
-            //    Name = "Table of Content",
-            //    Category = "Reference",
-            //    Directory = "FileFormats/DocIO",
-            //    Type = SampleType.New,
-            //    Url = "docio/table-of-content",
-            //    FileName = "TableofContent.razor",
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="TableofContent",
-            //            FileName="TableofContent.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="TableofContentService",
-            //            FileName="TableofContentService.cs"
-            //        }
-            //    }
-            //},
+            new Sample
+            {
+                Name = "Table of Content",
+                Category = "Reference",
+                Directory = "FileFormats/DocIO",
+                Url = "docio/table-of-content",
+                FileName = "TableofContent.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="TableofContent",
+                        FileName="TableofContent.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TableofContentService",
+                        FileName="TableofContentService.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Encrypt and Decrypt",
                 Category = "Security",
                 Directory = "FileFormats/DocIO",
-                Type = SampleType.New,
                 Url = "docio/encrypt-and-decrypt",
                 FileName = "EncryptDecrypt.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -543,48 +537,49 @@ namespace blazor_samples
                     }
                 }
             },
-            //new Sample
-            //{
-            //    Name = "PPTX To Image",
-            //    Category = "Conversion",
-            //    Directory = "FileFormats/Presentation",
-            //    Url = "presentation/pptx-to-image",
-            //    FileName = "PPTXToImage.razor",
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="PPTXToImage",
-            //            FileName="PPTXToImage.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="PPTXToImageService",
-            //            FileName="PPTXToImageService.cs"
-            //        }
-            //    }
-            //},
-            //new Sample
-            //{
-            //    Name = "PPTX To PDF",
-            //    Category = "Conversion",
-            //    Directory = "FileFormats/Presentation",
-            //    Url = "presentation/pptx-to-pdf",
-            //    FileName = "PPTXToPDF.razor",
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="PPTXToPDF",
-            //            FileName="PPTXToPDF.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="PPTXToPDFService",
-            //            FileName="PPTXToPDFService.cs"
-            //        }
-            //    }
-            //},
+            new Sample
+            {
+                Name = "PPTX To Image",
+                Category = "Conversion",
+                Directory = "FileFormats/Presentation",
+                Url = "presentation/pptx-to-image",
+                FileName = "PPTXToImage.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="PPTXToImage",
+                        FileName="PPTXToImage.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="PPTXToImageService",
+                        FileName="PPTXToImageService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "PPTX To PDF",
+                Category = "Conversion",
+                Directory = "FileFormats/Presentation",
+                Url = "presentation/pptx-to-pdf",
+                FileName = "PPTXToPDF.razor",
+				Type = SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="PPTXToPDF",
+                        FileName="PPTXToPDF.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="PPTXToPDFService",
+                        FileName="PPTXToPDFService.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Write Protection",
@@ -739,7 +734,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/ole-object",
                 FileName = "OLEObject.razor",
-                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -905,7 +899,6 @@ namespace blazor_samples
                 Category = "Data Binding",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/import-html-table",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1040,46 +1033,6 @@ namespace blazor_samples
                     }
                 }
             },
-            //new Sample
-            //{
-            //    Name = "Excel To PDF",
-            //    Category = "Export",
-            //    Directory = "FileFormats/XlsIO",
-            //    Url = "xlsio/excel-to-pdf",
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="ExcelToPDF",
-            //            FileName="ExcelToPDF.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="ExcelToPDFService",
-            //            FileName="ExcelToPDFService.cs"
-            //        }
-            //    }
-            //},
-            //new Sample
-            //{
-            //    Name = "Worksheet To Image",
-            //    Category = "Export",
-            //    Directory = "FileFormats/XlsIO",
-            //    Url = "xlsio/worksheet-to-image",
-            //    SourceFiles = new List<SourceCollection>()
-            //    {
-            //        new SourceCollection
-            //        {
-            //            Id="WorksheetToImage",
-            //            FileName="WorksheetToImage.razor"
-            //        },
-            //        new SourceCollection
-            //        {
-            //            Id="WorksheetToImageService",
-            //            FileName="WorksheetToImageService.cs"
-            //        }
-            //    }
-            //},
             new Sample
             {
                 Name = "Worksheet To HTML",
@@ -1106,7 +1059,6 @@ namespace blazor_samples
                 Category = "Export",
                 Directory = "FileFormats/XlsIO",
                 Url = "xlsio/excel-to-json",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1336,7 +1288,7 @@ namespace blazor_samples
                 Category="Graphics",
                 Directory="FileFormats/PDF",
                 Url="pdf/barcode",
-                Type=SampleType.None,
+                Type=SampleType.Updated,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1588,7 +1540,7 @@ namespace blazor_samples
                 Category="User Interaction",
                 Directory="FileFormats/PDF",
                 Url="pdf/annotations",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection

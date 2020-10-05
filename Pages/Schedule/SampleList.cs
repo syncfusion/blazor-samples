@@ -10,6 +10,15 @@ namespace blazor_samples
         public List<Sample> Scheduler { get; set; } = new List<Sample>{
             new Sample
             {
+                Name = "Overview",
+                Category = "Scheduler",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/overview",
+                FileName = "Overview.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Default Functionalities",
                 Category = "Scheduler",
                 Directory = "Schedule/Scheduler",
@@ -38,8 +47,7 @@ namespace blazor_samples
                 Category = "Data Binding",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/custom-binding",
-                FileName = "CustomBinding.razor",
-                Type = SampleType.New
+                FileName = "CustomBinding.razor"
             },
             new Sample
             {
@@ -71,8 +79,7 @@ namespace blazor_samples
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/inline-editing",
-                FileName = "InlineEditing.razor",
-                Type = SampleType.New
+                FileName = "InlineEditing.razor"
             },
             new Sample
             {
@@ -80,8 +87,7 @@ namespace blazor_samples
                 Category = "Scrolling",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/virtual-scrolling",
-                FileName = "VirtualScrolling.razor",
-                Type = SampleType.Updated
+                FileName = "VirtualScrolling.razor"
             },
 
             new Sample
@@ -138,8 +144,7 @@ namespace blazor_samples
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/year-view",
-                FileName = "Year.razor",
-                Type = SampleType.Updated
+                FileName = "Year.razor"
             },
             new Sample
             {
@@ -251,8 +256,7 @@ namespace blazor_samples
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/quick-info-template",
-                FileName = "QuickInfoTemplate.razor",
-                Type = SampleType.New
+                FileName = "QuickInfoTemplate.razor"
             },
             new Sample
             {
@@ -292,8 +296,7 @@ namespace blazor_samples
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/context-menu",
-                FileName = "ContextMenu.razor",
-                Type = SampleType.New
+                FileName = "ContextMenu.razor"
             },
              new Sample
              {
@@ -365,8 +368,7 @@ namespace blazor_samples
                Category = "Exporting",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/export-and-import-ics",
-               FileName = "CalendarExportImport.razor",
-               Type = SampleType.New
+               FileName = "CalendarExportImport.razor"
             },
             //new Sample
             //{
@@ -382,8 +384,7 @@ namespace blazor_samples
                Category = "Recurrence Editor",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/recurrence-editor-rrule-generator",
-               FileName = "RecurrenceRuleGenerator.razor",
-               Type = SampleType.New
+               FileName = "RecurrenceRuleGenerator.razor"
             },
             new Sample
             {

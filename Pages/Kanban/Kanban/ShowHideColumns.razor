@@ -1,0 +1,54 @@
+﻿@page "/kanban/showhide-columns"
+@inherits SampleBaseComponent;
+
+@using ej2_blazor_kanban_data_models
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Kanban
+
+<SampleDescription>
+    <p>This sample demonstrates how to control the visibility of Kanban columns dynamically. Check or uncheck the checkboxes from the property panel to show or hide the corresponding column.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Kanban provides an option to show or hide its column dynamically using the <code>Visible</code> property.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfKanban KeyField="Status" DataSource="Tasks">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" Visible="@item.Visible"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
+    </SfKanban>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+            <tbody>
+                @foreach (ColumnModel item in columnData)
+                {
+                    <tr style="height: 50%">
+                        <td style="width: 100%">
+                            <div>
+                                <SfCheckBox TChecked="bool" @bind-Checked="@item.Visible" Label="@item.HeaderText" ValueChange="@((args) => item.Visible = args.Checked)"></SfCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code{
+    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" }, Visible = true },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" }, Visible = true },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" }, Visible = true },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" }, Visible = true }
+    };
+}

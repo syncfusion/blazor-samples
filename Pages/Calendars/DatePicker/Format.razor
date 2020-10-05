@@ -9,7 +9,7 @@
    <p>In this sample, the DatePicker has been configured with the <code>dd-MMM-yy</code> date format.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>Date Formats sample illustrates the support of custom date format in the DatePicker component by using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Calendars.DatePickerModel~Format.html' target='_blank'> Format</a> property.</p>
+    <p>Date Formats sample illustrates the support of custom date format in the DatePicker component by using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DatePickerModel.html#Syncfusion_Blazor_Calendars_DatePickerModel_Format' target='_blank'> Format</a> property.</p>
     <p>More information on the date format configuration can be found in the <a href='https://blazor.syncfusion.com/documentation/datepicker/date-format/' target='_blank'>documentation section</a>.</p>
 </ActionDescription>
 
@@ -24,8 +24,8 @@
     </div>
     <div class="col-lg-4 property-section">
         <div>
-            <SfDropDownList TItem="DateFormat" TValue="string" PopupHeight="230px" Index="0" DataSource="@formats">
-                <DropDownListEvents TValue="string" ValueChange="OnChange"></DropDownListEvents>
+            <SfDropDownList TItem="DateFormat" TValue="string" PopupHeight="230px" @bind-Index="@index" DataSource="@formats">
+                <DropDownListEvents TItem="DateFormat" TValue="string" ValueChange="OnChange"></DropDownListEvents>
                 <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
             </SfDropDownList>
         </div>
@@ -53,6 +53,7 @@
 </style>
 
 @code {
+    private int? index { get; set; } = 0;
     public DateTime DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
     private string textValue { get; set; }
     public class DateFormat
@@ -67,9 +68,8 @@
         new DateFormat(){ ID= "format2", Text= "yyyy-MM-dd" },
         new DateFormat(){ ID= "format3", Text= "dd-MMMM" },
      };
-    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DateFormat> args)
     {
-        var itemData = JsonConvert.DeserializeObject<DateFormat>(args.ItemData != null ? args.ItemData.ToString() : "");
-        this.formatString = itemData.Text;
+        this.formatString = args.ItemData?.Text;
     }
 }

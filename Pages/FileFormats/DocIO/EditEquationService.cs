@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream EditEquation(string documentType)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/Mathematical Equation.docx";
+            string dataPath = basePath + @"data/docio/mathematical-equation.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);      
 
             // Creates an empty Word document instance         

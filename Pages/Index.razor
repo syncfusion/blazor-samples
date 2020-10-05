@@ -1,61 +1,87 @@
-﻿@page "/"
+@page "/"
+
+@using Microsoft.AspNetCore.Http;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor; 
+
+@inject IJSRuntime JsRuntime;
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+@inject IHttpContextAccessor HttpContextAccessor;
+@inject SyncfusionBlazorService SyncfusionService;
 
 <div class="sf-blazor-home">
     <!-- Header -->
-    <div id="header-bar">
-        <div class='header-logo'>
+    <div class="header-bar">
+        <div class="@headerLogo">
             <a href="https://www.syncfusion.com/blazor-components" target="_blank" rel="noopener noreferrer">
                 <div class="subheader-logo"> </div>
             </a>
         </div>
-        <div class="head-text"></div>
-
-        <!-- For desktop search -->
-        <div id="searching" class="desk-search bh-hide">
-            <input id="search-box" type="text" placeholder='Search for components or features..'
-                   onfocusout="hideSearchDesktop()" />
-            <div id='search-popup' class='sb-search-result e-hidden'></div>
-        </div>
-        <!-- For mobile search -->
-        <div id="mbSearch" class="bh-hide">
-            <input id="mob-search-box" type="text" placeholder='Search for components or features..'
-                   onfocus="mobilefocus()" onfocusout="hideSearch()" />
-            <div id='mob-search-popup' class='sb-search-result e-hidden'></div>
-        </div>
-        <div id="mob-search" class="sb-icons"> </div>
+        @if (SampleService.IsDevice)
+        {
+            <span class="@searchIcon" role="button" @onclick="OnRenderSearch"></span>
+            <div class="@searchContainer">
+                <SearchComponent @ref="@searchRef"></SearchComponent>
+            </div>
+        }
+        else
+        {
+            <div class="desktop-search-container">
+                <SearchComponent></SearchComponent>
+            </div>
+        }
     </div>
 
     <!-- image banner -->
-    <div class="banner-image">
+    <div class="banner-image" @onclick="OnAppClick">
         <div class="container">
             <div class="row">
                 <h1 class="banner-text">Syncfusion Blazor Components - Demos and Showcase Web Apps</h1>
-                <p class="banner-text1">
-                    The Syncfusion Blazor components library is the only suite that you will ever
-                    need to build an application. It contains 60+ high-performance, light-weight, and responsive UI
-                    controls in a single package
-                </p>
+                <div class="banner-btns-div">
+                    <div class="banner-btn-div banner-github-div">
+                        <a href="datagrid/overview" @onclick="@(() => NavToSample("datagrid/overview"))" @onclick:preventDefault
+                           rel="noopener noreferrer">
+                            <SfButton CssClass="e-primary e-outline">View Demos</SfButton>
+                        </a>
+                    </div>
+                    <div class="banner-btn-div banner-nuget-div">
+                        <a href='https://www.nuget.org/packages/Syncfusion.Blazor/' target="_blank">
+                            <SfButton CssClass="e-outline" IconCss="nuget-logo" Content="Try with NuGet"></SfButton>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-
-    <!-- mobile image banner -->
-    <section id="mob-banner-img" class="row" style="display:none;position: relative;">
-        <h1 class="banner-text">Syncfusion Blazor Components - Demos and Showcase Web Apps</h1>
-        <div>
-            <p class="banner-text1">
-                The Syncfusion Blazor components library is the only suite that you will ever need
-                to build an application. It contains 60+ high-performance, light-weight, and responsive UI controls in a
-                single package
-            </p>
-        </div>
-        <div class="mob-banner-img1">
-            <img src="./styles/images/blazor/mobile_image.png" style="width: 97%;height: 100%;margin-top: 10px;">
-        </div>
-    </section>
-
+    <div class="sf-homepage-content" @onclick="OnAppClick">
+        <!-- mobile image banner -->
+        @if (SampleService.IsDevice && !isPrerendering)
+        {
+            <section id="mob-banner-img" class="row" style="position: relative;">
+                <h1 class="banner-text">Syncfusion Blazor Components - Demos and Showcase Web Apps</h1>
+                <div class="banner-btns-div">
+                    <div class="banner-btn-div banner-github-div">
+                        <a href="datagrid/overview" @onclick="@(() => NavToSample("datagrid/overview"))" @onclick:preventDefault
+							rel="noopener noreferrer">
+                            <SfButton CssClass="e-primary e-outline">View Demos</SfButton>
+                        </a>
+                    </div>
+                    <div class="banner-btn-div banner-nuget-div">
+                        <a href='https://www.nuget.org/packages/Syncfusion.Blazor/' target="_blank">
+                            <SfButton CssClass="e-outline" IconCss="nuget-logo" Content="Try with NuGet"></SfButton>
+                        </a>
+                    </div>
+                </div>
+                <div class="mob-banner-img1">
+                    <img src=@(SampleService.ImagePath + "home-mobile-bg-image.png") style="width: 97%;height: 100%;margin-top: 10px;">
+                </div>
+            </section>
+        }
+    </div>
     <!-- body -->
-    <div class='content-body'>
+    <div class='content-body' @onclick="OnAppClick">
         <div class="container-fluid">
 
             <!-- Components list section -->
@@ -66,26 +92,31 @@
                             <div class="componet-head">
                                 Syncfusion Blazor UI & DataViz Components
                             </div>
+                            <div class="component-banner-text">
+                                The Syncfusion Blazor components library is the only suite that you will ever need
+                                to build an application. It contains 65+ high-performance, light-weight, and responsive UI controls in a
+                                single package
+                            </div>
                             <div class="container sample-list">
                                 <div class="col-sm-6 col-md-3 col-xs-6 sample-group">
                                     <div class="catagory">Grids</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/datagrid/overview/" @onclick="@(() => NavToSample("datagrid/overview"))" @onclick:preventDefault
+                                            <a href="datagrid/overview" @onclick="@(() => NavToSample("datagrid/overview"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-grid"></span>
                                                 <span>DataGrid</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/pivot-table/default-functionalities/" @onclick="@(() => NavToSample("pivot-table/default-functionalities"))" @onclick:preventDefault
+                                            <a href="pivot-table/default-functionalities" @onclick="@(() => NavToSample("pivot-table/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-pivot"></span>
                                                 <span>Pivot Table</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/tree-grid/default-functionalities/" @onclick="@(() => NavToSample("tree-grid/default-functionalities"))" @onclick:preventDefault
+                                            <a href="tree-grid/default-functionalities" @onclick="@(() => NavToSample("tree-grid/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-treegrid"></span>
                                                 <span>Tree Grid</span>
@@ -95,56 +126,56 @@
                                     <div class="catagory">Data Visualization</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/chart/line/" @onclick="@(() => NavToSample("chart/line"))" @onclick:preventDefault
+                                            <a href="chart/line" @onclick="@(() => NavToSample("chart/line"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-charts"></span>
                                                 <span>Charts</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/stock-chart/stock-chart/" @onclick="@(() => NavToSample("stock-chart/stock-chart"))" @onclick:preventDefault
+                                            <a href="stock-chart/stock-chart" @onclick="@(() => NavToSample("stock-chart/stock-chart"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-stockchart"></span>
                                                 <span>Stock Chart</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/circular-gauge/default-functionalities/" @onclick="@(() => NavToSample("circular-gauge/default-functionalities"))" @onclick:preventDefault
+                                            <a href="circular-gauge/default-functionalities" @onclick="@(() => NavToSample("circular-gauge/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-circulargauge"></span>
                                                 <span>Circular Gauge</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/diagram/flowchart/" @onclick="@(() => NavToSample("diagram/flowchart"))" @onclick:preventDefault
+                                            <a href="diagram/flowchart" @onclick="@(() => NavToSample("diagram/flowchart"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-diagram"></span>
                                                 <span>Diagram</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/heatmap-chart/default-functionalities/" @onclick="@(() => NavToSample("heatmap-chart/default-functionalities"))" @onclick:preventDefault
+                                            <a href="heatmap-chart/default-functionalities" @onclick="@(() => NavToSample("heatmap-chart/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-heatmap"></span>
                                                 <span>HeatMap Chart</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/linear-gauge/default-functionalities/" @onclick="@(() => NavToSample("linear-gauge/default-functionalities"))" @onclick:preventDefault
+                                            <a href="linear-gauge/default-functionalities" @onclick="@(() => NavToSample("linear-gauge/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-lineargauge"></span>
                                                 <span>Linear Gauge</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/maps/default-functionalities/" @onclick="@(() => NavToSample("maps/default-functionalities"))" @onclick:preventDefault
+                                            <a href="maps/default-functionalities" @onclick="@(() => NavToSample("maps/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-maps"></span>
                                                 <span>Maps</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/range-selector/range-navigator/" @onclick="@(() => NavToSample("range-selector/range-navigator"))" @onclick:preventDefault
+                                            <a href="range-selector/range-navigator" @onclick="@(() => NavToSample("range-selector/range-navigator"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-range_navigator"></span>
                                                 <span>Range Selector</span>
@@ -152,7 +183,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/smith-chart/default-functionalities/" @onclick="@(() => NavToSample("smith-chart/default-functionalities"))" @onclick:preventDefault
+                                            <a href="smith-chart/default-functionalities" @onclick="@(() => NavToSample("smith-chart/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-smith_chart"></span>
                                                 <span>Smith Chart</span>
@@ -160,7 +191,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/barcodes/default-functionalities/" @onclick="@(() => NavToSample("barcodes/default-functionalities"))" @onclick:preventDefault
+                                            <a href="barcodes/default-functionalities" @onclick="@(() => NavToSample("barcodes/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-barcode"></span>
                                                 <span>Barcode Generator</span>
@@ -168,75 +199,69 @@
                                         </li>
 
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/sparkline/default-functionalities/" @onclick="@(() => NavToSample("sparkline/default-functionalities"))" @onclick:preventDefault
+                                            <a href="sparkline/default-functionalities" @onclick="@(() => NavToSample("sparkline/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-sparkline"></span>
                                                 <span>Sparkline Charts</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/treemap/default-functionalities/" @onclick="@(() => NavToSample("treemap/default-functionalities"))" @onclick:preventDefault
+                                            <a href="treemap/default-functionalities" @onclick="@(() => NavToSample("treemap/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-treemap"></span>
                                                 <span>TreeMap</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/bullet-chart/default-functionalities/" @onclick="@(() => NavToSample("bullet-chart/default-functionalities"))" @onclick:preventDefault
+                                            <a href="bullet-chart/default-functionalities" @onclick="@(() => NavToSample("bullet-chart/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-bulletchart"></span>
                                                 <span>Bullet Chart</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/kanban/overview/" @onclick="@(() => NavToSample("kanban/overview"))" @onclick:preventDefault
+                                            <a href="kanban/overview" @onclick="@(() => NavToSample("kanban/overview"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-kanban"></span>
                                                 <span>Kanban</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
                                     </ul>
                                     <div class="catagory">Forms</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/query-builder/default-functionalities/" @onclick="@(() => NavToSample("query-builder/default-functionalities"))" @onclick:preventDefault
+                                            <a href="query-builder/default-functionalities" @onclick="@(() => NavToSample("query-builder/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-filterbuilder"></span>
                                                 <span>Query Builder</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
                                     </ul>
                                     <div class="catagory">File Format</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/docio/hello-world/" @onclick="@(() => NavToSample("docio/hello-world"))" @onclick:preventDefault
+                                            <a href="docio/hello-world" @onclick="@(() => NavToSample("docio/hello-world"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-DOC"></span>
                                                 <span>DocIO</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/pdf/hello-world/" @onclick="@(() => NavToSample("pdf/hello-world"))" @onclick:preventDefault
+                                            <a href="pdf/hello-world" @onclick="@(() => NavToSample("pdf/hello-world"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-PDF"></span>
                                                 <span>PDF</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/presentation/getting-started/" @onclick="@(() => NavToSample("presentation/getting-started"))" @onclick:preventDefault
+                                            <a href="presentation/getting-started" @onclick="@(() => NavToSample("presentation/getting-started"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-PPT"></span>
                                                 <span>Presentation</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/xlsio/create-excel/" @onclick="@(() => NavToSample("xlsio/create-excel"))" @onclick:preventDefault
+                                            <a href="xlsio/create-excel" @onclick="@(() => NavToSample("xlsio/create-excel"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-XLS"></span>
                                                 <span>XlsIO</span>
@@ -248,21 +273,21 @@
                                     <div class="catagory">Editors</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/rich-text-editor/default-functionalities/" @onclick="@(() => NavToSample("rich-text-editor/default-functionalities"))" @onclick:preventDefault
+                                            <a href="rich-text-editor/overview" @onclick="@(() => NavToSample("rich-text-editor/overview"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-RTE"></span>
                                                 <span>Rich Text Editor</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/document-editor/default-functionalities/" @onclick="@(() => NavToSample("document-editor/default-functionalities"))" @onclick:preventDefault
+                                            <a href="document-editor/default-functionalities" @onclick="@(() => NavToSample("document-editor/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-document_editor"> </span>
                                                 <span>Word Processor</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/in-place-editor/overview/" @onclick="@(() => NavToSample("in-place-editor/overview"))" @onclick:preventDefault
+                                            <a href="in-place-editor/overview" @onclick="@(() => NavToSample("in-place-editor/overview"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-insideeditor"></span>
                                                 <span>In-place Editor</span>
@@ -272,28 +297,28 @@
                                     <div class="catagory">Calendars</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/scheduler/default-functionalities/" @onclick="@(() => NavToSample("scheduler/default-functionalities"))" @onclick:preventDefault
+                                            <a href="scheduler/overview" @onclick="@(() => NavToSample("scheduler/overview"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-schedule"></span>
                                                 <span>Scheduler</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/calendar/default-functionalities/" @onclick="@(() => NavToSample("calendar/default-functionalities"))" @onclick:preventDefault
+                                            <a href="calendar/default-functionalities" @onclick="@(() => NavToSample("calendar/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-calendar"></span>
                                                 <span>Calendar</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/datepicker/default-functionalities/" @onclick="@(() => NavToSample("datepicker/default-functionalities"))" @onclick:preventDefault
+                                            <a href="datepicker/default-functionalities" @onclick="@(() => NavToSample("datepicker/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-datepicker"></span>
                                                 <span>DatePicker</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/daterangepicker/default-functionalities/" @onclick="@(() => NavToSample("daterangepicker/default-functionalities"))" @onclick:preventDefault
+                                            <a href="daterangepicker/default-functionalities" @onclick="@(() => NavToSample("daterangepicker/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-daterangepicker"></span>
                                                 <span>DateRangePicker</span>
@@ -303,24 +328,21 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/datetime-picker/default-functionalities/" @onclick="@(() => NavToSample("datetime-picker/default-functionalities"))" @onclick:preventDefault
+                                            <a href="datetime-picker/default-functionalities" @onclick="@(() => NavToSample("datetime-picker/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-datetimepicker"></span>
                                                 <span>DateTime Picker</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/timepicker/default-functionalities/" @onclick="@(() => NavToSample("timepicker/default-functionalities"))" @onclick:preventDefault
+                                            <a href="timepicker/default-functionalities" @onclick="@(() => NavToSample("timepicker/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-timepicker"></span>
                                                 <span>TimePicker</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/gantt-chart/default-functionalities/" @onclick="@(() => NavToSample("gantt-chart/default-functionalities"))" @onclick:preventDefault
+                                            <a href="gantt-chart/default-functionalities" @onclick="@(() => NavToSample("gantt-chart/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-gantt"></span>
                                                 <span>Gantt Chart</span>
@@ -333,39 +355,36 @@
                                     <div class="catagory">Buttons</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/default-functionalities/" @onclick="@(() => NavToSample("buttons/default-functionalities"))" @onclick:preventDefault
+                                            <a href="buttons/default-functionalities" @onclick="@(() => NavToSample("buttons/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-button"></span>
                                                 <span>Button</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/dropdown-menu/" @onclick="@(() => NavToSample("buttons/dropdown-menu"))" @onclick:preventDefault
+                                            <a href="buttons/dropdown-menu" @onclick="@(() => NavToSample("buttons/dropdown-menu"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-dropdownbutton"></span>
                                                 <span>Dropdown Menu</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/progress-button/" @onclick="@(() => NavToSample("buttons/progress-button"))" @onclick:preventDefault
+                                            <a href="buttons/progress-button" @onclick="@(() => NavToSample("buttons/progress-button"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-progressbutton"></span>
                                                 <span>Progress Button</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
 
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/split-button/" @onclick="@(() => NavToSample("buttons/split-button"))" @onclick:preventDefault
+                                            <a href="buttons/split-button" @onclick="@(() => NavToSample("buttons/split-button"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-splitbutton"></span>
                                                 <span>Split Button</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/chips/default-functionalities/" @onclick="@(() => NavToSample("chips/default-functionalities"))" @onclick:preventDefault
+                                            <a href="chips/default-functionalities" @onclick="@(() => NavToSample("chips/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-chip"></span>
                                                 <span>Chips</span>
@@ -378,28 +397,28 @@
                                     <div class="catagory">Dropdowns</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/autocomplete/default-functionalities/" @onclick="@(() => NavToSample("autocomplete/default-functionalities"))" @onclick:preventDefault
+                                            <a href="autocomplete/default-functionalities" @onclick="@(() => NavToSample("autocomplete/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-autocomplete"></span>
                                                 <span>AutoComplete</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/combobox/default-functionalities/" @onclick="@(() => NavToSample("combobox/default-functionalities"))" @onclick:preventDefault
+                                            <a href="combobox/default-functionalities" @onclick="@(() => NavToSample("combobox/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-combobox"></span>
                                                 <span>ComboBox</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/dropdown-list/default-functionalities/" @onclick="@(() => NavToSample("dropdown-list/default-functionalities"))" @onclick:preventDefault
+                                            <a href="dropdown-list/default-functionalities" @onclick="@(() => NavToSample("dropdown-list/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-dropdownlist"></span>
                                                 <span>Dropdown List</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/multiselect-dropdown/default-functionalities/" @onclick="@(() => NavToSample("multiselect-dropdown/default-functionalities"))" @onclick:preventDefault
+                                            <a href="multiselect-dropdown/default-functionalities" @onclick="@(() => NavToSample("multiselect-dropdown/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-multiselect"></span>
                                                 <span>MultiSelect Dropdown</span>
@@ -409,7 +428,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/listbox/default-functionalities/" @onclick="@(() => NavToSample("listbox/default-functionalities"))" @onclick:preventDefault
+                                            <a href="listbox/default-functionalities" @onclick="@(() => NavToSample("listbox/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-listbox"></span>
                                                 <span>ListBox</span>
@@ -419,62 +438,56 @@
                                     <div class="catagory">Navigation</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/accordion/default-functionalities/" @onclick="@(() => NavToSample("accordion/default-functionalities"))" @onclick:preventDefault
+                                            <a href="accordion/default-functionalities" @onclick="@(() => NavToSample("accordion/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-accordion"></span>
                                                 <span>Accordion</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/context-menu/default-functionalities/" @onclick="@(() => NavToSample("context-menu/default-functionalities"))" @onclick:preventDefault
+                                            <a href="context-menu/default-functionalities" @onclick="@(() => NavToSample("context-menu/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-contextmenu"></span>
                                                 <span>Context Menu</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/menu-bar/default-functionalities/" @onclick="@(() => NavToSample("menu-bar/default-functionalities"))" @onclick:preventDefault
+                                            <a href="menu-bar/default-functionalities" @onclick="@(() => NavToSample("menu-bar/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-menu"></span>
                                                 <span>Menu Bar</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/sidebar/default-functionalities/" @onclick="@(() => NavToSample("sidebar/default-functionalities"))" @onclick:preventDefault
+                                            <a href="sidebar/default-functionalities" @onclick="@(() => NavToSample("sidebar/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-sidebar"></span>
                                                 <span>Sidebar</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/tabs/default-functionalities/" @onclick="@(() => NavToSample("tabs/default-functionalities"))" @onclick:preventDefault
+                                            <a href="tabs/default-functionalities" @onclick="@(() => NavToSample("tabs/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-tab"></span>
                                                 <span>Tabs</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/toolbar/default-functionalities/" @onclick="@(() => NavToSample("toolbar/default-functionalities"))" @onclick:preventDefault
+                                            <a href="toolbar/default-functionalities" @onclick="@(() => NavToSample("toolbar/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-toolbar"></span>
                                                 <span>Toolbar</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/treeview/default-functionalities/" @onclick="@(() => NavToSample("treeview/default-functionalities"))" @onclick:preventDefault
+                                            <a href="treeview/default-functionalities" @onclick="@(() => NavToSample("treeview/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-treeview"></span>
                                                 <span>TreeView</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/file-manager/overview/" @onclick="@(() => NavToSample("file-manager/overview"))" @onclick:preventDefault
+                                            <a href="file-manager/overview" @onclick="@(() => NavToSample("file-manager/overview"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-filemanager"></span>
                                                 <span>File Manager</span>
@@ -487,27 +500,24 @@
                                     <div class="catagory">Notifications</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/progress-bar/linear/" @onclick="@(() => NavToSample("progress-bar/linear"))" @onclick:preventDefault
+                                            <a href="progress-bar/linear" @onclick="@(() => NavToSample("progress-bar/linear"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-progressBar"></span>
                                                 <span>ProgressBar</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/toast/default-functionalities/" @onclick="@(() => NavToSample("toast/default-functionalities"))" @onclick:preventDefault
+                                            <a href="toast/default-functionalities" @onclick="@(() => NavToSample("toast/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-toast"></span>
                                                 <span>Toast</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/spinner/default-functionalities/" @onclick="@(() => NavToSample("spinner/default-functionalities"))" @onclick:preventDefault
+                                            <a href="spinner/default-functionalities" @onclick="@(() => NavToSample("spinner/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-spinner"></span>
                                                 <span>Spinner</span>
-                                                <div class="e-badge badge-css">
-                                                    PREVIEW
-                                                </div>
                                             </a>
                                         </li>
                                     </ul>
@@ -517,14 +527,14 @@
                                     <div class="catagory">Inputs</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/textbox/default-functionalities/" @onclick="@(() => NavToSample("textbox/default-functionalities"))" @onclick:preventDefault
+                                            <a href="textbox/default-functionalities" @onclick="@(() => NavToSample("textbox/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-textbox"></span>
                                                 <span>TextBox</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/input-mask/default-functionalities/" @onclick="@(() => NavToSample("input-mask/default-functionalities"))" @onclick:preventDefault
+                                            <a href="input-mask/default-functionalities" @onclick="@(() => NavToSample("input-mask/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-maskedtextbox"></span>
                                                 <span>Input Mask</span>
@@ -534,28 +544,28 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/numeric-textbox/default-functionalities/" @onclick="@(() => NavToSample("numeric-textbox/default-functionalities"))" @onclick:preventDefault
+                                            <a href="numeric-textbox/default-functionalities" @onclick="@(() => NavToSample("numeric-textbox/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-numerictextbox"></span>
                                                 <span>Numeric TextBox</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/radio-button/" @onclick="@(() => NavToSample("buttons/radio-button"))" @onclick:preventDefault
+                                            <a href="buttons/radio-button" @onclick="@(() => NavToSample("buttons/radio-button"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-radiobutton"></span>
                                                 <span>Radio Button</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/checkbox/" @onclick="@(() => NavToSample("buttons/checkbox"))" @onclick:preventDefault
+                                            <a href="buttons/checkbox" @onclick="@(() => NavToSample("buttons/checkbox"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-checkbox"></span>
                                                 <span>Checkbox</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/color-picker/default-functionalities/" @onclick="@(() => NavToSample("color-picker/default-functionalities"))" @onclick:preventDefault
+                                            <a href="color-picker/default-functionalities" @onclick="@(() => NavToSample("color-picker/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-colorpicker"></span>
                                                 <span>Color Picker</span>
@@ -565,21 +575,21 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/file-upload/default-functionalities/" @onclick="@(() => NavToSample("file-upload/default-functionalities"))" @onclick:preventDefault
+                                            <a href="file-upload/default-functionalities" @onclick="@(() => NavToSample("file-upload/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-uploader"></span>
                                                 <span>File Upload</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/range-slider/default/" @onclick="@(() => NavToSample("range-slider/default"))" @onclick:preventDefault
+                                            <a href="range-slider/default" @onclick="@(() => NavToSample("range-slider/default"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-slider"></span>
                                                 <span>Range Slider</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/buttons/toggle-switch-button/" @onclick="@(() => NavToSample("buttons/toggle-switch-button"))" @onclick:preventDefault
+                                            <a href="buttons/toggle-switch-button" @onclick="@(() => NavToSample("buttons/toggle-switch-button"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-switch"></span>
                                                 <span>Toggle Switch Button</span>
@@ -592,14 +602,14 @@
                                     <div class="catagory">Layout</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/dialog/default-functionalities/" @onclick="@(() => NavToSample("dialog/default-functionalities"))" @onclick:preventDefault
+                                            <a href="dialog/default-functionalities" @onclick="@(() => NavToSample("dialog/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-dialog"></span>
                                                 <span>Dialog</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/listview/default-functionalities/" @onclick="@(() => NavToSample("listview/default-functionalities"))" @onclick:preventDefault
+                                            <a href="listview/default-functionalities" @onclick="@(() => NavToSample("listview/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-listview">
                                                 </span>
@@ -607,7 +617,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/tooltip/default/" @onclick="@(() => NavToSample("tooltip/default"))" @onclick:preventDefault
+                                            <a href="tooltip/default" @onclick="@(() => NavToSample("tooltip/default"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-tooltip"></span>
                                                 <span>Tooltip</span>
@@ -617,14 +627,14 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/splitter/default-functionalities/" @onclick="@(() => NavToSample("splitter/default-functionalities"))" @onclick:preventDefault
+                                            <a href="splitter/default-functionalities" @onclick="@(() => NavToSample("splitter/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-splitter"></span>
                                                 <span>Splitter</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/dashboard-layout/default/" @onclick="@(() => NavToSample("dashboard-layout/default"))" @onclick:preventDefault
+                                            <a href="dashboard-layout/default" @onclick="@(() => NavToSample("dashboard-layout/default"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-dashboardlayout"></span>
                                                 <span>Dashboard Layout</span>
@@ -634,7 +644,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/card/basic-card/" @onclick="@(() => NavToSample("card/basic-card"))" @onclick:preventDefault
+                                            <a href="card/basic-card" @onclick="@(() => NavToSample("card/basic-card"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-card"></span>
                                                 <span>Card</span>
@@ -644,7 +654,7 @@
                                     <div class="catagory">Viewer</div>
                                     <ul class="list--hover">
                                         <li>
-                                            <a href="https://blazor.syncfusion.com/demos/pdf-viewer/default-functionalities/" @onclick="@(() => NavToSample("pdf-viewer/default-functionalities"))" @onclick:preventDefault
+                                            <a href="pdf-viewer/default-functionalities" @onclick="@(() => NavToSample("pdf-viewer/default-functionalities"))" @onclick:preventDefault
                                                rel="noopener noreferrer">
                                                 <span class="sb-icons sb-icon-pdfviewer"></span>
                                                 <span>PDF Viewer</span>
@@ -666,14 +676,21 @@
                             <h4>
                                 Trusted by the world’s leading companies
                             </h4>
-                            <div class="desk-image">
-                                <img alt="Syncfusion Trusted Companies"
-                                     src="https://cdn.syncfusion.com/content/images/FT/common/Syncfusion-trusted-companies.png">
-                            </div>
-                            <div class="mob-image">
-                                <img alt="Syncfusion Trusted Companies"
-                                     src="https://cdn.syncfusion.com/content/images/FT/common/Syncfusion-trusted-companies-mobile.png">
-                            </div>
+                            @if (!isPrerendering)
+                            {
+                                @if (SampleService.IsDevice)
+                                {
+                                    <div class="mob-image">
+                                        <img alt="Syncfusion Trusted Companies" src=@(SampleService.ImagePath + "syncfusion-trusted-companies-mobile.png")>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="desk-image">
+                                        <img alt="Syncfusion Trusted Companies" src=@(SampleService.ImagePath + "syncfusion-trusted-companies.png")>
+                                    </div>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -686,7 +703,7 @@
                 </div>
             </div>
 
-            <div class="carousel-wrapper">
+            <div class="carousel-container">
                 <CarouselComponent></CarouselComponent>
             </div>
 
@@ -749,11 +766,11 @@
                         <div class="top-content content-medium">LEARNING &amp; SUPPORT</div>
                         <ul class="list-unstyled">
                             <li class="content-small">
-                                <a href="https://blazor.syncfusion.com/demos/Grid/DefaultFunctionalities">Demos</a>
+                                <a href="https://blazor.syncfusion.com/demos/datagrid/overview/">Demos</a>
                             </li>
                             <li class="content-small"><a href="https://www.syncfusion.com/blogs">Blog</a></li>
                             <li class="content-small">
-                                <a href="https://ej2.syncfusion.com/blazor/documentation/"
+                                <a href="https://blazor.syncfusion.com/documentation/"
                                    target="_blank">Documentation</a>
                             </li>
                             <li class="content-small">
@@ -810,8 +827,7 @@
 
                         <div class="col-sm-8 hidden-xs content-small ">
                             <div class="footer-syncfusion-logo">
-                                <a class="sync-logo-img" title="Syncfusion" href="/">
-                                </a>
+                                <a class="sync-logo-img" title="Syncfusion" href="/"></a>
                             </div>
                             <div class="link">
                                 <a class="social-link" href="https://www.syncfusion.com/privacy">Privacy Policy</a> |
@@ -954,27 +970,93 @@
     </div>
 </div>
 
-@code{
-    [Inject]
-    protected SampleService SampleService { get; set; }
+<style>
+    .sf-blazor-home .banner-image {
+        background: url( @(SampleService.ImagePath + "home-bg-image.png") ) no-repeat center top;
+        background-size: 100%;
+    }
 
-    [Inject]
-    protected NavigationManager UriHelper { get; set; }
+    .sf-blazor-home .sync-logo-img {
+        background-image: url(@(SampleService.ImagePath + "syncfusion-logo.svg"));
+    }
 
-    [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
+    .sf-blazor-home #mob-banner-img {
+        background: url(@(SampleService.ImagePath + "home-mobile-bg.png")) no-repeat center;
+    }
 
+    .sf-blazor-home .subheader-logo {
+        background: url(@(SampleService.ImagePath + "home-logo.svg")) no-repeat right;
+    }
+
+    .sf-blazor-home .nuget-logo {
+        background: url( @(SampleService.ImagePath + "nuget.svg") ) no-repeat center;
+    }
+
+</style>
+
+@code {
+    private string headerLogo { get; set; }
+    private string searchIcon { get; set; }
+    private bool isPrerendering { get; set; }
+    private string searchContainer { get; set; }
+    private SearchComponent searchRef { get; set; }
+
+    // Sample click event handler method.
     private void NavToSample(string path)
     {
         SampleService.Spinner.Show();
         UriHelper.NavigateTo(path + "?theme=bootstrap4");
     }
 
-    protected override void OnAfterRender(bool firstRender)
+    // Search icon click event handler method.
+    private async Task OnRenderSearch()
     {
+        await this.ShowSearchContainer();
+    }
+
+    // App click event handler method.
+    private async Task OnAppClick()
+    {
+        await this.ShowSearchContainer(false);
+    }
+
+    // Show or hide the search container in device mode.
+    private async Task ShowSearchContainer(bool isFocus = true)
+    {
+        if (isFocus)
+        {
+            headerLogo = SampleUtils.AddClass(headerLogo, SampleUtils.DISPLAY_NONE);
+            searchIcon = SampleUtils.AddClass(searchIcon, SampleUtils.DISPLAY_NONE);
+            searchContainer = SampleUtils.RemoveClass(searchContainer, SampleUtils.DISPLAY_NONE);
+            await this.searchRef.InputFocus();
+        }
+        else
+        {
+            headerLogo = SampleUtils.RemoveClass(headerLogo, SampleUtils.DISPLAY_NONE);
+            searchIcon = SampleUtils.RemoveClass(searchIcon, SampleUtils.DISPLAY_NONE);
+            searchContainer = SampleUtils.AddClass(searchContainer, SampleUtils.DISPLAY_NONE);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        headerLogo = SampleUtils.HEADER_LOGO;
+        searchIcon = SampleUtils.SEARCH_ICON;
+        isPrerendering = !HttpContextAccessor.HttpContext.Response.HasStarted;
+        searchContainer = SampleUtils.MOBILE_SEARCH_CONTAINER + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            JsRuntime.InvokeVoidAsync("initSearch");
+            this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDevice");
+            if (SampleService.IsDevice)
+            {
+                StateHasChanged();
+            }
             SampleService.Spinner.Hide();
         }
     }

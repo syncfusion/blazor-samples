@@ -4,24 +4,26 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
- <p> This demo showcases the different available dates of doctors and their appointments on those days.</p>   
+    <p> This demo showcases the different available dates of doctors and their appointments on those days.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this demo, different working days are assigned by passing the <code>WorkDays</code> collection for each doctor to show their available dates. On each of their available dates, their daily available
-      time range is also depicted by mentioning the <code>StartHour</code> and <code>EndHour</code> for each doctor. These values needs to be provided along with the resource
-     <code>DataSource</code> by mapping the appropriate fields namely <code>WorkDaysField</code>,<code>StartHourField</code> and <code>EndHourField</code>. </p>
+    <p>
+        In this demo, different working days are assigned by passing the <code>WorkDays</code> collection for each doctor to show their available dates. On each of their available dates, their daily available
+        time range is also depicted by mentioning the <code>StartHour</code> and <code>EndHour</code> for each doctor. These values needs to be provided along with the resource
+        <code>DataSource</code> by mapping the appropriate fields namely <code>WorkDaysField</code>,<code>StartHourField</code> and <code>EndHourField</code>.
+    </p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="ScheduleData.DoctorData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 3, 1))" AllowDragAndDrop="false" AllowResizing="false">
+        <SfSchedule TValue="ScheduleData.DoctorData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" AllowDragAndDrop="false" AllowResizing="false">
             <ScheduleViews>
                 <ScheduleView Option="View.WorkWeek"></ScheduleView>
-                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
             </ScheduleViews>
             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource TValue="DoctorData" DataSource="@ResourceData" Field="DoctorId" Title="Doctor Name" Name="Doctors" TextField="Text" IdField="Id" ColorField="Color" WorkDaysField="WorkDays" StartHourField="StartHour" EndHourField="EndHour"></ScheduleResource>
+                <ScheduleResource TItem="DoctorData" TValue="int" DataSource="@ResourceData" Field="DoctorId" Title="Doctor Name" Name="Doctors" TextField="Text" IdField="Id" ColorField="Color" WorkDaysField="WorkDays" StartHourField="StartHour" EndHourField="EndHour"></ScheduleResource>
             </ScheduleResources>
             <ScheduleEventSettings DataSource="@DataSource">
                 <ScheduleField>
@@ -36,6 +38,7 @@
     </div>
 </div>
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 3, 1);
     public List<ScheduleData.DoctorData> DataSource = new ScheduleData().GetDoctorData();
     public string[] GroupData = new string[] { "Doctors" };
     private List<DoctorData> ResourceData { get; set; } = new List<DoctorData> {

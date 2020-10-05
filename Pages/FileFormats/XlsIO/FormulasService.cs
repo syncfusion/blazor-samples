@@ -108,7 +108,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     IApplication application = excelEngine.Excel;
                     application.DefaultVersion = ExcelVersion.Excel97to2003;
 
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("FormulaTemplate.xls"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("formula-template.xls"), FileMode.Open, FileAccess.Read);
                     IWorkbook workbook = application.Workbooks.Open(inputStream);
 
                     //The first worksheet object in the worksheets collection is accessed
@@ -133,7 +133,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

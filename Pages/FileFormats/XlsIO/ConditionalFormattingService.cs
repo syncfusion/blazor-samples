@@ -53,7 +53,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                 //Set the File Format as XLSX
                 else
                 {
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("CFTemplate.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("cf-template.xlsx"), FileMode.Open, FileAccess.Read);
                     workbook = excelEngine.Excel.Workbooks.Open(inputStream);
                     sheet = workbook.Worksheets[0];
                     workbook.Version = ExcelVersion.Excel2016;
@@ -252,7 +252,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

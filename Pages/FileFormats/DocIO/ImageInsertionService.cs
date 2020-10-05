@@ -24,7 +24,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream ImageInsertion(string documentType)
         {
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"\DocIO\RTFToDoc.rtf";
+            string dataPath = basePath + @"\DocIO\rtf-to-doc.rtf";
             #region ImageInsertion
 
             //Create a new document
@@ -39,7 +39,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             //Adding a new paragraph
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
-            FileStream imageStream = new FileStream(basePath + @"/images/DocIO/yahoo.gif", FileMode.Open, FileAccess.Read);
+            FileStream imageStream = new FileStream(basePath + @"/images/docio/yahoo.gif", FileMode.Open, FileAccess.Read);
             //Inserting .gif .
             WPicture picture = (WPicture)paragraph.AppendPicture(imageStream);
             //Adding Image caption
@@ -48,7 +48,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
 
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
-            imageStream = new FileStream(basePath + @"/images/DocIO/Reports.bmp", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"/images/docio/reports.bmp", FileMode.Open, FileAccess.Read);
             //Inserting .bmp
             picture = (WPicture)paragraph.AppendPicture(imageStream);
             //Adding Image caption
@@ -57,7 +57,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
 
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
-            imageStream = new FileStream(basePath + @"/images/DocIO/google.png", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"/images/docio/google.png", FileMode.Open, FileAccess.Read);
             //Inserting .png 
             picture = (WPicture)paragraph.AppendPicture(imageStream);
             //Adding Image caption
@@ -66,7 +66,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
 
             paragraph = section.AddParagraph();
             paragraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
-            imageStream = new FileStream(basePath + @"/images/DocIO/Square.tif", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"/images/docio/square.tif", FileMode.Open, FileAccess.Read);
             //Inserting .tif 
             picture = (WPicture)paragraph.AppendPicture(imageStream);
             //Adding Image caption
@@ -77,7 +77,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             paragraph = section.AddParagraph();
             //Setting Alignment for the image.
             paragraph.ParagraphFormat.HorizontalAlignment = Syncfusion.DocIO.DLS.HorizontalAlignment.Center;
-            imageStream = new FileStream(basePath + @"/images/DocIO/Ess chart.emf", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"/images/docio/ess-chart.emf", FileMode.Open, FileAccess.Read);
             //Inserting .wmf Image to the document.
             WPicture mImage = (WPicture)paragraph.AppendPicture(imageStream);
             //Scaling Image

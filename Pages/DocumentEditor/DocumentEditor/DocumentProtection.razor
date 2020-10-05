@@ -52,8 +52,9 @@
                 <b>Current User</b>
             </div>
             <div class="control-label">
-                <SfDropDownList ValueChanged="OnUserChange" @ref="dropDown" TItem="UserFields" TValue="string" PopupHeight="230px" Index=0 Placeholder="Select a user" DataSource="@User">
+                <SfDropDownList @ref="dropDown" TItem="UserFields" TValue="string" PopupHeight="230px" @bind-Index="@index" Placeholder="Select a user" DataSource="@User">
                     <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                    <DropDownListEvents TValue="string" TItem="UserFields" ValueChange="OnUserChange"/>
                 </SfDropDownList>
             </div>
             <div class="control-label">
@@ -66,6 +67,7 @@
 
 @code {
 
+    private int? index { get; set; } =0;
     internal string DocumentName { get; set; }
 
     string currentUser = "engineer@mycompany.com";
@@ -117,9 +119,9 @@
         }
     }
 
-    public void OnUserChange()
+    public void OnUserChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, UserFields> args)
     {
-        currentUser = dropDown.Text;
+        currentUser = args.ItemData?.Text;
     }
     public void ChangeUserColor(ColorPickerEventArgs args)
     {

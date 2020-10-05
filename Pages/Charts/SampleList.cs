@@ -533,7 +533,7 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/smart-labels",
                 FileName = "SmartLabels.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {

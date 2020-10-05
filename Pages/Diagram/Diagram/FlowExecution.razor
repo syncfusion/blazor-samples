@@ -12,7 +12,7 @@
   <p> This sample demonstrates how we can process and get consecutive nodes and connectors.</p>  
 </SampleDescription>
 <ActionDescription>
-   <p>We can get the inward connections and outward connections of a node using the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/methods/#get-the-edges'>GetEdges(nodeId,false)</a> and <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/methods/#get-the-edges'>GetEdges(nodeId,true)</a> methods of the diagram. By using the connector’s name collection, we can find the node using <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/methods/#get-the-node'>GetNode</a>. And also, we can get the nodes connected to the connector using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Diagrams.DiagramConnector~SourceID.html'>SourceID</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Diagrams.DiagramConnector~TargetID.html'>TargetID</a> properties of the connector.</p><br>
+   <p>We can get the inward connections and outward connections of a node using the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/methods/#get-the-edges'>GetEdges(nodeId,false)</a> and <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/methods/#get-the-edges'>GetEdges(nodeId,true)</a> methods of the diagram. By using the connector’s name collection, we can find the node using <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/methods/#get-the-node'>GetNode</a>. And also, we can get the nodes connected to the connector using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramConnector.html#Syncfusion_Blazor_Diagrams_DiagramConnector_SourceID'>SourceID</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramConnector.html#Syncfusion_Blazor_Diagrams_DiagramConnector_TargetID'>TargetID</a> properties of the connector.</p><br>
 </ActionDescription>
 
 @*Hidden:Lines*@
@@ -25,7 +25,7 @@
                     Nodes="@NodeCollection"
                     Connectors="@ConnectorCollection">
             <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
-            <DiagramEvents SelectionChanged="@OnSelectionChanged"></DiagramEvents>
+            <DiagramEvents Created="@OnCreated" SelectionChanged="@OnSelectionChanged"></DiagramEvents>
         </SfDiagram>
     </div>
 </div>
@@ -332,16 +332,6 @@
         return reachableConnectors;
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            //OnAfterRenderAsync will be triggered after the component rendered.
-            await Task.Delay(500);
-            await Diagram.Select(new ObservableCollection<DiagramNode>() { Diagram.Nodes[2] }, null);
-            StateHasChanged();
-        }
-    }
     public void UnHighLight()
     {
         foreach (DiagramNode node in highLightedNode)
@@ -359,5 +349,8 @@
         highLightedNode.Clear();
         highLightedConnector.Clear();
     }
-
+    private async void OnCreated(object obj)
+    {
+        await Diagram.Select(new ObservableCollection<DiagramNode>() { Diagram.Nodes[2] }, null);
+    }    
 }

@@ -101,11 +101,5 @@ namespace blazor_samples.Data.FileFormats.PDF
             doc.Close(true);
             return stream;
         }
-        #region HelperMethod
-        private string ResolveApplicationPath(string fileName)
-        {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
-        }
-        #endregion
     }
 }

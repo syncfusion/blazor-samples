@@ -14,7 +14,7 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-    <SfTreeMap Format="N0" UseGroupingSeparator="true" RangeColorValuePath="@ColorValuePath" EqualColorValuePath="@EqualColorValuePath" WeightValuePath="Area" DataSource="@ColorDataSource">
+    <SfTreeMap Format="N0" EnableGroupingSeparator="true" RangeColorValuePath="@ColorValuePath" EqualColorValuePath="@EqualColorValuePath" WeightValuePath="Area" DataSource="@ColorDataSource">
         <TreeMapTitleSettings Text="Top 10 largest islands in the World"><TreeMapTitleTextStyle Size="15px"/></TreeMapTitleSettings>
         <TreeMapLegendSettings Visible="true" Position="LegendPosition.Bottom" Mode="LegendMode.Interactive" Height="10">
             <TreeMapLegendTitle Text="@LegendText"/>
@@ -22,11 +22,11 @@
         <TreeMapTooltipSettings Visible="true" Format="Name: ${Name}<br>Area: ${Area} per square kms<br>Continent: ${Location}" Opacity="0.8"></TreeMapTooltipSettings>
         <TreeMapLeafItemSettings LabelPath="Name">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping From="@ColorMappingFromOne" MinOpacity="@MinOpacity" MaxOpacity="MaxOpacity" To="@ColorMappingToOne" Color="@ColorMappingColorOne" Label="@ColorMappingLabelOne" Value="@ColorMappingValueOne"/>
-                <TreeMapLeafColorMapping From="@ColorMappingFromTwo" To="@ColorMappingToTwo" Color="@ColorMappingColorTwo" Label="@ColorMappingLabelTwo" Value="@ColorMappingValueTwo"/>
-                <TreeMapLeafColorMapping From="@ColorMappingFromThree" To="@ColorMappingToThree" Color="@ColorMappingColorThree" Label="@ColorMappingLabelThree" Value="@ColorMappingValueThree"/>
-                <TreeMapLeafColorMapping From="@ColorMappingFromFour" To="@ColorMappingToFour" Color="@ColorMappingColorFour" Label="@ColorMappingLabelFour" Value="@ColorMappingValueFour"/>
-                <TreeMapLeafColorMapping From="@ColorMappingFromFive" To="@ColorMappingToFive" Color="@ColorMappingColorFive" Label="@ColorMappingLabelFive" Value="@ColorMappingValueFive"/>
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromOne" MinOpacity="@MinOpacity" MaxOpacity="MaxOpacity" EndRange="@ColorMappingToOne" Color="@ColorMappingColorOne" Label="@ColorMappingLabelOne" LeafValue="@ColorMappingValueOne"/>
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromTwo" EndRange="@ColorMappingToTwo" Color="@ColorMappingColorTwo" Label="@ColorMappingLabelTwo" LeafValue="@ColorMappingValueTwo"/>
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromThree" EndRange="@ColorMappingToThree" Color="@ColorMappingColorThree" Label="@ColorMappingLabelThree" LeafValue="@ColorMappingValueThree"/>
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromFour" EndRange="@ColorMappingToFour" Color="@ColorMappingColorFour" Label="@ColorMappingLabelFour" LeafValue="@ColorMappingValueFour"/>
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromFive" EndRange="@ColorMappingToFive" Color="@ColorMappingColorFive" Label="@ColorMappingLabelFive" LeafValue="@ColorMappingValueFive"/>
             </TreeMapLeafColorMappings>
             <TreeMapLeafBorder Color="#FFFFFF" Width="0.5"/>
         </TreeMapLeafItemSettings>
@@ -43,8 +43,8 @@
                             Color Mapping Type
                         </td>
                         <td>
-                            <SfDropDownList Placeholder="Select color mapping type" DataSource="@ColorMappingType" Value="@ColorMappingValueType" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="ColorMappingValueTypeChange"/>
+                            <SfDropDownList Placeholder="Select color mapping type" DataSource="@ColorMappingType" @bind-Value="@ColorMappingValueType" Width="120px">
+                                <DropDownListEvents TValue="string" TItem="ColorType" ValueChange="ColorMappingValueTypeChange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -95,8 +95,8 @@
     public string EqualColorValuePath = null;
     public string LegendText = "Area";
     public string MinDisplay = "none";
-    public double MinOpacity = 0;
-    public double MaxOpacity = 0;
+    public double MinOpacity = 1;
+    public double MaxOpacity = 1;
     public double MinRange = 0.5;
     public string Display = "none";
     public double MaxRange = 1;
@@ -127,7 +127,7 @@
     public string[] ColorMappingColorFive = { null };
     public string ColorMappingLabelFive = null;
     public string ColorMappingValueFive = null;
-    private void ColorMappingValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+    private void ColorMappingValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ColorType> args) {
         ColorMappingValueType = args.Value;
         if (ColorMappingValueType == "Range") {
             MinDisplay = "none";
@@ -201,7 +201,7 @@
             ColorMappingValueFive = "Europe";
         }
         else {
-            Display = "block";
+            Display = "contents";
             EqualColorValuePath = null;
             LegendText = "Area";
             ColorValuePath = "Area";
@@ -254,10 +254,10 @@
         new ColorType { Value="Desaturation", Name="Desaturation" }
     };
     public class LeafData {
-        public string Name;
-        public string Location;
-        public int Area;
-        public int Population;
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public int Area { get; set; }
+        public int Population { get; set; }
     };
     public List<LeafData> ColorDataSource = new List<LeafData>{
         new LeafData { Name="Greenland", Area=2130800, Population=56483, Location="North America" },

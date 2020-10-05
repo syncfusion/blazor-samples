@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream ModifyAnimationPresentation()
         {
             //Opens the presentation document as stream
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("ShapeWithAnimation.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("shape-with-animation.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //New Instance of PowerPoint is Created.[Equivalent to launching MS PowerPoint with no slides].
 
@@ -50,7 +50,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream ModifyAnimationTemplate()
         {
             //Opens the presentation document as stream
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("ShapeWithAnimation.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("shape-with-animation.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //New Instance of PowerPoint is Created.[Equivalent to launching MS PowerPoint with no slides].          
 			
@@ -66,7 +66,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
 		

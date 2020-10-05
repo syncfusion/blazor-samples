@@ -13,8 +13,8 @@
 </SampleDescription>
 <ActionDescription>
    <p>In this sample, any field can be selected from the <b>Fields</b> dropdown list and its order can be changed to display headers either in ascending or descending order.
-     It can be applied either through code-behind or UI. To achieve this in code-behind, set <code>EnableSorting</code> property in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings%601_members.html'>PivotViewDataSourceSettings</a></code> class to <b>true</b>. Also, set the 
-     <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewSortSettings_members.html'>PivotViewSortSettings</a></code> class in the pivot table along with the following properties:</p>
+     It can be applied either through code-behind or UI. To achieve this in code-behind, set <code>EnableSorting</code> property in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a></code> class to <b>true</b>. Also, set the 
+     <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSortSettings.html'>PivotViewSortSettings</a></code> class in the pivot table along with the following properties:</p>
      <table>
        <tr>
          <td style='vertical-align: top;padding: 10px 0;width:100px'> <code>Name :</code> </td>
@@ -79,9 +79,9 @@
                             </td>
                             <td>
                                 <div style="margin-left: -20px">
-                                    <SfDropDownList @ref="Fields" TValue="string" Placeholder="Country" TItem="DataID" Index="0" DataSource="@DropDownData" Enabled="@ShowOption">
+                                    <SfDropDownList @ref="Fields" TValue="string" Placeholder="Country" TItem="DataID" @bind-Index="@index" DataSource="@DropDownData" Enabled="@ShowOption">
                                         <DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-                                        <DropDownListEvents TValue="string" ValueChange="ChangeField"></DropDownListEvents>
+                                        <DropDownListEvents TItem="DataID" TValue="string" ValueChange="ChangeField"></DropDownListEvents>
                                     </SfDropDownList>
                                 </div>
                             </td>
@@ -96,7 +96,7 @@
                                 <div style="margin-left: -20px">
                                     <SfDropDownList @ref="Order" TValue="string" Placeholder="Ascending" TItem="DataID" DataSource="@OrderData" Enabled="@ShowOption" @bind-Value="@SelectOrder">
                                         <DropDownListFieldSettings Value="ID"></DropDownListFieldSettings>
-                                        <DropDownListEvents TValue="string" ValueChange="ChangeOrder"></DropDownListEvents>
+                                        <DropDownListEvents TValue="string" TItem="DataID" ValueChange="ChangeOrder"></DropDownListEvents>
                                     </SfDropDownList>
                                 </div>
                             </td>
@@ -161,13 +161,13 @@
         this.HideButton = !args.Checked;
         this.ShowOption = args.Checked;
     }
-
-    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private int? index { get; set; } =0;
+    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DataID> args)
     {
         this.SelectOrder = this.FieldCollection[args.Value];
     }
 
-    private void ChangeOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void ChangeOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DataID> args)
     {
         this.FieldCollection[this.Fields.Value] = args.Value;
     }
@@ -179,7 +179,16 @@
             List<PivotViewSortSetting> sortSettings = new List<PivotViewSortSetting>();
             foreach (string value in this.FieldCollection.Keys)
             {
-                sortSettings.Add(new PivotViewSortSetting() { Name = value, Order = (Sorting)Enum.Parse(typeof(Sorting), this.FieldCollection[value], true) });
+@*Hidden:Lines*@
+#pragma warning disable BL0005
+@*End:Hidden*@
+                sortSettings.Add(new PivotViewSortSetting() { 
+                    Name = value, 
+                    Order = (Sorting)Enum.Parse(typeof(Sorting), this.FieldCollection[value], true) 
+                });
+@*Hidden:Lines*@
+#pragma warning restore BL0005
+@*End:Hidden*@
             }
             Pivot.DataSourceSettings.SortSettings = sortSettings;
         } else

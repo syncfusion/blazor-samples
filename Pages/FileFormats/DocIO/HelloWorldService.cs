@@ -56,8 +56,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
             style.ParagraphFormat.OutlineLevel = OutlineLevel.Level1;
             IWParagraph paragraph = section.HeadersFooters.Header.AddParagraph();
 
-            string basePath = _hostingEnvironment.WebRootPath + @"/images/DocIO/";
-            FileStream imageStream = new FileStream(basePath + @"AdventureCycle.jpg", FileMode.Open, FileAccess.Read);
+            string basePath = _hostingEnvironment.WebRootPath + @"/images/docio/";
+            FileStream imageStream = new FileStream(basePath + @"adventure-cycle.png", FileMode.Open, FileAccess.Read);
             WPicture picture = paragraph.AppendPicture(imageStream) as WPicture;
             picture.TextWrappingStyle = TextWrappingStyle.InFrontOfText;
             picture.VerticalOrigin = VerticalOrigin.Margin;
@@ -112,7 +112,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             paragraph.ParagraphFormat.AfterSpacing = 0;
             paragraph.BreakCharacterFormat.FontSize = 12f;
             //Appends picture to the paragraph
-            imageStream = new FileStream(basePath + @"Mountain-200.jpg", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"mountain-200.png", FileMode.Open, FileAccess.Read);
             picture = paragraph.AppendPicture(imageStream) as WPicture;
             picture.TextWrappingStyle = TextWrappingStyle.TopAndBottom;
             picture.VerticalOrigin = VerticalOrigin.Paragraph;
@@ -189,7 +189,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             paragraph.ApplyStyle("Heading 1");
             paragraph.ParagraphFormat.LineSpacing = 12f;
             //Appends picture to the paragraph
-            imageStream = new FileStream(basePath + @"Mountain-300.jpg", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"mountain-300.png", FileMode.Open, FileAccess.Read);
             picture = paragraph.AppendPicture(imageStream) as WPicture;
             picture.TextWrappingStyle = TextWrappingStyle.TopAndBottom;
             picture.VerticalOrigin = VerticalOrigin.Paragraph;
@@ -204,7 +204,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             paragraph.ApplyStyle("Heading 1");
             paragraph.ParagraphFormat.LineSpacing = 12f;
             //Appends picture to the paragraph
-            imageStream = new FileStream(basePath + @"Road-550-W.jpg", FileMode.Open, FileAccess.Read);
+            imageStream = new FileStream(basePath + @"road-550-w.png", FileMode.Open, FileAccess.Read);
             picture = paragraph.AppendPicture(imageStream) as WPicture;
             picture.TextWrappingStyle = TextWrappingStyle.TopAndBottom;
             picture.VerticalOrigin = VerticalOrigin.Paragraph;

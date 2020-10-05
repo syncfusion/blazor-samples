@@ -38,7 +38,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     IApplication application = excelEngine.Excel;
                     application.DefaultVersion = ExcelVersion.Excel2016;
 
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("Encrypt.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("encrypt.xlsx"), FileMode.Open, FileAccess.Read);
 
                     //Opening the Existing Worksheet from a Workbook
                     IWorkbook workbook = application.Workbooks.Open(inputStream);
@@ -71,7 +71,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     IApplication application = excelEngine.Excel;
                     application.DefaultVersion = ExcelVersion.Excel2016;
 
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("EncryptedWorkbook.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("encrypted-workbook.xlsx"), FileMode.Open, FileAccess.Read);
                     //Opening the encrypted Workbook
                     IWorkbook workbook = application.Workbooks.Open(inputStream, ExcelParseOptions.Default, true, "PASSWORD");
 
@@ -97,7 +97,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

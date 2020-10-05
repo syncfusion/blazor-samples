@@ -4514,6 +4514,15 @@ namespace blazor_samples.Resources {
                 return ResourceManager.GetString("FileManager_ContentDelete", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this folder?.
+        /// </summary>
+        public static string FileManager_ContentFolderDelete {
+            get {
+                return ResourceManager.GetString("FileManager_ContentFolderDelete", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} already exists. Do you want to rename and paste?.
@@ -4525,7 +4534,7 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete these {0} files?.
+        ///   Looks up a localized string similar to Are you sure you want to delete these {0} items?.
         /// </summary>
         public static string FileManager_ContentMultipleDelete {
             get {
@@ -4703,6 +4712,15 @@ namespace blazor_samples.Resources {
                 return ResourceManager.GetString("FileManager_HeaderDelete", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Folder.
+        /// </summary>
+        public static string FileManager_HeaderFolderDelete {
+            get {
+                return ResourceManager.GetString("FileManager_HeaderFolderDelete", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to File/Folder exists.
@@ -4714,7 +4732,7 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Delete Multiple Files.
+        ///   Looks up a localized string similar to Delete Multiple Items.
         /// </summary>
         public static string FileManager_HeaderMultipleDelete {
             get {

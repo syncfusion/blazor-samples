@@ -9,29 +9,57 @@
     <p>This sample shows how linear gradient color and radial gradient color are applied to the linear gauge elements.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The linear gauge supports gradient coloring in a linear or radial manner. The gradient type can be changed using the <b>Gradient Type</b> dropdown list in the properties panel. In the same way, the element for which the gradient color should be applied is decided by the <b>Elements</b> dropdown list.</p>
+    <p>The linear gauge supports gradient coloring in a linear or radial manner. The gradient type can be changed using the <b>Gradient Type</b> dropdown list in the properties panel. In the same way, the element for which the gradient color should be applied is decided by the <b>Elements</b> dropdown list.</p>
 </ActionDescription>
 
 <div class="col-lg-8 control-section sb-property-border">
     <SfLinearGauge Orientation="Orientation.Horizontal">
         <LinearGaugeContainer Width="30" Offset="30">
-            <LinearGaugeContainerBorder Width="0"/>
+            <LinearGaugeContainerBorder Width="0" />
             <LinearGaugeAxes>
                 <LinearGaugeAxis>
                     <LinearGaugeAxisLabelStyle Offset="55">
-                        <LinearGaugeAxisLabelFont Color="#424242"/>
+                        <LinearGaugeAxisLabelFont Color="#424242" />
                     </LinearGaugeAxisLabelStyle>
-                    <LinearGaugeLine Width="0"/>
-                    <LinearGaugeMajorTicks Height="0" Interval="25"/>
-                    <LinearGaugeMinorTicks Height="0"/>
+                    <LinearGaugeLine Width="0" />
+                    <LinearGaugeMajorTicks Height="0" Interval="25" />
+                    <LinearGaugeMinorTicks Height="0" />
                     <LinearGaugePointers>
                         <LinearGaugePointer Value="80" Height="25" Width="35" Color="#f54ea2" Offset="-40" MarkerType="MarkerType.Triangle"
-                        Placement="Syncfusion.Blazor.LinearGauge.Placement.Near" LinearGradient="@PointerLinearModel" RadialGradient="@PointerRadialModel">
+                                            Placement="Syncfusion.Blazor.LinearGauge.Placement.Near">
+                            <LinearGradient StartValue="@PointerLinearStart" EndValue="@PointerLinearEnd">
+                                <ColorStops>
+                                    <ColorStop Opacity="1" Offset="0%" Color="#fef3f9"></ColorStop>
+                                    <ColorStop Opacity="1" Offset="100%" Color="#f54ea2"></ColorStop>
+                                </ColorStops>
+                            </LinearGradient>
+                            <RadialGradient Radius="@PointerRadialRadius">
+                                <InnerPosition X="@PointerInnerX" Y="@PointerInnerY"></InnerPosition>
+                                <OuterPosition X="@PointerOuterX" Y="@PointerOuterY"></OuterPosition>
+                                <ColorStops>
+                                    <ColorStop Opacity="0.9" Offset="0%" Color="#fff5f5"></ColorStop>
+                                    <ColorStop Opacity="0.8" Offset="100%" Color="#f54ea2"></ColorStop>
+                                </ColorStops>
+                            </RadialGradient>
                         </LinearGaugePointer>
-                    </LinearGaugePointers>                
+                    </LinearGaugePointers>
                     <LinearGaugeRanges>
-                        <LinearGaugeRange Color="#f54ea2" Start="0" End="80" StartWidth="30" EndWidth="30" Offset="30" LinearGradient="@RangeLinearModel" RadialGradient="@RangeRadialModel">
-                        </LinearGaugeRange>                    
+                        <LinearGaugeRange Color="#f54ea2" Start="0" End="80" StartWidth="30" EndWidth="30" Offset="30">
+                            <LinearGradient StartValue="@RangeLinearStart" EndValue="@RangeLinearEnd">
+                                <ColorStops>
+                                    <ColorStop Opacity="1" Offset="0%" Color="#fef3f9"></ColorStop>
+                                    <ColorStop Opacity="1" Offset="100%" Color="#f54ea2"></ColorStop>
+                                </ColorStops>
+                            </LinearGradient>
+                            <RadialGradient Radius="@RangeRadialRadius">
+                                <InnerPosition X="@RangeInnerX" Y="@RangeInnerY"></InnerPosition>
+                                <OuterPosition X="@RangeOuterX" Y="@RangeOuterY"></OuterPosition>
+                                <ColorStops>
+                                    <ColorStop Opacity="0.9" Offset="5%" Color="#fff5f5"></ColorStop>
+                                    <ColorStop Opacity="1" Offset="100%" Color="#f54ea2"></ColorStop>
+                                </ColorStops>
+                            </RadialGradient>
+                        </LinearGaugeRange>
                     </LinearGaugeRanges>
                 </LinearGaugeAxis>
             </LinearGaugeAxes>
@@ -49,8 +77,8 @@
                     </td>
                     <td>
                         <div style="margin-left: -10px">
-                            <SfDropDownList DataSource="@GradientDataSource" Value="@GradientValueTypeValue">
-                                <DropDownListEvents TValue="string" ValueChange="@GradientValueTypeChange" />
+                            <SfDropDownList DataSource="@GradientDataSource" @bind-Value="@GradientValueTypeValue">
+                                <DropDownListEvents TItem="GradientValueType" TValue="string" ValueChange="@GradientValueTypeChange" />
                                 <DropDownListFieldSettings Text="Name" Value="Name" />
                             </SfDropDownList>
                         </div>
@@ -62,8 +90,8 @@
                     </td>
                     <td>
                         <div style="margin-left: -10px">
-                            <SfDropDownList DataSource="@ElementData" Value="@ElementValueTypeValue">
-                                <DropDownListEvents TValue="string" ValueChange="@ElementValueTypeChange" />
+                            <SfDropDownList DataSource="@ElementData" @bind-Value="@ElementValueTypeValue">
+                                <DropDownListEvents TItem="ElementValueType" TValue="string" ValueChange="@ElementValueTypeChange" />
                                 <DropDownListFieldSettings Text="Name" Value="Name" />
                             </SfDropDownList>
                         </div>
@@ -83,45 +111,23 @@
     }
 </style>
 @code{
-    public LinearGradient PointerLinearModel = null;
-    public LinearGradient RangeLinearModel = RangeLinearGradientValue;
-    public RadialGradient PointerRadialModel = null;
-    public RadialGradient RangeRadialModel = null;
-    public static LinearGradient RangeLinearGradientValue = new LinearGradient() {
-        StartValue = "1%",
-        EndValue = "99%",
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=1, Color= "#fef3f9", Offset="1%" },
-            new ColorStop { Opacity=1, Color= "#f54ea2", Offset="99%" }
-        }
-    };
-    public static LinearGradient PointerLinearGradientValue = new LinearGradient() {
-        StartValue = "1%",
-        EndValue = "99%",
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=1, Color= "#fef3f9", Offset="1%" },
-            new ColorStop { Opacity=1, Color= "#f54ea2", Offset="99%" }
-        }
-    };
-    public static RadialGradient RangeRadialGradientValue = new RadialGradient() {
-        Radius="65%",
-        OuterPosition = new OuterPosition(){ X="50%", Y="70%"},
-        InnerPosition = new InnerPosition() { X="60%", Y="60%" },
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=0.9, Color= "#fff5f5", Offset="5%" },
-            new ColorStop { Opacity=1, Color= "#f54ea2", Offset="99%" }
-        }
-    };
-    public static RadialGradient PointerRadialGradientValue = new RadialGradient()
-    {
-        Radius = "60%",
-        OuterPosition = new OuterPosition() { X="50%", Y="50%" },
-        InnerPosition = new InnerPosition() { X="50%", Y="50%" },
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=0.9, Color= "#fff5f5", Offset="1%" },
-            new ColorStop { Opacity=0.8, Color= "#f54ea2", Offset="99%" }
-        }
-    };
+    public string StartValue = "0%";
+    public string EndValue = "100%";
+    public string RadialValue = "65%";
+    public string PointerLinearStart;
+    public string PointerLinearEnd;
+    public string RangeLinearStart = "0%";
+    public string RangeLinearEnd = "100%";
+    public string PointerRadialRadius;
+    public string PointerInnerX;
+    public string PointerInnerY;
+    public string PointerOuterX;
+    public string PointerOuterY;
+    public string RangeRadialRadius;
+    public string RangeInnerX;
+    public string RangeInnerY;
+    public string RangeOuterX;
+    public string RangeOuterY;
     private string GradientValueTypeValue = "Linear Gradient";
     private string ElementValueTypeValue = "Range";
 
@@ -141,59 +147,53 @@
         new ElementValueType{ Name = "Range"},
         new ElementValueType{ Name = "Pointer"}
     };
-    private void GradientValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
-        GradientValueTypeValue = args.Value;
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Range") {
-            PointerLinearModel = null;
-            RangeLinearModel = RangeLinearGradientValue;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
-        }
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = PointerLinearGradientValue;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
-        }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Range") { 
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = RangeRadialGradientValue;
-        }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = PointerRadialGradientValue;
-            RangeRadialModel = null;
-         }
 
+    protected override void OnInitialized()
+    {
+        RangeLinearStart = StartValue;
+        RangeLinearEnd = EndValue;
     }
-    private void ElementValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+
+    private void GradientValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, GradientValueType> args)
+    {
+        GradientValueTypeValue = args.Value;
+        UpdateGauge();
+    }
+    private void ElementValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ElementValueType> args)
+    {
         ElementValueTypeValue = args.Value;
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Range") {
-            PointerLinearModel = null;
-            RangeLinearModel = RangeLinearGradientValue;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
+        UpdateGauge();
+    }
+
+    private void UpdateGauge()
+    {
+        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Range")
+        {
+            RangeLinearStart = StartValue;
+            RangeLinearEnd = EndValue;
+            PointerLinearEnd = PointerLinearStart = string.Empty;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = string.Empty;
         }
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = PointerLinearGradientValue;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
+        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Pointer")
+        {
+            RangeLinearStart = RangeLinearEnd = string.Empty;
+            PointerLinearEnd = EndValue;
+            PointerLinearStart = StartValue;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = string.Empty;
         }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Range") { 
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = RangeRadialGradientValue;
+        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Range")
+        {
+            RangeLinearStart = RangeLinearEnd = PointerLinearEnd = PointerLinearStart = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = string.Empty;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = RadialValue;
         }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = PointerRadialGradientValue;
-            RangeRadialModel = null;
-         }
+        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Pointer")
+        {
+            PointerLinearStart = PointerLinearEnd = RangeLinearStart = RangeLinearEnd = string.Empty;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = RadialValue;
+        }
     }
 }

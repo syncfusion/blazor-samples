@@ -1,20 +1,18 @@
 ﻿
 @page "/rich-text-editor/types"
 
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.RichTextEditor
 @using Syncfusion.Blazor.DropDowns
-@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.RichTextEditor
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates the different behavior of toolbar support in the Rich Text Editor. Change the toolbar type as multiRow or expand from the property panel to see its appearance . Check or uncheck the floating toolbar in property panel to look on its behavior.</p>
+    <p>This sample demonstrates the different behavior of toolbar support in the Rich Text Editor. Change the toolbar type as multiRow or expand from the property panel to see its appearance.</p>
 </SampleDescription>
 <ActionDescription>
-   <p><code>Floating</code>: set boolean value to toolbarSettings.<code>enableFloating</code> property to enable or disable the floating toolbar.</p>
-   <p> The Rich Text Editor allows you to configure different types of toolbar using <code>ToolbarSettings.Type</code> property. The types of toolbar are: </p>
-    <ul><li><code>Expand</code>: The toolbar hides the overflowing items in the next row. Click the expand arrow to view overflowing toolbar items</li>
+    <p> The Rich Text Editor allows you to configure different types of toolbar using <code>ToolbarSettings.Type</code> property. The types of toolbar are: </p>
+    <ul>
+        <li><code>Expand</code>: The toolbar hides the overflowing items in the next row. Click the expand arrow to view overflowing toolbar items</li>
         <li><code>MultiRow</code>: The toolbar hides the overflowing items in the next row.</li>
     </ul>
 </ActionDescription>
@@ -75,8 +73,8 @@
                         <p>Provides an option to customize quick toolbar for an image </p>
                     </li>
                 </ol>
-                <img alt="Logo" src="images/RichTextEditor/RTEImage-Feather.png" />
-                <RichTextEditorToolbarSettings Type="@Tooltype" EnableFloating="@Floating" Items="@Tools"></RichTextEditorToolbarSettings>
+                <img alt="Logo" src="images/rich-text-editor/rte-image-feather.png" />
+                <RichTextEditorToolbarSettings Type="@Tooltype" Items="@Tools" />
             </ChildContent>
         </SfRichTextEditor>
     </div>
@@ -90,16 +88,9 @@
                     <td>
                         <div style="width: 200px">
                             <SfDropDownList @ref="DropObj" TItem="GameFields" TValue="string" PopupHeight="200px" @bind-Value="@DropValue" DataSource="@Options">
-                                <DropDownListEvents TValue="string" ValueChange="valueChange"></DropDownListEvents>
-                                <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                <DropDownListFieldSettings Text="text" Value="value" />
+                                <DropDownListEvents TValue="string" TItem="GameFields" ValueChange="valueChange" />
                             </SfDropDownList>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div>
-                            <SfCheckBox @ref="CheckObj" @bind-Checked="@checkboxCheck" ValueChange="EnableFloating" Label="Enable Floating" TChecked="bool"></SfCheckBox>
                         </div>
                     </td>
                 </tr>
@@ -121,21 +112,39 @@
 
 @code{
     SfDropDownList<string, GameFields> DropObj;
-    SfCheckBox<bool> CheckObj;
 
-    private bool checkboxCheck { get; set; } = false;
     private ToolbarType Tooltype = ToolbarType.Expand;
-    private bool Floating = false;
     private string DropValue { get; set; } = "Expand";
 
-    private static object[] Tools = new object[]{
-        "Bold", "Italic", "Underline", "StrikeThrough",
-        "FontName", "FontSize", "FontColor", "BackgroundColor",
-        "LowerCase", "UpperCase", "|",
-        "Formats", "Alignments", "OrderedList", "UnorderedList",
-        "Outdent", "Indent", "|",
-        "CreateLink", "Image", "|", "ClearFormat", "Print",
-        "SourceCode", "|", "Undo", "Redo"
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontName },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontSize },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.LowerCase },
+        new ToolbarItemModel() { Command = ToolbarCommand.UpperCase },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.ClearFormat },
+        new ToolbarItemModel() { Command = ToolbarCommand.Print },
+        new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
 
     private class GameFields
@@ -149,7 +158,7 @@
         new GameFields(){ value= "Multi Row", text= "Multi Row" },
     };
 
-    private void valueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void valueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, GameFields> args)
     {
         switch (args.Value)
         {
@@ -160,10 +169,5 @@
                 this.Tooltype = ToolbarType.MultiRow;
                 break;
         }
-    }
-
-    private void EnableFloating(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        this.Floating = args.Checked;
     }
 }

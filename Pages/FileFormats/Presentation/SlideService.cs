@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateNewSlide()
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Slides.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("slides.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
 
             //Method call to create slides
@@ -48,7 +48,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
 		
@@ -245,8 +245,9 @@ namespace blazor_samples.Data.FileFormats.Presentation
             IShape shape3 = (IShape)slide2.Shapes[2];
             slide2.Shapes.RemoveAt(2);
 
-            //Add a picture to the slide           
-            FileStream imageStream = new FileStream(ResolveApplicationPath("tablet.jpg"), FileMode.Open, FileAccess.Read);
+            //Add a picture to the slide
+            string imagePath = _hostingEnvironment.WebRootPath + "//images//presentation//tablet.png";
+            FileStream imageStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
            
             IPicture picture1 = slide2.Shapes.AddPicture(imageStream, 0.81 * 72, 1.96 * 72, 6.63 * 72, 4.43 * 72);
             imageStream.Dispose();

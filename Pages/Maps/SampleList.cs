@@ -191,7 +191,7 @@ namespace blazor_samples
                 Directory = "Maps/Maps",
                 Url = "maps/print",
                 FileName = "Print.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -200,7 +200,7 @@ namespace blazor_samples
                 Directory = "Maps/Maps",
                 Url = "maps/export",
                 FileName = "Export.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {

@@ -29,7 +29,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream CreateEquation(string documentType)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/CreateEquation.docx";
+            string dataPath = basePath + @"data/docio/create-equation.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             // Creates an empty Word document instance

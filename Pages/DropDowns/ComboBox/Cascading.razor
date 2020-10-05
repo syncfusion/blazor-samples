@@ -9,20 +9,20 @@
     <p>This sample demonstrates the cascading functionalities of the ComboBox. Choose a country from countries ComboBox, then respective states will be loaded in the second ComboBox.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The <code>Cascading</code> ComboBox is the series of ComboBox, where the value of one ComboBox depends on the another ComboBox value. This can be configured by using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.DropDowns.ComboBoxEvents%601~ValueChange.html' target='_blank'> ValueChange</a> event of parent ComboBox. Within that change event handler, you should load the data to child ComboBox based on the selected value of parent ComboBox.</p>
+   <p>The <code>Cascading</code> ComboBox is the series of ComboBox, where the value of one ComboBox depends on the another ComboBox value. This can be configured by using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.ComboBoxEvents-1.html#Syncfusion_Blazor_DropDowns_ComboBoxEvents_1_ValueChange' target='_blank'> ValueChange</a> event of parent ComboBox. Within that change event handler, you should load the data to child ComboBox based on the selected value of parent ComboBox.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="control-wrapper">
         <div class="padding-top">
             <SfComboBox TValue="string" TItem="Countries" Placeholder="Select a country" AllowCustom="false" PopupHeight="auto" DataSource="@Country">
-                <ComboBoxEvents TValue="string" ValueChange="ChangeCountry"></ComboBoxEvents>
+                <ComboBoxEvents TValue="string" TItem="Countries" ValueChange="ChangeCountry"></ComboBoxEvents>
                 <ComboBoxFieldSettings Text="CountryName" Value="CountryId"></ComboBoxFieldSettings>
             </SfComboBox>
         </div>
         <div class="padding-top">
             <SfComboBox TValue="string" TItem="State" Enabled="@EnableStateDropDown" @bind-Value="@StateValue" Placeholder="Select a state" Query="@StateQuery" AllowCustom="false" PopupHeight="auto" DataSource="@States">
-                <ComboBoxEvents TValue="string" ValueChange="ChangeState"></ComboBoxEvents>
+                <ComboBoxEvents TValue="string" TItem="State" ValueChange="ChangeState"></ComboBoxEvents>
                 <ComboBoxFieldSettings Text="StateName" Value="StateId"></ComboBoxFieldSettings>
             </SfComboBox>
         </div>
@@ -55,7 +55,7 @@
     public string CityValue { get; set; } = null;
     public Query CityQuery { get; set; } = null;
 
-    public void ChangeCountry(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    public void ChangeCountry(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Countries> args)
     {
         this.EnableStateDropDown = true;
         this.StateQuery = new Query().Where(new WhereFilter() { Field = "CountryId", Operator = "equal", value = args.Value, IgnoreCase = false, IgnoreAccent = false });
@@ -63,7 +63,7 @@
         this.CityValue = null;
     }
 
-    public void ChangeState(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    public void ChangeState(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, State> args)
     {
         this.EnableCitytDropDown = true;
         this.CityQuery = new Query().Where(new WhereFilter() { Field = "StateId", Operator = "equal", value = args.Value, IgnoreCase = false, IgnoreAccent = false });

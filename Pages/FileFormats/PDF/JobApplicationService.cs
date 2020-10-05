@@ -43,12 +43,10 @@ namespace blazor_samples.Data.FileFormats.PDF
             RectangleF bounds = new RectangleF(180, 65, 156, 15);
             PdfUnitConverter con = new PdfUnitConverter();
 
-            string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = string.Empty;
-            dataPath = basePath + @"/PDF/";
+
 
             //Read the file
-            FileStream file = new FileStream(ResolveApplicationPath("Careers.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream file = new FileStream(ResolveApplicationImagePath("careers.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             PdfImage img = new PdfBitmap(file);
 
@@ -408,9 +406,9 @@ namespace blazor_samples.Data.FileFormats.PDF
         }
         #region HelperMethod  
 
-        private string ResolveApplicationPath(string fileName)
+        private string ResolveApplicationImagePath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//images//pdf//" + fileName;
         }       
         #endregion
     }

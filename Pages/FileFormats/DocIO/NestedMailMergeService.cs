@@ -30,9 +30,9 @@ namespace blazor_samples.Data.FileFormats.DocIO
             string basePath = @"wwwroot/";
             string dataPath = null;
             if (Group1 == "Report")
-                dataPath = basePath + @"/DocIO/Template_Report.doc";
+                dataPath = basePath + @"data/docio/template-report.doc";
             else
-                dataPath = basePath + @"/DocIO/Template_Letter.doc";
+                dataPath = basePath + @"data/docio/template-letter.doc";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {
@@ -110,7 +110,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             List<CustomerDetails> customers = new List<CustomerDetails>();
             List<OrderDetails> orders = new List<OrderDetails>();
 
-            FileStream stream = new FileStream(basePath + @"/DocIO/Employees.xml", FileMode.OpenOrCreate);
+            FileStream stream = new FileStream(basePath + @"data/docio/employees.xml", FileMode.OpenOrCreate);
 
             XmlReader reader = XmlReader.Create(stream);
 
@@ -299,7 +299,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         {
             List<EmployeeDetailsImplicit> employees = new List<EmployeeDetailsImplicit>();
 
-            FileStream stream = new FileStream(basePath + @"/DocIO/Employees.xml", FileMode.OpenOrCreate);
+            FileStream stream = new FileStream(basePath + @"data/docio/employees.xml", FileMode.OpenOrCreate);
 
             XmlReader reader = XmlReader.Create(stream);
 

@@ -6,28 +6,21 @@ using System.Threading.Tasks;
 
 namespace blazor_samples.Pages.Diagram.Diagram
 {
-    public class FileUtil
+    public static class FileUtil
     {
         public async static Task SaveAs(IJSRuntime js, string data)
         {
-            await js.InvokeAsync<object>(
-                "saveDiagram",
-                Convert.ToString(data));
+#pragma warning disable CA1305 // Specify IFormatProvider
+            _ = await js.InvokeAsync<object>("sfBlazorSB.saveDiagram", Convert.ToString(data)).ConfigureAwait(false);
+#pragma warning restore CA1305 // Specify IFormatProvider
         }
         public async static Task Click(IJSRuntime js)
         {
-            await js.InvokeAsync<object>(
-                "click");
+            await js.InvokeAsync<object>("sfBlazorSB.uploadFilesClick").ConfigureAwait(false);
         }
         public async static Task<string> LoadFile(IJSRuntime js, object data)
         {
-            return await js.InvokeAsync<string>(
-                  "loadFile", data);
-        }
-
-        public async static Task SetGradient(IJSRuntime js, int level)
-        {
-            await js.InvokeAsync<object>("setWaterLevel", level);
+            return await js.InvokeAsync<string>("sfBlazorSB.loadFile", data).ConfigureAwait(false);
         }
     }
 }

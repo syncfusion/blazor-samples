@@ -65,7 +65,7 @@ namespace blazor_samples
                Directory = "LinearGauge/LinearGauge",
                Url = "linear-gauge/gradient-color",
                FileName = "GradientColor.razor",
-               Type = SampleType.New
+               Type = SampleType.None
             },
             new Sample
             {
@@ -92,7 +92,7 @@ namespace blazor_samples
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/export",
                 FileName = "Export.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             }
          };
     }

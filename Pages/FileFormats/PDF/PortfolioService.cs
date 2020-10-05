@@ -42,22 +42,22 @@ namespace blazor_samples.Data.FileFormats.PDF
            
 
             //Read the file
-            FileStream file = new FileStream(ResolveApplicationPath("CorporateBrochure.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream file = new FileStream(ResolveApplicationPath("corporate-brochure.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Creating the attachment
-            PdfAttachment pdfFile = new PdfAttachment("CorporateBrochure.pdf",file);
+            PdfAttachment pdfFile = new PdfAttachment("corporate-brochure.pdf", file);
             pdfFile.FileName = "CorporateBrochure.pdf";
 
-            file = new FileStream(ResolveApplicationPath("Stock.docx"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            file = new FileStream(ResolveApplicationPath("stock.docx"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Creating the attachement
-            PdfAttachment wordfile = new PdfAttachment("Stock.docx",file);
+            PdfAttachment wordfile = new PdfAttachment("stock.docx",file);
             wordfile.FileName = "Stock.docx";
 
-            file = new FileStream(ResolveApplicationPath("Chart.xlsx"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            file = new FileStream(ResolveApplicationPath("chart.xlsx"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Creating the attachement
-            PdfAttachment excelfile = new PdfAttachment("Chart.xlsx",file);
+            PdfAttachment excelfile = new PdfAttachment("chart.xlsx",file);
             excelfile.FileName = "Chart.xlsx";
 
             //Setting the startup document to view
@@ -86,7 +86,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

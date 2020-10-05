@@ -30,7 +30,7 @@ namespace blazor_samples.Pages.FileFormats.DocIO
         public MemoryStream WordToWordML(string button)
         {
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"/DocIO/DocToWordML.doc";
+            string dataPath = basePath + @"/data/docio/doc-to-wordml.doc";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {

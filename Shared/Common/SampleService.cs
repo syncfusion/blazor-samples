@@ -37,6 +37,26 @@ namespace blazor_samples.Shared
         /// </summary>
         public string LastSampleUrl { get; set; }
 
+        /// <summary>
+        /// Specifies the image url starts path.
+        /// </summary>
+        public string ImagePath { get; set; }
+        /// <summary>
+        /// Specifies the showcase image url starts path.
+        /// </summary>
+        public string ShowCaseImagePath { get; set; }
+
+        public SampleService()
+        {
+#if DEBUG
+            ImagePath = "./images/common/";
+            ShowCaseImagePath = "./images/showcase/";
+#else
+            ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
+            ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
+#endif
+        }
+
         // Updates the SampleInfo and ComponentName based on current loaded uri.
         internal void Update(NavigationManager urlHelper)
         {
@@ -76,6 +96,19 @@ namespace blazor_samples.Shared
                     {
 
                     }
+                }
+                // Navigate a Sample using Component Name
+                else if (splittedUrl.Length < 2 && splittedUrl.Length > 0)
+                {
+                    string categoryName = splittedUrl[splittedUrl.Length - 1];
+                    categoryName = categoryName.Replace("-", string.Empty);
+                    var controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
+                    if (controlInfo.Samples.Count > 0)
+                    {
+                        this.SampleInfo = controlInfo.Samples.First();
+                    }
+                    this.ComponentName = controlInfo.Name;
+                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=bootstrap4");
                 }
             }
         }

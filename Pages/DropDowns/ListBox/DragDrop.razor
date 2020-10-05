@@ -20,15 +20,15 @@
     <div id="drag-drop-wrapper">
         <div class="listbox-control">
             <h4>Group A</h4>
-            <SfListBox ID="listbox1" DataSource="@GroupA" Scope="combined-list" TItem="ListData" AllowDragAndDrop="true" Height="330px" TValue="string[]">
-                <ListBoxFieldSettings Text="Name"></ListBoxFieldSettings>
+            <SfListBox @ref="listbox1" DataSource="@GroupA" Scope="@listbox2" TItem="ListData" AllowDragAndDrop="true" Height="330px" TValue="string[]">
+                <ListBoxFieldSettings Text="Name" Value="Code"></ListBoxFieldSettings>
             </SfListBox>
         </div>
         <span class="e-swap-icon"></span>
         <div class="listbox-control">
             <h4>Group B</h4>
-            <SfListBox ID="listbox2" DataSource="@GroupB"  Scope="combined-list"  TItem="ListData" AllowDragAndDrop="true" Height="330px" TValue="string[]">
-                <ListBoxFieldSettings Text="Name"></ListBoxFieldSettings>
+            <SfListBox @ref="listbox2" DataSource="@GroupB"  Scope="@listbox1"  TItem="ListData" AllowDragAndDrop="true" Height="330px" TValue="string[]">
+                <ListBoxFieldSettings Text="Name" Value="Code"></ListBoxFieldSettings>
             </SfListBox>
         </div>
     </div>
@@ -36,8 +36,9 @@
 
 
 @code{
-
-    public List<ListData> GroupA = new List<ListData> {
+    SfListBox<string[], ListData> listbox1;
+    SfListBox<string[], ListData> listbox2;
+    private List<ListData> GroupA = new List<ListData> {
         new ListData { Name = "Australia", Code = "AU" },
         new ListData { Name = "Bermuda", Code = "BM" },
         new ListData { Name = "Canada", Code = "CA" },
@@ -48,27 +49,28 @@
         new ListData { Name = "Germany", Code = "DE" },
         new ListData { Name = "Hong Kong", Code = "HK" }
     };
-
-
-    public List<ListData> GroupB = new List<ListData> {
-                new ListData { Name = "India", Code = "IN" },
-                new ListData { Name = "Italy", Code = "IT" },
-                new ListData { Name = "Japan", Code = "JP" },
-                new ListData { Name = "Mexico", Code = "MX" },
-                new ListData { Name = "Norway", Code = "NO" },
-                new ListData { Name = "Poland", Code = "PL" },
-                new ListData { Name = "Switzerland", Code = "CH" },
-                new ListData { Name = "United Kingdom", Code = "GB" },
-                new ListData { Name = "United States", Code = "US" }
+    private List<ListData> GroupB = new List<ListData> {
+        new ListData { Name = "India", Code = "IN" },
+        new ListData { Name = "Italy", Code = "IT" },
+        new ListData { Name = "Japan", Code = "JP" },
+        new ListData { Name = "Mexico", Code = "MX" },
+        new ListData { Name = "Norway", Code = "NO" },
+        new ListData { Name = "Poland", Code = "PL" },
+        new ListData { Name = "Switzerland", Code = "CH" },
+        new ListData { Name = "United Kingdom", Code = "GB" },
+        new ListData { Name = "United States", Code = "US" }
     };
-
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+            StateHasChanged(); // Re-render component to update the ListBox component Scope references in each connected ListBox.
+    }
     public class ListData
     {
         public string Name { get; set; }
-
         public string Code { get; set; }
     }
-
 }
 
 <style>

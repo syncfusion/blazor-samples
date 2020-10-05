@@ -51,10 +51,11 @@ namespace blazor_samples.Data.FileFormats.Presentation
             heading.TextBody.Paragraphs[0].Font.FontSize = 18;
             
             //Get the word file as stream
-            Stream wordStream = new FileStream(ResolveApplicationPath("OleTemplate.docx"), FileMode.Open);
+            Stream wordStream = new FileStream(ResolveApplicationPath("ole-template.docx"), FileMode.Open);
             
             //Image to be displayed, This can be any image
-            Stream imageStream = new FileStream(ResolveApplicationPath("OlePicture.png"), FileMode.Open);
+			string imagePath = _hostingEnvironment.WebRootPath + "//images//presentation//ole-picture.png";
+            Stream imageStream = new FileStream(imagePath, FileMode.Open);
 
             IOleObject oleObject = slide.Shapes.AddOleObject(imageStream, "Word.Document.12", wordStream);
             //Set size and position of the ole object
@@ -79,7 +80,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream ExtractOleObject()
         {
             //Opens the presentation document as stream
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("EmbeddedOleObject.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("embedded-ole-object.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation pptxDoc = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //New Instance of PowerPoint is Created.[Equivalent to launching MS PowerPoint with no slides].  
 
@@ -102,7 +103,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion        
     }

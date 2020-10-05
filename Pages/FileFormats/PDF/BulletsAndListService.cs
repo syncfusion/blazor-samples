@@ -98,7 +98,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             dataPath = basePath + @"/PDF/";
 
             //Read the file
-            FileStream file = new FileStream(ResolveApplicationPath("logo.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream file = new FileStream(ResolveApplicationImagePath("logo.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             PdfImage image = PdfImage.FromStream(file);
             font = new PdfStandardFont(PdfFontFamily.TimesRoman, 10, PdfFontStyle.Regular);
@@ -127,9 +127,9 @@ namespace blazor_samples.Data.FileFormats.PDF
             return ms;
         }
         #region HelperMethod
-        private string ResolveApplicationPath(string fileName)
+        private string ResolveApplicationImagePath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//images//pdf//" + fileName;
         }
         #endregion
     }

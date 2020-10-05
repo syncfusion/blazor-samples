@@ -34,7 +34,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             MemoryStream stream_Empty = new MemoryStream();
 
             //Read the PFX file
-            FileStream pfxFile = new FileStream(ResolveApplicationPath("PDF.pfx"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream pfxFile = new FileStream(ResolveApplicationPath("pdf.pfx"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             PdfDocument doc = new PdfDocument();
             PdfPage page = doc.Pages.Add();
@@ -43,7 +43,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             PdfFont font = new PdfStandardFont(PdfFontFamily.Courier, 12, PdfFontStyle.Regular);
             PdfCertificate pdfCert = new PdfCertificate(pfxFile, "password123");
             PdfSignature signature = new PdfSignature(page, pdfCert, "Signature");
-            FileStream jpgFile = new FileStream(ResolveApplicationPath("logo.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream jpgFile = new FileStream(ResolveApplicationImagePath("logo.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             PdfBitmap bmp = new PdfBitmap(jpgFile);
             signature.Bounds = new RectangleF(new PointF(5, 5), page.GetClientSize());
             signature.ContactInfo = "johndoe@owned.us";
@@ -120,7 +120,11 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
+        }
+        private string ResolveApplicationImagePath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//images//pdf//" + fileName;
         }
         #endregion
     }
