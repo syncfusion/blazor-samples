@@ -15,6 +15,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/default-functionalities",
                 Type = SampleType.None,
+                FileName="DefaultFunctionalities.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -35,6 +36,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/clipboard",
+                FileName="Clipboard.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -49,13 +51,13 @@ namespace blazor_samples
                     }
                 }
             },
-
             new Sample
             {
                 Name = "Context Menu",
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/context-menu",
+                FileName="ContextMenu.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -73,11 +75,20 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Remote Data",
-                Category = "Tree Grid",
+                Category = "Data Binding",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/remote-data",
                 FileName = "RemoteData.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "ExpandoObject Binding",
+                Category = "Data Binding",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/expando-object",
+                FileName = "TreeGridExpandoObject.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -86,6 +97,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/conditional-formatting",
                 Type = SampleType.None,
+                FileName="ConditionalFormatting.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -107,6 +119,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/aggregate",
                 Type = SampleType.None,
+                FileName="Aggregate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -120,14 +133,15 @@ namespace blazor_samples
                         FileName="ShipmentData.cs"
                     }
                 }
-            },
+            },            
             new Sample
              {
                  Name = "Column Chooser",
                  Category = "Columns",
                  Directory = "TreeGrid/TreeGrid",
                  Url = "tree-grid/columnchooser",
-                 Type = SampleType.New,
+                 Type = SampleType.None,
+                 FileName="TreeColumnChooser.razor",
                  SourceFiles = new List<SourceCollection>()
                  {
                      new SourceCollection
@@ -149,6 +163,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/column-template",
                 Type = SampleType.None,
+                FileName="ColumnTemplate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -170,6 +185,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/auto-wrap",
                 Type = SampleType.None,
+                FileName="AutoWrap.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -191,6 +207,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/show-or-hide",
                 Type = SampleType.None,
+                FileName="ShowOrHide.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -212,6 +229,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/header-template",
                 Type = SampleType.None,
+                FileName="Headerstemplate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -233,6 +251,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/column-menu",
                 Type = SampleType.None,
+                FileName = "ColumnMenu.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -254,6 +273,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/resizing",
                 Type = SampleType.None,
+                FileName="Resizing.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -275,6 +295,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/reorder",
                 Type = SampleType.None,
+                FileName="Reorder.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -296,6 +317,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/frozen-column",
                 Type = SampleType.None,
+                FileName="FrozenColumn.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -317,6 +339,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-hover",
                 Type = SampleType.None,
+                FileName="RowHover.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -331,6 +354,50 @@ namespace blazor_samples
                     }
                 }
             },
+             new Sample
+            {
+                Name = "Row Drag And Drop",
+                Category = "Rows",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/row-drag-and-drop",
+                Type = SampleType.New,
+                FileName="RowDragAndDrop.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="RowDragAndDrop",
+                        FileName="RowDragAndDrop.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DragData",
+                        FileName="WrapData.cs"
+                    }
+                }
+            },
+              new Sample
+            {
+                Name = "Drag And Drop Within Tree Grid",
+                Category = "Rows",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/draganddrop-within-grid",
+                Type = SampleType.New,
+                FileName="DragAndDropWithinGrid.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DragAndDropWithinGrid",
+                        FileName="DragAndDropWithinGrid.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DropData",
+                        FileName="WrapData.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Row Height",
@@ -338,6 +405,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-height",
                 Type = SampleType.None,
+                FileName="RowHeight.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -359,6 +427,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/tree-grid-row-template",
                 Type = SampleType.None,
+                FileName="TreeGridRowTemplate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -402,6 +471,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/inline-editing",
                 Type = SampleType.None,
+                FileName="InlineEditing.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -423,6 +493,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/dialog-editing",
                 Type = SampleType.None,
+                FileName="DialogEditing.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -443,6 +514,7 @@ namespace blazor_samples
                 Category = "Editing",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/batch-editing",
+                FileName="BatchEditing.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -464,6 +536,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/cell-edit-type",
                 Type = SampleType.None,
+                FileName="CellEditType.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -485,6 +558,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/command-column",
                 Type = SampleType.None,
+                FileName="CommandColumn.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -506,6 +580,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/cell-edit-template",
                 Type = SampleType.None,
+                FileName="CellEditTemplate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -527,6 +602,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/sorting",
                 Type = SampleType.None,
+                FileName="Sorting.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -548,6 +624,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/default-filtering",
                 Type = SampleType.None,
+                FileName="DefaultFiltering.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -569,6 +646,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/filter-bar-template",
                 Type = SampleType.None,
+                FileName="FilterBarTemplate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -590,6 +668,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/menu-filter",
                 Type = SampleType.None,
+                FileName="MenuFilter.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -611,6 +690,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/search",
                 Type = SampleType.None,
+                FileName="Search.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -632,6 +712,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/selection",
                 Type = SampleType.None,
+                FileName="Selection.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -653,6 +734,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/selection-api",
                 Type = SampleType.None,
+                FileName="SelectionAPI.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -674,6 +756,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/paging",
                 Type = SampleType.None,
+                FileName="Paging.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -690,11 +773,34 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Virtual Scrolling",
+                Category = "Tree Grid",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/virtual-scrolling",
+                Type = SampleType.New,
+                FileName="VirtualScrolling.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id = "VirtualScrolling",
+                        FileName = "VirtualScrolling.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id = "VirtualScrollData",
+                        FileName = "VirtualData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
                 Name = "Checkbox Selection",
                 Category = "Selection",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/checkbox-selection",
                 Type = SampleType.None,
+                FileName="CheckboxSelection.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -716,6 +822,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/exporting",
                 Type = SampleType.None,
+                FileName="Exporting.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -737,6 +844,7 @@ namespace blazor_samples
                Directory = "TreeGrid/TreeGrid",
                Url = "tree-grid/print",
                Type = SampleType.None,
+               FileName="Print.razor",
                SourceFiles = new List<SourceCollection>()
                {
                    new SourceCollection
@@ -758,6 +866,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/tool-bar-template",
                 Type = SampleType.None,
+                FileName="ToolBarTemplate.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -779,6 +888,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/keyboard-interaction",
                 Type = SampleType.None,
+                FileName="KeyboardInteraction.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

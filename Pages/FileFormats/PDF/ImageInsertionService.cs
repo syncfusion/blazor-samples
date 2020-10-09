@@ -39,7 +39,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             g.DrawString("JPEG Image", font, PdfBrushes.Blue, new Syncfusion.Drawing.PointF(0, 40));
 
             //Load JPEG image to stream.
-            FileStream jpgImageStream = new FileStream(ResolveApplicationPath( "Xamarin_JPEG.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream jpgImageStream = new FileStream(ResolveApplicationPath( "xamarin-jpeg.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Load the JPEG image
             PdfImage jpgImage = new PdfBitmap(jpgImageStream);
@@ -50,7 +50,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             g.DrawString("PNG Image", font, PdfBrushes.Blue, new Syncfusion.Drawing.PointF(0, 355));
 
             //Load PNG image to stream.
-            FileStream pngImageStream = new FileStream(ResolveApplicationPath("Xamarin_PNG.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream pngImageStream = new FileStream(ResolveApplicationImagePath("xamarin-png.png"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Load the PNG image
             PdfImage pngImage = new PdfBitmap(pngImageStream);
@@ -71,7 +71,11 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
+        }
+        private string ResolveApplicationImagePath(string fileName)
+        {
+            return _hostingEnvironment.WebRootPath + "//images//pdf//" + fileName;
         }
         #endregion
     }

@@ -20,7 +20,7 @@
         <TreeMapTooltipSettings Visible="true" Format="${State}<br>Rank : ${Rank}"/>
         <TreeMapLeafItemSettings LabelPath="State" LabelFormat="${State}<br>$${GDP} Trillion<br>(${Percentage} %)">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping From="1550" To="17946" Color="@LeafColor" MinOpacity="0.7" MaxOpacity="1"/>
+                <TreeMapLeafColorMapping StartRange="1550" EndRange="17946" Color="@LeafColor" MinOpacity="0.7" MaxOpacity="1"/>
             </TreeMapLeafColorMappings>
             <TreeMapLeafLabelStyle Color="#000000"/>
             <TreeMapLeafBorder Color="#000000" Width="0.5"/>
@@ -42,8 +42,8 @@
                             Layout Type
                         </td>
                         <td>
-                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LayoutList" Value="@LayoutValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="LayoutTypechange"/>
+                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LayoutList" @bind-Value="@LayoutValue" Width="120px">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LayoutTypechange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -53,8 +53,8 @@
                             Render Direction
                         </td>
                         <td>
-                            <SfDropDownList Placeholder="Select intersect action" DataSource="@RenderingList" Value="@RenderValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="RenderDirectionchange"/>
+                            <SfDropDownList Placeholder="Select intersect action" DataSource="@RenderingList" @bind-Value="@RenderValue" Width="120px">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="RenderDirectionchange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -74,7 +74,7 @@
 </style>
 @code {
     public LayoutMode LayoutModes = LayoutMode.Squarified;
-    public string LeafColor = "#9cbb59"; 
+    public string[] LeafColor = new string[] { "#9cbb59" };
     public RenderingMode RenderMode = RenderingMode.TopLeftBottomRight;
     public string LayoutValue = "Squarified";
     public string RenderValue = "TopLeftBottomRight";
@@ -94,7 +94,7 @@
         new DropdownList { Value="BottomLeftTopRight", Name="BottomLeftTopRight" },
         new DropdownList { Value="BottomRightTopLeft", Name="BottomRightTopLeft" }
     };
-    private void LayoutTypechange(ChangeEventArgs<string> args) {
+    private void LayoutTypechange(ChangeEventArgs<string,DropdownList> args) {
         LayoutValue = args.Value;
         if (args.Value == "Squarified") {
             LayoutModes = LayoutMode.Squarified;
@@ -109,7 +109,7 @@
             LayoutModes = LayoutMode.SliceAndDiceAuto;
         }
     }
-    private void RenderDirectionchange(ChangeEventArgs<string> args) {
+    private void RenderDirectionchange(ChangeEventArgs<string, DropdownList> args) {
         RenderValue = args.Value;
         if (args.Value == "TopLeftBottomRight") {
             RenderMode = RenderingMode.TopLeftBottomRight;
@@ -125,10 +125,10 @@
         }
     }
     public class LeafData {
-        public string State;
-        public int GDP;
-        public double Percentage;
-        public int Rank;
+        public string State { get; set; }
+        public int GDP { get; set; }
+        public double Percentage { get; set; }
+        public int Rank { get; set; }
     };
     public List<LeafData> Economics = new List<LeafData> {
         new LeafData { State="United States", GDP=17946, Percentage=11.08, Rank=1},

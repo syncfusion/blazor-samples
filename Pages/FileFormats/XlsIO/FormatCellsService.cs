@@ -154,7 +154,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                 #endregion
 
                 #region Insert Image
-                FileStream imageStream = new FileStream(ResolveApplicationImagePath("EMPID1.png"), FileMode.Open, FileAccess.Read);
+                FileStream imageStream = new FileStream(ResolveApplicationImagePath("empid1.png"), FileMode.Open, FileAccess.Read);
                 sheet.Pictures.AddPicture(11, 4, imageStream, 55, 65);
                 #endregion
 
@@ -228,7 +228,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationImagePath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Images//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//images//xlsio//" + fileName;
         }
         #endregion
     }

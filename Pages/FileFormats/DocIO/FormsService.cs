@@ -55,7 +55,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
 
             IWParagraph cellPara = row.Cells[0].AddParagraph();
             string basePath = _hostingEnvironment.WebRootPath;
-            FileStream imageStream = new FileStream(basePath + @"/images/DocIO/Image.jpg", FileMode.Open, FileAccess.Read);
+            FileStream imageStream = new FileStream(basePath + @"/images/docio/image.png", FileMode.Open, FileAccess.Read);
             IWPicture pic = cellPara.AppendPicture(imageStream);
             pic.Height = 80;
             pic.Width = 180;

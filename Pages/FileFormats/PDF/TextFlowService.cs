@@ -39,7 +39,7 @@ namespace blazor_samples.Data.FileFormats.PDF
 
             string basePath = _hostingEnvironment.WebRootPath;
             //Read the file
-            FileStream file = new FileStream(ResolveApplicationPath("Manual.txt"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream file = new FileStream(ResolveApplicationPath("manual.txt"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Read the text from the text file           
             StreamReader reader = new StreamReader(file, System.Text.Encoding.ASCII);
@@ -115,7 +115,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

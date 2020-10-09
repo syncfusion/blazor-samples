@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Data
-@using Newtonsoft.Json;
+@using System.Collections
 @using blazor_samples
 @using blazor_griddata
 @inherits SampleBaseComponent;
@@ -32,9 +32,39 @@
     <div class="content-wrapper">
         <div class="row">
 
-            <SfGrid TValue="Order" AllowPaging="true" Toolbar="@(new string[] {"Add","Edit","Delete","Update","Cancel"})">
+            <SfGrid TValue="Order" AllowPaging="true" AllowGrouping="true" Toolbar="@(new string[] {"Add","Edit","Delete","Update","Cancel"})">
                 <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
                 <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Normal"></GridEditSettings>
+                <GridAggregates>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field=@nameof(Order.Freight) Type="AggregateType.Sum" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Sum: @aggregate.Sum</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field=@nameof(Order.Freight) Type="AggregateType.Average" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Average: @aggregate.Average</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                </GridAggregates>
                 <GridColumns>
                     <GridColumn Field=@nameof(Order.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="@TextAlign.Right" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" HeaderTextAlign="@TextAlign.Right" Width="140"></GridColumn>
                     <GridColumn Field=@nameof(Order.CustomerID) HeaderText="Customer Name" ValidationRules="@(new ValidationRules{ Required=true})" Width="150"></GridColumn>
@@ -57,17 +87,34 @@
 
         public override async Task<Object> ReadAsync(DataManagerRequest dataManagerRequest, string key = null)
         {
-            IEnumerable<Order> GridData = Orders;
+            IEnumerable GridData = Orders;
+            IEnumerable DataSource = Orders;
             await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            if (dataManagerRequest.Sorted?.Count > 0) // perform Sorting
+            {
+                GridData = DataOperations.PerformSorting(GridData, dataManagerRequest.Sorted);
+            }
             if (dataManagerRequest.Skip != 0)
             {
-                GridData = GridData.Skip(dataManagerRequest.Skip); //Paging
+                GridData = DataOperations.PerformSkip(GridData, dataManagerRequest.Skip); //Paging
             }
             if (dataManagerRequest.Take != 0)
             {
-                GridData = GridData.Take(dataManagerRequest.Take);
+                GridData = DataOperations.PerformTake(GridData, dataManagerRequest.Take);
             }
-            return dataManagerRequest.RequiresCounts ? new DataResult() { Result = GridData, Count = Order.GetAllRecords().Count()} : (object)GridData;
+            IDictionary<string, object> aggregates = new Dictionary<string, object>();
+            if (dataManagerRequest.Aggregates != null) // Aggregation
+            {
+                aggregates = DataUtil.PerformAggregation(DataSource, dataManagerRequest.Aggregates);
+            }
+            if (dataManagerRequest.Group != null && dataManagerRequest.Group.Any()) //Grouping
+            {
+                foreach (var group in dataManagerRequest.Group)
+                {
+                    GridData = DataUtil.Group<Order>(GridData, group, dataManagerRequest.Aggregates, 0, dataManagerRequest.GroupByFormatter);
+                }
+            }
+            return dataManagerRequest.RequiresCounts ? new DataResult() { Result = GridData, Count = Orders.Count(), Aggregates = aggregates} : (object)GridData;
         }
 
         public override async Task<Object> InsertAsync(DataManager dataManager, object value, string key)
@@ -102,9 +149,9 @@
 
     public class Order
     {
-        public int OrderID { get; set; }
+        public int? OrderID { get; set; }
         public string CustomerID { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         public double Freight { get; set; }
         public string ShipCountry { get; set; }
 

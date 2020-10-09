@@ -1,33 +1,38 @@
 ﻿@page "/kanban/toggle-columns"
+@inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
-
 @using Syncfusion.Blazor.Kanban
-
-@inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>This sample demonstrates the toggle column feature of Kanban. Each column of Kanban can be collapsible, and the testing column is collapsed on page load itself.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The Kanban components allows you to expand or collapse its columns to save space. The remaining columns extend its width to occupy the hided column space.This feature can be achieved by the following properties:</p>
-    <ul><li><code>AllowToggle:</code> Enables the expand/collapse behavior in Kanban.</li>
+    <p>The Kanban components allows you to expand or collapse its columns to save space. The remaining columns extend its width to occupy the hided column space.This feature can be achieved by the following properties:</p>
+    <ul>
+        <li><code>AllowToggle:</code> Enables the expand/collapse behavior in Kanban.</li>
         <li><code>IsExpanded:</code> The property determines whether the column can be collapsed on the page load itself.</li>
-   </ul>
+    </ul>
 </ActionDescription>
 
 <div class="control-section">
     <SfKanban KeyField="Status" DataSource="Tasks">
         <KanbanColumns>
-            <KanbanColumn HeaderText="To Do" KeyField="Open" AllowToggle="true"></KanbanColumn>
-            <KanbanColumn HeaderText="In Progress" KeyField="InProgress" AllowToggle="true"></KanbanColumn>
-            <KanbanColumn HeaderText="Testing" KeyField="Testing" AllowToggle="true" IsExpanded="false"></KanbanColumn>
-            <KanbanColumn HeaderText="Done" KeyField="Close" AllowToggle="true"></KanbanColumn>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="@item.AllowToggle" IsExpanded="@item.IsExpanded"></KanbanColumn>
+            }
         </KanbanColumns>
         <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
     </SfKanban>
 </div>
 
-@code {
+@code{
     private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" }, AllowToggle = true, IsExpanded = true },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" }, AllowToggle = true, IsExpanded = true },
+        new ColumnModel(){ HeaderText= "Testinge", KeyField= new List<string>() { "Testing" }, AllowToggle = true, IsExpanded = false },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" }, AllowToggle = true, IsExpanded = true }
+    };
 }

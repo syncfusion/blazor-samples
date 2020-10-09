@@ -1,30 +1,28 @@
 ﻿@page "/kanban/remote-data"
+@inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
-
 @using Syncfusion.Blazor.Data
 @using Syncfusion.Blazor.Kanban
-
-@inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>This sample demonstrates the way of data binding to Kanban component using remote service.The data source of Kanban is fetched from remote service using SfDataManager component.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The Kanban supports data binding using the <code>DataSource</code> property that can be assigned with the instance of DataManager to bind remote data.</p>
-   <p>The DataManager, which acts as an interface between the service endpoint and the Kanban will require the below minimal information to interact with service endpoint properly.</p>
-      <ul>
+    <p>The Kanban supports data binding using the <code>DataSource</code> property that can be assigned with the instance of DataManager to bind remote data.</p>
+    <p>The DataManager, which acts as an interface between the service endpoint and the Kanban will require the below minimal information to interact with service endpoint properly.</p>
+    <ul>
         <li><code>SfDataManager.Url</code>: Defines the service endpoint to fetch the data.</li>
         <li><code>SfDataManager.Adaptor</code>: Defines the adaptor option.By default, <code> ODataAdaptor </code> is used for remote binding.</li>
-      </ul>
+    </ul>
     <p>The adaptor is responsible for processing response and request from/to the service endpoint.The <code> Syncfusion.Blazor.Data </code> namespace provides some predefined adaptors which are designed to interact with particular service endpoints.They are:</p>
-      <ul>
+    <ul>
         <li><b>UrlAdaptor</b> - Use this to interact with any remote services. This is the base adaptor for all remote based adaptors.</li>
         <li><b>ODataAdaptor</b> - Use this to interact with OData endpoints.</li>
         <li><b>ODataV4Adaptor</b> - Use this to interact with OData V4 endpoints.</li>
         <li><b>WebApiAdaptor</b> - Use this to interact with Web API created under OData standards.</li>
         <li><b>WebMethodAdaptor</b> - Use this to interact with web methods.</li>
-        </ul>
+    </ul>
     <p> In this demo, remote data is bound by assigning service data as an instance of <code>SfDataManager</code> to the <code>DataSource</code> property.</p>
 </ActionDescription>
 
@@ -32,10 +30,10 @@
     <SfKanban TValue="KanbanDataModel" KeyField="Status" AllowDragAndDrop="false">
         <SfDataManager Url="https://js.syncfusion.com/ejServices/wcf/Northwind.svc/Tasks" CrossDomain="true"></SfDataManager>
         <KanbanColumns>
-            <KanbanColumn HeaderText="To Do" KeyField="Open"></KanbanColumn>
-            <KanbanColumn HeaderText="In Progress" KeyField="InProgress"></KanbanColumn>
-            <KanbanColumn HeaderText="Testing" KeyField="Testing"></KanbanColumn>
-            <KanbanColumn HeaderText="Done" KeyField="Close"></KanbanColumn>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
         </KanbanColumns>
         <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
         <KanbanEvents TValue="KanbanDataModel" DialogOpen="@OnDialogOpen"></KanbanEvents>
@@ -43,7 +41,14 @@
 </div>
 
 @code{
-    private void OnDialogOpen(DialogEventArgs args)
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" } },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" } },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
+    };
+
+    private void OnDialogOpen(DialogOpenEventArgs<KanbanDataModel> args)
     {
         args.Cancel = true;
     }

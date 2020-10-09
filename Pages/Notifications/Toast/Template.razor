@@ -33,7 +33,7 @@
         </div>
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
-                <SfToast ID="toast_custom" @ref="@AlarmToastObj" Width="400px" ExtendedTimeout=0 TimeOut="@AlarmTimeout">
+                <SfToast ID="toast_custom" @ref="@AlarmToastObj" Width="400px" ExtendedTimeout=0 Timeout="@AlarmTimeout">
                     <ToastEvents Closed="@OnToastClose" Opened="@OnToastOpen"></ToastEvents>
                     <ToastPosition X="Right" Y="Bottom"></ToastPosition>
                     <ToastTemplates>
@@ -51,14 +51,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="images/Toast/map.jpg" style="width:100%;height:50%;">
+                                <img src="images/toast/map.png" style="width:100%;height:50%;">
                                 <div class="snooze"> Snooze for </div>
                                 <div id='snoozedropDown'>
-                                        <SfDropDownList TItem="DropDownValues" Index=0 TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" @bind-Value="@DropValue" Placeholder="Select a snooze time">
-                                            <DropDownListEvents TValue="string" ValueChange="@ListChange"></DropDownListEvents>
-                                            <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
-                                        </SfDropDownList>
-                                    </div>
+                                    <SfDropDownList TItem="DropDownValues" @bind-Index="@index" TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" @bind-Value="@DropValue" Placeholder="Select a snooze time">
+                                        <DropDownListEvents TValue="string" TItem="DropDownValues" ValueChange="@ListChange"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
                                 <div class="snoozeBtn">
                                     <SfButton ID="snooze" CssClass="e-btn e-flat e-info" @onclick="@SnoozeBtnclick"> Snooze </SfButton>
                                     <SfButton ID="dismiss" CssClass="e-btn e-flat e-info" @onclick="@DismissBtnclick"> Dismiss </SfButton>
@@ -80,6 +80,7 @@
 </div>
 
 @code{
+    private int? index { get; set; } = 0;
     SfToast MailToastObj;
     SfToast AlarmToastObj;
     SfDropDownList<string, DropDownValues> DropDownObj;
@@ -90,7 +91,7 @@
     private string ToastSubjectData { get; set; }
     private bool SnoozeFlag { get; set; } = false;
     private string DropValue { get; set; } = "2";
-    private double AlarmTimeout { get; set; } = 120000;
+    private int AlarmTimeout { get; set; } = 120000;
     private bool ShowButton { get; set; } = true;
 
     public class ToastFields
@@ -107,11 +108,11 @@
     }
 
     private List<ToastFields> ToastData = new List<ToastFields>() {
-        new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = "images/Toast/laura.png" },
-        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = "images/Toast/janat.png" },
-        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = "images/Toast/camden.png" },
-        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = "images/Toast/chase.png" },
-        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = "images/Toast/michael.png" }
+        new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = "images/toast/laura.png" },
+        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = "images/toast/janat.png" },
+        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = "images/toast/camden.png" },
+        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = "images/toast/chase.png" },
+        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = "images/toast/michael.png" }
     };
 
     private List<DropDownValues> DropData = new List<DropDownValues>()
@@ -123,8 +124,8 @@
 
     private async Task MailBtnclick()
     {
-        string template = "<div id='toastEmail_template'><div class='e-toast-template'><img class='e-toast-icon e-toast-image' src='" + this.ToastData[ToastFlag].image + "' /><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
-        await this.MailToastObj.Show(new ToastModel { Template = template, ShowCloseButton = true });
+        string template ="<div id='toastEmail_template'><div class='e-toast-template'><img class='e-toast-icon e-toast-image' src='" + this.ToastData[ToastFlag].image + "' /><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
+        await this.MailToastObj.Show(new ToastModel { Content = template, ShowCloseButton = true });
         ToastFlag++;
         if (ToastFlag == ToastData.Count)
         {
@@ -148,7 +149,7 @@
         await this.AlarmToastObj.Hide();
     }
 
-    private async Task OnToastClose()
+    private async Task  OnToastClose()
     {
         if (this.SnoozeFlag)
         {
@@ -168,7 +169,7 @@
         this.ShowButton = false;
     }
 
-    private async Task ListChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private async Task ListChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownValues> args)
     {
         this.SnoozeFlag = true;
         await this.AlarmToastObj.Hide();

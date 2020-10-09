@@ -51,7 +51,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/custom-binding",
                 FileName = "CustomBinding.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -221,7 +221,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -231,6 +231,15 @@ namespace blazor_samples
                 Url = "datagrid/filter-menu",
                 FileName = "FilterMenu.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Excel Like Filter",
+                Category = "Filtering",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/excel-like-filter",
+                FileName = "FilterExcel.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -294,6 +303,15 @@ namespace blazor_samples
                 Url = "datagrid/exporting",
                 FileName = "Exporting.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Advanced Exporting",
+                Category = "Exporting",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/advanced-exporting",
+                FileName = "AdvancedExporting.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -387,6 +405,15 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Foreign Key Column",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/foreign-key-column",
+                FileName = "ForeignKeyColumn.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Observable Collection",
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
@@ -419,6 +446,24 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/expandoobject",
                 FileName = "GridExpandoObject.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "DynamicObject Binding",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/dynamicobject",
+                FileName = "GridDynamicObject.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/keyboard-navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             },
         };

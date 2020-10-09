@@ -96,8 +96,7 @@ namespace blazor_samples
                 Category = "Use Case Diagram",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/logic-circuit-diagram",
-                FileName = "LogicCircuitDiagram.razor",
-                Type = SampleType.New
+                FileName = "LogicCircuitDiagram.razor"
             },
             new Sample
             {
@@ -106,7 +105,6 @@ namespace blazor_samples
                 Directory = "Diagram/Diagram",
                 Url = "diagram/uml-activity",
                 FileName = "umlActivity.razor",
-                Type = SampleType.New
             },
             new Sample
             {
@@ -114,8 +112,7 @@ namespace blazor_samples
                 Category = "Use Case Diagram",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/uml-class",
-                FileName = "UmlClass.razor",
-                Type = SampleType.New
+                FileName = "UmlClass.razor"
             },
             new Sample
             {
@@ -139,8 +136,7 @@ namespace blazor_samples
                 Category = "Automatic Layouts",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/radial-tree",
-                FileName = "RadialTree.razor",
-                Type = SampleType.New
+                FileName = "RadialTree.razor"
             },
             new Sample
             {
@@ -155,8 +151,7 @@ namespace blazor_samples
                 Category = "Automatic Layouts",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/symmetric-layout",
-                FileName = "SymmetricLayout.razor",
-                Type = SampleType.New
+                FileName = "SymmetricLayout.razor"
             },
             new Sample
             {
@@ -172,8 +167,7 @@ namespace blazor_samples
                 Category = "Automatic Layouts",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/rtl-tree",
-                FileName = "RTLTree.razor",
-                Type = SampleType.New
+                FileName = "RTLTree.razor"
             },
             new Sample
             {
@@ -181,8 +175,7 @@ namespace blazor_samples
                 Category = "Automatic Layouts",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/pert-chart",
-                FileName = "PertChart.razor",
-                Type = SampleType.New
+                FileName = "PertChart.razor"
             },
             new Sample
             {
@@ -256,8 +249,7 @@ namespace blazor_samples
                 Category = "Static Diagram",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/venn-diagram",
-                FileName = "VennDiagram.razor",
-                Type = SampleType.New
+                FileName = "VennDiagram.razor"
             },
             new Sample
             {
@@ -265,8 +257,7 @@ namespace blazor_samples
                 Category = "Static Diagram",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/fishbone-diagram",
-                FileName = "FishboneDiagram.razor",
-                Type = SampleType.New
+                FileName = "FishboneDiagram.razor"
             },
         };
     }

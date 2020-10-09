@@ -29,7 +29,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         {
             //Initialize the instance of  FindPDFCorruptionMessage.
             FindPDFCorruptionMessage message = new FindPDFCorruptionMessage();
-            FileStream pdfFile = new FileStream(ResolveApplicationPath("CorruptedDocument.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream pdfFile = new FileStream(ResolveApplicationPath("corrupted-document.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Create a new instance for the PDF analyzer.
             PdfDocumentAnalyzer analyzer = new PdfDocumentAnalyzer(pdfFile);
@@ -56,7 +56,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

@@ -27,9 +27,9 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream AdvancedReplace(string documentType, string button)
         {
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPathTemp = basePath + @"/DocIO/SourceTemplate1.doc";
-            string dataPathTemplate = basePath + @"/DocIO/SourceTemplate2.doc";
-            string dataPathMaster = basePath + @"/DocIO/MasterTemplate.doc";
+            string dataPathTemp = basePath + @"/data/docio/source-template1.doc";
+            string dataPathTemplate = basePath + @"/data/docio/source-template2.doc";
+            string dataPathMaster = basePath + @"/data/docio/master-template.doc";
             //Load Template document stream.
             FileStream fileStream = new FileStream(dataPathMaster, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);            
             if (button == "View Template")

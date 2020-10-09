@@ -1,6 +1,5 @@
 
 @using Syncfusion.Blazor;
-@using Syncfusion.Blazor.DropDowns;
 @using Microsoft.AspNetCore.Components;
 
 @inject IJSRuntime JsRuntime;
@@ -8,15 +7,16 @@
 @inject SampleService SampleService;
 
 @inherits LayoutComponentBase;
+@implements IDisposable;
 
 <CascadingValue Value="@this">
     <SpinnerComponent @ref="spinnerRef"></SpinnerComponent>
     @*Set empty layout to home page and components which have open in new window functionality.*@
-    @{ 
+    @{
         SampleService.Update(UriHelper);
         var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
     }
-    @if (UriHelper.BaseUri == UriHelper.Uri || isEmptyLayout)
+    @if (SampleUtils.IsHomePage(UriHelper) || isEmptyLayout)
     {
         @Body
     }
@@ -24,36 +24,19 @@
     {
         <div class="sample-browser e-view sf-new" @onclick="OnAppClick">
             <div class="sb-mobile-overlay sb-hide"></div>
-            <HeaderComponent OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick"></HeaderComponent>
+            <HeaderComponent @ref="headerRef" OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick"></HeaderComponent>
             <div class="sb-content e-view">
+                <div class="@searchContainer">
+                    <div class="index-search-container">
+                        <SearchComponent @ref="@searchRef"></SearchComponent>
+                    </div>
+                </div>
                 <LeftPaneComponent @ref="LeftPaneRef"></LeftPaneComponent>
                 <RightPaneComponent @ref="RightPaneRef">@Body</RightPaneComponent>
                 @if (SampleService.IsDevice)
                 {
                     <SideBarComponent IsExpanded="@rightSidebarExpanded" Position="SidebarPlacement.Right">
-                        <div class="sb-left-pane-header">
-                            <div class="sb-setting-header">Preferences</div>
-                        </div>
-                        <div class="sb-setting-item sb-setting-theme-section">
-                            <div class="sb-icons sb-setting-icons sb-icon-palette"></div>
-                            <div class="sb-setting-text">Theme Selection</div>
-                            @{
-                                List<DropDownData> themeData = new ThemeSwitcher().GetThemeData();
-                            }
-                            <SfDropDownList ID="mobileTheme" TValue="string" Index="3" TItem="DropDownData" PopupWidth="180px" DataSource="@themeData">
-                                <DropDownListEvents ValueChange="OnThemeChange" TValue="string"></DropDownListEvents>
-                                <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
-                            </SfDropDownList>
-                        </div>
-                        <div class='sb-setting-item sb-setting-culture'>
-                            <div class='setting-label'>
-                                <div class='sb-icons sb-setting-icons sb-icon-localization'></div>
-                                <div class='sb-setting-text'>Localization</div>
-                            </div>
-                            <div>
-                                <CultureSwitcher />
-                            </div>
-                        </div>
+                        <Preferences IsMainLayout="true"></Preferences>
                     </SideBarComponent>
                     <SampleNavigator @ref="SampleNavigatorRef"></SampleNavigator>
                 }
@@ -66,9 +49,13 @@
     [Inject]
     protected SyncfusionBlazorService SyncfusionService { get; set; }
 
+    private bool isSearchIconClick { get; set; }
+    private string searchContainer { get; set; }
     private bool rightSidebarExpanded { get; set; }
     private SpinnerComponent spinnerRef { get; set; }
-    private string rightPaneClass = SampleUtils.RIGHT_PANE;
+    private DotNetObjectReference<object> dotnetObjectRef { get; set; }
+    private SearchComponent searchRef { get; set; }
+    private HeaderComponent headerRef { get; set; }
 
     /// <summary>
     /// LeftPane reference for outside usage.
@@ -84,17 +71,6 @@
     /// </summary>
     public SampleNavigator SampleNavigatorRef { get; set; }
 
-    // Theme switcher handler for devices
-    private void OnThemeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
-    {
-        var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
-        if (currentTheme != args.Value)
-        {
-            var url = SampleUtils.GetThemeUrl(UriHelper.Uri, args.Value);
-            UriHelper.NavigateTo(url, true);
-        }
-    }
-
     // Left sidebar click handler
     private async Task OnToggleClick()
     {
@@ -109,7 +85,7 @@
     }
 
     // Right sidebar click handler
-    private void OnRightToggleClick()
+    private async Task OnRightToggleClick()
     {
         // Update right sidebar expand and collapse status
         rightSidebarExpanded = !rightSidebarExpanded;
@@ -118,12 +94,45 @@
         {
             LeftPaneRef.UpdateExpandedState();
         }
+        await ShowSearchLayout();
     }
 
     // App click handler for collapse the sidebar components in device rendering.
-    private void OnAppClick()
+    private async Task OnAppClick()
     {
         this.CollapseSideBar();
+        headerRef.HidePreferences();
+        if (searchRef.IsFocusOut() && !isSearchIconClick)
+        {
+            // Await the search layout hide process for the search list selection.
+            await Task.Delay(200);
+            await ShowSearchLayout();
+        }
+        else
+        {
+            isSearchIconClick = false;
+        }
+    }
+
+    /// <summary>
+    /// Show search layout in the demos page.
+    /// </summary>
+    public async Task ShowSearchLayout(bool isIconClick = false,bool isEscPressed = false)
+    {
+        if (isIconClick && searchContainer.Contains(SampleUtils.DISPLAY_NONE))
+        {
+            isSearchIconClick = isIconClick;
+            searchContainer = SampleUtils.RemoveClass(searchContainer, SampleUtils.DISPLAY_NONE);
+            await searchRef.InputFocus();
+        }
+        else
+        {
+            searchContainer = SampleUtils.AddClass(searchContainer, SampleUtils.DISPLAY_NONE);
+        }
+        if (isEscPressed)
+        {
+            StateHasChanged();
+        }
     }
 
     /// <summary>
@@ -157,6 +166,17 @@
         this.RightPaneRef.BreadCrumbRef?.Refresh(componentName, category, sampleName);
     }
 
+    /// <summary>
+    /// Update device mode while resizing window through UI.
+    /// </summary>
+    /// <param name="isDevice">Specifies the current resolution is device mode or not.</param>
+    [JSInvokable]
+    public void UpdateDeviceMode(bool isDevice)
+    {
+        SampleService.IsDevice = isDevice;
+        StateHasChanged();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -165,6 +185,7 @@
         {
             SyncfusionService.EnableRipple();
         }
+        searchContainer = SampleUtils.SEARCH_OVERLAY + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -179,8 +200,9 @@
                 SampleService.Spinner = spinnerRef;
             }
 
+            dotnetObjectRef = DotNetObjectReference.Create<object>(this);
             // Get device information for mobile sidebar rendering
-            this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazor.isDevice");
+            this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDevice", dotnetObjectRef);
             if (this.SampleService.IsDevice && (UriHelper.Uri != UriHelper.BaseUri))
             {
                 LeftPaneRef?.UpdateExpandedState();
@@ -200,6 +222,11 @@
             // Render sample navigator in the right pane for desktop.
             RightPaneRef?.SampleNavigatorRef.Rerender(SampleService.IsDevice);
         }
+    }
+
+    public void Dispose()
+    {
+        dotnetObjectRef?.Dispose();
     }
 }
 

@@ -11,7 +11,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/linear",
                 FileName = "Linear.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -38,7 +38,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/labels",
                 FileName = "Labels.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },            
             new Sample
             {
@@ -56,7 +56,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/stripes",
                 FileName = "Stripes.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
 			new Sample
             {
@@ -65,7 +65,7 @@ namespace blazor_samples
                 Directory = "ProgressBar/ProgressBar",
                 Url = "progress-bar/progress-segment",
                 FileName = "ProgressSegment.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
     }

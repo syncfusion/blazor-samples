@@ -39,7 +39,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
 
                 //A new workbook is created.[Equivalent to creating a new workbook in Microsoft Excel]
                 //Open workbook with Data
-                FileStream inputStream = new FileStream(ResolveApplicationPath("Sparkline.xlsx"), FileMode.Open, FileAccess.Read);
+                FileStream inputStream = new FileStream(ResolveApplicationPath("sparkline.xlsx"), FileMode.Open, FileAccess.Read);
                 IWorkbook workbook = application.Workbooks.Open(inputStream);
 
                 //The first worksheet object in the worksheets collection is accessed
@@ -154,7 +154,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

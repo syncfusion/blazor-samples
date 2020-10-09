@@ -41,7 +41,7 @@ namespace blazor_samples
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
         public List<Sample> Samples { get; set; } = new List<Sample>();
-        public String ControllerName { get; set; }
+        public string ControllerName { get; set; }
     }
 
     public class Sample
@@ -66,7 +66,7 @@ namespace blazor_samples
     internal static class SampleBrowser
     {
         public static List<SampleList> SampleList { get; set; } = new List<SampleList>();
-        internal static List<String> SampleUrls = new List<String>();
+        internal static List<string> SampleUrls = new List<string>();
         internal static SampleConfig Config { get; set; } = new SampleConfig();
     }
 

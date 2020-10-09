@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreatePresentation()
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("HelloWorld.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("hello-world.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);           
             
             //Method call to create slides
@@ -45,7 +45,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
 		

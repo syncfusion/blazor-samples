@@ -10,7 +10,7 @@
     <p>This sample visualizes grouping of countries in the legend based on their population density. The type and position of the legend can be changed using the Type and Position options in the properties panel.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render a legend in maps using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Maps.MapsLegendSettings_properties.html'>MapsLegendSettings</a></code> property. A legend item denotes the value of a shape. Any number of legend items can be added to a legend. You can bind the desired colors to the shapes if its values are within the specified range using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Maps.MapsShapeColorMappings_properties.html'>MapsShapeColorMappings</a></code> property. You can also show or hide color mapping related to population density while toggling the legend item. Tooltip is enabled in this example.</p>
+   <p> In this example, you can see how to render a legend in maps using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLegendSettings.html'>MapsLegendSettings</a></code> property. A legend item denotes the value of a shape. Any number of legend items can be added to a legend. You can bind the desired colors to the shapes if its values are within the specified range using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMappings.html'>MapsShapeColorMappings</a></code> property. You can also show or hide color mapping related to population density while toggling the legend item. Tooltip is enabled in this example.</p>
    <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/legend'>documentation section</a>.</p>
 </ActionDescription>
 
@@ -24,7 +24,7 @@
             <MapsToggleLegendSettings Enable="@ToggleCheck"/>
         </MapsLegendSettings>
         <MapsLayers>
-            <MapsLayer ShapeData='new {dataOptions ="scripts/MapsData/WorldMap.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData">
+            <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData">
                 <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="${Name} : ${Density} per square kms"/>
                 <MapsShapeSettings ColorValuePath="Density" Fill="#E5E5E5">
                     <MapsShapeColorMappings>
@@ -54,8 +54,8 @@
                             Legend Type
                         </td>
                         <td style="width: 50%">
-                            <SfDropDownList Placeholder="Select layoutMode type" DataSource="@LegendType" Value="@LegendTypeDropDownValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="LegendTypeChange"/>
+                            <SfDropDownList Placeholder="Select layoutMode type" DataSource="@LegendType" @bind-Value="@LegendTypeDropDownValue" Width="120px">
+                                <DropDownListEvents TValue="string" TItem="DropValues" ValueChange="LegendTypeChange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -65,8 +65,8 @@
                             Legend Position
                         </td>
                         <td style="width: 50%">
-                            <SfDropDownList Placeholder="Legend Position" DataSource="@LegendPosition" Value="@LegendPositionDropDownValue" Width="120px">
-                                <DropDownListEvents ValueChange="LegendPositionChange" TValue="string"/>
+                            <SfDropDownList Placeholder="Legend Position" DataSource="@LegendPosition" @bind-Value="@LegendPositionDropDownValue" Width="120px">
+                                <DropDownListEvents TItem="DropValues" ValueChange="LegendPositionChange" TValue="string"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -292,7 +292,7 @@
         new DropValues { Value="Left", Name="Left" },
         new DropValues { Value="Right", Name="Right" }
     };
-    private void LegendTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+    private void LegendTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropValues> args) {
         LegendTypeDropDownValue = (args.Value).ToString();
         if (LegendTypeDropDownValue == "Default") {
             LegendTypeValue = LegendMode.Default;
@@ -301,7 +301,7 @@
             LegendTypeValue = LegendMode.Interactive;
         }
     }
-    private void LegendPositionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args) {
+    private void LegendPositionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropValues> args) {
         LegendPositionDropDownValue = (args.Value).ToString();
         if (LegendPositionDropDownValue == "Top") {
             LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Top;

@@ -24,7 +24,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -42,7 +42,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/pivot-chart",
                 FileName = "Chart.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -105,7 +105,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/toolbar",
                 FileName = "Toolbar.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {

@@ -63,7 +63,7 @@ namespace blazor_samples
                 Directory = "Buttons/Button",
                 Url = "buttons/progress-button",
                 FileName = "ProgressButton.razor",
-                Type = SampleType.Preview
+                Type = SampleType.None
             }
         };
         public List<Sample> Chips { get; set; } = new List<Sample>{

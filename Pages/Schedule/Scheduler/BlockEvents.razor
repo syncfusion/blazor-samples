@@ -16,19 +16,19 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="ScheduleData.BlockData" Width="100%" Height="650px" CssClass="block-events" CurrentView="View.TimelineDay" SelectedDate="@(new DateTime(2020, 1, 1))">
+        <SfSchedule TValue="ScheduleData.BlockData" Width="100%" Height="650px" CssClass="block-events" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate">
             <ScheduleGroup Resources="@GroupData" EnableCompactView="false"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource TValue="ScheduleData.EmployeeData" DataSource="@ResourceData" Field="EmployeeId" Title="Employees" Name="Employee" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="false"></ScheduleResource>
+                <ScheduleResource TItem="ScheduleData.EmployeeData" TValue="int" DataSource="@ResourceData" Field="EmployeeId" Title="Employees" Name="Employee" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="false"></ScheduleResource>
             </ScheduleResources>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
             <ScheduleTemplates>
                 <ResourceHeaderTemplate>
                     @{
-                        var resourceData = (context as ScheduleData.BlockData).ResourceData as ScheduleData.EmployeeData;
+                        var resourceData = (context as TemplateContext).ResourceData as ScheduleData.EmployeeData;
                         <div class="template-wrap">
                             <div class="employee-category">
-                                <img class="employee-image" src="@UriHelper.ToAbsoluteUri($"css/schedule/images/{resourceData.Text}.png")" />
+                                <img class="employee-image" src="@UriHelper.ToAbsoluteUri($"images/scheduler/{resourceData.Text}.png")" />
                                 <div class="employee-name">@(resourceData.Text)</div>
                                 <div class="employee-designation">@(resourceData.Designation)</div>
                             </div>
@@ -38,14 +38,16 @@
             </ScheduleTemplates>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
-                <ScheduleView Option="View.TimelineDay"></ScheduleView>
-                <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="1" Option="View.TimelineDay"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="1" Option="View.TimelineMonth"></ScheduleView>
             </ScheduleViews>
         </SfSchedule>
     </div>
 </div>
 
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 1, 1);
+    private View CurrentView = View.TimelineDay;
     public List<ScheduleData.BlockData> DataSource = new ScheduleData().GetBlockData();
     public string[] GroupData { get; set; } = { "Employee" };
     public List<ScheduleData.EmployeeData> ResourceData { get; set; } = new List<ScheduleData.EmployeeData> {

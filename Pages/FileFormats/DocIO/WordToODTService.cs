@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         {
             string basePath = _hostingEnvironment.WebRootPath;
             //Loads the template document.
-            string dataPath = basePath + @"/DocIO/Word to ODT.docx";
+            string dataPath = basePath + @"/data/docio/word-to-odt.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {

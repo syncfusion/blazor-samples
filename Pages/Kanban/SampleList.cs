@@ -93,6 +93,24 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/toggle-columns",
                 FileName = "ToggleColumns.razor"
+            },
+            new Sample
+            {
+                Name = "Show/Hide Columns",
+                Category = "Columns",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/showhide-columns",
+                FileName = "ShowHideColumns.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "WIP Validation",
+                Category = "Validation",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/wip-validation",
+                FileName = "WipValidation.razor",
+                Type = SampleType.New
             }
         };
     }

@@ -6,10 +6,10 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p> In this sample, the DateTimePicker has been configured with the <code>dd-MMM-yy hh:mm a</code> date format.</p>
+   <p> In this sample, the DateTimePicker has been configured with the <code>dd-MMM-yy hh:mm tt</code> date format.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>Date Formats sample illustrates the support of custom date format in the DateTimePicker component by using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Calendars.DateTimePickerModel%601~Format.html' target='_blank'> Format</a> property. By using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Calendars.DateTimePickerModel%601~TimeFormat.html' target='_blank'> TimeFormat</a> property to format the displayed time value in the popup list.</p>
+    <p>Date Formats sample illustrates the support of custom date format in the DateTimePicker component by using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DateTimePickerModel-1.html#Syncfusion_Blazor_Calendars_DateTimePickerModel_1_Format' target='_blank'> Format</a> property. By using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DateTimePickerModel-1.html#Syncfusion_Blazor_Calendars_DateTimePickerModel_1_TimeFormat' target='_blank'> TimeFormat</a> property to format the displayed time value in the popup list.</p>
 </ActionDescription>
 
 <div>
@@ -22,8 +22,8 @@
     </div>
     <div class="col-lg-4 property-section">
         <div>
-            <SfDropDownList TItem="DateFormat" TValue="string" PopupHeight="230px" Index="0" DataSource="@formats">
-                <DropDownListEvents TValue="string" ValueChange="OnChange"></DropDownListEvents>
+            <SfDropDownList TItem="DateFormat" TValue="string" PopupHeight="230px" @bind-Index="@index" DataSource="@formats">
+                <DropDownListEvents TValue="string" TItem="DateFormat" ValueChange="OnChange"></DropDownListEvents>
                 <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
             </SfDropDownList>
         </div>
@@ -50,6 +50,7 @@
 </style>
 
 @code{
+    private int? index { get; set; } = 0;
     public DateTime DateTimeValue { get; set; } = DateTime.Now;
     private string textValue { get; set; }
     public class DateFormat
@@ -60,14 +61,12 @@
     }
     public string format { get; set; }
     private List<DateFormat> formats = new List<DateFormat>() {
-        new DateFormat(){ ID= "format1", Text= "dd-MMM-yy hh:mm a" },
+        new DateFormat(){ ID= "format1", Text= "dd-MMM-yy hh:mm tt" },
         new DateFormat(){ ID= "format2", Text= "yyyy-MM-dd HH:mm" },
         new DateFormat(){ ID= "format3", Text= "dd-MMMM HH:mm" },
      };
-    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DateFormat> args)
     {
-        var itemData = JsonConvert.DeserializeObject<DateFormat>(args.ItemData != null ? args.ItemData.ToString() : "");
-
-        this.format = itemData.Text;
+        this.format = args.ItemData?.Text;
     }
 }

@@ -25,7 +25,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream WordMLtoWord(string documentType, string button)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/WordMLtoDoc.xml";
+            string dataPath = basePath + @"data/docio/wordml-to-doc.xml";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {

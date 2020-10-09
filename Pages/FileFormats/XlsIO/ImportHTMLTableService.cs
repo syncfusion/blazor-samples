@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         {
             if(button == "Input Template")
             {
-                FileStream inputStream = new FileStream(ResolveApplicationPath("HTMLToExcel.html"), FileMode.Open, FileAccess.Read);
+                FileStream inputStream = new FileStream(ResolveApplicationPath("html-to-excel.html"), FileMode.Open, FileAccess.Read);
                 //Save the document as a stream and retrun the stream
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -55,7 +55,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     IWorksheet worksheet = workbook.Worksheets[0];
 
                     //An existing html is opened                    
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("HTMLToExcel.html"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("html-to-excel.html"), FileMode.Open, FileAccess.Read);
 
                     worksheet.ImportHtmlTable(inputStream, 1, 1);
 
@@ -74,7 +74,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

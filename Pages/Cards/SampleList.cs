@@ -13,7 +13,7 @@ namespace blazor_samples
                 FileName = "BasicCard.razor",
                 Type = SampleType.None
             },
-                new Sample
+            new Sample
             {
                 Name = "Horizontal Card",
                 Category = "Cards",
@@ -21,8 +21,8 @@ namespace blazor_samples
                 Url = "card/horizontal-card",
                 FileName = "HorizontalCard.razor",
                 Type = SampleType.None
-                },
-                new Sample
+            },
+            new Sample
             {
                 Name = "Reveal Card",
                 Category = "Cards",
@@ -30,17 +30,17 @@ namespace blazor_samples
                 Url = "card/reveal-card",
                 FileName = "RevealCard.razor",
                 Type = SampleType.None
-                },
-                new Sample
+            },
+            new Sample
             {
                 Name = "Tile View",
                 Category = "Cards",
                 Directory = "Cards/Card",
                 Url = "card/tile-view",
                 FileName = "TileView.razor",
-                Type = SampleType.None
-                },
-                new Sample
+                Type = SampleType.Updated
+            },
+            new Sample
             {
                 Name = "Multiple Content",
                 Category = "Cards",
@@ -48,8 +48,8 @@ namespace blazor_samples
                 Url = "card/multiple-content",
                 FileName = "MultipleContent.razor",
                 Type = SampleType.None
-                },
-                 new Sample
+            },
+            new Sample
             {
                 Name = "Card With Lists",
                 Category = "Cards",
@@ -57,9 +57,8 @@ namespace blazor_samples
                 Url = "card/card-with-list",
                 FileName = "CardWithList.razor",
                 Type = SampleType.None
-                },
-                
-                 new Sample
+            },
+            new Sample
             {
                 Name = "Header Card",
                 Category = "Cards",
@@ -67,8 +66,8 @@ namespace blazor_samples
                 Url = "card/header-card",
                 FileName = "HeaderCard.razor",
                 Type = SampleType.None
-                },
-                 new Sample
+            },
+            new Sample
             {
                 Name = "Dynamic Update",
                 Category = "Cards",
@@ -76,8 +75,8 @@ namespace blazor_samples
                 Url = "card/dynamic-update",
                 FileName = "DynamicUpdate.razor",
                 Type = SampleType.None
-                },
-                 new Sample
+            },
+            new Sample
             {
                 Name = "Expand Card",
                 Category = "Cards",
@@ -86,8 +85,7 @@ namespace blazor_samples
                 FileName = "ExpandCard.razor",
                 Type = SampleType.None
             }
-
         };
-        }
+    }
 
 }

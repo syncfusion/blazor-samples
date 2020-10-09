@@ -282,7 +282,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         private DataSet GetProductsDataSet()
         {
             DataSet dataSet = new DataSet();
-            dataSet.ReadXml(ResolveApplicationPath("Products.xml"));
+            dataSet.ReadXml(ResolveApplicationPath("products.xml"));
             return dataSet;
         }
         /// <summary>
@@ -291,7 +291,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         private DataSet GetReportsDataSet()
         {
             DataSet dataSet = new DataSet();
-            dataSet.ReadXml(ResolveApplicationPath("Report.xml"));
+            dataSet.ReadXml(ResolveApplicationPath("report.xml"));
             return dataSet;
         }
         #region Report
@@ -304,12 +304,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
-        }
-        private string ResolveApplicationImagePath(string fileName)
-        {
-            string dataPath =  _hostingEnvironment.WebRootPath + "//images//PDF//" + fileName;
-            return string.Format("{0}", dataPath);
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

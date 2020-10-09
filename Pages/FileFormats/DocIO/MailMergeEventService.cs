@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream MailMergeEvent(string Group1, string Button)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/MailMergeEventTemplate.doc";
+            string dataPath = basePath + @"data/docio/mail-merge-event-template.doc";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             
             if (Button == "View Template")
@@ -102,7 +102,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             if (args.FieldName == "ProductImage")
             {
                 string ProductFileName = args.FieldValue.ToString();
-                FileStream fs = new FileStream(@"wwwroot/images/DocIO/" + ProductFileName, FileMode.Open, FileAccess.Read);
+                FileStream fs = new FileStream(@"wwwroot/images/docio/" + ProductFileName, FileMode.Open, FileAccess.Read);
                 args.ImageStream = fs;
             }
         }
@@ -113,7 +113,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetMailMergeDataTablePriceList()
         {
             List<Product_PriceList> product_PriceList = new List<Product_PriceList>();
-            FileStream fs = new FileStream(@"wwwroot/DocIO/ProductPriceList.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/product-price-list.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
             if (reader == null)
                 throw new Exception("reader");
@@ -196,7 +196,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetMailMergeDataTableProductData()
         {
             List<ProductDetail> productDetail = new List<ProductDetail>();
-            FileStream fs = new FileStream(@"wwwroot/DocIO/Product.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"wwwroot/data/docio/product.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
             if (reader == null)
                 throw new Exception("reader");

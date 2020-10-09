@@ -1,36 +1,30 @@
-@using Syncfusion.Blazor.DropDowns;
-
 @namespace blazor_samples.Shared
 @implements IDisposable;
 
 @inject SampleService SampleService;
 @inject NavigationManager NavigationManager;
 
-<div class="setting-culturecontent">
-    <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Select Language" @bind-Value="@culture" DataSource="@cultureData">
-        <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
-        <DropDownListEvents TValue="string" ValueChange="@OnSelected"></DropDownListEvents>
-    </SfDropDownList>
-</div>
+<DropDownComponent DataSource="@cultureData" Value="@culture" OnSelect="@OnSelected"></DropDownComponent>
 
 @code {
     private string culture { get; set; }
 
     private List<DropDownData> cultureData = new List<DropDownData> {
-        new DropDownData() { ID= "en-US", Text= "English" },
-        new DropDownData() { ID= "de", Text= "German - Germany*" },
-        new DropDownData() { ID= "fr-CH", Text= "French - Switzerland*" },
-        new DropDownData() { ID= "zh", Text= "Chinese - China*" },
+        new DropDownData() { ID = "en-US", Text = "English" },
+        new DropDownData() { ID = "de", Text = "German - Germany*" },
+        new DropDownData() { ID = "fr-CH", Text = "French - Switzerland*" },
+        new DropDownData() { ID = "zh", Text = "Chinese - China*" },
     };
 
     // Culture selection event callback handler
-    private void OnSelected(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void OnSelected(DropDownData args)
     {
-        var culture = (string)args.Value;
+        var culture = args.ID;
         string currentUri = SampleService.SampleInfo.Url.ToLower();
-        string themeName = NavigationManager.Uri.Split('?')[1];
+        string themeName = (NavigationManager.Uri.IndexOf('?') >= 0) ? (NavigationManager.Uri.Split('?')[1]) : null;
+        string replacedContent = (themeName != null) ? (currentUri + '?' + themeName) : currentUri;
         var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
-        var path = uri.Replace(currentUri + '?' + themeName, string.Empty).Trim('/');
+        var path = uri.Replace(replacedContent, "").Trim('/');
         var query = $"?culture={Uri.EscapeDataString(culture)}&" + $"redirectUri={Uri.EscapeDataString(uri)}";
         if (String.IsNullOrEmpty(path))
         {
@@ -45,7 +39,11 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        this.culture = System.Globalization.CultureInfo.CurrentCulture.Name;
+        var currentCulture = cultureData.Where(item => item.ID == System.Globalization.CultureInfo.CurrentCulture.Name).ToList();
+        if (currentCulture.Any())
+        {
+            culture = currentCulture.First().Text;
+        }
     }
 
     public void Dispose()

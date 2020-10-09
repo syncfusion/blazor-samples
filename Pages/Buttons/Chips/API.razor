@@ -6,7 +6,7 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample demonstrates most commonly used API functionalities of Chip control from the property pane. Select any combination of properties from the property pane to customize the appearance of Chip.</p>
+    <p>This sample demonstrates most commonly used API functionalities of Chip control from the property pane. Select any combination of properties from the property pane to customize the appearance of Chip.</p>
 </SampleDescription>
 <ActionDescription>
     <p>In this sample, Default Chip is rendered with minimal configuration.</p>
@@ -22,16 +22,16 @@
 
 <div class="col-lg-8 control-section sb-property-border">
     <div id="chip-api-wrapper">
-        <SfChipList CssClass="@($"{ChipColor} {(Outline ? "e-outline" : "")}")">
-            <ChipCollection>
-                <ChipListChip Text="Janet Leverling"
-                              LeadingIconCss="@(LeadingIconCss ? "janet" : "")"
-                              TrailingIconCss="@(TrailingIconCss ? "e-dlt-btn" : "")"
-                              AvatarIconCss="@(AvatarIconCss == "icon" ? "e-icon" : (AvatarIconCss == "image" ? "janet" : ""))"
-                              AvatarText="@(AvatarIconCss == "letter" ? "JL" : "")">
-                </ChipListChip>
-            </ChipCollection>
-        </SfChipList>
+        <SfChip CssClass="@ParentCssClass">
+            <ChipItems>
+                <ChipItem Text="Janet Leverling"
+                          LeadingIconCss="@(AvatarIcon ? AvatarClass : LeadingIconCss ? "janet" : "")"
+                          TrailingIconCss="@(TrailingIconCss ? "e-dlt-btn" : "")"
+                          CssClass="@($"{ChipColor} {(Outline ? "e-outline" : "")}")"
+                          LeadingText="@(LeadingIconText == "letter" ? "JL" : "")">
+                </ChipItem>
+            </ChipItems>
+        </SfChip>
     </div>
 </div>
 
@@ -48,7 +48,7 @@
                             <div>
                                 <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@ColorData" Placeholder="Select a color">
                                     <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                                    <DropDownListEvents TValue="string" ValueChange="@(e => { ChipColor = e.Value; })"></DropDownListEvents>
+                                    <DropDownListEvents TValue="string" TItem="DropDownModel" ValueChange="@(e => { ChipColor = e.Value; })"></DropDownListEvents>
                                 </SfDropDownList>
                             </div>
                         </td>
@@ -72,7 +72,7 @@
                             <div>
                                 <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@AvatarData" Placeholder="Select Avatar type">
                                     <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                                    <DropDownListEvents TValue="string" ValueChange="@(e => { AvatarIconCss = e.Value; })"></DropDownListEvents>
+                                    <DropDownListEvents TValue="string" TItem="DropDownModel" ValueChange="@Avatar"></DropDownListEvents>
                                 </SfDropDownList>
                             </div>
                         </td>
@@ -104,10 +104,13 @@
 </div>
 
 @code{
-    string ChipColor = "";
-    string AvatarIconCss = "";
+    string ChipColor = String.Empty;
+    string LeadingIconText = string.Empty;
+    string AvatarClass = string.Empty;
+    string ParentCssClass = string.Empty;
     bool Outline = false;
     bool LeadingIconCss = false;
+    bool AvatarIcon = false;
     bool TrailingIconCss = false;
     List<DropDownModel> ColorData = new List<DropDownModel>()
     {
@@ -125,18 +128,44 @@
         new DropDownModel { Text = "Image", Value = "image" },
         new DropDownModel { Text = "Letter", Value = "letter" },
     };
-    class DropDownModel
+    public class DropDownModel
     {
         public string Id { get; set; }
         public string Text { get; set; }
         public string Value { get; set; }
     }
+    public void Avatar(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownModel> args)
+    {
+        ParentCssClass = "e-leading-avatar";
+        AvatarIcon = true;
+        AvatarClass = string.Empty;
+        if (args.Value == "none")
+        {
+            ParentCssClass = string.Empty;
+            LeadingIconText = string.Empty;
+            AvatarIcon = false;
+        }
+        else if (args.Value == "image")
+        {
+            AvatarClass = "janet";
+        }
+        else if (args.Value == "icon")
+        {
+            AvatarClass = "e-icon";
+        }
+        else if (args.Value == "letter")
+        {
+            LeadingIconText = args.Value;
+        }
+        StateHasChanged();
+    }
 }
 
 <style>
     #chip-api-wrapper .janet {
-        background-image: url('css/chips/images/janet.png');
+        background-image: url('images/chips/janet.png');
     }
+
     #chip-api-wrapper {
         display: flex;
         justify-content: center;

@@ -1,5 +1,6 @@
 ﻿@namespace blazor_samples.Shared
 
+@inject IJSRuntime JsRuntime;
 @inject SampleService SampleService;
 @inject NavigationManager UriHelper;
 
@@ -42,6 +43,15 @@
     </div>
 </SideBarComponent>
 
+@if (SampleService.IsDevice)
+{
+    <style>
+        .sb-mobile-logo {
+            background: url(@(SampleService.ImagePath + "syncfusion-mobile-logo.svg")) no-repeat;
+        }
+    </style>
+}
+
 @code {
 
     private bool isOpen { get; set; }
@@ -69,13 +79,15 @@
     }
 
     // Home button click handler
-    private void HomeButtonClick()
+    private async Task HomeButtonClick()
     {
         // Set default values to SampleService for home page navigation.
         SampleService.ComponentName = null;
         SampleService.SampleInfo = null;
         SampleService.Spinner.Show();
         UriHelper.NavigateTo(UriHelper.BaseUri);
+        var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
+        await JsRuntime.InvokeVoidAsync("sfBlazorSB.updateBodyClass", themeName);
     }
 
     protected override void OnInitialized()

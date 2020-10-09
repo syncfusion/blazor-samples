@@ -39,7 +39,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     application.DefaultVersion = ExcelVersion.Excel2016;
 
                     //Opening the encrypted Workbook
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("GroupShapes.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("group-shapes.xlsx"), FileMode.Open, FileAccess.Read);
                     IWorkbook workbook = application.Workbooks.Open(inputStream, ExcelParseOptions.Default, true, "PASSWORD");
 
                     //Save the document as a stream and retrun the stream
@@ -64,7 +64,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     application.DefaultVersion = ExcelVersion.Excel2016;
 
                     //Opening the encrypted Workbook
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("GroupShapes.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("group-shapes.xlsx"), FileMode.Open, FileAccess.Read);
                     IWorkbook workbook = application.Workbooks.Open(inputStream, ExcelParseOptions.Default, true, "PASSWORD");
 
                     IWorksheet worksheet;
@@ -124,7 +124,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

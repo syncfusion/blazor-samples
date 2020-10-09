@@ -43,7 +43,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             par = section1.AddParagraph();
 
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"/DocIO/WinFAQ.txt";
+            string dataPath = basePath + @"/data/docio/win-faq.txt";
             //Insert Text into the word Document.
             StreamReader reader = new StreamReader(new FileStream(dataPath, FileMode.Open), System.Text.Encoding.ASCII);
             string text = reader.ReadToEnd();
@@ -88,7 +88,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             // Inserting logo image to the table first cell.
             headerPar = table[0, 0].AddParagraph() as WParagraph;
             string basePath = _hostingEnvironment.WebRootPath;
-            FileStream imageStream = new FileStream(basePath + @"/images/DocIO/Northwind_logo.png", FileMode.Open, FileAccess.Read);
+            FileStream imageStream = new FileStream(basePath + @"/images/docio/northwind-logo.png", FileMode.Open, FileAccess.Read);
             headerPar.AppendPicture(imageStream);
             //Set Image size
             (headerPar.Items[0] as WPicture).Width = 232.5f;
@@ -143,7 +143,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             // Inserting logo image to the table first cell.
             headerPar = table[0, 0].AddParagraph() as WParagraph;
             string basePath = _hostingEnvironment.WebRootPath;
-            FileStream imageStream = new FileStream(basePath + @"/images/DocIO/Northwind_logo.png", FileMode.Open, FileAccess.Read);
+            FileStream imageStream = new FileStream(basePath + @"/images/docio/northwind-logo.png", FileMode.Open, FileAccess.Read);
             headerPar.AppendPicture(imageStream);
             //Set Image size.
             (headerPar.Items[0] as WPicture).Width = 232.5f;

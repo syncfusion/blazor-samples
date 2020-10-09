@@ -7,22 +7,24 @@
     <p>   This demo illustrates the daily tasks of two employees grouped by date-wise.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>  In this demo, there are 2 resources defined namely <strong>Alice</strong> and <strong>Smith</strong> under the resource
+    <p>
+        In this demo, there are 2 resources defined namely <strong>Alice</strong> and <strong>Smith</strong> under the resource
         <code>DataSource</code>. The Scheduler can be switched to group by date, by setting <code>true</code> to the option
-        <code>ByDate</code> within the <code>Group</code> property. </p>
+        <code>ByDate</code> within the <code>Group</code> property.
+    </p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 12))">
+        <SfSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
             <ScheduleGroup ByDate="true" Resources="@GroupData"></ScheduleGroup>
             <ScheduleResources>
-                <ScheduleResource TValue="ResourceData" DataSource="@OwnersData" Field="TaskId" Title="Assignee" Name="Owners" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
+                <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@OwnersData" Field="TaskId" Title="Assignee" Name="Owners" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
-                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
                 <ScheduleView Option="View.Agenda"></ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings DataSource="@DataSource">
@@ -37,6 +39,7 @@
 </div>
 
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 1, 12);
     public List<ScheduleData.ResourceData> DataSource = new ScheduleData().GetResourceData();
     public string[] GroupData = new string[] { "Owners" };
     private List<ResourceData> OwnersData { get; set; } = new List<ResourceData> {

@@ -1,26 +1,23 @@
 ﻿@page "/kanban/card-template"
+@inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
-
 @using Syncfusion.Blazor.Kanban
-
-@inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>This sample demonstrates how to customize the Kanban cards using templates.In this demo, the cards are customized with icons, images, and tags.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>You can customize the default design of the Kanban cards using templates.This can be achieved using the <code>KanbanCardSettings</code> -> <code>Template</code> property.</p>
-   <p>In this demo, all the cards are customized with templating as text, images, and tags.</p>
+    <p>You can customize the default design of the Kanban cards using templates.This can be achieved using the <code>KanbanCardSettings</code> -> <code>Template</code> property.</p>
+    <p>In this demo, all the cards are customized with templating as text, images, and tags.</p>
 </ActionDescription>
 
 <div class="control-section">
     <SfKanban KeyField="Category" DataSource="@Pizza">
         <KanbanColumns>
-            @foreach (ColumnsModel item in columnData)
+            @foreach (ColumnModel item in columnData)
             {
-                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField">
-                </KanbanColumn>
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
             }
         </KanbanColumns>
         <KanbanCardSettings HeaderField="Id" ContentField="Description">
@@ -37,7 +34,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="e-image">
-                                            <img src="./images/Kanban/@(card.ImageURL).png" alt="">
+                                            <img src="./images/kanban/@(card.ImageURL).png" alt="">
                                         </td>
                                         <td class="e-title">
                                             <div class="e-card-stacked">
@@ -54,18 +51,7 @@
                                                                 @if (card.Category == "Menu" || card.Category == "Order" || card.Category == "Ready to Serve")
                                                                 {
                                                                     <td colspan="2">
-                                                                        <div class="e-description">
-                                                                            @{
-                                                                                if (card.Category == "Menu")
-                                                                                {
-                                                                                    @card.Description
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    @card.OrderID
-                                                                                }
-                                                                            }
-                                                                        </div>
+                                                                        <div class="e-description">@(card.Category == "Menu" ? card.Description : card.OrderID)</div>
                                                                     </td>
                                                                 }
                                                                 else
@@ -251,14 +237,12 @@
     }
 </style>
 
-@code {
+@code{
     private List<KanbanDataModel> Pizza = new KanbanDataModel().GetPizzaData();
-
-    private List<ColumnsModel> columnData = new List<ColumnsModel>()
-    {
-        new ColumnsModel(){ HeaderText= "Menu", KeyField= "Menu" },
-        new ColumnsModel(){ HeaderText= "Order", KeyField= "Order" },
-        new ColumnsModel(){ HeaderText= "Ready to Serve", KeyField= "Ready to Serve"},
-        new ColumnsModel(){ HeaderText= "Delivered", KeyField= "Delivered,Served" }
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "Menu", KeyField= new List<string>() { "Menu" } },
+        new ColumnModel(){ HeaderText= "Order", KeyField= new List<string>() { "Order" } },
+        new ColumnModel(){ HeaderText= "Ready to Serve", KeyField= new List<string>() { "Ready to Serve"} },
+        new ColumnModel(){ HeaderText= "Delivered", KeyField=new List<string>() {  "Delivered", "Served" } }
     };
 }

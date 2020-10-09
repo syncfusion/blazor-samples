@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream WordToPDF(string button, bool preserveStructureTags, bool preserveFormFields, bool preserveWordHeadingsToPDFBookmarks, bool showRevisions)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/doctopdf.docx";
+            string dataPath = basePath + @"data/docio/doc-to-pdf.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {

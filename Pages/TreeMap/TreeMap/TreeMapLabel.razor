@@ -15,13 +15,13 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-    <SfTreeMap TValue="PopulationDetails" WeightValuePath="Population" Format='N0' UseGroupingSeparator="true" RangeColorValuePath="Population" DataSource="@LeafDataSource">
+    <SfTreeMap TValue="PopulationDetails" WeightValuePath="Population" Format='N0' EnableGroupingSeparator="true" RangeColorValuePath="Population" DataSource="@LeafDataSource">
         <TreeMapTitleSettings Text="Countries ordered based on Population - 2017"/>
         <TreeMapLeafItemSettings ShowLabels="true" LabelPath="Country" Fill="#FF0000" InterSectAction="@LabelAction">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping From="100000000" To="10000000000" Label="200M - 1.3M" Color="@LeafColorOne"/>
-                <TreeMapLeafColorMapping From="20000000" To="100000000" Label="20M - 200M" Color="@LeafColorTwo"/>
-                <TreeMapLeafColorMapping From="100000" To="20000000" Label="0.1M - 20M" Color="@LeafColorThree"/>
+                <TreeMapLeafColorMapping StartRange="100000000" EndRange="10000000000" Label="200M - 1.3M" Color="@LeafColorOne"/>
+                <TreeMapLeafColorMapping StartRange="20000000" EndRange="100000000" Label="20M - 200M" Color="@LeafColorTwo"/>
+                <TreeMapLeafColorMapping StartRange="100000" EndRange="20000000" Label="0.1M - 20M" Color="@LeafColorThree"/>
             </TreeMapLeafColorMappings>
         </TreeMapLeafItemSettings>
         <TreeMapLegendSettings Visible="true" Mode="LegendMode.Interactive" Width="300px" Height="10" Position="LegendPosition.Top"/>
@@ -45,8 +45,8 @@
                             </div>
                         </td>
                         <td>
-                            <SfDropDownList DataSource="@LabelActionList" Value="@LabelActionValue" Width="120px">
-                                <DropDownListEvents TValue="string" ValueChange="LabelActionechange"/>
+                            <SfDropDownList DataSource="@LabelActionList" @bind-Value="@LabelActionValue" Width="120px">
+                                <DropDownListEvents TItem="LabelDropdownList" TValue="string" ValueChange="LabelActionechange"/>
                                 <DropDownListFieldSettings Text="Name" Value="Value"/>
                             </SfDropDownList>
                         </td>
@@ -66,9 +66,9 @@
 </style>
 @code {
     public LabelAlignment LabelAction = LabelAlignment.Trim;
-    public string LeafColorOne = "#4B134F";
-    public string LeafColorTwo = "#8C304D";
-    public string LeafColorThree = "#C84B4B";
+    public string[] LeafColorOne = new string[] { "#4B134F" };
+    public string[] LeafColorTwo = new string[] { "#8C304D" };
+    public string[] LeafColorThree = new string[] { "#C84B4B" };
     public string LabelActionValue = "Trim";
     public class LabelDropdownList {
         public string Value { get; set; }
@@ -80,7 +80,7 @@
         new LabelDropdownList { Value="Wrap", Name="Wrap"  },
         new LabelDropdownList { Value="WrapByWord", Name="WrapByWord" }
     };
-    public void LabelActionechange(ChangeEventArgs<string> args) {
+    public void LabelActionechange(ChangeEventArgs<string, LabelDropdownList> args) {
         LabelActionValue = args.Value;
         if (args.Value == "Trim") {
             LabelAction = LabelAlignment.Trim;
@@ -96,8 +96,8 @@
         }
     }
     public class PopulationDetails {
-        public string Country;
-        public int Population;
+        public string Country { get; set; }
+        public int Population { get; set; }
     }
     public List<PopulationDetails> LeafDataSource { get; set; } = new List<PopulationDetails> {
         new PopulationDetails { Country="China", Population=1388232693 },

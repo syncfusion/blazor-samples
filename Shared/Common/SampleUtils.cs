@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using Syncfusion.Blazor.Navigations;
+using Microsoft.AspNetCore.Components;
 
 namespace blazor_samples.Shared
 {
@@ -17,6 +18,8 @@ namespace blazor_samples.Shared
         public const string HIDDEN = "sf-hidden";
         public const string DISPLAY_NONE = "sb-hide";
         public const string COMPONENTS_HIDE = "sb-components-hide";
+        public const string ACTIVE_CLASS = "active";
+
         #endregion
 
         #region SideBarComponent
@@ -53,6 +56,66 @@ namespace blazor_samples.Shared
         public const string TREE_HIDE = "sf-tree-hide";
         #endregion
 
+        #region CarouselComponent
+        public const string CAROUSEL = "sf-carousel";
+        public const string CAROUSEL_CONTAINER = "sf-carousel-container";
+         public const string CAROUSEL_TRANSITION = "sf-carousel-transition";
+        public const string CAROUSEL_ITEM = "sf-carousel-item";
+        public const string CAROUSEL_SELECTED = "sf-carousel-selected";
+        public const string CAROUSEL_PREVIOUS_BUTTON = "sf-carousel-prev-button sb-icons";
+        public const string CAROUSEL_NEXT_BUTTON = "sf-carousel-next-button sb-icons";
+        public const string CAROUSEL_IMAGE = "sf-carousel-image";
+        public const string CAROUSEL_HEADER = "sf-carousel-header";
+        public const string CAROUSEL_CONTENT = "sf-carousel-content";
+        public const string CAROUSEL_CLONE = "sf-carousel-clone";
+        public const string CAROUSEL_CONTENT_AREA = "sf-carousel-content-area";
+        public const string CAROUSEL_PROGRESS = "sf-carousel-progress";
+        #endregion
+
+        #region SearchComponent
+        public const string SEARCH_CONTAINER = "sf-search-container";
+        public const string SEARCH_POPUP = "sf-search-popup";
+        public const string SEARCH_INPUT = "sf-search-input";
+        public const string SEARCH_NO_DATA = "sf-search-no-data";
+        public const string CLEAR_ICON = "sb-icons sf-clear-icon";
+        public const string SEARCH_ICON = "sb-icons sf-search-icon";
+        public const string SEARCH_OVERLAY = "sb-search-overlay";
+        public const string SEARCH_KEY_NAV = "sf-key-nav";
+        #endregion
+
+        #region AdStripComponent
+        public const string AD_CONTAINER = "sb-ad-container";
+        public const string AD_CONTENT = "sb-ad-content-area";
+        public const string AD_HEADER = "sb-ad-header";
+        public const string AD_POINTS_DIV = "sb-ad-points-div";
+        public const string AD_POINT_DIV = "sb-ad-point-div";
+        public const string AD_POINT_TICK = "sb-ad-img-div sb-icons sb-ad-tick";
+        public const string AD_POINT_TEXT = "sb-ad-point-text";
+        public const string AD_LINK = "sb-ad-link";
+        public const string AD_TRY = "sb-ad-try-area";
+        #endregion
+
+        #region HomePage
+        public const string HEADER_LOGO = "header-logo";
+        public const string MOBILE_SEARCH_CONTAINER = "mobile-search-container";
+        #endregion
+
+        #region Preferences
+        public const string DEFAULT_MODE = "mouse";
+        public const string PREFERENCES_POPUP_CLASS = "sf-preferences-popup";
+        public const string PREFERENCES_TOUCH = "sf-preference-btn sf-preference-touch-btn";
+        public const string PREFERENCES_MOUSE = "sf-preference-btn sf-preference-mouse-btn";
+        #endregion
+
+        #region HeaderComponent
+        public const string HEADER_SEARCH_CLASS = "sb-search-btn";
+        public const string HEADER_PREFERENCES_CLASS = "sf-preferences-button";
+        #endregion
+
+        #region DropdownComponent
+        public const string DROPDOWN_POPUP = "sf-dropdown-popup";
+        #endregion
+
         /// <summary>
         /// Add a class to the existing string content.
         /// </summary>
@@ -77,6 +140,12 @@ namespace blazor_samples.Shared
             var finalClass = string.IsNullOrEmpty(prevClass) ? string.Empty : prevClass.Trim();
             finalClass = finalClass.Contains(className) ? prevClass.Replace(className, string.Empty) : finalClass;
             return finalClass;
+        }
+
+        public static bool IsHomePage(NavigationManager uriHelper)
+        {
+            var currentUri = uriHelper.Uri.Split("?")[0];
+            return uriHelper.BaseUri == currentUri;
         }
 
         /// <summary>
@@ -107,6 +176,15 @@ namespace blazor_samples.Shared
             themeName = themeName != null ? themeName : "bootstrap4";
             return themeName;
         }
+
+        public static List<DropDownData> ThemeData = new List<DropDownData>
+        {
+            new DropDownData { ID = "material", Text = "Material" },
+            new DropDownData { ID = "fabric", Text = "Fabric" },
+            new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
+            new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
+            new DropDownData { ID = "highcontrast", Text = "High Contrast" }
+        };
     }
 
     /// <summary>
@@ -118,40 +196,40 @@ namespace blazor_samples.Shared
         public string Text { get; set; }
     }
 
-
 #pragma warning disable
+    
     /// <summary>
-    /// Theme switcher datasource model class.
+    /// Search Component datasource model class.
     /// </summary>
-    public class ThemeSwitcher
+
+    public class SearchList
     {
-        /// <summary>
-        /// Returns the list of themes.
-        /// </summary>
-        public List<MenuItem> GetThemeList()
+        public string Category { get; set; }
+        public List<SearchResult> SampleList { get; set; }
+        public bool IsMultiSearch { get; set; }
+        public List<SearchList> GetSearchList()
         {
-            return new List<MenuItem>
+            var searchlist = new List<SearchList>();
+            var sampleList = SampleBrowser.SampleList;
+            for (int i = 0; i < sampleList.Count; i++)
             {
-                new MenuItem { Id = "material", Text = "Material" },
-                new MenuItem { Id = "fabric", Text = "Fabric" },
-                new MenuItem { Id = "bootstrap", Text = "Bootstrap" },
-                new MenuItem { Id = "bootstrap4", Text = "Bootstrap v4" },
-                new MenuItem { Id = "highcontrast", Text = "High Contrast" }
-            };
-        }
-        /// <summary>
-        /// Returns the list of themes for mobile theme switcher.
-        /// </summary>
-        public List<DropDownData> GetThemeData()
-        {
-            var data = GetThemeList();
-            var themeData = new List<DropDownData>();
-            foreach(var themeItem in data)
-            {
-                themeData.Add(new DropDownData() { ID = themeItem.Id, Text = themeItem.Text });
+                var samples = sampleList[i].Samples;
+                var searchResult = new List<SearchResult>();
+                for (int j = 0; j < samples.Count; j++)
+                {
+                    var sample = samples[j];
+                    searchResult.Add(new SearchResult { SampleName = sample.Name, SamplePath = sample.Url });
+                }
+                searchlist.Add(new SearchList { Category = sampleList[i].ControllerName, SampleList = searchResult });
             }
-            return themeData;
+            return searchlist;
         }
+    }
+
+    public class SearchResult
+    {
+        public string SampleName { get; set; }
+        public string SamplePath { get; set; }
     }
 
     /// <summary>
@@ -186,6 +264,32 @@ namespace blazor_samples.Shared
         /// </summary>
         public string HyperLink { get; set; }
     }
+
+    public class CarouselModel
+    {
+        public int XValue { get; set; }
+        public int LeftValue { get; set; }
+        public bool IsDevice { get; set; }
+    }
+
+    /// <summary>
+    /// AdStrip component's data model class.
+    /// </summary>
+    public class AdPoint
+    {
+        /// <summary>
+        /// Constructor for updating property.
+        /// </summary>
+        public AdPoint(string Text)
+        {
+            this.AdPointText = Text;
+        }
+        /// <summary>
+        /// Specifies the Ad point text content.
+        /// </summary>
+        public string AdPointText { get; set; }
+    }
+
 #pragma warning restore
 
     /// <summary>

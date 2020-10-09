@@ -3252,7 +3252,7 @@ namespace blazor_samples.Pages.Schedule.Scheduler
                 Location = "Office",
                 StartTime = new DateTime(2020, 1, 6, 9, 30, 0),
                 EndTime = new DateTime(2020, 1, 6, 10, 30, 0),
-                RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1",
+                RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=10",
                 CategoryColor = "#357cd2",
                 Description = "Weekly work status"
             });
@@ -3263,7 +3263,7 @@ namespace blazor_samples.Pages.Schedule.Scheduler
                 Location = "Office",
                 StartTime = new DateTime(2020, 1, 10, 12, 0, 0),
                 EndTime = new DateTime(2020, 1, 10, 14, 0, 0),
-                RecurrenceRule = "FREQ=WEEKLY;INTERVAL=1;BYDAY=FR",
+                RecurrenceRule = "FREQ=DAILY;INTERVAL=1",
                 CategoryColor = "#7fa900",
                 Description = "Future plans and posibilities"
             });
@@ -7174,6 +7174,7 @@ namespace blazor_samples.Pages.Schedule.Scheduler
             public string CategoryColor { get; set; }
             public string RecurrenceRule { get; set; }
             public Nullable<int> RecurrenceID { get; set; }
+            public Nullable<int> FollowingID { get; set; }
             public string RecurrenceException { get; set; }
             public string StartTimezone { get; set; }
             public string EndTimezone { get; set; }
@@ -7195,7 +7196,6 @@ namespace blazor_samples.Pages.Schedule.Scheduler
         {
             public bool IsBlock { get; set; }
             public int EmployeeId { get; set; }
-            public EmployeeData ResourceData { get; set; }
         }
         public class EmployeeData
         {
@@ -7208,7 +7208,6 @@ namespace blazor_samples.Pages.Schedule.Scheduler
         public class ResourceConferenceData : AppointmentData
         {
             public int[] ConferenceId { get; set; }
-            public ConferenceData ResourceData { get; set; }
         }
         public class ConferenceData
         {
@@ -7224,7 +7223,6 @@ namespace blazor_samples.Pages.Schedule.Scheduler
             public virtual string ElementType { get; set; }
             public virtual DateTime? StartTimeValue { get; set; }
             public virtual DateTime? EndTimeValue { get; set; }
-            public RoomsData ResourceData { get; set; }
         }
         public class RoomsData
         {

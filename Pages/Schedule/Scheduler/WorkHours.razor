@@ -18,13 +18,13 @@
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" CurrentView="View.WorkWeek" SelectedDate="@(new DateTime(2020, 1, 16))" WorkDays="@WorkingDays">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate" WorkDays="@WorkingDays">
             <ScheduleWorkHours Highlight="true" Start="@StartWorkingHours" End="@EndWorkingHours"></ScheduleWorkHours>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
                 <ScheduleView Option="View.WorkWeek"></ScheduleView>
-                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
@@ -45,7 +45,7 @@
                         </td>
                         <td style="width: 50%;">
                             <div>
-                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0)">
+                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" @bind-Value="@startTime">
                                     <TimePickerEvents TValue="DateTime?" ValueChange="StartWorkHours"></TimePickerEvents>
                                 </SfTimePicker>
                             </div>
@@ -59,7 +59,7 @@
                         </td>
                         <td style="width: 50%;">
                             <div>
-                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" Value="new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0)">
+                                <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" @bind-Value="@endTime">
                                     <TimePickerEvents TValue="DateTime?" ValueChange="EndWorkHours"></TimePickerEvents>
                                 </SfTimePicker>
                             </div>
@@ -71,8 +71,12 @@
     </div>
 </div>
 @code{
+    public View CurrentView = View.WorkWeek;
+    public DateTime CurrentDate = new DateTime(2020, 1, 16);
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetEmployeeEventData();
     static int[] WorkingDays = new int[] { 1, 3, 5 };
+    private DateTime? startTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0);
+    private DateTime? endTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0);
     public string StartWorkingHours = "08:00";
     public string EndWorkingHours = "20:00";
     public void StartWorkHours(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)

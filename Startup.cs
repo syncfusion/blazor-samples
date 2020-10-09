@@ -33,11 +33,11 @@ namespace blazor_samples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            services.AddHttpContextAccessor();
             #region Localization
             // Set the resx file folder path to access
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddSyncfusionBlazor(true);
+            services.AddSyncfusionBlazor();
             // Register the Syncfusion locale service to customize the  SyncfusionBlazor component locale culture
             services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(SyncfusionLocalizer));
             services.Configure<RequestLocalizationOptions>(options =>
@@ -65,10 +65,10 @@ namespace blazor_samples
                 o.MaximumReceiveMessageSize = 102400000;
             });
 #if (!DEBUG)
-            //services.AddSignalR().AddAzureSignalR(options =>
-            //{
-            //    options.ServerStickyMode = Microsoft.Azure.SignalR.ServerStickyMode.Required;
-            //});
+            // services.AddSignalR().AddAzureSignalR(options =>
+            // {
+            //     options.ServerStickyMode = Microsoft.Azure.SignalR.ServerStickyMode.Required;
+            // });
 #endif
             services.AddScoped<SampleService>();
         }

@@ -10,15 +10,17 @@
     <p>This example showcases how to export the Scheduler events to a calendar (.ics) file, as well as how to import  events from an .ics file (downloaded from any of the calendars like Google or Outlook) into our Scheduler. </p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, the Scheduler events can be exported to a calendar (.ics) file by making use of the
-       <code>exportToICalendar</code> public method. By default, the calendar is exported with a file name <code>Calendar.ics</code>.
-       To change this file name on export, pass the custom string value as <code>fileName</code> to get the file
-       downloaded with this provided name. The events from external calendars can also be imported into Scheduler by making use of the <code>importICalendar</code> method. </p>
+    <p>
+        In this example, the Scheduler events can be exported to a calendar (.ics) file by making use of the
+        <code>exportToICalendar</code> public method. By default, the calendar is exported with a file name <code>Calendar.ics</code>.
+        To change this file name on export, pass the custom string value as <code>fileName</code> to get the file
+        downloaded with this provided name. The events from external calendars can also be imported into Scheduler by making use of the <code>importICalendar</code> method.
+    </p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 9))">
+        <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
     </div>
@@ -49,7 +51,8 @@
                         </td>
                         <td style="width: 50%;">
                             <div>
-                                <SfUploader AllowedExtensions=".ics" CssClass="calendar-import" Multiple="false" Buttons="@BrowseBtn">
+                                <SfUploader AllowedExtensions=".ics" CssClass="calendar-import" Multiple="false">
+                                    <UploaderButtonsProps Browse="Choose File"></UploaderButtonsProps>
                                     <UploaderEvents ValueChange="OnChange"></UploaderEvents>
                                 </SfUploader>
                             </div>
@@ -74,11 +77,8 @@
 </style>
 
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 1, 9);
     SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
-    private UploaderButtonsProps BrowseBtn { get; set; } = new UploaderButtonsProps()
-    {
-        Browse = "Choose File"
-    };
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
     public async void ExportToIcs()
     {

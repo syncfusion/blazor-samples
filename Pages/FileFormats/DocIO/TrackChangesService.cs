@@ -26,7 +26,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream CreateWordDocument(int AuthorName, string RevisionBtn, string button)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/TrackChangesTemplate.docx";
+            string dataPath = basePath + @"data/docio/track-changes-template.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {

@@ -28,7 +28,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream LetterFormat(string documentType, string button, bool isMapDataField)
         {
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPath = basePath + @"/DocIO/Letter Formatting.doc";
+            string dataPath = basePath + @"/data/docio/letter-formatting.doc";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {
@@ -90,7 +90,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         {
             //Data source.
             DataSet ds = new DataSet();
-            ds.ReadXml(_hostingEnvironment.WebRootPath + @"/DocIO/Customers.xml");
+            ds.ReadXml(_hostingEnvironment.WebRootPath + @"/data/docio/customers.xml");
             DataTable table = ds.Tables[0];
             return table;
         }

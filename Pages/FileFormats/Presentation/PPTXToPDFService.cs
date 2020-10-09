@@ -29,7 +29,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream PDFConversion()
         {
             //Open the existing presentation
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Template.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("template.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);           
             
             //Convert the PowerPoint document to PDF document.
@@ -52,7 +52,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream PDFInput()
         {
             //Open the existing presentation
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Template.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("template.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);      
             
             //Save the document as a stream and retrun the stream
@@ -67,7 +67,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
     }

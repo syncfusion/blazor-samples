@@ -17,23 +17,51 @@
         <CircularGaugeAxes>
             <CircularGaugeAxis Radius="80%" StartAngle="210" EndAngle="150" Minimum="0" Maximum="100">
                 <CircularGaugeAxisLabelStyle Offset="10">
-                    <CircularGaugeAxisLabelFont Size="12px" FontFamily="Roboto" FontWeight="Regular"/>
+                    <CircularGaugeAxisLabelFont Size="12px" FontFamily="Roboto" FontWeight="Regular" />
                 </CircularGaugeAxisLabelStyle>
                 <CircularGaugeAxisLineStyle Width="0" Color="transparent" />
-                <CircularGaugeAxisMajorTicks Width="0" Interval="10"/>
-                <CircularGaugeAxisMinorTicks Width="0"/>
+                <CircularGaugeAxisMajorTicks Width="0" Interval="10" />
+                <CircularGaugeAxisMinorTicks Width="0" />
                 <CircularGaugePointers>
-                    <CircularGaugePointer NeedleStartWidth="2" Value="65" Radius="85%" Color="#E63B86" PointerWidth="12" LinearGradient="@PointerLinearModel" RadialGradient="@PointerRadialModel">
+                    <CircularGaugePointer NeedleStartWidth="2" Value="65" Radius="85%" Color="#E63B86" PointerWidth="12">
+                        <LinearGradient StartValue="@PointerLinearStart" EndValue="@PointerLinearEnd">
+                            <ColorStops>
+                                <ColorStop Opacity="0.9" Offset="0%" Color="#FEF3F9"></ColorStop>
+                                <ColorStop Opacity="0.9" Offset="70%" Color="#E63B86"></ColorStop>
+                            </ColorStops>
+                        </LinearGradient>
+                        <RadialGradient Radius="@PointerRadialRadius">
+                            <InnerPosition X="@PointerInnerX" Y="@PointerInnerY"></InnerPosition>
+                            <OuterPosition X="@PointerOuterX" Y="@PointerOuterY"></OuterPosition>
+                            <ColorStops>
+                                <ColorStop Opacity="0.9" Offset="0%" Color="#FEF3F9"></ColorStop>
+                                <ColorStop Opacity="0.9" Offset="60%" Color="#E63B86"></ColorStop>
+                            </ColorStops>
+                        </RadialGradient>
                         <CircularGaugePointerAnimation Enable="true"></CircularGaugePointerAnimation>
                         <CircularGaugeCap Radius="12" Color="White">
-                            <CircularGaugeCapBorder Width="2.5" Color="#E63B86"/>
+                            <CircularGaugeCapBorder Width="2.5" Color="#E63B86" />
                         </CircularGaugeCap>
                         <CircularGaugeNeedleTail Length="0%"></CircularGaugeNeedleTail>
                     </CircularGaugePointer>
-                </CircularGaugePointers>                
+                </CircularGaugePointers>
                 <CircularGaugeRanges>
-                    <CircularGaugeRange RoundedCornerRadius="10" Color="#E63B86" Start="0" End="100" StartWidth="18" EndWidth="18" LinearGradient="@RangeLinearModel" RadialGradient="@RangeRadialModel">
-                    </CircularGaugeRange>                    
+                    <CircularGaugeRange RoundedCornerRadius="10" Color="#E63B86" Start="0" End="100" StartWidth="18" EndWidth="18">
+                        <LinearGradient StartValue="@RangeLinearStart" EndValue="@RangeLinearEnd">
+                            <ColorStops>
+                                <ColorStop Opacity="0.9" Offset="0%" Color="#9E40DC"></ColorStop>
+                                <ColorStop Opacity="0.9" Offset="70%" Color="#E63B86"></ColorStop>
+                            </ColorStops>
+                        </LinearGradient>
+                        <RadialGradient Radius="@RangeRadialRadius">
+                            <InnerPosition X="@RangeInnerX" Y="@RangeInnerY"></InnerPosition>
+                            <OuterPosition X="@RangeOuterX" Y="@RangeOuterY"></OuterPosition>
+                            <ColorStops>
+                                <ColorStop Opacity="0.9" Offset="90%" Color="#9E40DC"></ColorStop>
+                                <ColorStop Opacity="0.9" Offset="160%" Color="#E63B86"></ColorStop>
+                            </ColorStops>
+                        </RadialGradient>
+                    </CircularGaugeRange>
                 </CircularGaugeRanges>
             </CircularGaugeAxis>
         </CircularGaugeAxes>
@@ -50,8 +78,8 @@
                     </td>
                     <td>
                         <div style="margin-left: -10px">
-                            <SfDropDownList DataSource="@GradientDataSource" Value="@GradientValueTypeValue">
-                                <DropDownListEvents TValue="string" ValueChange="@GradientValueTypeChange" />
+                            <SfDropDownList DataSource="@GradientDataSource" @bind-Value="@GradientValueTypeValue">
+                                <DropDownListEvents TItem="GradientValueType" TValue="string" ValueChange="@GradientValueTypeChange" />
                                 <DropDownListFieldSettings Text="Name" Value="Name" />
                             </SfDropDownList>
                         </div>
@@ -63,8 +91,8 @@
                     </td>
                     <td>
                         <div style="margin-left: -10px">
-                            <SfDropDownList DataSource="@ElementData" Value="@ElementValueTypeValue">
-                                <DropDownListEvents TValue="string" ValueChange="@ElementValueTypeChange" />
+                            <SfDropDownList DataSource="@ElementData" @bind-Value="@ElementValueTypeValue">
+                                <DropDownListEvents TItem="ElementValueType" TValue="string" ValueChange="@ElementValueTypeChange" />
                                 <DropDownListFieldSettings Text="Name" Value="Name" />
                             </SfDropDownList>
                         </div>
@@ -84,45 +112,23 @@
     }
 </style>
 @code{
-    public LinearGradient PointerLinearModel = null;
-    public LinearGradient RangeLinearModel = RangeLinearGradientValue;
-    public RadialGradient PointerRadialModel = null;
-    public RadialGradient RangeRadialModel = null;
-    public static LinearGradient RangeLinearGradientValue = new LinearGradient() {
-        StartValue = "1%",
-        EndValue = "99%",
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=0.9, Color= "#9E40DC", Offset="1%" },
-            new ColorStop { Opacity=0.9, Color= "#E63B86", Offset="70%" }
-        }
-    };
-    public static LinearGradient PointerLinearGradientValue = new LinearGradient() {
-        StartValue = "1%",
-        EndValue = "99%",
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=0.9, Color= "#FEF3F9", Offset="1%" },
-            new ColorStop { Opacity=0.9, Color= "#E63B86", Offset="70%" }
-        }
-    };
-    public static RadialGradient RangeRadialGradientValue = new RadialGradient() {
-        Radius="50%",
-        OuterPosition = new OuterPosition(){ X="50%", Y="50%"},
-        InnerPosition = new InnerPosition() { X="50%", Y="50%" },
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=0.9, Color= "#9E40DC", Offset="90%" },
-            new ColorStop { Opacity=0.9, Color= "#E63B86", Offset="160%" }
-        }
-    };
-    public static RadialGradient PointerRadialGradientValue = new RadialGradient()
-    {
-        Radius = "50%",
-        OuterPosition = new OuterPosition() { X="50%", Y="50%" },
-        InnerPosition = new InnerPosition() { X="50%", Y="50%" },
-        ColorStop = new List<ColorStop>() {
-            new ColorStop { Opacity=0.9, Color= "#FEF3F9", Offset="1%" },
-            new ColorStop { Opacity=0.9, Color= "#E63B86", Offset="60%" }
-        }
-    };
+    public string StartValue = "0%";
+    public string EndValue = "100%";
+    public string RadialValue = "50%";
+    public string PointerLinearStart;
+    public string PointerLinearEnd;
+    public string RangeLinearStart;
+    public string RangeLinearEnd;
+    public string PointerRadialRadius;
+    public string PointerInnerX;
+    public string PointerInnerY;
+    public string PointerOuterX;
+    public string PointerOuterY;
+    public string RangeRadialRadius;
+    public string RangeInnerX;
+    public string RangeInnerY;
+    public string RangeOuterX;
+    public string RangeOuterY;
     private string GradientValueTypeValue = "Linear Gradient";
     private string ElementValueTypeValue = "Range";
 
@@ -142,60 +148,53 @@
         new ElementValueType{ Name = "Range"},
         new ElementValueType{ Name = "Pointer"}
     };
-    private void GradientValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+
+    protected override void OnInitialized()
+    {
+        RangeLinearStart = StartValue;
+        RangeLinearEnd = EndValue;
+    }
+
+    private void GradientValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, GradientValueType> args)
     {
         GradientValueTypeValue = args.Value;
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Range") {
-            PointerLinearModel = null;
-            RangeLinearModel = RangeLinearGradientValue;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
-        }
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = PointerLinearGradientValue;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
-        }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Range") { 
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = RangeRadialGradientValue;
-        }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = PointerRadialGradientValue;
-            RangeRadialModel = null;
-         }
+        UpdateGauge();
     }
-    private void ElementValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private void ElementValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ElementValueType> args)
     {
         ElementValueTypeValue = args.Value;
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Range") {
-            PointerLinearModel = null;
-            RangeLinearModel = RangeLinearGradientValue;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
+        UpdateGauge();
+    }
+
+    private void UpdateGauge()
+    {
+        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Range")
+        {
+            RangeLinearStart = StartValue;
+            RangeLinearEnd = EndValue;
+            PointerLinearEnd = PointerLinearStart = string.Empty;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = string.Empty;
         }
-        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = PointerLinearGradientValue;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = null;
+        if (GradientValueTypeValue == "Linear Gradient" && ElementValueTypeValue == "Pointer")
+        {
+            RangeLinearStart = RangeLinearEnd = string.Empty;
+            PointerLinearEnd = EndValue;
+            PointerLinearStart = StartValue;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = string.Empty;
         }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Range") { 
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = null;
-            RangeRadialModel = RangeRadialGradientValue;
+        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Range")
+        {
+            RangeLinearStart = RangeLinearEnd = PointerLinearEnd = PointerLinearStart = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = string.Empty;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = RadialValue;
         }
-        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Pointer") {
-            PointerLinearModel = null;
-            RangeLinearModel = null;
-            PointerRadialModel = PointerRadialGradientValue;
-            RangeRadialModel = null;
-         }
+        if (GradientValueTypeValue == "Radial Gradient" && ElementValueTypeValue == "Pointer")
+        {
+            PointerLinearStart = PointerLinearEnd = RangeLinearStart = RangeLinearEnd = string.Empty;
+            RangeRadialRadius = RangeInnerX = RangeInnerY = RangeOuterX = RangeOuterY = string.Empty;
+            PointerRadialRadius = PointerInnerX = PointerInnerY = PointerOuterX = PointerOuterY = RadialValue;
+        }
     }
 }

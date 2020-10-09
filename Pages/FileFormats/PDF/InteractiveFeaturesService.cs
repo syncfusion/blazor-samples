@@ -61,7 +61,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             
 
             //Read the file
-            FileStream file = new FileStream(ResolveApplicationPath("AdventureCycle.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream file = new FileStream(ResolveApplicationPath("adventure-cycle.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         
             g.DrawImage(PdfImage.FromStream(file), new RectangleF(100, 70, 390, 130));
             #endregion
@@ -165,8 +165,8 @@ namespace blazor_samples.Data.FileFormats.PDF
             printButton.Text = "Print";
             printButton.Actions.MouseUp = new PdfJavaScriptAction("this.print (true); ");
             document.Form.Fields.Add(printButton);
-            file = new FileStream(ResolveApplicationPath("Product Catalog.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            PdfAttachment attachment = new PdfAttachment("Product Catalog.pdf", file);
+            file = new FileStream(ResolveApplicationPath("product-catalog.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            PdfAttachment attachment = new PdfAttachment("product-catalog.pdf", file);
             attachment.ModificationDate = DateTime.Now;
             attachment.Description = "Specification";
             document.Attachments.Add(attachment);
@@ -181,7 +181,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             openSpecificationButton.BackColor = new PdfColor(255, 255, 255);
             openSpecificationButton.ForeColor = orangeColor;
             openSpecificationButton.Text = "Open Specification";
-            openSpecificationButton.Actions.MouseUp = new PdfJavaScriptAction("this.exportDataObject({ cName: 'Product Catalog.pdf', nLaunch: 2 });");
+            openSpecificationButton.Actions.MouseUp = new PdfJavaScriptAction("this.exportDataObject({ cName: 'product-catalog.pdf', nLaunch: 2 });");
             document.Form.Fields.Add(openSpecificationButton);
 
             RectangleF uriAnnotationRectangle = new RectangleF(interactivePage.Graphics.ClientSize.Width - 160, interactivePage.Graphics.ClientSize.Height - 30, 80, 20);
@@ -293,9 +293,9 @@ namespace blazor_samples.Data.FileFormats.PDF
         }     
         public static IEnumerable<CylceProducts> GetProductReport(string webRootPath)
         {
-            string dataPath = webRootPath + @"/PDF/";
+            string dataPath = webRootPath + @"/data/pdf/";
             //Read the file
-            FileStream xmlStream = new FileStream(dataPath + "AdventureWorkCycle.xml", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream xmlStream = new FileStream(dataPath + "adventure-work-cycle.xml", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             using (StreamReader reader = new StreamReader(xmlStream, true))
             {
@@ -313,7 +313,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         }
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

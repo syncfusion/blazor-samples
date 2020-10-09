@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateTransitionPresentation()
         {
             //Opens the presentation document as stream
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Transition.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("transition.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //PowerPoint instance is Created.
 
@@ -47,7 +47,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
 		

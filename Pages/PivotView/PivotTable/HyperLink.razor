@@ -24,7 +24,7 @@
             <td>Allows to set the visibility of hyperlink to column headers.</td>
         </tr>
         <tr>
-            <td style='vertical-align:e top;padding: 4px 0;'><code>ShowRowHeaderHyprlink :</code></td>
+            <td style='vertical-align: top;padding: 4px 0;'><code>ShowRowHeaderHyprlink :</code></td>
             <td>Allows to set the visibility of hyperlink to row headers.</td>
         </tr>
         <tr>
@@ -36,7 +36,7 @@
             <td>Allows to set the visibility of hyperlink to value cells.</td>
         </tr>
     </table></p>
-   <p>In this sample, we have used the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.PivotView.PivotViewEvents%601~HyperlinkCellClicked.html'>HyperlinkCellClicked</a></code> event for further processing during cell click.</p>
+   <p>In this sample, we have used the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_HyperlinkCellClicked'>HyperlinkCellClicked</a></code> event for further processing during cell click.</p>
    <p>More information on the hyperlink feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/hyper-link/'>documentation section</a>.</p>
 </ActionDescription>
 
@@ -66,7 +66,10 @@
                     <PivotViewDrilledMember Name="Country" Items="@(new string[] {"United Kingdom", "United States" })"></PivotViewDrilledMember>
                 </PivotViewDrilledMembers>
             </PivotViewDataSourceSettings>
-            <PivotViewHyperlinkSettings ShowValueCellHyperlink="true" CssClass="e-custom-class">
+            <PivotViewHyperlinkSettings ShowValueCellHyperlink="@ShowValueCellHyperlink" ShowHyperlink="@ShowHyperlink" ShowColumnHeaderHyperlink="@ShowColumnHeaderHyperlink" ShowRowHeaderHyperlink="@ShowRowHeaderHyperlink" ShowSummaryCellHyperlink="@ShowSummaryCellHyperlink" HeaderText="@HyperHeaderText" CssClass="e-custom-class">
+                <PivotViewConditionalSettings>
+                    <PivotViewConditionalSetting Measure="@Measure" Conditions="HyperlinkCondition" Value1="ConditionalValue1" Value2="ConditionalValue2"></PivotViewConditionalSetting>
+                </PivotViewConditionalSettings>
             </PivotViewHyperlinkSettings>
             <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
             <PivotViewEvents TValue="PivotProductDetails" HyperlinkCellClicked="@HyperlinkClick"></PivotViewEvents>
@@ -88,8 +91,8 @@
                         </td>
                         <td>
                             <div>
-                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@HyperlinkData" Index="3" @bind-Value="@HyperlinkMode">
-                                    <DropDownListEvents TValue="string" ValueChange="OnHyperlinkChange"></DropDownListEvents>
+                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@HyperlinkData" @bind-Index="@index1" @bind-Value="@HyperlinkMode">
+                                    <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnHyperlinkChange"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
@@ -240,6 +243,7 @@
 </style>
 
 @code{
+
     SfPivotView<PivotProductDetails> Pivot;
     SfDropDownList<string, DropDownData> Fields;
     SfDropDownList<string, DropDownData> Conditions;
@@ -249,7 +253,16 @@
     public List<PivotProductDetails> Data { get; set; }
 
     public string[] DrilledMembers = new string[] { "United States" };
-
+    public bool ShowHyperlink { get; set; } = false;
+    public bool ShowRowHeaderHyperlink { get; set; } = false;
+    public bool ShowColumnHeaderHyperlink { get; set; } = false;
+    public bool ShowValueCellHyperlink { get; set; } = true;
+    public bool ShowSummaryCellHyperlink { get; set; } = false;
+    public string HyperHeaderText { get; set; } = null;
+    public string Measure { get; set; } = null;
+    public double ConditionalValue1 { get; set; } = 0;
+    public double ConditionalValue2 { get; set; } = 0;
+    public Condition HyperlinkCondition;
     public string HyperlinkMode = null;
     public string Condition = null;
     protected override void OnInitialized()
@@ -260,75 +273,75 @@
     public void HyperlinkClick(HyperCellClickEventArgs args)
     {
         args.Cancel = false;
-        args.CurrentCell.SetAttribute("data-url", "https://www.google.com/");
+        args.CurrentCell.SetAttribute<string>("data-url", "https://www.google.com/");
     }
-
-    public void OnHyperlinkChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    private int? index1 {get; set;} =3;
+    public void OnHyperlinkChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
     {
         if (args.Value == "allcells")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = true,
-                ShowRowHeaderHyperlink = false,
-                ShowColumnHeaderHyperlink = false,
-                ShowValueCellHyperlink = false,
-                ShowSummaryCellHyperlink = false,
-                HeaderText = null,
-                ConditionalSettings = new List<PivotViewConditionalSetting>()
-            };
+            this.ShowHyperlink = true;
+            this.ShowRowHeaderHyperlink = false;
+            this.ShowColumnHeaderHyperlink = false;
+            this.ShowValueCellHyperlink = false;
+            this.ShowSummaryCellHyperlink = false;
+            this.HyperHeaderText = null;
+            this.Measure = null;
+            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+            this.ConditionalValue1 = 0;
+            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "rowheader")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = false,
-                ShowRowHeaderHyperlink = true,
-                ShowColumnHeaderHyperlink = false,
-                ShowValueCellHyperlink = false,
-                ShowSummaryCellHyperlink = false,
-                HeaderText = null,
-                ConditionalSettings = new List<PivotViewConditionalSetting>()
-            };
+            this.ShowHyperlink = false;
+            this.ShowRowHeaderHyperlink = true;
+            this.ShowColumnHeaderHyperlink = false;
+            this.ShowValueCellHyperlink = false;
+            this.ShowSummaryCellHyperlink = false;
+            this.HyperHeaderText = null;
+            this.Measure = null;
+            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+            this.ConditionalValue1 = 0;
+            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "columnheader")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = false,
-                ShowRowHeaderHyperlink = false,
-                ShowColumnHeaderHyperlink = true,
-                ShowValueCellHyperlink = false,
-                ShowSummaryCellHyperlink = false,
-                HeaderText = null,
-                ConditionalSettings = new List<PivotViewConditionalSetting>()
-            };
+            this.ShowHyperlink = false;
+            this.ShowRowHeaderHyperlink = false;
+            this.ShowColumnHeaderHyperlink = true;
+            this.ShowValueCellHyperlink = false;
+            this.ShowSummaryCellHyperlink = false;
+            this.HyperHeaderText = null;
+            this.Measure = null;
+            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+            this.ConditionalValue1 = 0;
+            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "valuecells")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = false,
-                ShowRowHeaderHyperlink = false,
-                ShowColumnHeaderHyperlink = false,
-                ShowValueCellHyperlink = true,
-                ShowSummaryCellHyperlink = false,
-                HeaderText = null,
-                ConditionalSettings = new List<PivotViewConditionalSetting>()
-            };
+            this.ShowHyperlink = false;
+            this.ShowRowHeaderHyperlink = false;
+            this.ShowColumnHeaderHyperlink = false;
+            this.ShowValueCellHyperlink = true;
+            this.ShowSummaryCellHyperlink = false;
+            this.HyperHeaderText = null;
+            this.Measure = null;
+            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+            this.ConditionalValue1 = 0;
+            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "summarycells")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = false,
-                ShowRowHeaderHyperlink = false,
-                ShowColumnHeaderHyperlink = false,
-                ShowValueCellHyperlink = false,
-                ShowSummaryCellHyperlink = true,
-                HeaderText = null,
-                ConditionalSettings = new List<PivotViewConditionalSetting>()
-            };
+            this.ShowHyperlink = false;
+            this.ShowRowHeaderHyperlink = false;
+            this.ShowColumnHeaderHyperlink = false;
+            this.ShowValueCellHyperlink = false;
+            this.ShowSummaryCellHyperlink = true;
+            this.HyperHeaderText = null;
+            this.Measure = null;
+            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+            this.ConditionalValue1 = 0;
+            this.ConditionalValue2 = 0;
         }
     }
 
@@ -336,38 +349,29 @@
     {
         if (HyperlinkMode == "conditional")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = false,
-                ShowRowHeaderHyperlink = false,
-                ShowColumnHeaderHyperlink = false,
-                ShowValueCellHyperlink = false,
-                ShowSummaryCellHyperlink = false,
-                HeaderText = null,
-                ConditionalSettings = new List<PivotViewConditionalSetting>() 
-                { 
-                    new PivotViewConditionalSetting() 
-                    {
-                        Measure= this.Fields.Value, 
-                        Conditions = (Syncfusion.Blazor.PivotView.Condition)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.Condition), this.Conditions.Value, true),
-                        Value1 = this.Value1.Value,
-                        Value2 = this.Value2 != null ? this.Value2.Value : 0
-                    }
-                }
-            };
+            this.ShowHyperlink = false;
+            this.ShowRowHeaderHyperlink = false;
+            this.ShowColumnHeaderHyperlink = false;
+            this.ShowValueCellHyperlink = false;
+            this.ShowSummaryCellHyperlink = false;
+            this.HyperHeaderText = null;
+            this.Measure = this.Fields.Value;
+            this.HyperlinkCondition = (Syncfusion.Blazor.PivotView.Condition)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.Condition), this.Conditions.Value, true);
+            this.ConditionalValue1 = this.Value1.Value;
+            this.ConditionalValue2 = this.Value2 != null ? this.Value2.Value : 0;
         }
         else if (HyperlinkMode == "headertext")
         {
-            Pivot.HyperlinkSettings = new PivotViewHyperlinkSettings()
-            {
-                ShowHyperlink = false,
-                ShowRowHeaderHyperlink = false,
-                ShowColumnHeaderHyperlink = false,
-                ShowValueCellHyperlink = false,
-                ShowSummaryCellHyperlink = false,
-                HeaderText = this.HeaderText.Value,
-                ConditionalSettings = new List<PivotViewConditionalSetting>()
-            };
+            this.ShowHyperlink = false;
+            this.ShowRowHeaderHyperlink = false;
+            this.ShowColumnHeaderHyperlink = false;
+            this.ShowValueCellHyperlink = false;
+            this.ShowSummaryCellHyperlink = false;
+            this.HyperHeaderText = this.HeaderText.Value;
+            this.Measure = null;
+            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+            this.ConditionalValue1 = 0;
+            this.ConditionalValue2 = 0;
         }
     }
 
@@ -403,4 +407,5 @@
         public string Name { get; set; }
         public string Value { get; set; }
     }
+
 }

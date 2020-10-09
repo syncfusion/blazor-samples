@@ -266,12 +266,5 @@ namespace blazor_samples.Data.FileFormats.PDF
             g.Restore();
         }
 
-
-        #region HelperMethod
-        private string ResolveApplicationPath(string fileName)
-        {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
-        }
-        #endregion
     }
 }

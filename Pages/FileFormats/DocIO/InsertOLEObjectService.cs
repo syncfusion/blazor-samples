@@ -33,13 +33,13 @@ namespace blazor_samples.Data.FileFormats.DocIO
             WordDocument oleSource;
             if (documentType == "DOC")
             {
-                fileStream = new FileStream(basePath + @"/DocIO/OleTemplate.doc", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                fileStream = new FileStream(basePath + @"/data/docio/ole-template.doc", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 //Open an existing word document                 
                 oleSource = new WordDocument(fileStream, FormatType.Doc);
             }
             else
             {
-                fileStream = new FileStream(basePath + @"/DocIO/OleTemplate.docx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                fileStream = new FileStream(basePath + @"/data/docio/ole-template.docx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 //Open an existing word document 
                 oleSource = new WordDocument(fileStream, FormatType.Docx);
             }

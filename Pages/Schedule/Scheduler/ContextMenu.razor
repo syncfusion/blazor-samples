@@ -20,82 +20,78 @@
         <SfSchedule TValue="ScheduleData.ContextEventsData" @ref="ScheduleRef" Height="650px" @bind-SelectedDate="@SelectedDate">
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
-        <SfContextMenu TValue="ContextMenuItem" @ref="ContextMenuObj" CssClass="schedule-context-menu" Target=".e-schedule">
-            <ContextMenuItems>
-                <ContextMenuItem Text="New Event" IconCss="e-icons new" Id="Add"></ContextMenuItem>
-                <ContextMenuItem Text="New Recurring Event" IconCss="e-icons recurrence" Id="AddRecurrence"></ContextMenuItem>
-                <ContextMenuItem Text="Today" IconCss="e-icons today" Id="Today"></ContextMenuItem>
-                <ContextMenuItem Text="Edit Event" IconCss="e-icons edit" Id="Save"></ContextMenuItem>
-                <ContextMenuItem Text="Edit Event" IconCss="e-icons edit" Id="EditRecurrenceEvent">
-                    <ContextMenuItems>
-                        <ContextMenuItem Text="Edit Occurrence" Id="EditOccurrence"></ContextMenuItem>
-                        <ContextMenuItem Text="Edit Series" Id="EditSeries"></ContextMenuItem>
-                    </ContextMenuItems>
-                </ContextMenuItem>
-                <ContextMenuItem Text="Delete Event" IconCss="e-icons delete" Id="Delete"></ContextMenuItem>
-                <ContextMenuItem Text="Delete Event" IconCss="e-icons delete" Id="DeleteRecurrenceEvent">
-                    <ContextMenuItems>
-                        <ContextMenuItem Text="Delete Occurrence" Id="DeleteOccurrence"></ContextMenuItem>
-                        <ContextMenuItem Text="Delete Series" Id="DeleteSeries"></ContextMenuItem>
-                    </ContextMenuItems>
-                </ContextMenuItem>
-            </ContextMenuItems>
-            <ContextMenuEvents TValue="ContextMenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></ContextMenuEvents>
+        <SfContextMenu TValue="MenuItem" @ref="ContextMenuObj" CssClass="schedule-context-menu" Target=".e-schedule">
+            <MenuItems>
+                <MenuItem Text="New Event" IconCss="e-icons new" Id="Add" Hidden="@isCell"></MenuItem>
+                <MenuItem Text="New Recurring Event" IconCss="e-icons recurrence" Hidden="@isCell" Id="AddRecurrence"></MenuItem>
+                <MenuItem Text="Today" IconCss="e-icons today" Id="Today" Hidden="@isCell"></MenuItem>
+                <MenuItem Text="Edit Event" IconCss="e-icons edit" Id="Save" Hidden="@isEvent"></MenuItem>
+                <MenuItem Text="Edit Event" IconCss="e-icons edit" Id="EditRecurrenceEvent" Hidden="@isRecurrence">
+                    <MenuItems>
+                        <MenuItem Text="Edit Occurrence" Id="EditOccurrence" Hidden="@isRecurrence"></MenuItem>
+                        <MenuItem Text="Edit Series" Id="EditSeries" Hidden="@isRecurrence"></MenuItem>
+                    </MenuItems>
+                </MenuItem>
+                <MenuItem Text="Delete Event" IconCss="e-icons delete" Id="Delete" Hidden="@isEvent"></MenuItem>
+                <MenuItem Text="Delete Event" IconCss="e-icons delete" Id="DeleteRecurrenceEvent" Hidden="@isRecurrence">
+                    <MenuItems>
+                        <MenuItem Text="Delete Occurrence" Id="DeleteOccurrence" Hidden="@isRecurrence"></MenuItem>
+                        <MenuItem Text="Delete Series" Id="DeleteSeries" Hidden="@isRecurrence"></MenuItem>
+                    </MenuItems>
+                </MenuItem>
+            </MenuItems>
+            <MenuEvents TValue="MenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></MenuEvents>
         </SfContextMenu>
     </div>
 </div>
 
 @code{
     private DateTime SelectedDate = new DateTime(2020, 1, 8);
+    private bool isCell { get; set; }
+    private bool isEvent { get; set; }
+    private bool isRecurrence { get; set; }
     SfSchedule<ScheduleData.ContextEventsData> ScheduleRef;
-    SfContextMenu<ContextMenuItem> ContextMenuObj;
+    SfContextMenu<MenuItem> ContextMenuObj;
     public ScheduleData.ContextEventsData EventData { get; set; }
-    public CellClickEventArgs TargetCell { get; set; }
+    public CellClickEventArgs CellData { get; set; }
     public List<ScheduleData.ContextEventsData> DataSource = new ScheduleData().GetContextEventData();
-    public async Task OnOpen(BeforeOpenCloseMenuEventArgs<ContextMenuItem> args)
+    public async Task OnOpen(BeforeOpenCloseMenuEventArgs<MenuItem> args)
     {
         if (args.ParentItem == null)
         {
-            string Selector = ".e-appointment,.e-work-cells," +
-            ".e-vertical-view .e-date-header-wrap .e-all-day-cells,.e-vertical-view .e-date-header-wrap .e-header-cells";
-            var Element = await ScheduleRef.GetTargetElement(Selector, (double)args.Left, (double)args.Top);
-            if (Element != null)
+            CellData = await ScheduleRef.GetTargetCell((int)args.Left, (int)args.Top);
+            if (CellData == null)
             {
-                TargetCell = await ScheduleRef.GetCellDetails(Element);
-                if (TargetCell == null)
+                EventData = await ScheduleRef.GetTargetEvent((int)args.Left, (int)args.Top);
+                if (EventData.Id == 0)
                 {
-                    EventData = await ScheduleRef.GetEventDetails(Element);
-                    if (EventData.RecurrenceRule != null)
-                    {
-                        ContextMenuObj.ShowItems(new List<string> { "EditRecurrenceEvent", "DeleteRecurrenceEvent" }, true);
-                        ContextMenuObj.HideItems(new List<string> { "Add", "AddRecurrence", "Today", "Save", "Delete" }, true);
-                    }
-                    else
-                    {
-                        ContextMenuObj.ShowItems(new List<string> { "Save", "Delete" }, true);
-                        ContextMenuObj.HideItems(new List<string> { "Add", "AddRecurrence", "Today", "EditRecurrenceEvent", "DeleteRecurrenceEvent" }, true);
-                    }
+                   args.Cancel = true;
+                }
+                if (EventData.RecurrenceRule != null)
+                {
+                    isCell = isEvent = true;
+                    isRecurrence = false;
                 }
                 else
                 {
-                    ContextMenuObj.ShowItems(new List<string> { "Add", "AddRecurrence", "Today" }, true);
-                    ContextMenuObj.HideItems(new List<string> { "Save", "Delete", "EditRecurrenceEvent", "DeleteRecurrenceEvent" }, true);
+                    isCell = isRecurrence = true;
+                    isEvent = false;
                 }
             }
             else
             {
-                args.Cancel = true;
+                isCell = false;
+                isEvent = isRecurrence = true;
             }
         }
     }
-    public async Task OnItemSelected(MenuEventArgs<ContextMenuItem> args)
+    public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
     {
         var SelectedMenuItem = args.Item.Id;
-        var ActiveCellsData = TargetCell;
-        var SelectedCells = await ScheduleRef.GetSelectedElements();
-        if (SelectedCells.Count > 0)
+        var ActiveCellsData = await ScheduleRef.GetSelectedCells();
+        if (ActiveCellsData == null)
         {
-            ActiveCellsData = await ScheduleRef.GetCellDetails(SelectedCells);
+            ActiveCellsData = CellData;
         }
         switch (SelectedMenuItem)
         {
@@ -108,7 +104,7 @@
                 break;
 
             case "AddRecurrence":
-                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add, null, 1);
+                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
                 break;
 
             case "Save":

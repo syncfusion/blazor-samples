@@ -27,7 +27,7 @@ namespace blazor_samples
                 Name = "Pivot Table",
                 Category = "Grids",
                 Directory = "PivotView/PivotTable",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = PivotTable,
                 ControllerName = "PivotTable"
             });
@@ -36,7 +36,7 @@ namespace blazor_samples
                 Name = "Chart",
                 Category = "Data Visualization",
                 Directory = "Charts",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Chart,
                 ControllerName = "Chart"
             });
@@ -63,7 +63,7 @@ namespace blazor_samples
                 Name = "Circular Gauge",
                 Category = "Data Visualization",
                 Directory = "CircularGauge",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = CircularGauge,
                 ControllerName = "CircularGauge"
             });
@@ -72,7 +72,7 @@ namespace blazor_samples
                 Name = "Linear Gauge",
                 Category = "Data Visualization",
                 Directory = "LinearGauge/LinearGauge",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = LinearGauge,
                 ControllerName = "LinearGauge"
             });
@@ -81,7 +81,7 @@ namespace blazor_samples
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "Diagram",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Diagram,
                 ControllerName = "Diagram"
             });
@@ -99,7 +99,7 @@ namespace blazor_samples
                 Name = "TreeMap",
                 Category = "Data Visualization",
                 Directory = "TreeMap/TreeMap",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = TreeMap,
                 ControllerName = "TreeMap"
             });
@@ -108,7 +108,7 @@ namespace blazor_samples
                 Name = "Maps",
                 Category = "Data Visualization",
                 Directory = "Maps/Maps",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Maps,
                 ControllerName = "Maps"
             });
@@ -144,7 +144,7 @@ namespace blazor_samples
                 Name = "Progress Bar",
                 Category = "Notifications",
                 Directory = "ProgressBar",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = ProgressBar,
                 ControllerName = "ProgressBar"
             });
@@ -180,7 +180,7 @@ namespace blazor_samples
                 Name = "DateTime Picker",
                 Category = "Calendars",
                 Directory = "Calendars/DateTimePicker",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = DateTimePicker,
                 ControllerName = "DateTimePicker"
             });
@@ -358,7 +358,7 @@ namespace blazor_samples
                 Name = "Card",
                 Category = "Layout",
                 Directory = "Cards",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Card,
                 ControllerName = "Card"
             });
@@ -367,7 +367,7 @@ namespace blazor_samples
                 Name = "Query Builder",
                 Category = "Forms",
                 Directory = "Forms/QueryBuilder",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = QueryBuilder,
                 ControllerName = "QueryBuilder"
             });
@@ -376,7 +376,6 @@ namespace blazor_samples
                 Name = "PDF Viewer",
                 Category = "Viewer",
                 Directory = "Viewer/PdfViewer",
-                Type = SampleType.Updated,
                 Samples = PDFViewer,
                 ControllerName = "PdfViewer"
             });
@@ -386,7 +385,6 @@ namespace blazor_samples
                 Name = "Document Editor",
                 Category = "Editors",
                 Directory = "DocumentEditor/DocumentEditor",
-                Type = SampleType.Updated,
                 Samples = DocumentEditor,
                 ControllerName = "DocumentEditor"
             });
@@ -413,7 +411,7 @@ namespace blazor_samples
                 Name = "Gantt Chart",
                 Category = "Calendars",
                 Directory = "GanttChart/GanttChart",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = GanttChart,
                 ControllerName = "GanttChart"
             });
@@ -467,7 +465,7 @@ namespace blazor_samples
                 Name = "Context Menu",
                 Category = "Navigations",
                 Directory = "Navigations/ContextMenu",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = ContextMenu,
                 ControllerName = "ContextMenu"
             });
@@ -476,7 +474,7 @@ namespace blazor_samples
                 Name = "MenuBar",
                 Category = "Navigations",
                 Directory = "Navigations/MenuBar",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = MenuBar,
                 ControllerName = "MenuBar"
             });
@@ -530,7 +528,7 @@ namespace blazor_samples
                 Name = "Kanban",
                 Category = "Data Visualization",
                 Directory = "Kanban/Kanban",
-                Type = SampleType.Preview,
+                Type = SampleType.Updated,
                 Samples = Kanban,
                 ControllerName = "Kanban"
             });
@@ -557,7 +555,7 @@ namespace blazor_samples
                 Name = "XlsIO",
                 Category = "File Formats",
                 Directory = "FileFormats/XlsIO",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = XlsIO,
                 ControllerName = "XlsIO"
             });

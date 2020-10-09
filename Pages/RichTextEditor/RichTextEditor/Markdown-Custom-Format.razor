@@ -1,6 +1,5 @@
 ﻿@page "/rich-text-editor/markdown-custom-format"
 
-@using Syncfusion.Blazor
 @using Syncfusion.Blazor.RichTextEditor
 
 @inherits SampleBaseComponent;
@@ -9,30 +8,49 @@
     <p> This sample demonstrates how to customize tags of markdown formatting. Type or edit the text and apply the format to view customized markdown syntax. For example, apply “+” to Unordered list. </p>
 </SampleDescription>
 <ActionDescription>
-   <p> The Rich Text Editor allows you to customize the markdown syntax by overriding its default syntax. Configure the customized markdown syntax using the <code>Formatter</code>property</p>
+   <p> The Rich Text Editor allows you to customize the markdown syntax by overriding its default syntax. Configure the customized markdown syntax using the <code>RichTextEditorMarkdownOptions</code> tag directive</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfRichTextEditor Height="250px" Formatter="@Customformat" EditorMode="EditorMode.Markdown">
+    <SfRichTextEditor Height="250px" EditorMode="EditorMode.Markdown">
         <ChildContent>
             The sample is configured with customized markdown syntax using the __formatter__ property. Type the content and click the toolbar item to view customized markdown syntax. For unordered list, you need to add a plus sign before the word (e.g., + list1). Or To make a phrase bold, you need to add two underscores before and after the phrase (e.g., __this text is bold__).
-            <RichTextEditorToolbarSettings Items="@Tools"></RichTextEditorToolbarSettings>
+            <RichTextEditorToolbarSettings Items="@Tools" />
+            <RichTextEditorMarkdownOptions ListSyntax="@ListSyntax" FormatSyntax="@FormatSyntax" SelectionSyntax="@SelectionSyntax" />
         </ChildContent>
     </SfRichTextEditor>
 </div>
 
 @code{
-    private object[] Tools = new object[]{
-        "Bold", "Italic", "StrikeThrough", "|",
-        "Formats", "OrderedList", "UnorderedList", "|",
-        "CreateLink", "Image", "CreateTable", "|", "Undo", "Redo"
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
 
-    private string Customformat = @"new sf.richtexteditor.MarkdownFormatter({
-        'listTags': { 'OL': '2. ', 'UL': '+ ' },
-        'formatTags': {
-            'Blockquote': '> '
-        },
-        'selectionTags': { 'Bold': ' __ ', 'Italic': '_' }
-    })";
+    private Dictionary<string, string> ListSyntax { get; set; } = new Dictionary<string, string>(){
+        { "OL", "2. " },
+        { "UL", "+ " }
+    };
+
+    private Dictionary<string, string> FormatSyntax { get; set; } = new Dictionary<string, string>(){
+        { "Blockquote", "> " }
+    };
+
+    private Dictionary<string, string> SelectionSyntax { get; set; } = new Dictionary<string, string>(){
+        { "Bold", " __ " },
+        { "Italic", "_" },
+    };
 }

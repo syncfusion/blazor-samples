@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateWriteProtectionPresentation(string Password)
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Transition.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("transition.pptx"), FileMode.Open, FileAccess.Read);
             //Open a existing PowerPoint presentation.
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
 
@@ -49,7 +49,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
     }

@@ -4,31 +4,28 @@
 
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
-@using Newtonsoft.Json.Linq;
-
-@using Syncfusion.Blazor
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>  This sample demonstrates the customization of <code>Menu</code> component by using its properties from the property pane. Select any combination of properties from the property pane to customize <code>Menu</code> component.</p> 
+    <p>  This sample demonstrates the customization of <code>Menu</code> component by using its properties from the property pane. Select any combination of properties from the property pane to customize <code>Menu</code> component.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this demo, default menu is rendered with minimal configuration.</p>
+    <p>In this demo, default menu is rendered with minimal configuration.</p>
     <p>This sample can be customized further with the combination of <code>Menu</code> properties from the property pane. For example,</p>
-        <ul>
-            <li>You can switch to <b>Vertical</b> and <b>Horizontal</b> modes by clicking and selecting the<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~Orientation.html'> Orientation </a> mode from <i>Orientation</i> dropdownlist.</li>
-            <li>You can enable or disable menu items by clicking and selecting the item from <i>Enable item</i> or <i>Disable item</i> dropdownlists.</li>
-            <li>You can also enable the show menu item on mouse click <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~ShowItemOnClick.html'> ShowItemOnClick </a> property by checking the <i>Show item on Click</i> checkbox.</li>
-        </ul>
-    <p>More information about Blazor Menu bar component can be found in this <a target=""_blank"" href=""https://blazor.syncfusion.com/documentation/menu-bar/getting-started/"">documentation section</a>.</p>
+    <ul>
+        <li>You can switch to <b>Vertical</b> and <b>Horizontal</b> modes by clicking and selecting the<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~Orientation.html'> Orientation </a> mode from <i>Orientation</i> dropdownlist.</li>
+        <li>You can enable or disable menu items by clicking and selecting the item from <i>Enable item</i> or <i>Disable item</i> dropdownlists.</li>
+        <li>You can also enable the show menu item on mouse click <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~ShowItemOnClick.html'> ShowItemOnClick </a> property by checking the <i>Show item on Click</i> checkbox.</li>
+    </ul>
+    <p>More information about Blazor Menu bar component can be found in this <a target="" _blank"" href="" https: //blazor.syncfusion.com/documentation/menu-bar/getting-started/"">documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="col-lg-8 control-section">
         <div class="menu-control">
             <SfMenu @ref="Menu" Items="@MenuItems" Orientation="@MenuMode" ShowItemOnClick="@MenuItemClick">
-                <MenuFieldSettings IconCss="@IconCss" Children="@FieldChildren" Text="@FieldText"></MenuFieldSettings>
+                <MenuFieldSettings Children="SubItems"></MenuFieldSettings>
             </SfMenu>
         </div>
     </div>
@@ -42,9 +39,9 @@
                     </td>
                     <td style="width: 50%;padding-top:10px">
                         <div style="max-width: 200px">
-                            <SfDropDownList DataSource="@DropDownListData" PopupHeight="200px" @bind-Value="@Horizontal" TValue="string" TItem="ListData">
-                                <DropDownListEvents ValueChange="Change" TValue="string"></DropDownListEvents>
-                                <DropDownListFieldSettings Value="value" Text="text"></DropDownListFieldSettings>
+                            <SfDropDownList DataSource="@DropDownListData" PopupHeight="200px" @bind-Value="@Horizontal" TValue="string" TItem="DataModel">
+                                <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@Change"></DropDownListEvents>
+                                <DropDownListFieldSettings Value="Text" Text="Text"></DropDownListFieldSettings>
                             </SfDropDownList>
                         </div>
                     </td>
@@ -55,7 +52,7 @@
                     </td>
                     <td style="width: 50%;padding-top:10px">
                         <div style="max-width: 200px">
-                            <SfMultiSelect DataSource="@HeaderData" PopupHeight="200px" Width="160px" Mode="Syncfusion.Blazor.DropDowns.VisualMode.CheckBox" PlaceHolder="Select item" ShowDropDownIcon="true" TValue="string[]">
+                            <SfMultiSelect DataSource="@HeaderData" PopupHeight="200px" Width="160px" Mode="Syncfusion.Blazor.DropDowns.VisualMode.CheckBox" ShowDropDownIcon="true" TValue="string[]">
                                 <MultiSelectEvents ValueChange="EnableDisableChange" TValue="string[]"></MultiSelectEvents>
                             </SfMultiSelect>
                         </div>
@@ -75,111 +72,107 @@
 </div>
 
 @code{
-    SfMenu Menu;
-    public string[] Items = new string[] { "Events", "Movies", "Directory", "Queries", "Services" };
-    public List<string> EnableItems;
-    public string Horizontal = "Horizontal";
-    Orientation MenuMode { get; set; }
-    public bool MenuItemClick = false;
-	public bool ShowButtonChange = false;
-    private void Change(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+@*Hidden:Lines*@
+#pragma warning disable
+@*End:Hidden*@
+SfMenu<DataModel> Menu;
+public List<string> Items = new List<string>() { "Events", "Movies", "Directory", "Queries", "Services" };
+public List<string> EnableItems;
+public string Horizontal = "Horizontal";
+Orientation MenuMode { get; set; }
+public bool MenuItemClick = false;
+public bool ShowButtonChange = false;
+
+private void Change(ChangeEventArgs<string, DataModel> args)
+{
+    this.MenuMode = args.Value == "Vertical" ? Orientation.Vertical : Orientation.Horizontal;
+}
+
+private void EnableDisableChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+{
+    if (args.Value != null)
     {
-        if (args.Value.ToString() == "Vertical")
-        {
-            this.MenuMode = Orientation.Vertical;
-        }
-        else
-        {
-            this.MenuMode = Orientation.Horizontal;
-        }
+        Menu.EnableItems(Items, true);
+        Menu.EnableItems(args.Value.ToList(), false);
     }
-
-    private void EnableDisableChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    else
     {
-        if (args.Value != null)
-        {
-            Menu.EnableItems(Items, true);
-            Menu.EnableItems(args.Value, false);
-        } else
-        {
-            Menu.EnableItems(Items, true);
-        }
-    }
-
-    private void CheckBoxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        this.MenuItemClick = args.Checked;
-
-    }
-
-    protected override void OnInitialized()
-    {
-        this.MenuMode =  Orientation.Horizontal;
-    }
-
-    public List<object> MenuItems = new List<object>() {
-                new {
-                    header = "Events",
-                    subItems = new List<object>() {
-                        new { text= "Conferences" },
-                        new { text= "Music" },
-                        new { text= "Workshops" }
-                    }
-                },
-                new {
-                    header = "Movies",
-                    subItems = new List<object>() {
-                        new { text= "Now Showing" },
-                        new { text= "Coming Soon" }
-                    }
-                },
-                new {
-                    header = "Directory",
-                    subItems = new List<object>() {
-                        new { text= "Media Gallery" },
-                        new { text= "Newsletters" }
-                    }
-                },
-                new {
-                    header = "Queries",
-                    subItems = new List<object>() {
-                        new { text= "Our Policy" },
-                        new { text= "Site Map"},
-                        new { text= "24x7 Support"}
-                    }
-                },
-                new { header= "Services" }
-            };
-
-
-    private string IconCss = "icon";
-    private string[] FieldText = new string[] { "header", "text", "value" };
-    private string[] FieldChildren = new string[] { "subItems", "options" };
-
-
-    public List<object> HeaderData = new List<object>()
-    {
-                new { text= "Events" },
-                new { text= "Movies"},
-                new { text= "Directory" },
-                new {text= "Queries" },
-                new { text= "Services" }
-            };
-
-    public List<ListData> DropDownListData = new List<ListData>()
-    {
-                new ListData { value = "Horizontal", text = "Horizontal" },
-                new ListData { value = "Vertical", text = "Vertical" },
-            };
-
-    public class ListData
-    {
-        public string value { get; set; }
-        public string text { get; set; }
+        Menu.EnableItems(Items, true);
     }
 }
 
-<style>     
+private void CheckBoxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+{
+    this.MenuItemClick = args.Checked;
+}
+
+protected override void OnInitialized()
+{
+    this.MenuMode = Orientation.Horizontal;
+}
+
+public List<DataModel> MenuItems = new List<DataModel>() {
+        new DataModel {
+            Text = "Events",
+            SubItems = new List<DataModel>() {
+                new DataModel { Text = "Conferences" },
+                new DataModel { Text = "Music" },
+                new DataModel { Text = "Workshops" }
+            }
+        },
+        new DataModel {
+            Text = "Movies",
+            SubItems = new List<DataModel>() {
+                new DataModel { Text = "Now Showing" },
+                new DataModel { Text = "Coming Soon" }
+            }
+        },
+        new DataModel {
+            Text = "Directory",
+            SubItems = new List<DataModel>() {
+                new DataModel { Text = "Media Gallery" },
+                new DataModel { Text = "Newsletters" }
+            }
+        },
+        new DataModel {
+            Text = "Queries",
+            SubItems = new List<DataModel>() {
+                new DataModel { Text = "Our Policy" },
+                new DataModel { Text = "Site Map"},
+                new DataModel { Text = "24x7 Support"}
+            }
+        },
+        new DataModel { Text = "Services" }
+    };
+
+
+public List<object> HeaderData = new List<object>()
+{
+        new { text= "Events" },
+        new { text= "Movies"},
+        new { text= "Directory" },
+        new { text= "Queries" },
+        new { text= "Services" }
+    };
+
+public List<DataModel> DropDownListData = new List<DataModel>()
+{
+        new DataModel { Text = "Horizontal" },
+        new DataModel { Text = "Vertical" }
+    };
+
+public class DataModel
+{
+    public string Text { get; set; }
+    public List<DataModel> SubItems { get; set; }
+    public bool Disabled { get; set; }
+}
+@*Hidden:Lines*@
+#pragma warning restore
+@*End:Hidden*@
+}
+
+<style>
     @@font-face {
         font-family: 'em-icons';
         src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');

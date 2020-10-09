@@ -46,7 +46,7 @@
         @*End:Hidden*@
         <SfDiagram Height="@Height" @ref="@Diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
             <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
-            <DiagramEvents SelectionChanged="SelectionChange"></DiagramEvents>
+            <DiagramEvents Created="@OnCreated" SelectionChanged="SelectionChange"></DiagramEvents>
             <DiagramPageSettings>
                 <DiagramFitOptions CanFit="@true" Mode="FitModes.Page"></DiagramFitOptions>
             </DiagramPageSettings>
@@ -79,7 +79,7 @@
                     <div class="col-xs-6">
                         <SfDropDownList TValue="string" Width="140px" TItem="DiagramShapeModel" @bind-Value="@selectedShape" DataSource="shape" @ref="@DropDownList" Placeholder="Select a Shape">
                             <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                            <DropDownListEvents TValue="string" ValueChange="PortShapeDropOnChange"></DropDownListEvents>
+                            <DropDownListEvents TValue="string" TItem="DiagramShapeModel" ValueChange="PortShapeDropOnChange"></DropDownListEvents>
                         </SfDropDownList>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
         ApplyPortStyle("visibility", args.Value);
     }
 
-    public void PortShapeDropOnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    public void PortShapeDropOnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DiagramShapeModel> args)
     {
         ApplyPortStyle("shape", args.Value);
     }
@@ -286,7 +286,7 @@
         }
     }
 
-    private async Task SelectionChange(IBlazorSelectionChangeEventArgs arg)
+    private void SelectionChange(IBlazorSelectionChangeEventArgs arg)
     {
         if (arg.State == EventState.Changed)
         {
@@ -323,7 +323,6 @@
                     strokeColor = port.Style.StrokeColor;
                 }
                 StateHasChanged();
-                await Diagram.DataBind();
             }
         }
     }
@@ -451,12 +450,8 @@
         #endregion
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async void OnCreated(object obj)
     {
-        if (firstRender)
-        {
-            await Task.Delay(500);
-            await Diagram.Select(new List<DiagramNode>() { Diagram.Nodes[0] });
-        }
+        await Diagram.Select(new ObservableCollection<DiagramNode>() { Diagram.Nodes[0] }, null);
     }
 }

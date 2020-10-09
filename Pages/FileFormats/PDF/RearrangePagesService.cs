@@ -29,7 +29,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         public MemoryStream CreatePdfDocument()
         {
             //Read the file
-            FileStream file = new FileStream(ResolveApplicationPath("SyncfusionBrochure.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream file = new FileStream(ResolveApplicationPath("syncfusion-brochure.pdf"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             //Load the input PDF document
             PdfLoadedDocument ldoc = new PdfLoadedDocument(file);
@@ -54,7 +54,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

@@ -52,7 +52,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             PdfPage page1 = document.Pages.Add();
 
             //Load the image from the disk.
-            FileStream fileStream1 = new FileStream(ResolveApplicationPath("AutoTag.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fileStream1 = new FileStream(ResolveApplicationPath("auto-tag.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             PdfBitmap image = new PdfBitmap(fileStream1);
 
             //Draw the image
@@ -109,7 +109,7 @@ namespace blazor_samples.Data.FileFormats.PDF
             element4.Brush = new PdfSolidBrush(Color.Black);
             element4.Draw(page3, new RectangleF(0, 550, page3.GetClientSize().Width, 60));
 
-            FileStream fileStream2 = new FileStream(ResolveApplicationPath("autotagSmall.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fileStream2 = new FileStream(ResolveApplicationPath("autotag-small.jpg"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             PdfBitmap img = new PdfBitmap(fileStream2);
             page3.Graphics.DrawImage(img, new PointF(0, 630));
             page3.Graphics.DrawString("Note: The code samples in this book can be downloaded at", fontnormal, PdfBrushes.DarkBlue, new PointF(20, 630));
@@ -139,7 +139,7 @@ namespace blazor_samples.Data.FileFormats.PDF
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//PDF//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//pdf//" + fileName;
         }
         #endregion
     }

@@ -27,7 +27,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream BookmarkNavigation(string documentType,string button)
         {
             string basePath = @"wwwroot/";
-            string dataPath = basePath + @"/DocIO/Bookmark_Template.docx";
+            string dataPath = basePath + @"data/docio/bookmark-template.docx";
             FileStream fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             if (button == "View Template")
             {
@@ -50,8 +50,8 @@ namespace blazor_samples.Data.FileFormats.DocIO
             document.LastParagraph.AppendText("Northwind database with normalization concept");
             document.LastParagraph.AppendBookmarkEnd("NorthwindDatabase");
             basePath = _hostingEnvironment.WebRootPath;
-            dataPath = basePath + @"/DocIO/Bookmark_Template.docx";
-            string dataPathTemp = basePath + @"/DocIO/BkmkDocumentPart_Template.docx";
+            dataPath = basePath + @"/data/docio/bookmark-template.docx";
+            string dataPathTemp = basePath + @"/data/docio/bkmk-document-part-template.docx";
             // Open an existing template document with single section to get Northwind.information            
             WordDocument nwdInformation = new WordDocument();
             fileStream = new FileStream(dataPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -208,7 +208,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
             // Inserting image to the bookmark.
             IWPicture pic = bk.InsertParagraphItem(ParagraphItemType.Picture) as WPicture;
 
-            FileStream imageStream = new FileStream(basePath + @"/images/DocIO/Northwind.png", FileMode.Open, FileAccess.Read);
+            FileStream imageStream = new FileStream(basePath + @"/images/docio/northwind.png", FileMode.Open, FileAccess.Read);
             pic.LoadImage(imageStream);
             pic.WidthScale = 50f;  // It reduce the image size because it don't fit 
             pic.HeightScale = 75f; // in document page.

@@ -30,7 +30,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         public MemoryStream EmployeeReport(string documentType, string button)
         {
             string basePath = _hostingEnvironment.WebRootPath;
-            string dataPathEmployee = basePath + @"/DocIO/EmployeesReportDemo.doc";
+            string dataPathEmployee = basePath + @"/data/docio/employees-report-demo.doc";
             //Load Template document stream.
             FileStream fileStream = new FileStream(dataPathEmployee, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);          
             if (button == "View Template")
@@ -89,7 +89,7 @@ namespace blazor_samples.Data.FileFormats.DocIO
         private MailMergeDataTable GetMailMergeDataTableEmployee()
         {
             List<Employees> employees = new List<Employees>();
-            FileStream fs = new FileStream(_hostingEnvironment.WebRootPath + @"/DocIO/EmployeesList.xml", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(_hostingEnvironment.WebRootPath + @"/data/docio/employees-list.xml", FileMode.Open, FileAccess.Read);
             XmlReader reader = XmlReader.Create(fs);
             if (reader == null)
                 throw new Exception("reader");

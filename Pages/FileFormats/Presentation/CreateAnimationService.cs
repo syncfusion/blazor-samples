@@ -26,7 +26,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         /// <returns>Return the created Presentation document as stream</returns>
         public MemoryStream CreateAnimationPresentation()
         {            
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath(@"Animation.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath(@"animation.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
             //PowerPoint instance is Created.
 
@@ -45,7 +45,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
 

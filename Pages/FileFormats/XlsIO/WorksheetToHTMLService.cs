@@ -39,7 +39,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     application.DefaultVersion = ExcelVersion.Excel2016;
 
                     //An existing workbook is opened                    
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("NorthwindTemplate.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("northwind-template.xlsx"), FileMode.Open, FileAccess.Read);
                     IWorkbook workbook = application.Workbooks.Open(inputStream);
 
                     //Save the document as a stream and retrun the stream
@@ -64,7 +64,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
                     application.DefaultVersion = ExcelVersion.Excel2016;
 
                     //An existing workbook is opened                    
-                    FileStream inputStream = new FileStream(ResolveApplicationPath("NorthwindTemplate.xlsx"), FileMode.Open, FileAccess.Read);
+                    FileStream inputStream = new FileStream(ResolveApplicationPath("northwind-template.xlsx"), FileMode.Open, FileAccess.Read);
                     IWorkbook workbook = application.Workbooks.Open(inputStream);
 
                     //The first worksheet object in the worksheets collection is accessed
@@ -91,7 +91,7 @@ namespace blazor_samples.Data.FileFormats.XlsIO
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//XlsIO//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//xlsio//" + fileName;
         }
         #endregion
     }

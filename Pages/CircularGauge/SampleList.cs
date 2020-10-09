@@ -74,7 +74,7 @@ namespace blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/gradient-color",
                 FileName = "GradientColor.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -137,7 +137,7 @@ namespace blazor_samples
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/export",
                 FileName = "Export.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
              new Sample
             {

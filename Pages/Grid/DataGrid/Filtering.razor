@@ -1,6 +1,7 @@
-﻿@page "/datagrid/filtering"
+@page "/datagrid/filtering"
 
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
 @using blazor_samples
 @using blazor_griddata
 @inherits SampleBaseComponent;
@@ -9,12 +10,12 @@
     <p>This sample demonstrates the DataGrid Default Filtering feature. In this sample, type the value in the filterbar and press enter to filter particular column. </p>
 </SampleDescription>
 <ActionDescription>
-   <p>The filtering feature enables the user to view reduced amount of records based on the filter criteria. It can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~AllowFiltering.html'>AllowFiltering</a></code> property as true.</p>
+   <p>The filtering feature enables the user to view reduced amount of records based on the filter criteria. It can be enabled by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowFiltering'>AllowFiltering</a></code> property as true.</p>
    <p>A filter bar row will be rendered next to header which allows the users to filter data by entering text within its cells.</p>
    <p>Filterbar uses two modes which specifies how to start filtering. They are,</p>
     <ul>
         <li><strong>OnEnter</strong> - Enabled by default, filter will be initiated after pressing Enter key.</li>
-        <li><strong>Immediate </strong> - Filter will start after user stops typing. This uses a time delay of 1500ms to initiate the filter after user has stopped typing. It can be overridden using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings~ImmediateModeDelay.html'>ImmediateModeDelay </a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component. </li>                       
+        <li><strong>Immediate </strong> - Filter will start after user stops typing. This uses a time delay of 1500ms to initiate the filter after user has stopped typing. It can be overridden using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridFilterSettings.html#Syncfusion_Blazor_Grids_GridFilterSettings_ImmediateModeDelay'>ImmediateModeDelay </a></code> property of the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor.Grids.GridFilterSettings.html'>GridFilterSettings</a></code> component. </li>
     </ul>
     <p>In this demo, you can type the text in the filter bar cells to filter the DataGrid.</p>
     <p>More information on the Filtering can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/filtering/#filter-bar'>documentation section</a>.</p>
@@ -23,14 +24,22 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="@GridData" AllowFiltering="true" AllowPaging="true">
+            <SfGrid @ref="Grid" DataSource="@GridData" AllowFiltering="true" AllowPaging="true">
                 <GridPageSettings PageCount="5"></GridPageSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(Category.CategoryName) HeaderText="Category Name" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Category.CategoryName) HeaderText="Category Name" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field=@nameof(Category.ProductName) HeaderText="Product Name" Width="150"></GridColumn>
-                    <GridColumn Field=@nameof(Category.QuantityPerUnit) HeaderText="Quantity Per Unit" TextAlign="TextAlign.Right"  Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(Category.UnitsInStock) HeaderText="Units In Stock" Width="150" TextAlign="TextAlign.Right" ></GridColumn>
-                    <GridColumn Field=@nameof(Category.Discontinued) HeaderText="Discontinued" Width="150" DisplayAsCheckbox=@true TextAlign="TextAlign.Center"  Type="ColumnType.Boolean"></GridColumn>
+                    <GridColumn Field=@nameof(Category.QuantityPerUnit) HeaderText="Quantity Per Unit" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Category.UnitsInStock) HeaderText="Units In Stock" Width="150" TextAlign="TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(Category.Discontinued) HeaderText="Discontinued" Width="150" TextAlign="TextAlign.Center" Type="ColumnType.Boolean">
+                        <FilterTemplate>
+                            @{
+                                var FilterContext = (context as PredicateModel);
+                                bool? fValue = string.IsNullOrEmpty(FilterContext.Value.ToString()) ? null : (bool?)FilterContext.Value;
+                            }
+                            <SfCheckBox Checked="@fValue"  EnableTriState="true" ValueChange="OnValueChange" TChecked="bool?"></SfCheckBox>
+                        </FilterTemplate>
+                    </GridColumn>
                 </GridColumns>
             </SfGrid>
 
@@ -40,10 +49,19 @@
 
 @code{
 
+    public SfGrid<Category> Grid { get; set; }
     public List<Category> GridData { get; set; }
 
     protected override void OnInitialized()
     {
         GridData = Category.GetAllRecords();
+    }
+
+    private async Task OnValueChange(ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked != null)
+            await Grid.FilterByColumn("Discontinued", "equal", args.Checked); //Perform filtering while check/uncheck the checkbox
+        else
+            await Grid.ClearFiltering("Discontinued");
     }
 }

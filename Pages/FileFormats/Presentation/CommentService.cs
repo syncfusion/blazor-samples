@@ -29,7 +29,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         public MemoryStream CreateCommentSlide()
         {
             //Open the existing presentation            
-            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("Images.pptx"), FileMode.Open, FileAccess.Read);
+            FileStream fileStreamInput = new FileStream(ResolveApplicationPath("images.pptx"), FileMode.Open, FileAccess.Read);
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileStreamInput);
 
             SlideWithComments(presentation);
@@ -46,7 +46,7 @@ namespace blazor_samples.Data.FileFormats.Presentation
         #region HelperMethod
         private string ResolveApplicationPath(string fileName)
         {
-            return _hostingEnvironment.WebRootPath + "//Presentation//" + fileName;
+            return _hostingEnvironment.WebRootPath + "//data//presentation//" + fileName;
         }
         #endregion
 

@@ -11,13 +11,13 @@
     <p> In this demo, the quick popup of appointments and cells is customized using <code>ScheduleQuickInfoTemplates</code> property.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>  In this demo, the quick popup is customized based on the office required appointment related fields which can be achieved  by making use of the <code>ScheduleQuickInfoTemplates</code> option.  </p>
+    <p>  In this demo, the quick popup is customized based on the office required appointment related fields which can be achieved  by making use of the <code>ScheduleQuickInfoTemplates</code> option.  </p>
     <p>  The <code>ScheduleQuickInfoTemplates</code> has three options <code>Header</code>, <code>Content</code> and <code>Footer</code>, where we can customize the particular portion of quick popup. We can also customize only cell click quick popup or only event click quick popup using <code>TemplateType</code> property in <code>ScheduleQuickInfoTemplates</code> option or the combinations of both using <code>ElementType</code> property.    </p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="ScheduleData.RoomData" @ref="ScheduleObj" CssClass="quick-info" Width="100%" Height="650px" SelectedDate="@(new DateTime(2020, 1, 9))" CurrentView="View.Week">
+        <SfSchedule TValue="ScheduleData.RoomData" @ref="ScheduleObj" CssClass="quick-info" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
             <ScheduleQuickInfoTemplates>
                 <HeaderTemplate>
                     <div class="quick-info-header">
@@ -34,7 +34,7 @@
                     {
                         <div class="e-cell-content">
                             <div class="content-area">
-                                <SfTextBox @ref="SubjectRef" Value="@((context as ScheduleData.RoomData).Subject)" Placeholder="Title"></SfTextBox>
+                                <SfTextBox @ref="SubjectRef" @bind-Value="@((context as ScheduleData.RoomData).Subject)" Placeholder="Title"></SfTextBox>
                             </div>
                             <div class="content-area">
                                 <SfDropDownList @ref="EventTypeRef" TValue="int?" TItem="ScheduleData.RoomsData" Index="0" DataSource="@ResourceData" Placeholder="Choose Type">
@@ -42,7 +42,7 @@
                                 </SfDropDownList>
                             </div>
                             <div class="content-area">
-                                <SfTextBox @ref="DescriptionRef" Value="@((context as ScheduleData.RoomData).Description)" Placeholder="Notes"></SfTextBox>
+                                <SfTextBox @ref="DescriptionRef" @bind-Value="@((context as ScheduleData.RoomData).Description)" Placeholder="Notes"></SfTextBox>
                             </div>
                         </div>
                     }
@@ -84,10 +84,10 @@
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
-                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
             </ScheduleViews>
             <ScheduleResources>
-                <ScheduleResource TValue="ScheduleData.RoomsData" DataSource="@ResourceData" Field="RoomId" Title="Room Type" Name="MeetingRoom" TextField="Name" IdField="Id" ColorField="Color" AllowMultiple="false"></ScheduleResource>
+                <ScheduleResource TItem="ScheduleData.RoomsData" TValue="int" DataSource="@ResourceData" Field="RoomId" Title="Room Type" Name="MeetingRoom" TextField="Name" IdField="Id" ColorField="Color" AllowMultiple="false"></ScheduleResource>
             </ScheduleResources>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
@@ -95,6 +95,8 @@
 </div>
 
 @code{
+    private DateTime CurrentDate = new DateTime(2020, 1, 9);
+    private View CurrentView = View.Week;
     SfSchedule<ScheduleData.RoomData> ScheduleObj;
     SfDropDownList<int?, ScheduleData.RoomsData> EventTypeRef;
     SfTextBox SubjectRef;
@@ -102,7 +104,7 @@
 
     private string GetEventDetails(ScheduleData.RoomData data)
     {
-          return data.StartTimeValue.Value.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTimeValue.Value.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + data.EndTimeValue.Value.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
+        return data.StartTimeValue.Value.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTimeValue.Value.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + data.EndTimeValue.Value.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
     }
     private string GetHeaderStyles(ScheduleData.RoomData data)
     {
@@ -136,7 +138,7 @@
                 RecurrenceID = data.RecurrenceID,
                 RecurrenceRule = data.RecurrenceRule
             };
-            await ScheduleObj.OpenEditor(eventData, CurrentAction.Add, true);
+            await ScheduleObj.OpenEditor(eventData, CurrentAction.Add);
         }
         else
         {
@@ -154,7 +156,7 @@
                 RecurrenceID = data.RecurrenceID,
                 RecurrenceRule = data.RecurrenceRule
             };
-            await ScheduleObj.OpenEditor(eventData, CurrentAction.Save, isEventData);
+            await ScheduleObj.OpenEditor(eventData, CurrentAction.Save);
         }
     }
 
@@ -222,6 +224,7 @@
         padding: 10px;
         width: 100%;
     }
+
     .event-content {
         height: 90px;
         display: flex;
