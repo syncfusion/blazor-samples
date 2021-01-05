@@ -79,7 +79,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -88,7 +88,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/expando-object",
                 FileName = "TreeGridExpandoObject.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -360,7 +360,7 @@ namespace blazor_samples
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-drag-and-drop",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 FileName="RowDragAndDrop.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -382,7 +382,7 @@ namespace blazor_samples
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/draganddrop-within-grid",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 FileName="DragAndDropWithinGrid.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -777,7 +777,7 @@ namespace blazor_samples
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/virtual-scrolling",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 FileName="VirtualScrolling.razor",
                 SourceFiles = new List<SourceCollection>()
                 {

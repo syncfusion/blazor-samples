@@ -7162,6 +7162,116 @@ namespace blazor_samples.Pages.Schedule.Scheduler
             return doctorData;
         }
 
+        public List<ResourceSampleData> GetResourceSampleData()
+        {
+            List<ResourceSampleData> data = new List<ResourceSampleData>();
+            data.Add(new ResourceSampleData
+            {
+                Id = 1,
+                Subject = "Burning Man",
+                StartTime = new DateTime(2020, 5, 29, 15, 0, 0),
+                EndTime = new DateTime(2020, 5, 29, 17, 0, 0),
+                OwnerId = 1
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 2,
+                Subject = "Marketing Forum",
+                StartTime = new DateTime(2020, 5, 31, 10, 0, 0),
+                EndTime = new DateTime(2020, 5, 31, 11, 30, 0),
+                OwnerId = 2
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 3,
+                Subject = "Business Factory",
+                StartTime = new DateTime(2020, 5, 31, 13, 30, 0),
+                EndTime = new DateTime(2020, 5, 31, 15, 0, 0),
+                OwnerId = 3
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 4,
+                Subject = "Burning Man",
+                StartTime = new DateTime(2020, 6, 1, 11, 30, 0),
+                EndTime = new DateTime(2020, 6, 1, 13, 0, 0),
+                OwnerId = 1
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 5,
+                Subject = "Funnel Hacking",
+                StartTime = new DateTime(2020, 6, 2, 9, 30, 0),
+                EndTime = new DateTime(2020, 6, 2, 11, 0, 0),
+                OwnerId = 3
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 6,
+                Subject = "The human gathering",
+                StartTime = new DateTime(2020, 6, 2, 13, 0, 0),
+                EndTime = new DateTime(2020, 6, 2, 14, 30, 0),
+                OwnerId = 2
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 7,
+                Subject = "Techweek",
+                StartTime = new DateTime(2020, 6, 3, 11, 0, 0),
+                EndTime = new DateTime(2020, 6, 3, 12, 30, 0),
+                OwnerId = 2
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 8,
+                Subject = "Grow Conference",
+                StartTime = new DateTime(2020, 6, 4, 10, 0, 0),
+                EndTime = new DateTime(2020, 6, 4, 11, 30, 0),
+                OwnerId = 1
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 9,
+                Subject = "Data Science Conference",
+                StartTime = new DateTime(2020, 6, 4, 13, 30, 0),
+                EndTime = new DateTime(2020, 6, 4, 15, 0, 0),
+                OwnerId = 1
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 10,
+                Subject = "Blogcademy",
+                StartTime = new DateTime(2020, 6, 5, 12, 0, 0),
+                EndTime = new DateTime(2020, 6, 5, 13, 30, 0),
+                OwnerId = 3
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 11,
+                Subject = "World Domination Summit",
+                StartTime = new DateTime(2020, 6, 6, 9, 30, 0),
+                EndTime = new DateTime(2020, 6, 6, 11, 0, 0),
+                OwnerId = 2
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 12,
+                Subject = "Content Marketing",
+                StartTime = new DateTime(2020, 6, 6, 13, 0, 0),
+                EndTime = new DateTime(2020, 6, 6, 14, 30, 0),
+                OwnerId = 1
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 13,
+                Subject = "Mobile World Conference",
+                StartTime = new DateTime(2020, 6, 12, 18, 0, 0),
+                EndTime = new DateTime(2020, 6, 12, 20, 0, 0),
+                OwnerId = 1
+            });
+            return data;
+        }
+
         public class AppointmentData
         {
             public int Id { get; set; }
@@ -7272,6 +7382,10 @@ namespace blazor_samples.Pages.Schedule.Scheduler
         public class DoctorData : AppointmentData
         {
             public int DoctorId { get; set; }
+        }
+        public class ResourceSampleData : AppointmentData
+        {
+            public int OwnerId { get; set; }
         }
     }
 }

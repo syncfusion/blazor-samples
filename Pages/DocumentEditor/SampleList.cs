@@ -84,7 +84,7 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Table of Contents",
-                Category = "Editing Features",
+                Category = "References",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/table-of-contents",
                 FileName = "TableOfContents.razor"
@@ -151,7 +151,16 @@ namespace blazor_samples
                 Category = "Review",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/track-changes",
-                FileName = "TrackChanges.razor"
+                FileName = "TrackChanges.razor"            
+            },
+            new Sample
+            {
+                Name = "Footnotes and Endnotes",
+                Category = "References",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/notes",
+                FileName = "Notes.razor",
+                Type = SampleType.New
             }
         };
     }

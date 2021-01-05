@@ -20,8 +20,7 @@
 else
 {
     <div class="control-section">
-        <SfChart Title="AAPL - 2012-2017">
-			<ChartEvents Load="ChartLoad"/>
+        <SfChart Title="AAPL - 2012-2017" Theme="@Theme">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Title="months" IntervalType="IntervalType.Months" ZoomFactor="0.2" ZoomPosition="0.6">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
@@ -36,9 +35,9 @@ else
                            Minimum="-7000000000" Maximum="5000000000" Title="Accumulation Distribution">
                     <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
                     <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                    @*<ChartStripLines>
-                            <ChartStripLine ZIndex="ZIndex.Behind" start="-7000000000" end="6000000000" Text="" Color="#6063ff" Visible="true" Opacity="0.1"></ChartStripLine>
-                        </ChartStripLines>*@
+                    <ChartStriplines>
+                            <ChartStripline ZIndex="ZIndex.Behind" Start="-7000000000" End="6000000000" Text="" Color="#6063ff" Visible="true" Opacity="0.1"></ChartStripline>
+                    </ChartStriplines>
                 </ChartAxis>
             </ChartAxes>
             <ChartRows>
@@ -66,14 +65,35 @@ else
 }
 @code{
     private ChartData[] IndicatorData;
-
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    string CurrentUri;
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
             IndicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
         });
-        //indicatorData = await Http.GetJsonAsync<ChartData[]>("scripts/chart/financial-data.json");
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
+        }
+        else
+        {
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+        }
     }
     public class ChartData
     {
@@ -83,32 +103,5 @@ else
         public double open { get; set; }
         public double close { get; set; }
         public double volume { get; set; }
-    }
-
-    string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
-    {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Args.Theme = ChartTheme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Args.Theme = ChartTheme.HighContrast;
-        }
-        else
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
-        }
     }
 }

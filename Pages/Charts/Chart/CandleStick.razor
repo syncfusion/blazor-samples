@@ -5,61 +5,91 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p><p> This sample visualizes the AAPL historical data with default candle series in the chart. Tooltip and crosshair show the information about the data and period.</p></p> 
+    <p><p> This sample visualizes the AAPL historical data with default candle series in the chart. Tooltip and crosshair show the information about the data and period.</p></p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render and configure the Candle type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the Candle series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p
+    <p> In this example, you can see how to render and configure the Candle type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information on the Candle series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="control-section">
-    <SfChart Title="AAPL Historical">
-		<ChartEvents Load="ChartLoad"/>
-    <ChartArea>
-        <ChartAreaBorder Width="0"></ChartAreaBorder>
-    </ChartArea>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" >
-        <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
-        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-    </ChartPrimaryXAxis>
-    <ChartPrimaryYAxis Title="Volume" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic" OpposedPosition="true" Interval="20" LabelFormat="n0">
-        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-        <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
-        <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-    </ChartPrimaryYAxis>
-    <ChartAxes>
-        <ChartAxis Name="secondary" OpposedPosition="true" RowIndex="1" LabelFormat="n0" Title="Price" RangePadding="ChartRangePadding.None" PlotOffset="30">
-            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
-        </ChartAxis>
-    </ChartAxes>
-    <ChartRows>
-        <ChartRow Height="30%"></ChartRow>
-        <ChartRow Height="70%"></ChartRow>
-    </ChartRows>
-    <ChartLegendSettings Visible="false"></ChartLegendSettings>
-    <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-    <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
-        <ChartCrosshairLine Width="1" ></ChartCrosshairLine>
-    </ChartCrosshairSettings>
-    <ChartSeriesCollection>
-        <ChartSeries Type="ChartSeriesType.Column" DataSource="@StockDetails" Name="Volume" XName="x" YName="volume">
+@if (StockDetails == null)
+{
+    <div></div>
+}
+else
+{
+    <div class="control-section">
+        <SfChart Title="AAPL Historical" Theme="@Theme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+                <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Volume" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic" OpposedPosition="true" Interval="20" LabelFormat="n0">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartAxes>
+                <ChartAxis Name="secondary" OpposedPosition="true" RowIndex="1" LabelFormat="n0" Title="Price" RangePadding="ChartRangePadding.None" PlotOffset="30">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+                </ChartAxis>
+            </ChartAxes>
+            <ChartRows>
+                <ChartRow Height="30%"></ChartRow>
+                <ChartRow Height="70%"></ChartRow>
+            </ChartRows>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+                <ChartCrosshairLine Width="1"></ChartCrosshairLine>
+            </ChartCrosshairSettings>
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Column" DataSource="@StockDetails" Name="Volume" XName="x" YName="volume">
 
-        </ChartSeries>
-        <ChartSeries DataSource="@StockDetails" YAxisName="secondary" Name="Apple Inc" XName="x" High="high" Volume="volume" Low="low" Open="open" Close="close"
-                     BearFillColor="#2ecd71" BullFillColor="#e74c3d" Type="ChartSeriesType.Candle">
-        </ChartSeries>
-    </ChartSeriesCollection>
-</SfChart>
-</div>
+                </ChartSeries>
+                <ChartSeries DataSource="@StockDetails" YAxisName="secondary" Name="Apple Inc" XName="x" High="high" Volume="volume" Low="low" Open="open" Close="close"
+                             BearFillColor="#2ecd71" BullFillColor="#e74c3d" Type="ChartSeriesType.Candle">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </div>
+}
+
 @code{
     private ChartData[] StockDetails;
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
             StockDetails = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
         });
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
+        }
+        else
+        {
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+        }
     }
     public class ChartData
     {
@@ -71,31 +101,5 @@
         public double volume { get; set; }
     }
 
-    string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
-    {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Args.Theme = ChartTheme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Args.Theme = ChartTheme.HighContrast;
-        }
-        else
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
-        }
-    }
 }
 

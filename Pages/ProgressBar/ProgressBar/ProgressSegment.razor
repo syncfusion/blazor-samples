@@ -1,158 +1,162 @@
 ﻿@page "/progress-bar/progress-segment"
 @using Syncfusion.Blazor.ProgressBar
 @inject NavigationManager Navigation
-
-    @inherits SampleBaseComponent;
+@using Syncfusion.Blazor
+@inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>This sample illustrates a segmented progress of a task.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This demo for Blazor Progress Bar control shows the segmented progress of the progressa task using segmentCount and gapWidth property.</p>
+    <p>This demo for Blazor Progress Bar control shows the segmented progress of the progressa task using segmentCount and gapWidth property.</p>
 </ActionDescription>
 
-    <div class="control-section">
-        <div class="row linear-parent">
-            <div>
-                <div class="col-lg-12 col-sm-12 progressbar-mode"></div>
-                <SfProgressBar @ref="LinearInstance" Type="ProgressType.Linear" ID="LinearSegment"
-                               Height="30" Width="70%" SegmentCount="50" GapWidth="5"
-                               Value="@ProgressValue" Minimum="0" Maximum="100" CornerRadius="CornerType.Square"
-                               Theme="@CurrentTheme"
-                               TrackThickness="15" 
-                               ProgressThickness="15"
-                               TrackColor="@ColorTrack"
-                               >
-                    <ProgressBarEvents ProgressCompleted="ProgressComplete"/>
-                    <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
-                </SfProgressBar>
-            </div>
-            <div>
-                <div class="col-lg-12 col-sm-12 progressbar-mode"></div>
-                <SfProgressBar @ref="CircularInstance" Type="ProgressType.Circular" ID="CircularSegment"
-                               Height="200px" Width="200px" TrackThickness="15" ProgressThickness="15"
-                               Value="@ProgressValue" Minimum="0" Maximum="100" StartAngle="220"
-                               EndAngle="140" SegmentCount="50" GapWidth="5"
-                               CornerRadius="CornerType.Square"
-                               Theme="@CurrentTheme"
-                               TrackColor="@ColorTrack">
-                    <ProgressBarEvents ProgressCompleted="ProgressComplete" />
-                    <ProgressBarAnnotations>
-                        <ProgressBarAnnotation Content="@AnnotationContent" />
-                    </ProgressBarAnnotations>
-                    <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
-                </SfProgressBar>
-            </div>
+<div class="control-section">
+    <div class="row linear-parent">
+        <div>
+            <div class="col-lg-12 col-sm-12 progressbar-mode"></div>
+            <SfProgressBar @ref="LinearInstance" Type="ProgressType.Linear" ID="LinearSegment"
+                           Height="30" Width="70%" SegmentCount="50" GapWidth="5"
+                           Value="@Value" Minimum="0" Maximum="100" CornerRadius="CornerType.Square"
+                           Theme="@CurrentTheme"
+                           TrackThickness="15"
+                           ProgressThickness="15"
+                           TrackColor="@ColorTrack">
+                <ProgressBarEvents ProgressCompleted="ProgressComplete" />
+                <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
+            </SfProgressBar>
+        </div>
+        <div>
+            <div class="col-lg-12 col-sm-12 progressbar-mode"></div>
+            <SfProgressBar @ref="CircularInstance" Type="ProgressType.Circular" ID="CircularSegment"
+                           Height="200px" Width="200px" TrackThickness="15" ProgressThickness="15"
+                           Value="@Value" Minimum="0" Maximum="100" StartAngle="220"
+                           EndAngle="140" SegmentCount="50" GapWidth="5"
+                           CornerRadius="CornerType.Square"
+                           Theme="@CurrentTheme"
+                           TrackColor="@ColorTrack">
+                <ProgressBarEvents ProgressCompleted="ProgressComplete" />
+                <ProgressBarAnnotations>
+                    <ProgressBarAnnotation>
+                        <ContentTemplate>
+                            @AnnotationContent
+                        </ContentTemplate>
+                    </ProgressBarAnnotation>
+                </ProgressBarAnnotations>
+                <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
+            </SfProgressBar>
         </div>
     </div>
-    @code{
-        string CurrentUri;
-        string AnnotationContent;
-        string ColorTrack = null;
-        SfProgressBar LinearInstance;
-        SfProgressBar CircularInstance;
-        int ProgressValue = 100;
-        ProgressTheme CurrentTheme;
-        private static System.Timers.Timer syncTimer;
+</div>
+@code{
+    string CurrentUri;
+    RenderFragment AnnotationContent { get; set; }
+    string ColorTrack = null;
+    SfProgressBar LinearInstance;
+    SfProgressBar CircularInstance;
+    int Value = 100;
+    Theme CurrentTheme;
+    //bool IsFirst = true;
+    private static System.Timers.Timer syncTimer;
 
-        void StartLiveUpdate()
+    void StartLiveUpdate()
+    {
+        syncTimer = new System.Timers.Timer(2000);
+
+        syncTimer.Elapsed += AddData;
+        syncTimer.AutoReset = true;
+        syncTimer.Enabled = true;
+    }
+
+    void StopLiveUpdate()
+    {
+        Value = 100;
+        syncTimer.Enabled = false;
+        syncTimer.Stop();
+    }
+
+    public void AddData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+
+        Value += 20;
+        if (Value >= 100)
         {
-            syncTimer = new System.Timers.Timer(2000);
-
-            syncTimer.Elapsed += AddData;
-            syncTimer.AutoReset = true;
-            syncTimer.Enabled = true;
+            this.StopLiveUpdate();
         }
-        void StopLiveUpdate()
+        InvokeAsync(this.StateHasChanged);
+    }
+
+    void ProgressComplete()
+    {
+        StartLiveUpdate();
+        //IsFirst = false;
+    }
+
+    protected override void OnInitialized()
+    {
+        CurrentUri = Navigation.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
         {
-            ProgressValue = 100;
-            syncTimer.Enabled = false;
-            syncTimer.Stop();
-            
+            CurrentTheme = Theme.Material;
+            AnnotationContent = @<div id='point1' style='font-size:24px;font-weight:bold;color:#e91e63'><span>100%</span></div>;
         }
-
-
-        public void AddData(Object source, System.Timers.ElapsedEventArgs e)
+        else if (CurrentUri.IndexOf("fabric") > -1)
         {
-
-            ProgressValue += 20;
-            if(ProgressValue >= 100)
-            {
-                this.StopLiveUpdate();
-            }
-            InvokeAsync(this.StateHasChanged);
+            CurrentTheme = Theme.Fabric;
+            AnnotationContent = @<div id='point1' style='font-size:24px;font-weight:bold;color:#0078D6'><span>100%</span></div>;
         }
-
-        void ProgressComplete()
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            StartLiveUpdate();
+            CurrentTheme = Theme.Bootstrap4;
+            AnnotationContent = @<div id='point1' style='font-size:24px;font-weight:bold;color:#007bff'><span>100%</span></div>;
         }
-
-        protected override void OnInitialized()
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            CurrentUri = Navigation.Uri;
-            if (CurrentUri.IndexOf("material") > -1)
-            {
-                CurrentTheme = ProgressTheme.Material;
-                AnnotationContent = "<div id='point1' style='font-size:24px;font-weight:bold;color:#e91e63'><span>100%</span></div>";
-            }
-            else if (CurrentUri.IndexOf("fabric") > -1)
-            {
-                CurrentTheme = ProgressTheme.Fabric;
-                AnnotationContent = "<div id='point1' style='font-size:24px;font-weight:bold;color:#0078D6'><span>100%</span></div>";
-            }
-            else if (CurrentUri.IndexOf("bootstrap4") > -1)
-            {
-                CurrentTheme = ProgressTheme.Bootstrap4;
-                AnnotationContent = "<div id='point1' style='font-size:24px;font-weight:bold;color:#007bff'><span>100%</span></div>";
-            }
-            else if (CurrentUri.IndexOf("bootstrap") > -1)
-            {
-                CurrentTheme = ProgressTheme.Bootstrap;
-                AnnotationContent = "<div id='point1' style='font-size:24px;font-weight:bold;color:#317ab9'><span>100%</span></div>";
-            }
-            else if (CurrentUri.IndexOf("highcontrast") > -1)
-            {
-                CurrentTheme = ProgressTheme.HighContrast;
-                ColorTrack = "#969696";
-                AnnotationContent = "<div id='point1' style='font-size:24px;font-weight:bold;color:#FFD939'><span>100%</span></div>";
-            }
-            else
-            {
-                CurrentTheme = ProgressTheme.Bootstrap4;
-                AnnotationContent = "<div id='point1' style='font-size:24px;font-weight:bold;color:#007bff'><span>100%</span></div>";
-            }
+            CurrentTheme = Theme.Bootstrap;
+            AnnotationContent = @<div id='point1' style='font-size:24px;font-weight:bold;color:#317ab9'><span>100%</span></div>;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            CurrentTheme = Theme.HighContrast;
+            ColorTrack = "#969696";
+            AnnotationContent = @<div id='point1' style='font-size:24px;font-weight:bold;color:#FFD939'><span>100%</span></div>;
+        }
+        else
+        {
+            CurrentTheme = Theme.Bootstrap4;
+            AnnotationContent = @<div id='point1' style='font-size:24px;font-weight:bold;color:#007bff'><span>100%</span></div>;
         }
     }
-    <style>
-        #control-container {
-            padding: 0px !important;
-        }
+}
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
 
-        .linear-parent {
-            text-align: center;
-            width: 75%;
-            margin: auto;
-        }
+    .linear-parent {
+        text-align: center;
+        width: 75%;
+        margin: auto;
+    }
 
-        .linear-button {
-            text-align: center;
-            padding: 2%;
-        }
+    .linear-button {
+        text-align: center;
+        padding: 2%;
+    }
 
-        .progressbar-mode {
-            text-align: left;
-            font-family: Roboto-Regular;
-            font-size: 14px;
-            color: #3D3E3C;
-            margin-left: 10px;
-            margin-top: 5%;
-            padding: 0px;
-            top: 20px;
-        }
+    .progressbar-mode {
+        text-align: left;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #3D3E3C;
+        margin-left: 10px;
+        margin-top: 5%;
+        padding: 0px;
+        top: 20px;
+    }
 
-        #reLoad {
-            border-radius: 4px;
-            text-transform: capitalize;
-        }
-    </style>
+    #reLoad {
+        border-radius: 4px;
+        text-transform: capitalize;
+    }
+</style>

@@ -16,8 +16,7 @@
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <SfAccumulationChart @ref="@ChartObj" Title="RIO Olympics Gold" EnableSmartLabels="true">
-        <AccumulationChartEvents Load="BeforeRender"/>
+        <SfAccumulationChart Title="RIO Olympics Gold" EnableSmartLabels="true" Theme="@Theme">
             <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
             <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
             <AccumulationChartSeriesCollection>
@@ -66,12 +65,11 @@
     </div>
 </div>
 @code{
-    SfAccumulationChart ChartObj;
     public int GroupToValue = 9;
     public string GroupChange = "9";
-    GroupModes Mode = GroupModes.Point;
+    GroupMode Mode = GroupMode.Point;
 
-     public string DropVal = "Point";    
+    public string DropVal = "Point";
 
     public class SelectionTypes
     {
@@ -83,33 +81,32 @@
     List<SelectionTypes> ModeData = new List<SelectionTypes>
 {
         new SelectionTypes() { Type = "Point", Code = "P" },
-        new SelectionTypes() { Type = "Value", Code = "V" }       
-        
+        new SelectionTypes() { Type = "Value", Code = "V" }
+
     };
 
     private void ChangeGroupMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
         if (args.Value.ToString() == "Value")
         {
-            Mode = GroupModes.Value;
+            Mode = GroupMode.Value;
         }
         else if (args.Value.ToString() == "Point")
         {
-            Mode = GroupModes.Point;
+            Mode = GroupMode.Point;
         }
     }
     private void ClubChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
         GroupToValue = Convert.ToInt32(args.Value);
         GroupChange = Convert.ToString(args.Value);
-        ChartObj.Refresh();
     }
 
     public class ChartData
     {
-        public string XValue;
-        public double YValue;
-        public string Text;
+        public string XValue { get; set; }
+        public double YValue { get; set; }
+        public string Text { get; set; }
     }
 
     public List<ChartData> DataSource = new List<ChartData>
@@ -129,29 +126,30 @@
        new ChartData { XValue = "Spain", YValue = 7, Text= "Spain: 7" },
        new ChartData { XValue = "Kenya", YValue = 6, Text= "Kenya: 6" }
    };
-   string CurrentUri;
-    void BeforeRender(IAccLoadedEventArgs Args)
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = AccumulationTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = AccumulationTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = AccumulationTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = AccumulationTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = AccumulationTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
 }

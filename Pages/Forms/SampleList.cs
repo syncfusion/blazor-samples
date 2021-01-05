@@ -16,6 +16,14 @@ namespace blazor_samples
                 Url = "query-builder/default-functionalities",
                 FileName = "DefaultFunctionalities.razor"
             },
+            new Sample
+            {
+                Name = "Template",
+                Category = "Query Builder",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/template",
+                FileName = "Template.razor"
+            },
              new Sample
             {
                 Name = "Integration with Data Grid",

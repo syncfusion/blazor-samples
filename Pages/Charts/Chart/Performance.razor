@@ -1,19 +1,19 @@
 ﻿@page "/chart/performance"
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
+@using System.Collections.ObjectModel;
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
- <p>  This sample demonstrates the performance of Blazor chart to render 100K points in canvas mode.</p>   
+    <p>  This sample demonstrates the performance of Blazor chart to render 100K points in canvas mode.</p>
 </SampleDescription>
 <ActionDescription>
- <p>  Chart includes several data rendering optimizations to achieve the best possible performance when plotting large volumes of data as well as handling high frequency real-time data.In this demo, chart is rendered with 100K points in canvas mode.</p>  
+    <p>  Chart includes several data rendering optimizations to achieve the best possible performance when plotting large volumes of data as well as handling high frequency real-time data.In this demo, chart is rendered with 100K points in canvas mode.</p>
 </ActionDescription>
 
 <div class="control-section col-md-8">
-    <SfChart EnableCanvas="true" @ref="ChartInstance">
-        <ChartEvents Loaded="@ChartLoaded" Load="ChartLoad"></ChartEvents>
+    <SfChart @ref="@ChartInstance" Theme="@Theme">
         <ChartPrimaryXAxis>
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
@@ -36,7 +36,7 @@
                 <div style="margin-top:10px">@Data</div>
             </td>
         </tr>
-        </table>
+    </table>
 </div>
 
 @code{
@@ -48,11 +48,9 @@
         public double YValue { get; set; }
     }
     public Random random = new Random();
-    List<LineChartData> DataChart = new List<LineChartData>();
+    ObservableCollection<LineChartData> DataChart = new ObservableCollection<LineChartData>();
     DateTime Start;
-    DateTime End;
     double value = 0;
-    Boolean FindPerformance;
     void LoadChart()
     {
         DataChart.Clear();
@@ -71,12 +69,9 @@
             DataChart.Add(new LineChartData() { XValue = i, YValue = this.value });
         }
 
-        ChartInstance.Refresh();
-        FindPerformance = true;
-
     }
 
-    void ChartLoaded(ILoadedEventArgs args)
+    /*void ChartLoaded(ILoadedEventArgs args)
     {
         End = DateTime.Now;
         if (FindPerformance)
@@ -87,35 +82,32 @@
             Data = TimeString;
         }
 
-    }
+    }*/
 
     string CurrentUri;
-    void ChartLoad(ILoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
 

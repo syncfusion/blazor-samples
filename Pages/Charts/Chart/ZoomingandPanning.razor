@@ -7,123 +7,130 @@
     <p>    This sample illustrates zooming feature in chart. The change can be zoomed by pinching or by mouse wheel.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample demonstrates the zooming and panning behavior in chart. </p>
-       <ul>
-             <li>Click and drag the mouse on a chart area to enable selection zooming.</li>
-             <li>Hover the mouse on the toolbar at the top right corner of chart area to switch between zooming and panning.</li>
-             <li>Pinch in and pinch out the chart area to zoom in or zoom out the chart in touch enabled devices.</li>
-             <li>Touch and drag to pan the chart.</li>
-             <li>Double tap to reset the zoomed chart.</li>
-         </ul>
+    <p>This sample demonstrates the zooming and panning behavior in chart. </p>
+    <ul>
+        <li>Click and drag the mouse on a chart area to enable selection zooming.</li>
+        <li>Hover the mouse on the toolbar at the top right corner of chart area to switch between zooming and panning.</li>
+        <li>Pinch in and pinch out the chart area to zoom in or zoom out the chart in touch enabled devices.</li>
+        <li>Touch and drag to pan the chart.</li>
+        <li>Double tap to reset the zoomed chart.</li>
+    </ul>
     <p> Chart component supports four types of zooming which can be set using <code>EnableSelectionZooming</code>, <code>EnablePinchZooming</code>, <code>EnableMouseWheelZooming</code>, <code>EnableDeferredZooming</code> property.</p>
     <p>Chart supports two mode of zooming which can be set using <code>Mode</code> property. </p>
-        <ul>
-            <li><code>XY</code> - Zoom the chart with respect to both the axis.</li>
-            <li><code>X</code> - Zoom the chart with respect to horizontal axis.</li>
-            <li><code>Y</code> - Zoom the chart with respect to vertical axis.</li>
-        </ul>
+    <ul>
+        <li><code>XY</code> - Zoom the chart with respect to both the axis.</li>
+        <li><code>X</code> - Zoom the chart with respect to horizontal axis.</li>
+        <li><code>Y</code> - Zoom the chart with respect to vertical axis.</li>
+    </ul>
 </ActionDescription>
 
-<div class="control-section">
-    <SfChart Title="Sales History of Product X">
-     <ChartEvents Load="ChartLoad"/>
-        <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
-            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-        </ChartPrimaryYAxis>
-        <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
-        <ChartSeriesCollection>
-            <ChartSeries DataSource="@DataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
-                <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
-            </ChartSeries>
-        </ChartSeriesCollection>
-        <ChartArea>
-            <ChartAreaBorder Width="0"></ChartAreaBorder>
-        </ChartArea>
-    </SfChart>
-</div>
+@if(DataSource == null || DataSource.Count == 0)
+{
+    <div></div>
+}
+else
+{
+    <div class="control-section">
+        <SfChart Title="Sales History of Product X" Theme="@Theme">
+            <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@DataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
+                    <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+        </SfChart>
+    </div>
+}
 
-@code {
-    Random random = new Random();
-    List<ZoomingandPanningData> DataSource = new List<ZoomingandPanningData>();
+    @code {
+        Random random = new Random();
+        List<ZoomingandPanningData> DataSource = new List<ZoomingandPanningData>();
 public double Value = 80;
-public class ZoomingandPanningData
-{
-    public DateTime X { get; set; }
-    public double Y { get; set; }
-}
-protected override async Task OnInitializedAsync()
-{
-    await Task.Run(() =>
+    public class ZoomingandPanningData
     {
-        for (int i = 1; i< 500; i++) {
-            if (random.NextDouble() > .5) {
-                this.Value += random.NextDouble();
-            } else {
-                this.Value -= random.NextDouble();
-            }
-            DataSource.Add(new ZoomingandPanningData
+        public DateTime X { get; set; }
+        public double Y { get; set; }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(() =>
+        {
+            for (int i = 1; i < 500; i++)
             {
-                X = new DateTime(1960, 1, 1).AddMonths(i+1).AddDays(i),
-                Y = Math.Round(this.Value)
-            });
-        }
-    });
-}
+                if (random.NextDouble() > .5)
+                {
+                    this.Value += random.NextDouble();
+                }
+                else
+                {
+                    this.Value -= random.NextDouble();
+                }
+                DataSource.Add(new ZoomingandPanningData
+                {
+                    X = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
+                    Y = Math.Round(this.Value)
+                });
+            }
+        });
+    }
 
-string CurrentUri;
-void ChartLoad(ILoadedEventArgs Args)
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
-}
-<svg style="height: 0">
-    <defs>
-        <linearGradient id="gradient-chart" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" />
-            <stop offset="1" />
-        </linearGradient>
-    </defs>
-</svg>
-<style>
-
-    #gradient-chart stop {
-        stop-color: #BDEDE9;
     }
+    <svg style="height: 0">
+        <defs>
+            <linearGradient id="gradient-chart" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" />
+                <stop offset="1" />
+            </linearGradient>
+        </defs>
+    </svg>
+    <style>
 
-        #gradient-chart stop[offset="0"] {
-            stop-opacity: 0.75;
+        #gradient-chart stop {
+            stop-color: #BDEDE9;
         }
 
-        #gradient-chart stop[offset="1"] {
-            stop-opacity: 0;
-        }
-</style>
+            #gradient-chart stop[offset="0"] {
+                stop-opacity: 0.75;
+            }
+
+            #gradient-chart stop[offset="1"] {
+                stop-opacity: 0;
+            }
+    </style>

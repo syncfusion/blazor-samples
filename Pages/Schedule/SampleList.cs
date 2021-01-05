@@ -15,7 +15,7 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.New
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -23,7 +23,8 @@ namespace blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/default-functionalities",
-                FileName = "Default.razor"
+                FileName = "Default.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -64,6 +65,15 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/block-out-dates-and-hours",
                 FileName = "BlockEvents.razor"
+            },
+            new Sample
+            {
+                Name = "Search Events",
+                Category = "Appointments",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/search-events",
+                FileName = "SearchEvents.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -144,7 +154,8 @@ namespace blazor_samples
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/year-view",
-                FileName = "Year.razor"
+                FileName = "Year.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -153,6 +164,15 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/room-scheduler",
                 FileName = "TimelineResource.razor"
+            },
+            new Sample
+            {
+                Name = "Resources",
+                Category = "Multiple Resources",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/resource",
+                FileName = "Resources.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -401,6 +421,15 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/keyboard-interaction",
                 FileName = "KeyboardInteraction.razor"
+            },
+            new Sample
+            {
+                Name = "Events",
+                Category = "Miscellaneous",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/events",
+                FileName = "Events.razor",
+                Type = SampleType.New
             }
         };
     }

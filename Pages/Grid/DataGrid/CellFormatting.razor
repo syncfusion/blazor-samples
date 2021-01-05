@@ -1,0 +1,235 @@
+﻿@page "/datagrid/cell-formatting"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Navigations
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@using blazor_griddata
+@using blazor_samples
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the conditional cell formatting functionality of the DataGrid.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>DataGrid provides support to change the entire background of the cell.This can be achieved by using<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.QueryCellInfoEventArgs-1.html'>QueryCellInfo</a></code>event. </p>
+    <p>In this demo sample, the Week High and Week low cells are decorated with background color and text color using QueryCellInfo event to mention that current Symbol is reaching its high and low values.</p>
+    <p>More information on the cell formatting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/cell/#customize-cell-styles'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" Height="610" EnableHover="false" AllowSelection="false" >
+                <GridEvents QueryCellInfo="CustomizeCell" TValue="CellData"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(CellData.Symbol) HeaderText="Symbol" TextAlign="TextAlign.Left" Width="80"></GridColumn>
+                    <GridColumn Field=@nameof(CellData.Open) HeaderText="Open" TextAlign="TextAlign.Right" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(CellData.High) HeaderText="High" TextAlign="TextAlign.Right"Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(CellData.Low) HeaderText="Low" TextAlign="TextAlign.Right" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(CellData.Change) HeaderText="Change" TextAlign="TextAlign.Right" Width="100">
+                        <Template>
+                            @{
+                                var changeData = (context as CellData);
+                                {
+                                    <span  class="down"> @changeData.Change</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(CellData.WH) HeaderText="52WH" Width="100" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var changeData = (context as CellData);
+                                {
+                                    @if (changeData.WH > 500 && changeData.WH < 3000)
+                                    {
+
+                                        <span class="title-txt">@changeData.WH</span>
+
+
+                                    }
+                                    @if (changeData.WH < 500 || changeData.WH > 3000)
+                                    {
+                                        <span>@changeData.WH</span>
+                                    }
+
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(CellData.WL) HeaderText="52WL" Width="100" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var changeData = (context as CellData);
+                                {
+                                    @if (changeData.WL > 500 && changeData.WL < 3000)
+                                    {
+
+                                        <span class="title-txt">@changeData.WL</span>
+
+
+                                    }
+                                    @if (changeData.WL < 500 || changeData.WL > 3000)
+                                    {
+                                        <span>@changeData.WL</span>
+                                    }
+
+                                }
+                            }
+                        </Template>
+
+
+                    </GridColumn>
+                    <GridColumn Field=@nameof(CellData.YearDays) HeaderText="365 Days %Chg" Width="100" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var changeData = (context as CellData);
+                                if (changeData.YearDays < 0)
+                                {
+                                    <span  class="down"> @changeData.YearDays<img class="image" src="@UriHelper.ToAbsoluteUri($"images/data-grid/down.png")" alt="@changeData.YearDays" /></span>
+                                }
+                                else
+                                {
+                                    <span  class="up" > @changeData.YearDays<img  class="image" src="@UriHelper.ToAbsoluteUri($"images/data-grid/up.png")" alt="@changeData.YearDays" /></span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+
+                    <GridColumn Field=@nameof(CellData.MonthDays) HeaderText="365 Days% chg " Width="100" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var changeData = (context as CellData);
+                                if (changeData.MonthDays < 0)
+                                {
+                                    <span class="down"> @changeData.MonthDays<img  class="image" src="@UriHelper.ToAbsoluteUri($"images/data-grid/down.png")" alt="@changeData.MonthDays" /></span>
+                                }
+                                else
+                                {
+                                    <span class="up"> @changeData.MonthDays<img class="image" src="@UriHelper.ToAbsoluteUri($"images/data-grid/up.png")" alt="@changeData.MonthDays" /></span>
+
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+
+
+
+                </GridColumns>
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<CellData> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = CellData.GetAllCellData();
+    }
+    public void CustomizeCell(QueryCellInfoEventArgs<CellData> args)
+    {
+        if (args.Column.Field == "WH")
+        {
+            if (args.Data.WH > 500 && args.Data.WH < 1000)
+            {
+                args.Cell.AddClass(new string[] { "average1" });
+
+            }
+            else if (args.Data.WH > 1000 && args.Data.WH < 2000)
+            {
+                args.Cell.AddClass(new string[] { "high1" });
+            }
+            else if (args.Data.WH > 2000 && args.Data.WH < 3000)
+            {
+                args.Cell.AddClass(new string[] { "veryhigh1" });
+            }
+
+        }
+        if (args.Column.Field == "WL")
+        {
+            if (args.Data.WL > 500 && args.Data.WL < 1000)
+            {
+                args.Cell.AddClass(new string[] { "average" });
+            }
+            else if (args.Data.WL > 1000 && args.Data.WL < 2000)
+            {
+                args.Cell.AddClass(new string[] { "high" });
+            }
+
+            else if (args.Data.WL > 2000 && args.Data.WL < 3000)
+            {
+                args.Cell.AddClass(new string[] { "veryhigh" });
+            }
+        }
+    }
+
+}
+@*Hidden:Lines*@
+<style type="text/css" class="cssStyles">
+    .average1 {
+        background-color: #336c12;
+        width: 50px;
+    }
+
+
+
+    .high1 {
+        background-color: #7b2b1d;
+        width: 50px;
+    }
+
+
+    .veryhigh1 {
+        background-color: #205239;
+        width: 50px;
+    }
+
+    .title-txt {
+        color: white;
+    }
+
+
+
+    .average {
+        background-color: #745a17;
+        width: 50px;
+        Font: white;
+    }
+
+
+    .high {
+        background-color: #09576b;
+        width: 50px;
+        text-decoration-color: white;
+    }
+
+
+    .veryhigh {
+        background-color: #397218;
+        color: white;
+    }
+
+
+
+
+    .image {
+        width: 10px;
+        height: 20px;
+        border-radius: 1px;
+        float:right;
+    }
+    .up {
+        color: green;
+    }
+    .down {
+        color: #E84649;
+    }
+</style>
+@*End:Hidden*@
+

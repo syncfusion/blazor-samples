@@ -1,7 +1,5 @@
 ﻿@page "/in-place-editor/drop-down"
 
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.InPlaceEditor
 
@@ -11,15 +9,18 @@
     <p>This sample demonstrates the usage of drop-down components such as AutoComplete, ComboBox, DropDownList, and MultiSelect. Click on the dotted input element to switch to the editable state of the corresponding integrated component.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample illustrates the way to integrate drop-down components with <code>In-place Editor</code>. The applicable types of components are:</p>
-   <p><ul>
-     <li><code>DropDownList</code></li>
-     <li><code>AutoComplete</code></li>
-     <li> <code>ComboBox</code></li>
-     <li> <code>MultiSelect</code></li>
-    </ul></p>
+    <p>This sample illustrates the way to integrate drop-down components with <code>In-place Editor</code>. The applicable types of components are:</p>
+    <p>
+        <ul>
+            <li><code>DropDownList</code></li>
+            <li><code>AutoComplete</code></li>
+            <li> <code>ComboBox</code></li>
+            <li> <code>MultiSelect</code></li>
+        </ul>
+    </p>
     <p>The above components and their features are editable in place and can be customized with the model properties of the specific component.</p>
 </ActionDescription>
+
 
 
 <div class="row">
@@ -33,8 +34,13 @@
                         </label>
                     </td>
                     <td>
-                        <SfInPlaceEditor Mode="@Mode" Type="@InputType.DropDownList" Value="@DropdownValue" Model="@DropdownData">
-                        </SfInPlaceEditor>
+                        <SfInPlaceEditor @bind-Value="@DropdownValue" Type="InputType.DropDownList" Mode="@Mode" TValue="string">
+                                <EditorComponent>
+                                    <SfDropDownList TValue="string" TItem="Countries" @bind-Value="@DropdownValue" DataSource="@Country">
+                                        <DropDownListFieldSettings Text="Name" Value="Code"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </EditorComponent>
+                            </SfInPlaceEditor>
                     </td>
                 </tr>
                 <tr>
@@ -44,8 +50,13 @@
                         </label>
                     </td>
                     <td>
-                        <SfInPlaceEditor Mode="@Mode" Type="@InputType.AutoComplete" Value="@AutoValue" Model="@AutocompleteData">
-                        </SfInPlaceEditor>
+                        <SfInPlaceEditor Type="InputType.AutoComplete" @bind-Value="@AutoValue" Mode="@Mode" TValue="string">
+                                <EditorComponent>
+                                    <SfAutoComplete TValue="string" TItem="Countries" @bind-Value="@AutoValue" DataSource="@Country" Autofill=true>
+                                        <AutoCompleteFieldSettings Value="Name"></AutoCompleteFieldSettings>
+                                    </SfAutoComplete>
+                                </EditorComponent>
+                            </SfInPlaceEditor>
                     </td>
                 </tr>
                 <tr>
@@ -55,8 +66,13 @@
                         </label>
                     </td>
                     <td>
-                        <SfInPlaceEditor Mode="@Mode" Type="@InputType.ComboBox" Value="@ComboValue" Model="@ComboData">
-                        </SfInPlaceEditor>
+                        <SfInPlaceEditor Type="InputType.ComboBox" @bind-Value="@ComboValue" Mode="@Mode" TValue="string">
+                                <EditorComponent>
+                                    <SfComboBox TValue="string" @bind-Value="@ComboValue" TItem="Countries" DataSource="@Country">
+                                        <ComboBoxFieldSettings Text="Name" Value="Code"></ComboBoxFieldSettings>
+                                    </SfComboBox>
+                                </EditorComponent>
+                            </SfInPlaceEditor>
                     </td>
                 </tr>
                 <tr>
@@ -66,7 +82,12 @@
                         </label>
                     </td>
                     <td>
-                        <SfInPlaceEditor Mode="@Mode" Type="InputType.MultiSelect" Value="@MultiValue" Model="@MultiSelectData">
+                        <SfInPlaceEditor Type="InputType.MultiSelect" @bind-Value="@MultiValue" Mode="@Mode" TValue="string[]">
+                            <EditorComponent>
+                                <SfMultiSelect TValue="string[]" @bind-Value="@MultiValue" TItem="Countries" DataSource="@Country" AllowFiltering="true">
+                                    <MultiSelectFieldSettings Text="Name" Value="Code"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            </EditorComponent>
                         </SfInPlaceEditor>
                     </td>
                 </tr>
@@ -82,7 +103,7 @@
                 <td>
                     <div>
                         <SfDropDownList Width="90%" TValue="string" TItem="InplaceModes" DataSource="@ModeData" @bind-Value="@DropMode">
-                            <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="ChangeEditMode"></DropDownListEvents>
+                            <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="@ChangeEditMode"></DropDownListEvents>
                             <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
                         </SfDropDownList>
                     </div>
@@ -93,24 +114,42 @@
 </div>
 
 @code {
-    private RenderMode Mode = RenderMode.Inline;
-    private string DropdownValue = "Canada";
+    private string DropdownValue = "CA";
     private string AutoValue = "Australia";
     private string ComboValue = "Finland";
-    private string[] MultiValue = new string[] { "Australia", "Bermuda" };
-    private string DropMode { get; set; } = "Inline";
+    private string[] MultiValue = new string[] { "AU", "BM" };
+    public string DropMode { get; set; } = "Inline";
 
-    private object MultiSelectData = new
-    {
-        mode = "Box",
-        placeholder = "Choose the countries",
-        dataSource = Places
-    };
+    private RenderMode Mode = RenderMode.Inline;
 
     public class Countries
     {
-        public string text { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
     }
+    private List<Countries> Country = new List<Countries>
+{
+        new Countries() { Name = "Australia", Code = "AU" },
+        new Countries() { Name = "Bermuda", Code = "BM" },
+        new Countries() { Name = "Canada", Code = "CA" },
+        new Countries() { Name = "Cameroon", Code = "CM" },
+        new Countries() { Name = "Denmark", Code = "DK" },
+        new Countries() { Name = "France", Code = "FR" },
+        new Countries() { Name = "Finland", Code = "FI" },
+        new Countries() { Name = "Germany", Code = "DE" },
+        new Countries() { Name = "Greenland", Code = "GL" },
+        new Countries() { Name = "Hong Kong", Code = "HK" },
+        new Countries() { Name = "India", Code = "IN" },
+        new Countries() { Name = "Italy", Code = "IT" },
+        new Countries() { Name = "Japan", Code = "JP" },
+        new Countries() { Name = "Mexico", Code = "MX" },
+        new Countries() { Name = "Norway", Code = "NO" },
+        new Countries() { Name = "Poland", Code = "PL" },
+        new Countries() { Name = "Switzerland", Code = "CH" },
+        new Countries() { Name = "United Kingdom", Code = "GB" },
+        new Countries() { Name = "United States", Code = "US" },
+    };
+
 
     public class InplaceModes
     {
@@ -118,49 +157,17 @@
         public string text { get; set; }
     }
 
-    private static List<Countries> Places = new List<Countries>()
-    {
-        new Countries(){ text= "Australia" },
-        new Countries(){ text= "Bermuda" },
-        new Countries(){ text= "Canada" },
-        new Countries(){ text= "Cameroon" },
-        new Countries(){ text= "Denmark" },
-        new Countries(){ text= "Finland" },
-        new Countries(){ text= "Greenland" },
-        new Countries(){ text= "Poland" }
-    };
-
-    private List<InplaceModes> ModeData = new List<InplaceModes>()
-    {
+    List<InplaceModes> ModeData = new List<InplaceModes>()
+{
         new InplaceModes(){ value= "Inline", text= "Inline" },
         new InplaceModes(){ value= "Popup", text= "Popup" }
     };
 
-    private object DropdownData = new
-    {
-        placeholder = "Find a countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-
-    private object AutocompleteData = new
-    {
-        placeholder = "Type to search countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-
-    private object ComboData = new
-    {
-        placeholder = "Find a countries",
-        dataSource = new string[] { "Australia", "Bermuda", "Canada", "Cameroon", "Denmark", "Finland", "Greenland", "Poland" }
-    };
-
     private void ChangeEditMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, InplaceModes> args)
     {
-        Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
-        this.StateHasChanged();
+        this.Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
     }
 }
-
 <style>
     .inplace-control-section.drop-down-layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
     .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide {

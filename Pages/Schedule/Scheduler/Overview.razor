@@ -41,7 +41,7 @@
                         <div class="control-panel" style="display: inline-flex;padding-left:15px;">
                             <div class="e-icons e-schedule-import e-btn-icon e-icon-left" style="line-height: 40px;"></div>
                             <SfUploader AllowedExtensions=".ics" CssClass="calendar-import" Multiple="false">
-                                <UploaderButtonsProps Browse="Import"></UploaderButtonsProps>
+                                <UploaderButtons Browse="Import"></UploaderButtons>
                                 <UploaderEvents ValueChange="OnFileUploadChange"></UploaderEvents>
                             </SfUploader>
                         </div>
@@ -142,7 +142,7 @@
             <div class="overview-content">
                 <div class="left-panel">
                     <div class="overview-scheduler">
-                        <SfSchedule @ref="ScheduleRef" TValue="AppointmentData" CssClass="schedule-overview" Width="100%" Height="100%" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView" Timezone="@TimezoneData.Value" FirstDayOfWeek="@FirstDayOfWeek" ShowWeekNumber="@ShowWeekNumber" WorkDays="@WorkDays" StartHour="@DayStartHour" EndHour="@DayEndHour" EnableAutoRowHeight="@isRowAutoHeight">
+                        <SfSchedule @ref="ScheduleRef" TValue="AppointmentData" CssClass="schedule-overview" Width="100%" Height="100%" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView" Timezone="@TimezoneData.Value" FirstDayOfWeek="@FirstDayOfWeek" ShowWeekNumber="@ShowWeekNumber" WorkDays="@WorkDays" StartHour="@DayStartHour" EndHour="@DayEndHour" EnableAutoRowHeight="@isRowAutoHeight" TimeFormat="@TimeFormat">
                             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
                             <ScheduleResources>
                                 <ScheduleResource TValue="int[]" TItem="CalendarData" DataSource="@Calendars" Query="@ResourceQuery" Field="CalendarId" Title="Calendars" Name="Calendars" TextField="CalendarName" IdField="CalendarId" ColorField="CalendarColor" AllowMultiple="true"></ScheduleResource>
@@ -298,9 +298,9 @@
                                 <label style="line-height: 34px; margin: 0;">Work week</label>
                             </div>
                             <div class="col-right">
-                                <SfMultiSelect TValue="int[]" Mode="@VisualMode.CheckBox" CssClass="schedule-workweek" Width="170px" PopupHeight="150px" DataSource="@WeekCollection" EnableSelectionOrder="false" ShowDropDownIcon="true" Value="@WorkDays" ShowClearButton="false">
+                                <SfMultiSelect Mode="@VisualMode.CheckBox" AllowFiltering="true" CssClass="schedule-workweek" Width="170px" PopupHeight="150px" DataSource="@WeekCollection" EnableSelectionOrder="false" ShowDropDownIcon="true" @bind-Value="@WorkDays" ShowClearButton="false">
                                     <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
-                                    <MultiSelectEvents TValue="int[]" ValueChange="OnWorkDaysChange"></MultiSelectEvents>
+                                    <MultiSelectEvents TValue="int[]" TItem="WeekDays" ValueChange="OnWorkDaysChange"></MultiSelectEvents>
                                 </SfMultiSelect>
                             </div>
                         </div>
@@ -309,21 +309,10 @@
                                 <label style="line-height: 34px; margin: 0;">Resources</label>
                             </div>
                             <div class="col-right">
-                                <SfMultiSelect TValue="int[]" @ref="ResourceRef" Mode="@VisualMode.CheckBox" CssClass="schedule-resource" Width="170px" PopupHeight="150px" DataSource="@Calendars" EnableSelectionOrder="false" ShowDropDownIcon="true" Value="@SelectedResource" ShowClearButton="false">
+                                <SfMultiSelect @ref="ResourceRef" Mode="@VisualMode.CheckBox" AllowFiltering="true" CssClass="schedule-resource" Width="170px" PopupHeight="150px" DataSource="@Calendars" EnableSelectionOrder="false" ShowDropDownIcon="true" @bind-Value="@SelectedResource" ShowClearButton="false">
                                     <MultiSelectFieldSettings Text="CalendarName" Value="CalendarId"></MultiSelectFieldSettings>
-                                    <MultiSelectEvents TValue="int[]" ValueChange="OnResourceChange"></MultiSelectEvents>
+                                    <MultiSelectEvents TValue="int[]" TItem="CalendarData" ValueChange="OnResourceChange"></MultiSelectEvents>
                                 </SfMultiSelect>
-                            </div>
-                        </div>
-                        <div class="col-row">
-                            <div class="col-left">
-                                <label style="line-height: 34px; margin: 0;">Timezone</label>
-                            </div>
-                            <div class="col-right">
-                                <SfDropDownList TItem="Timezone" TValue="string" Width="170px" PopupHeight="150px" @bind-Value="@TimezoneData.Value" DataSource="@TimezoneCollection">
-                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
-                                    <DropDownListEvents TItem="Timezone" TValue="string" ValueChange="OnTimezoneChange"></DropDownListEvents>
-                                </SfDropDownList>
                             </div>
                         </div>
                         <div class="col-row">
@@ -387,6 +376,16 @@
                                 </SfDropDownList>
                             </div>
                         </div>
+                        <div class="col-row">
+                            <div class="col-left">
+                                <label style="line-height: 34px; margin: 0;">Time Format</label>
+                            </div>
+                            <div class="col-right">
+                                <SfDropDownList TItem="TimeFormatData" TValue="string" Width="170px" PopupHeight="150px" DataSource="@TimeFormatDataSource" @bind-Value="@TimeFormat">
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -398,7 +397,7 @@
     SfTextBox SubjectRef;
     SfSwitch<bool> ViewRef;
     SfTextBox DescriptionRef;
-    SfMultiSelect<int[]> ResourceRef;
+    SfMultiSelect<int[], CalendarData> ResourceRef;
     SfSchedule<AppointmentData> ScheduleRef;
     SfContextMenu<MenuItem> ContextMenuObj;
     SfDropDownList<int, CalendarData> CalendarRef;
@@ -444,7 +443,7 @@
             DateTime YearEnd = new DateTime(DateTime.Now.Year, 12, 31);
             string[] EventSubjects = new string[] {
                 "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration",
-                "Wedding Aniversary", "Alaska: The Last Frontier", "Deadest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell",
+                "Wedding Anniversary", "Alaska: The Last Frontier", "Deadest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell",
                 "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico",
                 "Opening ceremony", "Final presentation"
             };
@@ -505,6 +504,11 @@
         public int Value { get; set; }
     }
     public class SlotData : WeekDays { }
+    public class TimeFormatData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
     public class Timezone
     {
         public string Name { get; set; }
@@ -532,14 +536,15 @@
     private string DayEndHour { get; set; } = "24:00";
     private string WorkStartHour { get; set; } = "09:00";
     private string WorkEndHour { get; set; } = "18:00";
+    private string TimeFormat { get; set; } = "hh:mm tt";
     private bool IsSettingsVisible { get; set; } = false;
     public string[] GroupData = new string[] { "Calendars" };
     private DateTime SystemTime { get; set; } = DateTime.UtcNow;
     private DateTime SelectedDate { get; set; } = DateTime.UtcNow;
     private DateTime? StartWorkHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
     private DateTime? EndWorkHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
-    private DateTime? ScheduleStartHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-    private DateTime? ScheduleEndHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+    private DateTime? ScheduleStartHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+    private DateTime? ScheduleEndHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
     private int[] SelectedResource { get; set; } = new int[] { 1 };
     private int[] WorkDays { get; set; } = new int[] { 1, 2, 3, 4, 5 };
     private Timezone TimezoneData { get; set; } = new Timezone() { Name = "UTC+00:00", Key = "UTC", Value = "UTC" };
@@ -587,6 +592,11 @@
         new SlotData() { Name = "8", Value = 8 },
         new SlotData() { Name = "9", Value = 9 },
         new SlotData() { Name = "10", Value = 10 }
+    };
+    private List<TimeFormatData> TimeFormatDataSource = new List<TimeFormatData>()
+    {
+        new TimeFormatData() { Name = "12 hours", Value = "hh:mm tt" },
+        new TimeFormatData() { Name = "24 hours", Value = "HH:mm" }
     };
     private List<string> ScheduleViews { get; set; } = new List<string>() { "Day", "Week", "WorkWeek", "Month", "Year", "Agenda", "TimelineDay", "TimelineWeek", "TimelineWorkWeek", "TimelineMonth", "TimelineYear" };
     private List<WeekDays> WeekCollection { get; set; } = new List<WeekDays>() {
@@ -723,7 +733,7 @@
 
     private string GetEventDetails(AppointmentData data)
     {
-        return data.StartTime.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTime.ToString("hh:mm tt", CultureInfo.InvariantCulture) + "-" + data.EndTime.ToString("hh:mm tt", CultureInfo.InvariantCulture) + ")";
+        return data.StartTime.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTime.ToString(TimeFormat, CultureInfo.InvariantCulture) + "-" + data.EndTime.ToString(TimeFormat, CultureInfo.InvariantCulture) + ")";
     }
 
     public static string GetDateHeaderText(DateTime date)
@@ -955,7 +965,7 @@
 
     public async Task OnFileUploadChange(UploadChangeEventArgs args)
     {
-        foreach (Syncfusion.Blazor.Inputs.Internal.UploadFiles file in args.Files)
+        foreach (Syncfusion.Blazor.Inputs.UploadFiles file in args.Files)
         {
             file.Stream.Position = 0;
             StreamReader reader = new StreamReader(file.Stream);
@@ -974,7 +984,7 @@
         {
             List<AppointmentData> ExportDatas = new List<AppointmentData>();
             List<AppointmentData> EventCollection = await ScheduleRef.GetEvents();
-            List<Resource> ResourceCollection = ScheduleRef.GetResourceCollections();
+            List<Syncfusion.Blazor.Schedule.Resource> ResourceCollection = ScheduleRef.GetResourceCollections();
             List<CalendarData> ResourceData = ResourceCollection[0].DataSource as List<CalendarData>;
             for (int a = 0, count = ResourceData.Count(); a < count; a++)
             {
@@ -1614,4 +1624,22 @@
             .schedule-overview .calendar-import.e-upload .e-file-select-wrap .e-file-drop, .calendar-import .e-upload-files {
                 display: none;
             }
+
+    .bootstrap4 .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item:not(.e-separator),
+    .material .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item:not(.e-separator) {
+        padding: 4px 2.5px;
+    }
+
+    .bootstrap4 .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn,
+    .bootstrap4 .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn.e-control,
+    .material .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn,
+    .material .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn.e-control {
+        line-height: 27px;
+    }
+
+    .bootstrap4 .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-btn.e-tbar-btn .e-icons.e-btn-icon,
+    .material .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-btn.e-tbar-btn .e-icons.e-btn-icon {
+        line-height: 30px;
+        min-height: 30px;
+    }
 </style>

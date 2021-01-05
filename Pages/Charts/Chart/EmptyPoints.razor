@@ -14,8 +14,7 @@
 
 <div class="row">
     <div class="col-lg-8 control-section">
-        <SfAccumulationChart Title="Annual Product-Wise Profit Analysis">
-            <AccumulationChartEvents Load="BeforeRender"/>
+        <SfAccumulationChart Title="Annual Product-Wise Profit Analysis" Theme="@Theme">
             <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}</b>"></AccumulationChartTooltipSettings>
 
             <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
@@ -48,8 +47,8 @@
 @code{
 
 
-    AccEmptyPointMode Mode = AccEmptyPointMode.Drop;
-    public string DropVal = "Drop";    
+    EmptyPointMode Mode = EmptyPointMode.Drop;
+    public string DropVal = "Drop";
 
     public class SelectionTypes
     {
@@ -63,67 +62,68 @@
         new SelectionTypes() { Type = "Drop", Code = "XY" },
         new SelectionTypes() { Type = "Zero", Code = "X" },
         new SelectionTypes() { Type = "Average", Code = "Y" }
-        
+
     };
     private void ChangeEmptyPointMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
         if (args.Value.ToString() == "Zero")
         {
-            Mode = AccEmptyPointMode.Zero;
+            Mode = EmptyPointMode.Zero;
         }
         else if (args.Value.ToString() == "Average")
         {
-            Mode = AccEmptyPointMode.Average;
+            Mode = EmptyPointMode.Average;
         }
         else
         {
-            Mode = AccEmptyPointMode.Drop;
+            Mode = EmptyPointMode.Drop;
         }
     }
 
     public class ChartData
     {
-        public string XValue;
-        public double YValue;
-        public string Text;
+        public string XValue { get; set; }
+        public double? YValue { get; set; }
+        public string Text { get; set; }
     }
 
     public List<ChartData> DataSource = new List<ChartData>
 {
         new ChartData { XValue = "Rice", YValue = 80 },
-        new ChartData { XValue = "Wheat", YValue = Double.NaN },
+        new ChartData { XValue = "Wheat", YValue = null },
         new ChartData { XValue = "Oil", YValue = 70 },
         new ChartData { XValue = "Corn", YValue = 60 },
-        new ChartData { XValue = "Gram", YValue = Double.NaN },
+        new ChartData { XValue = "Gram", YValue = null },
         new ChartData { XValue = "Milk", YValue = 70 },
         new ChartData { XValue = "Peas", YValue = 80 },
         new ChartData { XValue = "Fruit", YValue = 60 },
-        new ChartData { XValue = "Butter", YValue = Double.NaN }
+        new ChartData { XValue = "Butter", YValue = null }
     };
 
     string CurrentUri;
-    void BeforeRender(IAccLoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = AccumulationTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = AccumulationTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = AccumulationTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = AccumulationTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = AccumulationTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
 }

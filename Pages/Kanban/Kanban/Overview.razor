@@ -18,8 +18,8 @@
     </ul>
 </ActionDescription>
 
-<div class="control-section">
-    <SfKanban CssClass="kanban-overview" KeyField="Status" DataSource="@Tasks" EnableTooltip="true">
+<div class="col-lg-12 control-section">
+    <SfKanban CssClass="kanban-overview" KeyField="Status" DataSource="@cardData" EnableTooltip="true">
         <KanbanColumns>
             @foreach (ColumnModel item in columnData)
             {
@@ -46,23 +46,22 @@
                                 <div class="e-card-header-title e-tooltip-text">@card.Title</div>
                             </div>
                         </div>
-                        <div class="e-card-content e-tooltip-text">
-                            <div class="e-text">@card.Summary</div>
+                        <div class="e-card-content">
+                            <div class="e-text e-tooltip-text">@card.Summary</div>
                         </div>
                         <div class="e-card-footer">
                             @{
-                                string[] tags = card.Tags.Split(",");
-                                @foreach (var tagIndex in Enumerable.Range(0, tags.Count()))
+                                @foreach (string tag in card.CardTags)
                                 {
-                                    <div class="e-card-tag e-tooltip-text">@tags[tagIndex]</div>
+                                    <div class="e-card-tag e-tooltip-text">@tag</div>
                                 }
                             }
                             <div class="e-card-avatar">
                                 @{
-                                    string[] strSplit = card.Assignee.Split();
-                                    foreach (string res in strSplit)
+                                    string[] AssigneeName = card.Assignee.Split();
+                                    foreach (string assignee in AssigneeName)
                                     {
-                                        @res.Substring(0, 1).ToUpper()
+                                        @assignee.Substring(0, 1).ToUpper()
                                     }
                                 }
                             </div>
@@ -222,7 +221,7 @@
 </style>
 
 @code{
-    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetCardTasks();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetCardTasks();
     private List<ColumnModel> columnData = new List<ColumnModel>() {
         new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" }, AllowToggle= true },
         new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" }, AllowToggle= true },

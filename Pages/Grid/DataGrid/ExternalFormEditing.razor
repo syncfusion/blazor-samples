@@ -1,0 +1,158 @@
+﻿@page "/datagrid/external-form-editing"
+
+@using Syncfusion.Blazor.Grids
+@using blazor_samples
+@using blazor_griddata
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Calendars
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates editing operation in DataGrid using external custom edit form.To edit a record, select required row and edit data and click save.</p>
+
+</SampleDescription>
+<ActionDescription>
+
+    <p>The available other modes of editing are,</p>
+    <ul>
+        <li><strong>Inline</strong></li>
+        <li><strong>Batch</strong></li>
+        <li><strong>Dialog</strong></li>
+    </ul>
+    <p>In this demo, external custom form editors are used to edit grid records. You can start editing by selecting a row and the current selected row will be shown on the external form and you can change the row values and save edited data to the datasource.</p>
+    <p>More information on the editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/editing/'>documentation section</a>.</p>
+</ActionDescription>
+<div class="col-lg-12 control-section">
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <SfNumericTextBox ID="OrderID" @bind-Value="@(SelectedData.OrderID)" Enabled="@Check" FloatLabelType="FloatLabelType.Always" Placeholder="Order ID"></SfNumericTextBox>
+        </div>
+        <div class="form-group col-md-6">
+
+
+            <SfTextBox ID="CustomerID" @bind-Value="@SelectedData.CustomerID" Placeholder="Customer ID" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+        </div>
+
+        <div class="form-group col-md-6">
+
+            <SfDatePicker ID="OrderDate" @bind-Value="@SelectedData.OrderDate" Placeholder="Order Date" FloatLabelType="FloatLabelType.Always"></SfDatePicker>
+        </div>
+        <div class="form-group col-md-6">
+
+            <SfNumericTextBox ID="Freight" TValue="double?" @bind-Value="@SelectedData.Freight" Placeholder="Freight" FloatLabelType="FloatLabelType.Always"></SfNumericTextBox>
+        </div>
+
+        <div class="form-group col-md-6">
+
+            <SfDropDownList ID="ShipCountry" @bind-Value="@SelectedData.ShipCountry" TItem="Country" Placeholder="Ship Country" FloatLabelType="FloatLabelType.Always" TValue="string" DataSource="@Name">
+                <DropDownListFieldSettings Value="ShipCountry" Text="ShipCountry"></DropDownListFieldSettings>
+            </SfDropDownList>
+
+        </div>
+        <div class="form-group col-md-6">
+
+
+            <SfTextBox ID="Ship Name" @bind-Value="@SelectedData.ShipName" Placeholder="Ship Name" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+        </div>
+
+        <div class="temp">
+
+            <SfButton @onclick="Cancel">Cancel</SfButton>
+        </div>
+        <div class="temp">
+
+            <SfButton @onclick="Save">Save</SfButton>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" @ref="Grid" AllowPaging="true">
+               
+
+                <GridEvents RowSelected="RowSelectHandler" TValue="OrderDetails"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrderDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.CustomerID) HeaderText="Customer Name" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.ShipName) HeaderText="Ship Name" Width="150"></GridColumn>
+                </GridColumns>
+
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+    public List<OrderDetails> GridData { get; set; }
+    private Boolean Check = false;
+
+    protected override void OnInitialized()
+    {
+        GridData = OrderDetails.GetAllRecords();
+    }
+
+
+    SfGrid<OrderDetails> Grid;
+
+    public OrderDetails SelectedData = new OrderDetails();
+
+
+
+    public void RowSelectHandler(RowSelectEventArgs<OrderDetails> args)
+    {
+
+
+        SelectedData = new OrderDetails() { OrderID = args.Data.OrderID, CustomerID = args.Data.CustomerID, Freight = args.Data.Freight, OrderDate = args.Data.OrderDate, ShipName = args.Data.ShipName, ShipCountry = args.Data.ShipCountry };
+    }
+    public async Task Save()
+    {
+        if (SelectedData.OrderID != null)
+        {
+            await this.Grid.SetRowData(SelectedData.OrderID, SelectedData);
+            await Cancel();
+        }
+
+    }
+    public async Task Cancel()
+    {
+
+        SelectedData = new OrderDetails() { };
+        await this.Grid.ClearSelection();
+    }
+
+
+    public class Country
+    {
+        public string ShipCountry { get; set; }
+    }
+    List<Country> Name = new List<Country>
+{
+          new Country() { ShipCountry= "Denmark" },
+          new Country() { ShipCountry= "Brazil" },
+          new Country() { ShipCountry= "Germany" },
+          new Country() { ShipCountry= "Austria" },
+          new Country() { ShipCountry= "Switzerland" },
+    };
+
+}
+@*Hidden:Lines*@
+<style>
+    .temp {
+        float: right;
+        border: 1px;
+        padding: 5px 10px;
+        text-align: center;
+    }
+</style>
+@*End:Hidden*@
+

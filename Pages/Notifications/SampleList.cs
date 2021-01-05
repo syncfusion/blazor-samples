@@ -52,11 +52,12 @@ namespace blazor_samples
         public List<Sample> Spinner { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Default Functionalities",
+                Name = "Overview",
                 Category = "Spinner",
                 Directory = "Notifications/Spinner",
-                Url = "spinner/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                Type = SampleType.New,
+                Url = "spinner/overview",
+                FileName = "Overview.razor"
             }
         };
     }

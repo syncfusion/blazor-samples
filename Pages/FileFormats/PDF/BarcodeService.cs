@@ -366,6 +366,31 @@ namespace blazor_samples.Data.FileFormats.PDF
 
             g.DrawLine(pen, new PointF(0, 530), new PointF(width, 530));
             #endregion
+			
+			#region EAN13
+            PdfEan13Barcode ean13barcode = new PdfEan13Barcode();
+            ean13barcode.Text = "012345678910";
+            ean13barcode.Draw(page, new RectangleF(15, 550,150,50));
+            font = new PdfStandardFont(PdfFontFamily.TimesRoman, 9, PdfFontStyle.Regular);
+
+            g.DrawString("Type : EAN-13", font, brush, new PointF(200, 550));
+            g.DrawString("Allowed Characters : 0-9", font, brush, new PointF(200, 570));
+
+            g.DrawLine(pen, new PointF(0, 620), new PointF(width, 620));
+            #endregion
+
+            #region EAN8
+            PdfEan8Barcode ean8barcode = new PdfEan8Barcode();
+            ean8barcode.Text = "0123456";
+            ean8barcode.Draw(page, new PointF(25, 640));
+            font = new PdfStandardFont(PdfFontFamily.TimesRoman, 9, PdfFontStyle.Regular);
+
+            g.DrawString("Type : EAN-8", font, brush, new PointF(200, 640));
+            g.DrawString("Allowed Characters : 0-9", font, brush, new PointF(200, 660));
+
+            g.DrawLine(pen, new PointF(0, 720), new PointF(width, 720));
+            #endregion
+
             #endregion
 
             //Save the PDF to the MemoryStream

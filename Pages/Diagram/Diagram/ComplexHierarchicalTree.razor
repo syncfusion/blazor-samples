@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Diagrams
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
 
@@ -10,7 +11,7 @@
     <p>  This sample illustrates a simple business management structure built from an external data source. A hierarchical tree layout algorithm is used to build organizational charts.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to generate a complex hierarchical tree from external data sources. You can also customize spacing among the objects in the tree. You can use the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#spacing'>HorizontalSpacing</a> and <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#spacing'>VerticalSpacing</a> properties of <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#complex-hierarchical-tree'>DiagramLayout</a> to customize the space among the objects in the tree. You can use the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#orientation'>Orientation</a> property of <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#complex-hierarchical-tree'>DiagramLayout</a> to change the orientation of the tree. To change the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#orientation'>Orientation</a> of the tree, click the templates in the property panel.</p>
+    <p> In this example, you can see how to generate a complex hierarchical tree from external data sources. You can also customize spacing among the objects in the tree. You can use the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#spacing'>HorizontalSpacing</a> and <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#spacing'>VerticalSpacing</a> properties of <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#complex-hierarchical-tree'>DiagramLayout</a> to customize the space among the objects in the tree. You can use the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#orientation'>Orientation</a> property of <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#complex-hierarchical-tree'>DiagramLayout</a> to change the orientation of the tree. To change the <a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#orientation'>Orientation</a> of the tree, click the templates in the property panel.</p>
 </ActionDescription>
 
 @*Hidden:Lines*@
@@ -166,6 +167,9 @@
                 </SfNumericTextBox>
             </div>
         </div>
+        <div class="row" style="padding-top: 10px">
+            <SfCheckBox ID="checked" @ref="@CheckBox" Checked="@checkboxvalue" Label="Prevent Connector Overlapping" ValueChange="@OnChangeData" TChecked="bool" />
+        </div>
     </div>
 </div>
 @*End:Hidden*@
@@ -174,6 +178,8 @@
     static string unselecteditem = "image-pattern-style";
     Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
     SfDiagram Diagram;
+    SfCheckBox<bool> CheckBox;
+    bool checkboxvalue = true;
     public int? HValue { get; set; } = 40;
     public int? VValue { get; set; } = 40;
     public int? xmargin { get; set; } = 20;
@@ -192,7 +198,7 @@
         Height = 40,
         Width = 40,
         Annotations = new ObservableCollection<DiagramNodeAnnotation>()
-        {
+    {
             new DiagramNodeAnnotation() { Offset = new NodeAnnotationOffset(){ Y =0.5, X= 0.5}, Id = "label"}
         },
         Shape = new DiagramShape() { BasicShape = BasicShapes.Rectangle, CornerRadius = 7, Type = Syncfusion.Blazor.Diagrams.Shapes.Basic }
@@ -216,7 +222,7 @@
     }
     private void marginTopChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        updateLayoutSettings("marginTop", double.Parse(args.Value.ToString())); 
+        updateLayoutSettings("marginTop", double.Parse(args.Value.ToString()));
     }
     private void marginLeftChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
@@ -294,12 +300,13 @@
         public string[] ReportingPerson;
     }
     public object DataSource = new List<object>()
-    {
+{
         new DataModel { Name = "node11", FillColor = "#e7704c", Border = "#c15433" },
         new DataModel {  Name = "node12", ReportingPerson = new string[]{ "node114" }, FillColor = "#efd46e", Border = "#d6b123" },
         new DataModel {  Name = "node13", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
         new DataModel {  Name = "node14", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
         new DataModel {  Name = "node15", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node116", ReportingPerson = new string[] { "node22","node12" }, FillColor = "#58b087", Border = "#16955e" },
         new DataModel {  Name = "node16", ReportingPerson = new string[] {}, FillColor = "#14ad85" },
         new DataModel {  Name = "node17", ReportingPerson = new string[] { "node13", "node14", "node15" }, FillColor = "#659be5", Border = "#3a6eb5" },
         new DataModel {  Name = "node18", ReportingPerson = new string[] {}, FillColor = "#14ad85" },
@@ -318,21 +325,27 @@
         new DataModel {  Name = "node210", ReportingPerson = new string[] { "node26", "node27", "node28" }, FillColor = "#8dbe6c", Border = "#489911" },
         new DataModel {  Name = "node211", ReportingPerson = new string[] { "node26", "node27", "node28" }, FillColor = "#8dbe6c", Border = "#489911" },
         new DataModel {  Name = "node31", FillColor = "#e7704c", Border = "#c15433" },
-        new DataModel {  Name = "node114", ReportingPerson = new string[] { "node11", "node21", "node31" }, FillColor = "#f3904a", Border = "#d3722e" },
-        new DataModel {  Name = "node116", ReportingPerson = new string[] { "node12", "node22" }, FillColor = "#58b087", Border = "#16955e" }
+        new DataModel {  Name = "node114", ReportingPerson = new string[] { "node11", "node21", "node31" }, FillColor = "#f3904a", Border = "#d3722e" }
+        
     };
 
     protected override void OnInitialized()
     {
         LayoutValue = new DiagramLayout()
         {
-           Type = LayoutType.ComplexHierarchicalTree,
+            Type = LayoutType.ComplexHierarchicalTree,
             VerticalAlignment = VerticalAlignment.Top,
             HorizontalSpacing = 40,
             VerticalSpacing = 40,
             Orientation = LayoutOrientation.TopToBottom,
-            Margin = new LayoutMargin() { Left = 20, Top = 20 }
+            Margin = new LayoutMargin() { Left = 20, Top = 20 },
+            ConnectionPointOrigin = ConnectionPointOrigin.DifferentPoint
         };
 
+    }
+    public void OnChangeData(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        checkboxvalue = CheckBox.Checked;
+        Diagram.Layout.ConnectionPointOrigin = (CheckBox.Checked) ? ConnectionPointOrigin.DifferentPoint : ConnectionPointOrigin.SamePoint;
     }
 }

@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
+@using PointRender
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
@@ -10,16 +11,16 @@
     <p>  This sample illustrates Internet users in millions by using smart labels in the chart. The smart label placement for a series can be shown, when it contains more of points.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to arrange the axis labels and how to trim the axis label smartly. When the Axis labels overlap with each other based on the chart dimensions and label size, you can use the <code>LabelIntersectAction</code> property of the axis to avoid overlapping.</p>
-   <p>Chart supports the following by which can be set using <code>LabelIntersectAction</code> property.</p>
-   <ul>
-       <li><code>Hide</code> - Hide the label when it intersect.</li>
-       <li><code>Trim</code> - Trim the label when it intersect.</li>
-       <li><code>Wrap</code> - Wrap the label when it intersect.</li>
-       <li><code>MultipleRows</code> - Arrange the label in multiple row when it intersect.</li>
-       <li><code>Rotate45</code> - Rotate the label to 45 degree when it intersect.</li>
-       <li><code>Rotate90</code> - Rotate the label to 90 degree when it intersect.</li>
-       <li><code>None</code> - Shows all the labels.</li>
+    <p>In this example, you can see how to arrange the axis labels and how to trim the axis label smartly. When the Axis labels overlap with each other based on the chart dimensions and label size, you can use the <code>LabelIntersectAction</code> property of the axis to avoid overlapping.</p>
+    <p>Chart supports the following by which can be set using <code>LabelIntersectAction</code> property.</p>
+    <ul>
+        <li><code>Hide</code> - Hide the label when it intersect.</li>
+        <li><code>Trim</code> - Trim the label when it intersect.</li>
+        <li><code>Wrap</code> - Wrap the label when it intersect.</li>
+        <li><code>MultipleRows</code> - Arrange the label in multiple row when it intersect.</li>
+        <li><code>Rotate45</code> - Rotate the label to 45 degree when it intersect.</li>
+        <li><code>Rotate90</code> - Rotate the label to 90 degree when it intersect.</li>
+        <li><code>None</code> - Shows all the labels.</li>
     </ul><br>
     <p>Chart supports three types of edge labels placement which can be set using <code>edgeLabelPlacement</code> property.</p>
     <ul>
@@ -32,7 +33,6 @@
 <div>
     <div class="col-md-8 control-section">
         <SfChart Title="Internet Users in Millons">
-         <ChartEvents Load="ChartLoad"/>
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
             <ChartPrimaryXAxis EdgeLabelPlacement="@LabelPlacement" LabelPosition="@LabelPosition" MaximumLabelWidth="@LabelWidth" EnableTrim="@EnableTrim" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="@IntersectAction">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -54,10 +54,11 @@
                 </ChartSeries>
             </ChartSeriesCollection>
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            <ChartEvents OnPointRender="PointRender"></ChartEvents>
         </SfChart>
     </div>
     <div class="col-md-4 property-section">
-        <table  title="Properties" style="width: 100%">
+        <table title="Properties" style="width: 100%">
             <tr style="height:50px"><th>Properties</th></tr>
             <tr style="height: 50px">
                 <td style="width: 40%">
@@ -74,11 +75,11 @@
                 <td style="width: 60%">
                     <div>Edge Label Placement:</div>
                 </td>
-                <td style="width: 40%;">                   
-                        <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal2" DataSource="@EdgePlacement">
+                <td style="width: 40%;">
+                    <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal2" DataSource="@EdgePlacement">
                         <DropDownListEvents TValue="string" TItem="SelectionTypes" ValueChange="ChangeLabelPlacement"></DropDownListEvents>
                         <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
-                    </SfDropDownList>                    
+                    </SfDropDownList>
                 </td>
             </tr>
             <tr style="height: 50px">
@@ -109,8 +110,8 @@
                 <td style="width: 40%;">
                     <div style='margin-top: 0px;'>
                         <SfNumericTextBox TValue="int?" Value="@Width" Max=120 Min=1 Step=1>
-                            <NumericTextBoxEvents TValue="int?" ValueChange="ChangeValue"/>
-                        </SfNumericTextBox>                        
+                            <NumericTextBoxEvents TValue="int?" ValueChange="ChangeValue" />
+                        </SfNumericTextBox>
                     </div>
                 </td>
             </tr>
@@ -119,14 +120,14 @@
 </div>
 @code{
     private Boolean EnableTrim = false, IsTrim = false;
-	public int LabelWidth = 34, Width = 34;
+    public int LabelWidth = 34, Width = 34;
     LabelIntersectAction IntersectAction = LabelIntersectAction.Hide;
-	EdgeLabelPlacement LabelPlacement = EdgeLabelPlacement.None;
-	AxisPosition LabelPosition = AxisPosition.Outside;
+    EdgeLabelPlacement LabelPlacement = EdgeLabelPlacement.None;
+    AxisPosition LabelPosition = AxisPosition.Outside;
 
-    public string DropVal = "Hide";    
-    public string DropVal2 = "None";   
-    public string DropVal3 = "Outside";     
+    public string DropVal = "Hide";
+    public string DropVal2 = "None";
+    public string DropVal3 = "Outside";
 
     public class SelectionTypes
     {
@@ -137,31 +138,31 @@
 
     List<SelectionTypes> InterSectAction = new List<SelectionTypes>
 {
-       
+
         new SelectionTypes() { Type = "Hide", Code = "Y" },
         new SelectionTypes() { Type = "Trim", Code = "X" },
         new SelectionTypes() { Type = "Wrap", Code = "Y" },
         new SelectionTypes() { Type = "MultipleRows", Code = "Y" },
         new SelectionTypes() { Type = "Rotate45", Code = "Y" },
-        new SelectionTypes() { Type = "Rotate90", Code = "Y" },  
-         new SelectionTypes() { Type = "None", Code = "XY" },     
-        
+        new SelectionTypes() { Type = "Rotate90", Code = "Y" },
+         new SelectionTypes() { Type = "None", Code = "XY" },
+
     };
 
-      List<SelectionTypes> EdgePlacement = new List<SelectionTypes>
+    List<SelectionTypes> EdgePlacement = new List<SelectionTypes>
 {
         new SelectionTypes() { Type = "None", Code = "XY" },
         new SelectionTypes() { Type = "Shift", Code = "X" },
         new SelectionTypes() { Type = "Hide", Code = "Y" },
-        
+
     };
 
-     List<SelectionTypes> PositionLabel = new List<SelectionTypes>
+    List<SelectionTypes> PositionLabel = new List<SelectionTypes>
 {
         new SelectionTypes() { Type = "Outside", Code = "XY" },
         new SelectionTypes() { Type = "Inside", Code = "X" },
-        
-        
+
+
     };
 
     private void ChangeSelection(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
@@ -170,17 +171,17 @@
     }
     public void ChangeValue(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-		LabelWidth = Width = Convert.ToInt32(args.Value);
+        LabelWidth = Width = Convert.ToInt32(args.Value);
     }
     public void ChangeIntersectAction(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
         this.IntersectAction = (LabelIntersectAction)Enum.Parse(typeof(LabelIntersectAction), args.Value.ToString(), true);
     }
-     public void ChangeLabelPlacement(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
+    public void ChangeLabelPlacement(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
         this.LabelPlacement = (EdgeLabelPlacement)Enum.Parse(typeof(EdgeLabelPlacement), args.Value.ToString(), true);
     }
-     public void ChangeLabelPosition(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
+    public void ChangeLabelPosition(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
         this.LabelPosition = (AxisPosition)Enum.Parse(typeof(AxisPosition), args.Value.ToString(), true);
     }
@@ -205,32 +206,49 @@
         new CategoryData { x = "China", y = 51 },
      };
     string CurrentUri;
-     void ChartLoad(ILoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
+    }
+    public void PointRender(PointRenderEventArgs args)
+    {
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+
     }
 }

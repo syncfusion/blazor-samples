@@ -54,7 +54,7 @@
                     <PivotViewValue Name="PowUnits" Caption="Sold Amount"></PivotViewValue>
                 </PivotViewValues>
                 <PivotViewFormatSettings>
-                    <PivotViewFormatSetting Name="TimeLine" Type="date" Format="dd/MM/yyyy-hh:mm a"></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="TimeLine" Type="FormatType.DateTime" Format="dd/MM/yyyy-hh:mm tt"></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
                 <PivotViewGroupSettings>
                     <PivotViewGroupSetting Name="TimeLine" Type="GroupType.Date" GroupInterval="@GroupInterval"></PivotViewGroupSetting>
@@ -82,8 +82,8 @@
                     <tr style="height: 50px">
                         <td style="width: 100%">
                             <div class="datecls">
-                                <SfMultiSelect TValue="string[]" Placeholder="Select group" Mode="@VisualMode.CheckBox" DataSource="@DateGroups" Value="@SelectedGroup" EnableSelectionOrder="false" ShowDropDownIcon="true" FilterBarPlaceholder="Search group" PopupWidth="100%">
-                                    <MultiSelectEvents TValue="string[]" ValueChange="ChangeGroup"></MultiSelectEvents>
+                                <SfMultiSelect Placeholder="Select group" Mode="@VisualMode.CheckBox" AllowFiltering="true" DataSource="@DateGroups" @bind-Value="@SelectedGroup" EnableSelectionOrder="false" ShowDropDownIcon="true" FilterBarPlaceholder="Search group" PopupWidth="100%">
+                                    <MultiSelectEvents TValue="string[]" TItem="DropDownData" ValueChange="ChangeGroup"></MultiSelectEvents>
                                     <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
                                 </SfMultiSelect>
                             </div>
@@ -133,6 +133,10 @@
     .pivot-table-property-section .e-multiselect {
         padding: 0;
     }
+
+    html, body {
+        height: 100%;
+    }
 </style>
 
 @code{
@@ -159,18 +163,18 @@
         this.Data = GroupData.GetGroupData();
     }
 
-    public void ChangeGroup(@Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    public void ChangeGroup(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
     {
         this.SelectionGroup = new List<string>();
-        foreach (string selectedValue in args.Value)
+        for (int i = 0; i < args.Value?.Length; i++)
         {
-            this.SelectionGroup.Add(selectedValue);
+            this.SelectionGroup.Add(args.Value[i]);
         }
     }
 
     public void OnGroupUpdate(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
-        Pivot.DataSourceSettings.GroupSettings = new List<PivotViewGroupSetting>();
+        List<PivotViewGroupSetting> groupSettings = new List<PivotViewGroupSetting>();
         if (this.SelectionGroup.Count > 0)
         {
             List<DateGroup> dateGroup = new List<DateGroup>();
@@ -178,12 +182,13 @@
             {
                 dateGroup.Add((DateGroup)Enum.Parse(typeof(DateGroup), selectedValue, true));
             }
-            Pivot.DataSourceSettings.GroupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
+            groupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
         }
         if (this.NumberGroup.Value > 1)
         {
-            Pivot.DataSourceSettings.GroupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
+            groupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
         }
+        Pivot.DataSourceSettings.GroupSettings = groupSettings;
     }
     @*Hidden:Lines*@
     #pragma warning restore BL0005

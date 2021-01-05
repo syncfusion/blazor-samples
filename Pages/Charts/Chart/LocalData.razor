@@ -4,43 +4,49 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p> This sample illustrates plotting of local data about stock price analysis of two products for a certain period.</p> 
+    <p> This sample illustrates plotting of local data about stock price analysis of two products for a certain period.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> For fetching data for chart, local data can be used.</p>
-  <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p> For fetching data for chart, local data can be used.</p>
+    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
 </ActionDescription>
 
-<div class="control-section">
-    <SfChart Title="Stock Price Analysis">
-        <ChartEvents Load="ChartLoad"/>
-        <ChartArea>
-            <ChartAreaBorder Width="0"></ChartAreaBorder>
-        </ChartArea>
-        <ChartPrimaryXAxis Title="Years" Skeleton="y" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Price" LabelFormat="${value}" RangePadding="ChartRangePadding.None">
-            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
-        </ChartPrimaryYAxis>
-        <ChartSeriesCollection>
-            <ChartSeries Type="ChartSeriesType.Line" DataSource="@Series1" XName="X" YName="Y" Width="2" Name="Product X">
-                <ChartMarker Visible="false"></ChartMarker>
-                <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
-            </ChartSeries>
-            <ChartSeries Type="ChartSeriesType.Line" DataSource="@Series2" XName="X" YName="Y" Width="2" Name="Product Y">
-                <ChartMarker Visible="false"></ChartMarker>
-                <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
-            </ChartSeries>
-        </ChartSeriesCollection>
-        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
-            <ChartCrosshairLine Color="rgba(204,214,235,0.25)" Width="20"></ChartCrosshairLine>
-        </ChartCrosshairSettings>
-        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-    </SfChart>
-</div>
+@if ((Series1 == null || Series1.Count == 0) || (Series2 == null || Series2.Count == 0))
+{
+    <div></div>
+}
+else
+{
+    <div class="control-section">
+        <SfChart Title="Stock Price Analysis" Theme="@Theme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryXAxis Title="Years" Skeleton="y" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Price" LabelFormat="${value}" RangePadding="ChartRangePadding.None">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries Type="ChartSeriesType.Line" DataSource="@Series1" XName="X" YName="Y" Width="2" Name="Product X">
+                    <ChartMarker Visible="false"></ChartMarker>
+                    <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
+                </ChartSeries>
+                <ChartSeries Type="ChartSeriesType.Line" DataSource="@Series2" XName="X" YName="Y" Width="2" Name="Product Y">
+                    <ChartMarker Visible="false"></ChartMarker>
+                    <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+                <ChartCrosshairLine Color="rgba(204,214,235,0.25)" Width="20"></ChartCrosshairLine>
+            </ChartCrosshairSettings>
+            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+        </SfChart>
+    </div>
+}
 
 @code{
 
@@ -54,7 +60,8 @@
         public DateTime X { get; set; }
         public double Y { get; set; }
     }
-
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -83,32 +90,28 @@
                 });
             }
         });
-    }
-
-    string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
-    {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
+
+
 }

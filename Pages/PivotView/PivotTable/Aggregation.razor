@@ -47,7 +47,7 @@
                         <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
                     </PivotViewFormatSettings>
                     <PivotViewDrilledMembers>
-                        <PivotViewDrilledMember Name="Country" Items="@DrilledMembers"></PivotViewDrilledMember>
+                        <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France" })"></PivotViewDrilledMember>
                     </PivotViewDrilledMembers>
                 </PivotViewDataSourceSettings>
                 <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
@@ -64,8 +64,7 @@
                         <tr style="height: 50px">
                             <td>
                                 <div>
-                                    <SfDropDownList TValue="string" TItem="DropDownData" @bind-Index="@index" DataSource="@UnitSoldAggregateTypes" FloatLabelType=FloatLabelType.Auto Placeholder="Units Sold">
-                                        <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnUnitSoldTypeChange"></DropDownListEvents>
+                                    <SfDropDownList TValue="SummaryTypes" TItem="DropDownData" @bind-Value="UnitSoldAggregateType" DataSource="@UnitSoldAggregateTypes" FloatLabelType=FloatLabelType.Auto Placeholder="Units Sold">
                                         <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
@@ -74,8 +73,7 @@
                         <tr style="height: 50px">
                             <td>
                                 <div>
-                                    <SfDropDownList TValue="string" TItem="DropDownData" @bind-Index="@indexSolid" DataSource="@SoldAmountAggregateTypes" FloatLabelType=FloatLabelType.Auto Placeholder="Sold Amount">
-                                        <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnSoldAmountTypeChange"></DropDownListEvents>
+                                    <SfDropDownList TValue="SummaryTypes" TItem="DropDownData" @bind-Value="SoldAmountAggregateType" DataSource="@SoldAmountAggregateTypes" FloatLabelType=FloatLabelType.Auto Placeholder="Sold Amount">
                                         <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
@@ -90,12 +88,15 @@
         .e-pivotview {
             min-height: 200px;
         }
+
+        html, body {
+            height: 100%;
+        }
     </style>
 
 @code{
     public Syncfusion.Blazor.PivotView.SummaryTypes UnitSoldAggregateType = Syncfusion.Blazor.PivotView.SummaryTypes.Sum;
     public Syncfusion.Blazor.PivotView.SummaryTypes SoldAmountAggregateType = Syncfusion.Blazor.PivotView.SummaryTypes.Avg;
-    public string[] DrilledMembers = new string[] { "France" };
 
     public List<PivotProductDetails> Data { get; set; }
 
@@ -103,61 +104,50 @@
     {
         this.Data = PivotProductDetails.GetProductData();
     }
-    private int? index { get; set; } = 0;
-    private int? indexSolid { get; set; } = 1;
-    public void OnUnitSoldTypeChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
-    {
-        this.UnitSoldAggregateType = (Syncfusion.Blazor.PivotView.SummaryTypes)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.SummaryTypes), args.Value, true);
-    }
-
-    public void OnSoldAmountTypeChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
-    {
-        this.SoldAmountAggregateType = (Syncfusion.Blazor.PivotView.SummaryTypes)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.SummaryTypes), args.Value, true);
-    }
 
     List<DropDownData> UnitSoldAggregateTypes = new List<DropDownData>() {
-        new DropDownData { Name = "Sum", Value = "Sum" },
-        new DropDownData { Name = "Avg", Value = "Avg" },
-        new DropDownData { Name = "Min", Value = "Min" },
-        new DropDownData { Name = "Max", Value = "Max" },
-        new DropDownData { Name = "Count", Value = "Count" },
-        new DropDownData { Name = "Distinct Count", Value = "DistinctCount" },
-        new DropDownData { Name = "Product", Value = "Product" },
-        new DropDownData { Name = "Index", Value = "Index" },
-        new DropDownData { Name = "Population StDev", Value = "PopulationStDev" },
-        new DropDownData { Name = "Sample StDev", Value = "SampleStDev" },
-        new DropDownData { Name = "Population Var", Value = "PopulationVar" },
-        new DropDownData { Name = "Sample Var", Value = "SampleVar" },
-        new DropDownData { Name = "Running Totals", Value = "RunningTotals" },
-        new DropDownData { Name = "% of Column Total", Value = "PercentageOfColumnTotal" },
-        new DropDownData { Name = "% of Row Total", Value = "PercentageOfRowTotal" },
-        new DropDownData { Name = "% of Parent Total", Value = "PercentageOfParentTotal" },
-        new DropDownData { Name = "% of Parent Column Total", Value = "PercentageOfParentColumnTotal" },
-        new DropDownData { Name = "% of Parent Row Total", Value = "PercentageOfParentRowTotal" }
+        new DropDownData { Name = "Sum", Value = SummaryTypes.Sum },
+        new DropDownData { Name = "Avg", Value = SummaryTypes.Avg },
+        new DropDownData { Name = "Min", Value = SummaryTypes.Min },
+        new DropDownData { Name = "Max", Value = SummaryTypes.Max },
+        new DropDownData { Name = "Count", Value = SummaryTypes.Count },
+        new DropDownData { Name = "Distinct Count", Value = SummaryTypes.DistinctCount },
+        new DropDownData { Name = "Product", Value = SummaryTypes.Product },
+        new DropDownData { Name = "Index", Value = SummaryTypes.Index },
+        new DropDownData { Name = "Population StDev", Value = SummaryTypes.PopulationStDev },
+        new DropDownData { Name = "Sample StDev", Value = SummaryTypes.SampleStDev },
+        new DropDownData { Name = "Population Var", Value = SummaryTypes.PopulationVar },
+        new DropDownData { Name = "Sample Var", Value = SummaryTypes.SampleVar },
+        new DropDownData { Name = "Running Totals", Value = SummaryTypes.RunningTotals },
+        new DropDownData { Name = "% of Column Total", Value = SummaryTypes.PercentageOfColumnTotal },
+        new DropDownData { Name = "% of Row Total", Value = SummaryTypes.PercentageOfRowTotal },
+        new DropDownData { Name = "% of Parent Total", Value = SummaryTypes.PercentageOfParentTotal },
+        new DropDownData { Name = "% of Parent Column Total", Value = SummaryTypes.PercentageOfParentColumnTotal },
+        new DropDownData { Name = "% of Parent Row Total", Value = SummaryTypes.PercentageOfParentRowTotal }
     };
 
     List<DropDownData> SoldAmountAggregateTypes = new List<DropDownData>() {
-        new DropDownData { Name = "Sum", Value = "Sum" },
-        new DropDownData { Name = "Avg", Value = "Avg" },
-        new DropDownData { Name = "Min", Value = "Min" },
-        new DropDownData { Name = "Max", Value = "Max" },
-        new DropDownData { Name = "Product", Value = "Product" },
-        new DropDownData { Name = "Index", Value = "Index" },
-        new DropDownData { Name = "Population StDev", Value = "PopulationStDev" },
-        new DropDownData { Name = "Sample StDev", Value = "SampleStDev" },
-        new DropDownData { Name = "Population Var", Value = "PopulationVar" },
-        new DropDownData { Name = "Sample Var", Value = "SampleVar" },
-        new DropDownData { Name = "Running Totals", Value = "RunningTotals" },
-        new DropDownData { Name = "% of Column Total", Value = "PercentageOfColumnTotal" },
-        new DropDownData { Name = "% of Row Total", Value = "PercentageOfRowTotal" },
-        new DropDownData { Name = "% of Parent Total", Value = "PercentageOfParentTotal" },
-        new DropDownData { Name = "% of Parent Column Total", Value = "PercentageOfParentColumnTotal" },
-        new DropDownData { Name = "% of Parent Row Total", Value = "PercentageOfParentRowTotal" }
+        new DropDownData { Name = "Sum", Value = SummaryTypes.Sum },
+        new DropDownData { Name = "Avg", Value = SummaryTypes.Avg },
+        new DropDownData { Name = "Min", Value = SummaryTypes.Min },
+        new DropDownData { Name = "Max", Value = SummaryTypes.Max },
+        new DropDownData { Name = "Product", Value = SummaryTypes.Product },
+        new DropDownData { Name = "Index", Value = SummaryTypes.Index },
+        new DropDownData { Name = "Population StDev", Value = SummaryTypes.PopulationStDev },
+        new DropDownData { Name = "Sample StDev", Value = SummaryTypes.SampleStDev },
+        new DropDownData { Name = "Population Var", Value = SummaryTypes.PopulationVar },
+        new DropDownData { Name = "Sample Var", Value = SummaryTypes.SampleVar },
+        new DropDownData { Name = "Running Totals", Value = SummaryTypes.RunningTotals },
+        new DropDownData { Name = "% of Column Total", Value = SummaryTypes.PercentageOfColumnTotal },
+        new DropDownData { Name = "% of Row Total", Value = SummaryTypes.PercentageOfRowTotal },
+        new DropDownData { Name = "% of Parent Total", Value = SummaryTypes.PercentageOfParentTotal },
+        new DropDownData { Name = "% of Parent Column Total", Value = SummaryTypes.PercentageOfParentColumnTotal },
+        new DropDownData { Name = "% of Parent Row Total", Value = SummaryTypes.PercentageOfParentRowTotal }
     };
 
     public class DropDownData
     {
         public string Name { get; set; }
-        public string Value { get; set; }
+        public SummaryTypes Value { get; set; }
     }
 }

@@ -12,7 +12,7 @@
     <div class="col-lg-12 col-sm-12 col-md-12">
         <!-- sidebar element declaration -->
         <span id="hamburger" @onclick="@Show" class="@Hamburgerclass"></span>
-        <SfSidebar HtmlAttributes="@HtmlAttribute" @ref="SidebarObj" CloseOnDocumentClick="@CloseOnDocumentClick" ShowBackdrop="@ShowBackdrop" Position="@Position" Type="@Type">
+        <SfSidebar HtmlAttributes="@HtmlAttribute" @ref="SidebarObj" CloseOnDocumentClick="@CloseOnDocumentClick" ShowBackdrop="@ShowBackdrop" Position="@Position" Type="@Type" @bind-IsOpen="SidebarToggle">
             <ChildContent>
                 <div class="title-header">
                     <div style="display:inline-block"> Sidebar </div>
@@ -89,6 +89,7 @@
     public string DocContent = "True";
     public SidebarPosition Position { get; set; } = SidebarPosition.Left;
     public SidebarType Type { get; set; } = SidebarType.Auto;
+    public bool SidebarToggle = false;
 
     Dictionary<string, object> HtmlAttribute = new Dictionary<string, object>()
     {
@@ -108,9 +109,9 @@
         new typeData { text = "Auto" }
     };
 
-    private async void ToggleBtnClick()
+    private void ToggleBtnClick()
     {
-        await this.SidebarObj.Toggle();
+        SidebarToggle = !SidebarToggle;
     }
     private void PositionBtnClick()
     {
@@ -156,13 +157,13 @@
         }
         this.StateHasChanged();
     }
-    public async void Show()
+    public void Show()
     {
-        await this.SidebarObj.Show();
+        SidebarToggle = true;
     }
-    public async void Close()
+    public void Close()
     {
-        await this.SidebarObj.Hide();
+        SidebarToggle = false;
     }
     public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, typeData> args)
     {

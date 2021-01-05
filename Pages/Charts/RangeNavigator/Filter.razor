@@ -1,6 +1,7 @@
 ﻿@page "/range-selector/filter"
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor
 @using Newtonsoft.Json
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
@@ -9,7 +10,7 @@
     <p>This sample filters the data by hire date using date-time axis.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to bind the value of the range navigator to the grid control using the <code>Changed</code> event.</p>
+    <p>In this example, you can see how to bind the value of the range navigator to the grid control using the <code>Changed</code> event.</p>
 </ActionDescription>
 
 @if (FilterData == null)
@@ -18,27 +19,27 @@
 }
 else
 {
-    <div class="control-section" align="center">       
-            <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
-            <div>
-                <SfRangeNavigator ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime"
-                                   AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
-                                   EnableGrouping="true" GroupBy="RangeIntervalType.Years"
-                                   EnableDeferredUpdate="true" Value="@Value" DataSource="@FilterData"
-                                   XName="HireDate" YName="yValue">
-                    <RangeNavigatorEvents Load="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
-                </SfRangeNavigator>
-            </div> <br>
-            <div>
-                <SfGrid Width="80%" @ref="GridObj" DataSource="@Data" TValue="ChartData" AllowPaging="true">
-                    <GridColumns>
-                        <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
-                        <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
-                        <GridColumn Field="Title" HeaderText="Title" TextAlign="TextAlign.Center"></GridColumn>
-                        <GridColumn Field="HireDate" HeaderText="Hire Date" TextAlign="TextAlign.Center" Format="yMd"></GridColumn>
-                    </GridColumns>
-                </SfGrid>
-            </div>
+    <div class="control-section" align="center">
+        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
+        <div>
+            <SfRangeNavigator ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime"
+                              AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
+                              EnableGrouping="true" GroupBy="RangeIntervalType.Years"
+                              EnableDeferredUpdate="true" Value="@Value" DataSource="@FilterData"
+                              XName="HireDate" YName="yValue">
+                <RangeNavigatorEvents Loaded="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
+            </SfRangeNavigator>
+        </div> <br>
+        <div>
+            <SfGrid Width="80%" @ref="GridObj" DataSource="@Data" TValue="ChartData" AllowPaging="true">
+                <GridColumns>
+                    <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field="Title" HeaderText="Title" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field="HireDate" HeaderText="Hire Date" TextAlign="TextAlign.Center" Format="yMd"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
     </div>
 }
 @code{
@@ -49,7 +50,7 @@ else
     {
         await Task.Run(() =>
         {
-		    FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/employee-data.json"));
+            FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/employee-data.json"));
         });
     }
     public class ChartData
@@ -59,47 +60,45 @@ else
         public string FirstName { get; set; }
         public string Title { get; set; }
         public DateTime HireDate { get; set; }
-
     }
-    private DateTime[] Value = new DateTime[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
-   protected void onRangeChanged(IChangedEventArgs args)
+    private object[] Value = new object[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
+    protected void onRangeChanged(ChangedEventArgs args)
     {
         List<ChartData> FilterData1 = new List<ChartData>();
-        for(int i =0; i<FilterData.Length; i++)
+        for (int i = 0; i < FilterData.Length; i++)
         {
-            if(FilterData[i].HireDate >= Convert.ToDateTime(args.Start) && FilterData[i].HireDate <= Convert.ToDateTime(args.End))
+            if (FilterData[i].HireDate >= Convert.ToDateTime(args.Start) && FilterData[i].HireDate <= Convert.ToDateTime(args.End))
             {
                 FilterData1.Add(FilterData[i]);
-            }            
+            }
         }
         Data = FilterData1.ToArray();
-        //GridObj.Refresh();
-       
+        StateHasChanged();
     }
 
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
 }

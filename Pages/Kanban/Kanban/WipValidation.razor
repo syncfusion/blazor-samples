@@ -25,7 +25,7 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
-    <SfKanban KeyField="Status" DataSource="Tasks" ConstraintType="@(IsSwimlaneEnable ? ConstraintType.Swimlane : ConstraintType.Column)">
+    <SfKanban KeyField="Status" DataSource="@cardData" ConstraintType="@(IsSwimlaneEnable ? ConstraintType.Swimlane : ConstraintType.Column)">
         <KanbanColumns>
             @foreach (ColumnModel item in columnData)
             {
@@ -37,67 +37,78 @@
     </SfKanban>
 </div>
 <div class="col-lg-3 property-section">
-    <div class="property-panel-header">Constraint</div>
-    <div class="property-panel-content">
-        <table class="property-panel-table">
-            <tbody>
-                <tr>
-                    <td style="width: 35%">Type</td>
-                    <td style="width: 65%">
-                        <SfDropDownList TItem="string" TValue="string" DataSource="@ColumnConstraints" @bind-Value="@ColumnConstraintValue">
-                            <DropDownListEvents TItem="string" TValue="string" ValueChange="@((args) => IsSwimlaneEnable = args.Value == "Swimlane")"></DropDownListEvents>
-                        </SfDropDownList>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="property-panel-header">Validate Constraints</div>
-    <div class="property-panel-content">
-        <table class="property-panel-table">
-            <tbody>
-                <tr>
-                    <td style="width: 35%">Columns</td>
-                    <td style="width: 65%">
-                        <SfDropDownList TItem="string" TValue="string" DataSource="@KanbanColumns" Placeholder="Header Text" ShowClearButton="true" @bind-Value="@ColumnKeyValue">
-                            <DropDownListFieldSettings Text="HeaderText" Value="KeyField"></DropDownListFieldSettings>
-                            <DropDownListEvents TItem="string" TValue="string" ValueChange="ColumnValueUpdate"></DropDownListEvents>
-                        </SfDropDownList>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 35%">MinCount</td>
-                    <td style="width: 65%">
-                        <SfNumericTextBox ID="minIndex" TValue="int?" Placeholder="Minimum Count" Min="0" Max="20" @bind-Value=@ColumnMinCount></SfNumericTextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 35%">MaxCount</td>
-                    <td style="width: 65%">
-                        <SfNumericTextBox ID="maxIndex" TValue="int?" Placeholder="Maximum Count" Min="0" Max="20" @bind-Value=@ColumnMaxCount></SfNumericTextBox>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2">
-                        <SfButton ID="validate" Content="Validate" OnClick="OnColumnValidationUpdate"></SfButton>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Constraint</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Constraint">
+                <tbody>
+                    <tr>
+                        <td style="width: 35%">Type</td>
+                        <td style="width: 65%">
+                            <SfDropDownList TItem="string" TValue="string" DataSource="@ColumnConstraints" @bind-Value="@ColumnConstraintValue">
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="@((args) => IsSwimlaneEnable = args.Value == "Swimlane")"></DropDownListEvents>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="property-panel-header">Validate Constraints</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Validate Constraints">
+                <tbody>
+                    <tr>
+                        <td style="width: 35%">Columns</td>
+                        <td style="width: 65%">
+                            <SfDropDownList TItem="string" TValue="string" DataSource="@KanbanColumns" Placeholder="Header Text" ShowClearButton="true" @bind-Value="@ColumnKeyValue">
+                                <DropDownListFieldSettings Text="HeaderText" Value="KeyField"></DropDownListFieldSettings>
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="ColumnValueUpdate"></DropDownListEvents>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%">MinCount</td>
+                        <td style="width: 65%">
+                            <SfNumericTextBox ID="minIndex" TValue="int?" Placeholder="Minimum Count" Min="0" Max="20" @bind-Value=@ColumnMinCount></SfNumericTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%">MaxCount</td>
+                        <td style="width: 65%">
+                            <SfNumericTextBox ID="maxIndex" TValue="int?" Placeholder="Maximum Count" Min="0" Max="20" @bind-Value=@ColumnMaxCount></SfNumericTextBox>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <SfButton ID="validate" Content="Validate" OnClick="OnColumnValidationUpdate"></SfButton>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 
 <style>
-    .property-section tbody td {
-        padding: 5px 0;
+    .property-panel-section table {
+        width: 100%;
     }
 
-    .property-section tfoot td {
-        padding: 10px 0;
-        text-align: center;
-    }
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+
+        .property-panel-section table tfoot td {
+            padding: 10px 0;
+            text-align: center;
+        }
 </style>
 
 @code{
@@ -109,7 +120,7 @@
     private string ColumnConstraintValue = "Column";
     private List<string> ColumnConstraints = new List<string>() { "Column", "Swimlane" };
     private List<string> KanbanColumns = new List<string>() { "To Do", "In Progress", "Testing", "Done" };
-    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
     private List<ColumnModel> columnData = new List<ColumnModel>() {
         new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" }, MinCount = 6, MaxCount = 8 },
         new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" }, MinCount = 2, MaxCount = 0 },

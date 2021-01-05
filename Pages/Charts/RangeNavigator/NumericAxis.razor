@@ -1,5 +1,6 @@
 ﻿@page "/range-selector/numeric-axis"
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
 @using Newtonsoft.Json
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
@@ -8,7 +9,7 @@
     <p>This sample depicts the cricket match data between two countries with the help of numeric axis in range navigator.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Numeric axis is used to plot numeric data in range navigator. To render numeric axis, set <code> ValueType</code> to <code> Double</code>. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.</p>
+    <p>Numeric axis is used to plot numeric data in range navigator. To render numeric axis, set <code> ValueType</code> to <code> Double</code>. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.</p>
 </ActionDescription>
 
 @if (AusData == null && SlData == null)
@@ -17,47 +18,46 @@
 }
 else
 {
-<div class="control-section" align="center">
-    <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Score Comparision AUS vs SL</h4>
-    <div>
-        <SfRangeNavigator LabelPosition="AxisPosition.Outside" Value="@Value">
-            <RangeNavigatorEvents Load="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
-			<RangeNavigatorRangeTooltipSettings Enable="true"></RangeNavigatorRangeTooltipSettings>
-            <RangeNavigatorSeriesCollection>
-                <RangeNavigatorSeries DataSource="@AusData" Width="2" XName="x" Type="RangeNavigatorType.Line" YName="y">
-                </RangeNavigatorSeries>
-                <RangeNavigatorSeries DataSource="@SlData" Width="2" XName="x" Type="RangeNavigatorType.Line" YName="y">
-                </RangeNavigatorSeries>
-            </RangeNavigatorSeriesCollection>
-        </SfRangeNavigator>
+    <div class="control-section" align="center">
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Score Comparision AUS vs SL</h4>
+        <div>
+            <SfRangeNavigator LabelPosition="AxisPosition.Outside" Value="@Value">
+                <RangeNavigatorEvents Loaded="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorRangeTooltipSettings Enable="true"></RangeNavigatorRangeTooltipSettings>
+                <RangeNavigatorSeriesCollection>
+                    <RangeNavigatorSeries DataSource="@AusData" Width="2" XName="x" Type="RangeNavigatorType.Line" YName="y">
+                    </RangeNavigatorSeries>
+                    <RangeNavigatorSeries DataSource="@SlData" Width="2" XName="x" Type="RangeNavigatorType.Line" YName="y">
+                    </RangeNavigatorSeries>
+                </RangeNavigatorSeriesCollection>
+            </SfRangeNavigator>
+        </div>
+        <div id="chartcontainer">
+            <SfChart>
+                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Overs" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="0" Title="Runs">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <ChartAnnotations>
+                    <ChartAnnotation Content="<div></div>" X="XValue" Y="15%" CoordinateUnits="Syncfusion.Blazor.Charts.Units.Pixel" Region="Regions.Chart"></ChartAnnotation>
+                </ChartAnnotations>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@AusData" XName="x" YName="y" Name="AUS" Width="2" Type="ChartSeriesType.Spline">
+                        <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    </ChartSeries>
+                    <ChartSeries DataSource="@SlData" XName="x" YName="y" Name="SL" Width="2" Type="ChartSeriesType.Spline">
+                        <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartTooltipSettings Enable="false" Shared="false"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            </SfChart>
+        </div>
     </div>
-    <div id="chartcontainer">
-        <SfChart>
-            <ChartEvents Load="ChartLoad" />
-            <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Overs" ZoomFactor="@ZF" ZoomPosition="@ZP">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Minimum="0" Title="Runs">
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            </ChartPrimaryYAxis>
-            <ChartAnnotations>
-                <ChartAnnotation Content="<div></div>" X="XValue" Y="15%" CoordinateUnits="Syncfusion.Blazor.Charts.Units.Pixel" Region="Regions.Chart"></ChartAnnotation>
-            </ChartAnnotations>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@AusData" XName="x" YName="y" Name="AUS" Width="2" Type="ChartSeriesType.Spline">
-                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
-                </ChartSeries>
-                <ChartSeries DataSource="@SlData" XName="x" YName="y" Name="SL" Width="2" Type="ChartSeriesType.Spline">
-                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
-                </ChartSeries>
-            </ChartSeriesCollection>
-            <ChartTooltipSettings Enable="false" Shared="false"></ChartTooltipSettings>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        </SfChart>
-    </div>
-</div>
 }
 @code{
     private ChartData[] AusData;
@@ -65,6 +65,7 @@ else
     double ZF = 1;
     double ZP = 0;
     public string XValue = "85%";
+    private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -79,8 +80,8 @@ else
         public double y { get; set; }
         public bool isWicket { get; set; }
     }
-    private int[] Value = new int[] {31,50};
-    public void OnRangeChanged(IChangedEventArgs args)
+    private object[] Value = new object[] { 31, 50 };
+    public void OnRangeChanged(ChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
@@ -88,57 +89,57 @@ else
     }
 
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
 
-    void ChartLoad(ILoadedEventArgs Args)
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }

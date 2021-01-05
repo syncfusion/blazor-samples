@@ -3,12 +3,13 @@
 @using Newtonsoft.Json
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+@using Syncfusion.Blazor
 
 <SampleDescription>
     <p>This sample illustrates RTL in the range navigator.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to inverse the axis in range navigator. Here both the X and Y axis are inversed using <code>isInversed</code> property. Tooltip is enabled in this example; to see the tooltip in action, while the selected range is changed.</p>
+    <p>In this example, you can see how to inverse the axis in range navigator. Here both the X and Y axis are inversed using <code>isInversed</code> property. Tooltip is enabled in this example; to see the tooltip in action, while the selected range is changed.</p>
 </ActionDescription>
 
 @if (RtlData == null)
@@ -17,39 +18,37 @@
 }
 else
 {
-<div class="control-section" align="center">
-    <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;text-align:center">Inflation - Consumer Price</h4>
-    <div>
-        <SfRangeNavigator IntervalType="RangeIntervalType.Years" EnableRtl="true" Value="@Value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
-            <RangeNavigatorEvents Load="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
-			<RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
-            <RangeNavigatorSeriesCollection>
-                <RangeNavigatorSeries Fill="@FillColor" DataSource="@RtlData" XName="x" Type="RangeNavigatorType.Area" YName="high">
-                </RangeNavigatorSeries>
-            </RangeNavigatorSeriesCollection>
-        </SfRangeNavigator>
+    <div class="control-section" align="center">
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;text-align:center">Inflation - Consumer Price</h4>
+        <div>
+            <SfRangeNavigator IntervalType="RangeIntervalType.Years" EnableRtl="true" Value="@Value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
+                <RangeNavigatorEvents Loaded="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+                <RangeNavigatorSeriesCollection>
+                    <RangeNavigatorSeries Fill="@FillColor" DataSource="@RtlData" XName="x" Type="RangeNavigatorType.Area" YName="high">
+                    </RangeNavigatorSeries>
+                </RangeNavigatorSeriesCollection>
+            </SfRangeNavigator>
+        </div>
+        <div>
+            <SfChart>
+                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="82" Maximum="87" Interval="1" RangePadding="ChartRangePadding.Normal" LabelFormat="{value}%">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries Fill="@FillColor" DataSource="@RtlData" XName="x" YName="high" Name="England" Width="2" Type="ChartSeriesType.Area">
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartTooltipSettings Enable="true" Shared="true" Header="<b>England<b>" Format="${point.x} : <b>${point.y}<b>"></ChartTooltipSettings>
+            </SfChart>
+        </div>
     </div>
-    <div>
-        <SfChart>
-            <ChartEvents Load="ChartLoad" />
-            <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Minimum="82" Maximum="87" Interval="1" RangePadding="ChartRangePadding.Normal" LabelFormat="{value}%">
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries Fill="@FillColor" DataSource="@RtlData" XName="x" YName="high" Name="England" Width="2" Type="ChartSeriesType.Area">
-                </ChartSeries>
-            </ChartSeriesCollection>
-            <ChartTooltipSettings Enable="true" Shared="true" Header="<b>England<b>" Format="${point.x} : <b>${point.y}<b>"></ChartTooltipSettings>
-
-        </SfChart>
-    </div>
-</div>
 }
 @code{
     private ChartData[] RtlData;
@@ -57,6 +56,7 @@ else
     double ZP = 0;
     string FillColor;
     string valueUrl = "url";
+    private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -96,8 +96,8 @@ else
         public DateTime x { get; set; }
         public double high { get; set; }
     }
-    private DateTime[] Value = new DateTime[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
-    public void OnRangeChanged(IChangedEventArgs args)
+    private object[] Value = new object[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
+    public void OnRangeChanged(ChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
@@ -105,57 +105,57 @@ else
     }
 
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
 
-    void ChartLoad(ILoadedEventArgs Args)
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }
@@ -216,4 +216,3 @@ else
         </linearGradient>
     </defs>
 </svg>
-

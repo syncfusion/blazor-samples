@@ -6,6 +6,195 @@ using System.Collections.ObjectModel;
 using blazor_samples;
 namespace blazor_griddata
 {
+
+    public class CellData
+    {
+        public CellData(string Symbol, double Open, double High, double Low, double Change, double WH, double WL, double YearDays, double MonthlyDays)
+        {
+            this.Symbol = Symbol;
+            this.Open = Open;
+            this.High = High;
+            this.Low = Low;
+            this.Change = Change;
+            this.WH = WH;
+            this.WL = WL;
+            this.YearDays = YearDays;
+            this.MonthDays = MonthlyDays;
+
+        }
+        public static List<CellData> GetAllCellData()
+        {
+            List<CellData> Datas = new List<CellData>();
+            {
+                Datas.Add(new CellData("DDNDKJ", 6088.20, 6114.5, 6084.15, 12.5, 6114.55, 4770.35, 14.37, 9.87));
+                Datas.Add(new CellData("FKLND", 2042.00, 2108.40, 2042.00, 77.8, 2108.40, 1526.40, 23.7, 10.55));
+                Datas.Add(new CellData("DSNNS", 740, 772.3, 740, 26.6, 772.3, 496.4, 47.28, 23.20));
+                Datas.Add(new CellData("MLSSD", 939.5, 958.2, 939.5, 22.1, 998.85, 553, 47.28, 9.87));
+                Datas.Add(new CellData("LKSNDL", 4641.10, 4749.75, 4641.10, 99.25, 5050.00, 3432.40, 61.24, 11.63));
+                Datas.Add(new CellData("NKJSN", 445, 451.9, 442, 6.95, 578.4, 370.8, 229.67, 4.45));
+                Datas.Add(new CellData("LNKNDS", 298.5, 303.95, 298.5, 4.25, 386.25, 289.4, -9.42, 3.13));
+                Datas.Add(new CellData("NSDN", 400, 403, 397.95, 4.0, 435, 300, -5.40, -1.52));
+                Datas.Add(new CellData("SDMSMD", 162.75, 164.85, 162.4, 1.85, 207.95, 140.3, 23.21, 0.79));
+                Datas.Add(new CellData("SMMSDS", 75.4, 76.45, 75.2, 0.75, 106.7, 58, -6, 11.78));
+                Datas.Add(new CellData("MSMDM", 2291.00, 2315.10, 2291.00, 20.4, 2551.70, 1802.30, 28.37, 15.28));
+                Datas.Add(new CellData("MLKSDM", 329.7, 329.7, 327.2, 2.65, 355, 227.4, 25.55, 14.38));
+                Datas.Add(new CellData("BDSBD", 730.5, 736.75, 727.15, 5.55, 736.75, 524.1, 26.87, 8.65));
+                Datas.Add(new CellData("SKJDB", 421.5, 424.9, 416, 295, 789.35, 3.15, 35.80, 15.32));
+                Datas.Add(new CellData("BDSDH", 505, 509, 503, 3.35, 509.5, 279, -40.65, 13.13));
+                Datas.Add(new CellData("DSJBD", 1730.00, 1739.95, 1721.20, 10.05, 1739.95, 1051.00, 61.28, 31.47));
+                Datas.Add(new CellData("BSBDBD", 1161.00, 1172.00, 1161.00, 6.25, 1232.00, 767.4, 37.73, 23.04));
+                Datas.Add(new CellData("BDBSJ", 770, 776, 768.65, 4.05, 920, 659.2, 49.90, 16.66));
+                Datas.Add(new CellData("NSDJN", 106, 106.8, 105.35, 0.55, 137.1, 86.9, 2.89, 9.53));
+                Datas.Add(new CellData("NDSS", 3000.30, 3040.00, 3000.30, 14.9, 3510.00, 2210.00, -9.36, 17.10));
+                Datas.Add(new CellData("NKDN", 126, 128, 126, 0.6, 202.8, 121.85, 22.41, 10.60));
+            }
+            return Datas;
+        }
+        public string Symbol { get; set; }
+        public double? Open { get; set; }
+        public double? High { get; set; }
+        public double? Low { get; set; }
+        public double? Change { get; set; }
+        public double? WH { get; set; }
+        public double? WL { get; set; }
+        public double? MonthDays { get; set; }
+        public double? YearDays { get; set; }
+    }
+
+
+    public class BugData
+    {
+        public BugData(string Name, String Priority, string Status, String AssignedTo, String Description, DateTime OpenedDays, int DaysOld, String BugSource, String AssociatedFeature, String CreatedBy, String NotificationStatus)
+        {
+            this.Name = Name;
+            this.Priority = Priority;
+            this.Status = Status;
+            this.AssignedTo = AssignedTo;
+            this.Description = Description;
+            this.OpenedDays = OpenedDays;
+            this.DaysOld = DaysOld;
+            this.BugSource = BugSource;
+            this.AssociatedFeature = AssociatedFeature;
+            this.CreatedBy = CreatedBy;
+            this.NotificationStatus = NotificationStatus;
+        }
+        public static List<BugData> GetAllBugData()
+        {
+            List<BugData> Datas = new List<BugData>();
+            {
+                Datas.Add(new BugData("Harder to work during power-saving mode", "High", "In Progress", "Tana", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", new DateTime(2019, 06, 15), 505, "Shared by unsigned user", "Battery", "Flynn", "Need to Notify"));
+                Datas.Add(new BugData("Application crash on clicking save button", "High", "In Progress", " Ken", "Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum.", new DateTime(2019, 06, 16), 504, "Found during testing", "Security", "Gillian", "Need to Notify"));
+
+                Datas.Add(new BugData("Transaction details are lost", "High", "Completed", "Roger", " Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa.", new DateTime(2019, 06, 15), 505, "Email issued from William (wiliam@example.com)", "Security", " Michael", "Already Notified"));
+
+
+                Datas.Add(new BugData("  Working speed differs with different networks", "Low", "By Design", "Lucy", "Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.", new DateTime(2019, 06, 10), 500, "Reported by unsigned user", "Network", "Anton", "Already Notified"));
+
+                Datas.Add(new BugData(" Does not handle Interrupts Properly", "Critical", "Completed", "Smith", "Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. ", new DateTime(2019, 06, 10), 500, "Found during internal testing", "Notifications", "Anton", "Already Notified"));
+
+                Datas.Add(new BugData(" Takes more than 30 seconds to start", "High", "In Progress", "Lucy", "Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. ", new DateTime(2019, 06, 5), 495, "Shared by customer call", "Speed", " Gillian", "Need to Notify"));
+
+                Datas.Add(new BugData(" No progress indicator", "Critical", "Completed", "Smith", "Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor.", new DateTime(2019, 06, 5), 495, "Posted in community forum", "Notification", "Anton", "Already Notified"));
+
+                Datas.Add(new BugData(" Words break when changing screen resolution", "Normal", "In Progress", "Joe", "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.", new DateTime(2019, 06, 15), 505, "Email issued from Jack (jack@example.com)", "Screen", "Isaac", "Need to Notify"));
+
+                Datas.Add(new BugData(" Download files to a private data directory", "Critical", "In Progress", "Jack", "Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.", new DateTime(2019, 06, 15), 504, "Email issued from John (john@example.com)", " Security", "Bold", "Need to Notify"));
+
+                Datas.Add(new BugData(" Asking permission to access gallery", "Low", "By Design", "Nick", "Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.", new DateTime(2019, 06, 5), 490, "Posted in forum", "Security", "George", "Already Notified"));
+
+
+                Datas.Add(new BugData("  Data Leakage", "Critical", "In Progress", "John", "Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem.", new DateTime(2019, 06, 10), 500, "Found internally during testing", "Security", "Anton", "Need to Notify"));
+
+                Datas.Add(new BugData("Installation error for previous Android versions", "Normal", "By Design", " Lewis", " Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit.", new DateTime(2019, 06, 15), 504, "Found during testing", "Android", "Kahn", "Already Notified"));
+
+
+                Datas.Add(new BugData("Opens after the location is accessed", "Low", "Won't Fix", "Gibson", "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.", new DateTime(2019, 06, 5), 495, "Reported by unsigned user", "Security", "Herbert", "Already Notified"));
+
+                Datas.Add(new BugData(" Memory-related issue", "Normal", "In Progress", "Julie", "Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla.", new DateTime(2019, 06, 1), 480, "Posted in forum", " Memory", "Isaac", "Need to Notify"));
+
+                Datas.Add(new BugData("  Security questions are not working properly", "High", "Completed", "Lucy", "Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi.", new DateTime(2019, 06, 1), 480, " Email from Andrew (andrew@example.com)", "Security", "Wells", "Already Notified"));
+
+                Datas.Add(new BugData(" Requires a login after the connection lost its strength ", "Low", "Can't Reproduce", "Issac", "Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. ", new DateTime(2019, 06, 15), 505, "Reported by unsigned user", "Speed", "Mary", "Already Notified"));
+
+
+                Datas.Add(new BugData("The app crashes", "High", "In Progress", "John", "Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit.", new DateTime(2019, 06, 1), 485, "Email issued from Jack (jack@example.com)", "Security", "Anton", "Need to Notify"));
+
+                Datas.Add(new BugData("Showing wrong error message", "Normal", "Blocked", "William", " Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.", new DateTime(2019, 06, 10), 500, " Posted in community forum", "Notification", " Gillian", "Need to Notify"));
+
+                Datas.Add(new BugData("Consumes more power when in battery-saving mode", "Critical", "In Progress", "John", "Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem.", new DateTime(2019, 06, 15), 505, "Email issued from Joe (joe@example.com)", "Battery", "Anton", "Need to Notify"));
+
+
+            }
+            return Datas;
+        }
+
+
+        public string Name { get; set; }
+        public string Priority { get; set; }
+        public string Status { get; set; }
+        public string AssignedTo { get; set; }
+        public string Description { get; set; }
+        public DateTime? OpenedDays { get; set; }
+        public int? DaysOld { get; set; }
+
+        public string BugSource { get; set; }
+        public string AssociatedFeature { get; set; }
+        public string CreatedBy { get; set; }
+        public string NotificationStatus { get; set; }
+    }
+   
+    public class OrderDetails
+    {
+        public OrderDetails()
+        {
+
+        }
+        public OrderDetails(int OrderID, string CustomerId, int EmployeeId, double Freight,  DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress)
+        {
+            this.OrderID = OrderID;
+            this.CustomerID = CustomerId;
+            this.EmployeeID = EmployeeId;
+            this.Freight = Freight;
+            this.ShipCity = ShipCity;
+            
+            this.OrderDate = OrderDate;
+            this.ShipName = ShipName;
+            this.ShipCountry = ShipCountry;
+            this.ShippedDate = ShippedDate;
+            this.ShipAddress = ShipAddress;
+        }
+       
+        public static List<OrderDetails> GetAllRecords()
+        {
+            List<OrderDetails> order = new List<OrderDetails>();
+            int code = 10000;
+            for (int i = 1; i < 15; i++)
+            {
+                order.Add(new OrderDetails(code + 1, "ALFKI", i + 0, 2.3 * i,  new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+                order.Add(new OrderDetails(code + 2, "ANATR", i + 2, 3.3 * i,  new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
+                order.Add(new OrderDetails(code + 3, "ANTON", i + 1, 4.3 * i, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo"));
+                order.Add(new OrderDetails(code + 4, "BLONP", i + 3, 5.3 * i,  new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
+                order.Add(new OrderDetails(code + 5, "BOLID", i + 4, 6.3 * i, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
+                code += 5;
+            }
+            return order;
+        }
+       
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public int? EmployeeID { get; set; }
+        public double? Freight { get; set; }
+        public string ShipCity { get; set; }
+       
+        public DateTime? OrderDate { get; set; }
+
+        public string ShipName { get; set; }
+
+        public string ShipCountry { get; set; }
+
+        public DateTime? ShippedDate { get; set; }
+        public string ShipAddress { get; set; }
+    }
     public class OrdersDetails
     {
         public OrdersDetails()
@@ -26,17 +215,18 @@ namespace blazor_griddata
             this.ShippedDate = ShippedDate;
             this.ShipAddress = ShipAddress;
         }
+
         public static List<OrdersDetails> GetAllRecords()
         {
             List<OrdersDetails> order = new List<OrdersDetails>();
             int code = 10000;
             for (int i = 1; i < 15; i++)
             {
-                order.Add(new OrdersDetails(code + 1, "ALFKI", i + 0, 2.3 * i, false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
-                order.Add(new OrdersDetails(code + 2, "ANATR", i + 2, 3.3 * i, true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
-                order.Add(new OrdersDetails(code + 3, "ANTON", i + 1, 4.3 * i, true, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo"));
-                order.Add(new OrdersDetails(code + 4, "BLONP", i + 3, 5.3 * i, false, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
-                order.Add(new OrdersDetails(code + 5, "BOLID", i + 4, 6.3 * i, true, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
+                order.Add(new OrdersDetails(code + 1, "ALFKI", i + 0, 2.3 * i,false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+                order.Add(new OrdersDetails(code + 2, "ANATR", i + 2, 3.3 * i,true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
+                order.Add(new OrdersDetails(code + 3, "ANTON", i + 1, 4.3 * i,false, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo"));
+                order.Add(new OrdersDetails(code + 4, "BLONP", i + 3, 5.3 * i,true, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
+                order.Add(new OrdersDetails(code + 5, "BOLID", i + 4, 6.3 * i,false, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
                 code += 5;
             }
             return order;
@@ -57,7 +247,6 @@ namespace blazor_griddata
         public DateTime? ShippedDate { get; set; }
         public string ShipAddress { get; set; }
     }
-
     public class OverviewData
     {
         public OverviewData()
@@ -642,5 +831,57 @@ namespace blazor_griddata
             this.Field20 = Field20;
         }
 
+    }
+    public class Order
+    {
+        public Order()
+        {
+
+        }
+        public Order(int OrderID, string CustomerId, int EmployeeId, double Freight, bool Verified, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress)
+        {
+            this.OrderID = OrderID;
+            this.CustomerID = CustomerId;
+            this.EmployeeID = EmployeeId;
+            this.Freight = Freight;
+            this.ShipCity = ShipCity;
+            this.Verified = Verified;
+            this.OrderDate = OrderDate;
+            this.ShipName = ShipName;
+            this.ShipCountry = ShipCountry;
+            this.ShippedDate = ShippedDate;
+            this.ShipAddress = ShipAddress;
+        }
+
+        public static List<Order> GetAllRecords()
+        {
+            List<Order> orders = new List<Order>();
+            int code = 1000;
+            for (int i = 1; i < 10000; i++)
+            {
+                orders.Add(new Order(code + 1, "ALFKI", i + 0, 2.3 * i, false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+                orders.Add(new Order(code + 2, "ANATR", i + 2, 3.3 * i, true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
+                orders.Add(new Order(code + 3, "ANTON", i + 1, 4.3 * i, false, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo"));
+                orders.Add(new Order(code + 4, "BLONP", i + 3, 5.3 * i, true, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
+                orders.Add(new Order(code + 5, "BOLID", i + 4, 6.3 * i, false, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
+                code += 5;
+            }
+            return orders;
+        }
+
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public int? EmployeeID { get; set; }
+        public double? Freight { get; set; }
+        public string ShipCity { get; set; }
+        public bool Verified { get; set; }
+        public DateTime? OrderDate { get; set; }
+
+        public string ShipName { get; set; }
+
+        public string ShipCountry { get; set; }
+
+        public DateTime? ShippedDate { get; set; }
+        public string ShipAddress { get; set; }
     }
 }

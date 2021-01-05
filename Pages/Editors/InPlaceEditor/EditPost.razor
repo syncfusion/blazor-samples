@@ -3,6 +3,9 @@
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.InPlaceEditor
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Inputs;
+@using System.ComponentModel.DataAnnotations;
 
 @inherits SampleBaseComponent;
 
@@ -10,12 +13,14 @@
     <p>The sample demonstrates In-place Editor component usage with a form element. Edit the values in place to update to the post.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample demonstrates the placing of following In-place Editor controls with the default form </p>
-   <p><ul>
-       <li> TextBox </li>
-       <li>RichTextEditor</li>
-       <li> MultiSelect </li>
-    </ul> </p>
+    <p>This sample demonstrates the placing of following In-place Editor controls with the default form </p>
+    <p>
+        <ul>
+            <li> TextBox </li>
+            <li>RichTextEditor</li>
+            <li> MultiSelect </li>
+        </ul>
+    </p>
     <p> More information on the <code>In-place Editor</code> instantiation can be found in the <a target="_blank" href="https://blazor.syncfusion.com/documentation/in-place-editor/getting-started/">documentation section</a>.</p>
 </ActionDescription>
 
@@ -25,32 +30,57 @@
         <div class="content-wrapper" style="margin-bottom: 25px">
             <div id="confirmation">
                 <div id="submitDialog"></div>
-                <form id="formId" class="form-horizontal">
+                <div id="formId" class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
                             Title
                         </label>
-                        <SfInPlaceEditor Mode="@Mode" EmptyText="Enter your question title" Name="Title" ValidationRules="@TitleValidation" Value="@TitleValue" Model="@TitleData">
-                            <InPlaceEditorPopupSettings Model="@TipModel2"></InPlaceEditorPopupSettings>
+                        <SfInPlaceEditor @bind-Value="@exampleModel.TitleValue" Mode="@Mode" TValue="string" Name="Title" EmptyText="Enter your question title">
+                            <EditorComponent>
+                                <EditForm Model="@exampleModel">
+                                    <SfTextBox @bind-Value="@exampleModel.TitleValue" Placeholder="Enter your question title"></SfTextBox>
+                                    <ValidationMessage For=@(() => exampleModel.TitleValue) />
+                                </EditForm>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Width="auto"></InPlaceEditorPopupSettings>
                         </SfInPlaceEditor>
+
                     </div>
                     <div class="form-group">
                         <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
                             Comments
                         </label>
-                        <SfInPlaceEditor Mode="@Mode" Type="InputType.RTE" EditableOn="EditableType.EditIconClick" SubmitOnEnter="false" EmptyText="Enter your comment" Name="RTE" ValidationRules="@CommentValidation" Value="@CommentValue" Model="@CommentData">
-                            <InPlaceEditorPopupSettings Model="@TipModel"></InPlaceEditorPopupSettings>
+                        <SfInPlaceEditor Mode="@Mode" Type="Syncfusion.Blazor.InPlaceEditor.InputType.RichTextEditor" EditableOn="EditableType.EditIconClick" SubmitOnEnter="false" EmptyText="Enter your comment" Name="RTE" @bind-Value="@exampleModel.CommentValue">
+                            <EditorComponent>
+                                <EditForm Model="@exampleModel">
+                                    <SfRichTextEditor @bind-Value="@exampleModel.CommentValue">
+                                        <ChildContent>
+                                            <RichTextEditorToolbarSettings Items="@Items" EnableFloating="false" />
+                                        </ChildContent>
+                                    </SfRichTextEditor>
+                                    <ValidationMessage For=@(() => exampleModel.CommentValue) />
+                                </EditForm>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Width="50%"></InPlaceEditorPopupSettings>
                         </SfInPlaceEditor>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
                             Tags
                         </label>
-                        <SfInPlaceEditor Mode="@Mode" Type="InputType.MultiSelect" EmptyText="Enter your tags" Name="Tag" ValidationRules="@TagValidation" Value="@TagValue" Model="@TagData">
-                            <InPlaceEditorPopupSettings Model="@TipModel3"></InPlaceEditorPopupSettings>
+                        <SfInPlaceEditor Type="Syncfusion.Blazor.InPlaceEditor.InputType.MultiSelect" Name="Tag" Mode="@Mode" @bind-Value="@exampleModel.TagValue" EmptyText="Enter your tags" TValue="string[]">
+                            <EditorComponent>
+                                <EditForm Model="@exampleModel">
+                                    <SfMultiSelect TValue="string[]" TItem="Programs" Placeholder="Enter your tags" Mode="VisualMode.Box" @bind-Value="@exampleModel.TagValue" DataSource="@Program">
+                                        <MultiSelectFieldSettings Text="Name" Value="Code"></MultiSelectFieldSettings>
+                                    </SfMultiSelect>
+                                    <ValidationMessage For=@(() => exampleModel.TagValue) />
+                                </EditForm>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Width="30%"></InPlaceEditorPopupSettings>
                         </SfInPlaceEditor>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -63,9 +93,9 @@
                 <td style="width: 50%;">
                     <div>
                         <SfDropDownList Width="90%" TValue="string" TItem="InplaceModes" DataSource="@ModeData" @bind-Value="@DropMode">
-                        <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="ChangeEditMode"></DropDownListEvents>
-                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
-                    </SfDropDownList>
+                            <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="@ChangeEditMode"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                        </SfDropDownList>
                     </div>
                 </td>
             </tr>
@@ -75,89 +105,88 @@
 
 @code {
     private RenderMode Mode = RenderMode.Inline;
-    private string TitleValue = "Succinctly E-Book about TypeScript";
-    private string CommentValue = "The extensive adoption of JavaScript for application development, and the ability to use HTML and JavaScript to create Windows Store apps, has made JavaScript a vital part of the Windows development ecosystem. Microsoft has done extensive work to make JavaScript easier to use.";
-    private object TitleData = new { placeholder = "Enter your question title" };
-    private object TipModel = new { width = "50%" };
-    private object TipModel2 = new { width = "auto" };
-    private object TipModel3 = new { width = "30%" };
-    private static string[] Data = new string[] { "Android", "JavaScript", "jQuery", "TypeScript", "Angular", "React", "Vue", "Ionic" };
-    private static string[] Validation1 = new string[] { "true", "Enter valid title" };
-    private static string[] Validation2 = new string[] { "true", "Enter valid comments" };
-    private static string[] Validation3 = new string[] { "true", "Enter valid tags" };
-    private string[] TagValue = new string[] { "TypeScript", "JavaScript" };
-    private static string[] RteItems = new string[] { "Bold", "Italic", "Underline", "FontColor", "BackgroundColor", "LowerCase", "UpperCase", "|", "OrderedList", "UnorderedList" };
-    private string DropMode { get; set; } = "Inline";
-    private object TitleValidation = new { Title = new { required = Validation1 } };
-    private object CommentValidation = new { RTE = new { required = Validation2 } };
-    private object TagValidation = new { Tag = new { required = Validation3 } };
+    private ExampleModel exampleModel = new ExampleModel();
+    public string DropMode { get; set; } = "Inline";
 
-    private object TagData = new
+    public class Programs
     {
-        mode = "Box",
-        placeholder = "Enter your tags",
-        dataSource = Data
-    };
-
-    private object CommentData = new
-    {
-        toolbarSettings = new
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
+    private List<Programs>
+    Program = new List<Programs>
         {
-            enableFloating = false,
-            items = RteItems
-        }
-    };
+        new Programs() { Name = "Android", Code = "AN" },
+        new Programs() { Name = "JavaScript", Code = "JS" },
+        new Programs() { Name = "jQuery", Code = "JQ" },
+        new Programs() { Name = "TypeScript", Code = "TS" },
+        new Programs() { Name = "Angular", Code = "AG" },
+        new Programs() { Name = "React", Code = "RE" },
+        new Programs() { Name = "Vue", Code = "VU" },
+        new Programs() { Name = "Ionic", Code = "IO" }
+                };
+
+    public class ExampleModel
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Enter Valid Ttile")]
+        public string TitleValue = "Succinctly E-Book about TypeScript";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Enter Valid Comments")]
+        public string CommentValue = "The extensive adoption of JavaScript for application development, and the ability to use HTML and JavaScript to create Windows Store apps, has made JavaScript a vital part of the Windows development ecosystem. Microsoft has done extensive work to make JavaScript easier to use.";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Enter Valid Tags")]
+        public string[] TagValue = new string[] { "TS", "JS" };
+    }
+
+    private List<ToolbarItemModel> Items = new List<ToolbarItemModel>()
+{
+            new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+            new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+            new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+            new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.FontName },
+            new ToolbarItemModel() { Command = ToolbarCommand.FontSize },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+            new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.LowerCase },
+            new ToolbarItemModel() { Command = ToolbarCommand.UpperCase }
+        };
 
     public class InplaceModes
     {
         public string value { get; set; }
         public string text { get; set; }
     }
-
-    public class Frameworks
+    List<InplaceModes>
+    ModeData = new List<InplaceModes>()
     {
-        public string text { get; set; }
-    }
-
-    private static List<Frameworks> Places = new List<Frameworks>()
-{
-        new Frameworks(){ text= "Android" },
-        new Frameworks(){ text= "JavaScript" },
-        new Frameworks(){ text= "jQuery" },
-        new Frameworks(){ text= "TypeScript" },
-        new Frameworks(){ text= "Angular" },
-        new Frameworks(){ text= "React" },
-        new Frameworks(){ text= "Vue" },
-        new Frameworks(){ text= "Ionic" }
-    };
-
-    private List<InplaceModes> ModeData = new List<InplaceModes>()
-    {
-        new InplaceModes(){ value= "Inline", text= "Inline" },
-        new InplaceModes(){ value= "Popup", text= "Popup" }
-    };
-
+            new InplaceModes(){ value= "Inline", text= "Inline" },
+            new InplaceModes(){ value= "Popup", text= "Popup" }
+            };
     private void ChangeEditMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, InplaceModes> args)
     {
         this.Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
         this.StateHasChanged();
     }
 }
-
 <style>
     .inplace-editor-control-section.form-layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
     .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide {
         display: block;
         visibility: hidden;
     }
-
     /* custom code start */
     .inplace-editor-control-section.form-layout #confirmation {
         max-width: 500px;
         margin: auto;
     }
     /* custom code end */
-
     .inplace-editor-control-section.form-layout #formId {
         padding-top: 20px;
         margin-bottom: 45px;

@@ -52,6 +52,7 @@ namespace blazor_samples
             {
                 Name = "Resizable",
                 Category = "Dialog",
+                Type = SampleType.Updated,
                 Directory = "Popups/Dialog",
                 Url = "dialog/resizable",
                 FileName = "Resizable.razor"

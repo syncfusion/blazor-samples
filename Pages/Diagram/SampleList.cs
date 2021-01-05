@@ -82,13 +82,22 @@ namespace blazor_samples
                 Url = "diagram/flow-execution",
                 FileName = "FlowExecution.razor"
             },
-             new Sample
+                new Sample
             {
                 Name = "Line Routing",
                 Category = "Getting started",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/routing",
                 FileName = "Routing.razor"
+            },
+             new Sample
+            {
+                Name = "Virtualization",
+                Category = "Getting started",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/virtualization",
+                FileName = "Virtualization.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -159,7 +168,8 @@ namespace blazor_samples
                 Category = "Automatic Layouts",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/complex-hierarchical-tree",
-                FileName = "ComplexHierarchicalTree.razor"
+                FileName = "ComplexHierarchicalTree.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {

@@ -1,5 +1,6 @@
 ﻿@page "/chart/bubble"
 @using Syncfusion.Blazor.Charts
+@using PointRender 
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
@@ -12,8 +13,7 @@
 </ActionDescription>
 
 <div class="control-section">
-    <SfChart Title="World Countries Details">
-		<ChartEvents Load="ChartLoad"/>
+    <SfChart Title="World Countries Details" Theme="@Theme">
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
         <ChartPrimaryXAxis Title="Literacy Rate" Minimum="60" Maximum="100" Interval="5">
         </ChartPrimaryXAxis>
@@ -29,6 +29,7 @@
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
     </SfChart>
 </div>
 
@@ -65,29 +66,50 @@
             };
 
     string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        
     }
 }

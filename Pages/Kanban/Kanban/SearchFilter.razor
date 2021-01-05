@@ -1,0 +1,173 @@
+﻿@page "/kanban/search-filter"
+@inherits SampleBaseComponent;
+
+@using ej2_blazor_kanban_data_models
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+
+<SampleDescription>
+    <p>This sample demonstrates the filtering and searching actions of Kanban. In this sample, select the key value from drop down list to display the filtered data in Kanban board. Type in search box to be searched in header/content and display the search result in a board.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Kanban provides an option to filter or search the cards and displayed on Kanban board using <code>Query</code> property.</p>
+    <ul>
+        <li>In query, <code>WhereFilter</code> used for filtering the Kanban cards.</li>
+        <li>In query, <code>Search</code> is used for searching the cards.</li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfKanban KeyField="Status" DataSource="@cardData" Query="@CardQuery">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+        <KanbanSwimlaneSettings KeyField="Assignee"></KanbanSwimlaneSettings>
+    </SfKanban>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Filtering</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Filtering Cards">
+                <tbody>
+                    <tr>
+                        <td>Priority</td>
+                        <td>
+                            <SfDropDownList TItem="string" TValue="string" DataSource="@PriorityData" Value="@PriorityValue" PopupHeight="200px" Placeholder="Select a priority">
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="OnPriorityQueryUpdate"></DropDownListEvents>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <SfDropDownList TItem="CardStatus" TValue="string" DataSource="@StatusData" Value="@StatusValue" PopupHeight="200px" Placeholder="Select a status">
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                <DropDownListEvents TItem="CardStatus" TValue="string" ValueChange="OnStatusQueryUpdate"></DropDownListEvents>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="property-panel-header">Searching</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Searching Cards">
+                <tbody>
+                    <tr>
+                        <td style="width: 100%">
+                            <SfTextBox ID="search_text" Placeholder="Enter search text" ShowClearButton="true" Value="@SearchValue" OnChange="OnCardSearch" OnFocus="@(() => { PriorityValue = "None";  StatusValue = "None"; })"></SfTextBox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="reset-section">
+                <SfButton ID="reset_filter" Content="Reset" OnClick="OnReset"></SfButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .property-panel-section table {
+        width: 100%;
+    }
+
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+
+    .property-panel-section .reset-section {
+        padding-top: 13px;
+        text-align: center;
+    }
+</style>
+
+@code{
+    private class CardStatus
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    private List<CardStatus> StatusData = new List<CardStatus>() {
+        new CardStatus { Name = "None", Value = "None" },
+        new CardStatus { Name = "To Do", Value = "Open" },
+        new CardStatus { Name = "In Progress", Value = "InProgress" },
+        new CardStatus { Name = "Testing", Value = "Testing" },
+        new CardStatus { Name = "Done", Value = "Close" },
+    };
+    private List<string> PriorityData = new List<string>() { "None", "High", "Normal", "Low" };
+    private string PriorityValue = "None";
+    private string StatusValue = "None";
+    private string SearchValue = string.Empty;
+    private Query CardQuery = new Query();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress"} },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing"} },
+        new ColumnModel(){ HeaderText= "Done", KeyField= new List<string>() { "Close" } }
+    };
+
+    private void OnPriorityQueryUpdate(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        PriorityValue = args.Value;
+        StatusValue = "None";
+        if (args.Value == "None")
+        {
+            CardQuery = new Query();
+        }
+        else
+        {
+            CardQuery = new Query().Where(new WhereFilter() { Field = "Priority", Operator = "equal", value = args.Value });
+        }
+    }
+
+    private void OnStatusQueryUpdate(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, CardStatus> args)
+    {
+        StatusValue = args.Value;
+        PriorityValue = "None";
+        if (args.Value == "None")
+        {
+            CardQuery = new Query();
+        }
+        else
+        {
+            CardQuery = new Query().Where(new WhereFilter() { Field = "Status", Operator = "equal", value = args.Value });
+        }
+    }
+
+    private void OnCardSearch(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        string searchString = (string)args.Value;
+        if (searchString == string.Empty)
+        {
+            CardQuery = new Query();
+        }
+        else
+        {
+            CardQuery = new Query().Search(searchString, new List<string>() { "Id", "Summary" }, "contains", true);
+        }
+    }
+
+    private void OnReset()
+    {
+        CardQuery = new Query();
+        PriorityValue = "None";
+        StatusValue = "None";
+        SearchValue = string.Empty;
+    }
+
+}
