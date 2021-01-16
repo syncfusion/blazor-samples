@@ -91,7 +91,7 @@
                         </td>
                         <td>
                             <div>
-                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@HyperlinkData" @bind-Index="@index1" @bind-Value="@HyperlinkMode">
+                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@HyperlinkData" @bind-Value="@HyperlinkMode">
                                     <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnHyperlinkChange"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                 </SfDropDownList>
@@ -115,7 +115,7 @@
                             </td>
                             <td>
                                 <div>
-                                    <SfDropDownList @ref="Fields" TValue="string" TItem="DropDownData" DataSource="@FieldData" Index="0">
+                                    <SfDropDownList @ref="Fields" TValue="string" TItem="DropDownData" DataSource="@FieldData" Value="@Measure">
                                         <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
@@ -129,7 +129,7 @@
                             </td>
                             <td>
                                 <div class="conditionscls">
-                                    <SfDropDownList @ref="Conditions" TValue="string" TItem="DropDownData" DataSource="@ConditionalData" Index="0" @bind-Value="@Condition">
+                                    <SfDropDownList @ref="Conditions" TValue="string" TItem="DropDownData" DataSource="@ConditionalData" @bind-Value="@Condition">
                                         <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
@@ -143,7 +143,7 @@
                             </td>
                             <td>
                                 <div class="value1cls">
-                                    <SfNumericTextBox @ref="Value1" TValue="double" Value=0 Placeholder="Example: 400"></SfNumericTextBox>
+                                    <SfNumericTextBox @ref="Value1" TValue="double" Value="@ConditionalValue1" Placeholder="Example: 400"></SfNumericTextBox>
                                 </div>
                             </td>
                         </tr>
@@ -157,7 +157,7 @@
                                 </td>
                                 <td>
                                     <div class="value2cls">
-                                        <SfNumericTextBox @ref="Value2" TValue="double" Value=0 Placeholder="Example: 4000"></SfNumericTextBox>
+                                        <SfNumericTextBox @ref="Value2" TValue="double" Value="ConditionalValue2" Placeholder="Example: 4000"></SfNumericTextBox>
                                     </div>
                                 </td>
                             </tr>
@@ -259,101 +259,61 @@
     public bool ShowValueCellHyperlink { get; set; } = true;
     public bool ShowSummaryCellHyperlink { get; set; } = false;
     public string HyperHeaderText { get; set; } = null;
-    public string Measure { get; set; } = null;
+    public string Measure { get; set; } = "In_Stock";
     public double ConditionalValue1 { get; set; } = 0;
     public double ConditionalValue2 { get; set; } = 0;
-    public Condition HyperlinkCondition;
-    public string HyperlinkMode = null;
-    public string Condition = null;
+    public Condition HyperlinkCondition { get; set; } = Syncfusion.Blazor.PivotView.Condition.Equals;
+    public string HyperlinkMode { get; set; } = "valuecells";
+    public string Condition { get; set; } = "Equals";
     protected override void OnInitialized()
     {
         this.Data = PivotProductDetails.GetProductData();
     }
 
-    public void HyperlinkClick(HyperCellClickEventArgs args)
+    public async Task HyperlinkClick(HyperCellClickEventArgs args)
     {
         args.Cancel = false;
-        args.CurrentCell.SetAttribute<string>("data-url", "https://www.google.com/");
+        await args.CurrentCell.SetAttribute<string>("data-url", "https://www.google.com/");
     }
-    private int? index1 {get; set;} =3;
+
     public void OnHyperlinkChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
     {
         if (args.Value == "allcells")
         {
             this.ShowHyperlink = true;
-            this.ShowRowHeaderHyperlink = false;
-            this.ShowColumnHeaderHyperlink = false;
-            this.ShowValueCellHyperlink = false;
-            this.ShowSummaryCellHyperlink = false;
-            this.HyperHeaderText = null;
-            this.Measure = null;
-            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
-            this.ConditionalValue1 = 0;
-            this.ConditionalValue2 = 0;
+            this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
         }
         else if (args.Value == "rowheader")
         {
-            this.ShowHyperlink = false;
+            this.ShowHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
             this.ShowRowHeaderHyperlink = true;
-            this.ShowColumnHeaderHyperlink = false;
-            this.ShowValueCellHyperlink = false;
-            this.ShowSummaryCellHyperlink = false;
-            this.HyperHeaderText = null;
-            this.Measure = null;
-            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
-            this.ConditionalValue1 = 0;
-            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "columnheader")
         {
-            this.ShowHyperlink = false;
-            this.ShowRowHeaderHyperlink = false;
+            this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
             this.ShowColumnHeaderHyperlink = true;
-            this.ShowValueCellHyperlink = false;
-            this.ShowSummaryCellHyperlink = false;
-            this.HyperHeaderText = null;
-            this.Measure = null;
-            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
-            this.ConditionalValue1 = 0;
-            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "valuecells")
         {
-            this.ShowHyperlink = false;
-            this.ShowRowHeaderHyperlink = false;
-            this.ShowColumnHeaderHyperlink = false;
+            this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowSummaryCellHyperlink = false;
             this.ShowValueCellHyperlink = true;
-            this.ShowSummaryCellHyperlink = false;
-            this.HyperHeaderText = null;
-            this.Measure = null;
-            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
-            this.ConditionalValue1 = 0;
-            this.ConditionalValue2 = 0;
         }
         else if (args.Value == "summarycells")
         {
-            this.ShowHyperlink = false;
-            this.ShowRowHeaderHyperlink = false;
-            this.ShowColumnHeaderHyperlink = false;
-            this.ShowValueCellHyperlink = false;
+            this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = false;
             this.ShowSummaryCellHyperlink = true;
-            this.HyperHeaderText = null;
-            this.Measure = null;
-            this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
-            this.ConditionalValue1 = 0;
-            this.ConditionalValue2 = 0;
         }
+        this.HyperHeaderText = null;
+        this.Measure = HyperlinkMode == "conditional" ? "In_Stock" : null;
+        this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+        this.ConditionalValue1 = this.ConditionalValue2 = 0;
     }
 
     public void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
+        this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
         if (HyperlinkMode == "conditional")
         {
-            this.ShowHyperlink = false;
-            this.ShowRowHeaderHyperlink = false;
-            this.ShowColumnHeaderHyperlink = false;
-            this.ShowValueCellHyperlink = false;
-            this.ShowSummaryCellHyperlink = false;
             this.HyperHeaderText = null;
             this.Measure = this.Fields.Value;
             this.HyperlinkCondition = (Syncfusion.Blazor.PivotView.Condition)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.Condition), this.Conditions.Value, true);
@@ -362,16 +322,10 @@
         }
         else if (HyperlinkMode == "headertext")
         {
-            this.ShowHyperlink = false;
-            this.ShowRowHeaderHyperlink = false;
-            this.ShowColumnHeaderHyperlink = false;
-            this.ShowValueCellHyperlink = false;
-            this.ShowSummaryCellHyperlink = false;
             this.HyperHeaderText = this.HeaderText.Value;
             this.Measure = null;
             this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
-            this.ConditionalValue1 = 0;
-            this.ConditionalValue2 = 0;
+            this.ConditionalValue1 = this.ConditionalValue2 = 0;
         }
     }
 

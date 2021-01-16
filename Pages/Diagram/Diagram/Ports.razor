@@ -65,10 +65,10 @@
                         Visibility
                     </div>
                     <div class="col-xs-6">
-                        <SfMultiSelect TValue="string[]" Width="140px" @bind-Value="@MultiVal" AllowFiltering="@AllowFilteringValue" Placeholder="Select Visibility" Mode="VisualMode.CheckBox" DataSource="postVisibilityType" ShowSelectAll="false" ShowDropDownIcon="true" PopupHeight="280px" PopupWidth="180px">
+                        <SfMultiSelect TValue="string[]" TItem="DiagramModel" Width="140px" @bind-Value="@MultiVal" AllowFiltering="@AllowFilteringValue" Placeholder="Select Visibility" Mode="VisualMode.CheckBox" DataSource="postVisibilityType" ShowSelectAll="false" ShowDropDownIcon="true" PopupHeight="280px" PopupWidth="180px">
 
                             <MultiSelectFieldSettings Text="Text" Value="Value"></MultiSelectFieldSettings>
-                            <MultiSelectEvents TValue="string[]" ValueChange="PortVisibilityDropOnChange"></MultiSelectEvents>
+                            <MultiSelectEvents TValue="string[]" TItem="DiagramModel" ValueChange="PortVisibilityDropOnChange"></MultiSelectEvents>
                         </SfMultiSelect>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                         Port Color
                     </div>
                     <div class="col-xs-6">
-                        <SfColorPicker CssClass="e-colorpicker-wrapper" ValueChange="OnFillColorChange" @bind-Value="@fillColor"></SfColorPicker>
+                        <SfColorPicker  ValueChange="OnFillColorChange" @bind-Value="@fillColor"></SfColorPicker>
                     </div>
                 </div>
                 <div class="row" style="padding-top: 8px">
@@ -179,8 +179,7 @@
     };
     public void OnBorderChange(ColorPickerEventArgs args)
     {
-        GetCurrentValue value = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
-        ApplyPortStyle("strokecolor", value.hex);
+        ApplyPortStyle("strokecolor", args.CurrentValue.Hex);
     }
 
     public void OnBorderWidthChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
@@ -194,21 +193,14 @@
     }
 
     public string StyleValue = "background-color:#008000";
-    public GetCurrentValue ColorValue { get; set; }
 
     public void OnFillColorChange(ColorPickerEventArgs args)
     {
-        this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
-        this.StyleValue = "background-color:" + this.ColorValue.hex;
-        ApplyPortStyle("fill", this.ColorValue.hex);
+        this.StyleValue = "background-color:" + args.CurrentValue.Hex;
+        ApplyPortStyle("fill", args.CurrentValue.Hex);
         this.StateHasChanged();
     }
 
-    public class GetCurrentValue
-    {
-        public string hex { get; set; }
-        public string rgba { get; set; }
-    }
 
     public class DiagramModel
     {

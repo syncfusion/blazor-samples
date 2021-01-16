@@ -1,0 +1,136 @@
+﻿@page "/query-builder/template"
+
+@using blazor_samples
+@using blazor_griddata
+@using Syncfusion.Blazor.QueryBuilder
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using SFInputs = Syncfusion.Blazor.Inputs
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the integration of the Dropdown List and Slider components as templates in the Query Builder control.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample illustrates how to integrate the Dropdown List, Slider, and Checkbox components with the Query Builder. The available types of templates are:
+        <ul>
+            <li>
+                <code>DropDownList</code>
+            </li>
+            <li>
+                <code>AutoComplete</code>
+            </li>
+            <li>
+                <code>CheckBox</code>
+            </li>
+            <li>
+                <code>Slider</code>
+            </li>
+        </ul>
+    </p>
+    <p>More information about Blazor Query Builder component can be found in this <a target="" _blank"" href="" https: //blazor.syncfusion.com/documentation/query-builder/getting-started/"">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfQueryBuilder TValue="Orders" Width="70%" DataSource="@DataSource">
+        <QueryBuilderRule Condition="and" Rules="@Rules"></QueryBuilderRule>
+        <QueryBuilderColumns>
+            <QueryBuilderColumn Field="CustomerID" Label="CustomerID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String>
+                <QueryBuilderTemplates>
+                    <ValueTemplate>
+                        <SfDropDownList TValue="string" TItem="ItemFields" DataSource="@Items" @bind-Value="@DefaultValue">
+                            <DropDownListFieldSettings Text="Id"></DropDownListFieldSettings>
+                            <DropDownListEvents TItem="ItemFields" TValue="string" ValueChange="e => OnChange(e, context)"></DropDownListEvents>
+                        </SfDropDownList>
+                    </ValueTemplate>
+                </QueryBuilderTemplates>
+            </QueryBuilderColumn>
+            <QueryBuilderColumn Field="EmployeeID" Label="EmployeeID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Verified" Label="Verified" Type=ColumnType.Boolean>
+                <QueryBuilderTemplates>
+                    <ValueTemplate>
+                        <SfCheckBox TChecked="bool" Label="Yes" ValueChange="e => CheckboxChange(e, context)"></SfCheckBox>
+                    </ValueTemplate>
+                </QueryBuilderTemplates>
+            </QueryBuilderColumn>
+            <QueryBuilderColumn Field="ShipName" Label="ShipName" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number>
+            </QueryBuilderColumn>
+            <QueryBuilderColumn Field="OrderDate" Label="OrderDate" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date Format="dd/MM/yyyy"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="ShipCountry" Label="ShipCountry" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+            <QueryBuilderColumn Field="ShipAddress" Label="ShipAddress" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Salary" Label="Salary" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number Value="@DefaultSliderValue">
+                <QueryBuilderTemplates>
+                    <ValueTemplate>
+                        <SfSlider TValue="int" Min="0" Max="100" Value="@DefaultSliderValue">
+                            <SliderEvents TValue="int" OnChange="e => SliderChange(e, context)"></SliderEvents>
+                            <SliderTooltip IsVisible="true" Placement="@CurrentTooltipPlacement" ShowOn="@CurrentTooltipShowOn"></SliderTooltip>
+                        </SfSlider>
+                    </ValueTemplate>
+                </QueryBuilderTemplates>
+            </QueryBuilderColumn>
+        </QueryBuilderColumns>
+    </SfQueryBuilder>
+</div>
+
+@code{
+    public List<Orders> DataSource { get; set; }
+    public int DefaultSliderValue = 50;
+    public string DefaultValue = "BOLID";
+    SFInputs.TooltipPlacement CurrentTooltipPlacement = new TooltipPlacement();
+    SFInputs.TooltipShowOn CurrentTooltipShowOn = new TooltipShowOn();
+    bool Done { get; set; } = true;
+    string CheckboxValue { get; set; }
+
+    public class ItemFields
+    {
+        public string Id { get; set; }
+    }
+
+    public List<ItemFields> Items = new List<ItemFields>() {
+        new ItemFields(){ Id= "ALFKI" },
+        new ItemFields(){ Id= "BOLID" },
+        new ItemFields(){ Id= "ANTON" },
+        new ItemFields(){ Id= "ANATR" }
+    };
+
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ItemFields> args, RuleModel Rule)
+    {
+        Rule.Value = args.Value;
+    }
+
+    public void SliderChange(Syncfusion.Blazor.Inputs.SliderChangeEventArgs<int> args, RuleModel Rule)
+    {
+        Rule.Value = args.Value;
+    }
+
+    public void CheckboxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, RuleModel Rule)
+    {
+        Done = args.Checked;
+        CheckboxValue = Done ? "Yes" : "No";
+        Rule.Value = CheckboxValue;
+    }
+
+    protected override void OnInitialized()
+    {
+        DataSource = Orders.GetAllRecords();
+    }
+
+    List<RuleModel> Rules = new List<RuleModel>()
+    {
+        new RuleModel { Label="CustomerID", Field="CustomerID", Type="String", Operator="equal", Value= "BOLID" },
+        new RuleModel { Label="EmployeeID", Field="EmployeeID", Type="Number", Operator="equal", Value = 1234 },
+        new RuleModel { Condition = "or", Rules=new List<RuleModel>(){ new RuleModel{ Label= "ShipCountry", Field= "ShipCountry", Type="String", Operator="equal", Value = "Brazil" },
+        new RuleModel { Label="ShipName", Field="ShipName", Type="String", Operator="equal", Value="Ferde" },
+        new RuleModel { Label="Verified", Field="Verified", Type="Boolean", Operator="equal", Value="No"},
+        new RuleModel { Condition="or", Rules = new List<RuleModel>(){ new RuleModel { Field="Salary", Label="Salary", Operator="equal", Type= "Number", Value=50 } } }  } }
+    };
+}
+
+<style>
+    .e-control-wrapper.e-slider-container.e-horizontal {
+        height: 0;
+    }
+</style>

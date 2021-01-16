@@ -8,40 +8,45 @@
     <p> This sample illustrates the vertical chart by changing the orientation of x-axis to vertical and y-axis to horizontal.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render and configure the vertical type charts. To render a chart in vertical manner, you can use isTransposed in chart.</p>
-   <p> More information on the vertical chart can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p> In this example, you can see how to render and configure the vertical type charts. To render a chart in vertical manner, you can use isTransposed in chart.</p>
+    <p> More information on the vertical chart can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="control-section" align="center">
-    <SfChart IsTransposed="true" Title="Indonesia - Seismograph Analysis">
-     <ChartEvents Load="ChartLoad"/>
-        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis Title="Time (s)">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Velocity (m/s)">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryYAxis>
-        <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChangeData" XName="x" YName="y" Type="ChartSeriesType.Line">
-            </ChartSeries>
-        </ChartSeriesCollection>
-        <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
-    </SfChart>
-</div>
+@if (ChangeData == null)
+{
+    <div></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <SfChart IsTransposed="true" Title="Indonesia - Seismograph Analysis" Theme="@Theme">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis Title="Time (s)">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Velocity (m/s)">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ChangeData" XName="x" YName="y" Type="ChartSeriesType.Line">
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
+        </SfChart>
+    </div>
+}
 
-@code{
-    Random random = new Random();
-    public ObservableCollection<Data> DataSource;
+    @code{
+        Random random = new Random();
+public ObservableCollection<Data> DataSource;
     public ObservableCollection<Data> ChangeData { get; set; }
     int Count = 0;
     double value = 0;
-	
     private static System.Timers.Timer syncTimer;
     public class Data
     {
-        public Nullable<double> x { get; set; }
-        public Nullable<double> y { get; set; }
+        public double x { get; set; }
+        public double y { get; set; }
     }
     protected override async Task OnInitializedAsync()
     {
@@ -53,7 +58,7 @@
                   x = 0,
                   y = random.Next()
             }
-        };
+            };
         });
         this.Count++;
         ChangeData = this.GetData(0, 50);
@@ -89,34 +94,31 @@
         Count = Count + 10;
         InvokeAsync(this.StateHasChanged);
     }
-string CurrentUri;
-    void ChartLoad(ILoadedEventArgs Args)
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
-}
+    }
 

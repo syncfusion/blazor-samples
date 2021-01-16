@@ -1,0 +1,108 @@
+﻿@page "/kanban/tooltip-template"
+@inherits SampleBaseComponent;
+
+@using ej2_blazor_kanban_data_models
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Kanban
+
+<SampleDescription>
+    <p>This sample demonstrates how to customize the tooltip messages in Kanban cards. You can enable or disable the tooltip and its template.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Kanban provides an option to show default tooltip and templated tooltip using the <code>EnableTooltip</code> and <code>TooltipTemplate</code> properties.</p>
+    <ul>
+        <li><code>enableTooltip:</code> If you set this property to true, the cards show a tooltip with default format.</li>
+        <li><code>TooltipTemplate:</code> If you set <code>EnableTooltip</code> property to true and configured the tooltipTemplate, the cards show a tooltip with templated content.</li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfKanban KeyField="Status" DataSource="@cardData" EnableTooltip="@IsEnableTooltip">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+        <KanbanTemplates>
+            <TooltipTemplate>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class='e-kanbantooltiptemp'>
+                        <table>
+                            <tr>
+                                <td class="details">
+                                    <table>
+                                        <colgroup>
+                                            <col style="width:30%">
+                                            <col style="width:70%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td class="CardHeader">Assignee:</td>
+                                                <td>@card.Assignee</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="CardHeader">Type:</td>
+                                                <td>@card.Type</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="CardHeader">Estimate:</td>
+                                                <td>@card.Estimate</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="CardHeader">Summary:</td>
+                                                <td>@card.Summary</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            </TooltipTemplate>
+        </KanbanTemplates>
+    </SfKanban>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table class="property-panel-table" title="Properties">
+            <tbody>
+                <tr>
+                    <td style="width: 100%">
+                        <SfCheckBox TChecked="bool" @bind-Checked="@IsEnableTooltip" Label="Enable Tooltip" ValueChange="@((args) => IsEnableTooltip = args.Checked)"></SfCheckBox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .property-panel-section table {
+        width: 100%;
+    }
+
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+</style>
+
+@code{
+    private bool IsEnableTooltip = true;
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open"} },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress"} },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing"} },
+        new ColumnModel(){ HeaderText= "Done", KeyField= new List<string>() { "Close" } }
+    };
+}

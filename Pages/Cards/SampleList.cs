@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace blazor_samples
 {
     internal partial class SampleConfig
@@ -22,6 +23,15 @@ namespace blazor_samples
                 FileName = "HorizontalCard.razor",
                 Type = SampleType.None
             },
+            //new Sample
+            //{
+            //    Name = "Swipeable Card",
+            //    Category = "Cards",
+            //    Directory = "Cards/Card",
+            //    Url = "card/swipeable",
+            //    FileName = "SwipeableCard.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Reveal Card",
@@ -38,7 +48,7 @@ namespace blazor_samples
                 Directory = "Cards/Card",
                 Url = "card/tile-view",
                 FileName = "TileView.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {

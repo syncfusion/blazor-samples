@@ -371,7 +371,6 @@ namespace blazor_samples
                 Name = "RTF to Word",
                 Category = "Import and Export",
                 Directory = "FileFormats/DocIO",
-                Type = SampleType.Updated,
                 Url = "docio/rtf-to-doc",
                 FileName = "RTFtoDOC.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -543,6 +542,7 @@ namespace blazor_samples
                 Category = "Conversion",
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-image",
+                Type = SampleType.Updated,
                 FileName = "PPTXToImage.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -565,7 +565,6 @@ namespace blazor_samples
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
-				Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1050,6 +1049,27 @@ namespace blazor_samples
                     {
                         Id="WorksheetToHTMLService",
                         FileName="WorksheetToHTMLService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Import Export DataTable",
+                Category = "Data Binding",
+                Directory = "FileFormats/XlsIO",
+                Url = "xlsio/import-export-datatable",
+                Type=SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ImportExport",
+                        FileName="ImportExport.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ImportExportService",
+                        FileName="ImportExportService.cs"
                     }
                 }
             },

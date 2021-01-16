@@ -1,14 +1,15 @@
 ﻿@page "/range-selector/print-export"
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
 @using Newtonsoft.Json
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample represent the exchange rate analysis for USD to EUR with datetime axis.</p>
+    <p>This sample represents the print and export options available in the range navigator.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the <code>ValueType</code> to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>IntervalType</code> of the range navigator. You can also directly set the format using the <code>LabelFormat</code> property.</p>
+    <p></p>
 </ActionDescription>
 
 @if (ExportData == null)
@@ -17,66 +18,44 @@
 }
 else
 {
-<div class="row">
-    <div class="col-lg-9 control-section" align="center">
-        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>
-        <div>
-            <SfRangeNavigator  @ref="RangeObj" Value="@Value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
-                               DataSource="@ExportData" XName="xDate" YName="Close" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
-                <RangeNavigatorEvents Load="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
-            </SfRangeNavigator>
-        </div> <br>
-        <div>
-            <SfChart @ref="ChartObj">
-                <ChartEvents Load="ChartLoad" />
-                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                </ChartPrimaryXAxis>
-                <ChartPrimaryYAxis Minimum="81" Maximum="87" Interval="2" Title="Million in USD"
-                                   LabelFormat="{value}M">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                </ChartPrimaryYAxis>
-                <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-                <ChartArea>
-                    <ChartAreaBorder Color="Transparent"></ChartAreaBorder>
-                </ChartArea>
-                <ChartSeriesCollection>
-                    <ChartSeries Fill="rgba(255, 64, 129, 0.3)" DataSource="@ExportData" XName="xDate" Name="Close" Width="2" YName="Close" Type="ChartSeriesType.SplineArea"></ChartSeries>
-                </ChartSeriesCollection>
-                <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            </SfChart>
+    <div class="row">
+        <div class="col-lg-9 control-section" align="center">
+            <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>
+            <div>
+                <SfRangeNavigator @ref="RangeObj" Value="@Value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
+                                  DataSource="@ExportData" XName="xDate" YName="Close" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
+                    <RangeNavigatorEvents Loaded="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
+                </SfRangeNavigator>
+            </div>
+        </div>
+        <div class="col-lg-3 property-section" style="margin-top:40px">
+            <table>
+                <tbody>
+                    <tr align="center">
+                        <td>
+                            <div>
+                                <Syncfusion.Blazor.Buttons.SfButton Content="Print" @onclick="PrintRangeNavigator" IsPrimary="true" CssClass="e-flat btn-style"></Syncfusion.Blazor.Buttons.SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr align='center'>
+                        <td colspan="2">
+                            <div>
+                                <Syncfusion.Blazor.Buttons.SfButton Content="Export" @onclick="ExportRangeNavigator" IsPrimary="true" CssClass="e-flat btn-style"></Syncfusion.Blazor.Buttons.SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="col-lg-3 property-section" style="margin-top:40px">
-        <table>
-            <tbody>
-                <tr align="center">
-                    <td>
-                        <div>
-                            <Syncfusion.Blazor.Buttons.SfButton Content="Print" @onclick="PrintChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.Blazor.Buttons.SfButton>
-                        </div>
-                    </td>
-                </tr>
-                <tr align='center'>
-                    <td colspan="2">
-                        <div>
-                            <Syncfusion.Blazor.Buttons.SfButton Content="Export" @onclick="ExportChart" IsPrimary="true" CssClass="e-flat"></Syncfusion.Blazor.Buttons.SfButton>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 }
 @code{
     private ChartData[] ExportData;
-    SfChart ChartObj;
     SfRangeNavigator RangeObj;
     double ZF = 1;
     double ZP = 0;
-    List<String> containerID = new List<String>() {"range", "chart"};
+    private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -92,74 +71,72 @@ else
         public double Low { get; set; }
         public double Close { get; set; }
     }
-    private DateTime[] Value = new DateTime[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
-    protected void OnRangeChanged(IChangedEventArgs args)
+    private object[] Value = new object[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
+    protected void OnRangeChanged(ChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
         StateHasChanged();
     }
-    public void PrintChart(MouseEventArgs args)
+    public void PrintRangeNavigator(MouseEventArgs args)
     {
-        RangeObj.Print(containerID.ToArray());
+        RangeObj.Print();
     }
-    public void ExportChart(MouseEventArgs args)
+    public void ExportRangeNavigator(MouseEventArgs args)
     {
-        ChartObj.Export(ExportType.PNG, "Chart");
+        RangeObj.Export(ExportType.PNG, "Chart");
     }
-
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
-
-    void ChartLoad(ILoadedEventArgs Args)
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }
@@ -180,5 +157,11 @@ else
 
     .e-print-icon::before {
         content: '\e813';
+    }
+
+    .btn-style
+    {
+        margin: 5px;
+        width: 75px;
     }
 </style>

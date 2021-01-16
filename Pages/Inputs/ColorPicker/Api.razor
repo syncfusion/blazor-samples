@@ -4,8 +4,6 @@
 
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
-@using Newtonsoft.Json;
-@using Newtonsoft.Json.Linq;
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -27,7 +25,7 @@
 <div class="col-lg-8 control-section">
     <div id="colorpicker-control">
         <h4>Choose a color</h4>
-        <SfColorPicker @ref="colorPicker" @bind-Value="@InputValue" ValueChange="OnChange" Mode="@PickerMode" ModeSwitcher="@ModeChange" ShowButtons="@ShowButtonChange" Disabled="@Disable"></SfColorPicker>
+        <SfColorPicker @bind-Value="@inputValue" Mode="@mode" ModeSwitcher="@modeSwitch" ShowButtons="@showbuttons" Disabled="@disable"></SfColorPicker>
     </div>
 </div>
 <div class="col-lg-4 property-section">
@@ -39,7 +37,7 @@
                 </td>
                 <td style="width: 50%">
                     <div style="max-width: 200px">
-                        <SfTextBox ID="firstname" @bind-Value="@InputValue" ValueChange="TextboxChange"></SfTextBox>
+                        <SfTextBox ID="firstname" @bind-Value="@inputValue"></SfTextBox>
                     </div>
                 </td>
             </tr>
@@ -49,11 +47,18 @@
                 </td>
                 <td style="width: 50%;padding-top:10px">
                     <div style="max-width: 200px">
-                        <SfDropDownList DataSource="@Data" PopupHeight="200px" @bind-Value="@Picker" TValue="string" TItem="ColorModeDetails">
-                            <DropDownListEvents ValueChange="ValueChanged" TItem="ColorModeDetails" TValue="string"></DropDownListEvents>
-                            <DropDownListFieldSettings Text="Mode" Value="Id"></DropDownListFieldSettings>
+                        <SfDropDownList DataSource="@data" @bind-Value="@ddlMode" PopupHeight="200px" TValue="string" TItem="string">
+                            <DropDownListEvents ValueChange="@ValueChanged" TValue="string" TItem="string"></DropDownListEvents>
                         </SfDropDownList>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%;padding-top:15px">
+                    <div>@disableContent</div>
+                </td>
+                <td style="width: 50%;padding-top:15px">
+                    <SfCheckBox @bind-Checked="disable" TChecked="bool"></SfCheckBox>
                 </td>
             </tr>
             <tr>
@@ -61,7 +66,7 @@
                     <div>Show Buttons</div>
                 </td>
                 <td style="width: 50%;padding-top:15px">
-                    <SfCheckBox @bind-Checked="ShowButtonChange" ValueChange="ButtonOnChange" TChecked="bool"></SfCheckBox>
+                    <SfCheckBox @bind-Checked="showbuttons" TChecked="bool"></SfCheckBox>
                 </td>
             </tr>
             <tr>
@@ -69,112 +74,42 @@
                     <div>Mode Switcher</div>
                 </td>
                 <td style="width: 50%;padding-top:15px">
-                    <SfCheckBox @bind-Checked="ModeChange" ValueChange="ModeOnChange" TChecked="bool"></SfCheckBox>
+                    <SfCheckBox @bind-Checked="modeSwitch" TChecked="bool"></SfCheckBox>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-@code{
-
-    SfColorPicker colorPicker;
-    public string InputValue = "#0db1e7";
-    public string StyleValue = "background-color:#008000";
-    public GetCurrentValue ColorValue { get; set; }
-    public bool Disable = false;
-    public bool ModeChange = true;
-    public bool ShowButtonChange = true;
-    public string Picker = "Picker";
-    ColorPickerMode PickerMode { get; set; }
-
-    private void OnChange(ColorPickerEventArgs args)
+@code {
+    private bool disable;
+    private bool modeSwitch = true;
+    private bool showbuttons = true;
+    private string inputValue = "#0db1e7";
+    private ColorPickerMode mode = ColorPickerMode.Picker;
+    private string ddlMode = "Picker";
+    private string disableContent => disable ? "Enable" : "Disable";
+    private void ValueChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
     {
-        this.ColorValue = ((JObject)args.CurrentValue).ToObject<GetCurrentValue>();
-        this.StyleValue = "background-color:" + this.ColorValue.hex;
-        this.InputValue = this.ColorValue.hex;
-        this.StateHasChanged();
+        mode = args.Value == "Picker" ? ColorPickerMode.Picker : ColorPickerMode.Palette;
     }
-
-    public class GetCurrentValue
-    {
-        public string hex { get; set; }
-        public string rgba { get; set; }
-    }
-
-    public class ColorModeDetails
-    {
-        public string Id { get; set; }
-        public string Mode { get; set; }
-    }
-
-    protected override void OnInitialized()
-    {
-        this.PickerMode = ColorPickerMode.Picker;
-    }
-
-    private void TextboxChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
-    {
-        if (args.Value != null && args.Value.Length > 2)
-        {
-            if (!args.Value.StartsWith("#"))
-            {
-                args.Value = "#" + args.Value;
-            }
-        }
-        else
-        {
-            args.Value = "#008000";
-        }
-        this.InputValue = args.Value;
-    }
-
-    private void ValueChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ColorModeDetails> args)
-    {
-        if (args.Value.ToString() == "Palette")
-        {
-            this.PickerMode = ColorPickerMode.Palette;
-        }
-        else
-        {
-            this.PickerMode = ColorPickerMode.Picker;
-        }
-    }
-    private void ModeOnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        this.ModeChange = args.Checked;
-    }
-    private void ButtonOnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        this.ShowButtonChange = args.Checked;
-    }
-
-    public List<ColorModeDetails> Data = new List<ColorModeDetails> {
-       new ColorModeDetails { Id = "Picker", Mode = "Picker" },
-       new ColorModeDetails { Id = "Palette", Mode = "Palette" }
-           };
-
-
+    private string[] data = new string[] { "Picker", "Palette" };
 }
-<style>
 
+<style>
     .property-panel-content {
         padding: 0 10px 10px 0;
         overflow: auto;
     }
-
     #colorpicker-control {
         margin: 30px auto;
         padding-top: 50px;
         text-align: center;
     }
-
-        #colorpicker-control h4 {
-            margin-bottom: 20px;
-        }
-
+    #colorpicker-control h4 {
+        margin-bottom: 20px;
+    }
     .mobile #colorpicker-control h4 {
         font-size: 20px;
     }
 </style>
-

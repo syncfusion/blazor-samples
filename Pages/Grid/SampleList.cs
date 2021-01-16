@@ -17,6 +17,7 @@ namespace blazor_samples
                 FileName = "Overview.razor",
                 Type = SampleType.None
             },
+             
             new Sample
             {
                 Name = "Default Functionalities",
@@ -51,7 +52,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/custom-binding",
                 FileName = "CustomBinding.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -221,7 +222,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -239,7 +240,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/excel-like-filter",
                 FileName = "FilterExcel.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -311,7 +312,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/advanced-exporting",
                 FileName = "AdvancedExporting.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -392,7 +393,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/frozen-rows",
                 FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -410,7 +411,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/foreign-key-column",
                 FileName = "ForeignKeyColumn.razor",
-                Type = SampleType.New
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -446,7 +447,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/expandoobject",
                 FileName = "GridExpandoObject.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
              new Sample
             {
@@ -455,7 +456,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/dynamicobject",
                 FileName = "GridDynamicObject.razor",
-                Type = SampleType.New
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -464,6 +465,34 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/keyboard-navigation",
                 FileName = "KeyboardNavigation.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Cell Formatting",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/cell-formatting",
+                FileName = "Cellformatting.razor",
+                Type = SampleType.New
+            },
+              new Sample
+            {
+                Name = "External Form Editing",
+                Category = "Editing",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/external-form-editing",
+                FileName = "ExternalFormEditing.razor",
+                Type = SampleType.New
+            },
+
+              new Sample
+            {
+                Name = "Virtual Mask Row",
+                Category = "Scrolling",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/virtual-mask-row",
+                FileName = "VirtualMaskRow.razor",
                 Type = SampleType.New
             },
         };

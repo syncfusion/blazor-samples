@@ -1,0 +1,184 @@
+﻿@page "/xlsio/import-export-datatable"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironmnt
+@using System.IO;
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using System.Data
+@using System.Dynamic;
+@*Hidden:Lines*@
+
+@using blazor_samples.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates exporting data from Excel to a data table, and import data from the data table to the Grid.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The ImportDataTable and ExportDataTable methods makes it easier to work with ADO.NET data tables. It just takes one line of code to import data from data table to a Spreadsheet or export data from Spreadsheet to a data table.
+    </p>
+    <p style='display: block'><b>Features:</b></p>
+    <ul>
+        <li>Usage of helper methods to work with ADO.NET.</li>
+        <li>Import data from Spreadsheet to a data table.</li>
+        <li>Export data from data table to Spreadsheet.</li>
+        <li>Apply row and column styles.</li>
+        <li>Export data from Spreadsheet to a data table by skipping specific rows, replacing cell values in the data table, and stop exporting.</li>
+    </ul>
+</ActionDescription>
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Input Template" button to view the input Excel document.</p>
+    <p style="font-weight:normal">Click the "Import from Excel" button to import data from Excel and view the data in the grid. Here, the data will be exported to a data table with customized options and imported to the grid.</p>
+    <p style="font-weight:normal">Click the "Export to Excel" button to create a new Microsoft Excel document and export the data from the grid to an Excel workbook.</p>
+    <p style="font-weight:normal">Note: You need to have a MS Excel Viewer installed in order to view the generated Excel file.</p>
+    <div class="row">
+        <SfGrid DataSource="@CustomerList" Columns="@Cols" Height="350">
+            <GridColumns>
+                <GridColumn HeaderText="CustomerID" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+                <GridColumn HeaderText="CompanyName" Width="150" TextAlign="TextAlign.Center"></GridColumn>
+                <GridColumn HeaderText="ContactName" TextAlign="TextAlign.Center" Width="130"></GridColumn>
+                <GridColumn HeaderText="ContactTitle" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+                <GridColumn HeaderText="Address" TextAlign="TextAlign.Center" Width="130"></GridColumn>
+                <GridColumn HeaderText="City" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+            </GridColumns>
+            <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Multiple"></GridSelectionSettings>
+        </SfGrid>
+    </div>
+    <div class="radio-control">
+        <div class="row">
+            <label>
+                Import Options
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>
+                Export As
+            </label>
+        </div>
+        <div class="row">
+            <div class="e-radio-wrapper">
+                <SfRadioButton Label="Skip rows if ContactTitle is Owner" Name="Skip" Value="Skip" @bind-Checked="@option"></SfRadioButton>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="e-radio-wrapper">
+                <SfRadioButton Label="XLS" Name="XLS" Value=@("XLS") @bind-Checked="@versionOption"></SfRadioButton>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <SfButton CssClass="e-custom" @onclick="InputDocument">Input Template</SfButton>
+        </div>
+        <div class="row">
+            <div class="e-radio-wrapper">
+                <SfRadioButton Label="Replace Mexico D.F. to Mexico" Name="Replace" Value="Replace" @bind-Checked="@option"></SfRadioButton>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="e-radio-wrapper">
+                <SfRadioButton Label="XLSX" Name="XLSX" Value=@("XLSX") @bind-Checked="@versionOption"></SfRadioButton>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <SfButton CssClass="e-custom" @onclick="ImportData">Import from Excel</SfButton>
+        </div>
+        <div class="row">
+            <div class="e-radio-wrapper">
+                <SfRadioButton Label="Stop importing if CustomerID is CACTU" Name="Stop" Value="Stop" @bind-Checked="@option"></SfRadioButton>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <SfButton CssClass="e-custom" disabled=@Isdisabled @onclick="CreateDocument">Export to Excel</SfButton>
+        </div>
+    </div>
+</div>
+<style>
+    .radio-control {
+        margin: 5% 0 2% 0;
+    }
+
+    .control-section .row {
+        margin: 10px 0;
+    }
+    .e-custom {
+        border-radius: 0;
+        height: 30px;
+        width: 130px;
+    }
+</style>
+
+@code {
+    MemoryStream stream;
+    string option = "Skip";
+    string versionOption = "XLSX";
+    bool Schema = true;
+    string button = string.Empty;
+    public List<GridColumn> Cols;
+    DataTable dtFlat;
+    public List<ExpandoObject> CustomerList;
+    bool Isdisabled = true;
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+    /// <summary>
+    /// Download the input Excel document
+    /// </summary>
+    public async Task InputDocument()
+    {
+        ImportExportService service = new ImportExportService(hostingEnvironmnt);
+        button = "Input Document";
+        stream = service.ImportExportXlsIO(button, option, null);
+        await JS.SaveAs("InputTemplate.xls", stream.ToArray());
+    }
+
+    /// <summary>
+    /// Download the JSON document
+    /// </summary>
+    public async Task ImportData()
+    {
+        ImportExportService service = new ImportExportService(hostingEnvironmnt);
+        button = "Import";
+        dtFlat = service.ImportXlsIO(button, option, Schema);
+        GenerateRowsAndColumns(dtFlat);
+        Isdisabled = false;
+        await ValueChanged.InvokeAsync(Isdisabled);
+    }
+
+    #pragma warning disable BL0005
+    public void GenerateRowsAndColumns(DataTable input)
+    {
+        CustomerList = new List<ExpandoObject>();
+        foreach (DataRow row in input.Rows)
+        {
+            System.Dynamic.ExpandoObject e = new System.Dynamic.ExpandoObject();
+            foreach (DataColumn col in input.Columns)
+                e.TryAdd(col.ColumnName, row.ItemArray[col.Ordinal]);
+            CustomerList.Add(e);
+        }
+        Cols = new List<GridColumn>();
+        List<string> list = new List<string>(){"CustomerID" , "CompanyName" , "ContactName" , "ContactTitle" , "Address" , "City"};
+        foreach (DataColumn col in input.Columns)
+        {
+            if(list.Contains(col.ColumnName))
+                Cols.Add(new GridColumn() { Field = col.ColumnName});
+        }
+    }
+
+    /// <summary>
+    /// Download the JSON document
+    /// </summary>
+    public async Task CreateDocument()
+    {
+        ImportExportService service = new ImportExportService(hostingEnvironmnt);
+        button = "Create Document";
+        stream = service.ImportExportXlsIO(button, versionOption, dtFlat);
+        string fileName = string.Empty;
+        //Set the Workbook version as Excel 97to2003
+        if (versionOption == "XLS")
+        {
+            fileName = "ExportToExcel.xls";
+        }
+        //Set the Workbook version as Excel 2007
+        else
+        {
+            fileName = "ExportToExcel.xlsx";
+        }
+        await JS.SaveAs(fileName, stream.ToArray());
+    }
+}

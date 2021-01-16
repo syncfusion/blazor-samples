@@ -52,6 +52,7 @@ namespace blazor_samples
         public string FileName { get; set; }
         public string Url { get; set; }
         public string MappingSampleName { get; set; }
+        public string CustomHeading { get; set; }
         public List<SourceCollection> SourceFiles { get; set; } = new List<SourceCollection>();
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }

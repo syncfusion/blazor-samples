@@ -1,5 +1,6 @@
 ﻿@page "/chart/inversed-axis"
 @using Syncfusion.Blazor.Charts
+@using PointRender
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
@@ -7,15 +8,14 @@
     <p>  This sample illustrates inversed axis in chart to plot exchange rate over a period.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to inverse an axis in chart. Here both the X and Y axis are inversed using <code>IsInversed</code> property. </p>
-   <p> <code>DataLabel</code> are used to represent individual data and its value.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices. </p>
-   <p>More information on the Inversed Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to inverse an axis in chart. Here both the X and Y axis are inversed using <code>IsInversed</code> property. </p>
+    <p> <code>DataLabel</code> are used to represent individual data and its value.</p>
+    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices. </p>
+    <p>More information on the Inversed Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfChart Title="Exchange Rate(INR per USD)" >
-        <ChartEvents Load="ChartLoad"/>
+    <SfChart Title="Exchange Rate(INR per USD)" Theme="@Theme">
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" OpposedPosition="true" IsInversed="true">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -37,6 +37,7 @@
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
     </SfChart>
 </div>
 
@@ -47,7 +48,7 @@
         public double y { get; set; }
     }
     public List<CategoryData> chartData = new List<CategoryData>
-    {
+{
                 new CategoryData { x = "2008", y = 1.5 },
                 new CategoryData { x = "2009", y = 7.6 },
                 new CategoryData { x = "2010", y = 11 },
@@ -58,31 +59,51 @@
                 new CategoryData { x = "2015", y = 17.1 },
              };
 
-             string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
+    }
+    public void PointRender(PointRenderEventArgs args)
+    {
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+
     }
 }
 

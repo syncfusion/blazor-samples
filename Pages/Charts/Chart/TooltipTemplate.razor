@@ -4,18 +4,19 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-       This sample visualizes the USA Wheat Production data with default line series in the chart. Data points are enhanced with marker and tooltip.
+    This sample visualizes the USA Wheat Production data with default line series in the chart. Data points are enhanced with marker and tooltip.
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render and configure the BackgroundImage and Tooltip template for the charts.
-       You can use <code>BackgroundImage</code>, <code>Tooltip</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> is used to represent individual data and its value. </p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the Tooltip template can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>
+        In this example, you can see how to render and configure the BackgroundImage and Tooltip template for the charts.
+        You can use <code>BackgroundImage</code>, <code>Tooltip</code>, <code>Fill</code> properties to customize the line. <code>Marker</code> is used to represent individual data and its value.
+    </p>
+    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information on the Tooltip template can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfChart Title="USA Wheat Production" BackgroundImage="images/chart/wheat.png">
-     <ChartEvents Load="ChartLoad"/>
+    <SfChart Title="USA Wheat Production" BackgroundImage="images/chart/wheat.png" Theme="@Theme">
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
 
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelFormat="y"
@@ -33,16 +34,26 @@
             <ChartAxisMajorGridLines Color="#EFEFEF" Width="2"></ChartAxisMajorGridLines>
             <ChartAxisTitleStyle Color="white"></ChartAxisTitleStyle>
         </ChartPrimaryYAxis>
-
         <ChartTooltipSettings Enable="true">
             <Template>
-                @{ 
-                    var data = context as IChartTemplate;
-                <div><table style="width:100%;  border: 1px solid black;" class="table-borderless"><tr><th rowspan="2" style="background-color: #C1272D"><img src="images/chart/grain.png" /></th><td style="height: 25px; width: 50px; background-color: #C1272D; font-size: 14px; color: #E7C554; font-weight: bold; padding-left: 5px">@data.X</td></tr><tr><td style="height: 25px; width: 50px; background-color: #C1272D; font-size: 18px; color: #FFFFFF; font-weight: bold; padding-left: 5px">@data.Y</td></tr></table></div>
+                @{
+                    var data = context as ChartTooltipInfo;
+                    <div>
+                        <table style="width:100%;  border: 1px solid black;" class="table-borderless">
+                            <tr>
+                                <th rowspan="2" style="background-color: #C1272D">
+                                    <img src="images/chart/grain.png" />
+                                </th>
+                                <td style="height: 25px; width: 50px; background-color: #C1272D; font-size: 14px; color: #E7C554; font-weight: bold; padding-left: 5px">@data.X</td>
+                            </tr>
+                            <tr>
+                                <td style="height: 25px; width: 50px; background-color: #C1272D; font-size: 18px; color: #FFFFFF; font-weight: bold; padding-left: 5px">@data.Y</td>
+                            </tr>
+                        </table>
+                    </div>
                 }
             </Template>
         </ChartTooltipSettings>
-
         <ChartSeriesCollection>
             <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2" Fill="#333333"
                          YName="YValue" Type="ChartSeriesType.Line">
@@ -55,7 +66,7 @@
 </div>
 
 @code{
-         public class ChartData
+    public class ChartData
     {
         public double XValue { get; set; }
         public double YValue { get; set; }
@@ -74,33 +85,30 @@
         new ChartData { XValue = 2011, YValue = 2.00 },
         new ChartData { XValue = 2012, YValue = 1.70 },
     };
-string CurrentUri;
-    void ChartLoad(ILoadedEventArgs Args)
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
 }

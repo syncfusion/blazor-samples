@@ -2,9 +2,10 @@
 @inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
-@using Syncfusion.Blazor.Kanban
-@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
 
 <SampleDescription>
     <p>This sample showcases the CRUD (Create, Read, Update, and Delete) operations of the Kanban component.You can add a new card using the button from the property panel and read, update, or delete a card by opening the card details in dialog by double-clicking it.</p>
@@ -20,7 +21,7 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
-    <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="Tasks">
+    <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="@cardData">
         <KanbanColumns>
             @foreach (ColumnModel item in columnData)
             {
@@ -78,17 +79,36 @@
     </SfKanban>
 </div>
 <div class="col-lg-3 property-section">
-    <table id="property" title="Properties">
-        <tbody>
-            <tr><td style="padding: 22px;font-weight: 600;font-size: 15px;"><b>Properties</b></td></tr>
-            <tr>
-                <td style="width:60%; padding: 27px;">
-                    <button class="e-btn" @onclick="@ShowAddCardDialog">Add New Card</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Properties">
+                <tbody>
+                    <tr>
+                        <td>
+                            <SfButton Content="Add New Card" OnClick="ShowAddCardDialog"></SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<style>
+    .property-panel-section table {
+        width: 100%;
+    }
+
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+</style>
 
 @code{
     SfKanban<KanbanDataModel> KanbanRef;
@@ -97,11 +117,11 @@
     SfDropDownList<string, DropDownModel> PriorityRef;
     SfTextBox SummaryRef;
 
-    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
     private List<ColumnModel> columnData = new List<ColumnModel>() {
         new ColumnModel(){ HeaderText= "Backlog", KeyField= new List<string>() { "Open" } },
         new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" } },
-        new ColumnModel(){ HeaderText= "Testinge", KeyField= new List<string>() { "Testing" } },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" } },
         new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
     };
 
@@ -140,7 +160,7 @@
     {
         KanbanDataModel data = new KanbanDataModel()
         {
-            Id = "Task " + (this.Tasks.Count() + 1).ToString(),
+            Id = "Task " + (this.cardData.Count + 1).ToString(),
             Title = "",
             Tags = "",
             Estimate = 0,

@@ -166,15 +166,15 @@ namespace blazor_samples
                 FileName = "Zooming.razor",
                 Type = SampleType.None
             },
-            new Sample
-            {
-                Name = "Zoom to fit all markers",
-                Category = "User Interaction",
-                Directory = "Maps/Maps",
-                Url = "maps/programatic-zoom",
-                FileName = "ProgramaticZoom.razor",
-                Type = SampleType.None
-            },
+            // new Sample
+            // {
+                // Name = "Zoom to fit all markers",
+                // Category = "User Interaction",
+                // Directory = "Maps/Maps",
+                // Url = "maps/programatic-zoom",
+                // FileName = "ProgramaticZoom.razor",
+                // Type = SampleType.None
+            // },
             new Sample
             {
                 Name = "Drill Down",

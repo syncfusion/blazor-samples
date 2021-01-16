@@ -27,8 +27,7 @@
 <div class="row">
     <div class="control-section col-md-8">
         <SfChart @ref="ChartObj" Title="Age Distribution by Country" SelectionMode="@Mode" IsMultiSelect="@EnableMultiSelect" SelectionPattern="@Pattern"
-                  HighlightMode="@HighMode" HighlightPattern="@highLightPattern">
-            <ChartEvents Load="ChartLoad"/>
+                  HighlightMode="@HighMode" HighlightPattern="@highLightPattern" Theme="@Theme">
             <ChartArea>
                 <ChartAreaBorder Width="0"></ChartAreaBorder>
             </ChartArea>
@@ -156,7 +155,6 @@
     public void ChangeMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
         this.Mode = (Syncfusion.Blazor.Charts.SelectionMode)Enum.Parse(typeof(Syncfusion.Blazor.Charts.SelectionMode), args.Value.ToString(), true);
-        StateHasChanged();
     }
 
     public void ChangePattern(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
@@ -177,7 +175,7 @@
         if (IsHighlight)
         {
             this.HighMode = (HighlightMode)Enum.Parse(typeof(HighlightMode), mode, true);
-            ChartObj.DataBind();
+            //ChartObj.DataBind();
         }
         else
         {
@@ -187,10 +185,10 @@
 
     public class SelectionData
     {
-        public string x;
-        public double y1;
-        public double y2;
-        public double y3;
+        public string x { get; set; }
+        public double y1 { get; set; }
+        public double y2 { get; set; }
+        public double y3 { get; set; }
     }
     public List<SelectionData> DataSource = new List<SelectionData>
     {
@@ -203,29 +201,29 @@
         };
 
     string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
 }

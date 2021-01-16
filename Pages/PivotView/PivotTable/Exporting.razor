@@ -60,7 +60,7 @@
                         </td>
                         <td style="width: 60%;">
                             <div style="margin-left: -10px">
-                                <SfDropDownList @ref="DropDown" TValue="string" TItem="DropDownData" Index=0 DataSource="@ExportMode" Width="160">
+                                <SfDropDownList TValue="string" TItem="DropDownData" @bind-Value="@SelectedMode" DataSource="@ExportMode" Width="160">
                                     <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
@@ -84,13 +84,17 @@
     .e-pivotview {
         min-height: 200px;
     }
+
+    html, body {
+        height: 100%;
+    }
 </style>
 
 @code{
 
-        SfPivotView<PivotProductDetails> Pivot;
-        SfDropDownList<string, DropDownData> DropDown;
+    SfPivotView<PivotProductDetails> Pivot;
 
+    public string SelectedMode { get; set; } = "excel";
     public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
@@ -98,19 +102,19 @@
         this.Data = PivotProductDetails.GetProductData();
     }
 
-    public void OnExport(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    public async Task OnExport(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
-        if (this.DropDown.Value == "excel")
+        if (SelectedMode == "excel")
         {
-            this.Pivot.ExcelExport();
+            await this.Pivot.ExcelExport();
         }
-        else if (this.DropDown.Value == "csv")
+        else if (SelectedMode == "csv")
         {
-            this.Pivot.CsvExport();
+            await this.Pivot.CsvExport();
         }
         else
         {
-            this.Pivot.PdfExport();
+            await this.Pivot.PdfExport();
         }
     }
 

@@ -89,14 +89,6 @@ namespace blazor_samples
                 Directory = "Layouts/DashboardLayout",
                 Url = "dashboard-layout/api",
                 FileName = "API.razor"
-            },
-             new Sample
-            {
-                Name = "SEO Analytics Dashboard",
-                Category = "Use Case",
-                Directory = "Layouts/DashboardLayout",
-                Url = "dashboard-layout/seo",
-                FileName = "SEO.razor"
             }
         };
         public List<Sample> Splitter { get; set; } = new List<Sample>{

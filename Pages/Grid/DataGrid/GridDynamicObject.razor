@@ -7,7 +7,7 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates the usage of DynamicObject data binding with CRUD operations, grouping, sorting, filtering functionalities in DataGrid component with DynamicObject.</p>
+    <p>This sample demonstrates the usage of DynamicObject data binding with CRUD operations, grouping, sorting, filtering, aggregate functionalities in DataGrid component with DynamicObject.</p>
 </SampleDescription>
 <ActionDescription>
     <p>DynamicObject can be bound to datagrid by assigning to the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridModel%601~DataSource.html'>DataSource</a></code> property.</p>
@@ -18,13 +18,64 @@
         <div class="row">
             <SfGrid DataSource="@Orders" AllowFiltering="true" AllowSorting="true" AllowGrouping="true" AllowPaging="true" Toolbar="@ToolbarItems">
                 <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
+                <GridAggregates>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+
+                            <GridAggregateColumn Field="Freight" Type="AggregateType.Sum" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Sum: @aggregate.Sum</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                            <GridAggregateColumn Field="Verified" Type="AggregateType.TrueCount">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>True Count: @aggregate.TrueCount</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field="Freight" Type="AggregateType.Average" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Average: @aggregate.Average</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                            <GridAggregateColumn Field="Verified" Type="AggregateType.FalseCount">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>False Count: @aggregate.FalseCount</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                   </GridAggregates>
                 <GridColumns>
                     <GridColumn Field="OrderID" HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field="CustomerID" HeaderText="Customer Name" Width="120" ValidationRules="@(new ValidationRules { Required=true})"></GridColumn>
                     <GridColumn Field="Freight" HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" ValidationRules="@(new ValidationRules{ Required=true, Range = new double[]{1, 1000}})" Width="120"></GridColumn>
                     <GridColumn Field="OrderDate" HeaderText=" Order Date" ValidationRules="@(new ValidationRules{ Required=true})" Format="d" TextAlign="TextAlign.Right" Width="130" Type="ColumnType.Date"></GridColumn>
                     <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
-                    <GridColumn Field="Verified" HeaderText="Active" DisplayAsCheckBox="true" Width="150"></GridColumn>
+                    <GridColumn Field="Verified" HeaderText="Active" DisplayAsCheckBox="true" DefaultValue="false" Width="150"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>

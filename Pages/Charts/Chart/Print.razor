@@ -1,19 +1,19 @@
 ﻿@page "/chart/print"
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
+@using PointRender
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 <SampleDescription>
-   <p>  This sample visualizes print feature in chart control.By clicking <code>Print</code>, you can print the chart directly from the browser.</p> 
+    <p>  This sample visualizes print feature in chart control.By clicking <code>Print</code>, you can print the chart directly from the browser.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample demonstrates the print feature in chart.The rendered chart can be printed directly from the browser by calling the public method print. </p>
+    <p>This sample demonstrates the print feature in chart.The rendered chart can be printed directly from the browser by calling the public method print. </p>
     <p>More information on the Print can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
 </ActionDescription>
 <div class="row">
     <div class="control-section col-lg-9" align="center">
-        <SfChart @ref="chartObj" Title="Sales Comparision">
-         <ChartEvents Load="ChartLoad"/>
+        <SfChart @ref="chartObj" Title="Sales Comparision" Theme="@Theme">
             <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
             <ChartPrimaryXAxis Title="Manager" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -26,6 +26,7 @@
                 <ChartSeries DataSource="@dataSource" XName="xValue" YName="yValue" Type="ChartSeriesType.Column">
                 </ChartSeries>
             </ChartSeriesCollection>
+            <ChartEvents OnPointRender="PointRender"></ChartEvents>
         </SfChart>
     </div>
     <div class="col-lg-3 property-section">
@@ -60,34 +61,51 @@
     {
         chartObj.Print();
     }
-string CurrentUri;
-    void ChartLoad(ILoadedEventArgs Args)
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
+    }
+    public void PointRender(PointRenderEventArgs args)
+    {
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+
     }
 }
 <style>

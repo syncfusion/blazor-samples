@@ -1,5 +1,6 @@
 ﻿@page "/range-selector/logarithmic"
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
@@ -7,7 +8,7 @@
     <p>This sample demonstrates the rendering of logarithmic axis in the range navigator.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Logarithmic axis uses logarithmic scale and it is very useful in visualizing when the data has values with both lower order of magnitude (eg: 10^-6) and higher order of magnitude (eg: 10^6). To render Logarithmic axis, set <code>ValueType</code> to <code>Logarithmic</code>. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.</p>
+    <p>Logarithmic axis uses logarithmic scale and it is very useful in visualizing when the data has values with both lower order of magnitude (eg: 10^-6) and higher order of magnitude (eg: 10^6). To render Logarithmic axis, set <code>ValueType</code> to <code>Logarithmic</code>. Tooltip is enabled in this example, to see the tooltip in action, while the selected range is changed.</p>
 </ActionDescription>
 
 @if (LogarithmicData == null)
@@ -20,7 +21,7 @@ else
         <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Inflation vs Goods Consumers</h4>
         <div>
             <SfRangeNavigator Value="@Value" ValueType="Syncfusion.Blazor.Charts.RangeValueType.Logarithmic" LabelIntersectAction="RangeLabelIntersectAction.None" LabelPosition="AxisPosition.Outside" Interval="2">
-                <RangeNavigatorEvents Load="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorEvents Loaded="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorRangeTooltipSettings Enable="true"></RangeNavigatorRangeTooltipSettings>
                 <RangeNavigatorSeriesCollection>
                     <RangeNavigatorSeries Fill="@FillColor" DataSource="@LogarithmicData" Width="2" XName="x" Type="RangeNavigatorType.StepLine" YName="y">
@@ -30,7 +31,6 @@ else
         </div>
         <div>
             <SfChart>
-                <ChartEvents Load="ChartLoad" />
                 <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
                 <ChartPrimaryXAxis Interval="1" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Numers of Goods Consumers" ZoomFactor="@ZF" ZoomPosition="@ZP">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -54,10 +54,11 @@ else
 @code{
     double ZF = 1;
     double ZP = 0;
-    int[] Value = new int[] { 4, 6 };
+    object[] Value = new object[] { 4, 6 };
     List<RangeData> LogarithmicData;
     string FillColor;
     string valueUrl = "url";
+    private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -107,7 +108,7 @@ else
         public Double x { get; set; }
         public Double y { get; set; }
     }
-    public void onRangeChanged(IChangedEventArgs args)
+    public void onRangeChanged(ChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
@@ -115,57 +116,57 @@ else
     }
 
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
 
-    void ChartLoad(ILoadedEventArgs Args)
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿@page "/range-selector/date-time-axis"
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@using Syncfusion.Blazor
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
@@ -8,7 +9,7 @@
     <p>This sample represent the exchange rate analysis for USD to EUR with datetime axis.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the <code>ValueType</code> to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>IntervalType</code> of the range navigator. You can also directly set the format using the <code>LabelFormat</code> property.</p>
+    <p>Date-time data is used in this sample, and the selected range values are showed with tooltip. Date-time axis uses date-time scale and displays date-time values as axis labels. To render date-time axis, set the <code>ValueType</code> to <code>DateTime</code>. Format of the axis label will be calculated based on the <code>IntervalType</code> of the range navigator. You can also directly set the format using the <code>LabelFormat</code> property.</p>
 </ActionDescription>
 
 @if (DateTimeData == null)
@@ -21,7 +22,7 @@ else
         <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">EUR Exchange Rate from USD</h4>
         <div>
             <SfRangeNavigator Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
-                <RangeNavigatorEvents Load="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorEvents Loaded="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
                 <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
                 <RangeNavigatorSeriesCollection>
@@ -31,8 +32,7 @@ else
             </SfRangeNavigator>
         </div>
         <div>
-            <SfChart>
-                <ChartEvents Load="ChartLoad"/>
+            <SfChart Theme="@theme">
                 <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
                 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -60,11 +60,13 @@ else
     double ZP = 0;
     string FillColor;
     string valueUrl = "url";
+    private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
         {
-            DateTimeData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/stock-data.json"));
+            DateTimeData = JsonConvert.DeserializeObject<ChartData[]>
+    (System.IO.File.ReadAllText("./wwwroot/data/range-navigator/stock-data.json"));
         });
 
         CurrentUri = NavigationManager.Uri;
@@ -99,9 +101,9 @@ else
         public DateTime x { get; set; }
         public double y { get; set; }
     }
-    private DateTime[] value = new DateTime[] { new DateTime(2011, 01, 01), new DateTime(2013, 12, 31) };
+    private object[] value = new object[] { new DateTime(2011, 01, 01), new DateTime(2013, 12, 31) };
 
-    public void OnRangeChanged(IChangedEventArgs args)
+    public void OnRangeChanged(ChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
@@ -109,57 +111,57 @@ else
     }
 
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
 
-    void ChartLoad(ILoadedEventArgs Args)
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }

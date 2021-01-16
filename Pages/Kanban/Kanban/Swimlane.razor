@@ -19,71 +19,68 @@
     </ul>
 </ActionDescription>
 
-<div class="col-lg-8 control-section">
-    <div class="control-section">
-        <SfKanban KeyField="Status" DataSource="@Tasks">
-            <KanbanColumns>
-                @foreach (ColumnModel item in columnData)
-                {
-                    <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
-                }
-            </KanbanColumns>
-            <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
-            <KanbanSwimlaneSettings KeyField="Assignee" AllowDragAndDrop="@allowDragAndDrop" ShowItemCount="@showItemCount" SortDirection="@sortDirection"></KanbanSwimlaneSettings>
-        </SfKanban>
-    </div>
+<div class="col-lg-9 control-section">
+    <SfKanban KeyField="Status" DataSource="@cardData">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+        <KanbanSwimlaneSettings KeyField="Assignee" AllowDragAndDrop="@allowDragAndDrop" ShowItemCount="@showItemCount" SortDirection="@sortDirection"></KanbanSwimlaneSettings>
+    </SfKanban>
 </div>
-<div class="col-lg-4 property-section">
-    <table id="property" title="Properties">
-        <tr>
-            <td>
-                <div>Sort Direction</div>
-            </td>
-            <td>
-                <div>
-                    <SfDropDownList TItem="KanbanDataModel" TValue="SortDirection" DataSource="@SortData" @bind-Index="@index" PopupHeight="200px">
-                        <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
-                        <DropDownListEvents TItem="KanbanDataModel" TValue="SortDirection" ValueChange="@ChangeSortOrder"></DropDownListEvents>
-                    </SfDropDownList>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div>Enable Swimlane Drag And Drop</div>
-            </td>
-            <td>
-                <SfCheckBox Checked="@allowDragAndDrop" ValueChange="@OnDragChange" TChecked="bool"></SfCheckBox>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div>Show Swimlane Item Count</div>
-            </td>
-            <td>
-                <SfCheckBox Checked="@showItemCount" ValueChange="@OnItemChange" TChecked="bool"></SfCheckBox>
-            </td>
-        </tr>
-    </table>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Properties">
+                <tr>
+                    <td>Sort Direction</td>
+                    <td>
+                        <div>
+                            <SfDropDownList TItem="KanbanDataModel" TValue="SortDirection" DataSource="@SortData" @bind-Index="@index" PopupHeight="200px">
+                                <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
+                                <DropDownListEvents TItem="KanbanDataModel" TValue="SortDirection" ValueChange="@ChangeSortOrder"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Enable Swimlane Drag And Drop</td>
+                    <td>
+                        <SfCheckBox Checked="@allowDragAndDrop" ValueChange="@((args) => { allowDragAndDrop = args.Checked; })" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Show Swimlane Item Count</td>
+                    <td>
+                        <SfCheckBox Checked="@showItemCount" ValueChange="@((args) => { showItemCount = args.Checked; })" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 
 <style>
-    #property tr {
-        height: 50px
+    .property-panel-section table {
+        width: 100%;
     }
 
-    .property-section table td {
-        width: 50%;
-    }
+        .property-panel-section table tr {
+            height: 50px;
+        }
 
-    .property-section table div {
-        padding-left: 10px;
-        padding-top: 10px;
-    }
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
 </style>
 
 @code{
-    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
     private List<KanbanDataModel> SortData = new KanbanDataModel().SortDropDowns();
     private SortDirection sortDirection { get; set; } = SortDirection.Ascending;
     private bool allowDragAndDrop { get; set; } = false;
@@ -95,14 +92,6 @@
         new ColumnModel(){ HeaderText= "Done", KeyField= new List<string>() { "Close" } }
     };
 
-    private void OnItemChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        this.showItemCount = args.Checked;
-    }
-    private void OnDragChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        this.allowDragAndDrop = args.Checked;
-    }
     private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<SortDirection, KanbanDataModel> args)
     {
         this.sortDirection = args.Value == SortDirection.Ascending ? SortDirection.Ascending : SortDirection.Descending;

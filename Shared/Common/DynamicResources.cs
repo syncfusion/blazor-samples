@@ -67,7 +67,7 @@ namespace blazor_samples.Shared
         {
             base.OnInitialized();
 #if (DEBUG || STAGING)
-            stylePath = "_content/Syncfusion.Blazor/styles/";
+            stylePath = "_content/Syncfusion.Blazor.Themes/";
 #else
             stylePath = "https://cdn.syncfusion.com/blazor/styles/";
 #endif

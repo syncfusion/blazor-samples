@@ -1,4 +1,5 @@
 ﻿@page "/kanban/swimlane-template"
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @inherits SampleBaseComponent;
 
 @using ej2_blazor_kanban_data_models
@@ -12,8 +13,8 @@
     <p>In this demo, all the swimlane headers are customized with templating as text and icons.</p>
 </ActionDescription>
 
-<div class="control-section">
-    <SfKanban KeyField="Status" DataSource="@Tasks">
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@cardData">
         <KanbanColumns>
             @foreach (ColumnModel item in columnData)
             {
@@ -26,7 +27,10 @@
                 @{
                     SwimlaneSettingsModel swimlane = (SwimlaneSettingsModel)context;
                     <div class="swimlane-template e-swimlane-template-table">
-                        <div class="e-swimlane-row-text"><img src="./images/kanban/@(swimlane.KeyField).png" alt="" /><span>@swimlane.TextField</span></div>
+                        <div class="e-swimlane-row-text">
+                            <img src="@UriHelper.ToAbsoluteUri($"images/kanban/" + swimlane.KeyField.Replace(" ", "-").ToLower() + ".png")" alt="logo" />
+                            <span>@swimlane.TextField</span>
+                        </div>
                     </div>
                 }
             </Template>
@@ -52,7 +56,7 @@
 </style>
 
 @code{
-    private List<KanbanDataModel> Tasks = new KanbanDataModel().GetTasks();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
     private List<ColumnModel> columnData = new List<ColumnModel>() {
         new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open"} },
         new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress"} },

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using blazor_samples;
 
 namespace blazor_samples
 {
@@ -20,7 +19,8 @@ namespace blazor_samples
                 Category = "Kanban",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -29,6 +29,15 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/swimlane",
                 FileName = "Swimlane.razor"
+            },
+            new Sample
+            {
+                Name = "Workflow",
+                Category = "Kanban",
+                Type = SampleType.New,
+                Directory = "Kanban/Kanban",
+                Url = "kanban/workflow",
+                FileName = "Workflow.razor"
             },
             new Sample
             {
@@ -45,6 +54,15 @@ namespace blazor_samples
                 Directory = "Kanban/Kanban",
                 Url = "kanban/dialog-editing",
                 FileName = "DialogEditing.razor"
+            },
+            new Sample
+            {
+                Name = "Search and Filter Cards",
+                Category = "Kanban",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/search-filter",
+                FileName = "SearchFilter.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -88,6 +106,15 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Tooltip Template",
+                Category = "Templates",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/tooltip-template",
+                FileName = "TooltipTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Toggle Columns",
                 Category = "Columns",
                 Directory = "Kanban/Kanban",
@@ -100,8 +127,7 @@ namespace blazor_samples
                 Category = "Columns",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/showhide-columns",
-                FileName = "ShowHideColumns.razor",
-                Type = SampleType.New
+                FileName = "ShowHideColumns.razor"
             },
             new Sample
             {
@@ -109,7 +135,24 @@ namespace blazor_samples
                 Category = "Validation",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/wip-validation",
-                FileName = "WipValidation.razor",
+                FileName = "WipValidation.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Miscellaneous",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/api",
+                FileName = "Api.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Events",
+                Category = "Miscellaneous",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/events",
+                FileName = "Events.razor",
                 Type = SampleType.New
             }
         };

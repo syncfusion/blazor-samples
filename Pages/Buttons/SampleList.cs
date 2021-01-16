@@ -22,7 +22,8 @@ namespace blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "buttons/checkbox",
-                FileName = "CheckBox.razor"
+                FileName = "CheckBox.razor",
+                CustomHeading = "Example of Default Sample in Blazor Checkbox Component"
             },
            new Sample
             {
@@ -30,7 +31,8 @@ namespace blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "buttons/radio-button",
-                FileName = "RadioButton.razor"
+                FileName = "RadioButton.razor",
+                CustomHeading = "Example of Default Sample in Blazor Radio Button Component"
             },
            new Sample
             {
@@ -38,7 +40,8 @@ namespace blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "buttons/dropdown-menu",
-                FileName = "DropDownButton.razor"
+                FileName = "DropDownButton.razor",
+                CustomHeading = "Example of Default Sample in Blazor Dropdown Menu Component",
             },
            new Sample
             {
@@ -47,6 +50,7 @@ namespace blazor_samples
                 Directory = "Buttons/Button",
                 Url = "buttons/split-button",
                 FileName = "SplitButton.razor",
+                CustomHeading = "Example of Default Sample in Blazor Split Button Component"
             },
            new Sample
             {
@@ -54,7 +58,8 @@ namespace blazor_samples
                 Category = "Button",
                 Directory = "Buttons/Button",
                 Url = "buttons/toggle-switch-button",
-                FileName = "Switch.razor"
+                FileName = "Switch.razor",
+                CustomHeading = "Example of Default Sample in Blazor Toggle Switch Button Component"
             },
            new Sample
             {
@@ -63,8 +68,19 @@ namespace blazor_samples
                 Directory = "Buttons/Button",
                 Url = "buttons/progress-button",
                 FileName = "ProgressButton.razor",
-                Type = SampleType.None
-            }
+                 Type = SampleType.None,
+                CustomHeading = "Example of Default Sample in Blazor Progress Button Component"
+            },
+           new Sample
+           {
+               Name = "Button Group",
+               Category = "Button",
+               Directory = "Buttons/Button",
+               Url = "buttons/button-group",
+               FileName = "ButtonGroup.razor",
+               Type = SampleType.Preview,
+               CustomHeading = "Example of Default Sample in Blazor Button Group Component"
+           }
         };
         public List<Sample> Chips { get; set; } = new List<Sample>{
             new Sample

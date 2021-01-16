@@ -81,7 +81,7 @@ namespace blazor_samples
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "Diagram",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Diagram,
                 ControllerName = "Diagram"
             });
@@ -153,7 +153,7 @@ namespace blazor_samples
                 Name = "Button",
                 Category = "Editors",
                 Directory = "Buttons",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Button,
                 ControllerName = "Buttons"
             });
@@ -198,7 +198,7 @@ namespace blazor_samples
                 Name = "DateRangePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DateRangePicker",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = DateRangePicker,
                 ControllerName = "DateRangePicker"
             });
@@ -234,7 +234,7 @@ namespace blazor_samples
                 Name = "MultiSelect Dropdown",
                 Category = "DropDowns",
                 Directory = "DropDowns/MultiSelect",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = MultiSelectDropdown,
                 ControllerName = "MultiSelectDropdown"
             });
@@ -288,6 +288,7 @@ namespace blazor_samples
                 Name = "Toast",
                 Category = "Notifications",
                 Directory = "Notifications/Toast",
+                Type = SampleType.None,
                 Samples = Toast,
                 ControllerName = "Toast"
             });
@@ -296,7 +297,7 @@ namespace blazor_samples
                 Name = "Spinner",
                 Category = "Notifications",
                 Directory = "Notifications/Spinner",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Spinner,
                 ControllerName = "Spinner"
             });
@@ -323,7 +324,7 @@ namespace blazor_samples
                 Name = "Dialog",
                 Category = "Layout",
                 Directory = "Popups/Dialog",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Dialog,
                 ControllerName = "Dialog"
             });
@@ -358,7 +359,7 @@ namespace blazor_samples
                 Name = "Card",
                 Category = "Layout",
                 Directory = "Cards",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Card,
                 ControllerName = "Card"
             });
@@ -438,7 +439,7 @@ namespace blazor_samples
                 Name = "Input Mask",
                 Category = "Inputs",
                 Directory = "Inputs/MaskedTextBox",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = InputMask,
                 ControllerName = "InputMask"
             });
@@ -456,7 +457,7 @@ namespace blazor_samples
                 Name = "Color Picker",
                 Category = "Inputs",
                 Directory = "Inputs/ColorPicker",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = ColorPicker,
                 ControllerName = "ColorPicker"
             });
@@ -519,7 +520,7 @@ namespace blazor_samples
                 Name = "File Manager",
                 Category = "Navigations",
                 Directory = "Navigations/FileManager",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = FileManager,
                 ControllerName = "FileManager"
             });
@@ -555,7 +556,7 @@ namespace blazor_samples
                 Name = "XlsIO",
                 Category = "File Formats",
                 Directory = "FileFormats/XlsIO",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = XlsIO,
                 ControllerName = "XlsIO"
             });

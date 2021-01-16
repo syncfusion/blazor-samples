@@ -7,40 +7,45 @@
     <p>This sample visualizes the particulate levels in rainfall with multi colored line series in the chart. Data points are enhanced with individual color and tooltip.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure each point in line type series. Multi colored line charts are used to represent time-dependent data to show the trends at equal intervals with their individual colors by using <code>PointColorMapping</code>.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure each point in line type series. Multi colored line charts are used to represent time-dependent data to show the trends at equal intervals with their individual colors by using <code>PointColorMapping</code>.</p>
+    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
 </ActionDescription>
 
-<div class="control-section">
-    <div align="center">
-        <SfChart Title="Particulate Levels in Rainfall" Width="80%">
-            <ChartEvents Load="ChartLoad"/>
-            <ChartArea>
-                <ChartAreaBorder Width="0"></ChartAreaBorder>
-            </ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" Title="Particulate Matter(PM)" Minimum="4" Maximum="10">
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-            </ChartPrimaryYAxis>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@chartData" Name="Rainfall" XName="XValue" YName="YValue" PointColorMapping="Color" Width="1.5" Type="ChartSeriesType.MultiColoredLine">
-                </ChartSeries>
-            </ChartSeriesCollection>
-        </SfChart>
+@if (chartData == null || chartData.Count == 0)
+{
+    <div></div>
+}
+else
+{
+    <div class="control-section">
+        <div align="center">
+            <SfChart Title="Particulate Levels in Rainfall" Width="80%" Theme="@Theme">
+                <ChartArea>
+                    <ChartAreaBorder Width="0"></ChartAreaBorder>
+                </ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" Title="Particulate Matter(PM)" Minimum="4" Maximum="10">
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                </ChartPrimaryYAxis>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+                <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@chartData" Name="Rainfall" XName="XValue" YName="YValue" PointColorMapping="Color" Width="1.5" Type="ChartSeriesType.MultiColoredLine">
+                    </ChartSeries>
+                </ChartSeriesCollection>
+            </SfChart>
+        </div>
     </div>
-</div>
+}
+    @code{
 
-@code{
-
-    string[] color = {"red", "green", "#ff0097", "crimson", "blue", "darkorange", "deepskyblue",
+        string[] color = {"red", "green", "#ff0097", "crimson", "blue", "darkorange", "deepskyblue",
                              "mediumvioletred", "violet", "peru", "gray", "deeppink", "navy" };
-    List<LineChartData> chartData = new List<LineChartData>();
-    public class LineChartData
+        List<LineChartData> chartData = new List<LineChartData>();
+public class LineChartData
     {
         public DateTime XValue { get; set; }
         public double YValue { get; set; }
@@ -48,6 +53,8 @@
     }
     int value;
     private Double[] ChartData = new Double[150];
+    string CurrentUri;
+    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -66,32 +73,26 @@
                 });
             }
         });
-    }
-
-    string CurrentUri;
-
-    void ChartLoad(ILoadedEventArgs Args)
-    {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
-}
+    }

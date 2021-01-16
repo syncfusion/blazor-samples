@@ -22,20 +22,32 @@
             <PivotViewTemplates>
                 <CellTemplate>
                     @{
-                        var data = (context as TemplateContext);
-                        if (data.Value > 175)
+                        var data = (context as AxisSet);
+                        if (data != null)
                         {
-                            <span class="tempwrap sb-icon-profit pv-icons"></span>
+                            if (data.Axis.Equals("value"))
+                            {
+                                <div style="display:flex;justify-content:space-between;margin-bottom:-15px;">
+                                    @data.FormattedText
+                                    @if (data.Value > 175)
+                                    {
+                                        <span class="tempwrap sb-icon-profit pv-icons"></span>
+                                    }
+                                    else if (data.Value > 100)
+                                    {
+                                        <span class="tempwrap sb-icon-neutral pv-icons"></span>
+                                    }
+                                    else if (data.Value > 0)
+                                    {
+                                        <span class="tempwrap sb-icon-loss pv-icons"></span>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                @data.FormattedText
+                            }
                         }
-                        else if (data.Value > 100)
-                        {
-                            <span class="tempwrap sb-icon-neutral pv-icons"></span>
-                        }
-                        else if (data.Value > 0)
-                        {
-                            <span class="tempwrap sb-icon-loss pv-icons"></span>
-                        }
-
                     }
                 </CellTemplate>
             </PivotViewTemplates>
@@ -80,7 +92,6 @@
         font-weight: normal;
         text-transform: none;
         display: inline-block;
-        margin-top: -10px;
     }
 
     .e-pivotview .e-columnsheader .tempwrap {
@@ -101,21 +112,18 @@
 
     .sb-icon-profit::before {
         content: '\e234';
-        padding-left: 30px;
         margin: auto !important;
         color: #219122;
     }
 
     .sb-icon-neutral::before {
         content: '\e84d';
-        padding-left: 30px;
         margin: auto !important;
         color: #82b5e9;
     }
 
     .sb-icon-loss::before {
         content: '\e239';
-        padding-left: 30px;
         margin: auto !important;
         color: #ff2222;
     }

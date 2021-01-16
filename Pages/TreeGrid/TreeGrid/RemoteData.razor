@@ -4,13 +4,14 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Data
 @using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons 
 @*Hidden:Lines*@
 @using ej2_blazor_selfdata
 @inherits SampleBaseComponent;
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>This sample demonstrates the way of binding remote services to Tree Grid component. Here, the DataManager is used to bind the remote data with Tree Grid.</p>
+    <p>This sample demonstrates the way of binding remote services to Tree Grid component. Here, the DataManager is used to bind the remote data with Tree Grid. You can load the child records also along with the parent records while loading data on-demand by enabling <code>LoadChildOnDemand</code> property of Tree Grid.</p>
 </SampleDescription>
 <ActionDescription>
     <p>Tree Grid can be bound to remote services by assigning the <code>DataSource</code> property with the instance of DataManager.</p>
@@ -25,28 +26,50 @@
         <li><code>ODataAdaptor</code> - Use this to interact with OData endpoints.</li>
         <li><code>ODataV4Adaptor</code> - Use this to interact with OData V4 endpoints.</li>
         <li><code>WebApiAdaptor</code> - Use this to interact with Web API created under OData standards.</li>
-        <li><code>WebMethodAdaptor</code> - Use this to interact with web methods.</li>
     </ul>
     <p>More information on the data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/data-binding/?no-cache=1' > documentation</a> section.</p>
 </ActionDescription>
 
 
-<div class="col-lg-12 control-section">
+<div class="col-lg-9 control-section">
     <div class="content-wrapper">
         <div class="row">
-              <SfTreeGrid TValue="SelfReferenceData" IdMapping="TaskID" ParentIdMapping="ParentItem" Height="315" TreeColumnIndex="1" AllowPaging="true" HasChildMapping="isParent">
+              <SfTreeGrid @ref="treeGrid" TValue="SelfReferenceData" Query="@GridQuery" LoadChildOnDemand="@loadchildondemand" IdMapping="TaskID" ParentIdMapping="ParentItem" Height="315" TreeColumnIndex="1" AllowPaging="true" HasChildMapping="isParent">
                 <SfDataManager Url="https://ej2services.syncfusion.com/production/web-services/api/SelfReferenceData" Adaptor="Adaptors.WebApiAdaptor" CrossDomain="true"></SfDataManager>
                 <TreeGridColumns>
-                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="150"></TreeGridColumn>
-                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type=ColumnType.Date Width="88" TextAlign="TextAlign.Right"></TreeGridColumn>
-                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="135"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
                     <TreeGridColumn Field="Progress" HeaderText="Progress" Width="100"></TreeGridColumn>
-                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="100"></TreeGridColumn>
-
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="105"></TreeGridColumn>
                 </TreeGridColumns>
             </SfTreeGrid>
-
         </div>
     </div>
 </div>
+
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <table id="property" title="Properties" style="width: 100%;">
+        <tr style="height: 50px">
+            <td>
+                <SfCheckBox @bind-Checked="@loadchildondemand" @onchange="onChange" Label="Load with Child"></SfCheckBox>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code{
+
+    public bool loadchildondemand { get; set; } = false;
+
+    public Query GridQuery { get; set; }
+
+    SfTreeGrid<SelfReferenceData> treeGrid { get; set; }
+
+    public void onChange(ChangeEventArgs args)
+    {
+        this.GridQuery = new Query().AddParams("loadchildondemand", true);
+    }
+
+}

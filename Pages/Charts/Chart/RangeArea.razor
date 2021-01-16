@@ -6,36 +6,42 @@
     <p>This sample visualizes the maximum and minimum temperatures of different months with default range area series in the chart. Zoom the chart to check the temperature for week or day.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the range area type chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.</p>
+    <p>In this example, you can see how to render and configure the range area type chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.</p>
 </ActionDescription>
 
-<div class="control-section">
-    <SfChart Title="Temperature Variation">
-     <ChartEvents Load="ChartLoad"/>
-        <ChartArea>
-            <ChartAreaBorder Width="0"></ChartAreaBorder>
-        </ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis LabelFormat="{value}˚C">
-            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-        </ChartPrimaryYAxis>
-        <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
-        <ChartSeriesCollection>
-            <ChartSeries DataSource="@SeriesData" Name="India" XName="X" High="High" Low="Low" Opacity="0.4" Type="ChartSeriesType.RangeArea">
-            </ChartSeries>
-        </ChartSeriesCollection>
-    </SfChart>
-</div>
+@if (SeriesData == null)
+{
+    <div></div>
+}
+else
+{
+    <div class="control-section">
+        <SfChart Title="Temperature Variation" Theme="@Theme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis LabelFormat="{value}˚C">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@SeriesData" Name="India" XName="X" High="High" Low="Low" Opacity="0.4" Type="ChartSeriesType.RangeArea">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    </div>
+}
 
-@code{
+    @code{
 
-    Random random = new Random();
-    DateTime date = new DateTime(2015, 1, 1);
-    public class ChartData
+        Random random = new Random();
+        DateTime date = new DateTime(2015, 1, 1);
+public class ChartData
     {
         public DateTime X { get; set; }
         public double High { get; set; }
@@ -49,8 +55,8 @@
             SeriesData = this.GetData();
         });
     }
-    
-    List <ChartData> GetData()
+
+    List<ChartData> GetData()
     {
         List<ChartData> data = new List<ChartData>();
         double value = 35;
@@ -70,32 +76,29 @@
     }
 
     string CurrentUri;
-    void ChartLoad(ILoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
-}
+    }

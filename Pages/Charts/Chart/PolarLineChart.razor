@@ -15,8 +15,7 @@
 
 <div class="row">
     <div class="col-lg-9 control-section">
-        <SfChart @ref="@ChartObj" Title="Alaska Weather Statistics - 2016">
-         <ChartEvents Load="ChartLoad"/>
+        <SfChart @ref="@ChartObj" Title="Alaska Weather Statistics - 2016" Theme="@Theme">
             <ChartTooltipSettings Enable="true">
             </ChartTooltipSettings>
             <ChartPrimaryXAxis IsInversed="@IsInversed" StartAngle="@StartAngle" Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Months"></ChartPrimaryXAxis>
@@ -65,7 +64,7 @@
                     </div>
                 </td>
                 <td style="width: 70%;">
-                    <div>
+                    <div class="">
                         <input type="range" @onchange="ChangeAngle" value="@StartAngle" min="0" max="360" style="width:90%" />
                     </div>
                 </td>
@@ -104,7 +103,6 @@
     public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SeriesTypes> args)
     {
         this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
-        StateHasChanged();
     }
 
     SfChart ChartObj;
@@ -118,14 +116,13 @@
     public void CheckClosed(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         IsClosed = args.Checked;
-        ChartObj.Refresh();
     }
     private void ChangeAngle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
         StartAngle = Convert.ToInt32(args.Value);
     }
 
-   
+
     public class PolarLineChartData
     {
         public string xValue { get; set; }
@@ -150,32 +147,29 @@
         };
 
     string CurrentUri;
-    void ChartLoad(ILoadedEventArgs Args)
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Theme = Syncfusion.Blazor.Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
-        {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Theme = Syncfusion.Blazor.Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
-        }
+}

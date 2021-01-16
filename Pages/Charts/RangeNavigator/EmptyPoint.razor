@@ -1,6 +1,7 @@
 ﻿@page "/range-selector/empty-point"
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@using Syncfusion.Blazor
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
@@ -8,7 +9,7 @@
     <p>This sample illustrates the functionality of empty points in the range navigator series.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render empty points in range navigator. Tooltip is enabled in this example; to see the tooltip in action, while the selected range is changed.</p>
+    <p>In this example, you can see how to render empty points in range navigator. Tooltip is enabled in this example; to see the tooltip in action, while the selected range is changed.</p>
 </ActionDescription>
 
 @if (EmptyData == null)
@@ -21,7 +22,7 @@ else
         <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">AAPL 2012-17</h4>
         <div>
             <SfRangeNavigator Value="@Value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
-                <RangeNavigatorEvents Load="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorEvents Loaded="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
                 <RangeNavigatorMajorTickLines Width="0"></RangeNavigatorMajorTickLines>
                 <RangeNavigatorBorder Width="0"></RangeNavigatorBorder>
@@ -33,8 +34,7 @@ else
             </SfRangeNavigator>
         </div>
         <div>
-            <SfChart>
-                <ChartEvents Load="ChartLoad" />
+            <SfChart Theme="@theme">
                 <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
                 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -60,6 +60,7 @@ else
     private ChartData[] EmptyData;
     string FillColor;
     string valueUrl = "url";
+    private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -90,11 +91,9 @@ else
                 }
             }
         });
-
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-
             FillColor = String.Concat(valueUrl, "(#material-gradient-chart)");
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
@@ -120,11 +119,11 @@ else
     }
     public class ChartData
     {
-        public DateTime x;
-        public Nullable<Double> open;
+        public DateTime x { get; set; }
+        public Nullable<Double> open { get; set; }
     }
-    private DateTime[] Value = new DateTime[] { new DateTime(2013, 12, 27), new DateTime(2015, 03, 23) };
-    public void onRangeChanged(IChangedEventArgs args)
+    private object[] Value = new object[] { new DateTime(2013, 12, 27), new DateTime(2015, 03, 23) };
+    public void onRangeChanged(ChangedEventArgs args)
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
@@ -132,57 +131,57 @@ else
     }
 
     string CurrentUri;
-    void BeforeRender(IRangeLoadedEventArgs Args)
+    void BeforeRender(RangeLoadedEventArgs Args)
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            Args.Theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            Args.Theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            Args.Theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            Args.Theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            Args.Theme = Theme.Bootstrap4;
         }
     }
 
-    void ChartLoad(ILoadedEventArgs Args)
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }
@@ -243,4 +242,3 @@ else
         </linearGradient>
     </defs>
 </svg>
-
