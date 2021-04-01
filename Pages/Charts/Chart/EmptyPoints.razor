@@ -1,78 +1,113 @@
 ﻿@page "/chart/pie-empty-points"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.DropDowns
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates an organization’s annual product-wise profit analysis with the empty point functionality in pie series.</p>
+    <p>This sample illustrates the annual product-wise profit analysis of an organisation with empty point functionality in the pie series.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the empty points. You can use <code>Border</code>, <code>Fill</code>, <code>Mode</code> properties to customize the empty points.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the empty points can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure the empty points. The empty point mode can be changed from <code>Drop</code> to <code>Average</code> or <code>Zero</code> using the dropdown list.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the empty points can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/empty-points/'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="row">
-    <div class="col-lg-8 control-section">
-        <SfAccumulationChart Title="Annual Product-Wise Profit Analysis" Theme="@Theme">
-            <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}</b>"></AccumulationChartTooltipSettings>
+<div class="col-lg-8 control-section sb-property-border">
+    <SfAccumulationChart Title="Annual Product-Wise Profit Analysis" Theme="@Theme">
+        <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}</b>"></AccumulationChartTooltipSettings>
 
-            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+        <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
 
-            <AccumulationChartSeriesCollection>
-                <AccumulationChartSeries DataSource="@DataSource" Name="Profit" XName="XValue" YName="YValue" Type="AccumulationType.Pie">
-                    <AccumulationChartEmptyPointSettings Mode="@Mode" Fill="#e6e6e6"></AccumulationChartEmptyPointSettings>
-                    <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Inside"></AccumulationDataLabelSettings>
-                </AccumulationChartSeries>
-            </AccumulationChartSeriesCollection>
-        </SfAccumulationChart>
-    </div>
-    <div class="col-lg-4 property-section">
-        <table title="Properties" style="width: 100%">
-            <tr style="height:50px"><th>Properties</th></tr>
-            <tr style="height:50px">
-                <td style="font-size:14px">
-                    Empty Point Mode:
-                </td>
-                <td>
-                    <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
-                        <DropDownListEvents TValue="string" TItem="SelectionTypes" ValueChange="ChangeEmptyPointMode"></DropDownListEvents>
-                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
-                    </SfDropDownList>
-                </td>
-            </tr>
-        </table>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" Name="Profit" XName="Product" YName="ProfitPercentage" Type="AccumulationType.Pie">
+                <AccumulationChartEmptyPointSettings Mode="@Mode" Fill="#e6e6e6"></AccumulationChartEmptyPointSettings>
+                <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Inside"></AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+    </SfAccumulationChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table title="Properties" style="width: 100%">
+                <tr style="height:50px">
+                    <td style="width: 50%">
+                        Empty Point Mode:
+                    </td>
+                    <td style="width: 50%">
+                        <SfDropDownList TValue="string" Placeholder="Drop" TItem="SelectionTypes" DataSource="@EmptyPointModeData">
+                            <DropDownListEvents TValue="string" TItem="SelectionTypes" ValueChange="ChangeEmptyPointMode"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
+
 @code{
 
-
-    EmptyPointMode Mode = EmptyPointMode.Drop;
-    public string DropVal = "Drop";
-
-    public class SelectionTypes
+    private Theme Theme { get; set; }
+    private EmptyPointMode Mode { get; set; } = EmptyPointMode.Drop;
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
     {
-        public string Type { get; set; }
+        new PieData { Product = "Rice", ProfitPercentage = 80 },
+        new PieData { Product = "Wheat", ProfitPercentage = null },
+        new PieData { Product = "Oil", ProfitPercentage = 70 },
+        new PieData { Product = "Corn", ProfitPercentage = 60 },
+        new PieData { Product = "Gram", ProfitPercentage = null },
+        new PieData { Product = "Milk", ProfitPercentage = 70 },
+        new PieData { Product = "Peas", ProfitPercentage = 80 },
+        new PieData { Product = "Fruit", ProfitPercentage = 60 },
+        new PieData { Product = "Butter", ProfitPercentage = null }
+    };
+    public List<SelectionTypes> EmptyPointModeData { get; set; } = new List<SelectionTypes>
+    {
+        new SelectionTypes() { Type = EmptyPointMode.Drop.ToString() },
+        new SelectionTypes() { Type = EmptyPointMode.Average.ToString() },
+        new SelectionTypes() { Type = EmptyPointMode.Zero.ToString() }
+    };
 
-        public string Code { get; set; }
+    protected override void OnInitialized()
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            Theme = Theme.Material;
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            Theme = Theme.Fabric;
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            Theme = Theme.Bootstrap;
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            Theme = Theme.HighContrast;
+        }
+        else
+        {
+            Theme = Theme.Bootstrap4;
+        }
     }
 
-    List<SelectionTypes> ModeData = new List<SelectionTypes>
-{
-        new SelectionTypes() { Type = "Drop", Code = "XY" },
-        new SelectionTypes() { Type = "Zero", Code = "X" },
-        new SelectionTypes() { Type = "Average", Code = "Y" }
-
-    };
     private void ChangeEmptyPointMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
-        if (args.Value.ToString() == "Zero")
-        {
-            Mode = EmptyPointMode.Zero;
-        }
-        else if (args.Value.ToString() == "Average")
+        if (args.Value.ToString().Equals(EmptyPointModeData[1].Type))
         {
             Mode = EmptyPointMode.Average;
+        }
+        else if (args.Value.ToString().Equals(EmptyPointModeData[2].Type))
+        {
+            Mode = EmptyPointMode.Zero;
         }
         else
         {
@@ -80,50 +115,14 @@
         }
     }
 
-    public class ChartData
+    public class SelectionTypes
     {
-        public string XValue { get; set; }
-        public double? YValue { get; set; }
-        public string Text { get; set; }
+        public string Type { get; set; }
     }
 
-    public List<ChartData> DataSource = new List<ChartData>
-{
-        new ChartData { XValue = "Rice", YValue = 80 },
-        new ChartData { XValue = "Wheat", YValue = null },
-        new ChartData { XValue = "Oil", YValue = 70 },
-        new ChartData { XValue = "Corn", YValue = 60 },
-        new ChartData { XValue = "Gram", YValue = null },
-        new ChartData { XValue = "Milk", YValue = 70 },
-        new ChartData { XValue = "Peas", YValue = 80 },
-        new ChartData { XValue = "Fruit", YValue = 60 },
-        new ChartData { XValue = "Butter", YValue = null }
-    };
-
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
-    protected override void OnInitialized()
+    public class PieData
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
-        }
-        else
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
-        }
+        public string Product { get; set; }
+        public double? ProfitPercentage { get; set; }
     }
 }

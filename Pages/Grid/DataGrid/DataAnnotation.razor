@@ -1,0 +1,95 @@
+﻿@page "/datagrid/data-annotation"
+@using Syncfusion.Blazor.Grids;
+@using System.ComponentModel.DataAnnotations;
+
+<SampleDescription>
+    <p> This sample demonstrates the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation/'>Data Annotations</a> in the DataGrid. </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        Blazor DataGrid component is a generic component and it can be strongly bound to any business object using data annotation.
+        <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation/'> Data annotations</a> are used to change the display format,
+        validate the fields by checking the input of the end-users and display messages to them by defining rules to the model classes.
+    </p>
+    <p>
+        To use the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation/'>
+    data annotation</a> the user should import the namespace <b> System.ComponentModel.DataAnnotations </b>. Using the 
+        <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation/'> data
+    annotation</a> attributes the users can change the Display Format, Header text of the Column, Editable and the user
+    can also set the Primary key for a particular field.
+</p>
+    <p>
+        In this demo, the following changes had been made in the DataGrid
+        <ul>
+            <li> The columns of the Grid are automatically generated using their property in the model class.</li>
+            <li> Header text of the columns has been changed using the Display attribute.</li>
+            <li> The display format of the Freight column has been changed using the DisplayFormat attribute.</li>
+            <li> Disabled Editing in the property ShipCity using Editable attribute.</li>
+            <li> Primary Key has been set to  OrderID property using Key attribute.</li>
+            <li> Validation Required is used for the property CustomerName using the Required attribute.</li>
+            <li> Validation Range is used for the property Freight using Range attribute.</li>
+            <li> Validation StringLength is used for the property CustomerName using the StringLength attribute.</li>
+        </ul>
+    </p>
+    <p> More information on the data annotation can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid TValue="OrderDetails" DataSource="@Orders" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+
+                <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true"></GridEditSettings>
+
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    public List<OrderDetails> Orders { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Orders = Enumerable.Range(1, 100).Select(x => new OrderDetails()
+        {
+            OrderID = 10240 + x,
+            CustomerName = new string[] { "VINET", "TOSMP", "HANAR", "VICTE" }[new Random().Next(4)],
+            EmployeeID = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }[new Random().Next(10)],
+            Freight = new float[] { 32.28f, 22.90f, 30.99f, 50.52f }[new Random().Next(4)],
+            ShipCity = new string[] { "Reims", "Munster", "Rio de Janeir", "Lyon" }[new Random().Next(4)],            
+        }).ToList();
+    }
+
+    public class OrderDetails
+    {
+
+        [Key]
+        [Display(Name = "Order ID")]
+        [Required(ErrorMessage = "Order ID is required")]
+        public int? OrderID { get; set; }
+
+        [Display(Name = "Customer Name")]
+        [Required(ErrorMessage = "Customer Name is required")]
+        [StringLength(8, MinimumLength = 3, ErrorMessage = "Customer Name length should between 3 and 8")]
+        public string CustomerName { get; set; }
+
+        [Display(Name = "Employee ID")]
+        [Range(1, 10, ErrorMessage = "Employee ID should be between 1 and 10")]
+        public int EmployeeID { get; set; }
+
+        [DisplayFormat(DataFormatString = "c2")]
+        [Range(1, 1000, ErrorMessage = "Freight should be between 1 and 1000")]
+        public float Freight { get; set; }
+
+        [Display(Name = "Ship City")]
+        [Editable(false)]
+        public string ShipCity { get; set; }     
+
+    }
+
+}
+
+

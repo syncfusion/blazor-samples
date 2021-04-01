@@ -97,6 +97,7 @@ namespace blazor_samples.Shared
 
         #region HomePage
         public const string HEADER_LOGO = "header-logo";
+        public const string SYNCFUSION_LOGO = "sf-header-logo";
         public const string MOBILE_SEARCH_CONTAINER = "mobile-search-container";
         #endregion
 
@@ -185,6 +186,53 @@ namespace blazor_samples.Shared
             new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
             new DropDownData { ID = "highcontrast", Text = "High Contrast" }
         };
+
+        /// <summary>
+        /// Returns list of resources need to be loaded.
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetDynamicResources(NavigationManager uriHelper, SampleService sampleService)
+        {
+            var resourceList = new List<string>();
+            if (!sampleService.IsHomeLoaded && SampleUtils.IsHomePage(uriHelper))
+            {
+                sampleService.IsHomeLoaded = true;
+#if DEBUG
+                resourceList = new List<string> { "styles/common/home.css" };
+#else
+                resourceList = new List<string> { "styles/common/home.min.css" };
+#endif
+            }
+            else if (!sampleService.IsDemoLoaded)
+            {
+                sampleService.IsDemoLoaded = true;
+#if DEBUG
+                resourceList = new List<string>
+                {
+                    "styles/common/roboto.css",
+                    "styles/common/highlight.css",
+                    "styles/common/demos.css",
+                    "scripts/common/lodash.min.js",
+                    "scripts/common/highlight.min.js"
+                };
+                if (uriHelper.Uri.Contains("theme=highcontrast"))
+                {
+                    resourceList.Add("styles/common/highcontrast.css");
+                }
+#else
+                resourceList = new List<string>
+                {
+                    "styles/common/demos.min.css",
+                    "scripts/common/demos.min.js"
+                };
+                if (uriHelper.Uri.Contains("theme=highcontrast"))
+                {
+                    resourceList.Add("styles/common/highcontrast.min.css");
+                }
+#endif
+            }
+            return resourceList;
+        }
     }
 
     /// <summary>
@@ -209,10 +257,22 @@ namespace blazor_samples.Shared
         public bool IsMultiSearch { get; set; }
         public List<SearchList> GetSearchList()
         {
+            bool isButtonsAdded = false;
             var searchlist = new List<SearchList>();
             var sampleList = SampleBrowser.SampleList;
             for (int i = 0; i < sampleList.Count; i++)
             {
+                if ((sampleList[i].Category == "Buttons" || sampleList[i].Category == "Inputs") && sampleList[i].ControllerName == "Buttons")
+                {
+                    if (!isButtonsAdded)
+                    {
+                        isButtonsAdded = !isButtonsAdded;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 var samples = sampleList[i].Samples;
                 var searchResult = new List<SearchResult>();
                 for (int j = 0; j < samples.Count; j++)
@@ -235,17 +295,18 @@ namespace blazor_samples.Shared
     /// <summary>
     /// Carousel component's data model class.
     /// </summary>
-    public class CarouselItem
+    public class ShowCaseItem
     {
         /// <summary>
         /// Constructor for updating properties.
         /// </summary>
-        public CarouselItem(string Header, string Content, string ImagePath, string HyperLink)
+        public ShowCaseItem(string header, string content, string imagePath, string demoLink, string gitHubLink)
         {
-            this.Header = Header;
-            this.Content = Content;
-            this.ImagePath = ImagePath;
-            this.HyperLink = HyperLink;
+            this.Header = header;
+            this.Content = content;
+            this.ImagePath = imagePath;
+            this.DemoLink = demoLink;
+            this.GitHubLink = gitHubLink;
         }
         /// <summary>
         /// Specifies the header content of the item.
@@ -262,7 +323,11 @@ namespace blazor_samples.Shared
         /// <summary>
         /// Specifies the hyper link of the item.
         /// </summary>
-        public string HyperLink { get; set; }
+        public string DemoLink { get; set; }
+        /// <summary>
+        /// Specifies the GitHub link of the item.
+        /// </summary>
+        public string GitHubLink { get; set; }
     }
 
     public class CarouselModel
@@ -290,6 +355,50 @@ namespace blazor_samples.Shared
         public string AdPointText { get; set; }
     }
 
+    /// <summary>
+    /// Popular components model class.
+    /// </summary>
+    public class PopularComponents
+    {
+        public PopularComponents()
+        {
+
+        }
+
+        public PopularComponents(string componentName, string imageName, string demoPath)
+        {
+            this.ComponentName = componentName;
+            this.ImageName = imageName;
+            this.DemoPath = demoPath;
+        }
+        /// <summary>
+        /// Specifies the component name.
+        /// </summary>
+        public string ComponentName { get; set; }
+        /// <summary>
+        /// Specifies the component image path.
+        /// </summary>
+        public string ImageName { get; set; }
+        /// <summary>
+        /// Specifies the demo path.
+        /// </summary>
+        public string DemoPath { get; set; }
+
+        public List<PopularComponents> GetComponents()
+        {
+            List<PopularComponents> components = new List<PopularComponents>();
+            {
+                components.Add(new PopularComponents("Data Grid", "data-grid", "datagrid/overview"));
+                components.Add(new PopularComponents("Charts", "charts", "chart/line"));
+                components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
+                components.Add(new PopularComponents("Diagram", "diagram", "diagram/flowchart"));
+                components.Add(new PopularComponents("Document Editor", "document-editor", "document-editor/default-functionalities"));
+                components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer/default-functionalities"));
+            }
+            return components;
+        }
+    }
+    
 #pragma warning restore
 
     /// <summary>

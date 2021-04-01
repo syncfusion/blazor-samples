@@ -10,10 +10,12 @@
     <p> This sample demonstrates the various phases involved in constructing a residential house, from testing  the soil to handing over the fully constructed property to the owner. This also demonstrates the usage of default context menu in Gantt component. </p>
 </SampleDescription>
 <ActionDescription>
-   <p>Gantt has an option to show the context menu while performing right click on it. You can configure the default and custom menu items in the context menu using the <code>ContextMenuItems</code> property.
-      Each menu item will be displayed contextually based on its target. In this demo we have rendered following default items</p>
-   <p>Default items:</p>
-      <ul>
+    <p>
+        Gantt has an option to show the context menu while performing right click on it. You can configure the default and custom menu items in the context menu using the <code>ContextMenuItems</code> property.
+        Each menu item will be displayed contextually based on its target. In this demo we have rendered following default items
+    </p>
+    <p>Default items:</p>
+    <ul>
         <li><code>AutoFitAll</code> - Auto fit all columns.</li>
         <li><code>AutoFit</code> - Auto fit the current column.</li>
         <li><code>TaskInformation</code> - Edit the current record.</li>
@@ -24,71 +26,47 @@
         <li><code>SortDescending </code> - Sort the current column in descending order.</li>
         <li><code>DeleteDependency </code> - Delete the dependency of the current record.</li>
         <li><code>Convert </code> - Convert the normal task in to milestone task and vice versa.</li>
-        <li><code>Add</code>
-         <ul>
-            <li><code>Above</code> - Add a new row above the selected row </li>
-            <li><code>Below</code> - Add a new row below the selected row</li>
-            <li><code>Child</code> - Add a new row as child to the selected row</li>
-            <li><code>Milestone</code> - Add a milestone task below to selected row</li>
-          </ul>
+        <li>
+            <code>Add</code>
+            <ul>
+                <li><code>Above</code> - Add a new row above the selected row </li>
+                <li><code>Below</code> - Add a new row below the selected row</li>
+                <li><code>Child</code> - Add a new row as child to the selected row</li>
+                <li><code>Milestone</code> - Add a milestone task below to selected row</li>
+            </ul>
         </li>
-      </ul>
+    </ul>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt EnableContextMenu="true" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"  Resources="@ResourceCollection"
-                      Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})" AllowSorting="true" AllowResizing="true"
-                      AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1"
-                      ResourceNameMapping="ResourceName" ResourceIDMapping="ResourceId"
-                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
+            <SfGantt EnableContextMenu="true" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"
+                     Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})" AllowSorting="true" AllowResizing="true"
+                     AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1"
+                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                                 Dependency="Predecessor" Child="SubTasks" Notes="Notes" ResourceInfo="ResourceId"></GanttTaskFields>
+                                 Dependency="Predecessor" ParentID="ParentId" Notes="Notes"></GanttTaskFields>
+
                 <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
                                    ShowDeleteConfirmDialog="true"></GanttEditSettings>
-			     <GanttEventMarkers>
-                    <GanttEventMarker Day="@EventDay1" Label="Project approval and kick-off"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay2" Label="Foundation inspection"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay3" Label="Site manager inspection"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay4" Label="Property handover and sign-off"></GanttEventMarker>
-                </GanttEventMarkers>
-                <GanttColumns>
-                    <GanttColumn Field="TaskId" Width="50"></GanttColumn>
-                    <GanttColumn Field="TaskName" HeaderText="Job Name" Width="250"></GanttColumn>
-                    <GanttColumn Field="StartDate"></GanttColumn>
-                    <GanttColumn Field="Duration"></GanttColumn>
-                    <GanttColumn Field="Progress"></GanttColumn>
-                    <GanttColumn Field="Predecessor"></GanttColumn>
-                </GanttColumns>
-                <GanttLabelSettings>
-                    <LeftLabelTemplate>
-                        <div class="e-left-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@((context as GanttData.TaskData).TaskName)</span>
-                        </div>
-                    </LeftLabelTemplate>
+
+                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData">
                 </GanttLabelSettings>
-                <GanttTimelineSettings>
-                    <GanttTopTierSettings Unit="TimelineViewMode.Week" Format="MMM dd, y"></GanttTopTierSettings>
-                    <GanttBottomTierSettings Unit="TimelineViewMode.Day"></GanttBottomTierSettings>
-                </GanttTimelineSettings>
+                <GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
             </SfGantt>
         </div>
     </div>
 </div>
 
 @code{
-    public DateTime EventDay1 = new DateTime(2019, 4, 17);
-    public DateTime EventDay2 = new DateTime(2019, 5, 3);
-    public DateTime EventDay3 = new DateTime(2019, 6, 7);
-    public DateTime EventDay4 = new DateTime(2019, 7, 16);
+
     public DateTime ProjectStart = new DateTime(2019, 3, 25);
     public DateTime ProjectEnd = new DateTime(2019, 7, 28);
     public List<GanttData.TaskData> TaskCollection { get; set; }
-    public List<GanttData.TaskResources> ResourceCollection { get; set; }
     protected override void OnInitialized()
     {
         this.TaskCollection = GanttData.EditingData();
-        this.ResourceCollection = GanttData.EditingResources();
+
     }
 }

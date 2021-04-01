@@ -20,6 +20,7 @@
                 <h1 class="title-text">Doctor's Appointments</h1>
             </div>
             <SfSchedule TValue="ScheduleData.HospitalData" @ref="ScheduleRef" Width="100%" Height="650px" CssClass="schedule-drag-drop" @bind-SelectedDate="@CurrentDate">
+                <ScheduleEvents TValue="ScheduleData.HospitalData" OnActionBegin="OnActionBegin"></ScheduleEvents>
                 <ScheduleGroup EnableCompactView="false" Resources="@Resources"></ScheduleGroup>
                 <ScheduleResources>
                     <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@Departments" Field="DepartmentID" Title="Department" Name="Departments" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
@@ -44,7 +45,7 @@
             <div class="title-container">
                 <h2 class="title-text">Waiting List</h2>
             </div>
-            <SfTreeView TValue="ScheduleData.HospitalData" @ref="TreeViewRef" AllowDragAndDrop="true" CssClass="treeview-external-drag">
+            <SfTreeView TValue="ScheduleData.HospitalData" @ref="TreeViewRef" AllowDragAndDrop="true" CssClass="treeview-external-drag" DropArea=".content-wrapper">
                 <TreeViewEvents TValue="ScheduleData.HospitalData" OnNodeDragStop="OnTreeViewDragStop"></TreeViewEvents>
                 <TreeViewFieldsSettings DataSource="@TreeViewData" Id="Id" Text="Name"></TreeViewFieldsSettings>
                 <TreeViewTemplates TValue="ScheduleData.HospitalData">
@@ -69,6 +70,7 @@
     public List<ScheduleData.HospitalData> DataSource = new ScheduleData().GetHospitalData();
     public List<ScheduleData.HospitalData> TreeViewData = new ScheduleData().GetWaitingListData();
     public string[] Resources = new string[] { "Departments", "Consultants" };
+    public ScheduleData.HospitalData DraggedItem { get; set; }
     private List<ResourceData> Departments { get; set; } = new List<ResourceData> {
         new ResourceData { Text = "GENERAL", Id = 1, Color = "#bbdc00" },
         new ResourceData { Text = "DENTAL", Id = 2, Color = "#9e5fff" }
@@ -98,7 +100,7 @@
             var resourceDetails = ScheduleRef.GetResourceByIndex(cellData.GroupIndex);
             Random rnd = new Random();
             int Id = rnd.Next(1000);
-            ScheduleData.HospitalData TreeData = TreeViewData.Where(data => data.Id.ToString() == args.DraggedNodeData.Id).First(); 
+            ScheduleData.HospitalData TreeData = TreeViewData.Where(data => data.Id.ToString() == args.DraggedNodeData.Id).First();
             ScheduleData.HospitalData eventData = new ScheduleData.HospitalData
             {
                 Id = Id,
@@ -112,6 +114,14 @@
                 DepartmentName = TreeData.DepartmentName
             };
             await ScheduleRef.OpenEditor(eventData, CurrentAction.Add);
+            DraggedItem = TreeData;
+        }
+    }
+    public void OnActionBegin(ActionEventArgs<ScheduleData.HospitalData> args ) {
+        if (args.ActionType == ActionType.EventCreate && DraggedItem != null)
+        {
+            TreeViewData.Remove(DraggedItem);
+            DraggedItem = null;
         }
     }
 }

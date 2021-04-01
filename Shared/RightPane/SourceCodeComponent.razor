@@ -7,11 +7,20 @@
 @inject IJSRuntime JsRuntime;
 @inject SampleService SampleService;
 
+@if (!isSourceCodeRequired)
+{
+<div class='sb-tab-content'>
+    <span>Loading...</span>
+</div> }
+else
+{
 <div class='sb-source-section'>
-   <SfTab ID='sb-source-tab' Items="@sourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom" @bind-SelectedItem="tabSelectedIndex">
+    <SfTab ID='sb-source-tab' Items="@sourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom" @bind-SelectedItem="tabSelectedIndex">
         <TabEvents Selected="OnSourceClicked"></TabEvents>
-   </SfTab>
+    </SfTab>
 </div>
+}
+
 
 @code {
     private List<TabItem> sourceCodeItems;
@@ -57,8 +66,9 @@
                 sourceCode = System.IO.File.ReadAllText("Pages/" + directory + "/" + fileName);
             }
             sourceCode = this.FormatSourceCode(sourceCode);
-            this.isSourceCodeRequired = true;
         });
+        await Task.Delay(1000);
+        this.isSourceCodeRequired = true;
     }
 
     private string RemoveString(string comments, string startTag, string endTag)
@@ -110,7 +120,7 @@
                     {
                         Header = new TabHeader() { Text = SampleService.SampleInfo.SourceFiles[i].FileName },
                         ContentTemplate =@<pre class='sb-src-code'><code></code></pre>
-                    
+                        
                     });
 #pragma warning restore
                 }
@@ -135,13 +145,12 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        if(firstRender)
+        if (firstRender)
         {
             await this.OnSourceTabSelected(null);
-            await Task.Delay(1000);
             await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);
         }
-        if(this.isSourceCodeRequired)
+        if (this.isSourceCodeRequired)
         {
             this.isSourceCodeRequired = false;
             await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);

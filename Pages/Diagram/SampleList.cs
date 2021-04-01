@@ -96,8 +96,7 @@ namespace blazor_samples
                 Category = "Getting started",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/virtualization",
-                FileName = "Virtualization.razor",
-                Type = SampleType.New
+                FileName = "Virtualization.razor"
             },
             new Sample
             {
@@ -168,8 +167,7 @@ namespace blazor_samples
                 Category = "Automatic Layouts",
                 Directory = "Diagram/Diagram",
                 Url = "diagram/complex-hierarchical-tree",
-                FileName = "ComplexHierarchicalTree.razor",
-                Type = SampleType.Updated
+                FileName = "ComplexHierarchicalTree.razor"
             },
             new Sample
             {

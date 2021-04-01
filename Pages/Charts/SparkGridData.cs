@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using blazor_samples;
 
-namespace ej2_blazor_sparkgriddata
+namespace BlazorSparklineGridData
 {
 	public class SparkGridData
 	{

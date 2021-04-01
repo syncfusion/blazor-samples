@@ -236,6 +236,15 @@ namespace blazor_samples
                 Directory = "Navigations/Tabs",
                 FileName = "Wizard.razor",
                 Url = "tabs/wizard"
+            },
+            new Sample
+            {
+                Name = "Drag and Drop",
+                Category = "Tabs",
+                Directory = "Navigations/Tabs",
+                FileName = "DragAndDrop.razor",
+                Url = "tabs/drag-and-drop",
+                Type = SampleType.New
             }
         };
         public List<Sample> TreeView { get; set; } = new List<Sample>{

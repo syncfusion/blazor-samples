@@ -1,18 +1,21 @@
 ﻿@page "/chart/stacked-column"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample visualizes mobile game market for different countries with default stacked column series in chart. Legend in the sample shows the information about those series.</p>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/stacked-column-chart'>Blazor Stacked Column Chart</a> example visualizes mobile game market for different countries with default stacked column series in the chart. Legend in the sample shows the information about those series.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the stacking column type charts. Stacks the points in the series vertically and also you can use <code>StackingGroup</code> property to group the stacking collection based on categories.You can use <code>Border</code>, <code>Fill</code> properties to customize the vertical bar.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure the stacking column type chart. The stacking column type chart stacks points in the series vertically and you can also use the <code>StackingGroup</code> property to group stacking collections based on categories.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfChart Title="Mobile Game Market by Country" Theme="@Theme">
+    <SfChart Title="Mobile game market by countries" Theme="@Theme">
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate45">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -29,13 +32,13 @@
             <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@DataSource" XName="x" YName="y" Width="2" Name="UK" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="UK_Trade" Width="2" Name="UK" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@DataSource" XName="x" YName="y1" Width="2" Name="Germany" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="GER_Trade" Width="2" Name="Germany" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@DataSource" XName="x" YName="y2" Width="2" Name="France" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="FR_Trade" Width="2" Name="France" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@DataSource" XName="x" YName="y3" Width="2" Name="Italy" Type="ChartSeriesType.StackingColumn">
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="IT_Trade" Width="2" Name="Italy" Type="ChartSeriesType.StackingColumn">
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
@@ -43,45 +46,47 @@
 </div>
 
 @code{
-    public class StackedColumnChartData
+
+    private Theme Theme { get; set; }
+    public List<StackedColumnChartData> ChartPoints { get; set; } = new List<StackedColumnChartData>
     {
-        public string x { get; set; }
-        public double y { get; set; }
-        public double y1 { get; set; }
-        public double y2 { get; set; }
-        public double y3 { get; set; }
-    }
-    public List<StackedColumnChartData> DataSource = new List<StackedColumnChartData>
-    {
-        new StackedColumnChartData { x= "2014", y= 111.1, y1= 76.9 , y2= 66.1 , y3= 34.1},
-        new StackedColumnChartData { x= "2015", y= 127.3, y1= 99.5 , y2= 79.3 , y3= 38.2},
-        new StackedColumnChartData { x= "2016", y= 143.4, y1= 121.7, y2= 91.3 , y3= 44.0},
-        new StackedColumnChartData { x= "2017", y= 159.9, y1= 142.5, y2= 102.4, y3= 51.6}
+        new StackedColumnChartData { Year = "2014", UK_Trade = 111.1, GER_Trade = 76.9, FR_Trade = 66.1, IT_Trade = 34.1 },
+        new StackedColumnChartData { Year = "2015", UK_Trade = 127.3, GER_Trade = 99.5, FR_Trade = 79.3, IT_Trade = 38.2 },
+        new StackedColumnChartData { Year = "2016", UK_Trade = 143.4, GER_Trade = 121.7, FR_Trade = 91.3, IT_Trade = 44.0 },
+        new StackedColumnChartData { Year = "2017", UK_Trade = 159.9, GER_Trade = 142.5, FR_Trade = 102.4, IT_Trade = 51.6 }
     };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
     }
+
+    public class StackedColumnChartData
+    {
+        public string Year { get; set; }
+        public double UK_Trade { get; set; }
+        public double GER_Trade { get; set; }
+        public double FR_Trade { get; set; }
+        public double IT_Trade { get; set; }
+    }
+
 }

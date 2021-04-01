@@ -1,3 +1,5 @@
+var showcaseRef;
+var isScrolled = false;
 var isUpdatedDevice = false;
 var themeCollection = ['material', 'fabric', 'bootstrap', 'bootstrap4', 'highcontrast'];
 
@@ -15,24 +17,6 @@ window.sfBlazorSB = {
     //return sf.base.Browser.isDevice && document.body.offsetWidth <= 1024;
     return document.body.offsetWidth <= 1024;
   },
-  // Get carousel model for calculating its postion used in the home page.
-  getCarouselModel: function () {
-    var documentWidth = document.body.offsetWidth;
-    var imageElement = document.getElementsByClassName("sf-carousel-item")[0];
-    var layoutWidth = (documentWidth - imageElement.offsetWidth) / 2;
-    var finalWidth = layoutWidth - imageElement.offsetLeft;
-    var leftWidth = documentWidth - imageElement.offsetWidth - (imageElement.offsetLeft * 2);
-    var leftPercentage = (leftWidth * 100) / documentWidth;
-    var xValue = (finalWidth * 100) / documentWidth;
-    var model = {
-      LeftValue: 100 - Math.round(leftPercentage),
-      XValue: Math.round(xValue),
-      IsDevice: this.isDeviceMode()
-    };
-    var progressElement = document.getElementsByClassName("sf-carousel-progress")[0];
-    progressElement.style.marginLeft = xValue + 4 + "%";
-    return model;
-  },
   // set focus to the SB input components
   inputFocus: function (inputElement) {
     inputElement.focus();
@@ -43,6 +27,28 @@ window.sfBlazorSB = {
       document.body.classList.remove(themeName);
       document.body.classList.add(DEFAULT_THEME);
     }
+  },
+  updateShowCaseRef: function (dotnetRef) {
+    showcaseRef = dotnetRef;
+    this.renderShowCase();
+  },
+  renderShowCase: function () {
+    if (!isScrolled && document.documentElement.scrollTop > 0 && showcaseRef != null) {
+      isScrolled = true;
+      showcaseRef.invokeMethodAsync('RenderShowCase');
+    }
+  },
+  // Refresh showcase position
+  refreshShowCase: function () {
+    var element = document.querySelector('.sf-showcase-bg.appointment-planner');
+    setTimeout(function () {
+      element.style.left = "0%";
+      element.parentElement.classList.remove("sf-showcase-transition");
+      element.parentElement.style.transform = "translateX(0%)";
+      setTimeout(function () {
+        element.parentElement.classList.add("sf-showcase-transition");
+      }, 100);
+    }, 950);
   },
   // set e-bigger class to the body based on mouse/touch selection
   setBiggerSize: function (isTouch) {
@@ -68,6 +74,23 @@ window.sfBlazorSB = {
     mode = !mode ? "mouse" : mode;
     return mode;
   },
+  // Load resources dynamically 
+  loadResources: function (resources) {
+    for (var i = 0; i < resources.length; i++) {
+      var resource;
+      if (resources[i].endsWith('.css')) {
+        resource = document.createElement('link');
+        resource.setAttribute('href', resources[i]);
+        resource.setAttribute('rel', 'stylesheet');
+      }
+      else {
+        resource = document.createElement('script');
+        resource.setAttribute('src', resources[i]);
+        resource.setAttribute('async', true);
+      }
+      document.getElementsByClassName('dynamic-resources')[0].appendChild(resource);
+    }
+  },
   // wire search popup keyboard events
   wireSearchEvents: function (dotnetRef, inputElement, popupElement) {
     inputElement.onkeydown = function (e) {
@@ -80,6 +103,9 @@ window.sfBlazorSB = {
               if (liElement) {
                 liElement.click();
               }
+            }
+            else {
+              this.value = "";
             }
             dotnetRef.invokeMethodAsync('HidePopup', true);
             break;
@@ -158,17 +184,6 @@ window.sfBlazorSB = {
   }
 };
 
-function setScrollTop() {
-  var list = document.querySelector('#sample-list');
-  var selectedItem = list.querySelector('.e-list-item.e-active');
-  if (selectedItem) {
-    var scrollView = (selectedItem.offsetTop + selectedItem.offsetHeight) - list.scrollTop;
-    if (scrollView < 0 || scrollView > list.offsetHeight) {
-      list.scrollTop = selectedItem.offsetTop + selectedItem.offsetHeight / 2
-    }
-  }
-}
-
 function refreshTab(code, filename) {
   var highlightCodeInterval = setInterval(highlightSource, 0);
 
@@ -231,6 +246,15 @@ window.onresize = function () {
     isUpdatedDevice = !isUpdatedDevice;
     sfBlazorSB.dotnetRef.invokeMethodAsync("UpdateDeviceMode", isDevice);
   }
+};
+
+window.onscroll = function () {
+  var scroll = document.documentElement.scrollTop;
+  var headerElement = document.querySelector('.sf-header');
+  if (headerElement) {
+    headerElement = scroll > 0 ? headerElement.classList.add('active') : headerElement.classList.contains('active') ? headerElement.classList.remove('active') : headerElement;
+  }
+  sfBlazorSB.renderShowCase();
 };
 
 (function () {

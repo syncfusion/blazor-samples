@@ -1,43 +1,43 @@
 ﻿@page "/chart/data-editing"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample illustrates data editing feature in chart. Drag and drop the points to change the data values dynamically.</p>
+    <p>This sample shows the behavior of the data editing in the chart. Drag points to dynamically change the input data value.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The draggable-points allows data to be moved around the chart. In addition to this, the module fires events such as dragStart, drag and dragComplete.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p> More information on the Data Editing can be found in this documentation section.</p>
+    <p>The <code>ChartDataEditSettings</code> class enables editing behavior and draggable points allow input data value to be changed in the chart. <code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the data editing can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/data-editing/'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <SfChart Title="Inflation - Consumer Price" Theme="@Theme">
-        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="yyyy"
                            IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
-
         <ChartPrimaryYAxis LabelFormat="{value}%" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="100"
                            Interval="20">
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
-
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2"
-                         Opacity="1" YName="YValue" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ConsumerDetails" XName="Period" Width="2"
+                         Opacity="1" YName="ProductA_Sales" Type="ChartSeriesType.Column">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
                 <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
             </ChartSeries>
-            <ChartSeries DataSource="@ConsumerDetails" XName="XValue" Width="2"
-                         Opacity="1" YName="YValue1" Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@ConsumerDetails" XName="Period" Width="2"
+                         Opacity="1" YName="ProductB_Sales" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
                 <ChartDataEditSettings Enable="true"></ChartDataEditSettings>
@@ -47,47 +47,47 @@
 </div>
 
 @code{
-    public class ChartData
+
+    private Theme Theme { get; set; }
+    public List<ChartData> ConsumerDetails { get; set; } = new List<ChartData>
     {
-        public DateTime XValue { get; set; }
-        public double YValue { get; set; }
-        public double YValue1 { get; set; }
-    }
-    public List<ChartData> ConsumerDetails = new List<ChartData>
-{
-        new ChartData { XValue = new DateTime(2005, 01, 01), YValue = 21, YValue1 = 28 },
-        new ChartData { XValue = new DateTime(2006, 01, 01), YValue = 24, YValue1 = 44 },
-        new ChartData { XValue = new DateTime(2007, 01, 01), YValue = 36, YValue1 = 48 },
-        new ChartData { XValue = new DateTime(2008, 01, 01), YValue = 38, YValue1 = 50 },
-        new ChartData { XValue = new DateTime(2009, 01, 01), YValue = 54, YValue1 = 66 },
-        new ChartData { XValue = new DateTime(2010, 01, 01), YValue = 57, YValue1 = 78 },
-        new ChartData { XValue = new DateTime(2011, 01, 01), YValue = 70, YValue1 = 84 },
+        new ChartData { Period = new DateTime(2005, 01, 01), ProductA_Sales = 21, ProductB_Sales = 28 },
+        new ChartData { Period = new DateTime(2006, 01, 01), ProductA_Sales = 24, ProductB_Sales = 44 },
+        new ChartData { Period = new DateTime(2007, 01, 01), ProductA_Sales = 36, ProductB_Sales = 48 },
+        new ChartData { Period = new DateTime(2008, 01, 01), ProductA_Sales = 38, ProductB_Sales = 50 },
+        new ChartData { Period = new DateTime(2009, 01, 01), ProductA_Sales = 54, ProductB_Sales = 66 },
+        new ChartData { Period = new DateTime(2010, 01, 01), ProductA_Sales = 57, ProductB_Sales = 78 },
+        new ChartData { Period = new DateTime(2011, 01, 01), ProductA_Sales = 70, ProductB_Sales = 84 },
     };
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class ChartData
+    {
+        public DateTime Period { get; set; }
+        public double ProductA_Sales { get; set; }
+        public double ProductB_Sales { get; set; }
     }
 }

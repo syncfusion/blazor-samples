@@ -53,7 +53,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[0].Title,
                 Description = NewsData[0].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "1",
+                ImgSrc = "blazor-listview-template1",
                 TimeStamp = "Syncfusion Blog - October 19, 2017",
                 Child = new List < NewsDataModel > () {
                     new NewsDataModel {
@@ -73,7 +73,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[1].Title,
                 Description = NewsData[1].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "2",
+                ImgSrc = "blazor-listview-template2",
                 TimeStamp = "Syncfusion Blog - October 18, 2017",
                 Child = new List < NewsDataModel > {
                     new NewsDataModel {
@@ -93,7 +93,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[2].Title,
                 Description = NewsData[2].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "3",
+                ImgSrc = "blazor-listview-template3",
                 TimeStamp = "Syncfusion Blog - October 18, 2017",
                 Child = new List < NewsDataModel > {
                     new NewsDataModel {
@@ -113,7 +113,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[3].Title,
                 Description = NewsData[3].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "4",
+                ImgSrc = "blazor-listview-template4",
                 TimeStamp = "Syncfusion Blog - October 18, 2017",
                 Child = new List < NewsDataModel > {
                     new NewsDataModel {
@@ -133,7 +133,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[4].Title,
                 Description = NewsData[4].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "5",
+                ImgSrc = "blazor-listview-template5",
                 TimeStamp = "Syncfusion Blog - October 17, 2017",
                 Child = new List < NewsDataModel > {
                     new NewsDataModel {
@@ -153,7 +153,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[5].Title,
                 Description = NewsData[5].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "6",
+                ImgSrc = "blazor-listview-template6",
                 TimeStamp = "Syncfusion Blog - October 17, 2017",
                 Child = new List < NewsDataModel > {
                     new NewsDataModel {
@@ -173,7 +173,7 @@ namespace blazor_samples.Pages.Layouts.ListView
                 Title = NewsData[6].Title,
                 Description = NewsData[6].Description,
                 Text = "Syncfusion Blog",
-                ImgSrc = "7",
+                ImgSrc = "blazor-listview-template7",
                 TimeStamp = "Syncfusion Blog - October 13, 2017",
                 Child = new List < NewsDataModel > {
                     new NewsDataModel {

@@ -1,104 +1,96 @@
 ﻿@page "/chart/range-area"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 <SampleDescription>
-    <p>This sample visualizes the maximum and minimum temperatures of different months with default range area series in the chart. Zoom the chart to check the temperature for week or day.</p>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/range-area-chart'>Blazor Range Area Chart</a> example visualizes the maximum and minimum temperatures of different months with default range area series in the chart.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to render and configure the range area type chart. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.</p>
+    <p>In this example, you can see how to render and configure the range area type chart. The range area type chart is used to display continuous data points as a set of lines varying between high and low values over time intervals and across different categories.</p>
+    <p>You can also zoom the chart (use selection option) to check the temperature for a week or a day.</p>
 </ActionDescription>
 
-@if (SeriesData == null)
-{
-    <div></div>
-}
-else
-{
-    <div class="control-section">
-        <SfChart Title="Temperature Variation" Theme="@Theme">
-            <ChartArea>
-                <ChartAreaBorder Width="0"></ChartAreaBorder>
-            </ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis LabelFormat="{value}˚C">
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-            </ChartPrimaryYAxis>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@SeriesData" Name="India" XName="X" High="High" Low="Low" Opacity="0.4" Type="ChartSeriesType.RangeArea">
-                </ChartSeries>
-            </ChartSeriesCollection>
-        </SfChart>
-    </div>
-}
+<div class="control-section">
+    <SfChart Title="Temperature Variation" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}˚C">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="India" XName="Period" High="HighTemp" Low="LowTemp" Opacity="0.4" Type="ChartSeriesType.RangeArea">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
 
-    @code{
 
-        Random random = new Random();
-        DateTime date = new DateTime(2015, 1, 1);
-public class ChartData
-    {
-        public DateTime X { get; set; }
-        public double High { get; set; }
-        public double Low { get; set; }
-    }
-    List<ChartData> SeriesData;
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Run(() =>
-        {
-            SeriesData = this.GetData();
-        });
-    }
+@code{
 
-    List<ChartData> GetData()
-    {
-        List<ChartData> data = new List<ChartData>();
-        double value = 35;
-        for (var i = 0; i < 359; i++)
-        {
-            if (random.NextDouble() > .5)
-            {
-                value += random.NextDouble();
-            }
-            else
-            {
-                value -= random.NextDouble();
-            }
-            data.Add(new ChartData() { X = date.AddDays(i), High = value, Low = (value - 10) });
-        }
-        return data;
-    }
+    private Random randomNum = new Random();
+    private Theme Theme { get; set; }
+    public List<RangeAreaChartData> ChartPoints { get; set; }
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        ChartPoints = this.GetData();
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
     }
+
+    private List<RangeAreaChartData> GetData()
+    {
+        List<RangeAreaChartData> chartData = new List<RangeAreaChartData>();
+        double value = 35;
+        for (var i = 0; i < 359; i++)
+        {
+            if (randomNum.NextDouble() > .5)
+            {
+                value += randomNum.NextDouble();
+            }
+            else
+            {
+                value -= randomNum.NextDouble();
+            }
+            chartData.Add(new RangeAreaChartData() { Period = new DateTime(2015, 1, 1).AddDays(i), HighTemp = value, LowTemp = (value - 10) });
+        }
+        return chartData;
     }
+
+    public class RangeAreaChartData
+    {
+        public DateTime Period { get; set; }
+        public double HighTemp { get; set; }
+        public double LowTemp { get; set; }
+    }
+
+}

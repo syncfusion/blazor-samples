@@ -1,155 +1,161 @@
 ﻿@page "/chart/grouping"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.DropDowns
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates the grouping functionality in pie series. The grouping value can be changed by using <code>GroupTo</code> property.</p>
+    <p>This sample shows the gold medal count scored by each country at the Rio Olympic Games, along with the pie series grouping functionality.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to <code>Group</code> points in pie chart.</p>
-   <p>Points having value below the <code>GroupTo</code> value are grouped and showed as separate point. You can customise the apearance of the point using <code>PointRender</code> event.</p>
-   <p> <code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>DataLabel is used to represent individual data and its value.</p>
+    <p>
+        In this example, you can see how to group both point and value in pie chart.
+        The slice can be grouped based on number of points by specifying the <code>Group Mode</code> to <code>Point</code>.
+        For example, if the <code>Group To</code> option is set to 10, the chart will display the first 10 points and the remaining entries from the collection will be grouped as a single point.
+        The slice can also be grouped based on values by specifying the <code>Group Mode</code> to <code>Value</code>.
+        For example, if the <code>Group To</code> option is set to 10, the first 10 points with a lower value will be grouped together and shown as a single point while the others as a slice.
+    </p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information on the grouping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/grouping'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="row">
-    <div class="col-lg-8 control-section">
-        <SfAccumulationChart Title="RIO Olympics Gold" EnableSmartLabels="true" Theme="@Theme">
-            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
-            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
-            <AccumulationChartSeriesCollection>
-                <AccumulationChartSeries DataSource="@DataSource" XName="XValue" YName="YValue" Name="RIO" Explode="true" GroupTo="@GroupChange" Radius="70%"
-                                         GroupMode="@Mode" StartAngle="0" EndAngle="360" InnerRadius="0%">
-                    <AccumulationDataLabelSettings Visible="true" Name="Text" Position="AccumulationLabelPosition.Outside">
-                        <AccumulationChartConnector Type="ConnectorType.Line" Length="5%"></AccumulationChartConnector>
-                        <AccumulationChartDataLabelFont Size="14px"></AccumulationChartDataLabelFont>
-                    </AccumulationDataLabelSettings>
-                </AccumulationChartSeries>
-            </AccumulationChartSeriesCollection>
-        </SfAccumulationChart>
-    </div>
-    <div class="col-lg-4 property-section">
-        <table  title="Properties" style="width: 100%">
-            <tr style="height:50px"><th>Properties</th></tr>
-            <tr style="height:50px">
-                <td style="font-size:14px">
-                    Group Modes:
-                </td>
-                <td>
-                     <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
-                        <DropDownListEvents TValue="string" TItem="SelectionTypes" ValueChange="ChangeGroupMode"></DropDownListEvents>
-                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
-                    </SfDropDownList>
-                </td>
-            </tr>
-            <tr style="height: 50px">
-                <td style="width: 50%">
-                    <div>
-                        Group To:
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div data-role="rangeslider">
-                        <input type="range" @onchange="ClubChange" value="@GroupToValue" min="0" max="27" style="width:90%" />
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div data-role="rangeslider">
-                        <p id="yvalue" style="font-weight: normal;padding-top:10px;"><span>@GroupToValue</span></p>
-                    </div>
-                </td>
-            </tr>
-        </table>
+<div class="col-lg-8 control-section sb-property-border">
+    <SfAccumulationChart Title="RIO Olympics Gold" EnableSmartLabels="true" Theme="@Theme">
+        <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+        <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="Country" YName="Medal" Name="RIO" Explode="true" GroupTo="@GroupChange" Radius="70%"
+                                     GroupMode="@Mode" StartAngle="0" EndAngle="360" InnerRadius="0%">
+                <AccumulationDataLabelSettings Visible="true" Name="DataLabelMappingName" Position="AccumulationLabelPosition.Outside">
+                    <AccumulationChartConnector Type="ConnectorType.Line" Length="5%"></AccumulationChartConnector>
+                    <AccumulationChartDataLabelFont Size="14px"></AccumulationChartDataLabelFont>
+                </AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+    </SfAccumulationChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table title="Properties" style="width: 100%">
+                <tr style="height:50px">
+                    <td>
+                        Group Modes:
+                    </td>
+                    <td>
+                        <SfDropDownList Placeholder="Point" TValue="string" TItem="SelectionTypes" DataSource="@GroupModeData">
+                            <DropDownListEvents TValue="string" TItem="SelectionTypes" ValueChange="ChangeGroupMode"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Group To:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <input type="range" @onchange="ClubChange" value="@groupToValue" min="0" max="27" style="width:90%" />
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <p id="yvalue" style="font-weight: normal;padding-top:10px;"><span>@groupToValue</span></p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
+
 @code{
-    public int GroupToValue = 9;
-    public string GroupChange = "9";
-    GroupMode Mode = GroupMode.Point;
 
-    public string DropVal = "Point";
-
-    public class SelectionTypes
+    private Theme Theme { get; set; }
+    private string GroupChange { get; set; } = "9";
+    private GroupMode Mode { get; set; } = GroupMode.Point;
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
     {
-        public string Type { get; set; }
-
-        public string Code { get; set; }
-    }
-
-    List<SelectionTypes> ModeData = new List<SelectionTypes>
-{
-        new SelectionTypes() { Type = "Point", Code = "P" },
-        new SelectionTypes() { Type = "Value", Code = "V" }
-
+        new PieData { Country = "China", Medal = 26, DataLabelMappingName= "China: 26" },
+        new PieData { Country = "Russia", Medal = 19, DataLabelMappingName= "Russia: 19" },
+        new PieData { Country = "Germany", Medal = 17, DataLabelMappingName= "Germany: 17" },
+        new PieData { Country = "Japan", Medal = 12, DataLabelMappingName= "Japan: 12" },
+        new PieData { Country = "France", Medal = 10, DataLabelMappingName= "France: 10" },
+        new PieData { Country = "South Korea", Medal = 9, DataLabelMappingName= "South Korea: 9" },
+        new PieData { Country = "Great Britain", Medal = 27, DataLabelMappingName= "Great Britain: 27" },
+        new PieData { Country = "Italy", Medal = 8, DataLabelMappingName= "Italy: 8" },
+        new PieData { Country = "Australia", Medal = 8, DataLabelMappingName= "Australia: 8" },
+        new PieData { Country = "Netherlands", Medal = 8, DataLabelMappingName= "Netherlands: 8" },
+        new PieData { Country = "Hungary", Medal = 8, DataLabelMappingName= "Hungary: 8" },
+        new PieData { Country = "Brazil", Medal = 7, DataLabelMappingName= "Brazil: 7" },
+        new PieData { Country = "Spain", Medal = 7, DataLabelMappingName= "Spain: 7" },
+        new PieData { Country = "Kenya", Medal = 6, DataLabelMappingName= "Kenya: 6" }
     };
+    public List<SelectionTypes> GroupModeData { get; set; } = new List<SelectionTypes>
+    {
+       new SelectionTypes() { Type = GroupMode.Point.ToString() },
+       new SelectionTypes() { Type = GroupMode.Value.ToString() }
+    };
+    private int groupToValue = 9;
+
+    protected override void OnInitialized()
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            Theme = Theme.Material;
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            Theme = Theme.Fabric;
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            Theme = Theme.Bootstrap;
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            Theme = Theme.HighContrast;
+        }
+        else
+        {
+            Theme = Theme.Bootstrap4;
+        }
+    }
 
     private void ChangeGroupMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
     {
-        if (args.Value.ToString() == "Value")
+        if (args.Value.ToString().Equals(GroupModeData[1].Type))
         {
             Mode = GroupMode.Value;
         }
-        else if (args.Value.ToString() == "Point")
+        else if (args.Value.ToString().Equals(GroupModeData[0].Type))
         {
             Mode = GroupMode.Point;
         }
     }
+
     private void ClubChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        GroupToValue = Convert.ToInt32(args.Value);
-        GroupChange = Convert.ToString(args.Value);
+        groupToValue = Convert.ToInt32(args.Value);
+        GroupChange = Convert.ToString(groupToValue);
     }
 
-    public class ChartData
+    public class PieData
     {
-        public string XValue { get; set; }
-        public double YValue { get; set; }
-        public string Text { get; set; }
+        public string Country { get; set; }
+        public double Medal { get; set; }
+        public string DataLabelMappingName { get; set; }
     }
 
-    public List<ChartData> DataSource = new List<ChartData>
-{
-       new ChartData { XValue = "China", YValue = 26, Text= "China: 26" },
-       new ChartData { XValue = "Russia", YValue = 19, Text= "Russia: 19" },
-       new ChartData { XValue = "Germany", YValue = 17, Text= "Germany: 17" },
-       new ChartData { XValue = "Japan", YValue = 12, Text= "Japan: 12" },
-       new ChartData { XValue = "France", YValue = 10, Text= "France: 10" },
-       new ChartData { XValue = "South Korea", YValue = 9, Text= "South Korea: 9" },
-       new ChartData { XValue = "Great Britain", YValue = 27, Text= "Great Britain: 27" },
-       new ChartData { XValue = "Italy", YValue = 8, Text= "Italy: 8" },
-       new ChartData { XValue = "Australia", YValue = 8, Text= "Australia: 8" },
-       new ChartData { XValue = "Netherlands", YValue = 8, Text= "Netherlands: 8" },
-       new ChartData { XValue = "Hungary", YValue = 8, Text= "Hungary: 8" },
-       new ChartData { XValue = "Brazil", YValue = 7, Text= "Brazil: 7" },
-       new ChartData { XValue = "Spain", YValue = 7, Text= "Spain: 7" },
-       new ChartData { XValue = "Kenya", YValue = 6, Text= "Kenya: 6" }
-   };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
-    protected override void OnInitialized()
+    public class SelectionTypes
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
-        }
-        else
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
-        }
+        public string Type { get; set; }
     }
 }

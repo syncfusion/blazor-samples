@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -15,17 +14,13 @@ namespace blazor_samples.Shared
 
         [Inject]
         protected NavigationManager UriHelper { get; set; }
-
         [Inject]
-        protected IHttpContextAccessor HttpContextAccessor { get; set; }
+        protected SampleService SampleService { get; set; }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             builder.AddMarkupContent(0, RenderStyles());
-            if(IsIE())
-            {
-                builder.AddMarkupContent(1, RenderPolyfill());
-            }
+            builder.AddMarkupContent(1, RenderResources());
         }
 
         private string RenderStyles()
@@ -38,29 +33,33 @@ namespace blazor_samples.Shared
             sb.Append($" rel=\"stylesheet\"");
             sb.Append(" />");
             sb.Append(Environment.NewLine);
-            sb.Append($"    <link");
-            sb.Append($" href=\"styles/common/index.css\"");
-            sb.Append($" rel=\"stylesheet\"");
-            sb.Append(" />");
-            sb.Append(Environment.NewLine);
-            return sb.ToString();
-        }
-        private string RenderPolyfill()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(Environment.NewLine);
-            sb.Append($"    <script");
-            sb.Append($" src=\"scripts/common/blazor.polyfill.min.js\"");
-            sb.Append(">");
-            sb.Append($"</script>");
-            sb.Append(Environment.NewLine);
             return sb.ToString();
         }
 
-        private bool IsIE()
+        private string RenderResources()
         {
-            var userAgent = HttpContextAccessor.HttpContext.Request.Headers["User-Agent"].ToString();
-            return userAgent.Contains("MSIE") || userAgent.Contains("Trident");
+            StringBuilder sb = new StringBuilder();
+            var resources = SampleUtils.GetDynamicResources(UriHelper, SampleService);
+            foreach (var resource in resources)
+            {
+                sb.Append(Environment.NewLine);
+                if (resource.EndsWith(".css"))
+                {
+                    sb.Append($"    <link");
+                    sb.Append($" href=\"" + resource + "\"");
+                    sb.Append($" rel=\"stylesheet\"");
+                    sb.Append(" />");
+                }
+                else
+                {
+                    sb.Append($"    <script");
+                    sb.Append($" src=\"" + resource + "\"");
+                    sb.Append($" async");
+                    sb.Append(" ></script>");
+                }
+            }
+            sb.Append(Environment.NewLine);
+            return sb.ToString();
         }
 
         protected override void OnInitialized()

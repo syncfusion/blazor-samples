@@ -2,61 +2,50 @@
 
 @using Syncfusion.Blazor.Gantt
 @using blazor_samples
-@using ej2_blazor_basedata
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample visualizes the complete service schedule for a car. Baselines are enabled to view the deviation between the planned dates and actual dates.</p>
+    <p>This sample visualizes the complete service schedule for a car. Baselines are enabled to view the deviation between the planned dates and actual dates.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The baseline feature enables the user to view the deviation between the planned dates and the actual dates of
-      the tasks in a project. Baselines can be enabled in Gantt Chart by enabling the <code>RenderBaseline</code>
-      property along with mapping the data source values for <code>BaselineStartDate</code> and <code>BaselineEndDate</code> properties.
-      The baseline will appear for all type of tasks in the project such as child tasks, parent tasks and also for
-      milestones. You can change the color for the baselines using <code>BaselineColor</code> property.
-   </p>
+    <p> The Baseline feature enables the user to view the deviation between the planned dates and the actual dates of the tasks in a project. Baselines can be enabled in Gantt Chart by enabling the <code>RenderBaseline</code> property along with mapping the data source values for <code>BaselineStartDate</code> and <code>BaselineEndDate</code> properties. The Baseline will appear for all type of tasks in the project such as child tasks, parent tasks and also for milestones. You can change the color for the baselines using <code>BaselineColor</code> property.</p>
+
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
             <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"
-                      TreeColumnIndex="0" AllowSelection="true" IncludeWeekend="true" DateFormat="hh:mm a"
-                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd"
-                      DurationUnit="DurationUnit.Minute"
-                      RenderBaseline="true">
-                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
-                                 BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate"></GanttTaskFields>
+                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" RenderBaseline="true">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 ParentID="ParentId" BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate"></GanttTaskFields>
+
                 <GanttColumns>
-                    <GanttColumn Field="TaskId" HeaderText="Task Id" Visible="false"></GanttColumn>
-                    <GanttColumn Field="TaskName" HeaderText="Service Name" Width="250"></GanttColumn>
-                    <GanttColumn Field="BaselineStartDate" HeaderText="Planned start time" Format="@DateFormat"></GanttColumn>
-                    <GanttColumn Field="BaselineEndDate" HeaderText="Planned end time" Format="@DateFormat"></GanttColumn>
-                    <GanttColumn Field="StartDate" HeaderText="Start time" Format="@DateFormat"></GanttColumn>
-                    <GanttColumn Field="EndDate" HeaderText="End time" Format="@DateFormat"></GanttColumn>
+                    <GanttColumn Field="TaskId" HeaderText="Task Id "></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Task Name"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date "></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+                    <GanttColumn Field="BaselineStartDate" HeaderText="BaselineStartDate " Width="200"></GanttColumn>
+                    <GanttColumn Field="BaselineEndDate" HeaderText="BaselineEndDate" Width="200"></GanttColumn>
+
                 </GanttColumns>
-                <GanttDayWorkingTimeCollection>
-                    <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
-                </GanttDayWorkingTimeCollection>
-                <GanttTimelineSettings TimelineUnitSize=@TimelineSize>
-			    <GanttTopTierSettings Unit="TimelineViewMode.None"></GanttTopTierSettings>
-			    <GanttBottomTierSettings Unit="TimelineViewMode.Minutes"
-                    Count="15" Format="hh:mm a"></GanttBottomTierSettings>
-		        </GanttTimelineSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="BaseData.TaskData">
+                </GanttLabelSettings>
+                <GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
             </SfGantt>
         </div>
     </div>
 </div>
 
 @code{
-    public DateTime ProjectStart = new DateTime (2018, 3, 5, 9, 30, 0);
-    public DateTime ProjectEnd = new DateTime(2018, 3, 5, 19, 0, 0);
+    public DateTime ProjectStart = new DateTime(2019, 3, 24);
+    public DateTime ProjectEnd = new DateTime(2019, 7, 6);
     public List<BaseData.TaskData> TaskCollection { get; set; }
-    public string DateFormat = "hh:mm a";
-    public int TimelineSize = 90;
+
+
     protected override void OnInitialized()
     {
-        this.TaskCollection = BaseData.BaselineData();        
+        this.TaskCollection = BaseData.GetTaskCollection();
     }
 }

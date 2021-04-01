@@ -1,20 +1,20 @@
 ﻿@page "/chart/error-bar"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using PointRender
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample visualizes the errors in sales distribution of a car for a certain period with error bar in the chart. In property panel, the options are available to change error bar type, drawing mode, and drawing direction of error bar by means of dropdown.</p>
+    <p>This sample shows the errors in the distribution of a car for a certain region with an error bar in the chart.</p>
 </SampleDescription>
 <ActionDescription>
     <p>
-        In this example, you can see how to render and configure the error bar charts. Line type charts are used for cartesian type
-        series. You can use error bar by set <code>Visible</code> property to true. You can change the error bar rendering type using
-        <code>Type</code> property like fixedValue, percentage, standardDeviation, standardError and custom option of errorBar. To change
-        the error bar line length you can use <code>VerticalError</code> property.
+        In this example, you can see how to render and configure the error bar chart. The error bar chart type is used to indicate an error or uncertainty in the reported measurement.
     </p>
-    <p> Chart supports the following error bar types.</p>
+    <p> The chart supports the following error bar types.</p>
     <ul>
         <li> <code>Fixed</code> - Renders a fixed type error bar. </li>
         <li><code>Percentage</code> - Renders a percentage type error bar. </li>
@@ -22,7 +22,7 @@
         <li> <code>StandardError</code> - Renders a standard error type error bar.  </li>
         <li><code>Custom</code> - Renders a custom type error bar. </li>
     </ul>
-    <p>More information on the error bar can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>More information about the error bar can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/error-bar'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -36,7 +36,7 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" Name="Sales" XName="x" YName="y" Type="ChartSeriesType.Scatter">
+            <ChartSeries DataSource="@ChartPoints" Name="Sales" XName="Country" YName="SalesDistribution" Type="ChartSeriesType.Scatter">
                 <ChartMarker Height="10" Width="10">
                 </ChartMarker>
                 <ChartErrorBarSettings Visible="true" HorizontalError="3" VerticalError="3"></ChartErrorBarSettings>
@@ -49,65 +49,70 @@
 
 @code{
 
-    public class ErrorBarData
+    private Theme Theme { get; set; }
+    public List<ErrorBarData> ChartPoints { get; set; } = new List<ErrorBarData>
     {
-        public string x { get; set; }
-        public double y { get; set; }
-    }
+        new ErrorBarData { Country = "IND", SalesDistribution = 24 },
+        new ErrorBarData { Country = "AUS", SalesDistribution = 20 },
+        new ErrorBarData { Country = "USA", SalesDistribution = 35 },
+        new ErrorBarData { Country = "DEU", SalesDistribution = 27 },
+        new ErrorBarData { Country = "ITA", SalesDistribution = 30 },
+        new ErrorBarData { Country = "UK",  SalesDistribution = 41 },
+        new ErrorBarData { Country = "RUS", SalesDistribution = 26 }
+    };
 
-    public List<ErrorBarData> ChartData = new List<ErrorBarData>
-        {
-                new ErrorBarData { x= "IND", y= 24 },
-                new ErrorBarData { x= "AUS", y= 20 },
-                new ErrorBarData { x= "USA", y= 35 },
-                new ErrorBarData { x= "DEU", y= 27 },
-                new ErrorBarData { x= "ITA", y= 30 },
-                new ErrorBarData { x= "UK", y= 41 },
-                new ErrorBarData { x= "RUS", y= 26 }
-            };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        this.SetTheme(null);
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        this.SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            if (args == null)
+                Theme = Theme.Material;
+            else
+                args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            if (args == null)
+                Theme = Theme.Fabric;
+            else
+                args.Fill = PointColor.FabricColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            if (args == null)
+                Theme = Theme.Bootstrap;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
         }
     }
-    public void PointRender(PointRenderEventArgs args)
+
+    public class ErrorBarData
     {
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
-        }
+        public string Country { get; set; }
+        public double SalesDistribution { get; set; }
     }
 }

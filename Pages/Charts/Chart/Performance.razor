@@ -1,114 +1,137 @@
 ﻿@page "/chart/performance"
+
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
-@using System.Collections.ObjectModel;
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>  This sample demonstrates the performance of Blazor chart to render 100K points in canvas mode.</p>
+    <p>  This sample demonstrates the performance of Blazor chart to render 100K points. </p>
 </SampleDescription>
 <ActionDescription>
-    <p>  Chart includes several data rendering optimizations to achieve the best possible performance when plotting large volumes of data as well as handling high frequency real-time data.In this demo, chart is rendered with 100K points in canvas mode.</p>
+    <p>  Chart includes several data rendering optimizations to achieve the best possible performance when plotting large volumes of data as well as handling high frequency real-time data. In this demo, line series is rendered with 100K points. </p>
 </ActionDescription>
 
-<div class="control-section col-md-8">
-    <SfChart @ref="@ChartInstance" Theme="@Theme">
-        <ChartPrimaryXAxis>
-            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-        </ChartPrimaryXAxis>
-        <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        <ChartSeriesCollection>
-            <ChartSeries Name="Series" XName="@nameof(LineChartData.XValue)" YName="@nameof(LineChartData.YValue)" DataSource="@DataChart">
-                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
-            </ChartSeries>
-        </ChartSeriesCollection>
-    </SfChart>
-</div>
-<div class="property-section col-md-4">
-    <table id="property" title="Properties" style="width: 100%">
-        <tr style="height:50px"><th>Properties</th></tr>
-        <tr>
-            <SfButton CssClass="e-info" IsPrimary="true" @onclick="LoadChart">Load 10K Points</SfButton>
-        </tr>
-        <tr>
-            <td>
-                <div style="margin-top:10px">@Data</div>
-            </td>
-        </tr>
-    </table>
+<style>
+    #button {
+        margin-left: 3.5%;
+    }
+
+    #information {
+        margin-top: 1.5%;
+        float: right;
+        font-size: initial;
+        margin-right: 1%;
+    }
+
+    #performance {
+        margin-top: 0.5%;
+    }
+
+</style>
+
+<div class="control-section">
+
+    <div class="content-wrapper">
+        <div class="row">
+            <span id="button">
+                <SfButton CssClass="e-info" IsPrimary="true" @onclick="LoadPoints">Load 100K Points</SfButton>
+            </span>
+            <span id="information">
+                Time Taken : <b>@timediff</b>
+            </span>
+            <br />
+        </div>
+
+        <div class="row">
+            <SfChart ID="performance" @ref="chartInstance" Theme="@theme">
+                <ChartPrimaryXAxis>
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+                <ChartSeriesCollection>
+                    <ChartSeries Name="Series" XName="@nameof(LineChartData.XValue)" YName="@nameof(LineChartData.YValue)" DataSource="@chartPoints">
+                        <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartEvents Loaded="ChartLoaded"></ChartEvents>
+            </SfChart>
+        </div>
+
+    </div>
+
 </div>
 
 @code{
-    SfChart ChartInstance;
-    String Data = "";
+
+    private DateTime start;
+    private double value = 0;
+    private bool isPointsLoaded;
+    private SfChart chartInstance { get; set; }
+    private string timediff { get; set; } = "0 ms";
+    private Random randomNum { get; set; } = new Random();
+    private List<LineChartData> chartPoints { get; set; } = new List<LineChartData>();
+    private Syncfusion.Blazor.Theme theme { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            theme = Syncfusion.Blazor.Theme.Material;
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            theme = Syncfusion.Blazor.Theme.Fabric;
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            theme = Syncfusion.Blazor.Theme.Bootstrap;
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            theme = Syncfusion.Blazor.Theme.HighContrast;
+        }
+        else
+        {
+            theme = Syncfusion.Blazor.Theme.Bootstrap4;
+        }
+    }
+
+    private void LoadPoints()
+    {
+        chartPoints.Clear();
+        for (int pts = 0; pts < 100000; pts++)
+        {
+            if (pts % 3 == 0)
+            {
+                this.value -= (randomNum.Next(0, 100) / 3) * 4;
+            }
+            else if (pts % 2 == 0)
+            {
+                this.value += (randomNum.Next(0, 100) / 3) * 4;
+            }
+            chartPoints.Add(new LineChartData() { XValue = pts, YValue = this.value });
+        }
+        isPointsLoaded = true;
+        start = DateTime.Now;
+        chartInstance.Refresh();
+    }
+
+    private void ChartLoaded(LoadedEventArgs args)
+    {
+        if (!isPointsLoaded)
+            return;
+        timediff = Math.Round((DateTime.Now - start).TotalMilliseconds).ToString() + " ms";
+        isPointsLoaded = false;
+        StateHasChanged();
+    }
+
     public class LineChartData
     {
         public double XValue { get; set; }
         public double YValue { get; set; }
     }
-    public Random random = new Random();
-    ObservableCollection<LineChartData> DataChart = new ObservableCollection<LineChartData>();
-    DateTime Start;
-    double value = 0;
-    void LoadChart()
-    {
-        DataChart.Clear();
-        Start = DateTime.Now;
-        for (int i = 0; i < 10000; i++)
-        {
-
-            if (i % 3 == 0)
-            {
-                this.value = this.value - (random.Next(0, 100) / 3) * 4;
-            }
-            else if (i % 2 == 0)
-            {
-                this.value = this.value + (random.Next(0, 100) / 3) * 4;
-            }
-            DataChart.Add(new LineChartData() { XValue = i, YValue = this.value });
-        }
-
-    }
-
-    /*void ChartLoaded(ILoadedEventArgs args)
-    {
-        End = DateTime.Now;
-        if (FindPerformance)
-        {
-            TimeSpan diff = End - Start;
-            String TimeValue = ((int)diff.TotalMilliseconds).ToString();
-            String TimeString =  "Time Taken     " + TimeValue + " ms";
-            Data = TimeString;
-        }
-
-    }*/
-
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
-    protected override void OnInitialized()
-    {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
-        }
-        else
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
-        }
-    }
-
 }
+
+

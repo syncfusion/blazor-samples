@@ -1,25 +1,22 @@
 ﻿@page "/chart/moving-average-convergence-divergence-indicator"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample illustrates a stock chart with candle series and a Moving Average Convergence Divergence indicator. Trackball shows the information about the stock, signalline, Macdline, and Histogram value of a day.</p>
+    <p> This sample illustrates a stock chart with candle series and a moving average convergence divergence indicator. The trackball shows the information about the stock, MACD line, signal line and MACD histogram value of a day.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the MACD Indicator. You can use <code>Border</code>,<code>Fill</code> properties to customize the area.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the MACD Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure a moving average convergence divergence indicator. The moving average convergence divergence indicator is based on the difference between two EMA's.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the moving average convergence divergence indicator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/technical-indicators/#moving-average-convergence-divergence-macd'>documentation section</a>.</p>
 </ActionDescription>
 
-@if (IndicatorData == null)
-{
-    <div class="stockchartloader"></div>
-}
-else
-{
-    <div class="control-section">
+<div class="control-section">
         <SfChart Title="AAPL - 2012-2017" Theme="@Theme">
             <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Months" ZoomFactor="0.2" ZoomPosition="0.6">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -35,7 +32,7 @@ else
                            Minimum="-3.5" Maximum="3.5" Title="MACD">
                     <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>   
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
                     <ChartStriplines>
                         <ChartStripline ZIndex="ZIndex.Behind" Start="-3.5" End="3.5" Text="" Color="black" Visible="true" Opacity="0.03"></ChartStripline>
                     </ChartStriplines>
@@ -53,7 +50,7 @@ else
             <ChartZoomSettings EnablePinchZooming="true" EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
             <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical"></ChartCrosshairSettings>
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@IndicatorData" XName="x" YName="y" Low="low" High="high" Close="close" Volume="volume" Open="open"
+                <ChartSeries DataSource="@ChartPoints" XName="Period" Low="Low" High="High" Close="Close" Volume="Volume" Open="Open"
                              Width="2" Name="Apple Inc" Type="ChartSeriesType.Candle" BearFillColor="#2ecd71" BullFillColor="#e74c3d">
                 </ChartSeries>
             </ChartSeriesCollection>
@@ -64,46 +61,44 @@ else
             </ChartIndicators>
         </SfChart>
     </div>
-}
+
 @code{
-    private ChartData[] IndicatorData;
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
-    protected override async Task OnInitializedAsync()
+
+    private Theme Theme { get; set; }
+    public MACDChartData[] ChartPoints { get; set; } = new MACDChartData[] { };
+
+    protected override void OnInitialized()
     {
-        await Task.Run(() =>
+        ChartPoints = JsonConvert.DeserializeObject<MACDChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            IndicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
-        });
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
     }
-    public class ChartData
+
+    public class MACDChartData
     {
-        public DateTime x { get; set; }
-        public double high { get; set; }
-        public double low { get; set; }
-        public double open { get; set; }
-        public double close { get; set; }
-        public double volume { get; set; }
+        public DateTime Period { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Open { get; set; }
+        public double Close { get; set; }
+        public double Volume { get; set; }
     }
 }

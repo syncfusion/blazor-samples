@@ -1,89 +1,80 @@
 ﻿@page "/chart/hilo"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
-@inject NavigationManager NavigationManager
 @using Newtonsoft.Json
+
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample visualizes the AAPL historical data with default HILO series in the chart. Tooltip and crosshair show the information about the data and period. </p>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/hilo-chart'>Blazor Hilo Chart</a> example visualizes the AAPL historical data with default Hilo series in the chart. Tooltip and crosshair show the information about the data and period.</p>
 </SampleDescription>
 <ActionDescription>
-    <p> In this example, you can see how to render and configure the Hilo type series. You can use <code>Border</code>, <code>Fill</code> properties to customize the area.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices. </p>
-    <p> More information on the Hilo series can be found in this  <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p> In this example, you can see how to render and configure the HILO type series. The HILO type series shows the high and low stock values over a given period of time.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p> More information about the HILO series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/high-low'>documentation section</a>.</p>
 </ActionDescription>
 
-@if (StockDetails == null)
-{
-    <div></div>
-}
-else
-{
-    <div class="control-section">
-        <SfChart Title="AAPL Historical" Theme="@Theme">
-            <ChartArea>
-                <ChartAreaBorder Width="0"></ChartAreaBorder>
-            </ChartArea>
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
-                <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Title="Price" Minimum="10" Maximum="180" Interval="20" LabelFormat="${value}">
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-            </ChartPrimaryYAxis>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
-            </ChartCrosshairSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@StockDetails" Name="Apple Inc" XName="x" High="high" Low="low" Type="ChartSeriesType.Hilo">
-                </ChartSeries>
-            </ChartSeriesCollection>
-        </SfChart>
-    </div>
-}
+<div class="control-section">
+    <SfChart Title="AAPL Historical" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" Minimum="10" Maximum="180" Interval="20" LabelFormat="${value}">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+        </ChartCrosshairSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Apple Inc" XName="Period" High="High" Low="Low" Type="ChartSeriesType.Hilo">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
 
 @code{
-    private ChartData[] StockDetails;
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Run(() =>
-        {
-            StockDetails = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
-        });
-    }
-    public class ChartData
-    {
-        public DateTime x { get; set; }
-        public double high { get; set; }
-        public double low { get; set; }
-    }
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+    private Theme Theme { get; set; }
+    public HiloData[] ChartPoints { get; set; } = new HiloData[] { };
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        ChartPoints = JsonConvert.DeserializeObject<HiloData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class HiloData
+    {
+        public DateTime Period { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
     }
 }
 

@@ -1,137 +1,148 @@
 ﻿@page "/chart/funnel"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample demonstrates funnel chart for Project Cost Breakdown. Datalabel shows the Information about the points.</p> 
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/funnel-chart'>Blazor Funnel Chart</a> example demonstrates funnel chart for Project Cost Breakdown. Datalabel shows the information about the points.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the funnel chart. <code>DataLabel</code> is used to represent individual data and its value.here the labels are arranged smartly to avoid the overlap Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure the funnel chart. The labels are smartly arranged to avoid overlapping. The <code>Neck Width</code> and <code>Neck Height</code> of the funnel chart can also be adjusted.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the funnel series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/funnel/'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="row">
-    <div class="col-lg-8 control-section">
-        <div class="control-section">
-            <SfAccumulationChart Title="Top populated countries in 2017" EnableAnimation="false" Theme="@Theme">
-                <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <SfAccumulationChart Title="Top populated countries in 2017" EnableAnimation="false" Theme="@Theme">
+            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
 
-                <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
 
-                <AccumulationChartSeriesCollection>
-                    <AccumulationChartSeries DataSource="@StatisticsDetails" XName="Country" YName="Users"
-                                             Type="AccumulationType.Funnel" Explode="false" NeckWidth="@NeckWidth" NeckHeight="@NeckHeight">
-                        <AccumulationDataLabelSettings Visible="true" Name="Country" Position="AccumulationLabelPosition.Outside">
-                            <AccumulationChartConnector Length="6%"></AccumulationChartConnector>
-                        </AccumulationDataLabelSettings>
-                    </AccumulationChartSeries>
-                </AccumulationChartSeriesCollection>
-            </SfAccumulationChart>
-        </div>
-    </div>
-    <div class="col-lg-4 property-section">
-        <table  title="Properties" style="width: 100%">
-            <tr style="height:50px"><th>Properties</th></tr>
-            <tr style="height: 50px">
-                <td style="width: 50%">
-                    <div>
-                        Neck Width:
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div data-role="rangeslider">
-                        <input type="range" @onchange="ChangeNeckWidth" value="@NeckWidthValue" min="0" max="50" style="width:90%" />
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div data-role="rangeslider">
-                        <p  style="font-weight: normal;padding-top:10px;"><span>@NeckWidthValue</span></p>
-                    </div>
-                </td>
-            </tr>
-            <tr style="height: 50px">
-                <td style="width: 50%">
-                    <div>
-                        Neck Height:
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div data-role="rangeslider">
-                        <input type="range" @onchange="ChangeNeckHeight" value="@NeckHeightValue" min="0" max="50" style="width:90%" />
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <div data-role="rangeslider">
-                        <p  style="font-weight: normal;padding-top:10px;"><span>@NeckHeightValue</span></p>
-                    </div>
-                </td>
-            </tr>
-        </table>
+            <AccumulationChartSeriesCollection>
+                <AccumulationChartSeries DataSource="@FunnelChartPoints" XName="Country" YName="Population"
+                                         Type="AccumulationType.Funnel" Explode="false" NeckWidth="@NeckWidth" NeckHeight="@NeckHeight">
+                    <AccumulationDataLabelSettings Visible="true" Name="Country" Position="AccumulationLabelPosition.Outside">
+                        <AccumulationChartConnector Length="6%"></AccumulationChartConnector>
+                    </AccumulationDataLabelSettings>
+                </AccumulationChartSeries>
+            </AccumulationChartSeriesCollection>
+        </SfAccumulationChart>
     </div>
 </div>
-@code{
-    public int NeckWidthValue = 10, NeckHeightValue = 18;
-    public string NeckWidth = "10%", NeckHeight = "18%";
-    private void ChangeNeckWidth(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-    {
-        NeckWidthValue = Convert.ToInt32(args.Value);
-        NeckWidth = NeckWidthValue + "%";
-    }
-    private void ChangeNeckHeight(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-    {
-        NeckHeightValue = Convert.ToInt32(args.Value);
-        NeckHeight = args.Value + "%";
-    }
 
-    public class Statistics
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table title="Properties" style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Neck Width:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <input type="range" @onchange="ChangeNeckWidth" value="@neckWidthRangeValue" min="0" max="50" style="width:90%" />
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <p style="font-weight: normal;padding-top:10px;"><span>@neckWidthRangeValue</span></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Neck Height:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <input type="range" @onchange="ChangeNeckHeight" value="@neckHeightRangeValue" min="0" max="50" style="width:90%" />
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <p style="font-weight: normal;padding-top:10px;"><span>@neckHeightRangeValue</span></p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string NeckWidth = "10%", NeckHeight = "18%";
+    public List<FunnelData> FunnelChartPoints { get; set; } = new List<FunnelData>
     {
-        public string Country { get; set; }
-        public double Users { get; set; }
-    }
-    public List<Statistics> StatisticsDetails = new List<Statistics>
-  {
-            new Statistics { Country = "China", Users = 1409517397 },
-            new Statistics { Country = "India", Users = 1339180127 },
-            new Statistics { Country = "United States", Users = 324459463 },
-            new Statistics { Country = "Indonesia", Users = 263991379  },
-            new Statistics { Country = "Brazil", Users = 209288278 },
-            new Statistics { Country = "Pakistan", Users = 197015955 },
-            new Statistics { Country = "Nigeria", Users = 190886311 },
-            new Statistics { Country = "Bangladesh", Users = 164669751 },
-            new Statistics { Country = "Russia", Users = 143989754 },
-            new Statistics { Country = "Mexico", Users = 129163276 },
-            new Statistics { Country = "Japan", Users = 127484450 },
-            new Statistics { Country = "Ethiopia", Users = 104957438 },
-            new Statistics { Country = "Philippines", Users = 104918090 },
-            new Statistics { Country = "Egypt", Users = 97553151 },
-            new Statistics { Country = "Vietnam", Users = 95540800 },
-            new Statistics { Country = "Germany", Users = 82114224 },
+        new FunnelData { Country = "China", Population = 1409517397 },
+        new FunnelData { Country = "India", Population = 1339180127 },
+        new FunnelData { Country = "United States", Population = 324459463 },
+        new FunnelData { Country = "Indonesia", Population = 263991379  },
+        new FunnelData { Country = "Brazil", Population = 209288278 },
+        new FunnelData { Country = "Pakistan", Population = 197015955 },
+        new FunnelData { Country = "Nigeria", Population = 190886311 },
+        new FunnelData { Country = "Bangladesh", Population = 164669751 },
+        new FunnelData { Country = "Russia", Population = 143989754 },
+        new FunnelData { Country = "Mexico", Population = 129163276 },
+        new FunnelData { Country = "Japan", Population = 127484450 },
+        new FunnelData { Country = "Ethiopia", Population = 104957438 },
+        new FunnelData { Country = "Philippines", Population = 104918090 },
+        new FunnelData { Country = "Egypt", Population = 97553151 },
+        new FunnelData { Country = "Vietnam", Population = 95540800 },
+        new FunnelData { Country = "Germany", Population = 82114224 },
     };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+    private int neckWidthRangeValue = 10, neckHeightRangeValue = 18;
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    private void ChangeNeckWidth(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        neckWidthRangeValue = Convert.ToInt32(args.Value);
+        NeckWidth = neckWidthRangeValue + "%";
+    }
+
+    private void ChangeNeckHeight(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        neckHeightRangeValue = Convert.ToInt32(args.Value);
+        NeckHeight = neckHeightRangeValue + "%";
+    }
+
+    public class FunnelData
+    {
+        public string Country { get; set; }
+        public double Population { get; set; }
     }
 }
 

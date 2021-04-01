@@ -20,6 +20,8 @@
 <ActionDescription>
     <p>The Blazor Scheduler is a fully-features calendar component that is used to manage appointments with multiple resources. The data can be pulled from the <code>DataManager</code> component or <code>IEnumerable</code> of objects or Restful web services and bind the data fields using <code>ScheduleEventSettings.ScheduleField</code>.</p>
     <p>In this demo, Blazor Scheduler features such as Multiple views, Templates (Date Header, Quick Info), Resources, Grouping, Timezone, Timescale, etc... are used along with multiple resources.</p>
+    <p>More information on the Multiple resources and grouping feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/scheduler/resources/">
+        documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -81,16 +83,6 @@
                                 </Template>
                             </ToolbarItem>
                             <ToolbarItem Type="@ItemType.Separator"></ToolbarItem>
-                            <ToolbarItem TooltipText="Week Number" Disabled="@(ViewRef == null ? false : ViewRef.Checked)">
-                                <Template>
-                                    <div style="height: 46px; line-height: 23px;">
-                                        <div class="icon-child" style="text-align: center;">
-                                            <SfSwitch TChecked="bool" Checked="@ShowWeekNumber" ValueChange="OnWeekNumberChange"></SfSwitch>
-                                        </div>
-                                        <div class="text-child" style="font-size: 14px;">Week Number</div>
-                                    </div>
-                                </Template>
-                            </ToolbarItem>
                             <ToolbarItem TooltipText="Grouping Resource">
                                 <Template>
                                     <div style="height: 46px; line-height: 23px;">
@@ -142,7 +134,7 @@
             <div class="overview-content">
                 <div class="left-panel">
                     <div class="overview-scheduler">
-                        <SfSchedule @ref="ScheduleRef" TValue="AppointmentData" CssClass="schedule-overview" Width="100%" Height="100%" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView" Timezone="@TimezoneData.Value" FirstDayOfWeek="@FirstDayOfWeek" ShowWeekNumber="@ShowWeekNumber" WorkDays="@WorkDays" StartHour="@DayStartHour" EndHour="@DayEndHour" EnableAutoRowHeight="@isRowAutoHeight" TimeFormat="@TimeFormat">
+                        <SfSchedule @ref="ScheduleRef" TValue="AppointmentData" CssClass="schedule-overview" Width="100%" Height="100%" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView" Timezone="@TimezoneData.Value" FirstDayOfWeek="@FirstDayOfWeek" ShowWeekNumber="@ShowWeekNumber" WeekRule="@WeekRule" WorkDays="@WorkDays" StartHour="@DayStartHour" EndHour="@DayEndHour" EnableAutoRowHeight="@isRowAutoHeight" TimeFormat="@TimeFormat">
                             <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
                             <ScheduleResources>
                                 <ScheduleResource TValue="int[]" TItem="CalendarData" DataSource="@Calendars" Query="@ResourceQuery" Field="CalendarId" Title="Calendars" Name="Calendars" TextField="CalendarName" IdField="CalendarId" ColorField="CalendarColor" AllowMultiple="true"></ScheduleResource>
@@ -208,7 +200,7 @@
                                                 <SfTextBox @ref="SubjectRef" @bind-Value="@((context as AppointmentData).Subject)" Placeholder="Meeting Title"></SfTextBox>
                                             </div>
                                             <div class="content-area">
-                                                <SfDropDownList @ref="CalendarRef" TValue="int" TItem="CalendarData"  @bind-Value="@((context as AppointmentData).CalendarId)" DataSource="@Calendars" Placeholder="Choose Calendar">
+                                                <SfDropDownList @ref="CalendarRef" TValue="int" TItem="CalendarData" @bind-Value="@((context as AppointmentData).CalendarId)" DataSource="@Calendars" Placeholder="Choose Calendar">
                                                     <DropDownListFieldSettings Text="CalendarName" Value="CalendarId"></DropDownListFieldSettings>
                                                 </SfDropDownList>
                                             </div>
@@ -386,6 +378,17 @@
                                 </SfDropDownList>
                             </div>
                         </div>
+                        <div class="col-row">
+                            <div class="col-left">
+                                <label style="line-height: 34px; margin: 0;">Week Numbers</label>
+                            </div>
+                            <div class="col-right">
+                                <SfDropDownList TItem="WeekNumbers" TValue="string" Width="170px" PopupHeight="150px" DataSource="@WeekNumbersData" @bind-Value="@WeeklyRule">
+                                    <DropDownListEvents TItem="WeekNumbers" TValue="string" ValueChange="OnWeekNumberChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -509,6 +512,11 @@
         public string Name { get; set; }
         public string Value { get; set; }
     }
+    public class WeekNumbers
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
     public class Timezone
     {
         public string Name { get; set; }
@@ -530,6 +538,8 @@
     private bool isRowAutoHeight { get; set; } = false;
     private bool EnableTimeScale { get; set; } = true;
     private bool ShowWeekNumber { get; set; } = false;
+    private CalendarWeekRule WeekRule { get; set; } = CalendarWeekRule.FirstDay;
+    private string WeeklyRule { get; set; } = "Off";
     private View CurrentView { get; set; } = View.Week;
     private string SelectedView { get; set; } = "Week";
     private string DayStartHour { get; set; } = "00:00";
@@ -597,6 +607,13 @@
     {
         new TimeFormatData() { Name = "12 hours", Value = "hh:mm tt" },
         new TimeFormatData() { Name = "24 hours", Value = "HH:mm" }
+    };
+    private List<WeekNumbers> WeekNumbersData = new List<WeekNumbers>()
+{
+        new WeekNumbers() { Name = "Off", Value = "Off" },
+        new WeekNumbers() { Name = "First Day Of Year", Value = "FirstDay" },
+        new WeekNumbers() { Name = "First Full Week", Value = "FirstFullWeek" },
+        new WeekNumbers() { Name = "First Four-Day Week", Value = "FirstFourDayWeek" }
     };
     private List<string> ScheduleViews { get; set; } = new List<string>() { "Day", "Week", "WorkWeek", "Month", "Year", "Agenda", "TimelineDay", "TimelineWeek", "TimelineWorkWeek", "TimelineMonth", "TimelineYear" };
     private List<WeekDays> WeekCollection { get; set; } = new List<WeekDays>() {
@@ -873,9 +890,26 @@
         this.CurrentView = currentView;
     }
 
-    public void OnWeekNumberChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    public void OnWeekNumberChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, WeekNumbers> args)
     {
-        this.ShowWeekNumber = args.Checked;
+        switch (args.Value)
+        {
+            case "Off":
+                this.ShowWeekNumber = false;
+                break;
+            case "FirstDay":
+                this.ShowWeekNumber = true;
+                this.WeekRule = CalendarWeekRule.FirstDay;
+                break;
+            case "FirstFullWeek":
+                this.ShowWeekNumber = true;
+                this.WeekRule = CalendarWeekRule.FirstFullWeek;
+                break;
+            case "FirstFourDayWeek":
+                this.ShowWeekNumber = true;
+                this.WeekRule = CalendarWeekRule.FirstFourDayWeek;
+                break;
+        }
     }
 
     public void OnWeekDaysChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<int, WeekDays> args)

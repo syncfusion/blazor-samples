@@ -1,20 +1,24 @@
 ﻿@page "/chart/multiple-axis"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 <SampleDescription>
-    <p>       This sample illustrates multiple axis in chart to represent the temperature in Celsius in an axis and Fahrenheit in another axis.</p>
+    <p>This sample illustrates the multiple axis in the chart to represent the temperature in celsius in an axis and fahrenheit in another axis.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render and configure multipe axes. Use axes collection to render secondary axis to the chart and bind it to the specify series. You can also customize the axis line and its labels similar to primary axis.</p>
-   <p> Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the Multiple Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure multiple axes. Use axes collection to render secondary axis to the chart and bind it to the specified series. You can also customize the axis line and its labels similar to primary axis.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the multiple axes can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/axis-customization/#multiple-axis'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <SfChart Title="Weather condition JPN vs DEU" Theme="@Theme">
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Country">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
@@ -29,11 +33,11 @@
         </ChartAxes>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" XName="x" YName="y" Opacity="1" Name="Germany" Width="2" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartPoints" XName="Day" YName="DEU_Temp" Opacity="1" Name="Germany" Width="2" Type="ChartSeriesType.Column">
                 <ChartMarker Visible="true" Height="10" Width="10">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@ChartData" YAxisName="yAxis2" XName="x" YName="y1" Opacity="1" Name="Japan" Width="2" Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@ChartPoints" YAxisName="yAxis2" XName="Day" YName="JPN_Temp" Opacity="1" Name="Japan" Width="2" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Height="10" Width="10">
                     <ChartMarkerBorder Color="#F8AB1D" Width="2"></ChartMarkerBorder>
                 </ChartMarker>
@@ -56,48 +60,48 @@
 </div>
 
 @code{
-    public string SUN = "SUN", SAT = "SAT";
-    public class CategoryData
-    {
-        public string x{ get; set; }
-        public double y { get; set; }
-        public double y1 { get; set; }
-    }
-    public List<CategoryData> ChartData = new List<CategoryData>
-            {
-                new CategoryData { x = "SUN", y = 35, y1 = 31 },
-                new CategoryData { x = "MON", y = 40, y1 = 28 },
-                new CategoryData { x = "TUE", y = 50, y1 = 29 },
-                new CategoryData { x = "WED", y = 70, y1 = 30 },
-                new CategoryData { x = "THU", y = 65, y1 = 33 },
-                new CategoryData { x = "FRI", y = 55, y1 = 32},
-                new CategoryData { x = "SAT", y = 50, y1 = 34 },
-             };
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+    private Theme Theme { get; set; }
+    private string SUN = "SUN", SAT = "SAT";
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Day = "SUN", DEU_Temp = 35, JPN_Temp = 31 },
+        new CategoryData { Day = "MON", DEU_Temp = 40, JPN_Temp = 28 },
+        new CategoryData { Day = "TUE", DEU_Temp = 50, JPN_Temp = 29 },
+        new CategoryData { Day = "WED", DEU_Temp = 70, JPN_Temp = 30 },
+        new CategoryData { Day = "THU", DEU_Temp = 65, JPN_Temp = 33 },
+        new CategoryData { Day = "FRI", DEU_Temp = 55, JPN_Temp = 32},
+        new CategoryData { Day = "SAT", DEU_Temp = 50, JPN_Temp = 34 },
+    };
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class CategoryData
+    {
+        public string Day { get; set; }
+        public double JPN_Temp { get; set; }
+        public double DEU_Temp { get; set; }
     }
 }

@@ -19,8 +19,7 @@ namespace blazor_samples
                 Category = "Kanban",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -34,7 +33,6 @@ namespace blazor_samples
             {
                 Name = "Workflow",
                 Category = "Kanban",
-                Type = SampleType.New,
                 Directory = "Kanban/Kanban",
                 Url = "kanban/workflow",
                 FileName = "Workflow.razor"
@@ -61,8 +59,7 @@ namespace blazor_samples
                 Category = "Kanban",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/search-filter",
-                FileName = "SearchFilter.razor",
-                Type = SampleType.New
+                FileName = "SearchFilter.razor"
             },
             new Sample
             {
@@ -110,8 +107,7 @@ namespace blazor_samples
                 Category = "Templates",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/tooltip-template",
-                FileName = "TooltipTemplate.razor",
-                Type = SampleType.New
+                FileName = "TooltipTemplate.razor"
             },
             new Sample
             {
@@ -143,8 +139,7 @@ namespace blazor_samples
                 Category = "Miscellaneous",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/api",
-                FileName = "Api.razor",
-                Type = SampleType.New
+                FileName = "Api.razor"
             },
             new Sample
             {
@@ -152,8 +147,7 @@ namespace blazor_samples
                 Category = "Miscellaneous",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/events",
-                FileName = "Events.razor",
-                Type = SampleType.New
+                FileName = "Events.razor"
             }
         };
     }

@@ -1,14 +1,18 @@
 ﻿@page "/chart/pareto"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 <SampleDescription>
-  <p> This sample illustrates a pareto chart with line and column series. Trackball shows the information about the data point closest to the mouse.</p>  
+    <p> This sample illustrates a pareto chart with line and column series.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the pareto charts. Pareto charts are used to find the cumulative values of of data in different categories. You can use <code>Border</code>, <code>Fill</code> properties to customize the data appearance.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure the pareto chart. The pareto chart is used to find the cumulative values of the data in different categories. It's a combination of the column and the line series. The initial values are shown in the column chart and the cumulative values are shown in the line chart.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the pareto series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/pare-to/'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -30,7 +34,7 @@
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" XName="x" YName="y" Name="Defect" Width="2" Type="ChartSeriesType.Pareto">
+            <ChartSeries DataSource="@ChartPoints" XName="DefectCategory" YName="Y" Name="Defect" Width="2" Type="ChartSeriesType.Pareto">
                 <ChartMarker Visible="true" Height="10" Width="10">
                 </ChartMarker>
             </ChartSeries>
@@ -40,43 +44,44 @@
 </div>
 
 @code{
-    public class PareToData
+
+    private Theme Theme { get; set; }
+    public List<ParetoData> ChartPoints { get; set; } = new List<ParetoData>
     {
-        public string x { get; set; }
-        public double y { get; set; }
-    }
-    public List<PareToData> ChartData = new List<PareToData>
-            {
-                new PareToData { x= "Traffic", y= 56 },
-                new PareToData { x= "Child Care", y= 44.8 },
-                new PareToData { x= "Transport", y= 27.2 },
-                new PareToData { x= "Weather", y= 19.6 },
-                new PareToData { x= "Emergency", y= 6.6 }
-            };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+        new ParetoData { DefectCategory = "Traffic", Y = 56 },
+        new ParetoData { DefectCategory = "Child Care", Y = 44.8 },
+        new ParetoData { DefectCategory = "Transport", Y = 27.2 },
+        new ParetoData { DefectCategory = "Weather", Y = 19.6 },
+        new ParetoData { DefectCategory = "Emergency", Y = 6.6 }
+    };
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class ParetoData
+    {
+        public string DefectCategory { get; set; }
+        public double Y { get; set; }
     }
 }

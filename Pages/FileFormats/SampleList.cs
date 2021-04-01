@@ -542,7 +542,6 @@ namespace blazor_samples
                 Category = "Conversion",
                 Directory = "FileFormats/Presentation",
                 Url = "presentation/pptx-to-image",
-                Type = SampleType.Updated,
                 FileName = "PPTXToImage.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -731,6 +730,7 @@ namespace blazor_samples
                 Name = "OLE Object",
                 Category = "Slide Elements",
                 Directory = "FileFormats/Presentation",
+                Type = SampleType.Updated,
                 Url = "presentation/ole-object",
                 FileName = "OLEObject.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -1052,27 +1052,6 @@ namespace blazor_samples
                     }
                 }
             },
-            new Sample
-            {
-                Name = "Import Export DataTable",
-                Category = "Data Binding",
-                Directory = "FileFormats/XlsIO",
-                Url = "xlsio/import-export-datatable",
-                Type=SampleType.Updated,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="ImportExport",
-                        FileName="ImportExport.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="ImportExportService",
-                        FileName="ImportExportService.cs"
-                    }
-                }
-            },
 			new Sample
             {
                 Name = "Excel To JSON",
@@ -1308,7 +1287,7 @@ namespace blazor_samples
                 Category="Graphics",
                 Directory="FileFormats/PDF",
                 Url="pdf/barcode",
-                Type=SampleType.Updated,
+                Type=SampleType.None,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1413,7 +1392,7 @@ namespace blazor_samples
                 Category="Security",
                 Directory="FileFormats/PDF",
                 Url="pdf/digital-signature",
-                Type=SampleType.None,
+                Type=SampleType.Updated,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection

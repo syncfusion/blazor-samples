@@ -30,7 +30,9 @@ namespace blazor_samples
         public string Name { get; set; }
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
-        public List<Sample> Samples { get; set; } 
+        public List<Sample> Samples { get; set; }
+        public string DemoPath { get; set; }
+        public string Category { get; set; }
     }
 
     public class SampleList
@@ -42,6 +44,9 @@ namespace blazor_samples
         public SampleType Type { get; set; }
         public List<Sample> Samples { get; set; } = new List<Sample>();
         public string ControllerName { get; set; }
+        public string DemoPath { get; set; }
+        public bool IsPreview { get; set; }
+        public string CustomDocLink { get; set; }
     }
 
     public class Sample
@@ -52,7 +57,9 @@ namespace blazor_samples
         public string FileName { get; set; }
         public string Url { get; set; }
         public string MappingSampleName { get; set; }
-        public string CustomHeading { get; set; }
+        public string MetaTitle { get; set; }
+        public string MetaDescription { get; set; }
+        public string HeaderText {get;set;}
         public List<SourceCollection> SourceFiles { get; set; } = new List<SourceCollection>();
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
@@ -69,6 +76,11 @@ namespace blazor_samples
         public static List<SampleList> SampleList { get; set; } = new List<SampleList>();
         internal static List<string> SampleUrls = new List<string>();
         internal static SampleConfig Config { get; set; } = new SampleConfig();
+        internal static List<string> PreLoadFiles = new List<string>()
+        {
+            "styles/common/fonts/open-sans-700.woff2",
+            "styles/common/fonts/open-sans-regular.woff2",
+        };
     }
 
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]

@@ -1,0 +1,48 @@
+@page "/scheduler/multi-drag"
+
+@using Syncfusion.Blazor.Schedule
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example showcases how to select the multiple events and drag them simultaneously. We can select multiple events by pressing the CTRL key with a click. We can also drag the multiple events from one resource to another resource.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, <code>AllowMultiDrag</code> property is set as <code>true</code> to drag the multiple selected events simultaneously . We can simply reschedule the multiple events in single drag action. We can select multiple events by pressing the CTRL key. Once the events are selected, we can leave the CTRL key and start dragging the event. </p>
+    <p>Here, we can also drag the multiple events from one resource to another resource. In this case, if all the selected events are in the different resources, then all the events should be moved to the single resource which is related to the target event.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" AllowMultiDrag="true" ShowQuickInfo="false" AllowResizing="false">
+            <ScheduleViews>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@ResourceDatas" Field="TaskId" Title="Owners" Name="Owners" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+
+@code{ 
+    private View CurrentView = View.Month;
+    private DateTime CurrentDate = new DateTime(2020, 1, 8);
+    private List<ScheduleData.ResourceData> DataSource = new ScheduleData().GetResourceData();
+    private string[] GroupData = new string[] { "Owners" };
+    private List<ResourceData> ResourceDatas { get; set; } = new List<ResourceData> {
+        new ResourceData { Text = "Nancy", Id= 1, Color = "#df5286" },
+        new ResourceData { Text = "Steven", Id= 2, Color = "#7fa900" },
+        new ResourceData { Text = "Robert", Id= 3, Color = "#ea7a57" },
+        new ResourceData { Text = "Smith", Id= 4, Color = "#5978ee" },
+        new ResourceData { Text = "Micheal", Id= 5, Color = "#df5286" }
+    };
+    public class ResourceData
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+        public string Color { get; set; }
+    }
+}

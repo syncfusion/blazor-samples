@@ -58,11 +58,29 @@ namespace blazor_samples
             },
              new Sample
             {
-                Name = "Type",
+                Name = "Toolbar Type",
                 Category = "Toolbar",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/types",
                 FileName = "Types.razor"
+            },
+             new Sample
+            {
+                Name = "Insert Emoticons",
+                Category = "Custom Tool",
+                Type = SampleType.New,
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/insert-emoticons",
+                FileName = "InsertEmoticons.razor"
+            },
+                 new Sample
+            {
+                Name = "Insert Special Characters",
+                Category = "Custom Tool",
+                Type = SampleType.New,
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/insert-special-characters",
+                FileName = "InsertSpecialCharacters.razor"
             },
             new Sample
             {
@@ -71,6 +89,15 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/markdown-overview",
                 FileName = "Markdown-Overview.razor"
+            },
+             new Sample
+            {
+                Name = "Markdown Preview",
+                Category = "Markdown",
+                Type = SampleType.New,
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/markdown-preview",
+                FileName = "Markdown-Preview.razor"
             },
             new Sample
             {
@@ -103,6 +130,33 @@ namespace blazor_samples
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/api",
                 FileName = "Api.razor"
+            },
+             new Sample
+            {
+                Name = "Events",
+                Category = "Rich Text Editor",
+                Type = SampleType.New,
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/events",
+                FileName = "Events.razor"
+            },
+            new Sample
+            {
+                Name = "Use Case",
+                Category = "Rich Text Editor",
+                Type = SampleType.New,
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/usecase",
+                FileName = "UseCase.razor"
+            },
+              new Sample
+            {
+                Name = "Auto Save",
+                Category = "Rich Text Editor",
+                Type = SampleType.New,
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/auto-save",
+                FileName = "AutoSave.razor"
             },
             new Sample
             {

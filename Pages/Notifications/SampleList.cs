@@ -46,6 +46,7 @@ namespace blazor_samples
                 Category = "Toast",
                 Directory = "Notifications/Toast",
                 Url = "toast/api",
+                Type = SampleType.Updated,
                 FileName = "API.razor"
             }
         };
@@ -55,7 +56,7 @@ namespace blazor_samples
                 Name = "Overview",
                 Category = "Spinner",
                 Directory = "Notifications/Spinner",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 Url = "spinner/overview",
                 FileName = "Overview.razor"
             }

@@ -45,6 +45,14 @@ namespace blazor_samples.Shared
         /// Specifies the showcase image url starts path.
         /// </summary>
         public string ShowCaseImagePath { get; set; }
+        /// <summary>
+        /// Specifies the home page loaded or not.
+        /// </summary>
+        public bool IsHomeLoaded { get; set; }
+        /// <summary>
+        /// Specifies the demo page loaded or not.
+        /// </summary>
+        public bool IsDemoLoaded { get; set; }
 
         public SampleService()
         {
@@ -79,7 +87,16 @@ namespace blazor_samples.Shared
                     {
                         string categoryName = splittedUrl[splittedUrl.Length - 2];
                         categoryName = categoryName.Replace("-", string.Empty);
-                        var controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
+                        SampleList controlInfo;
+                        var sampleName = splittedUrl[splittedUrl.Length - 1];
+                        if (categoryName == "buttons" && sampleName != "default-functionalities")
+                        {
+                            controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.DemoPath.ToLower().Contains(sampleName));
+                        }
+                        else
+                        {
+                            controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
+                        }
                         this.ComponentName = controlInfo.Name;
                         var sampleInfo = controlInfo.Samples.Where(control => control.Url.ToLower() == updatedUrl).ToList();
                         if (sampleInfo.Count > 0)
@@ -88,7 +105,7 @@ namespace blazor_samples.Shared
                         }
                         else
                         {
-                            var sampleName = splittedUrl[splittedUrl.Length-1].Replace("-", string.Empty);
+                            sampleName = sampleName.Replace("-", string.Empty);
                             this.SampleInfo = controlInfo.Samples.Where(control => control.FileName.ToLower() == (sampleName + ".razor")).First();
                         }
                     }

@@ -108,6 +108,15 @@ namespace blazor_samples
                 Url = "splitter/expand-collapse",
                 FileName = "ExpandandCollapse.razor"
             },
+              new Sample
+            {
+                Name = "Accordion Navigation Menu",
+                Category = "Use Case",
+                Type = SampleType.New,
+                Directory = "Layouts/Splitter",
+                Url = "splitter/accordion-menu",
+                FileName = "AccordionMenu.razor"
+            },
              new Sample
             {
                 Name = "Details View",

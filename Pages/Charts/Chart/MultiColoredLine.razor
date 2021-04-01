@@ -1,98 +1,89 @@
 ﻿@page "/chart/multi-colored-line"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 <SampleDescription>
-    <p>This sample visualizes the particulate levels in rainfall with multi colored line series in the chart. Data points are enhanced with individual color and tooltip.</p>
+    <p> This sample shows the particulate levels in rainfall with multicolored line series in the chart. Data points are enhanced with individual color and tooltip. </p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to render and configure each point in line type series. Multi colored line charts are used to represent time-dependent data to show the trends at equal intervals with their individual colors by using <code>PointColorMapping</code>.</p>
-    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure each point in line type series. Multicolored line charts are used to represent time-dependent data to show the trends at equal intervals with their individual colors by using <code>PointColorMapping</code>.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
 </ActionDescription>
 
-@if (chartData == null || chartData.Count == 0)
-{
-    <div></div>
-}
-else
-{
-    <div class="control-section">
-        <div align="center">
-            <SfChart Title="Particulate Levels in Rainfall" Width="80%" Theme="@Theme">
-                <ChartArea>
-                    <ChartAreaBorder Width="0"></ChartAreaBorder>
-                </ChartArea>
-                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                </ChartPrimaryXAxis>
-                <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" Title="Particulate Matter(PM)" Minimum="4" Maximum="10">
-                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                </ChartPrimaryYAxis>
-                <ChartLegendSettings Visible="false"></ChartLegendSettings>
-                <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-                <ChartSeriesCollection>
-                    <ChartSeries DataSource="@chartData" Name="Rainfall" XName="XValue" YName="YValue" PointColorMapping="Color" Width="1.5" Type="ChartSeriesType.MultiColoredLine">
-                    </ChartSeries>
-                </ChartSeriesCollection>
-            </SfChart>
-        </div>
+<div class="control-section">
+    <div align="center">
+        <SfChart Title="Particulate Levels in Rainfall" Width="80%" Theme="@Theme">
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" Title="Particulate Matter(PM)" Minimum="4" Maximum="10">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ChartPoints" Name="Rainfall" XName="Period" YName="RainfallInfo" PointColorMapping="PointColor" Width="1.5" Type="ChartSeriesType.MultiColoredLine">
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
     </div>
-}
-    @code{
+</div>
 
-        string[] color = {"red", "green", "#ff0097", "crimson", "blue", "darkorange", "deepskyblue",
+@code{
+
+    private string[] colors = {"red", "green", "deeppink", "crimson", "blue", "darkorange", "deepskyblue",
                              "mediumvioletred", "violet", "peru", "gray", "deeppink", "navy" };
-        List<LineChartData> chartData = new List<LineChartData>();
-public class LineChartData
-    {
-        public DateTime XValue { get; set; }
-        public double YValue { get; set; }
-        public string Color { get; set; }
-    }
-    int value;
-    private Double[] ChartData = new Double[150];
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Run(() =>
-        {
-            ChartData = JsonConvert.DeserializeObject<Double[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/rainfall-data.json"));
+    private Double[] chartJsonPoints = new Double[150];
+    private Theme Theme { get; set; }
+    public List<LineChartData> ChartPoints { get; set; } = new List<LineChartData>();
 
-            for (double i = 0; i < ChartData.Length; i++)
+    protected override void OnInitialized()
+    {
+        chartJsonPoints = JsonConvert.DeserializeObject<Double[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/rainfall-data.json"));
+        for (int i = 0; i < chartJsonPoints.Length; i++)
+        {
+            ChartPoints.Add(new LineChartData
             {
-                this.value = (int)i;
-                chartData.Add(new LineChartData
-                {
-                    XValue = new DateTime(2004, 1, 1).AddMonths(this.value),
-
-                    YValue = ChartData[this.value],
-                    Color = color[(this.value / 16)]
-                });
-            }
-        });
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Material;
+                Period = new DateTime(2004, 1, 1).AddMonths(i),
+                RainfallInfo = chartJsonPoints[i],
+                PointColor = colors[(i / 16)]
+            });
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.Bootstrap;
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
     }
+
+    public class LineChartData
+    {
+        public DateTime Period { get; set; }
+        public double RainfallInfo { get; set; }
+        public string PointColor { get; set; }
     }
+}

@@ -5,6 +5,8 @@
 @using blazor_samples
 @using ej2_blazor_productdetails
 
+@inject NavigationManager NavigationManager
+
 <SampleDescription>
     <p> This sample demonstrates the toolbar options of the pivot table. The options include report manipulations like create, save, save as, rename and delete, show or hide subtotals and grand totals, conditional formatting, number formatting and exporting in the pivot table and pivot chart.</p>
 </SampleDescription>
@@ -93,7 +95,7 @@
                     <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
                 </PivotViewFormatSettings>
             </PivotViewDataSourceSettings>
-            <PivotChartSettings Title="Sales Analysis">
+            <PivotChartSettings Title="Sales Analysis" Theme="@Theme">
                 <PivotChartPrimaryYAxis>
                     <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
                 </PivotChartPrimaryYAxis>
@@ -131,11 +133,33 @@
         ToolbarItems.Formatting,
         ToolbarItems.FieldList
     };
-
+    string CurrentUri;
+    private PivotChartTheme Theme { get; set; }
     public List<PivotProductDetails> Data { get; set; }
 
     protected override void OnInitialized()
     {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Theme = PivotChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Theme = PivotChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Theme = PivotChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Theme = PivotChartTheme.HighContrast;
+        }
+        else
+        {
+            Theme = PivotChartTheme.Bootstrap4;
+        }
         this.Data = PivotProductDetails.GetProductData();
     }
 
@@ -198,7 +222,8 @@
     }
     public void RenameReport(RenameReportArgs args)
     {
-        if (args.IsReportExists) {
+        if (args.IsReportExists)
+        {
             int j = 0;
             for (j = 0; j < ReportName.Count; j++)
             {

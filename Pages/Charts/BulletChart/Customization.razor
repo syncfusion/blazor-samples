@@ -4,11 +4,11 @@
 @using Syncfusion.Blazor.Buttons
 @using Newtonsoft.Json.Linq;
 @inject NavigationManager NavigationManager
-
+@using Syncfusion.Blazor
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample illustrates a bullet chart with with different customization for ranges and labels in bullet chart.</p>
+    <p>This sample illustrates a bullet chart with different customization for ranges and labels in bullet chart.</p>
 </SampleDescription>
 <ActionDescription>
     <p>Tooltip is enabled in this example, to see the tooltip in action, hover a feature bar or comparative bar on the bullet chart.</p>
@@ -16,17 +16,15 @@
 
 <div class="row">
     <div class="control-section col-md-8">
-        <SfBulletChart DataSource="@BulletChartData" ValueField="value" TargetField="target" Minimum="0" Maximum="3"
-                        Interval="0.5" Title="Package Downloads" Subtitle="in Thousands">
-            <BulletChartAnimation Enable="false"></BulletChartAnimation>
-            <BulletChartTooltip Enable="true"></BulletChartTooltip>
+        <SfBulletChart DataSource="@BulletChartData" Theme="@theme" ValueField="value" TargetField="target" Minimum="0" Maximum="3"
+                       Interval="0.5" Title="Package Downloads" Subtitle="in Thousands">
+            <BulletChartTooltip TValue="ChartData" Enable="true"></BulletChartTooltip>
             <BulletChartMinorTickLines Width="0"></BulletChartMinorTickLines>
             <BulletChartRangeCollection>
-                <BulletChartRange End="1.5" Color="@RangeColor0"> </BulletChartRange>
-                <BulletChartRange End="2.5" Color="@RangeColor1"></BulletChartRange>
-                <BulletChartRange End="3" Color="@RangeColor2"></BulletChartRange>
+                <BulletChartRange End="1.5" Color="@rangeColor0"> </BulletChartRange>
+                <BulletChartRange End="2.5" Color="@rangeColor1"></BulletChartRange>
+                <BulletChartRange End="3" Color="@rangeColor2"></BulletChartRange>
             </BulletChartRangeCollection>
-             <BulletChartEvents Load="BeforeRender"/>
         </SfBulletChart>
     </div>
     <div class="col-md-4 property-section">
@@ -38,7 +36,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div align="center">
-                        <SfColorPicker Value="#599C20" Mode="ColorPickerMode.Palette" ValueChange="StartColor"></SfColorPicker>
+                        <SfColorPicker Value="@rangeColor0" Mode="ColorPickerMode.Palette" ValueChange="StartColor"></SfColorPicker>
                     </div>
                 </td>
             </tr>
@@ -48,7 +46,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div align="center">
-                        <SfColorPicker Value="#EFC820" Mode="ColorPickerMode.Palette" ValueChange="MiddleColor"></SfColorPicker>
+                        <SfColorPicker Value="@rangeColor1" Mode="ColorPickerMode.Palette" ValueChange="MiddleColor"></SfColorPicker>
                     </div>
                 </td>
             </tr>
@@ -58,7 +56,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div align="center">
-                        <SfColorPicker Value="#CA4218" Mode="ColorPickerMode.Palette" ValueChange="EndColor"></SfColorPicker>
+                        <SfColorPicker Value="@rangeColor2" Mode="ColorPickerMode.Palette" ValueChange="EndColor"></SfColorPicker>
                     </div>
                 </td>
             </tr>
@@ -68,7 +66,9 @@
 
 @code{
 
-    public string RangeColor0 = "#599C20", RangeColor1 = "#EFC820", RangeColor2 = "#CA4218";
+    private string rangeColor0 { get; set; } = "#599C20";
+    private string rangeColor1 { get; set; } = "#EFC820";
+    private string rangeColor2 { get; set; } = "#CA4218";
 
     public GetCurrentValue ColorValue { get; set; }
     public class GetCurrentValue
@@ -77,17 +77,17 @@
     }
     public void StartColor(ColorPickerEventArgs args)
     {
-        this.RangeColor0 = args.CurrentValue.Hex;
+        this.rangeColor0 = args.CurrentValue.Hex;
     }
 
     public void MiddleColor(ColorPickerEventArgs args)
     {
-        this.RangeColor1 = args.CurrentValue.Hex;
+        this.rangeColor1 = args.CurrentValue.Hex;
     }
 
     public void EndColor(ColorPickerEventArgs args)
     {
-        this.RangeColor2 = args.CurrentValue.Hex;
+        this.rangeColor2 = args.CurrentValue.Hex;
     }
 
     public class ChartData
@@ -100,29 +100,30 @@
         new ChartData { value = 1.7, target = 2.5 }
     };
 
-    string CurrentUri;
-    void BeforeRender(IBulletLoadedEventArgs Args)
+    private string CurrentUri;
+    private Theme theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }

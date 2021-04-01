@@ -1,15 +1,18 @@
 ﻿@page "/chart/marker-chart"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p> This sample illustrates the rendering of symbols in chart. In line based series, data points can be annotated by using symbols.</p> 
+    <p>This sample illustrates FB users in a chart for different countries in different years. In line-based series, data points can be annotated using symbols.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Each points in a series can be represented as a symbol through marker. We can also customize the shape, size and color of a symbol through <code>Marker</code> properties.</p>
-  <p> Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices. </p>
-  <p>More information on the Marker can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>Each point in a series can be represented by a marker as a symbol. You can also customize the shape, size and color of the symbol with the <code>ChartMarker</code> class.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the marker can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/data-markers'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -22,25 +25,25 @@
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartTooltipSettings Enable="true" Format="${point.text} : ${point.y}"></ChartTooltipSettings>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" Name="December 2007" XName="XValue" Width="2"
-                         Opacity="1" YName="YValue" Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@ChartPoints" Name="December 2007" XName="Country" Width="2"
+                         Opacity="1" YName="FBUser_07" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.Diamond">
-                    <ChartDataLabel Name="Text"></ChartDataLabel>
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@ChartData" Name="December 2008" XName="XValue" Width="2"
-                         Opacity="1" YName="YValue1" Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@ChartPoints" Name="December 2008" XName="Country" Width="2"
+                         Opacity="1" YName="FBUser_08" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.Pentagon">
-                    <ChartDataLabel Name="Text"></ChartDataLabel>
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@ChartData" Name="December 2009" XName="XValue" Width="2"
-                         Opacity="1" YName="YValue2" Type="ChartSeriesType.Line">
+            <ChartSeries DataSource="@ChartPoints" Name="December 2009" XName="Country" Width="2"
+                         Opacity="1" YName="FBUser_09" Type="ChartSeriesType.Line">
                 <ChartMarker Visible="true" Width="10" Height="10" Shape="ChartShape.Triangle">
-                    <ChartDataLabel Name="Text"></ChartDataLabel>
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
@@ -49,51 +52,48 @@
 
 @code{
 
-    public class LineChartData
+    private Theme Theme { get; set; }
+    public List<LineChartData> ChartPoints { get; set; } = new List<LineChartData>
     {
-        public string XValue { get; set; }
-        public double YValue { get; set; }
-        public double YValue1 { get; set; }
-        public double YValue2 { get; set; }
-        public string Text { get; set; }
+        new LineChartData { Country = "WW", FBUser_07 = 12, FBUser_08 = 22, FBUser_09 = 38.3, TooltipMappingName = "World Wide"},
+        new LineChartData { Country = "EU", FBUser_07 = 9.9, FBUser_08 = 26, FBUser_09 = 45.2, TooltipMappingName = "Europe" },
+        new LineChartData { Country = "APAC", FBUser_07 = 6.4, FBUser_08 = 9.6, FBUser_09 = 18.2, TooltipMappingName = "Asia Pacific"},
+        new LineChartData { Country = "LATAM", FBUser_07 = 4.4, FBUser_08 = 28, FBUser_09 = 46.7, TooltipMappingName = "Latin America"},
+        new LineChartData { Country = "MEA", FBUser_07 = 30, FBUser_08 = 45.7, FBUser_09 = 61.5, TooltipMappingName = "Middle East Africa"},
+        new LineChartData { Country = "NA", FBUser_07 = 25.3, FBUser_08 = 35.9, FBUser_09 = 64, TooltipMappingName = "North America"},
+    };
 
-    }
-
-    public List<LineChartData>
-    ChartData = new List<LineChartData>
-        {
-        new LineChartData { XValue = "WW", YValue = 12, YValue1 = 22, YValue2 = 38.3, Text = "World Wide"},
-        new LineChartData { XValue = "EU", YValue = 9.9, YValue1 = 26, YValue2 = 45.2, Text = "Europe" },
-        new LineChartData { XValue = "APAC", YValue = 6.4, YValue1 = 9.6, YValue2 = 18.2, Text = "Asia Pacific"},
-        new LineChartData { XValue = "LATAM", YValue = 4.4, YValue1 = 28, YValue2 = 46.7, Text = "Latin America"},
-        new LineChartData { XValue = "MEA", YValue = 30, YValue1 = 45.7, YValue2 = 61.5, Text = "Middle East Africa"},
-        new LineChartData { XValue = "NA", YValue = 25.3, YValue1 = 35.9, YValue2 = 64, Text = "North America"},
-        };
-
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
     }
+
+    public class LineChartData
+    {
+        public string Country { get; set; }
+        public double FBUser_07 { get; set; }
+        public double FBUser_08 { get; set; }
+        public double FBUser_09 { get; set; }
+        public string TooltipMappingName { get; set; }
     }
+
+}

@@ -1,0 +1,74 @@
+﻿@page "/gantt-chart/resource-allocation"
+
+@using Syncfusion.Blazor.Gantt
+@using blazor_samples
+@using ej2_blazor_defaultdata
+
+@using Syncfusion.Blazor.Buttons
+
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the options to allocate one or more resources to tasks based on the task requirement. The Work is the total labor hours necessary to complete a task. Work can be mapped from the data source field using the property <code>Work</code> and when the Work value is mapped from the data source, the end date and duration of the task will be calculated automatically based on the work and resource unit values from the data source. Work can be measured in hours, days and minutes. It is measured in ‘hours’ scale by default and this can be changed by using the <code>WorkUnit</code> property.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>  In this example, you can see how to allocate single or multiple resources for the task. Based on the task complexity and the resource availability, you can plan and allocate the resources to task in the project. In this demo, there is a set of predefined resources and those IDs are assigned to the task. Resource information can be shown in Gantt chart by using the <code>LabelSettings</code> property.</p>
+
+    <p>Resources can be mapped using <code>ResourceFields:</code>.</p>
+    <p><code>Id:</code> To map resource ID</p>
+    <p> <code>Name:</code>To map resource name</p>
+    <p><code>Unit:</code> To map resource unit</p>
+
+    The work, duration and resource unit fields of a task depends upon each other values and will change automatically on editing any one of these fields. But we can also set these field’s values as constant using the <code>TaskType</code> property. The following values can be set to the type property:
+    <p> <code> FixedDuration:</code> Duration task field will remain constant while updating resource unit or work field.</p>
+    <p><code> FixedWork:</code> Work field will remain constant while updating resource unit or duration fields.</p>
+    <p><code> FixedUnit:</code> Resource units will remain constant while updating duration or work field.</p>
+
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" WorkUnit="WorkUnit.Hour"
+                     Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 ParentID="ParentId" Work="Work" ResourceInfo="Resources" TaskType="TaskType">
+                </GanttTaskFields>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
+                                   ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="ID"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Event Name"></GanttColumn>
+                    <GanttColumn Field="Resources" HeaderText="Event Resources"></GanttColumn>
+                    <GanttColumn Field="Work" HeaderText="Work"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="TaskType" HeaderText="Task Type"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+
+                </GanttColumns>
+                <GanttResourceFields Resources="ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="ResourceData.ResourceAlloacteData"></GanttResourceFields>
+                <GanttLabelSettings RightLabel="Resources" TValue="ResourceData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+@code{
+
+
+
+
+    public DateTime ProjectStart = new DateTime(2019, 3, 28);
+    public DateTime ProjectEnd = new DateTime(2019, 7, 28);
+    public List<ResourceData.TaskData> TaskCollection { get; set; }
+    public List<ResourceData.ResourceAlloacteData> ResourceCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = ResourceData.GetTaskCollection();
+        this.ResourceCollection = ResourceData.GetResources;
+    }
+}
+
+

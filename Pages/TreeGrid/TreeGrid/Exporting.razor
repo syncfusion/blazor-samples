@@ -2,6 +2,7 @@
 
 @using Syncfusion.Blazor.TreeGrid
 @using Syncfusion.Blazor.Grids;
+@using Syncfusion.Blazor.Buttons;
 
 @*Hidden:Lines*@
 @using ej2_blazor_selfdata
@@ -12,15 +13,16 @@
     <p>This sample demonstrates the client-side exporting of the Tree Grid, which allows you to export its data to the Excel, Pdf and CSV formats. Use the toolbar buttons to export Tree Grid data to desired format.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Tree Grid supports client-side exporting which allows you to export its data to the Excel, Pdf and CSV formats.</p>
-   <p>In this demo, for the toolbar items of exporting, we have defined actions in <code>OnToolbarClick</code> event to export the Tree Grid data using the <code>ExcelExport</code>, <code>PdfExport</code> and <code>CsvExport</code> methods.</p>
-   <p>More information on the exporting can be found in <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/excel-export/' >Excel Export</a> and <a target='_blank'  href='https://blazor.syncfusion.com/documentation/treegrid/exporting/' >Pdf Export</a> documentation section.</p>
+    <p>Tree Grid supports client-side exporting which allows you to export its data to the Excel, Pdf and CSV formats.</p>
+    <p>By using the Persist collapsed state checkbox we can persist the Expand/Collpase state of Tree Grid in exported document </p>
+    <p>In this demo, for the toolbar items of exporting, we have defined actions in <code>OnToolbarClick</code> event to export the Tree Grid data using the <code>ExcelExport</code>, <code>PdfExport</code> and <code>CsvExport</code> methods.</p>
+    <p>More information on the exporting can be found in <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/excel-export/'>Excel Export</a> and <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/exporting/'>Pdf Export</a> documentation section.</p>
 </ActionDescription>
 
-<div class="col-lg-12 control-section">
+<div class="col-lg-9 control-section">
     <div class="content-wrapper">
         <div class="row">
-              <SfTreeGrid @ref="TreeGrid" AllowPdfExport="true" AllowExcelExport="true" DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" Height="315" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "PdfExport", "ExcelExport", "CsvExport" })">
+            <SfTreeGrid @ref="TreeGrid" AllowPdfExport="true" AllowExcelExport="true" DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" Height="315" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "PdfExport", "ExcelExport", "CsvExport" })">
                 <TreeGridEvents OnToolbarClick="Toolbarclick" TValue="SelfReferenceData"></TreeGridEvents>
                 <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
                 <TreeGridColumns>
@@ -38,7 +40,20 @@
     </div>
 </div>
 
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Export Customization</div>
+    <table id="property" title="Properties" style="width: 100%;">
+        <tr style="width: 20px">
+            <td>
+                <SfCheckBox @bind-Checked="@IsCollapsedStatePersist" @onchange="onChange" LabelPosition="LabelPosition.Before" Label="Persist Collapsed State">
+                </SfCheckBox>
+            </td>
+        </tr>
+    </table>
+</div>
+
 @code{
+    private bool IsCollapsedStatePersist = true;
 
     SfTreeGrid<SelfReferenceData> TreeGrid;
 
@@ -53,15 +68,30 @@
     {
         if (args.Item.Text == "PDF Export")
         {
-            this.TreeGrid.PdfExport();
+            Syncfusion.Blazor.TreeGrid.TreeGridPdfExportProperties ExportProperties = new Syncfusion.Blazor.TreeGrid.TreeGridPdfExportProperties();
+            ExportProperties.IsCollapsedStatePersist = IsCollapsedStatePersist;
+            this.TreeGrid.PdfExport(ExportProperties);
         }
         else if (args.Item.Text == "Excel Export")
         {
-            this.TreeGrid.ExcelExport();
+            Syncfusion.Blazor.TreeGrid.TreeGridExcelExportProperties ExportProperties = new Syncfusion.Blazor.TreeGrid.TreeGridExcelExportProperties();
+            ExportProperties.IsCollapsedStatePersist = IsCollapsedStatePersist;
+            this.TreeGrid.ExcelExport(ExportProperties);
         }
         else if (args.Item.Text == "CSV Export")
         {
             this.TreeGrid.CsvExport();
+        }
+    }
+
+    private void onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if ((bool)args.Value)
+        {
+            IsCollapsedStatePersist = true;
+        } else
+        {
+            IsCollapsedStatePersist = false;
         }
     }
 }

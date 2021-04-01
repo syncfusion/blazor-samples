@@ -1,124 +1,106 @@
 ﻿@page "/chart/vertical-chart"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+@using System.Collections.ObjectModel
+@using System.Timers
+
 @inject NavigationManager NavigationManager
-@using System.Collections.ObjectModel;
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample illustrates the vertical chart by changing the orientation of x-axis to vertical and y-axis to horizontal.</p>
+    <p>This sample illustrates the seismograph analysis using the vertical chart by changing the orientation of the x-axis to the vertical and the y-axis to the horizontal.</p>
 </SampleDescription>
 <ActionDescription>
-    <p> In this example, you can see how to render and configure the vertical type charts. To render a chart in vertical manner, you can use isTransposed in chart.</p>
-    <p> More information on the vertical chart can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure the vertical type chart. To render a chart in vertical manner, you can use <code>IsTransposed</code> property in the chart.</p>
+    <p>More information about the marker can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/vertical-chart'>documentation section</a>.</p>
 </ActionDescription>
 
-@if (ChangeData == null)
-{
-    <div></div>
-}
-else
-{
-    <div class="control-section" align="center">
-        <SfChart IsTransposed="true" Title="Indonesia - Seismograph Analysis" Theme="@Theme">
-            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
-            <ChartPrimaryXAxis Title="Time (s)">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Title="Velocity (m/s)">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryYAxis>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@ChangeData" XName="x" YName="y" Type="ChartSeriesType.Line">
-                </ChartSeries>
-            </ChartSeriesCollection>
-            <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
-        </SfChart>
-    </div>
-}
+<div class="control-section" align="center">
+    <SfChart IsTransposed="true" Title="Indonesia - Seismograph Analysis" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis Title="Time (s)">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Velocity (m/s)">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChangePoints" XName="Velocity" YName="Time" Type="ChartSeriesType.Line">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
+    </SfChart>
+</div>
 
-    @code{
-        Random random = new Random();
-public ObservableCollection<Data> DataSource;
-    public ObservableCollection<Data> ChangeData { get; set; }
-    int Count = 0;
-    double value = 0;
-    private static System.Timers.Timer syncTimer;
-    public class Data
-    {
-        public double x { get; set; }
-        public double y { get; set; }
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Run(() =>
-        {
-            DataSource = new ObservableCollection<Data> {
-            new Data
-            {
-                  x = 0,
-                  y = random.Next()
-            }
-            };
-        });
-        this.Count++;
-        ChangeData = this.GetData(0, 50);
-        syncTimer = new System.Timers.Timer(500);
-        syncTimer.Elapsed += AddNewChartData;
-        syncTimer.AutoReset = true;
-        syncTimer.Enabled = true;
-    }
-    ObservableCollection<Data> GetData(int start, int count)
-    {
-        ObservableCollection<Data> data = new ObservableCollection<Data>();
+@code{
 
-        for (double i = start; i < start + count; i++)
-        {
-            value += ((random.Next(0, 10)) - 5);
-            data.Add(new Data
-            {
-                x = i,
-                y = random.Next(100, 250)
-            });
-            this.Count++;
-        }
-        return data;
-    }
-    public void AddNewChartData(Object source, System.Timers.ElapsedEventArgs e)
-    {
-        value += ((random.Next(0, 10)) - 5);
-        this.ChangeData.Add(new Data
-        {
-            x = Count + 10,
-            y = random.Next(100, 250)
-        });
-        Count = Count + 10;
-        InvokeAsync(this.StateHasChanged);
-    }
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+    private Random randomNum = new Random();
+    private int count = 1;
+    private static Timer timer;
+    private Theme Theme { get; set; }
+    public ObservableCollection<Data> ChangePoints { get; set; }
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
-    }
+        ChangePoints = this.GetData(0, 50);
+        timer = new Timer(500);
+        timer.Elapsed += AddNewChartData;
+        timer.AutoReset = true;
+        timer.Enabled = true;
     }
 
+    private ObservableCollection<Data> GetData(int start, int count)
+    {
+        ObservableCollection<Data> chartPoints = new ObservableCollection<Data>();
+
+        for (double i = start; i < start + count; i++)
+        {
+            chartPoints.Add(new Data
+            {
+                Velocity = i,
+                Time = randomNum.Next(100, 250)
+            });
+            this.count++;
+        }
+        return chartPoints;
+    }
+
+    private void AddNewChartData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        ChangePoints.Add(new Data
+        {
+            Velocity = count + 10,
+            Time = randomNum.Next(100, 250)
+        });
+        this.count += 10;
+        InvokeAsync(this.StateHasChanged);
+    }
+
+    public class Data
+    {
+        public double Velocity { get; set; }
+        public double Time { get; set; }
+    }
+
+}

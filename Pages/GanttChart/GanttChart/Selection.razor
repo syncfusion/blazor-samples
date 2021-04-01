@@ -1,0 +1,205 @@
+﻿@page "/gantt-chart/selection"
+
+@using Syncfusion.Blazor.Gantt
+@using blazor_samples
+@using ej2_blazor_filterdata
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Inputs;
+
+@using Syncfusion.Blazor.Grids
+<SampleDescription>
+    <p> The selection feature enables you to highlight row or cell. It can be enabled by setting <code>AllowSelection</code> to <code>true</code>.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Gantt control supports two types of selection that can be set by using the <code>SelectionSettings.type</code> property. They are:</p>
+
+    <p>•<code>Single</code> - Sets a single value by default and allows only selection of a single row or a cell.</p>
+    <p>•<code>Multiple</code> - Allows you to select multiple rows or cells. To perform the multi-selection, press and hold the CTRL key and click the desired rows or cells.</p>
+    <p>The Gantt control supports three types of selection modes that can be set by using the <code>SelectionSettings.mode</code> property. They are:</p>
+
+    <p>  •<code>Row</code> - Allows you to select only rows, and the row value is set by default.</p>
+    <p> •<code>Cell</code> - Allows you to select only cells.</p>
+    <p>  •<code>Both</code> - Allows you to select rows and cells at the same time.</p>
+    <p> The Gantt control supports toggle selection that can be set by using the <code>SelectionSettings.enableToggle</code> property.</p>
+</ActionDescription>
+
+@inherits SampleBaseComponent;
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="450px" Width="100%" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" AllowSelection="@SelectionValue" SelectedRowIndex="@SelectedValue">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+                </GanttTaskFields>
+                <GanttSelectionSettings Mode="@GanttSelectMode" Type="@GanttSelectType" EnableToggle="@Toggle"></GanttSelectionSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="FilterData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="30%"></GanttSplitterSettings>
+            </SfGantt>
+
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div><div class="property-panel-content">
+            <table id="property" title="Properties" class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td style="width: 50%">
+                            <div class="userselect">Toggle</div>
+                        </td>
+                        <td style="width: 50%;padding-right: 10px">
+
+                        <td style="width: 70%">
+                            <div>
+
+                                <SfDropDownList Width="100%" @ref="@DropdownToggle" TValue="string" TItem="DropDownData" DataSource="@SelectionToggle" @bind-Value="@DefaultToggle">
+                                    <DropDownListEvents TValue="string" ValueChange="ToggleChange" TItem="DropDownData"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                        </td>
+                    </tr>
+
+
+
+
+
+                    <tr>
+                        <td style="width: 50%">
+                            <div class="userselect">Mode</div>
+                        </td>
+                        <td style="width: 50%;padding-right: 10px">
+
+                        <td style="width: 70%">
+                            <div>
+
+                                <SfDropDownList Width="100%" @ref="@DropdownMode" TValue="string" TItem="DropDownData" DataSource="@SelectionModes" @bind-Value="@Mode">
+                                    <DropDownListEvents TValue="string" ValueChange="ModeChange" TItem="DropDownData"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="width: 50%">
+                            <div class="userselect">Type</div>
+                        </td>
+                        <td style="width: 50%;padding-right: 10px">
+
+                        <td style="width: 70%">
+                            <div>
+
+                                <SfDropDownList Width="100%" @ref="@DropdownType" TValue="string" TItem="DropDownData" DataSource="@SelectionTypes" @bind-Value="@Type">
+                                    <DropDownListEvents TValue="string" ValueChange="TypeChange" TItem="DropDownData"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@code{
+    public DateTime ProjectStart = new DateTime(2019, 3, 27);
+    public DateTime ProjectEnd = new DateTime(2019, 7, 6);
+    SfDropDownList<string, DropDownData> DropdownToggle { get; set; }
+    public List<DropDownData> SelectionToggle { get; set; } = new List<DropDownData>();
+    public string DefaultToggle;
+    public class DropDownData
+    {
+        public string ID { get; set; }
+        public string Mode { get; set; }
+    }
+    public void ToggleChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "False")
+        {
+            Toggle = false;
+        }
+        else if (args.Value == "True")
+        {
+            Toggle = true;
+        }
+    }
+
+    SfDropDownList<string, DropDownData> DropdownMode { get; set; }
+    public List<DropDownData> SelectionModes { get; set; } = new List<DropDownData>();
+    public string Mode { get; set; }
+    public void ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "Cell")
+        {
+            GanttSelectMode = Syncfusion.Blazor.Grids.SelectionMode.Cell;
+        }
+        if (args.Value == "Row")
+        {
+            GanttSelectMode = Syncfusion.Blazor.Grids.SelectionMode.Row;
+        }
+    }
+
+    SfDropDownList<string, DropDownData> DropdownType { get; set; }
+    public List<DropDownData> SelectionTypes { get; set; } = new List<DropDownData>();
+    public string Type { get; set; }
+    public void TypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "Single")
+        {
+            GanttSelectType = Syncfusion.Blazor.Grids.SelectionType.Single;
+        }
+        if (args.Value == "Multiple")
+        {
+            GanttSelectType = Syncfusion.Blazor.Grids.SelectionType.Multiple;
+        }
+    }
+
+    public SfGantt<FilterData.TaskData> Gantt;
+    public Syncfusion.Blazor.Grids.SelectionMode GanttSelectMode { get; set; } = Syncfusion.Blazor.Grids.SelectionMode.Row;
+    public Syncfusion.Blazor.Grids.SelectionType GanttSelectType { get; set; } = Syncfusion.Blazor.Grids.SelectionType.Single;
+    public Boolean SelectionValue = true;
+    public Boolean Toggle = false;
+
+    public int SelectedValue = -1;
+    public List<double> SelectedRowIndexes { get; set; }
+    public double[] TotalValue { get; set; }
+
+
+
+
+
+    public void SelectCell()
+    {
+        this.Gantt.SelectCell((2, 1));
+    }
+
+
+
+    public List<FilterData.TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = FilterData.GetTaskCollection();
+        this.SelectionToggle.Add(new DropDownData() { ID = "True", Mode = "True" });
+        this.SelectionToggle.Add(new DropDownData() { ID = "False", Mode = "False" });
+        this.SelectionModes.Add(new DropDownData() { ID = "Row", Mode = "Row" });
+        this.SelectionModes.Add(new DropDownData() { ID = "Cell", Mode = "Cell" });
+        this.SelectionTypes.Add(new DropDownData() { ID = "Single", Mode = "Single" });
+        this.SelectionTypes.Add(new DropDownData() { ID = "Multiple", Mode = "Multiple" });
+        this.DefaultToggle = Toggle.ToString();
+        this.Mode = (this.GanttSelectMode).ToString();
+        this.Type = (this.GanttSelectType).ToString();
+    }
+}
+

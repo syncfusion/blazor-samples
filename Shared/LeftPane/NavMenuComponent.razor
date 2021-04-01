@@ -11,15 +11,15 @@
                 <span class="tree-text">@context.Name</span>
                 @if (context.Type != SampleType.None)
                 {
-                    <span class="e-badge sb-badge e-samplestatus @(context.Type.ToString().ToLower()) tree tree-badge"></span>
+                    <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower()) tree tree-badge"></span>
                 }
             </div>
         </TreeTemplate>
     </TreeComponent>
     <div class="@samplesClass">
-        <div id="sb-left-back1" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
+        <div id="sb-left-all-components" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
             <div class="sb-icons sb-back-icon"></div>
-            <div class='control-name'>All Components</div>
+            <div class='all-components'>All Components</div>
         </div>
         <ListComponent @ref="ListRef" DataSource="@ListDataSource" OnSelectList="OnSampleSelection">
             <Template>
@@ -28,7 +28,7 @@
                         <span class="sf-list-text">@context.Name</span>
                         @if (@context.Type != SampleType.None)
                         {
-                            <span class="e-badge sb-badge e-samplestatus @(context.Type.ToString().ToLower())"></span>
+                            <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower())"></span>
                         }
                     </div>
                 }
@@ -72,6 +72,10 @@
         Layout.RightPaneRef.TabSelectedItemChange();
         Layout.CollapseSideBar();
         var currentUrl = item.Url.ToLower();
+        if (item.Directory.StartsWith("Buttons"))
+        {
+            this.SelectTreeNode(item.Name);
+        }
         RefreshSampleNavigator(currentUrl);
         this.NavigatePage(currentUrl);
     }
@@ -86,15 +90,24 @@
         TreeRef.ShowTree(false);
         samplesClass = SampleUtils.RemoveClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
 
-        // Select first item in list component.
-        var firstItem = this.ListDataSource.FirstOrDefault();
-        ListRef.SelectItem(firstItem);
+        Sample sampleItem;
+        if (nodeItem.Category == "Buttons")
+        {
+            // Select specific button sample.
+            sampleItem = this.ListDataSource.Where(sample => sample.Name == nodeItem.Name).FirstOrDefault();
+        }
+        else
+        {
+            // Select first item in list component.
+            sampleItem = this.ListDataSource.FirstOrDefault();
+        }
+        ListRef.SelectItem(sampleItem);
 
         Layout.RightPaneRef.TabSelectedItemChange();
         Layout.CollapseSideBar();
-        var currentUrl = firstItem.Url.ToLower();
-        RefreshSampleNavigator(currentUrl);
-        this.NavigatePage(currentUrl);
+
+        RefreshSampleNavigator(nodeItem.DemoPath);
+        this.NavigatePage(nodeItem.DemoPath);
     }
 
     // Handles query param and navigate to the Url.
@@ -115,6 +128,7 @@
     // Refresh sample navigator button states for device and desktop.
     private void RefreshSampleNavigator(string url)
     {
+        Layout.RightPaneRef?.FooterRef.UpdateFooter(url);
         this.Layout.SampleNavigatorRef?.RefreshState(url, true);
         this.Layout.RightPaneRef?.SampleNavigatorRef?.RefreshState(url, true);
     }
@@ -156,7 +170,14 @@
                     // Select tree node for sample navigator.
                     if (TreeRef != null)
                     {
-                        this.SelectTreeNode(samplesInfo.Name);
+                        if (samplesInfo.Directory == "Buttons")
+                        {
+                            this.SelectTreeNode(currentSample.FirstOrDefault().Name);
+                        }
+                        else
+                        {
+                            this.SelectTreeNode(samplesInfo.Name);
+                        }
                     }
                     break;
                 }
@@ -198,10 +219,13 @@
                 {
                     for (var j = 0; j < listData[i].Count; j++)
                     {
-                        SampleBrowser.SampleUrls.Add(listData[i][j].Url.ToLower());
+                        if (!SampleBrowser.SampleUrls.Contains(listData[i][j].Url.ToLower()))
+                        {
+                            SampleBrowser.SampleUrls.Add(listData[i][j].Url.ToLower());
+                        }
                     }
                 }
-                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples });
+                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, Category = item.Category, DemoPath = item.DemoPath });
                 // Update first sample information in the sample service.
                 if (SampleService.SampleInfo == null)
                 {
@@ -224,6 +248,7 @@
         base.OnAfterRender(firstRender);
         if (firstRender)
         {
+            Layout.RightPaneRef?.FooterRef.UpdateFooter(UriHelper.Uri);
             Layout.UpdateBreadCrumb(SampleService.ComponentName, SampleService.SampleInfo.Category, SampleService.SampleInfo.Name);
             this.SelectTreeNode(SampleService.ComponentName);
         }

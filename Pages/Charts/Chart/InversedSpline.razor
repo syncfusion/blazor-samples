@@ -1,14 +1,17 @@
 ﻿@page "/chart/inversed-spline"
+
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates a spline series by inversing X and Y Axis. Data points are enhanced with marker and tooltip.</p>
+    <p>This sample shows the 2012 climate report in London and France with the spline series by inversing X and Y Axis. Data points are enhanced by a marker and tooltip.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the spline type charts. Spline chart connects each point in series through a curved line. You can use <code>DashArray</code>, <code>Width</code>, <code>Fill</code> properties to customize the spline. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its value.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure the spline type charts. Spline chart connects each point in series through a curved line. <code>Marker</code> is used to represent individual data and its value.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -19,69 +22,67 @@
             <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis LabelFormat="{value}C">            
+        <ChartPrimaryYAxis LabelFormat="{value}°C">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" Name="London" XName="xValue" Width="2"
-                         Opacity="1" YName="yValue" Type="ChartSeriesType.Spline">
+            <ChartSeries DataSource="@ChartPoints" Name="London" XName="Month" Width="2"
+                         Opacity="1" YName="LDN_Temperature" Type="ChartSeriesType.Spline">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@ChartData" Name="France" XName="xValue" Width="2"
-                         Opacity="1" YName="yValue1" Type="ChartSeriesType.Spline">
+            <ChartSeries DataSource="@ChartPoints" Name="France" XName="Month" Width="2"
+                         Opacity="1" YName="FR_Temperature" Type="ChartSeriesType.Spline">
                 <ChartMarker Visible="true" Width="10" Height="10">
                 </ChartMarker>
-            </ChartSeries>           
+            </ChartSeries>
         </ChartSeriesCollection>
     </SfChart>
 </div>
 
 @code{
 
-    public class InversedLineChartData
+    private Theme Theme { get; set; }
+    public List<InversedLineChartData> ChartPoints { get; set; } = new List<InversedLineChartData>
     {
-        public string xValue { get; set; }
-        public double yValue { get; set; }
-        public double yValue1 { get; set; }
-    }
+        new InversedLineChartData { Month = "Jan", LDN_Temperature = -1, FR_Temperature = 7 },
+        new InversedLineChartData { Month = "Mar", LDN_Temperature = 12, FR_Temperature = 2 },
+        new InversedLineChartData { Month = "Apr", LDN_Temperature = 25, FR_Temperature = 13 },
+        new InversedLineChartData { Month = "Jun", LDN_Temperature = 31, FR_Temperature = 21 },
+        new InversedLineChartData { Month = "Aug", LDN_Temperature = 26, FR_Temperature = 26 },
+        new InversedLineChartData { Month = "Oct", LDN_Temperature = 14, FR_Temperature = 10 },
+        new InversedLineChartData { Month = "Dec", LDN_Temperature = 8, FR_Temperature = 0 }
+    };
 
-    public List<InversedLineChartData> ChartData = new List<InversedLineChartData>
-            {
-                new InversedLineChartData { xValue = "Jan", yValue = -1, yValue1 = 7 },
-                new InversedLineChartData { xValue = "Mar", yValue = 12, yValue1 = 2 },
-                new InversedLineChartData { xValue = "Apr", yValue = 25, yValue1 = 13 },
-                new InversedLineChartData { xValue = "Jun", yValue = 31, yValue1 = 21 },
-                new InversedLineChartData { xValue = "Aug", yValue = 26, yValue1 = 26 },
-                new InversedLineChartData { xValue = "Oct", yValue = 14, yValue1 = 10 },
-                new InversedLineChartData { xValue = "Dec", yValue = 8, yValue1 = 0 },
-            };
-
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class InversedLineChartData
+    {
+        public string Month { get; set; }
+        public double LDN_Temperature { get; set; }
+        public double FR_Temperature { get; set; }
     }
 }

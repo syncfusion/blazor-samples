@@ -1,0 +1,60 @@
+﻿@page "/gantt-chart/work-week"
+
+@using Syncfusion.Blazor.Gantt
+@using blazor_samples
+@using ej2_blazor_defaultdata
+
+
+
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes the support for changing different set of working days in a week and also displaying a days which are considers as holidays based on sample mapping.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a Gantt chart with the provided data source and customizable array of working days. These working days alone will be considered for taskbar rendering and duration calculations.</p>
+    <p>The working days in your project can be customized using the <code>WorkWeek</code> property. You can get to know the working days in the Gantt chart timeline by the highlighted weekend days. This can be enabled by using the <code>HighlightWeekends</code> property.</p>
+
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" WorkWeek="@(new string[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" })" HighlightWeekends="true">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+                </GanttTaskFields>
+                <GanttHolidays>
+                    <GanttHoliday From="new DateTime(2019, 04, 03)" To="new DateTime(2019, 04, 05)" Label="Public holiday"></GanttHoliday>
+                </GanttHolidays>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="9" To="18"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+                <GanttSplitterSettings Position="30%"></GanttSplitterSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="WorkData.TaskData"></GanttLabelSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+
+@code{
+
+    public DateTime ProjectStart = new DateTime(2019, 3, 27);
+    public DateTime ProjectEnd = new DateTime(2019, 7, 6);
+    public List<WorkData.TaskData> TaskCollection { get; set; }
+    public class Weeks
+    {
+        public string Name { get; set; }
+
+        public string Code { get; set; }
+    }
+
+
+
+
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = WorkData.GetTaskCollection();
+    }
+}

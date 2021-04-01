@@ -99,7 +99,7 @@
                             <div style="padding-top: 20px;">
                                 <SfMultiSelect TValue="string[]" TItem="DropDownData" Placeholder="Select fields to hide its sub-totals" Mode="@VisualMode.CheckBox" DataSource="@Fields" ShowClearButton="false"
                                                 EnableSelectionOrder="false" ShowDropDownIcon="true" PopupWidth="100%" Width="80%" AllowFiltering="false">
-                                    <MultiSelectEvents TValue="string[]" TItem="DropDownData" ValueChange="UpdateSubTotals"></MultiSelectEvents>
+                                    <MultiSelectEvents TValue="string[]" TItem="DropDownData" OnValueSelect="args => { UpdateSubTotals(args.ItemData.Value, true); }" OnValueRemove="args => { UpdateSubTotals(args.ItemData.Value, false); }"></MultiSelectEvents>
                                     <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
                                 </SfMultiSelect>
                             </div>
@@ -157,22 +157,15 @@
         }
     }
 
-    public void UpdateSubTotals(@Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    public void UpdateSubTotals(string field, bool isSelected)
     {
-        this.RowSubTotal = this.ColumnSubTotal = true;
-        if (args.Value != null)
+        if (field == "Country")
         {
-            foreach (string value in args.Value)
-            {
-                if (value == "Country")
-                {
-                    this.RowSubTotal = false;
-                }
-                else if (value == "Year")
-                {
-                    this.ColumnSubTotal = false;
-                }
-            }
+            this.RowSubTotal = !isSelected;
+        }
+        else if (field == "Year")
+        {
+            this.ColumnSubTotal = !isSelected;
         }
     }
 
