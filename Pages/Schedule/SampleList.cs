@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +15,9 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/overview",
                 FileName = "Overview.razor",
+                MetaTitle = "Blazor Scheduler Example | Scheduler Overview | Syncfusion Demos ",
+                HeaderText = "Blazor Scheduler Example - Overview",
+                MetaDescription = "This example demonstrates the Overview of the Blazor Scheduler Example . Explore here for more details.",
                 Type = SampleType.Updated
             },
             new Sample
@@ -23,8 +26,7 @@ namespace blazor_samples
                 Category = "Scheduler",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/default-functionalities",
-                FileName = "Default.razor",
-                Type = SampleType.Updated
+                FileName = "Default.razor"
             },
             new Sample
             {
@@ -72,8 +74,7 @@ namespace blazor_samples
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/search-events",
-                FileName = "SearchEvents.razor",
-                Type = SampleType.New
+                FileName = "SearchEvents.razor"
             },
             new Sample
             {
@@ -82,6 +83,15 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/external-drag-and-drop",
                 FileName = "ExternalDragDrop.razor"
+            },
+            new Sample
+            {
+                Name = "Multiple Drag",
+                Category = "Appointments",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/multi-drag",
+                FileName = "MultipleDrag.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -154,8 +164,7 @@ namespace blazor_samples
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/year-view",
-                FileName = "Year.razor",
-                Type = SampleType.Updated
+                FileName = "Year.razor"
             },
             new Sample
             {
@@ -167,12 +176,20 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Fare Calendar",
+                Category = "Multiple Resources",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/fare-calendar",
+                FileName = "FareCalendar.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Resources",
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/resource",
-                FileName = "Resources.razor",
-                Type = SampleType.New
+                FileName = "Resource.razor"
             },
             new Sample
             {
@@ -296,6 +313,15 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "External Form Editing",
+                Category = "Editor Window",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/external-form-editing",
+                FileName = "ExternalFormEditing.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Header Rows",
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
@@ -317,6 +343,15 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/context-menu",
                 FileName = "ContextMenu.razor"
+            },
+            new Sample
+            {
+                Name = "Header Bar",
+                Category = "Customization",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/header-bar",
+                FileName = "HeaderBar.razor",
+                Type = SampleType.New
             },
              new Sample
              {
@@ -428,8 +463,7 @@ namespace blazor_samples
                 Category = "Miscellaneous",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/events",
-                FileName = "Events.razor",
-                Type = SampleType.New
+                FileName = "Events.razor"
             }
         };
     }

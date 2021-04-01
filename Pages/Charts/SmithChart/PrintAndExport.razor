@@ -1,13 +1,13 @@
 ﻿@page "/smith-chart/print-and-export"
-@using Syncfusion.Blazor.Charts;
-@using Syncfusion.Blazor.Buttons;
-@using Syncfusion.Blazor.DropDowns;
-@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample explores the exporting and printing functionality in the smith chart.</p>
+    <p>This sample explores the exporting and printing functionality in the smith chart.</p>
 </SampleDescription>
 <ActionDescription>
     <p>In this example, you can see how to export and print the rendered smith chart. Smith chart can be exported to <b>JPEG, PNG, SVG </b> and <b>PDF</b> formats.</p>
@@ -15,24 +15,24 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-        <SfSmithchart @ref="@smithChart">
-            <SmithchartHorizontalAxis>
-                <SmithchartHorizontalMinorGridLines Visible="true"></SmithchartHorizontalMinorGridLines>
-            </SmithchartHorizontalAxis>
-            <SmithchartRadialAxis>
-                <SmithchartRadialMinorGridLines Visible="true"></SmithchartRadialMinorGridLines>
-            </SmithchartRadialAxis>
-            <SmithchartSeriesCollection>
-                <SmithchartSeries Name="Transmission" EnableAnimation="true" DataSource="@SmithchartSeries" Resistance="resistance" Reactance="reactance">
-                    <SmithchartSeriesTooltip Visible="true"></SmithchartSeriesTooltip>
-                    <SmithchartSeriesMarker Shape="Circle" Visible="true">
-                        <SmithchartSeriesMarkerBorder Width="2"></SmithchartSeriesMarkerBorder>
-                    </SmithchartSeriesMarker>
-                </SmithchartSeries>
-                <SmithchartLegendSettings Visible="true" Shape="Circle"></SmithchartLegendSettings>
-            </SmithchartSeriesCollection>
-        </SfSmithchart>
-    </div>
+    <SfSmithChart @ref="@chart">
+        <SmithChartHorizontalAxis>
+            <SmithChartHorizontalMinorGridLines Visible="true"></SmithChartHorizontalMinorGridLines>
+        </SmithChartHorizontalAxis>
+        <SmithChartRadialAxis>
+            <SmithChartRadialMinorGridLines Visible="true"></SmithChartRadialMinorGridLines>
+        </SmithChartRadialAxis>
+        <SmithChartSeriesCollection>
+            <SmithChartSeries Name="Transmission" EnableAnimation="true" DataSource="@SmithchartSeries" Resistance="resistance" Reactance="reactance">
+                <SmithChartSeriesTooltip Visible="true"></SmithChartSeriesTooltip>
+                <SmithChartSeriesMarker Shape="Shape.Circle" Visible="true">
+                    <SmithChartSeriesMarkerBorder Width="2"></SmithChartSeriesMarkerBorder>
+                </SmithChartSeriesMarker>
+            </SmithChartSeries>
+            <SmithChartLegendSettings Visible="true" Shape="Shape.Circle"></SmithChartLegendSettings>
+        </SmithChartSeriesCollection>
+    </SfSmithChart>
+</div>
 <div class="col-lg-3 property-section">
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
@@ -64,10 +64,10 @@
                     </tr>
                     <tr style="height: 50px">
                         <td style="width: 50%;padding-left: 7%;">
-                            <SfButton  OnClick="ExportClick" CssClass="e-info" IsToggle="true" IsPrimary="true">Export</SfButton>
+                            <SfButton OnClick="ExportClick" CssClass="e-info" IsToggle="true" IsPrimary="true">Export</SfButton>
                         </td>
                         <td style="width: 50%;">
-                            <SfButton  OnClick="PrintClick" CssClass="e-info" IsToggle="true" IsPrimary="true">Print</SfButton>
+                            <SfButton OnClick="PrintClick" CssClass="e-info" IsToggle="true" IsPrimary="true">Print</SfButton>
                         </td>
                     </tr>
                 </tbody>
@@ -77,14 +77,13 @@
 </div>
 
 @code {
-    SfSmithchart smithChart;
+    SfSmithChart chart { get; set; }
     private String fileType { get; set; } = "JPEG";
     private String fileName { get; set; } = "Smith chart";
-
     public class SmithDataSource
     {
-        public Double resistance;
-        public Double reactance;
+        public Double resistance { get; set; }
+        public Double reactance { get; set; }
     };
     private List<SmithDataSource> SmithchartSeries = new List<SmithDataSource> {
     new SmithDataSource { resistance= 0.15, reactance= 0.01 },
@@ -108,8 +107,7 @@
     new SmithDataSource { resistance= 0.25, reactance= -0.3 },
     new SmithDataSource { resistance= 0.25, reactance= -0.15 },
     new SmithDataSource { resistance= 0.25, reactance= 0.01 },
-};
-
+    };
     public class Typelist
     {
         public String Name { get; set; }
@@ -128,28 +126,28 @@
     {
         fileName = args.Value;
     }
-    private void ExportClick(MouseEventArgs args)
+    private async Task ExportClick()
     {
-        SmithchartExportType exportFileType = SmithchartExportType.JPEG;
+        ExportType exportFileType = ExportType.JPEG;
         switch (fileType)
         {
             case "JPEG":
-                exportFileType = SmithchartExportType.JPEG;
+                exportFileType = ExportType.JPEG;
                 break;
             case "PNG":
-                exportFileType = SmithchartExportType.PNG;
+                exportFileType = ExportType.PNG;
                 break;
             case "SVG":
-                exportFileType = SmithchartExportType.SVG;
+                exportFileType = ExportType.SVG;
                 break;
             case "PDF":
-                exportFileType = SmithchartExportType.PDF;
+                exportFileType = ExportType.PDF;
                 break;
         }
-        this.smithChart.Export(exportFileType, fileName);
+        await chart.Export(exportFileType, fileName);
     }
-    private void PrintClick(MouseEventArgs args)
+    private async Task PrintClick()
     {
-        this.smithChart.Print();
+        await chart.Print();
     }
 }

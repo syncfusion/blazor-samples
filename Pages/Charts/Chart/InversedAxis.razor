@@ -1,17 +1,19 @@
 ﻿@page "/chart/inversed-axis"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using PointRender
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>  This sample illustrates inversed axis in chart to plot exchange rate over a period.</p>
+    <p>This sample shows the inverted axis in the chart to plot the exchange rate over a period of time.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to inverse an axis in chart. Here both the X and Y axis are inversed using <code>IsInversed</code> property. </p>
-    <p> <code>DataLabel</code> are used to represent individual data and its value.</p>
-    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices. </p>
-    <p>More information on the Inversed Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>In this example, you can see how to inverse the axis of the chart. Here both X and Y axis are inversed using the <code>IsInversed</code> property set to <code>true</code>.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the inverse axis can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/axis-customization/#inversed-axis'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -28,7 +30,7 @@
         </ChartPrimaryYAxis>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@chartData" Name="Rate" XName="x" Width="2" Opacity="1" YName="y" Type="ChartSeriesType.Column">
+            <ChartSeries DataSource="@ChartPoints" Name="Rate" XName="Year" Width="2" Opacity="1" YName="ExchangeRate" Type="ChartSeriesType.Column">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
@@ -42,68 +44,73 @@
 </div>
 
 @code{
-    public class CategoryData
-    {
-        public string x { get; set; }
-        public double y { get; set; }
-    }
-    public List<CategoryData> chartData = new List<CategoryData>
-{
-                new CategoryData { x = "2008", y = 1.5 },
-                new CategoryData { x = "2009", y = 7.6 },
-                new CategoryData { x = "2010", y = 11 },
-                new CategoryData { x = "2011", y = 16.2 },
-                new CategoryData { x = "2012", y = 18 },
-                new CategoryData { x = "2013", y = 21.4 },
-                new CategoryData { x = "2014", y = 16 },
-                new CategoryData { x = "2015", y = 17.1 },
-             };
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+    private Theme Theme { get; set; }
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Year = "2008", ExchangeRate = 1.5 },
+        new CategoryData { Year = "2009", ExchangeRate = 7.6 },
+        new CategoryData { Year = "2010", ExchangeRate = 11 },
+        new CategoryData { Year = "2011", ExchangeRate = 16.2 },
+        new CategoryData { Year = "2012", ExchangeRate = 18 },
+        new CategoryData { Year = "2013", ExchangeRate = 21.4 },
+        new CategoryData { Year = "2014", ExchangeRate = 16 },
+        new CategoryData { Year = "2015", ExchangeRate = 17.1 }
+    };
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        this.SetTheme(null);
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        this.SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            if (args == null)
+                Theme = Theme.Material;
+            else
+                args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            if (args == null)
+                Theme = Theme.Fabric;
+            else
+                args.Fill = PointColor.FabricColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            if (args == null)
+                Theme = Theme.Bootstrap;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
         }
     }
-    public void PointRender(PointRenderEventArgs args)
-    {
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
-        }
 
+    public class CategoryData
+    {
+        public string Year { get; set; }
+        public double ExchangeRate { get; set; }
     }
 }
 

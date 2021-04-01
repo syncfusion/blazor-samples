@@ -1,66 +1,67 @@
 ﻿@page "/bullet-chart/legend"
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample illustrates a bullet chart with legend. Legend is used to know what the colors and shapes represent in bullet chart.</p>
+    <p>This sample illustrates a bullet chart with legend. Legend is used to know what the colors and shapes represent in bullet chart.</p>
 </SampleDescription>
 <ActionDescription>
     <p>Tooltip is enabled in this example, to see the tooltip in action, hover a feature bar or comparative bar on the bullet chart.</p>
 </ActionDescription>
 
-    <div class="control-section">
-        <div align="center">
-            <SfBulletChart DataSource="@BulletChartData0" ValueField="value" TargetField="target" Minimum="0" Maximum="30" Interval="5"
-                            Title="Package Downloads" Subtitle="in Thousands" Width="70%" Height="160">
-                <BulletChartAnimation Enable="false"></BulletChartAnimation>
-                <BulletChartTooltip Enable="false"></BulletChartTooltip>
-                <BulletChartLegendSettings Visible="true"></BulletChartLegendSettings>
-                <BulletChartRangeCollection>
-                    <BulletChartRange End="8" Color="#CA4218" Name="Poor"> </BulletChartRange>
-                    <BulletChartRange End="18" Color="#EFC820" Name="Avg"></BulletChartRange>
-                    <BulletChartRange End="30" Color="#599C20" Name="Good"></BulletChartRange>
-                </BulletChartRangeCollection>
-                 <BulletChartEvents Load="BeforeRender"/>
-            </SfBulletChart>
-        </div>
+<div class="control-section">
+    <div align="center">
+        <SfBulletChart DataSource="@BulletChartData0" ValueField="value" Theme="@theme" TargetField="target" Minimum="0" Maximum="30" Interval="5"
+                       Title="Package Downloads" Subtitle="in Thousands" Width="70%" Height="160">
+            <BulletChartTooltip TValue="ChartData" Enable="true"></BulletChartTooltip>
+            <BulletChartLegendSettings Visible="true"></BulletChartLegendSettings>
+            <BulletChartRangeCollection>
+                <BulletChartRange End="8" Color="#CA4218" Name="Poor"> </BulletChartRange>
+                <BulletChartRange End="18" Color="#EFC820" Name="Avg"></BulletChartRange>
+                <BulletChartRange End="30" Color="#599C20" Name="Good"></BulletChartRange>
+            </BulletChartRangeCollection>
+        </SfBulletChart>
     </div>
+</div>
 
-    @code{
-        public bool visible = true;
-        public class ChartData
-        {
-            public double value { get; set; }
-            public double[] target { get; set; }
-        }
-        public List<ChartData> BulletChartData0 = new List<ChartData>
-        {
+@code{
+    public bool visible = true;
+    public class ChartData
+    {
+        public double value { get; set; }
+        public double[] target { get; set; }
+    }
+    public List<ChartData> BulletChartData0 = new List<ChartData>
+{
             new ChartData { value = 25, target = new double[] { 20, 26, 28 } }
         };
-        string CurrentUri;
-        void BeforeRender(IBulletLoadedEventArgs Args)
+
+    private string CurrentUri;
+    private Theme theme { get; set; }
+    protected override void OnInitialized()
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
         {
-            CurrentUri = NavigationManager.Uri;
-            if (CurrentUri.IndexOf("material") > -1)
-            {
-                Args.Theme = ChartTheme.Material;
-            }
-            else if (CurrentUri.IndexOf("fabric") > -1)
-            {
-                Args.Theme = ChartTheme.Fabric;
-            }
-            else if (CurrentUri.IndexOf("bootstrap") > -1)
-            {
-                Args.Theme = ChartTheme.Bootstrap;
-            }
-            else if (CurrentUri.IndexOf("highcontrast") > -1)
-            {
-                Args.Theme = ChartTheme.HighContrast;
-            }
-            else
-            {
-                Args.Theme = ChartTheme.Bootstrap4;
-            }
+            theme = Theme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            theme = Theme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            theme = Theme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            theme = Theme.HighContrast;
+        }
+        else
+        {
+            theme = Theme.Bootstrap4;
         }
     }
+}

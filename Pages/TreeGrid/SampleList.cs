@@ -79,7 +79,7 @@ namespace blazor_samples
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/remote-data",
                 FileName = "RemoteData.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -821,7 +821,7 @@ namespace blazor_samples
                 Category = "Exporting",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/exporting",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 FileName="Exporting.razor",
                 SourceFiles = new List<SourceCollection>()
                 {

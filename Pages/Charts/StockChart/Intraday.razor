@@ -1,18 +1,19 @@
 ﻿@page "/stock-chart/intraday"
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 @if (DataSource == null)
 {
-    <div class="stockchartloader"></div>
-}
+    <div class="stockchartloader"></div> }
 else
 {
     <div class="@loadClass"></div>
     <div class="@loadDiv">
-        <SfStockChart Title="AAPL Stock Price" SeriesType="@Nullseries" TrendlineType="@Nulltrendline" IndicatorType="@Nullindicator" ExportType="@Nullexport">
-            <StockChartEvents Loaded="@ChartLoaded" Load="BeforeRender"></StockChartEvents>
+        <SfStockChart Title="AAPL Stock Price" Theme="@theme" SeriesType="@Nullseries" TrendlineType="@Nulltrendline" IndicatorType="@Nullindicator" ExportType="@Nullexport">
+            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -59,7 +60,8 @@ else
     </style>
 }
 
-@code{
+@code{ 
+
     Random random = new Random();
     public int Value = 80;
     public List<ChartSeriesType> Nullseries = new List<ChartSeriesType>() { };
@@ -67,13 +69,16 @@ else
     public List<TechnicalIndicators> Nullindicator = new List<TechnicalIndicators>() { };
     public List<ExportType> Nullexport = new List<ExportType>() { };
     private List<ChartData> DataSource;
+
     protected override async Task OnInitializedAsync()
     {
+        BeforeRender();
         await Task.Run(() =>
         {
             DataSource = this.GetData();
         });
     }
+
     List<ChartData> GetData()
     {
         List<ChartData> data = new List<ChartData>();
@@ -95,6 +100,7 @@ else
         }
         return data;
     }
+
     public class ChartData
     {
         public DateTime date { get; set; }
@@ -105,38 +111,40 @@ else
         public double volume { get; set; }
         public double value;
     }
+
     string loadClass = "stockchartloader";
     string loadDiv = "stockchartdiv";
-    void ChartLoaded(IStockChartEventArgs args)
+    void ChartLoaded(StockChartEventArgs args)
     {
         loadClass = "";
         loadDiv = "";
+        StateHasChanged();
     }
 
-     string CurrentUri;
-    void BeforeRender(IStockChartEventArgs Args)
+    string CurrentUri;
+    Theme theme = Theme.Bootstrap4;
+    void BeforeRender()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (CurrentUri.IndexOf("bootstrap") > -1 && CurrentUri.IndexOf("bootstrap4") == -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
-    }
-
+    } 
 }

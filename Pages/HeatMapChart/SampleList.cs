@@ -34,14 +34,6 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Color and Size",
-                Category = "Bubble HeatMap",
-                Directory = "HeatMapChart/HeatMapChart",
-                Url = "heatmap-chart/color-and-size",
-                FileName = "ColorAndSize.razor"
-            },
-            new Sample
-            {
                 Name = "Row",
                 Category = "Data Binding",
                 Directory = "HeatMapChart/HeatMapChart",
@@ -119,14 +111,6 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/palette-mode",
                 FileName = "PaletteMode.razor"
-            },
-            new Sample
-            {
-                Name = "Rendering Mode",
-                Category = "Features",
-                Directory = "HeatMapChart/HeatMapChart",
-                Url = "heatmap-chart/rendering-mode",
-                FileName = "RenderingMode.razor"
             },
             new Sample
             {

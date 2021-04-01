@@ -122,7 +122,9 @@ namespace blazor_samples
                 Category = "File Upload",
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/Default-Functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor File Upload Example of default functionalities - Syncfusion Demos",
+                HeaderText = "Blazor File Upload Example of default functionalities"
             },
              new Sample
             {

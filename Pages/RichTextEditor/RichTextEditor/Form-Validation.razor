@@ -1,5 +1,6 @@
 ﻿@page "/rich-text-editor/form-validation"
 
+@using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.RichTextEditor
 @using System.ComponentModel.DataAnnotations;
 
@@ -9,24 +10,34 @@
     <p>This sample is used to validate form using the <code>Data Annotation</code>. Type the values in Rich Text Editor and click the button to validate the form.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The form enables the validation with data annotation attributes by clicking on the submit externally. All rules are validated by the <code>DataAnnotationsValidator</code>.</p>
+    <p>The form enables the validation with data annotation attributes by clicking on the submit externally. All rules are validated by the <code>DataAnnotationsValidator</code>.</p>
 </ActionDescription>
 
-<div class="control-section">
+<div class="control-section" id="rte-form">
     <div class="content-wrapper">
         <div id='content' class='box-form' style="margin: 0 auto; max-width:750px; padding:25px">
-            <EditForm Model="@Model" >
+            <EditForm Model="@Model" OnValidSubmit="@ValidSubmit">
                 <DataAnnotationsValidator />
                 <SfRichTextEditor ShowCharCount="true" @bind-Value="@Model.Description" MaxLength="100" Placeholder="Type something..." />
                 <ValidationMessage For="@(() => Model.Description)" />
                 <div class="btn-grp">
-                    <button class="samplebtn e-control e-btn" type="reset" data-ripple="true">Reset</button>
+                    <button class="samplebtn e-control e-btn" type="reset" data-ripple="true" @onclick="@ResetHandler">Reset</button>
                     <button class="samplebtn e-control e-btn" type="submit" data-ripple="true">Submit</button>
                 </div>
             </EditForm>
         </div>
     </div>
 </div>
+
+<SfDialog @bind-Visible="@Visible" Target="#rte-form" IsModal="true" Width="250px">
+    <DialogTemplates>
+        <Header>Alert</Header>
+        <Content>Form value successfully submitted.</Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="OK" OnClick="@CloseDialog" />
+    </DialogButtons>
+</SfDialog>
 
 <style>
     .box-form {
@@ -46,13 +57,34 @@
     }
 </style>
 
-@code {
+@code{
     private class FormModel
     {
         [Required]
-        [MinLength(20, ErrorMessage = "Please enter at least 20 characters.")]
+        [MinLength(20, ErrorMessage = "Please enter at least 20 characters based on HTML.")]
         public string Description { get; set; }
     }
 
     private FormModel Model = new FormModel();
+    private bool Visible { get; set; } = false;
+
+    private void CloseDialog()
+    {
+        this.Visible = false;
+    }
+
+    private void ResetHandler()
+    {
+        Model = new FormModel();
+    }
+
+    private void ValidSubmit(EditContext context)
+    {
+        FormModel contextModel = (FormModel)context.Model;
+        if (contextModel.Description != "<p><br></p>" && contextModel.Description.Length > 19)
+        {
+            Model = new FormModel();
+            this.Visible = true;
+        }
+    }
 }

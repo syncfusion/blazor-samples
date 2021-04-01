@@ -1,0 +1,199 @@
+﻿@page "/tabs/drag-and-drop"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.RichTextEditor
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example illustrates how to reorder tabs by drag and drop. Here, you can drag and drop the items between the Tab.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, the <code>AllowDragAndDrop</code> property is used to enable drag and drop.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <SfTab CssClass="drag-drop-tab" AllowDragAndDrop="true">
+        <TabItems>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="DataGrid"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfGrid DataSource="@Orders">
+                        <GridColumns>
+                            <GridColumn Field=@nameof(Order.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                            <GridColumn Field=@nameof(Order.CustomerID) HeaderText="Customer ID" Width="140"></GridColumn>
+                            <GridColumn Field=@nameof(Order.OrderDate) HeaderText=" Order Date" Format="yMd" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                            <GridColumn Field=@nameof(Order.Freight) HeaderText="Freight" Format="C" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                        </GridColumns>
+                    </SfGrid>
+                </ContentTemplate>
+            </TabItem>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="Scheduler"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfSchedule TValue="AppointmentData" Height="500px" @bind-SelectedDate="@CurrentDate" Readonly="true">
+                        <ScheduleEventSettings TValue="AppointmentData">
+                            <SfDataManager Url="https://ej2services.syncfusion.com/production/web-services/api/Schedule" Adaptor="@Syncfusion.Blazor.Adaptors.WebApiAdaptor"></SfDataManager>
+                        </ScheduleEventSettings>
+                    </SfSchedule>
+                </ContentTemplate>
+            </TabItem>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="Dropdown List"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfDropDownList TValue="string" TItem="Games" Placeholder="Select a game" DataSource="@SportsData">
+                        <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </ContentTemplate>
+            </TabItem>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="DatePicker"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfDatePicker TValue="DateTime?" Placeholder='Choose a Date'></SfDatePicker>
+                </ContentTemplate>
+            </TabItem>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="Calendar"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfCalendar TValue="DateTime?" @bind-Value="@DateValue"></SfCalendar>
+                </ContentTemplate>
+            </TabItem>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="File Upload"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfUploader AutoUpload="false"></SfUploader>
+                </ContentTemplate>
+            </TabItem>
+            <TabItem>
+                <ChildContent>
+                    <TabHeader Text="Rich Text Editor"></TabHeader>
+                </ChildContent>
+                <ContentTemplate>
+                    <SfRichTextEditor>
+                        <p>The Rich Text Editor component is WYSIWYG ('what you see is what you get') editor that provides the best user experience to create and update the content. Users can format their content using standard toolbar commands.</p>
+                        <p><b> Key features:</b></p>
+                        <ul>
+                            <li><p> Provides <b>IFRAME</b> and <b>DIV</b> modes </p></li>
+                            <li><p> Capable of handling markdown editing.</p></li>
+                            <li><p> Contains a modular library to load the necessary functionality on demand.</p></li>
+                            <li><p> Provides a fully customizable toolbar.</p></li>
+                            <li><p> Provides HTML view to edit the source directly for developers.</p></li>
+                            <li><p> Supports third - party library integration.</p></li>
+                            <li><p> Allows preview of modified content before saving it.</p></li>
+                        </ul>
+                    </SfRichTextEditor>
+                </ContentTemplate>
+            </TabItem>
+        </TabItems>
+    </SfTab>
+</div>
+
+
+@code{
+
+    public List<Order> Orders { get; set; }
+
+    public List<Games> SportsData { get; set; }
+
+    public DateTime? DateValue { get; set; } = DateTime.Now;
+
+    public DateTime CurrentDate = new DateTime(2020, 9, 20);
+
+    protected override void OnInitialized()
+    {
+        Orders = Enumerable.Range(1, 5).Select(x => new Order()
+        {
+            OrderID = 1000 + x,
+            CustomerID = (new string[] { "VINET", "TOMSP", "HANAR", "VICTE", "VICTE" })[new Random().Next(5)],
+            Freight = 2.1 * x,
+            OrderDate = DateTime.Now.AddDays(-x),
+        }).ToList();
+        SportsData = new List<Games>()
+    {
+                new Games
+                {
+                    ID= "Game1",
+                    Text= "Badminton"
+                },
+                new Games
+                {
+                    ID= "Game2",
+                    Text= "Cricket"
+                },
+                new Games
+                {
+                    ID= "Game3",
+                    Text= "Football"
+                },
+                new Games
+                {
+                    ID= "Game4",
+                    Text= "Golf"
+                },
+                new Games
+                {
+                    ID= "Game5",
+                    Text= "Tennis"
+                }
+        };
+    }
+
+    public class Games
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    public class Order
+    {
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public double? Freight { get; set; }
+    }
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string CategoryColor { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public Nullable<int> FollowingID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+    }
+}
+
+<style>
+    .drag-drop-tab .e-content .e-item {
+        font-size: 12px;
+        padding: 10px;
+        text-align: justify;
+    }
+</style>

@@ -3,6 +3,9 @@
 @using Syncfusion.Blazor.PivotView
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Inputs
+
+@inject NavigationManager NavigationManager
+
 @inherits SampleBaseComponent;
 @using blazor_samples
 @using ej2_blazor_productdetails
@@ -53,7 +56,7 @@
                 </PivotViewFormatSettings>
             </PivotViewDataSourceSettings>
             <PivotViewDisplayOption View=View.Chart></PivotViewDisplayOption>
-            <PivotChartSettings Title="Sales Analysis">
+            <PivotChartSettings Title="Sales Analysis" Theme="@Theme">
                 <PivotChartSeries Type="@ChartType"></PivotChartSeries>
                 <PivotChartPrimaryYAxis>
                     <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
@@ -101,10 +104,34 @@
     public string[] DrilledMembers = new string[] { "FY 2015" };
 
     public List<PivotProductDetails> Data { get; set; }
+    string CurrentUri;
+    private PivotChartTheme Theme { get; set; }
 
     protected override void OnInitialized()
     {
         this.Data = PivotProductDetails.GetProductData();
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            Theme = PivotChartTheme.Material;
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            Theme = PivotChartTheme.Fabric;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            Theme = PivotChartTheme.Bootstrap;
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Theme = PivotChartTheme.HighContrast;
+        }
+        else
+        {
+            Theme = PivotChartTheme.Bootstrap4;
+        }
+
     }
 
     List<DropDownData> ChartTypes = new List<DropDownData>() {

@@ -27,7 +27,7 @@
 
 <div class="col-lg-12 control-section toast-api-section">
     <div class="control_wrapper">
-        <SfToast @ref="ToastObj" ID="toastApi" Title="@ToastTitle" Content="@ToastContent" ShowCloseButton="@ShowCloseBtn" ShowProgressBar="@ShowProgressBtn" NewestOnTop="@ShowNewestOnTop" Timeout="@ToastTimeout">
+        <SfToast @ref="ToastObj" ID="toastApi" Title="@ToastTitle" ProgressDirection="@DirectionProgress" Content="@ToastContent" ShowCloseButton="@ShowCloseBtn" ShowProgressBar="@ShowProgressBtn" NewestOnTop="@ShowNewestOnTop" Timeout="@ToastTimeout">
             <ToastPosition X="Right" Y="Bottom"></ToastPosition>
             <ToastAnimationSettings>
                 <ToastShowAnimationSettings Effect="@ShowEffect" Easing="@ShowEasing" Duration="@ShowDuration"></ToastShowAnimationSettings>
@@ -59,6 +59,12 @@
                 </div>
                 <div class="group-form">
                     <SfCheckBox ID="actionButtons" Label="Action Button" ValueChange="ActionBtnChange" TChecked="bool"></SfCheckBox>
+                </div>
+                <div class="input-form">
+                    <SfDropDownList @ref="DirectionDropdownObj" TValue="string" TItem="Direction" ID="Direction" Placeholder="ProgressDirection" FloatLabelType="FloatLabelType.Auto" @bind-Value="@DirectionValue" DataSource="@DirectionData">
+                        <DropDownListEvents TValue="string" TItem="Direction" ValueChange="@DirectionChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                    </SfDropDownList>
                 </div>
                 <div class="input-form">
                     <SfTextBox @ref="TimeoutObj" @bind-Value="@TimeoutValue" Placeholder="TimeOut" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
@@ -150,6 +156,7 @@
     SfTextBox ShowDurationObj;
     SfTextBox HideDurationObj;
     SfDropDownList<string, Easing> EasingDropdownObj;
+    SfDropDownList<string, Direction> DirectionDropdownObj;
     SfDropDownList<string, Easing> HideEasingDropdownObj;
     SfDropDownList<string, Positions> ShowDropdownObj;
     SfDropDownList<string, Positions> HideDropdownObj;
@@ -158,10 +165,11 @@
     private bool ShowButtons { get; set; } = false;
     private bool Checked { get; set; } = true;
     private ToastEasing ShowEasing { get; set; } 
-    private ToastEasing HideEasing { get; set; } 
-    private ToastEffect ShowEffect { get; set; }
-    private ToastEffect HideEffect { get; set; }
+    private ToastEasing HideEasing { get; set; }
+    private ToastEffect ShowEffect { get; set; } =   ToastEffect.SlideBottomIn;
+    private ToastEffect HideEffect { get; set; } = ToastEffect.SlideBottomOut;
     private string EasingValue { get; set; } = "ease";
+    private string DirectionValue { get; set; } = "RTL";
     private string AnimationValue { get; set; } = "SlideBottomIn";
     private string HideEasingValue { get; set; } = "ease";
     private string HideAnimationValue { get; set; } = "SlideBottomOut";
@@ -176,6 +184,8 @@
     private bool ShowProgressBtn { get; set; } = false;
     private bool ShowNewestOnTop { get; set; } = true;
     private bool EnableButtons { get; set; } = false;
+
+    private ProgressDirection DirectionProgress { get; set; } = ProgressDirection.RTL;
   
     public class Positions
     {
@@ -184,6 +194,12 @@
     }
 
     public class Easing
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    public class Direction
     {
         public string value { get; set; }
         public string text { get; set; }
@@ -245,6 +261,12 @@
         new Easing(){ value= "linear", text= "Linear" }
     };
 
+    private List<Direction> DirectionData = new List<Direction>()
+    {
+        new Direction(){ value= "RTL", text= "Right to Left" },
+        new Direction(){ value= "LTR", text= "Left to Right" }
+    };
+
     private async Task ShowToast()
     {
         this.ToastTitle = this.TileObj.Value;
@@ -296,6 +318,19 @@
     {
         await this.HideToastAll();
         this.EnableButtons = (arg.Checked) ? true : false;
+        this.StateHasChanged();
+    }
+
+    private void DirectionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Direction> arg)
+    {
+        if (this.DirectionDropdownObj.Value == "RTL")
+        {
+            this.DirectionProgress = ProgressDirection.RTL;
+        }
+        else
+        {
+            this.DirectionProgress = ProgressDirection.LTR;
+        }
         this.StateHasChanged();
     }
 

@@ -52,7 +52,6 @@ namespace blazor_samples
             {
                 Name = "Resizable",
                 Category = "Dialog",
-                Type = SampleType.Updated,
                 Directory = "Popups/Dialog",
                 Url = "dialog/resizable",
                 FileName = "Resizable.razor"
@@ -65,6 +64,15 @@ namespace blazor_samples
                 Url = "dialog/positioning",
                 FileName = "Positioning.razor"
             },
+             new Sample
+            {
+                Name = "Animation",
+                Category = "Dialog",
+                Directory = "Popups/Dialog",
+                Url = "dialog/animation",
+                Type = SampleType.New,
+                FileName = "Animation.razor"
+            },
             new Sample
             {
                 Name = "Multiple Dialogs",
@@ -72,6 +80,15 @@ namespace blazor_samples
                 Directory = "Popups/Dialog",
                 Url = "dialog/multiple-dialogs",
                 FileName = "MultipleDialogs.razor"
+            },
+             new Sample
+            {
+                Name = "Components inside Dialog",
+                Category = "Dialog",
+                Type = SampleType.New,
+                Directory = "Popups/Dialog",
+                Url = "dialog/components-inside-dialog",
+                FileName = "ComponentsInsideDialog.razor"
             }
         };
         public List<Sample> Tooltip { get; set; } = new List<Sample>{

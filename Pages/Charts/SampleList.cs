@@ -6,20 +6,26 @@ namespace blazor_samples
         public List<Sample> Chart { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Line Chart",
+                Name = "Line",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/line",
                 FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor Line Chart Example - Syncfusion Demos",
+                MetaDescription = "Blazor Line Chart example visualizes the consumer price data with default line series. Explore here for more details.",
+                HeaderText = "Blazor Line Chart Example",
                 Type = SampleType.None
             },
             new Sample
             {
-                Name = "Spline Chart",
+                Name = "Spline",
                 Category = "Line Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/spline",
                 FileName = "Spline.razor",
+                MetaTitle = "Blazor Spline Chart Example - Syncfusion Demos",
+                MetaDescription = "This example demonstrates the Blazor Spline component. Explore here for more details.",
+                HeaderText = "Blazor Spline Chart Example",
                 Type = SampleType.None
             },
             new Sample
@@ -29,6 +35,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/step-line",
                 FileName = "StepLine.razor",
+                MetaTitle = "Blazor Step Line Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Step Line Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Step Line Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -74,6 +83,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-line",
                 FileName = "StackedLine.razor",
+                MetaTitle = "Blazor Stacked Line Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Stacked Line Chart Example",
+                MetaDescription = "Blazor Stacked Line Chart represents time-dependent data, showing trends in data at equal intervals with stacked values of multiple series.",
                 Type = SampleType.None
             },
             new Sample
@@ -83,6 +95,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-line",
                 FileName = "StackedLine100.razor",
+                MetaTitle = "Blazor 100% Stacked Line Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor 100% Stacked Line Chart Example",
+                MetaDescription = "Blazor 100% Stacked Line Chart example shows how to render and configure the 100% stacked line type chart.",
                 Type = SampleType.None
             },
             new Sample
@@ -92,6 +107,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/area",
                 FileName = "Area.razor",
+                MetaTitle = "Blazor Area Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Area Chart Example",
+                MetaDescription = "Blazor Area Chart example demonstrates how to represent time-dependent data and to show the trends at equal intervals.",
                 Type = SampleType.None
             },
             new Sample
@@ -101,6 +119,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/spline-area",
                 FileName = "SplineArea.razor",
+                MetaTitle = "Blazor Spline Area Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Spline Area Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Spline Area Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -110,6 +131,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/step-area",
                 FileName = "StepArea.razor",
+                MetaTitle = "Blazor Step Area Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Step Area Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Step Area Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -119,6 +143,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/range-area",
                 FileName = "RangeArea.razor",
+                MetaTitle = "Blazor Range Area Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Range Area Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Range Area Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -128,6 +155,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-area",
                 FileName = "StackedArea.razor",
+                MetaTitle = "Blazor Stacked Area Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Stacked Area Chart Example",
+                MetaDescription = "Blazor Stacked Area Chart example shows the relation between individual values to total sum of the points.",
                 Type = SampleType.None
             },
             new Sample
@@ -137,11 +167,14 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-area",
                 FileName = "StackedArea100.razor",
+                MetaTitle = "Blazor 100% Stacked Area Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor 100% Stacked Area Chart Example",
+                MetaDescription = "Blazor 100% Stacked Area Chart example shows how to render and configure the 100% stacking area type chart.",
                 Type = SampleType.None
             },
             new Sample
             {
-                Name = "Area Empty",
+                Name = "Area Empty Points",
                 Category = "Area Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/area-empty",
@@ -155,15 +188,18 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/area-zone",
                 FileName = "AreaZone.razor",
-                Type = SampleType.None               
+                Type = SampleType.None
             },
             new Sample
             {
-                Name = "Column Chart",
+                Name = "Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/column",
                 FileName = "Column.razor",
+                MetaTitle = "Blazor Column Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Column Chart Example",
+                MetaDescription = "Blazor Column Chart example demonstrates how to compares frequency, count, total, or average of data in different categories with a vertical bar.",
                 Type = SampleType.None              
             },
             new Sample
@@ -191,6 +227,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/range-column",
                 FileName = "RangeColumn.razor",
+                MetaTitle = "Blazor Range Column Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Range Column Chart Example",
+                MetaDescription = "This example demonstrates the Range Column in Blazor Charts component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -204,11 +243,14 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Bar Chart",
+                Name = "Bar",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/bar",
                 FileName = "Bar.razor",
+                MetaTitle = "Blazor Bar Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Bar Chart Example",
+                MetaDescription = "Blazor Bar Chart example demonstrates how to compares frequency, count, total, or average of data in different categories with a horizontal bar.",
                 Type = SampleType.None
             },
             new Sample
@@ -218,6 +260,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-column",
                 FileName = "StackedColumn.razor",
+                MetaTitle = "Blazor Stacked Column Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Stacked Column Chart Example",
+                MetaDescription = "Blazor Stacked Column Chart example shows the relation between individual values to total sum of the points.",
                 Type = SampleType.None
             },
             new Sample
@@ -227,6 +272,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-column",
                 FileName = "StackedColumn100.razor",
+                MetaTitle = "Blazor 100% Stacked Column Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor 100% Stacked Column Chart Example",
+                MetaDescription = "Blazor 100% Stacked Column Chart example shows how to render and configure the 100% stacking column type chart.",
                 Type = SampleType.None
             },
             new Sample
@@ -236,6 +284,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/stacked-bar",
                 FileName = "StackedBar.razor",
+                MetaTitle = "Blazor Stacked Bar Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Stacked Bar Chart Example",
+                MetaDescription = "Blazor Stacked Bar Chart visualizes sales comparison of different data with default stacked bar series.",
                 Type = SampleType.None
             },
             new Sample
@@ -245,25 +296,21 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/percent-stacked-bar",
                 FileName = "StackedBar100.razor",
+                MetaTitle = "Blazor 100% Stacked Bar Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor 100% Stacked Bar Chart Example",
+                MetaDescription = "Blazor 100% Stacked Bar Chart example shows how to render and configure the 100% stacking bar type chart.",
                 Type = SampleType.None
             },
-			// new Sample
-			// {
-			//    Name = "Negative Stack",
-			//    Category = "Bar Charts",
-			//    Directory = "Charts/Chart",
-			//    Url = "Charts/NegativeStack",
-			//    FileName = "NegativeStack.razor",
-			//    Type = SampleType.None
-            //     }
-			// },
-			 new Sample
+             new Sample
             {
                 Name = "Scatter Plot",
                 Category = "Scatter and Bubble",
                 Directory = "Charts/Chart",
                 Url = "chart/scatter",
                 FileName = "Scatter.razor",
+                MetaTitle = "Blazor Scatter Plot Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Scatter Plot Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Scatter Plot Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -273,6 +320,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/bubble",
                 FileName = "Bubble.razor",
+                MetaTitle = "Blazor Bubble Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Bubble Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Bubble Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -291,6 +341,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/histogram",
                 FileName = "Histogram.razor",
+                MetaTitle = "Blazor Histogram Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Histogram Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Histogram Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -300,6 +353,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/box-and-whisker",
                 FileName = "BoxandWhisker.razor",
+                MetaTitle = "Blazor Box and Whisker Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Box and Whisker Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Box and Whisker Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -345,6 +401,9 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/hilo",
                 FileName = "Hilo.razor",
+                MetaTitle = "Blazor Hilo Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Hilo Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Hilo Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -365,7 +424,7 @@ namespace blazor_samples
                 FileName = "CandleStick.razor",
                 Type = SampleType.None
             },
-			new Sample
+            new Sample
             {
                 Name = "Accumulation Distributions",
                 Category = "Technical Indicators",
@@ -454,27 +513,21 @@ namespace blazor_samples
                 FileName = "TmaChart.razor",
                 Type = SampleType.None
             },
-             new Sample
-            {
-                Name = "Performance",
-                Category = "BenchMark",
-                Directory = "Charts/Chart",
-                Url = "chart/performance",
-                FileName = "Performance.razor",
-                Type = SampleType.None
-            },
             new Sample
             {
-                Name = "Pie Chart",
+                Name = "Pie",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/pie",
                 FileName = "Pie.razor",
+                MetaTitle = "Blazor Pie Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Pie Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Pie Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
             {
-                Name = "Pie Radius",
+                Name = "Pie With Various Radius",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/pie-radius",
@@ -483,11 +536,14 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Donut Chart",
+                Name = "Donut",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/donut",
                 FileName = "Donut.razor",
+                MetaTitle = "Blazor Donut Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Donut Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Donut Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -497,15 +553,21 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/pyramid",
                 FileName = "Pyramid.razor",
+                MetaTitle = "Blazor Pyramid Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Pyramid Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Pyramid Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
             {
-                Name = "Funnel Chart",
+                Name = "Funnel",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/funnel",
                 FileName = "Funnel.razor",
+                MetaTitle = "Blazor Funnel Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Funnel Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Funnel Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -555,16 +617,19 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Polar Line",
+                Name = "Line",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "chart/polar-line",
                 FileName = "PolarLineChart.razor",
+                MetaTitle = "Blazor Polar Radar Line Example - Syncfusion Demos",
+                HeaderText = "Blazor Polar Radar Line Chart Example",
+                MetaDescription = "This example demonstrates the Blazor Polar Radar Line Chart component. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
             {
-                Name = "Polar Area",
+                Name = "Area",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "chart/polar-area",
@@ -573,7 +638,7 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Polar StackedArea",
+                Name = "Stacked Area",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "chart/polar-stacked-area",
@@ -582,7 +647,7 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Polar Scatter",
+                Name = "Scatter",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "chart/polar-scatter",
@@ -591,7 +656,7 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Polar Column",
+                Name = "Column",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "chart/polar-column",
@@ -609,7 +674,7 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Polar RangeColumn",
+                Name = "Range Column",
                 Category = "Polar and Radar",
                 Directory = "Charts/Chart",
                 Url = "chart/polar-range-column",
@@ -632,6 +697,24 @@ namespace blazor_samples
                 Directory = "Charts/Chart",
                 Url = "chart/remote-data",
                 FileName = "RemoteData.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Live Chart",
+                Category = "Live Chart",
+                Directory = "Charts/Chart",
+                Url = "chart/live-chart",
+                FileName = "LiveChart.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Performance",
+                Category = "Benchmark",
+                Directory = "Charts/Chart",
+                Url = "chart/performance",
+                FileName = "Performance.razor",
                 Type = SampleType.None
             },
             new Sample
@@ -672,7 +755,7 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Indexed category axis",
+                Name = "Indexed Category Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
                 Url = "chart/indexed-category-axis",
@@ -751,7 +834,7 @@ namespace blazor_samples
                 FileName = "MarkerChart.razor",
                 Type = SampleType.None
             },
-			new Sample
+            new Sample
             {
                 Name = "Vertical Chart",
                 Category = "Chart Customization",
@@ -862,33 +945,33 @@ namespace blazor_samples
                 FileName = "RangeNavigator.razor",
                 Type = SampleType.None
             },
-			new Sample
-			 {
-			    Name = "LightWeight",
-			    Category = "Range Selector",
-			    Directory = "Charts/RangeNavigator",
-			    Url = "range-selector/light-weight",
-			    FileName = "LightWeight.razor",
-			    Type = SampleType.None
-			},
-			  new Sample
-			  {
+            new Sample
+             {
+                Name = "LightWeight",
+                Category = "Range Selector",
+                Directory = "Charts/RangeNavigator",
+                Url = "range-selector/light-weight",
+                FileName = "LightWeight.razor",
+                Type = SampleType.None
+            },
+              new Sample
+              {
                 Name = "DateTime Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/date-time-axis",
                 FileName = "DateTimeAxis.razor",
                 Type = SampleType.None
-			 },
-			  new Sample
-			  {
+             },
+              new Sample
+              {
                 Name = "Numeric Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/numeric-axis",
                 FileName = "NumericAxis.razor",
                 Type = SampleType.None
-			 },
+             },
               new Sample
               {
                 Name = "Logarithmic Axis",
@@ -899,51 +982,51 @@ namespace blazor_samples
                 Type = SampleType.None
              },
               new Sample
-			 {
-			    Name = "Multilevel Labels",
-			    Category = "Axis",
-			    Directory = "Charts/RangeNavigator",
-			    Url = "range-selector/multilevel",
-			    FileName = "Multilevel.razor",
-			    Type = SampleType.None
-			},
-			   new Sample
-			   {
-			      Name = "Empty Points",
-			      Category = "Customization",
-			      Directory = "Charts/RangeNavigator",
-			      Url = "range-selector/empty-point",
-			      FileName = "EmptyPoint.razor",
-			      Type = SampleType.None
-			    },
-			   new Sample
-			   {
-			      Name = "Filter",
-			      Category = "Customization",
-			      Directory = "Charts/RangeNavigator",
-			      Url = "range-selector/filter",
-			      FileName = "Filter.razor",
-			      Type = SampleType.None
-			  },
-			   new Sample
-			   {
-			      Name = "Print and Export",
-			      Category = "Export",
-			      Directory = "Charts/RangeNavigator",
-			      Url = "range-selector/print-export",
-			      FileName = "PrintExport.razor",
-			      Type = SampleType.None
-			  },
-			  new Sample
-			  {
-			     Name = "RTL",
-			     Category = "Right To Left",
-			     Directory = "Charts/RangeNavigator",
-			     Url = "range-selector/rtl",
-			     FileName = "RTL.razor",
-			     Type = SampleType.None
-			 }
-		};
+             {
+                Name = "Multilevel Labels",
+                Category = "Axis",
+                Directory = "Charts/RangeNavigator",
+                Url = "range-selector/multilevel",
+                FileName = "Multilevel.razor",
+                Type = SampleType.None
+            },
+               new Sample
+               {
+                  Name = "Empty Points",
+                  Category = "Customization",
+                  Directory = "Charts/RangeNavigator",
+                  Url = "range-selector/empty-point",
+                  FileName = "EmptyPoint.razor",
+                  Type = SampleType.None
+                },
+               new Sample
+               {
+                  Name = "Filter",
+                  Category = "Customization",
+                  Directory = "Charts/RangeNavigator",
+                  Url = "range-selector/filter",
+                  FileName = "Filter.razor",
+                  Type = SampleType.None
+              },
+               new Sample
+               {
+                  Name = "Print and Export",
+                  Category = "Export",
+                  Directory = "Charts/RangeNavigator",
+                  Url = "range-selector/print-export",
+                  FileName = "PrintExport.razor",
+                  Type = SampleType.None
+              },
+              new Sample
+              {
+                 Name = "RTL",
+                 Category = "Right To Left",
+                 Directory = "Charts/RangeNavigator",
+                 Url = "range-selector/rtl",
+                 FileName = "RTL.razor",
+                 Type = SampleType.None
+             }
+        };
 
         public List<Sample> SparklineCharts { get; set; } = new List<Sample>{
             new Sample
@@ -961,7 +1044,7 @@ namespace blazor_samples
                  Category = "Sparkline Charts",
                  Directory = "Charts/Sparkline",
                  Url = "sparkline/series-type",
-                 FileName = "SeriesType.razor",                 
+                 FileName = "SeriesType.razor",
                  Type = SampleType.None
              },
              new Sample
@@ -1018,7 +1101,7 @@ namespace blazor_samples
                 Category = "Smith Chart",
                 Directory = "Charts/SmithChart",
                 Url = "smith-chart/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",                
+                FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None
             },
             new Sample
@@ -1114,15 +1197,15 @@ namespace blazor_samples
                 FileName = "Inversed Area.razor",
                 Type = SampleType.None
             },
-		    new Sample
-		    {
-		        Name = "Hide Period Selector",
-		        Category = "Stock Chart",
-		        Directory = "Charts/StockChart",
-		        Url = "stock-chart/hide-period-selector",
-		        FileName = "Hide Period Selector.razor",
-		        Type = SampleType.None
-		    },
+            new Sample
+            {
+                Name = "Hide Period Selector",
+                Category = "Stock Chart",
+                Directory = "Charts/StockChart",
+                Url = "stock-chart/hide-period-selector",
+                FileName = "Hide Period Selector.razor",
+                Type = SampleType.None
+            },
             new Sample
             {
                 Name = "Hide Range Selector",
@@ -1141,8 +1224,8 @@ namespace blazor_samples
                 FileName = "StockEvents.razor",
                 Type = SampleType.None
             }
-		};
-		public List<Sample> BulletChart { get; set; } = new List<Sample>{
+        };
+        public List<Sample> BulletChart { get; set; } = new List<Sample>{
            new Sample
             {
                 Name = "Default Functionalities",

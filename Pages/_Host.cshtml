@@ -1,8 +1,10 @@
 ﻿@page "/"
 @using blazor_samples.Shared;
-
 @namespace blazor_samples.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,31 +23,34 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @(await Html.RenderComponentAsync<SampleMetaData>(RenderMode.ServerPrerendered))
+
+    <component type="typeof(SampleMetaData)" render-mode="ServerPrerendered" />
 
     <base href="~/" />
     <link href="~/styles/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/styles/common/roboto.css" rel="stylesheet" />
-    <link href="~/styles/common/highlight.css" rel="stylesheet" />
-    <link href="~/styles/common/home.min.css" rel="stylesheet" />
+    <link href="blazor-samples.styles.css" rel="stylesheet" />
 
-    @(await Html.RenderComponentAsync<DynamicResources>(RenderMode.Static))
+    <dynamic class="dynamic-resources">
+        <component type="typeof(DynamicResources)" render-mode="Static" />
+    </dynamic>
 
-    <script src="~/scripts/common/lodash.min.js"></script>
-    <script src="~/scripts/common/highlight.min.js"></script>
-    <script src="~/scripts/common/index.js"></script>
+    <environment include="Development">
+        <link href="~/styles/common/devices.css" rel="stylesheet" media="(max-width: 1024px)" />
+    </environment>
+    <environment include="Production">
+        <link href="~/styles/common/devices.min.css" rel="stylesheet" media="(max-width: 1024px)" />
+    </environment>
+
+    <script src="~/scripts/common/index.js" async></script>
+
 </head>
 <body>
     <div hidden id="sync-analytics" data-queue="EJ2 - Blazor - Demos"></div>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WLQL39J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
-    <div id="app">
-        <app>
-            @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
-        </app>
-    </div>
+
+    <component type="typeof(App)" render-mode="ServerPrerendered" />
 
     <script src="_framework/blazor.server.js"></script>
 </body>

@@ -1,0 +1,98 @@
+﻿@page "/scheduler/external-form-editing"
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates editing operation in Scheduler using external custom edit form. To edit a record, select required appointment and edit data and click save.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, external custom form editors are used to edit Scheduler appointments. You can start editing by selecting an appointment and the selected appointment will be shown on the external form. You can change the appointment values and save edited data to the datasource.</p>
+</ActionDescription>
+<div class="col-lg-12">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <SfTextBox @bind-Value="@(SelectedData.Subject)" Placeholder="Title" FloatLabelType="FloatLabelType.Always" Width="100%"></SfTextBox>
+        </div>
+        <div class="form-group col-md-6">
+            <SfTextBox @bind-Value="@(SelectedData.Location)" Placeholder="Location" FloatLabelType="FloatLabelType.Always" Width="100%"></SfTextBox>
+        </div>
+        <div class="form-group col-md-6">
+            <SfDateTimePicker @bind-Value="@(SelectedData.StartTime)" Placeholder="Start date" FloatLabelType="FloatLabelType.Always" Width="100%"></SfDateTimePicker>
+        </div>
+        <div class="form-group col-md-6">
+            <SfDateTimePicker @bind-Value="@(SelectedData.EndTime)" Placeholder="End date" FloatLabelType="FloatLabelType.Always" Width="100%"></SfDateTimePicker>
+        </div>
+        <div class="form-group col-md-6">
+            <SfCheckBox @bind-Checked="@(SelectedData.IsAllDay)" Label="Is All Day"></SfCheckBox>
+        </div>
+    </div>
+</div>
+<div>
+    <div style="float: right; padding: 2px;"><SfButton IsPrimary="true" @onclick="@OnCancel">Cancel</SfButton></div>
+    <div style="float:right; padding: 2px 6px 0px 0px;"><SfButton IsPrimary="true" @onclick="@OnSave">Save</SfButton></div>
+</div>
+<div class="col-lg-12 control-section">
+    <div class="schedule-wrapper">
+        <div class="row">
+            <SfSchedule TValue="ScheduleData.AppointmentData" @ref="Schedule" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+                <ScheduleEvents TValue="ScheduleData.AppointmentData" OnEventDoubleClick="OnEventDoubleClick" OnEventClick="OnEventClick" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellDoubleClick"></ScheduleEvents>
+                <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+            </SfSchedule>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfSchedule<ScheduleData.AppointmentData> Schedule;
+    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+    private DateTime CurrentDate = new DateTime(2020, 1, 9);
+    public ScheduleData.AppointmentData SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(2020, 1, 10, 9, 0, 0), EndTime = new DateTime(2020, 1, 10, 10, 0, 0) };
+    private bool isCellClick { get; set; }
+    private async Task OnSave()
+    {
+        if (isCellClick)
+        {
+            await this.Schedule.AddEvent(SelectedData);
+            isCellClick = false;
+        }
+        else
+        {
+            await this.Schedule.SaveEvent(SelectedData);
+        }
+    }
+
+    private void OnCancel()
+    {
+        SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(2020, 1, 10, 9, 0, 0), EndTime = new DateTime(2020, 1, 10, 10, 0, 0), Subject = "Add title" };
+    }
+
+    private void OnEventClick(EventClickArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Cancel = true;
+        SelectedData = args.Event;
+    }
+
+    private void OnEventDoubleClick(EventClickArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Cancel = true;
+    }
+
+    private async Task OnCellClick(CellClickEventArgs args)
+    {
+        args.Cancel=isCellClick = true;
+        SelectedData = new ScheduleData.AppointmentData();
+        SelectedData.Id = await this.Schedule.GetMaxEventId<int>();
+        SelectedData.StartTime = args.StartTime;
+        SelectedData.EndTime = args.EndTime;
+        SelectedData.Subject = "Add title";
+        SelectedData.Location = null;
+    }
+
+    private void OnCellDoubleClick(CellClickEventArgs args)
+    {
+        args.Cancel = true;
+    }
+}

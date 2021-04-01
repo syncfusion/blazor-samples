@@ -1,7 +1,6 @@
 ﻿@page "/gantt-chart/filtering"
 
 @using Syncfusion.Blazor.Gantt
-@using blazor_samples
 @using ej2_blazor_filterdata
 
 @inherits SampleBaseComponent;
@@ -10,58 +9,46 @@
     <p>This sample visualizes the manned lunar mission, which landed the first human on the Moon using the Apollo 11 spacecraft in the year 1969. It also demonstrates the filtering feature available in the Gantt Chart. You can filter a particular column using the filter menu available in the columns. This sample is also enabled with the toolbar searching option to filter the Gantt content across all the columns.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The filtering feature enables the user to view reduced amount of records based on filter criteria. The column menu filtering can be enabled by setting <code>AllowFiltering</code> property as <code>true</code> and toolbar search box can be enabled by including the search item in the <code>Toolbar</code> property. Gantt Chart also provides support for a set of filtering modes with <code>HierarchyMode</code> property. The below are the type of filter mode available in Gantt Chart.
-      <li><code> Parent </code> - This is the default filter hierarchy mode in Gantt Chart. The filtered records are displayed with its parent records, if the filtered records not have any parent record then the filtered record alone will be displayed.</li>
-      <li><code> Child </code> - The filtered records are displayed with its child record, if the filtered records do not have any child record then only the filtered records are displayed.</li>
-      <li><code> Both </code> - The filtered records are displayed with its both parent and child record. If the filtered records do not have any parent and child record then only the filtered records are displayed.</li>
-      <li><code> None </code> - Only the filtered records are displayed.</li>
-   </p>
+    <p>
+        The filtering feature enables the user to view reduced amount of records based on filter criteria. The column menu filtering can be enabled by setting <code>AllowFiltering</code> property as <code>true</code> and toolbar search box can be enabled by including the search item in the <code>Toolbar</code> property. Gantt Chart also provides support for a set of filtering modes with <code>HierarchyMode</code> property. The below are the type of filter mode available in Gantt Chart.
+        <li><code> Parent </code> - This is the default filter hierarchy mode in Gantt Chart. The filtered records are displayed with its parent records, if the filtered records not have any parent record then the filtered record alone will be displayed.</li>
+        <li><code> Child </code> - The filtered records are displayed with its child record, if the filtered records do not have any child record then only the filtered records are displayed.</li>
+        <li><code> Both </code> - The filtered records are displayed with its both parent and child record. If the filtered records do not have any parent and child record then only the filtered records are displayed.</li>
+        <li><code> None </code> - Only the filtered records are displayed.</li>
+    </p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
             <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"
-                      TreeColumnIndex="1" AllowFiltering="true" IncludeWeekend="true" DateFormat="MM/dd/yyyy hh:mm:ss"
-                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd"
-                      DurationUnit="DurationUnit.Hour">
+                     TreeColumnIndex="1" AllowFiltering="true"
+                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd"
+                     AllowSorting="true">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
-                                 Duration="Duration" Dependency="Predecessor" Child="SubTasks"></GanttTaskFields>
+                                 Duration="Duration" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
                 <GanttColumns>
-                    <GanttColumn Field="TaskId" HeaderText="Task Id" Visible="false"></GanttColumn>
+                    <GanttColumn Field="TaskId" HeaderText="Task Id" Width="150"></GanttColumn>
                     <GanttColumn Field="TaskName" HeaderText="Service Name" Width="250"></GanttColumn>
                     <GanttColumn Field="StartDate" HeaderText="Start time"></GanttColumn>
                     <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
                     <GanttColumn Field="EndDate" HeaderText="End time"></GanttColumn>
-                    <GanttColumn Field="Predecessor" HeaderText="Predecessor"></GanttColumn>
                 </GanttColumns>
-                <GanttSplitterSettings ColumnIndex="4"> </GanttSplitterSettings>
-                <GanttDayWorkingTimeCollection>
-                    <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
-                </GanttDayWorkingTimeCollection>
-                <GanttTimelineSettings TimelineUnitSize="60">
-                    <GanttTopTierSettings Unit="TimelineViewMode.Day" Format="MMM dd, yyyy"></GanttTopTierSettings>
-                    <GanttBottomTierSettings Unit="TimelineViewMode.Hour" Format="h.mm a"></GanttBottomTierSettings>
-                </GanttTimelineSettings>
-                <GanttLabelSettings>
-                    <RightLabelTemplate>
-                        <div class="e-right-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@((context as FilterData.TaskData).TaskName)</span>
-                        </div>
-                    </RightLabelTemplate>
-                </GanttLabelSettings>
+                <GanttFilterSettings HierarchyMode="FilterHierarchyMode.Both"></GanttFilterSettings>
+                <GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="FilterData.TaskData"></GanttLabelSettings>
             </SfGantt>
         </div>
     </div>
 </div>
 
 @code{
-    public DateTime ProjectStart = new DateTime (1969, 7, 16, 1, 0, 0);
-    public DateTime ProjectEnd = new DateTime(1969, 7, 25);
-    public List<FilterData.TaskData> TaskCollection { get; set; } 
-    
+    public DateTime ProjectStart = new DateTime(2019, 3, 24);
+    public DateTime ProjectEnd = new DateTime(2019, 7, 6);
+    public List<FilterData.TaskData> TaskCollection { get; set; }
+
     protected override void OnInitialized()
     {
-        this.TaskCollection = FilterData.FilteredData();        
+        this.TaskCollection = FilterData.GetTaskCollection();
     }
 }

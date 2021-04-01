@@ -1,6 +1,7 @@
 
 @using Syncfusion.Blazor;
 @using Microsoft.AspNetCore.Components;
+@using Microsoft.AspNetCore.Components.Routing;
 
 @inject IJSRuntime JsRuntime;
 @inject NavigationManager UriHelper;
@@ -18,7 +19,15 @@
     }
     @if (SampleUtils.IsHomePage(UriHelper) || isEmptyLayout)
     {
-        @Body
+        foreach (var fileName in SampleBrowser.PreLoadFiles)
+        {
+            <link rel="preload" href="@fileName" as="font" type="font/woff2" crossorigin />
+        }
+        <CascadingValue Value="isDeviceMode" Name="IsDevice">
+            <div>
+                @Body
+            </div>
+        </CascadingValue>
     }
     else
     {
@@ -49,6 +58,7 @@
     [Inject]
     protected SyncfusionBlazorService SyncfusionService { get; set; }
 
+    private bool isDeviceMode { get; set; }
     private bool isSearchIconClick { get; set; }
     private string searchContainer { get; set; }
     private bool rightSidebarExpanded { get; set; }
@@ -114,10 +124,22 @@
         }
     }
 
+    // Location change event handler
+    private async void LocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        // Get dynamic resource list.
+        var resources = SampleUtils.GetDynamicResources(UriHelper, SampleService);
+
+        if (resources.Count > 0)
+        {
+            await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
+        }
+    }
+
     /// <summary>
     /// Show search layout in the demos page.
     /// </summary>
-    public async Task ShowSearchLayout(bool isIconClick = false,bool isEscPressed = false)
+    public async Task ShowSearchLayout(bool isIconClick = false, bool isEscPressed = false)
     {
         if (isIconClick && searchContainer.Contains(SampleUtils.DISPLAY_NONE))
         {
@@ -173,6 +195,7 @@
     [JSInvokable]
     public void UpdateDeviceMode(bool isDevice)
     {
+        isDeviceMode = isDevice;
         SampleService.IsDevice = isDevice;
         StateHasChanged();
     }
@@ -180,6 +203,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        UriHelper.LocationChanged += LocationChanged;
         // Enable ripple effect to the material theme.
         if (UriHelper.Uri.IndexOf("material") > 0)
         {
@@ -203,11 +227,14 @@
             dotnetObjectRef = DotNetObjectReference.Create<object>(this);
             // Get device information for mobile sidebar rendering
             this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDevice", dotnetObjectRef);
-            if (this.SampleService.IsDevice && (UriHelper.Uri != UriHelper.BaseUri))
+            this.isDeviceMode = this.SampleService.IsDevice;
+            if (this.SampleService.IsDevice)
             {
                 LeftPaneRef?.UpdateExpandedState();
                 StateHasChanged();
             }
+            // Update home page or demo page loaded property in SampleService.
+            SampleUtils.GetDynamicResources(UriHelper, SampleService);
         }
         else
         {
@@ -227,6 +254,7 @@
     public void Dispose()
     {
         dotnetObjectRef?.Dispose();
+        UriHelper.LocationChanged -= LocationChanged;
     }
 }
 

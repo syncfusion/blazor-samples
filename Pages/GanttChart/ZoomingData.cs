@@ -20,6 +20,7 @@ namespace ej2_blazor_zoomingdata
             public string Predecessor { get; set; }
             public List<TaskData> SubTasks { get; set; }
             public object ResourceId { get; set; }
+            public int?ParentId { get; set; }
             public string Notes { get; set; }
             public string TaskType { get; set; }
         }
@@ -27,130 +28,150 @@ namespace ej2_blazor_zoomingdata
 
         public static List<TaskData> ZoomData()
         {
-            List<TaskData> TaskDataCollection = new List<TaskData>();
+            
+                List<TaskData> Tasks = new List<TaskData>()
+                {
 
-            TaskData Record1 = new TaskData()
-            {
-                TaskId = 1,
-                TaskName = "Product concept",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<TaskData>(),
-            };
+                    new TaskData()
+                    {
+                        TaskId = 1,
+                        TaskName = "Product concept ",
+                        StartDate = new DateTime(2019, 04, 02),
+                        EndDate = new DateTime(2019, 04, 08),
+                        Duration = "5days"
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 2,
+                        TaskName = "Defining the product usage",
+                        StartDate = new DateTime(2019, 04, 02),
+                        EndDate = new DateTime(2019, 04, 08),
 
-            TaskData Child11 = new TaskData()
-            {
-                TaskId = 2,
-                TaskName = "Defining the product and its usage",
-                StartDate = new DateTime(2019, 04, 02),
-                Progress = 30,
-                Duration = "3",
-            };
+                        Duration = "3",
+                        Progress = 30,
+                        ParentId = 1,
 
-            TaskData Child12 = new TaskData()
-            {
-                TaskId = 3,
-                TaskName = "Defining target audience",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = "3",
-            };
 
-            TaskData Child13 = new TaskData()
-            {
-                TaskId = 4,
-                TaskName = "Prepare product sketch and notes",
-                StartDate = new DateTime(2019, 04, 02),
-                Progress = 30,
-                Duration = "2",
-                Predecessor = "2"
-            };
-            Record1.SubTasks.Add(Child11);
-            Record1.SubTasks.Add(Child12);
-            Record1.SubTasks.Add(Child13);
 
-            TaskData Record2 = new TaskData()
-            {
-                TaskId = 5,
-                TaskName = "Concept approval",
-                StartDate = new DateTime(2019, 04, 02),
-                Duration = "0",
-                Predecessor = "3, 4",
-            };
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 3,
+                        TaskName = "Defining the Target audience",
+                        StartDate = new DateTime(2019, 04, 02),
+                        EndDate = new DateTime(2019, 04, 04),
+                        Duration = "3",
+                        Progress = 40,
+                        ParentId = 1
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 4,
+                        TaskName = "Prepare product sketch and notes",
+                        StartDate = new DateTime(2019, 04, 05),
+                        EndDate = new DateTime(2019, 04, 08),
+                        Duration = "2",
+                        Progress = 30,
+                        ParentId = 1,
+                        Predecessor = "2"
 
-            TaskData Record3 = new TaskData()
-            {
-                TaskId = 6,
-                TaskName = "Market research",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<TaskData>(),
-            };
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 5,
+                        TaskName = "Concept approval",
+                        StartDate = new DateTime(2019, 04, 08),
+                        EndDate = new DateTime(2019, 04, 08),
+                        Duration = "0",
+                        Predecessor = "3,4",
 
-            TaskData Record6Child1 = new TaskData()
-            {
-                TaskId = 7,
-                TaskName = "Demand analysis",
-                StartDate = new DateTime(2019, 04, 04),
-                EndDate = new DateTime(2019, 04, 21),
-                SubTasks = new List<TaskData>(),
-            };
 
-            TaskData Record7Child1 = new TaskData()
-            {
-                TaskId = 8,
-                TaskName = "Customer strength",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = "4",
-                Predecessor = "5",
-                Progress = 30
-            };
 
-            TaskData Record7Child2 = new TaskData()
-            {
-                TaskId = 9,
-                TaskName = "Market opportunity analysis",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = "4",
-                Predecessor = "5",
-            };
-            Record6Child1.SubTasks.Add(Record7Child1);
-            Record6Child1.SubTasks.Add(Record7Child2);
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 6,
+                        TaskName = "Market Research",
+                        StartDate = new DateTime(2019, 04, 09),
+                        EndDate = new DateTime(2019, 04, 18),
 
-            TaskData Record6Child2 = new TaskData()
-            {
-                TaskId = 10,
-                TaskName = "Competitor analysis",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = "4",
-                Predecessor = "7, 8",
-                Progress = 30,
-            };
-            TaskData Record6Child3 = new TaskData()
-            {
-                TaskId = 11,
-                TaskName = "Product strength analsysis",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = "4",
-                Predecessor = "9",
-            };
-            TaskData Record6Child4 = new TaskData()
-            {
-                TaskId = 12,
-                TaskName = "Research complete",
-                StartDate = new DateTime(2019, 04, 04),
-                Duration = "1",
-                Predecessor = "10",
-            };
-            Record3.SubTasks.Add(Record6Child1);
-            Record3.SubTasks.Add(Record6Child2);
-            Record3.SubTasks.Add(Record6Child3);
-            Record3.SubTasks.Add(Record6Child4);
+                        Duration = "4",
+                        Progress = 30,
 
-            TaskDataCollection.Add(Record1);
-            TaskDataCollection.Add(Record2);
-            TaskDataCollection.Add(Record3);
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 7,
+                        TaskName = "Demand Analysis",
+                        StartDate = new DateTime(2019, 04, 09),
+                        EndDate = new DateTime(2019, 04, 12),
+                        Duration = "4",
+                        Progress = 40,
+                        ParentId = 6
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 8,
+                        TaskName = "Customer Strength",
+                        StartDate = new DateTime(2019, 04, 09),
+                        EndDate = new DateTime(2019, 04, 12),
+                        Duration = "4",
+                        Progress = 30,
+                        ParentId = 7,
+                        Predecessor = "5"
 
-            return TaskDataCollection;
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 9,
+                        TaskName = "Market Opportunity analysis",
+                        StartDate = new DateTime(2019, 04, 09),
+                        EndDate = new DateTime(2019, 04, 012),
+                        Duration = "4",
+                        ParentId = 7,
+                        Predecessor = "5"
+
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 10,
+                        TaskName = "Competitor analysis",
+                        StartDate = new DateTime(2019, 04, 15),
+                        EndDate = new DateTime(2019, 04, 18),
+
+                        Duration = "4",
+                        Progress = 30,
+                        ParentId = 6,
+                        Predecessor = "7,8"
+
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 11,
+                        TaskName = "Product Strength Analysis",
+                        StartDate = new DateTime(2019, 04, 15),
+                        EndDate = new DateTime(2019, 04, 18),
+                        Duration = "4",
+                        Progress = 40,
+                        ParentId = 6,
+                        Predecessor = "9"
+                    },
+                    new TaskData()
+                    {
+                        TaskId = 12,
+                        TaskName = "Research Completed",
+                        StartDate = new DateTime(2019, 04, 18),
+                        EndDate = new DateTime(2019, 04, 18),
+                        Duration = "0",
+                        Progress = 30,
+                        ParentId = 6,
+                        Predecessor = "10",
+
+
+
+                    },
+                };
+            return Tasks;
         }
 
     }

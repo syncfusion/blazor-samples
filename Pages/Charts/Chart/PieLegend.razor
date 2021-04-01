@@ -1,22 +1,25 @@
 ﻿@page "/chart/pie-legend"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-  <p>This sample illustrates the donut series with smooth animation on dynamic update of data. The legend will be displayed at right side of the chart.</p>  
+    <p>This sample shows statistics on expenditure made in a year using the donut chart, as well as smooth animation on dynamic data source updates. The legend is shown on the right side of the chart.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render and configure the pie chart. You can use <code>Radius</code> and <code>InnerRadius</code> properties to render the doughnut and also use <code>Border</code>, <code>Fill</code> properties to customize the pie point. dataLabel is used to represent individual data and its value.Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+   
 </ActionDescription>
 
 <div class="control-section">
-    <SfAccumulationChart SelectionMode="AccumulationSelectionMode.Point" Title="Mobile Browser Statistics" SelectionPattern="SelectionPattern.DiagonalForward" Theme="@Theme">
+    <SfAccumulationChart Title="Expense In Year" SelectionMode="AccumulationSelectionMode.Point" SelectionPattern="SelectionPattern.DiagonalForward" Theme="@Theme">
         <AccumulationChartTooltipSettings Enable="false"></AccumulationChartTooltipSettings>
         <AccumulationChartLegendSettings ToggleVisibility=false Position="LegendPosition.Right" Height="28%" Width="44%"></AccumulationChartLegendSettings>
         <AccumulationChartSeriesCollection>
-            <AccumulationChartSeries DataSource="@DataSource" XName="xValue" YName="yValue" Name="Revenue" InnerRadius="40%">
-                <AccumulationDataLabelSettings Name="${point.y}" Visible="true">
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="ExpenseCategory" YName="ExpensePercentage" Name="Revenue" InnerRadius="40%">
+                <AccumulationDataLabelSettings Name="DataLabelMappingName" Visible="true">
                     <AccumulationChartDataLabelFont FontWeight="600" Color="white"></AccumulationChartDataLabelFont>
                 </AccumulationDataLabelSettings>
             </AccumulationChartSeries>
@@ -25,46 +28,47 @@
 </div>
 
 @code{
-    public class PieData
+
+    private Theme Theme { get; set; }
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
     {
-        public string xValue { get; set; }
-        public double yValue { get; set; }
-        public string text { get; set; }
-    }
-    public List<PieData> DataSource = new List<PieData>
-{
-         new PieData { xValue =  "Net-tution and Fees", yValue = 21, text = "21%" },
-         new PieData { xValue =  "Self-supporting Operations", yValue = 21, text = "21%" },
-         new PieData { xValue =  "Private Gifts", yValue = 8, text = "8%" },
-         new PieData { xValue =  "All Other", yValue = 8, text = "8%" },
-         new PieData { xValue =  "Local Revenue", yValue = 4, text = "4%" },
-         new PieData { xValue =  "State Revenue", yValue = 21, text = "21%" },
-         new PieData { xValue =  "Federal Revenue", yValue = 16, text = "16%" },
+         new PieData { ExpenseCategory =  "Net-tution and Fees", ExpensePercentage = 21, DataLabelMappingName = "21%" },
+         new PieData { ExpenseCategory =  "Self-supporting Operations", ExpensePercentage = 21, DataLabelMappingName = "21%" },
+         new PieData { ExpenseCategory =  "Private Gifts", ExpensePercentage = 8, DataLabelMappingName = "8%" },
+         new PieData { ExpenseCategory =  "All Other", ExpensePercentage = 9, DataLabelMappingName = "9%" },
+         new PieData { ExpenseCategory =  "Local Revenue", ExpensePercentage = 4, DataLabelMappingName = "4%" },
+         new PieData { ExpenseCategory =  "State Revenue", ExpensePercentage = 21, DataLabelMappingName = "21%" },
+         new PieData { ExpenseCategory =  "Federal Revenue", ExpensePercentage = 16, DataLabelMappingName = "16%" },
     };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class PieData
+    {
+        public string ExpenseCategory { get; set; }
+        public double ExpensePercentage { get; set; }
+        public string DataLabelMappingName { get; set; }
     }
 }

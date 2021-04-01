@@ -1,13 +1,17 @@
 ﻿@page "/chart/range-bar"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 <SampleDescription>
-    <p>This sample illustrates a range column series by inversing its X and Y  Axes. Tooltip shows the information about the data points.</p>
+    <p>This sample shows the maximum and minimum temperatures for a number of months in different countries with the default range column series inverted. The tooltip shows the information for the data point.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the range column type chart with inverted manner. You can use <code>Border</code>,<code>Fill</code> properties to customize the columns and its value.</p>
-    <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure the range column type chart in an inverted manner. You can use <code>IsTransposed</code> property to invert your chart.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -21,10 +25,10 @@
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" XName="x" High="High" Low="Low" Name="California" Type="ChartSeriesType.RangeColumn">
+            <ChartSeries DataSource="@ChartPoints" XName="Month" High="CA_HighTemp" Low="CA_LowTemp" Name="California" Type="ChartSeriesType.RangeColumn">
             </ChartSeries>
-            <ChartSeries DataSource="@ChartData" XName="x" High="High1" Low="Low1" Name="Colorado" Type="ChartSeriesType.RangeColumn">
-            </ChartSeries>          
+            <ChartSeries DataSource="@ChartPoints" XName="Month" High="CO_HighTemp" Low="CO_LowTemp" Name="Colorado" Type="ChartSeriesType.RangeColumn">
+            </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
     </SfChart>
@@ -32,48 +36,48 @@
 
 @code{
 
-    public class RangeBarChartData
+    private Theme Theme { get; set; }
+    public List<RangeBarChartData> ChartPoints = new List<RangeBarChartData>
     {
-        public string x { get; set; }
-        public double Low { get; set; }
-        public double High { get; set; }
-        public double Low1 { get; set; }
-        public double High1 { get; set; }
-    }
+        new RangeBarChartData { Month = "Jul", CA_LowTemp = 28, CA_HighTemp = 72, CO_LowTemp = 38, CO_HighTemp = 78 },
+        new RangeBarChartData { Month = "Aug", CA_LowTemp = 18, CA_HighTemp = 65, CO_LowTemp = 27, CO_HighTemp = 78 },
+        new RangeBarChartData { Month = "Sep", CA_LowTemp = 56, CA_HighTemp = 87, CO_LowTemp = 28, CO_HighTemp = 79 },
+        new RangeBarChartData { Month = "Oct", CA_LowTemp = 40, CA_HighTemp = 78, CO_LowTemp = 37, CO_HighTemp = 66 },
+        new RangeBarChartData { Month = "Nov", CA_LowTemp = 43, CA_HighTemp = 64, CO_LowTemp = 25, CO_HighTemp = 52 },
+        new RangeBarChartData { Month = "Dec", CA_LowTemp = 28, CA_HighTemp = 54, CO_LowTemp = 20, CO_HighTemp = 60 }
+    };
 
-    public List<RangeBarChartData> ChartData = new List<RangeBarChartData>
-            {
-                new RangeBarChartData { x= "Jul", Low= 28, High= 72, Low1= 38, High1= 78 },
-                new RangeBarChartData { x= "Aug", Low= 18, High= 65, Low1= 27, High1= 78 },
-                new RangeBarChartData { x= "Sep", Low= 56, High= 87, Low1= 28, High1= 79 },
-                new RangeBarChartData { x= "Oct", Low= 40, High= 78, Low1= 37, High1= 66 },
-                new RangeBarChartData { x= "Nov", Low= 43, High= 64, Low1= 25, High1= 52 },
-                new RangeBarChartData { x= "Dec", Low= 28, High= 54, Low1= 20, High1= 60 }
-            };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
     }
+
+    public class RangeBarChartData
+    {
+        public string Month { get; set; }
+        public double CA_LowTemp { get; set; }
+        public double CA_HighTemp { get; set; }
+        public double CO_LowTemp { get; set; }
+        public double CO_HighTemp { get; set; }
+    }
+
 }

@@ -33,7 +33,6 @@ namespace blazor_samples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHttpContextAccessor();
             #region Localization
             // Set the resx file folder path to access
             services.AddLocalization(options => options.ResourcesPath = "Resources");

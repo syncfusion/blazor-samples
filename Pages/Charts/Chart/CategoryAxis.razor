@@ -1,15 +1,19 @@
 ﻿@page "/chart/Category-axis"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+@using PointRender
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
- This sample demonstrates the rendering of category axis in the chart with internet users of different countries.    
+    <p>This sample demonstrates the rendering of the category axis in the chart, with details about internet users across different countries.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Category axis is used to represent the categories in data. To render category axis, set <code>ValueType</code> in axis to <code>Category</code>.Category label can placed between the ticks or on the ticks, based on <code>LabelPlacement</code> property.</p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-   <p>More information on the Category Axis can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p>
+    <p>You can use the category axis to represent the string values instead of the numbers in the chart. To render category axis, set <code>ValueType</code> in axis to <code>Category</code>.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the category axis can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/category-axis'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -29,7 +33,7 @@
         <ChartTooltipSettings Enable="true" Format="${point.tooltip}"></ChartTooltipSettings>
         <ChartLegendSettings Visible="false"></ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartData" TooltipMappingName="Country" Name="Users" XName="XValue" YName="YValue" Width="2" Type="ChartSeriesType.Bar">
+            <ChartSeries DataSource="@ChartPoints" TooltipMappingName="TooltipMappingName" Name="Users" XName="Country" YName="Users" Width="2" Type="ChartSeriesType.Bar">
                 <ChartMarker>
                     <ChartDataLabel Visible="true" Position="LabelPosition.Top">
                         <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
@@ -37,52 +41,78 @@
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
     </SfChart>
 </div>
 
 @code{
-    public class CategoryData
+
+    private Theme Theme { get; set; }
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
     {
-        public string XValue { get; set; }
-        public double YValue { get; set; }
-        public string Country { get; set; }
-    }
-    public List<CategoryData> ChartData = new List<CategoryData>
-    {
-        new CategoryData { XValue = "Germany", YValue = 72, Country = "GER: 72" },
-        new CategoryData { XValue = "Russia", YValue = 103.1, Country = "RUS: 103.1" },
-        new CategoryData { XValue = "Brazil", YValue = 139.1, Country = "BRZ: 139.1" },
-        new CategoryData { XValue = "India", YValue = 462.1, Country = "IND: 462.1" },
-        new CategoryData { XValue = "China", YValue = 721.4, Country = "CHN: 721.4" },
-        new CategoryData { XValue = "United States<br>Of America", YValue = 286.9, Country = "USA: 286.9" },
-        new CategoryData { XValue = "Great Britain", YValue = 115.1, Country = "GBR: 115.1" },
-        new CategoryData { XValue = "Nigeria", YValue = 97.2, Country = "NGR: 97.2" }
+        new CategoryData { Country = "Germany", Users = 72, TooltipMappingName = "GER: 72" },
+        new CategoryData { Country = "Russia", Users = 103.1, TooltipMappingName = "RUS: 103.1" },
+        new CategoryData { Country = "Brazil", Users = 139.1, TooltipMappingName = "BRZ: 139.1" },
+        new CategoryData { Country = "India", Users = 462.1, TooltipMappingName = "IND: 462.1" },
+        new CategoryData { Country = "China", Users = 721.4, TooltipMappingName = "CHN: 721.4" },
+        new CategoryData { Country = "United States<br>Of America", Users = 286.9, TooltipMappingName = "USA: 286.9" },
+        new CategoryData { Country = "Great Britain", Users = 115.1, TooltipMappingName = "GBR: 115.1" },
+        new CategoryData { Country = "Nigeria", Users = 97.2, TooltipMappingName = "NGR: 97.2" }
      };
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        this.SetTheme(null);
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        this.SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            if (args == null)
+                Theme = Theme.Material;
+            else
+                args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            if (args == null)
+                Theme = Theme.Fabric;
+            else
+                args.Fill = PointColor.FabricColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            if (args == null)
+                Theme = Theme.Bootstrap;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
         }
+    }
+
+    public class CategoryData
+    {
+        public string Country { get; set; }
+        public double Users { get; set; }
+        public string TooltipMappingName { get; set; }
     }
 }

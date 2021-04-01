@@ -1,18 +1,22 @@
 ﻿@page "/chart/polar-stacked-area"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.DropDowns
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+
 <SampleDescription>
-  <p> This sample demonstrates polar series with stacking area type for GDP of different countries in recent years.The switching between polar and radar series can be done by using <code>SeriesType</Code> in property panel.</p>  
+    <p>This sample shows the polar and radar series with a stacking area type chart for GDP of various countries in recent years.</p>
 </SampleDescription>
 <ActionDescription>
-  <p>In this example, you can see how to render and configure the stacking area type charts. Stacks the series on top of another series to avoid the overlapping of series with one another, when rendering more than one area series in same chart.You can use <code>Fill</code> properties to customize the stacked area. <code>DataLabel</code> is used to represent individual data and its value.</p>
-  <p>More information on the polar series can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>.</p> 
+    <p>In this example, you can see how to render and configure the polar and radar series with a stacking area type chart. Switching between polar and radar series can be done using <code>Series Type</code> in the property panel.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the polar and radar series with a stacking area type chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/polar/#stacked-area'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="row">
-<div class="col-lg-9 control-section">
+<div class="col-lg-8 control-section sb-property-border">
     <SfChart Title="GDP, Current Prices (in Billions)" Theme="@Theme">
         <ChartTooltipSettings Enable="true">
         </ChartTooltipSettings>
@@ -20,98 +24,99 @@
         </ChartLegendSettings>
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelPlacement="LabelPlacement.OnTicks" Interval="1" Coefficient="100"></ChartPrimaryXAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@DataSource" Name="2013" XName="x" Width="2" YName="y" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
-            <ChartSeries DataSource="@DataSource" Name="2014" XName="x" Width="2" YName="y1" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
-            <ChartSeries DataSource="@DataSource" Name="2015" XName="x" Width="2" YName="y2" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
-            <ChartSeries DataSource="@DataSource" Name="2016" XName="x" Width="2" YName="y3" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="2013" XName="Country" Width="2" YName="GDP_2013" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="2014" XName="Country" Width="2" YName="GDP_2014" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="2015" XName="Country" Width="2" YName="GDP_2015" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="2016" XName="Country" Width="2" YName="GDP_2016" Type="@SeriesType" DrawType="ChartDrawType.StackingArea"></ChartSeries>
         </ChartSeriesCollection>
     </SfChart>
 </div>
-    <div class="col-lg-3 property-section">
-        <table  style="width: 100%">
-            <tr style="height:50px"><th>Properties</th></tr>
-            <tr style="height: 50px">
-                <td style="width: 50%">
-                    <div>
-                        Series Type:
-                    </div>
-                </td>
-                <td style="width: 50%;">
-                    <SfDropDownList TValue="string" TItem="SeriesTypes" @bind-Value="@DropVal" DataSource="@Country">
-                        <DropDownListEvents TValue="string" TItem="SeriesTypes" ValueChange="ChangeSeriesType"></DropDownListEvents>
-                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
-                    </SfDropDownList>
-                </td>
-            </tr>
-        </table>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Polar" DataSource="@SeriesTypes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
+
 @code{
-    public string DropVal = "Polar";
 
-    public class SeriesTypes
+    private Theme Theme { get; set; }
+    private ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Polar;
+    public List<DropDownData> SeriesTypes { get; set; } = new List<DropDownData>
     {
-        public string Type { get; set; }
-
-        public string Code { get; set; }
-    }
-
-    List<SeriesTypes> Country = new List<SeriesTypes>
-{
-        new SeriesTypes() { Type = "Polar", Code = "P" },
-        new SeriesTypes() { Type = "Radar", Code = "R" },
+        new DropDownData() { Type = "Polar" },
+        new DropDownData() { Type = "Radar" },
+    };
+    public List<PolarStackedAreaData> ChartPoints { get; set; } = new List<PolarStackedAreaData>
+    {
+        new PolarStackedAreaData { Country = "JPN", GDP_2013 = 5156, GDP_2014 = 4849, GDP_2015 = 4382, GDP_2016 = 4939 },
+        new PolarStackedAreaData { Country = "DEU", GDP_2013 = 3754, GDP_2014 = 3885, GDP_2015 = 3365, GDP_2016 = 3467 },
+        new PolarStackedAreaData { Country = "FRA", GDP_2013 = 2809, GDP_2014 = 2844, GDP_2015 = 2420, GDP_2016 = 2463 },
+        new PolarStackedAreaData { Country = "GBR", GDP_2013 = 2721, GDP_2014 = 3002, GDP_2015 = 2863, GDP_2016 = 2629 },
+        new PolarStackedAreaData { Country = "BRA", GDP_2013 = 2472, GDP_2014 = 2456, GDP_2015 = 1801, GDP_2016 = 1799 },
+        new PolarStackedAreaData { Country = "RUS", GDP_2013 = 2231, GDP_2014 = 2064, GDP_2015 = 1366, GDP_2016 = 1281 },
+        new PolarStackedAreaData { Country = "ITA", GDP_2013 = 2131, GDP_2014 = 2155, GDP_2015 = 1826, GDP_2016 = 1851 },
+        new PolarStackedAreaData { Country = "IND", GDP_2013 = 1857, GDP_2014 = 2034, GDP_2015 = 2088, GDP_2016 = 2256 },
+        new PolarStackedAreaData { Country = "CAN", GDP_2013 = 1843, GDP_2014 = 1793, GDP_2015 = 1553, GDP_2016 = 1529 }
     };
 
-    ChartSeriesType SeriesType = ChartSeriesType.Polar;
-    public void ChangeSeriesType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SeriesTypes> args)
-    {
-        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
-        StateHasChanged();
-    }
-    public class PolarStackedAreaData
-    {
-        public string x { get; set; }
-        public double y { get; set; }
-        public double y1 { get; set; }
-        public double y2 { get; set; }
-        public double y3 { get; set; }
-    }
-    public List<PolarStackedAreaData> DataSource = new List<PolarStackedAreaData>
-{
-            new PolarStackedAreaData { x = "JPN", y= 5156, y1= 4849, y2= 4382, y3= 4939 },
-            new PolarStackedAreaData { x= "DEU", y= 3754, y1= 3885, y2= 3365, y3= 3467 },
-            new PolarStackedAreaData { x = "FRA", y = 2809, y1= 2844, y2= 2420, y3= 2463 },
-            new PolarStackedAreaData { x = "GBR", y= 2721, y1= 3002, y2= 2863, y3= 2629 },
-            new PolarStackedAreaData { x = "BRA", y= 2472, y1= 2456, y2= 1801, y3= 1799 },
-            new PolarStackedAreaData { x = "RUS", y= 2231, y1= 2064, y2= 1366, y3= 1281 },
-            new PolarStackedAreaData { x = "ITA", y= 2131, y1= 2155, y2= 1826, y3= 1851 },
-            new PolarStackedAreaData { x = "IND", y= 1857, y1= 2034, y2= 2088, y3= 2256 },
-            new PolarStackedAreaData { x = "CAN", y= 1843, y1= 1793, y2= 1553, y3= 1529 }
-    };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public void ChangeSeriesType(ChangeEventArgs<string, DropDownData> args)
+    {
+        SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class PolarStackedAreaData
+    {
+        public string Country { get; set; }
+        public double GDP_2013 { get; set; }
+        public double GDP_2014 { get; set; }
+        public double GDP_2015 { get; set; }
+        public double GDP_2016 { get; set; }
     }
 }

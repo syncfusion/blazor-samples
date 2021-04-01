@@ -1,20 +1,22 @@
 ﻿@page "/chart/range-selection"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
+
 @inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
 <SampleDescription>
-    <p>  This sample illustrates the range selection feature in chart.</p>
+    <p>This sample demonstrates the range selection behavior and its mode in the chart.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample demonstrates the selection behavior in a chart. Any point or a series can be selected in a chart by clicking 
-      or touching the point. We can also select the point while loading chart through <code>selectedDataIndexes</code> properties. 
-      Click to select a point or series, click and drag to enable rectangular selection. Rectangular selection will return 
-      the collection point that are selected under the region.</p>
-   <p>Tap to select a point or series, double tap and drag to enable rectangular selection in touch enabled devices.</p>
-<p>Chart supports the following by which can be set using <code>SelectionMode</code> property.</p>
+    <p>In this sample, any point or series can be selected in the chart by clicking on or touching the point. You can also change the selection mode by changing the <code>Selection Mode</code> option in the properties panel. You can enable multiple selections with the <code>Enable Multi Selection</code> option. You can also select a point while loading a chart using the <code>SelectedDataIndexes</code> option.</p>
+    <p>Click and drag to enable a rectangular selection and it will display the collection of points that are selected under the region.</p>
+    <p>The chart supports the following that can be set using the <code>SelectionMode</code> property.</p>
     <ul>
-        <li><code>Series</code> - Select the series in chart.</li>
+        <li><code>Series</code> - Select the series in the chart.</li>
         <li><code>Point</code> - Select a point in the series.</li>
         <li><code>Cluster</code> - Select a group of points in the chart.</li>
         <li><code>DragXY</code> - Rectangular selection with respect to both axis.</li>
@@ -22,45 +24,47 @@
         <li><code>DragY</code> - Rectangular selection with respect to vertical axis.</li>
     </ul>
 </ActionDescription>
-@inherits SampleBaseComponent;
-    <div class="row">
-        <div class="control-section col-md-8">
-            <SfChart @ref="@ChartObj" Title="Profit Comparison of A and B" SelectionMode="@Mode" AllowMultiSelection="@AllowMultiSelect" Theme="@Theme">
-                <ChartPrimaryXAxis Minimum="1970" Maximum="2016">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                </ChartPrimaryXAxis>
-                <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="25" Title="Sales" LabelFormat="{value}%">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                </ChartPrimaryYAxis>
-                <ChartSeriesCollection>
-                    <ChartSeries DataSource="@DataSource" Name="Product A" XName="x" Opacity="1" YName="y1" Type="ChartSeriesType.Scatter">
-                        <ChartMarker Height="10" Width="10" Shape="ChartShape.Triangle"></ChartMarker>
-                    </ChartSeries>
-                    <ChartSeries DataSource="@DataSource" Name="Product B" XName="x" Opacity="1" YName="y2" Type="ChartSeriesType.Scatter">
-                        <ChartMarker Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
-                    </ChartSeries>
-                </ChartSeriesCollection>
-                <ChartArea>
-                    <ChartAreaBorder Width="0"></ChartAreaBorder>
-                </ChartArea>
-                <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
-            </SfChart>
-        </div>
-        <div class="col-md-4 property-section">
+
+<div class="control-section col-md-8 sb-property-border">
+    <SfChart Title="Profit Comparison of A and B" SelectionMode="@Mode" AllowMultiSelection="@AllowMultiSelect" Theme="@Theme">
+        <ChartPrimaryXAxis Minimum="1970" Maximum="2016">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="25" Title="Sales" LabelFormat="{value}%">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Product A" XName="Period" Opacity="1" YName="ProductA_Sales" Type="ChartSeriesType.Scatter">
+                <ChartMarker Height="10" Width="10" Shape="ChartShape.Triangle"></ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="Product B" XName="Period" Opacity="1" YName="ProductB_Sales" Type="ChartSeriesType.Scatter">
+                <ChartMarker Height="10" Width="10" Shape="ChartShape.Pentagon"></ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
             <table style="width: 100%">
-                <tr style="height:50px"><th>Properties</th></tr>
                 <tr style="height: 50px">
                     <td style="width: 40%">
                         Selection Mode:
                     </td>
                     <td style="width: 60%;">
-                         <SfDropDownList TValue="string" TItem="SelectionTypes" @bind-Value="@DropVal" DataSource="@ModeData">
-                        <DropDownListEvents TValue="string" TItem="SelectionTypes" ValueChange="ChangeMode"></DropDownListEvents>
-                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
-                    </SfDropDownList>
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="DragXY" DataSource="@Modes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeMode"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
                     </td>
                 </tr>
-                <tr  style="height: 50px">
+                <tr style="height: 50px">
                     <td style="width: 50%">
                         Enable Multi Selection:
                     </td>
@@ -71,117 +75,112 @@
             </table>
         </div>
     </div>
+</div>
+
 @code{
-    SfChart ChartObj;
-    Syncfusion.Blazor.Charts.SelectionMode Mode = Syncfusion.Blazor.Charts.SelectionMode.DragXY;
 
-    public string DropVal = "DragXY";
-
-    public class SelectionTypes
+    private Theme Theme { get; set; }
+    private bool AllowMultiSelect { get; set; } = false;
+    private Syncfusion.Blazor.Charts.SelectionMode Mode { get; set; } = Syncfusion.Blazor.Charts.SelectionMode.DragXY;
+    private List<DropDownData> Modes { get; set; } = new List<DropDownData>
     {
-        public string Type { get; set; }
-
-        public string Code { get; set; }
-    }
-
-    List<SelectionTypes> ModeData = new List<SelectionTypes>
-{
-        new SelectionTypes() { Type = "DragXY", Code = "XY" },
-        new SelectionTypes() { Type = "DragX", Code = "X" },
-        new SelectionTypes() { Type = "DragY", Code = "Y" },
-        new SelectionTypes() { Type = "Lasso", Code = "L" },
+        new DropDownData() { Type = "DragXY" },
+        new DropDownData() { Type = "DragX" },
+        new DropDownData() { Type = "DragY" }
+    };
+    public List<RangeSelectionData> ChartPoints { get; set; } = new List<RangeSelectionData>
+    {
+        new RangeSelectionData { Period = 1971, ProductA_Sales = 50, ProductB_Sales = 23},
+        new RangeSelectionData { Period = 1972, ProductA_Sales = 20, ProductB_Sales = 63},
+        new RangeSelectionData { Period = 1973, ProductA_Sales = 63, ProductB_Sales = 83},
+        new RangeSelectionData { Period = 1974, ProductA_Sales = 81, ProductB_Sales = 43},
+        new RangeSelectionData { Period = 1975, ProductA_Sales = 64, ProductB_Sales = 8},
+        new RangeSelectionData { Period = 1976, ProductA_Sales = 36, ProductB_Sales = 41},
+        new RangeSelectionData { Period = 1977, ProductA_Sales = 22, ProductB_Sales = 56},
+        new RangeSelectionData { Period = 1978, ProductA_Sales = 78, ProductB_Sales = 31},
+        new RangeSelectionData { Period = 1979, ProductA_Sales = 60, ProductB_Sales = 29},
+        new RangeSelectionData { Period = 1980, ProductA_Sales = 41, ProductB_Sales = 87},
+        new RangeSelectionData { Period = 1981, ProductA_Sales = 12, ProductB_Sales = 43},
+        new RangeSelectionData { Period = 1982, ProductA_Sales = 56, ProductB_Sales = 12},
+        new RangeSelectionData { Period = 1983, ProductA_Sales = 96, ProductB_Sales = 38},
+        new RangeSelectionData { Period = 1984, ProductA_Sales = 48, ProductB_Sales = 67},
+        new RangeSelectionData { Period = 1985, ProductA_Sales = 23, ProductB_Sales = 49},
+        new RangeSelectionData { Period = 1986, ProductA_Sales = 54, ProductB_Sales = 67},
+        new RangeSelectionData { Period = 1987, ProductA_Sales = 73, ProductB_Sales = 83},
+        new RangeSelectionData { Period = 1988, ProductA_Sales = 56, ProductB_Sales = 16},
+        new RangeSelectionData { Period = 1989, ProductA_Sales = 69, ProductB_Sales = 89},
+        new RangeSelectionData { Period = 1990, ProductA_Sales = 79, ProductB_Sales = 18 },
+        new RangeSelectionData { Period = 1991, ProductA_Sales = 18, ProductB_Sales = 46 },
+        new RangeSelectionData { Period = 1992, ProductA_Sales = 78, ProductB_Sales = 39 },
+        new RangeSelectionData { Period = 1993, ProductA_Sales = 92, ProductB_Sales = 18 },
+        new RangeSelectionData { Period = 1994, ProductA_Sales = 93, ProductB_Sales = 87 },
+        new RangeSelectionData { Period = 1995, ProductA_Sales = 29, ProductB_Sales = 45 },
+        new RangeSelectionData { Period = 1996, ProductA_Sales = 14, ProductB_Sales = 42 },
+        new RangeSelectionData { Period = 1997, ProductA_Sales = 85, ProductB_Sales = 28 },
+        new RangeSelectionData { Period = 1998, ProductA_Sales = 24, ProductB_Sales = 82 },
+        new RangeSelectionData { Period = 1999, ProductA_Sales = 11, ProductB_Sales = 13 },
+        new RangeSelectionData { Period = 2000, ProductA_Sales = 80, ProductB_Sales = 83 },
+        new RangeSelectionData { Period = 2001, ProductA_Sales = 14, ProductB_Sales = 26 },
+        new RangeSelectionData { Period = 2002, ProductA_Sales = 34, ProductB_Sales = 57 },
+        new RangeSelectionData { Period = 2003, ProductA_Sales = 81, ProductB_Sales = 48 },
+        new RangeSelectionData { Period = 2004, ProductA_Sales = 70, ProductB_Sales = 84 },
+        new RangeSelectionData { Period = 2005, ProductA_Sales = 80, ProductB_Sales = 64 },
+        new RangeSelectionData { Period = 2006, ProductA_Sales = 70, ProductB_Sales = 24 },
+        new RangeSelectionData { Period = 2007, ProductA_Sales = 32, ProductB_Sales = 82 },
+        new RangeSelectionData { Period = 2008, ProductA_Sales = 43, ProductB_Sales = 37 },
+        new RangeSelectionData { Period = 2009, ProductA_Sales = 21, ProductB_Sales = 68 },
+        new RangeSelectionData { Period = 2010, ProductA_Sales = 63, ProductB_Sales = 37 },
+        new RangeSelectionData { Period = 2011, ProductA_Sales = 9, ProductB_Sales = 35 },
+        new RangeSelectionData { Period = 2012, ProductA_Sales = 51, ProductB_Sales = 81 },
+        new RangeSelectionData { Period = 2013, ProductA_Sales = 25, ProductB_Sales = 38 },
+        new RangeSelectionData { Period = 2014, ProductA_Sales = 96, ProductB_Sales = 51 },
+        new RangeSelectionData { Period = 2015, ProductA_Sales = 32, ProductB_Sales = 58 },
     };
 
+    protected override void OnInitialized()
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            Theme = Theme.Material;
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            Theme = Theme.Fabric;
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            Theme = Theme.Bootstrap;
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            Theme = Theme.HighContrast;
+        }
+        else
+        {
+            Theme = Theme.Bootstrap4;
+        }
+    }
 
-
-    public void ChangeMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SelectionTypes> args)
+    public void ChangeMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
     {
         this.Mode = (Syncfusion.Blazor.Charts.SelectionMode)Enum.Parse(typeof(Syncfusion.Blazor.Charts.SelectionMode), args.Value.ToString(), true);
     }
-    private Boolean AllowMultiSelect = false;
+
     private void ChangeSelection(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         AllowMultiSelect = args.Checked;
     }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
     public class RangeSelectionData
     {
-        public double x { get; set; }
-        public double y1 { get; set; }
-        public double y2 { get; set; }
+        public double Period { get; set; }
+        public double ProductA_Sales { get; set; }
+        public double ProductB_Sales { get; set; }
     }
-    public List<RangeSelectionData> DataSource = new List<RangeSelectionData>
-          {
-               new RangeSelectionData { x = 1971, y1 = 50, y2 = 23},
-               new RangeSelectionData { x = 1972, y1 = 20, y2 = 63},
-               new RangeSelectionData { x = 1973, y1 = 63, y2 = 83},
-               new RangeSelectionData { x = 1974, y1 = 81, y2 = 43},
-               new RangeSelectionData { x = 1975, y1 = 64, y2 = 8},
-               new RangeSelectionData { x = 1976, y1 = 36, y2 = 41},
-               new RangeSelectionData { x = 1977, y1 = 22, y2 = 56},
-               new RangeSelectionData { x = 1978, y1 = 78, y2 = 31},
-               new RangeSelectionData { x = 1979, y1 = 60, y2 = 29},
-               new RangeSelectionData { x = 1980, y1 = 41, y2 = 87},
-               new RangeSelectionData { x = 1981, y1 = 12, y2 = 43},
-               new RangeSelectionData { x = 1982, y1 = 56, y2 = 12},
-               new RangeSelectionData { x = 1983, y1 = 96, y2 = 38},
-               new RangeSelectionData { x = 1984, y1 = 48, y2 = 67},
-               new RangeSelectionData { x = 1985, y1 = 23, y2 = 49},
-               new RangeSelectionData { x = 1986, y1 = 54, y2 = 67},
-               new RangeSelectionData { x = 1987, y1 = 73, y2 = 83},
-               new RangeSelectionData { x = 1988, y1 = 56, y2 = 16},
-               new RangeSelectionData { x = 1989, y1 = 69, y2 = 89},
-               new RangeSelectionData { x = 1990, y1 = 79, y2 = 18 },
-               new RangeSelectionData { x = 1991, y1 = 18, y2 = 46 },
-               new RangeSelectionData { x = 1992, y1 = 78, y2 = 39 },
-               new RangeSelectionData { x = 1993, y1 = 92, y2 = 18 },
-               new RangeSelectionData { x = 1994, y1 = 93, y2 = 87 },
-               new RangeSelectionData { x = 1995, y1 = 29, y2 = 45 },
-               new RangeSelectionData { x = 1996, y1 = 14, y2 = 42 },
-               new RangeSelectionData { x = 1997, y1 = 85, y2 = 28 },
-               new RangeSelectionData { x = 1998, y1 = 24, y2 = 82 },
-               new RangeSelectionData { x = 1999, y1 = 11, y2 = 13 },
-               new RangeSelectionData { x = 2000, y1 = 80, y2 = 83 },
-               new RangeSelectionData { x = 2001, y1 = 14, y2 = 26 },
-               new RangeSelectionData { x = 2002, y1 = 34, y2 = 57 },
-               new RangeSelectionData { x = 2003, y1 = 81, y2 = 48 },
-               new RangeSelectionData { x = 2004, y1 = 70, y2 = 84 },
-               new RangeSelectionData { x = 2005, y1 = 80, y2 = 64 },
-               new RangeSelectionData { x = 2006, y1 = 70, y2 = 24 },
-               new RangeSelectionData { x = 2007, y1 = 32, y2 = 82 },
-               new RangeSelectionData { x = 2008, y1 = 43, y2 = 37 },
-               new RangeSelectionData { x = 2009, y1 = 21, y2 = 68 },
-               new RangeSelectionData { x = 2010, y1 = 63, y2 = 37 },
-               new RangeSelectionData { x = 2011, y1 = 9, y2 = 35 },
-               new RangeSelectionData { x = 2012, y1 = 51, y2 = 81 },
-               new RangeSelectionData { x = 2013, y1 = 25, y2 = 38 },
-               new RangeSelectionData { x = 2014, y1 = 96, y2 = 51 },
-               new RangeSelectionData { x = 2015, y1 = 32, y2 = 58 },
 
-             };
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
-    protected override void OnInitialized()
-    {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
-        }
-        else
-        {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
-        }
-    }
 }

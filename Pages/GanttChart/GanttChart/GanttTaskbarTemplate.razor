@@ -10,31 +10,31 @@
     <p>This sample visualizes the complete event schedule of the 90th Academy awards.Taskbars are customized using template support and timeline header is customized for a better view of the data.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The Gantt Chart provides support for customizing taskbar UI using taskbar template feature. The <code>TaskbarTemplate</code>
-      property accepts either string or HTML element`s ID value, which will be used as the template for the taskbars.
-      The summary tasks and the milestone items can also customized using the <code>ParentTaskbarTemplate</code> and <code>MilestoneTemplate</code> properties. 
-      In this demo, we have customized the taskbar UI by using the HTML elements between the template tags and displays the data from custom columns.
-   </p>
+    <p>
+        The Gantt Chart provides support for customizing taskbar UI using taskbar template feature. The <code>TaskbarTemplate</code>
+        property accepts either string or HTML element`s ID value, which will be used as the template for the taskbars.
+        The summary tasks and the milestone items can also customized using the <code>ParentTaskbarTemplate</code> and <code>MilestoneTemplate</code> properties.
+        In this demo, we have customized the taskbar UI by using the HTML elements between the template tags and displays the data from custom columns.
+    </p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt RowHeight="75" TaskbarHeight="65" 
+            <SfGantt RowHeight="75" TaskbarHeight="50"
                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" DurationUnit="DurationUnit.Minute"
-                     DateFormat="hh:mm a" DataSource="@TaskCollection" Height="450px" Width="100%" >
-                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                                 Dependency="Predecessor"></GanttTaskFields>
+                     DateFormat="hh:mm tt" DataSource="@TaskCollection" Height="450px" Width="100%">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
                 <GanttColumns>
                     <GanttColumn Field="TaskId" HeaderText="Event Id"></GanttColumn>
-                    <GanttColumn Field="TaskName" HeaderText="Event Name"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Event Name" Width="150"></GanttColumn>
                     <GanttColumn Field="StartDate" HeaderText="Start Time"></GanttColumn>
                     <GanttColumn Field="EndDate" HeaderText="End Time"></GanttColumn>
                     <GanttColumn Field="Winner" HeaderText="Winner"></GanttColumn>
                     <GanttColumn Field="Movie" HeaderText="Movie"></GanttColumn>
-                    <GanttColumn Field="Performance" HeaderText="Moments / Performance Details"></GanttColumn>
+                    <GanttColumn Field="Performance" HeaderText=" Performance" Width="200"></GanttColumn>
                 </GanttColumns>
-                 <GanttEventMarkers>
+                <GanttEventMarkers>
                     <GanttEventMarker Day="@EventDay1" Label="Performance"></GanttEventMarker>
                     <GanttEventMarker Day="@EventDay2" Label="Moments"></GanttEventMarker>
                     <GanttEventMarker Day="@EventDay3" Label="Performance"></GanttEventMarker>
@@ -43,51 +43,48 @@
                     <GanttEventMarker Day="@EventDay6" Label="Performance"></GanttEventMarker>
                     <GanttEventMarker Day="@EventDay7" Label="Moments"></GanttEventMarker>
                 </GanttEventMarkers>
-                <GanttLabelSettings>
-                    <LeftLabelTemplate>
-                        <div class="e-left-label-inner-div" style="height:22px;margin-top:7px;">
-                            <span class="e-label">@((context as TaskbarTemplateData.TaskbarData).GanttProperties.TaskName)</span>
-                        </div>
-                    </LeftLabelTemplate>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskbarTemplateData.TaskbarData">
+
                 </GanttLabelSettings>
-                <GanttTemplates>
+                <GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
+                <GanttTemplates TValue="TaskbarTemplateData.TaskbarData">
 
                     <TaskbarTemplate>
-                        @if ((context as TaskbarTemplateData.TaskbarData).GanttProperties.TaskName == "Oscar moments")
+                        @if ((context as TaskbarTemplateData.TaskbarData).TaskName == "Oscar moments")
                         {
-                            <div class="e-gantt-child-taskbar e-custom-moments" style="height:68px;border-radius:5px;">
+                            <div class="e-gantt-child-taskbar e-custom-moments" style="height:50px;border-radius:5px;">
 
-                                @if (((context as TaskbarTemplateData.TaskbarData).GanttProperties.Duration) < 4)
+                                @if (Convert.ToInt64((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
                                 {
 
                                     <img class="moments" height="32" width="44" />
                                 }
-                                else
-                                {
-                                    <img class="moments" height="32" width="32" />
-                                    <span class="e-task-label" style="position:absolute;top:15px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as dynamic).Performance)</span>
-                                }
+                                @* //else
+                                    //{
+                                        //<img class="moments" height="32" width="32" />
+                                        //<span class="e-task-label" style="position:absolute;top:15px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as dynamic).Performance)</span>
+                                    //} *@
                             </div>
                         }
-                        else if ((context as TaskbarTemplateData.TaskbarData).GanttProperties.TaskName == "Oscar performance")
+                        else if ((context as TaskbarTemplateData.TaskbarData).TaskName == "Oscar performance")
                         {
-                            <div class="e-gantt-child-taskbar e-custom-performance" style="height:68px;border-radius:5px;">
-                                @if (((context as TaskbarTemplateData.TaskbarData).GanttProperties.Duration) <= 5)
+                            <div class="e-gantt-child-taskbar e-custom-performance" style="height:50px;border-radius:5px;">
+                                @if (Convert.ToInt64((context as TaskbarTemplateData.TaskbarData).Duration) <= 5)
                                 {
                                     <img class="face-mask" height="32" width="32" />
                                 }
-                                else
-                                {
-                                    <img class="face-mask" height="32" width="32" />
-                                    <span class="e-task-label" style="position:absolute;top:5px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
-                                }
+                                @* // else
+                                    //{
+                                        //<img class="face-mask" height="32" width="32" />
+                                      //  <span class="e-task-label" style="position:absolute;top:5px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
+                                    //}  *@
                             </div>
                         }
                         else
                         {
 
-                            <div class="e-gantt-parent-taskbar e-custom-parent" style="height:68px;border-radius:5px;text-overflow:ellipsis;">
-                                @if (((context as TaskbarTemplateData.TaskbarData).GanttProperties.Duration) < 4)
+                            <div class="e-gantt-parent-taskbar e-custom-parent" style="height:50px;border-radius:5px;text-overflow:ellipsis;">
+                                @if (Convert.ToInt64((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
                                 {
                                     <img class="oscar" height="32" width="32" />
                                 }
@@ -123,16 +120,18 @@
                         </div>
                     </MilestoneTemplate>
                 </GanttTemplates>
-                <GanttTimelineSettings TimelineUnitSize="60">
+                <GanttTimelineSettings TimelineUnitSize="75">
                     <GanttTopTierSettings Unit="TimelineViewMode.Hour" Format="MMM dd, yyyy"></GanttTopTierSettings>
-                    <GanttBottomTierSettings Unit="TimelineViewMode.Minutes" Count="2" Format="h:mm a"></GanttBottomTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Minutes" Count="15" Format="h:mm tt"></GanttBottomTierSettings>
                 </GanttTimelineSettings>
-                <GanttSplitterSettings ColumnIndex="1"></GanttSplitterSettings>
+
                 <GanttDayWorkingTimeCollection>
                     <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
                 </GanttDayWorkingTimeCollection>
 
             </SfGantt>
+
+
         </div>
     </div>
 </div>
@@ -145,8 +144,8 @@
     public DateTime EventDay5 = new DateTime(2018, 3, 5, 20, 24, 0);
     public DateTime EventDay6 = new DateTime(2018, 3, 5, 20, 31, 0);
     public DateTime EventDay7 = new DateTime(2018, 3, 5, 20, 47, 0);
-    public DateTime ProjectStart = new DateTime (2018, 3, 5, 18, 0, 0);
-    public DateTime ProjectEnd = new DateTime(2018, 3, 5, 21, 50, 0);
+    public DateTime ProjectStart = new DateTime(2018, 3, 5, 18, 0, 0);
+    public DateTime ProjectEnd = new DateTime(2018, 3, 6, 18, 0, 0);
     public List<TaskbarTemplateData.TaskbarData> TaskCollection { get; set; }
     protected override void OnInitialized()
     {
@@ -173,7 +172,8 @@
 
     .moments, .face-mask, .oscar {
         position: relative;
-        top: 14px;
+        top: 2px;
+        bottom: 2px;
         left: 5px;
         padding-right: 4px;
     }

@@ -63,7 +63,8 @@ namespace blazor_samples.Data.FileFormats.Presentation
             oleObject.Top = 0.79 * 72;
             oleObject.Width = 4.26 * 72;
             oleObject.Height = 5.92 * 72;
-
+            //Set DisplayAsIcon as true, to open the embedded document in separate (default) application.
+            oleObject.DisplayAsIcon = true;
             //Save the document as a stream and retrun the stream
             using (MemoryStream stream = new MemoryStream())
             {

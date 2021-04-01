@@ -11,16 +11,8 @@ namespace blazor_samples
                 Directory = "Grid",
                 Type = SampleType.Updated,
                 Samples = DataGrid,
-                ControllerName = "DataGrid"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Tree Grid",
-                Category = "Grids",
-                Directory = "TreeGrid/TreeGrid",
-                Type = SampleType.Updated,
-                Samples = TreeGrid,
-                ControllerName = "TreeGrid"
+                ControllerName = "DataGrid",
+                DemoPath = "datagrid/overview"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -29,25 +21,40 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Type = SampleType.None,
                 Samples = PivotTable,
-                ControllerName = "PivotTable"
+                ControllerName = "PivotTable",
+                DemoPath = "pivot-table/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Chart",
+                Name = "Tree Grid",
+                Category = "Grids",
+                Directory = "TreeGrid/TreeGrid",
+                Type = SampleType.Updated,
+                Samples = TreeGrid,
+                ControllerName = "TreeGrid",
+                CustomDocLink = "treegrid/getting-started/",
+                DemoPath = "tree-grid/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Charts",
                 Category = "Data Visualization",
                 Directory = "Charts",
                 Type = SampleType.None,
                 Samples = Chart,
-                ControllerName = "Chart"
+                ControllerName = "Chart",
+                DemoPath = "chart/line"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "StockChart",
+                Name = "Barcode Generator",
                 Category = "Data Visualization",
-                Directory = "Charts",
+                Directory = "Barcodes",
                 Type = SampleType.None,
-                Samples = StockChart,
-                ControllerName = "StockChart"
+                Samples = Barcode,
+                ControllerName = "Barcodes",
+                CustomDocLink = "barcode/getting-started",
+                DemoPath = "barcodes/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -56,7 +63,8 @@ namespace blazor_samples
                 Directory = "Charts",
                 Type = SampleType.None,
                 Samples = BulletChart,
-                ControllerName = "BulletChart"
+                ControllerName = "BulletChart",
+                DemoPath = "bullet-chart/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -65,419 +73,18 @@ namespace blazor_samples
                 Directory = "CircularGauge",
                 Type = SampleType.None,
                 Samples = CircularGauge,
-                ControllerName = "CircularGauge"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Linear Gauge",
-                Category = "Data Visualization",
-                Directory = "LinearGauge/LinearGauge",
-                Type = SampleType.None,
-                Samples = LinearGauge,
-                ControllerName = "LinearGauge"
+                ControllerName = "CircularGauge",
+                DemoPath = "circular-gauge/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "Diagram",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Diagram,
-                ControllerName = "Diagram"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Sparkline Charts",
-                Category = "Data Visualization",
-                Directory = "Charts/Sparkline",
-                Type = SampleType.None,
-                Samples = SparklineCharts,
-                ControllerName = "Sparkline"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "TreeMap",
-                Category = "Data Visualization",
-                Directory = "TreeMap/TreeMap",
-                Type = SampleType.None,
-                Samples = TreeMap,
-                ControllerName = "TreeMap"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Maps",
-                Category = "Data Visualization",
-                Directory = "Maps/Maps",
-                Type = SampleType.None,
-                Samples = Maps,
-                ControllerName = "Maps"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "RangeNavigator",
-                Category = "Data Visualization",
-                Directory = "Charts",
-                Type = SampleType.None,
-                Samples = RangeNavigator,
-                ControllerName = "RangeSelector"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Smith Chart",
-                Category = "Data Visualization",
-                Directory = "Charts/SmithChart",
-                Type = SampleType.None,
-                Samples = SmithChart,
-                ControllerName = "SmithChart"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Barcode",
-                Category = "Data Visualization",
-                Directory = "Barcodes",
-                Type = SampleType.None,
-                Samples = Barcode,
-                ControllerName = "Barcodes"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Progress Bar",
-                Category = "Notifications",
-                Directory = "ProgressBar",
-                Type = SampleType.None,
-                Samples = ProgressBar,
-                ControllerName = "ProgressBar"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Button",
-                Category = "Editors",
-                Directory = "Buttons",
-                Type = SampleType.Updated,
-                Samples = Button,
-                ControllerName = "Buttons"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Calendar",
-                Category = "Calendars",
-                Directory = "Calendars/Calendar",
-                Type = SampleType.None,
-                Samples = Calendar,
-                ControllerName = "Calendar"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "DatePicker",
-                Category = "Calendars",
-                Directory = "Calendars/DatePicker",
-                Type = SampleType.None,
-                Samples = DatePicker,
-                ControllerName = "DatePicker"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "DateTime Picker",
-                Category = "Calendars",
-                Directory = "Calendars/DateTimePicker",
-                Type = SampleType.None,
-                Samples = DateTimePicker,
-                ControllerName = "DateTimePicker"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "TimePicker",
-                Category = "Calendars",
-                Directory = "Calendars/TimePicker",
-                Type = SampleType.None,
-                Samples = TimePicker,
-                ControllerName = "TimePicker"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "DateRangePicker",
-                Category = "Calendars",
-                Directory = "Calendars/DateRangePicker",
-                Type = SampleType.None,
-                Samples = DateRangePicker,
-                ControllerName = "DateRangePicker"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Dropdown List",
-                Category = "DropDowns",
-                Directory = "DropDowns/DropDownList",
-                Type = SampleType.None,
-                Samples = DropDownList,
-                ControllerName = "DropDownList"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "ComboBox",
-                Category = "DropDowns",
-                Directory = "DropDowns/ComboBox",
-                Type = SampleType.None,
-                Samples = ComboBox,
-                ControllerName = "ComboBox"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "AutoComplete",
-                Category = "DropDowns",
-                Directory = "DropDowns/AutoComplete",
-                Type = SampleType.None,
-                Samples = AutoComplete,
-                ControllerName = "AutoComplete"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "MultiSelect Dropdown",
-                Category = "DropDowns",
-                Directory = "DropDowns/MultiSelect",
-                Type = SampleType.None,
-                Samples = MultiSelectDropdown,
-                ControllerName = "MultiSelectDropdown"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "ListBox",
-                Category = "DropDowns",
-                Directory = "DropDowns/ListBox",
-                Type = SampleType.None,
-                Samples = ListBox,
-                ControllerName = "ListBox"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Sidebar",
-                Category = "Navigations",
-                Directory = "Navigations/Sidebar",
-                Type = SampleType.None,
-                Samples = Sidebar,
-                ControllerName = "Sidebar"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Accordion",
-                Category = "Navigations",
-                Directory = "Navigations/Accordion",
-                Type = SampleType.None,
-                Samples = Accordion,
-                ControllerName = "Accordion"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Toolbar",
-                Category = "Navigations",
-                Directory = "Navigations/Toolbar",
-                Type = SampleType.None,
-                Samples = Toolbar,
-                ControllerName = "Toolbar"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Tabs",
-                Category = "Navigations",
-                Directory = "Navigations/Tabs",
-                Type = SampleType.None,
-                Samples = Tabs,
-                ControllerName = "Tabs"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Toast",
-                Category = "Notifications",
-                Directory = "Notifications/Toast",
-                Type = SampleType.None,
-                Samples = Toast,
-                ControllerName = "Toast"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Spinner",
-                Category = "Notifications",
-                Directory = "Notifications/Spinner",
-                Type = SampleType.Updated,
-                Samples = Spinner,
-                ControllerName = "Spinner"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "TextBox",
-                Category = "Inputs",
-                Directory = "Inputs",
-                Type = SampleType.None,
-                Samples = TextBox,
-                ControllerName = "TextBox"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Dashboard Layout",
-                Category = "Layout",
-                Directory = "Layouts/DashboardLayout",
-                Type = SampleType.None,
-                Samples = DashboardLayout,
-                ControllerName = "DashboardLayout"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Dialog",
-                Category = "Layout",
-                Directory = "Popups/Dialog",
-                Type = SampleType.Updated,
-                Samples = Dialog,
-                ControllerName = "Dialog"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "ListView",
-                Category = "Layout",
-                Directory = "Layouts/ListView",
-                Type = SampleType.None,
-                Samples = ListView,
-                ControllerName = "ListView"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Tooltip",
-                Category = "Layout",
-                Directory = "Layouts/Tooltip",
-                Type = SampleType.None,
-                Samples = Tooltip,
-                ControllerName = "Tooltip"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Splitter",
-                Category = "Layout",
-                Directory = "Layouts/Splitter",
-                Samples = Splitter,
-                ControllerName = "Splitter"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Card",
-                Category = "Layout",
-                Directory = "Cards",
-                Type = SampleType.None,
-                Samples = Card,
-                ControllerName = "Card"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Query Builder",
-                Category = "Forms",
-                Directory = "Forms/QueryBuilder",
-                Type = SampleType.None,
-                Samples = QueryBuilder,
-                ControllerName = "QueryBuilder"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "PDF Viewer",
-                Category = "Viewer",
-                Directory = "Viewer/PdfViewer",
-                Samples = PDFViewer,
-                ControllerName = "PdfViewer"
-            });
-
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Document Editor",
-                Category = "Editors",
-                Directory = "DocumentEditor/DocumentEditor",
-                Samples = DocumentEditor,
-                ControllerName = "DocumentEditor"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "InPlace Editor",
-                Category = "Editors",
-                Directory = "Editors/InPlaceEditor",
-                Type = SampleType.None,
-                Samples = InPlaceEditor,
-                ControllerName = "InPlaceEditor"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Scheduler",
-                Category = "Calendars",
-                Directory = "Schedule/Scheduler",
-                Type = SampleType.Updated,
-                Samples = Scheduler,
-                ControllerName = "Scheduler"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Gantt Chart",
-                Category = "Calendars",
-                Directory = "GanttChart/GanttChart",
-                Type = SampleType.None,
-                Samples = GanttChart,
-                ControllerName = "GanttChart"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Rich Text Editor",
-                Category = "Editors",
-                Directory = "RichTextEditor/RichTextEditor",
-                Type = SampleType.None,
-                Samples = RichTextEditor,
-                ControllerName = "RichTextEditor"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Numeric Textbox",
-                Category = "Inputs",
-                Directory = "Inputs/NumericTextBox",
-                Type = SampleType.None,
-                Samples = NumericTextbox,
-                ControllerName = "NumericTextBox"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Input Mask",
-                Category = "Inputs",
-                Directory = "Inputs/MaskedTextBox",
-                Type = SampleType.None,
-                Samples = InputMask,
-                ControllerName = "InputMask"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "File Upload",
-                Category = "Inputs",
-                Directory = "Inputs/Uploader",
-                Type = SampleType.None,
-                Samples = FileUpload,
-                ControllerName = "FileUpload"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Color Picker",
-                Category = "Inputs",
-                Directory = "Inputs/ColorPicker",
-                Type = SampleType.None,
-                Samples = ColorPicker,
-                ControllerName = "ColorPicker"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Context Menu",
-                Category = "Navigations",
-                Directory = "Navigations/ContextMenu",
-                Type = SampleType.None,
-                Samples = ContextMenu,
-                ControllerName = "ContextMenu"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "MenuBar",
-                Category = "Navigations",
-                Directory = "Navigations/MenuBar",
-                Type = SampleType.None,
-                Samples = MenuBar,
-                ControllerName = "MenuBar"
+                ControllerName = "Diagram",
+                DemoPath = "diagram/flowchart"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -486,25 +93,361 @@ namespace blazor_samples
                 Directory = "HeatMapChart/HeatMapChart",
                 Type = SampleType.None,
                 Samples = HeatMapChart,
-                ControllerName = "HeatMapChart"
+                ControllerName = "HeatMapChart",
+                DemoPath = "heatmap-chart/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Kanban",
+                Category = "Data Visualization",
+                Directory = "Kanban/Kanban",
+                Type = SampleType.None,
+                Samples = Kanban,
+                ControllerName = "Kanban",
+                DemoPath = "kanban/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Linear Gauge",
+                Category = "Data Visualization",
+                Directory = "LinearGauge/LinearGauge",
+                Type = SampleType.None,
+                Samples = LinearGauge,
+                ControllerName = "LinearGauge",
+                DemoPath = "linear-gauge/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Maps",
+                Category = "Data Visualization",
+                Directory = "Maps/Maps",
+                Type = SampleType.None,
+                Samples = Maps,
+                ControllerName = "Maps",
+                DemoPath = "maps/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Range Selector",
+                Category = "Data Visualization",
+                Directory = "Charts",
+                Type = SampleType.None,
+                Samples = RangeNavigator,
+                ControllerName = "RangeSelector",
+                DemoPath = "range-selector/range-navigator"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Smith Chart",
+                Category = "Data Visualization",
+                Directory = "Charts/SmithChart",
+                Type = SampleType.None,
+                Samples = SmithChart,
+                ControllerName = "SmithChart",
+                DemoPath = "smith-chart/default-functionalities"
+            });
+
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Sparkline Charts",
+                Category = "Data Visualization",
+                Directory = "Charts/Sparkline",
+                Type = SampleType.None,
+                Samples = SparklineCharts,
+                ControllerName = "Sparkline",
+                DemoPath = "sparkline/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Stock Chart",
+                Category = "Data Visualization",
+                Directory = "Charts",
+                Type = SampleType.None,
+                Samples = StockChart,
+                ControllerName = "StockChart",
+                DemoPath = "stock-chart/stock-chart"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "TreeMap",
+                Category = "Data Visualization",
+                Directory = "TreeMap/TreeMap",
+                Type = SampleType.None,
+                Samples = TreeMap,
+                ControllerName = "TreeMap",
+                DemoPath = "treemap/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "InPlace Editor",
+                Category = "Editors",
+                Directory = "Editors/InPlaceEditor",
+                Type = SampleType.None,
+                Samples = InPlaceEditor,
+                ControllerName = "InPlaceEditor",
+                DemoPath = "in-place-editor/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Rich Text Editor",
+                Category = "Editors",
+                Directory = "RichTextEditor/RichTextEditor",
+                Type = SampleType.Updated,
+                Samples = RichTextEditor,
+                ControllerName = "RichTextEditor",
+                DemoPath = "rich-text-editor/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Word Processor",
+                Category = "Editors",
+                Directory = "DocumentEditor/DocumentEditor",
+                Samples = DocumentEditor,
+                ControllerName = "DocumentEditor",
+                CustomDocLink = "document-editor/getting-started/features",
+                DemoPath = "document-editor/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Scheduler",
+                Category = "Calendars",
+                Directory = "Schedule/Scheduler",
+                Type = SampleType.Updated,
+                Samples = Scheduler,
+                ControllerName = "Scheduler",
+                DemoPath = "scheduler/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Calendar",
+                Category = "Calendars",
+                Directory = "Calendars/Calendar",
+                Type = SampleType.None,
+                Samples = Calendar,
+                ControllerName = "Calendar",
+                DemoPath = "calendar/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "DatePicker",
+                Category = "Calendars",
+                Directory = "Calendars/DatePicker",
+                Type = SampleType.None,
+                Samples = DatePicker,
+                ControllerName = "DatePicker",
+                DemoPath = "datepicker/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "DateRangePicker",
+                Category = "Calendars",
+                Directory = "Calendars/DateRangePicker",
+                Type = SampleType.None,
+                Samples = DateRangePicker,
+                ControllerName = "DateRangePicker",
+                DemoPath = "daterangepicker/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "DateTime Picker",
+                Category = "Calendars",
+                Directory = "Calendars/DateTimePicker",
+                Type = SampleType.None,
+                Samples = DateTimePicker,
+                ControllerName = "DateTimePicker",
+                DemoPath = "datetime-picker/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Gantt Chart",
+                Category = "Calendars",
+                Directory = "GanttChart/GanttChart",
+                Type = SampleType.New,
+                Samples = GanttChart,
+                ControllerName = "GanttChart",
+                DemoPath = "gantt-chart/default-functionalities",
+                
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "TimePicker",
+                Category = "Calendars",
+                Directory = "Calendars/TimePicker",
+                Type = SampleType.None,
+                Samples = TimePicker,
+                ControllerName = "TimePicker",
+                DemoPath = "timepicker/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Button",
+                Category = "Buttons",
+                Directory = "Buttons",
+                Samples = Button,
+                ControllerName = "Buttons",
+                CustomDocLink = "button/getting-started",
+                DemoPath = "buttons/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Button Group",
+                Category = "Buttons",
+                Directory = "Buttons",
+                Samples = Button,
+                ControllerName = "Buttons",
+                CustomDocLink = "button/getting-started",
+                DemoPath = "buttons/button-group"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Chips",
-                Category = "Editors",
+                Category = "Buttons",
                 Directory = "Buttons/Chips",
                 Type = SampleType.None,
                 Samples = Chips,
-                ControllerName = "Chips"
+                ControllerName = "Chips",
+                CustomDocLink = "chip/getting-started",
+                DemoPath = "chips/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "TreeView",
-                Category = "Navigations",
-                Directory = "Navigations/TreeView",
+                Name = "Dropdown Menu",
+                Category = "Buttons",
+                Directory = "Buttons",
+                Samples = Button,
+                ControllerName = "Buttons",
+                CustomDocLink = "button/getting-started",
+                DemoPath = "buttons/dropdown-menu"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Progress Button",
+                Category = "Buttons",
+                Directory = "Buttons",
+                Samples = Button,
+                ControllerName = "Buttons",
+                CustomDocLink = "button/getting-started",
+                DemoPath = "buttons/progress-button"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Split Button",
+                Category = "Buttons",
+                Directory = "Buttons",
+                Samples = Button,
+                ControllerName = "Buttons",
+                CustomDocLink = "button/getting-started",
+                DemoPath = "buttons/split-button"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "AutoComplete",
+                Category = "DropDowns",
+                Directory = "DropDowns/AutoComplete",
                 Type = SampleType.None,
-                Samples = TreeView,
-                ControllerName = "TreeView"
+                Samples = AutoComplete,
+                ControllerName = "AutoComplete",
+                DemoPath = "autocomplete/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "ComboBox",
+                Category = "DropDowns",
+                Directory = "DropDowns/ComboBox",
+                Type = SampleType.None,
+                Samples = ComboBox,
+                ControllerName = "ComboBox",
+                DemoPath = "combobox/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Dropdown List",
+                Category = "DropDowns",
+                Directory = "DropDowns/DropDownList",
+                Type = SampleType.None,
+                Samples = DropDownList,
+                ControllerName = "DropDownList",
+                DemoPath = "dropdown-list/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "ListBox",
+                Category = "DropDowns",
+                Directory = "DropDowns/ListBox",
+                Type = SampleType.None,
+                Samples = ListBox,
+                ControllerName = "ListBox",
+                DemoPath = "listbox/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "MultiSelect Dropdown",
+                Category = "DropDowns",
+                Directory = "DropDowns/MultiSelect",
+                Type = SampleType.None,
+                Samples = MultiSelectDropdown,
+                ControllerName = "MultiSelectDropdown",
+                DemoPath = "multiselect-dropdown/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Checkbox",
+                Category = "Inputs",
+                Directory = "Buttons",
+                Type = SampleType.None,
+                Samples = Button,
+                ControllerName = "Buttons",
+                DemoPath = "buttons/checkbox"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Color Picker",
+                Category = "Inputs",
+                Directory = "Inputs/ColorPicker",
+                Type = SampleType.None,
+                Samples = ColorPicker,
+                ControllerName = "ColorPicker",
+                DemoPath = "color-picker/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "File Upload",
+                Category = "Inputs",
+                Directory = "Inputs/Uploader",
+                Type = SampleType.None,
+                Samples = FileUpload,
+                ControllerName = "FileUpload",
+                DemoPath = "file-upload/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Input Mask",
+                Category = "Inputs",
+                Directory = "Inputs/MaskedTextBox",
+                Type = SampleType.None,
+                Samples = InputMask,
+                ControllerName = "InputMask",
+                DemoPath = "input-mask/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Numeric Textbox",
+                Category = "Inputs",
+                Directory = "Inputs/NumericTextBox",
+                Type = SampleType.None,
+                Samples = NumericTextbox,
+                ControllerName = "NumericTextBox",
+                DemoPath = "numeric-textbox/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Radio Button",
+                Category = "Inputs",
+                Directory = "Buttons",
+                Type = SampleType.None,
+                Samples = Button,
+                ControllerName = "Buttons",
+                DemoPath = "buttons/radio-button"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -513,25 +456,218 @@ namespace blazor_samples
                 Directory = "Inputs/RangeSlider",
                 Type = SampleType.None,
                 Samples = RangeSlider,
-                ControllerName = "RangeSlider"
+                ControllerName = "RangeSlider",
+                DemoPath = "range-slider/default"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "TextBox",
+                Category = "Inputs",
+                Directory = "Inputs",
+                Type = SampleType.None,
+                Samples = TextBox,
+                ControllerName = "TextBox",
+                DemoPath = "textbox/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Toggle Switch Button",
+                Category = "Inputs",
+                Directory = "Buttons",
+                Type = SampleType.None,
+                Samples = Button,
+                ControllerName = "Buttons",
+                DemoPath = "buttons/toggle-switch-button"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Accordion",
+                Category = "Navigation",
+                Directory = "Navigations/Accordion",
+                Type = SampleType.None,
+                Samples = Accordion,
+                ControllerName = "Accordion",
+                DemoPath = "accordion/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Context Menu",
+                Category = "Navigation",
+                Directory = "Navigations/ContextMenu",
+                Type = SampleType.None,
+                Samples = ContextMenu,
+                ControllerName = "ContextMenu",
+                DemoPath = "context-menu/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "File Manager",
-                Category = "Navigations",
+                Category = "Navigation",
                 Directory = "Navigations/FileManager",
                 Type = SampleType.None,
                 Samples = FileManager,
-                ControllerName = "FileManager"
+                ControllerName = "FileManager",
+                DemoPath = "file-manager/overview"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Kanban",
-                Category = "Data Visualization",
-                Directory = "Kanban/Kanban",
+                Name = "MenuBar",
+                Category = "Navigation",
+                Directory = "Navigations/MenuBar",
+                Type = SampleType.None,
+                Samples = MenuBar,
+                ControllerName = "MenuBar",
+                DemoPath = "menu-bar/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Sidebar",
+                Category = "Navigation",
+                Directory = "Navigations/Sidebar",
+                Type = SampleType.None,
+                Samples = Sidebar,
+                ControllerName = "Sidebar",
+                DemoPath = "sidebar/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Tabs",
+                Category = "Navigation",
+                Directory = "Navigations/Tabs",
                 Type = SampleType.Updated,
-                Samples = Kanban,
-                ControllerName = "Kanban"
+                Samples = Tabs,
+                ControllerName = "Tabs",
+                DemoPath = "tabs/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Toolbar",
+                Category = "Navigation",
+                Directory = "Navigations/Toolbar",
+                Type = SampleType.None,
+                Samples = Toolbar,
+                ControllerName = "Toolbar",
+                DemoPath = "toolbar/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "TreeView",
+                Category = "Navigation",
+                Directory = "Navigations/TreeView",
+                Type = SampleType.None,
+                Samples = TreeView,
+                ControllerName = "TreeView",
+                DemoPath = "treeview/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Card",
+                Category = "Layout",
+                Directory = "Cards",
+                Type = SampleType.None,
+                Samples = Card,
+                ControllerName = "Card",
+                DemoPath = "card/basic-card"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Dashboard Layout",
+                Category = "Layout",
+                Directory = "Layouts/DashboardLayout",
+                Type = SampleType.None,
+                Samples = DashboardLayout,
+                ControllerName = "DashboardLayout",
+                DemoPath = "dashboard-layout/default"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Dialog",
+                Category = "Layout",
+                Directory = "Popups/Dialog",
+                Type = SampleType.Updated,
+                Samples = Dialog,
+                ControllerName = "Dialog",
+                DemoPath = "dialog/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "ListView",
+                Category = "Layout",
+                Directory = "Layouts/ListView",
+                Type = SampleType.None,
+                Samples = ListView,
+                ControllerName = "ListView",
+                DemoPath = "listview/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Splitter",
+                Category = "Layout",
+                Directory = "Layouts/Splitter",
+                Samples = Splitter,
+                Type = SampleType.Updated,
+                ControllerName = "Splitter",
+                DemoPath = "splitter/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Tooltip",
+                Category = "Layout",
+                Directory = "Layouts/Tooltip",
+                Type = SampleType.None,
+                Samples = Tooltip,
+                ControllerName = "Tooltip",
+                DemoPath = "tooltip/default"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Progress Bar",
+                Category = "Notifications",
+                Directory = "ProgressBar",
+                Type = SampleType.None,
+                Samples = ProgressBar,
+                ControllerName = "ProgressBar",
+                DemoPath = "progress-bar/linear"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Toast",
+                Category = "Notifications",
+                Directory = "Notifications/Toast",
+                Type = SampleType.Updated,
+                Samples = Toast,
+                ControllerName = "Toast",
+                DemoPath = "toast/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Spinner",
+                Category = "Notifications",
+                Directory = "Notifications/Spinner",
+                Type = SampleType.None,
+                Samples = Spinner,
+                ControllerName = "Spinner",
+                DemoPath = "spinner/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Query Builder",
+                Category = "Forms",
+                Directory = "Forms/QueryBuilder",
+                Type = SampleType.None,
+                Samples = QueryBuilder,
+                ControllerName = "QueryBuilder",
+                DemoPath = "query-builder/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "PDF Viewer",
+                Category = "Viewer",
+                Directory = "Viewer/PdfViewer",
+                Samples = PDFViewer,
+                ControllerName = "PdfViewer",
+                CustomDocLink = "pdfviewer/getting-started",
+                DemoPath = "pdf-viewer/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -540,25 +676,8 @@ namespace blazor_samples
                 Directory = "FileFormats/DocIO",
                 Type = SampleType.Updated,
                 Samples = DocIO,
-                ControllerName = "DocIO"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Presentation",
-                Category = "File Formats",
-                Directory = "FileFormats/Presentation",
-                Type = SampleType.Updated,
-                Samples = Presentation,
-                ControllerName = "Presentation"
-            });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "XlsIO",
-                Category = "File Formats",
-                Directory = "FileFormats/XlsIO",
-                Type = SampleType.Updated,
-                Samples = XlsIO,
-                ControllerName = "XlsIO"
+                ControllerName = "DocIO",
+                DemoPath = "docio/hello-world"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -567,8 +686,29 @@ namespace blazor_samples
                 Directory = "FileFormats/PDF",
                 Type = SampleType.Updated,
                 Samples = PDF,
-                ControllerName = "PDF"
+                ControllerName = "PDF",
+                DemoPath = "pdf/hello-world"
             });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Presentation",
+                Category = "File Formats",
+                Directory = "FileFormats/Presentation",
+                Type = SampleType.Updated,
+                Samples = Presentation,
+                ControllerName = "Presentation",
+                DemoPath = "presentation/getting-started"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "XlsIO",
+                Category = "File Formats",
+                Directory = "FileFormats/XlsIO",
+                Samples = XlsIO,
+                ControllerName = "XlsIO",
+                DemoPath = "xlsio/create-excel"
+            });
+            
         }
     }
 }

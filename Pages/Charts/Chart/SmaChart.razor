@@ -1,98 +1,89 @@
 ﻿@page "/chart/simple-moving-average-indicator"
-@using Newtonsoft.Json
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+@using Newtonsoft.Json
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-  <p>  This sample illustrates a stock chart with candle series and a Simple Moving Average indicator. Trackball shows the information about the stock and signal value of a day.</p>  
+    <p> This sample illustrates a stock chart with candle series and a simple moving average indicator. The trackball shows the information about the stock and signal value of a day.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the SMA Indicator. You can use <code>Border</code>,<code>Fill</code> properties to customize the area. </p>
-   <p>Tooltip is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices. </p>
-   <p>More information on the SMA Indicator can be found in this <a target='_blank' href='https://ej2.syncfusion.com/documentation/api/chart/series/#type'>documentation section</a>. </p>
+    <p>In this example, you can see how to render and configure a simple moving average indicator. The simple moving average indicator is used to define the direction of the trend.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the simple moving average indicator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/technical-indicators/#simple-moving-average-sma'>documentation section</a>.</p>
 </ActionDescription>
 
-@if (IndicatorData == null)
-{
-    <div class="stockchartloader"></div>
-}
-else
-{
-    <div class="control-section">
-        <SfChart Title="AAPL - 2012-2017" Theme="@Theme">
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Months" ZoomFactor="0.2" ZoomPosition="0.6">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Title="Price" LabelFormat="${value}M" Minimum="50" Maximum="170" Interval="30">
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            </ChartPrimaryYAxis>
-            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            <ChartArea>
-                <ChartAreaBorder Width="0"></ChartAreaBorder>
-            </ChartArea>
-            <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
-            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical"></ChartCrosshairSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@IndicatorData" XName="x" YName="y" Low="low" High="high" Close="close" Volume="volume" Open="open"
-                             Width="2" Name="Apple Inc" Type="ChartSeriesType.Candle" BearFillColor="#2ecd71" BullFillColor="#e74c3d">
-                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
-                </ChartSeries>
-            </ChartSeriesCollection>
-            <ChartIndicators>
-                <ChartIndicator Type="TechnicalIndicators.Sma" Field="FinancialDataFields.Close" XName="x" SeriesName="Apple Inc" Fill="blue" Period="14">
-                    <ChartIndicatorAnimation Enable="true"></ChartIndicatorAnimation>
-                </ChartIndicator>
-            </ChartIndicators>
-        </SfChart>
-    </div>
-}
+<div class="control-section">
+    <SfChart Title="AAPL - 2012-2017" Theme="@Theme">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" IntervalType="IntervalType.Months" ZoomFactor="0.2" ZoomPosition="0.6">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" LabelFormat="${value}M" Minimum="50" Maximum="170" Interval="30">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical"></ChartCrosshairSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Period" Low="Low" High="High" Close="Close" Volume="Volume" Open="Open"
+                         Width="2" Name="Apple Inc" Type="ChartSeriesType.Candle" BearFillColor="#2ecd71" BullFillColor="#e74c3d">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartIndicators>
+            <ChartIndicator Type="TechnicalIndicators.Sma" Field="FinancialDataFields.Close" XName="x" SeriesName="Apple Inc" Fill="blue" Period="14">
+                <ChartIndicatorAnimation Enable="true"></ChartIndicatorAnimation>
+            </ChartIndicator>
+        </ChartIndicators>
+    </SfChart>
+</div>
+
 @code{
-    private ChartData[] IndicatorData;
-    protected override async Task OnInitializedAsync()
-    {
-        //indicatorData = await Http.GetJsonAsync<ChartData[]>("scripts/chart/financial-data.json");
-        await Task.Run(() =>
-        {
-            IndicatorData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
-        });
-    }
-    public class ChartData
-    {
-        public DateTime x { get; set; }
-        public double high { get; set; }
-        public double low { get; set; }
-        public double open { get; set; }
-        public double close { get; set; }
-        public double volume { get; set; }
-    }
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+
+    private Theme Theme { get; set; }
+    public SMAChartData[] ChartPoints { get; set; } = new SMAChartData[] { };
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        ChartPoints = JsonConvert.DeserializeObject<SMAChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
         }
+    }
+
+    public class SMAChartData
+    {
+        public DateTime Period { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Open { get; set; }
+        public double Close { get; set; }
+        public double Volume { get; set; }
     }
 }

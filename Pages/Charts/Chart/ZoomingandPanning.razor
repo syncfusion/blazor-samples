@@ -1,13 +1,16 @@
 @page "/chart/zooming"
+
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>    This sample illustrates zooming feature in chart. The change can be zoomed by pinching or by mouse wheel.</p>
+    <p>This sample shows the zooming and panning behavior of the chart.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This sample demonstrates the zooming and panning behavior in chart. </p>
+    <p>This sample shows the following zooming and panning behavior.</p>
     <ul>
         <li>Click and drag the mouse on a chart area to enable selection zooming.</li>
         <li>Hover the mouse on the toolbar at the top right corner of chart area to switch between zooming and panning.</li>
@@ -15,122 +18,118 @@
         <li>Touch and drag to pan the chart.</li>
         <li>Double tap to reset the zoomed chart.</li>
     </ul>
-    <p> Chart component supports four types of zooming which can be set using <code>EnableSelectionZooming</code>, <code>EnablePinchZooming</code>, <code>EnableMouseWheelZooming</code>, <code>EnableDeferredZooming</code> property.</p>
-    <p>Chart supports two mode of zooming which can be set using <code>Mode</code> property. </p>
+    <p>The chart component supports four types of zooming which can be set using <code>EnableSelectionZooming</code>, <code>EnablePinchZooming</code>, <code>EnableMouseWheelZooming</code>, and <code>EnableDeferredZooming</code> property.</p>
+    <p>The chart supports different mode of zooming which can be set using <code>Mode</code> property.</p>
     <ul>
         <li><code>XY</code> - Zoom the chart with respect to both the axis.</li>
         <li><code>X</code> - Zoom the chart with respect to horizontal axis.</li>
         <li><code>Y</code> - Zoom the chart with respect to vertical axis.</li>
     </ul>
+    <p>More information about the zooming and panning can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/zooming/'>documentation section</a>.</p>
 </ActionDescription>
 
-@if(DataSource == null || DataSource.Count == 0)
-{
-    <div></div>
-}
-else
-{
-    <div class="control-section">
-        <SfChart Title="Sales History of Product X" Theme="@Theme">
-            <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-            </ChartPrimaryYAxis>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-            <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@DataSource" Name="Warmest" XName="X" Width="2" Opacity="1" YName="Y" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
-                    <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
-                </ChartSeries>
-            </ChartSeriesCollection>
-            <ChartArea>
-                <ChartAreaBorder Width="0"></ChartAreaBorder>
-            </ChartArea>
-        </SfChart>
-    </div>
-}
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="gradient-chart" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" />
+            <stop offset="1" />
+        </linearGradient>
+    </defs>
+</svg>
+<style>
+    #gradient-chart stop {
+        stop-color: #BDEDE9;
+    }
 
-    @code {
-        Random random = new Random();
-        List<ZoomingandPanningData> DataSource = new List<ZoomingandPanningData>();
-public double Value = 80;
+        #gradient-chart stop[offset="0"] {
+            stop-opacity: 0.75;
+        }
+
+        #gradient-chart stop[offset="1"] {
+            stop-opacity: 0;
+        }
+</style>
+
+<div class="control-section">
+    <SfChart Title="Sales History of Product X" Theme="@Theme">
+        <ChartPrimaryXAxis Title="Years" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Skeleton="yMMM" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Profit ($)" RangePadding="ChartRangePadding.None">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartZoomSettings EnableMouseWheelZooming="true" EnableScrollbar="true" EnablePinchZooming="true" EnableSelectionZooming="true"></ChartZoomSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Period" Width="2" Opacity="1" YName="Profit" Type="ChartSeriesType.Area" Fill="url(#gradient-chart)">
+                <ChartSeriesBorder Width="0.5" Color="#00bdae"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+    </SfChart>
+</div>
+
+
+@code {
+
+    private double value = 80;
+    private Random randomNum = new Random();
+    private Theme Theme { get; set; }
+    public List<ZoomingandPanningData> ChartPoints { get; set; } = new List<ZoomingandPanningData>();
+
     public class ZoomingandPanningData
     {
-        public DateTime X { get; set; }
-        public double Y { get; set; }
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        await Task.Run(() =>
-        {
-            for (int i = 1; i < 500; i++)
-            {
-                if (random.NextDouble() > .5)
-                {
-                    this.Value += random.NextDouble();
-                }
-                else
-                {
-                    this.Value -= random.NextDouble();
-                }
-                DataSource.Add(new ZoomingandPanningData
-                {
-                    X = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
-                    Y = Math.Round(this.Value)
-                });
-            }
-        });
+        public DateTime Period { get; set; }
+        public double Profit { get; set; }
     }
 
-    string CurrentUri;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        if (NavigationManager.Uri.IndexOf("material") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Material;
+            Theme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Fabric;
+            Theme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap;
+            Theme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
         {
-            Theme = Syncfusion.Blazor.Theme.HighContrast;
+            Theme = Theme.HighContrast;
         }
         else
         {
-            Theme = Syncfusion.Blazor.Theme.Bootstrap4;
+            Theme = Theme.Bootstrap4;
+        }
+        GetChartPoints();
+    }
+
+    private void GetChartPoints()
+    {
+        for (int i = 1; i < 500; i++)
+        {
+            if (randomNum.NextDouble() > 0.5)
+            {
+                value += randomNum.NextDouble();
+            }
+            else
+            {
+                value -= randomNum.NextDouble();
+            }
+            ChartPoints.Add(new ZoomingandPanningData
+            {
+                Period = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
+                Profit = Math.Round(value)
+            });
         }
     }
-    }
-    <svg style="height: 0">
-        <defs>
-            <linearGradient id="gradient-chart" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" />
-                <stop offset="1" />
-            </linearGradient>
-        </defs>
-    </svg>
-    <style>
 
-        #gradient-chart stop {
-            stop-color: #BDEDE9;
-        }
+}
 
-            #gradient-chart stop[offset="0"] {
-                stop-opacity: 0.75;
-            }
-
-            #gradient-chart stop[offset="1"] {
-                stop-opacity: 0;
-            }
-    </style>

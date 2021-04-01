@@ -15,6 +15,9 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/overview",
                 FileName = "Overview.razor",
+                MetaTitle = "Blazor DataGrid Example | Grid Overview | Syncfusion Demos",
+                HeaderText = "Blazor DataGrid Example - Overview",
+                MetaDescription = "This Blazor DataGrid example is an overview of the Blazor DataGrid features with its performance metrics of large amounts of data. To change the record count, select the rows and columns count from the dropdown.",
                 Type = SampleType.None
             },
              
@@ -25,6 +28,9 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor Grid Example | Default Functionalities | Syncfusion Demos",
+                HeaderText = "Blazor Grid Example - Default Functionalities",
+                MetaDescription = "This Blazor Grid example demonstrates the default rendering of the DataGrid with a minimum configuration.",
                 Type = SampleType.None
             },
             new Sample
@@ -206,6 +212,15 @@ namespace blazor_samples
                 FileName = "CommandColumn.razor",
                 Type = SampleType.None
             },
+            //new Sample
+            //{
+            //    Name = "Cell Edit Template",
+            //    Category = "Editing",
+            //    Directory = "Grid/DataGrid",
+            //    Url = "datagrid/cell-edit-template",
+            //    FileName = "CellEditTemplate.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Multi Sorting",
@@ -235,6 +250,15 @@ namespace blazor_samples
             },
              new Sample
             {
+                Name = "Checkbox Filter",
+                Category = "Filtering",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/checkbox-filter",
+                FileName = "FilterCheckbox.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
                 Name = "Excel Like Filter",
                 Category = "Filtering",
                 Directory = "Grid/DataGrid",
@@ -254,11 +278,20 @@ namespace blazor_samples
             new Sample
             {
                 Name = "Paging",
-                Category = "DataGrid",
+                Category = "Paging",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/paging",
                 FileName = "Paging.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Pager Template",
+                Category = "Paging",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/pager-template",
+                FileName = "PagerTemplate.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -377,6 +410,7 @@ namespace blazor_samples
                 FileName = "Clipboard.razor",
                 Type = SampleType.None
             },
+
             new Sample
             {
                 Name = "Row Height",
@@ -388,12 +422,21 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Data Annotation",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/data-annotation",
+                FileName = "DataAnnotation.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Frozen Rows and Columns",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/frozen-rows",
                 FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -411,7 +454,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/foreign-key-column",
                 FileName = "ForeignKeyColumn.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -438,6 +481,8 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/master-details",
                 FileName = "MasterDetails.razor",
+                MetaTitle = "Blazor Master Detail Grid Example - Syncfusion Demos",
+                HeaderText = "Blazor Master Detail Grid Example",
                 Type = SampleType.None
             },
             new Sample
@@ -447,7 +492,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/expandoobject",
                 FileName = "GridExpandoObject.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
              new Sample
             {
@@ -456,7 +501,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/dynamicobject",
                 FileName = "GridDynamicObject.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -474,7 +519,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/cell-formatting",
                 FileName = "Cellformatting.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
               new Sample
             {
@@ -483,6 +528,15 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/external-form-editing",
                 FileName = "ExternalFormEditing.razor",
+                Type = SampleType.None
+            },
+              new Sample
+            {
+                Name = "Custom Validation",
+                Category = "Editing",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/custom-validation",
+                FileName = "CustomValidation.razor",
                 Type = SampleType.New
             },
 
@@ -493,8 +547,19 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/virtual-mask-row",
                 FileName = "VirtualMaskRow.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Custom Command",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/custom-command",
+                FileName = "CustomCommand.razor",
                 Type = SampleType.New
             },
+
+
         };
     }
 }

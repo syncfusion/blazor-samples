@@ -5,12 +5,13 @@
 @using Syncfusion.Blazor.DropDowns
 @using Newtonsoft.Json;
 @using Newtonsoft.Json.Linq;
+@using Syncfusion.Blazor
 @inject NavigationManager NavigationManager
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample illustrates a customization of feature bar and comparative bar type in terms of color and width.</p>
+    <p>This sample illustrates a customization of feature bar and comparative bar type in terms of color and width.</p>
 </SampleDescription>
 <ActionDescription>
     <p>Tooltip is enabled in this example, to see the tooltip in action, hover a feature bar or comparative bar on the bullet chart.</p>
@@ -18,16 +19,14 @@
 
 <div class="row">
     <div class="control-section col-md-8">
-        <SfBulletChart DataSource="@BulletChartData" Type="@Type" ValueField="ActualValue" TargetField="Targetvalue" Minimum="0" Maximum="300" Interval="50"
-                        ValueFill="@ValueFillColor" TargetColor="@TargetFillColor" Title="New Customers" Subtitle="in Thousands" TitlePosition="TextPosition.Left">
-            <BulletChartAnimation Enable="false"></BulletChartAnimation>
-            <BulletChartTooltip Enable="true"></BulletChartTooltip>
+        <SfBulletChart DataSource="@BulletChartData" Type="@Type" ValueField="ActualValue" Theme="@theme" TargetField="Targetvalue" Minimum="0" Maximum="300" Interval="50"
+                       ValueFill="@valueFillColor" TargetColor="@targetFillColor" Title="New Customers" Subtitle="in Thousands" TitlePosition="TextPosition.Left">
+            <BulletChartTooltip TValue="ChartData" Enable="true"></BulletChartTooltip>
             <BulletChartRangeCollection>
                 <BulletChartRange End="150"> </BulletChartRange>
                 <BulletChartRange End="250"></BulletChartRange>
                 <BulletChartRange End="300"></BulletChartRange>
             </BulletChartRangeCollection>
-            <BulletChartEvents Load="BeforeRender" />
         </SfBulletChart>
     </div>
     <div class="col-md-4 property-section">
@@ -39,7 +38,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div>
-                        <SfSlider Value="270" Min="0" Max="300" Step="10">
+                        <SfSlider @bind-Value="@actualValue" Min="0" Max="300" Step="10">
                             <SliderTooltip IsVisible="true"></SliderTooltip>
                             <SliderEvents TValue="double" OnChange="ChangeActualValue"></SliderEvents>
                         </SfSlider>
@@ -52,7 +51,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div>
-                        <SfSlider Value="250" Min="0" Max="300" Step="10">
+                        <SfSlider @bind-Value="@targetValue" Min="0" Max="300" Step="10">
                             <SliderTooltip IsVisible="true"></SliderTooltip>
                             <SliderEvents TValue="double" OnChange="ChangeTagetValue"></SliderEvents>
                         </SfSlider>
@@ -76,7 +75,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div>
-                        <SfColorPicker Value="#000000" Mode="ColorPickerMode.Palette" ValueChange="FeatureBarColor"></SfColorPicker>
+                        <SfColorPicker Value="@valueFillColor" Mode="ColorPickerMode.Palette" ValueChange="FeatureBarColor"></SfColorPicker>
                     </div>
                 </td>
             </tr>
@@ -86,7 +85,7 @@
                 </td>
                 <td style="width: 40%;">
                     <div>
-                        <SfColorPicker Value="#000000" Mode="ColorPickerMode.Palette" ValueChange="TargetColor"></SfColorPicker>
+                        <SfColorPicker Value="@targetFillColor" Mode="ColorPickerMode.Palette" ValueChange="TargetColor"></SfColorPicker>
                     </div>
                 </td>
             </tr>
@@ -95,10 +94,13 @@
 </div>
 
 @code{
+    private double targetValue { get; set; } = 250;
+    private double actualValue { get; set; } = 270;
 
     FeatureType Type;
 
-    public string ValueFillColor = "#000000", TargetFillColor = "#000000";
+    private string valueFillColor { get; set; } = "#000000";
+    private string targetFillColor { get; set; } = "#000000";
     public GetCurrentValue ColorValue { get; set; }
 
     string Value = "Rect";
@@ -110,12 +112,12 @@
 
     public void FeatureBarColor(ColorPickerEventArgs args)
     {
-        this.ValueFillColor = args.CurrentValue.Hex;
+        this.valueFillColor = args.CurrentValue.Hex;
     }
 
     public void TargetColor(ColorPickerEventArgs args)
     {
-        this.TargetFillColor = args.CurrentValue.Hex;
+        this.targetFillColor = args.CurrentValue.Hex;
     }
 
 
@@ -123,18 +125,18 @@
     {
 
         BulletChartData = new List<ChartData>
-            {
-                    new ChartData { ActualValue = args.Value, Targetvalue = this.BulletChartData[0].Targetvalue }
-                };
+        {
+            new ChartData { ActualValue = args.Value, Targetvalue = this.BulletChartData[0].Targetvalue }
+        };
     }
 
     public void ChangeTagetValue(SliderChangeEventArgs<double> args)
     {
 
         BulletChartData = new List<ChartData>
-            {
-                    new ChartData { ActualValue = this.BulletChartData[0].ActualValue, Targetvalue = args.Value }
-                };
+        {
+            new ChartData { ActualValue = this.BulletChartData[0].ActualValue, Targetvalue = args.Value }
+        };
     }
 
     public class Data
@@ -143,10 +145,10 @@
     }
 
     private List<Data> DropDowmData = new List<Data>()
-        {
-                new Data(){ ID= "Rect"},
-                new Data(){ ID= "Dot"}
-            };
+    {
+        new Data(){ ID= "Rect"},
+        new Data(){ ID= "Dot"}
+    };
 
     private void ChangeType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Data> args)
     {
@@ -160,33 +162,34 @@
         public double Targetvalue { get; set; }
     }
     public List<ChartData> BulletChartData = new List<ChartData>
-{
+    {
             new ChartData { ActualValue = 270, Targetvalue = 250 }
-        };
+    };
 
-    string CurrentUri;
-    void BeforeRender(IBulletLoadedEventArgs Args)
+    private string CurrentUri;
+    private Theme theme { get; set; }
+    protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            Args.Theme = ChartTheme.Material;
+            theme = Theme.Material;
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = ChartTheme.Fabric;
+            theme = Theme.Fabric;
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = ChartTheme.Bootstrap;
+            theme = Theme.Bootstrap;
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
-            Args.Theme = ChartTheme.HighContrast;
+            theme = Theme.HighContrast;
         }
         else
         {
-            Args.Theme = ChartTheme.Bootstrap4;
+            theme = Theme.Bootstrap4;
         }
     }
 }

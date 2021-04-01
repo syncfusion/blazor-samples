@@ -159,8 +159,7 @@ namespace blazor_samples
                 Category = "References",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/notes",
-                FileName = "Notes.razor",
-                Type = SampleType.New
+                FileName = "Notes.razor"
             }
         };
     }
