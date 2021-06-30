@@ -15,7 +15,7 @@ using Syncfusion.Office;
 using Syncfusion.DocIORenderer;
 using Syncfusion.Pdf;
 
-namespace blazor_samples.Data.FileFormats.DocIO
+namespace BlazorDemos.Data.FileFormats.DocIO
 {
     public class EditEquationService
     {

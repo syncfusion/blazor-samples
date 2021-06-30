@@ -12,7 +12,7 @@ using Syncfusion.OfficeChart;
 using System;
 using Microsoft.AspNetCore.Hosting;
 
-namespace blazor_samples.Data.FileFormats.Presentation
+namespace BlazorDemos.Data.FileFormats.Presentation
 {
     public class CommentService
     {

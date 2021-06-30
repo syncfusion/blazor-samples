@@ -24,10 +24,10 @@ else
         <div>
             <SfRangeNavigator ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime"
                               AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
-                              EnableGrouping="true" GroupBy="RangeIntervalType.Years"
-                              EnableDeferredUpdate="true" @bind-Value="@Value" DataSource="@FilterData"
+                              EnableGrouping="true" GroupBy="RangeIntervalType.Years" Theme="@RangeNavigatorTheme"
+                              EnableDeferredUpdate="true" @bind-Value="@RangeValue" DataSource="@FilterData"
                               XName="HireDate" YName="yValue">
-                <RangeNavigatorEvents Loaded="BeforeRender" Changed="onRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
             </SfRangeNavigator>
         </div> <br>
         <div>
@@ -43,9 +43,13 @@ else
     </div>
 }
 @code{
-    SfGrid<ChartData> GridObj;
-    private ChartData[] FilterData;
-    private ChartData[] Data;
+    public SfGrid<ChartData> GridObj { get; set; }
+    public ChartData[] FilterData { get; set; }
+    public ChartData[] Data { get; set; }
+    public Theme RangeNavigatorTheme { get; set; }
+    public object RangeValue { get; set; } = new object[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
+    private string currentUri;
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -53,6 +57,7 @@ else
             FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/employee-data.json"));
         });
     }
+
     public class ChartData
     {
         public double EmployeeID { get; set; }
@@ -61,7 +66,7 @@ else
         public string Title { get; set; }
         public DateTime HireDate { get; set; }
     }
-    private object Value = new object[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
+
     protected void onRangeChanged(ChangedEventArgs args)
     {
         List<ChartData> FilterData1 = new List<ChartData>();
@@ -76,29 +81,36 @@ else
         StateHasChanged();
     }
 
-    string CurrentUri;
-    void BeforeRender(RangeLoadedEventArgs Args)
+    protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
         {
-            Args.Theme = Theme.Material;
+            RangeNavigatorTheme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (currentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = Theme.Fabric;
+            RangeNavigatorTheme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (currentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = Theme.Bootstrap;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (currentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = Theme.HighContrast;
+            RangeNavigatorTheme = Theme.Bootstrap;
+        }
+        else if (currentUri.IndexOf("highcontrast") > -1)
+        {
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            RangeNavigatorTheme = Theme.Tailwind;
         }
         else
         {
-            Args.Theme = Theme.Bootstrap4;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
     }
 }

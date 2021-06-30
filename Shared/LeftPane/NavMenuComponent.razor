@@ -1,5 +1,6 @@
-﻿@namespace blazor_samples.Shared
+﻿@namespace BlazorDemos.Shared
 @implements IDisposable;
+@using Syncfusion.Blazor.Popups
 
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
@@ -9,6 +10,12 @@
         <TreeTemplate>
             <div>
                 <span class="tree-text">@context.Name</span>
+                @if (context.InfoTooltip != null)
+                {
+                    <SfTooltip Target="#infoTooltip" Content=@context.InfoTooltip>
+                        <span id="infoTooltip" class="e-sample-info-icon sf-sb-icon-circle-info"></span>
+                    </SfTooltip>
+                }
                 @if (context.Type != SampleType.None)
                 {
                     <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower()) tree tree-badge"></span>
@@ -46,7 +53,6 @@
 @code {
     private bool isCurrentComponent { get; set; }
     private string samplesClass = "sb-component-samples";
-
     protected TreeComponent TreeRef { get; set; }
     protected ListComponent ListRef { get; set; }
 
@@ -134,14 +140,21 @@
     }
 
     // Select tree node for the current sample.
-    private void SelectTreeNode(string componentName)
+    private void SelectTreeNode(string componentName, string demoPath = "")
     {
         foreach (var parentData in TreeDataSource)
         {
             var treeSelectedNode = parentData.SourceData.Where(data => data.Name == componentName).ToList();
             if (treeSelectedNode.Count > 0)
             {
-                this.TreeRef.SelectNode(treeSelectedNode.First());
+                if (treeSelectedNode.Count > 1 && !string.IsNullOrEmpty(demoPath))
+                {
+                    this.TreeRef.SelectNode(treeSelectedNode.Where(data => data.DemoPath == demoPath).First());
+                }
+                else
+                {
+                    this.TreeRef.SelectNode(treeSelectedNode.First());
+                }
                 break;
             }
         }
@@ -176,7 +189,7 @@
                         }
                         else
                         {
-                            this.SelectTreeNode(samplesInfo.Name);
+                            this.SelectTreeNode(samplesInfo.Name, samplesInfo.DemoPath);
                         }
                     }
                     break;
@@ -225,7 +238,7 @@
                         }
                     }
                 }
-                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, Category = item.Category, DemoPath = item.DemoPath });
+                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, Category = item.Category, DemoPath = item.DemoPath, InfoTooltip = item.InfoTooltip });
                 // Update first sample information in the sample service.
                 if (SampleService.SampleInfo == null)
                 {

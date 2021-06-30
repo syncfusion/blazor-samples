@@ -19,6 +19,13 @@
     <div class="schedule-wrapper">
         <SfSchedule TValue="ScheduleData.ContextEventsData" @ref="ScheduleRef" Height="650px" @bind-SelectedDate="@SelectedDate">
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+            </ScheduleViews>
         </SfSchedule>
         <SfContextMenu TValue="MenuItem" @ref="ContextMenuObj" CssClass="schedule-context-menu" Target=".e-schedule">
             <MenuItems>
@@ -59,10 +66,10 @@
     {
         if (args.ParentItem == null)
         {
-            CellData = await ScheduleRef.GetTargetCell((int)args.Left, (int)args.Top);
+            CellData = await ScheduleRef.GetTargetCellAsync((int)args.Left, (int)args.Top);
             if (CellData == null)
             {
-                EventData = await ScheduleRef.GetTargetEvent((int)args.Left, (int)args.Top);
+                EventData = await ScheduleRef.GetTargetEventAsync((int)args.Left, (int)args.Top);
                 if (EventData.Id == 0)
                 {
                    args.Cancel = true;
@@ -88,7 +95,7 @@
     public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
     {
         var SelectedMenuItem = args.Item.Id;
-        var ActiveCellsData = await ScheduleRef.GetSelectedCells();
+        var ActiveCellsData = await ScheduleRef.GetSelectedCellsAsync();
         if (ActiveCellsData == null)
         {
             ActiveCellsData = CellData;
@@ -100,38 +107,123 @@
                 break;
 
             case "Add":
-                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add);
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add);
                 break;
 
             case "AddRecurrence":
-                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
                 break;
 
             case "Save":
-                await ScheduleRef.OpenEditor(EventData, CurrentAction.Save);
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.Save);
                 break;
 
             case "EditOccurrence":
-                await ScheduleRef.OpenEditor(EventData, CurrentAction.EditOccurrence);
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditOccurrence);
                 break;
 
             case "EditSeries":
-                List<ScheduleData.ContextEventsData> Events = await ScheduleRef.GetEvents();
+                List<ScheduleData.ContextEventsData> Events = await ScheduleRef.GetEventsAsync();
                 EventData = (ScheduleData.ContextEventsData)Events.Where(data => data.Id == EventData.RecurrenceID).FirstOrDefault();
-                await ScheduleRef.OpenEditor(EventData, CurrentAction.EditSeries);
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditSeries);
                 break;
 
             case "Delete":
-                await ScheduleRef.DeleteEvent(EventData);
+                await ScheduleRef.DeleteEventAsync(EventData);
                 break;
 
             case "DeleteOccurrence":
-                await ScheduleRef.DeleteEvent(EventData, CurrentAction.DeleteOccurrence);
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteOccurrence);
                 break;
 
             case "DeleteSeries":
-                await ScheduleRef.DeleteEvent(EventData, CurrentAction.DeleteSeries);
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteSeries);
                 break;
         }
     }
 }
+
+<style>
+    .material .schedule-context-menu .e-menu-item .new::before,
+    .fabric .schedule-context-menu .e-menu-item .new::before,
+    .bootstrap .schedule-context-menu .e-menu-item .new::before,
+    .highcontrast .schedule-context-menu .e-menu-item .new::before {
+        content: "\e823";
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .new::before {
+        content: "\e759";
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .new::before {
+        content: "\e78a";
+    }
+
+    .material .schedule-context-menu .e-menu-item .recurrence::before,
+    .bootstrap .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e308";
+    }
+
+    .fabric .schedule-context-menu .e-menu-item .recurrence::before,
+    .highcontrast .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e309";
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e7c8";
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e71d";
+    }
+
+    .schedule-context-menu .e-menu-item .today::before {
+        content: '\e322';
+    }
+
+    .highcontrast .schedule-context-menu .e-menu-item .today::before,
+    .fabric .schedule-context-menu .e-menu-item .today::before {
+        content: '\e321';
+    }
+
+    .bootstrap .schedule-context-menu .e-menu-item .today::before {
+        content: '\e312';
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .today::before {
+        content: '\e7be';
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .today::before {
+        content: '\e742';
+    }
+
+    .schedule-context-menu .e-menu-item .edit::before {
+        content: '\ea9a';
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .edit::before {
+        content: '\e78f';
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .edit::before {
+        content: '\e7d2';
+    }
+
+    .schedule-context-menu .e-menu-item .delete::before {
+        content: '\e94a';
+    }
+
+    .highcontrast .schedule-context-menu .e-menu-item .delete::before,
+    .fabric .schedule-context-menu .e-menu-item .delete::before {
+        content: '\eb00';
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .delete::before {
+        content: '\e773';
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .delete::before {
+        content: '\e78d';
+    }
+</style>

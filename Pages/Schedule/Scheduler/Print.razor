@@ -1,31 +1,61 @@
-﻿@page "/scheduler/print-appointments"
+﻿@page "/scheduler/print"
 
 @using Syncfusion.Blazor.Schedule
 @using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
 @inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>This example demonstrates how to print the Scheduler elements.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, the Scheduler element is Printed by making use of the public method <code>Print</code>.</p>
+    <p>
+        In this example, the Scheduler element is Printed by using the public method <code>PrintAsync</code>.
+        Also, we can print the Scheduler based on the custom rendering by passing the <code>PrintOptions</code> in the <code>PrintAsync</code> method.
+        In the above demo, we have demonstrated the <code>PrintAsync</code> method with the <code>PrintOptions</code>.
+        The <code>PrintOptions</code> contains two properties <code>Height</code> and <code>Width</code>.
+    </p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
     <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
-        <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
             <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
         </ScheduleViews>
+        <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
     </SfSchedule>
 </div>
 <div class="col-lg-3 property-section">
     <div class="property-panel-header">Properties</div>
     <div class="property-panel-content">
-        <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+        <table id='property' title='Properties' class='property-panel-table'>
             <tbody>
-                <tr style="height: 50px">
-                    <td style="width: 100%;text-align:center">
+                <tr>
+                    <td colspan="2" style="width: 30%;text-align:center">
+                        <SfCheckBox TChecked="bool" Label="Print with options" LabelPosition="LabelPosition.Before" @bind-Checked="@IsPrintWithOptions"></SfCheckBox>
+                    </td>
+                </tr>
+                @if (IsPrintWithOptions)
+                {
+                    <tr>
+                        <td style="width: 30%;text-align:center">Height</td>
+                        <td style="width: 70%;text-align:center">
+                            <SfDropDownList TValue="string" TItem="string" @bind-Value="@PrintHeight" DataSource="@PrintData"></SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 30%;text-align:center">Width</td>
+                        <td style="width: 70%;text-align:center">
+                            <SfDropDownList TValue="string" TItem="string" @bind-Value="@PrintWidth" DataSource="@PrintData"></SfDropDownList>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="2" style="width: 100%;text-align:center">
                         <SfButton Content="Print" OnClick="OnPrint"></SfButton>
                     </td>
                 </tr>
@@ -38,8 +68,31 @@
     private DateTime CurrentDate = new DateTime(2020, 1, 9);
     SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
-    public void OnPrint()
+    public bool IsPrintWithOptions = false;
+    public string PrintHeight = "auto";
+    public string PrintWidth = "auto";
+    public List<string> PrintData = new List<string>() { "auto", "100%", "500px" };
+
+    public async Task OnPrint()
     {
-        ScheduleRef.Print();
+        if (IsPrintWithOptions)
+        {
+            PrintOptions Options = new PrintOptions() { Height = PrintHeight, Width = PrintWidth };
+            await ScheduleRef.PrintAsync(Options);
+        }
+        else
+        {
+            await ScheduleRef.PrintAsync();
+        }
     }
 }
+
+<style>
+    .property-panel-table td {
+        padding-bottom: 4rem;
+    }
+
+    .property-panel-table .e-checkbox-wrapper {
+        padding: 0;
+    }
+</style>

@@ -11,7 +11,7 @@ using Syncfusion.DocIO.DLS;
 using Syncfusion.Drawing;
 using System.IO;
 
-namespace blazor_samples.Data.FileFormats.DocIO
+namespace BlazorDemos.Data.FileFormats.DocIO
 {
     public class BookmarksService
     {

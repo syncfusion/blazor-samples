@@ -4,7 +4,7 @@ using System.Web;
 using Syncfusion.Blazor.Navigations;
 using Microsoft.AspNetCore.Components;
 
-namespace blazor_samples.Shared
+namespace BlazorDemos.Shared
 {
     /// <summary>
     /// A util class to perform common functionalities.
@@ -184,7 +184,8 @@ namespace blazor_samples.Shared
             new DropDownData { ID = "fabric", Text = "Fabric" },
             new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
             new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
-            new DropDownData { ID = "highcontrast", Text = "High Contrast" }
+            new DropDownData { ID = "highcontrast", Text = "High Contrast" },
+            new DropDownData { ID = "tailwind", Text = "Tailwind" }
         };
 
         /// <summary>

@@ -11,7 +11,7 @@ using Syncfusion.DocIO.DLS;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace blazor_samples.Data.FileFormats.DocIO
+namespace BlazorDemos.Data.FileFormats.DocIO
 {
     public class AdvancedReplaceService
     {

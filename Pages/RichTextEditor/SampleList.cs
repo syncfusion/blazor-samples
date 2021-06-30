@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -12,6 +12,7 @@ namespace blazor_samples
             {
                 Name = "Overview",
                 Category = "Rich Text Editor",
+                Type = SampleType.Updated,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor"
@@ -68,7 +69,6 @@ namespace blazor_samples
             {
                 Name = "Insert Emoticons",
                 Category = "Custom Tool",
-                Type = SampleType.New,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/insert-emoticons",
                 FileName = "InsertEmoticons.razor"
@@ -77,7 +77,6 @@ namespace blazor_samples
             {
                 Name = "Insert Special Characters",
                 Category = "Custom Tool",
-                Type = SampleType.New,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/insert-special-characters",
                 FileName = "InsertSpecialCharacters.razor"
@@ -94,7 +93,6 @@ namespace blazor_samples
             {
                 Name = "Markdown Preview",
                 Category = "Markdown",
-                Type = SampleType.New,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/markdown-preview",
                 FileName = "Markdown-Preview.razor"
@@ -135,7 +133,6 @@ namespace blazor_samples
             {
                 Name = "Events",
                 Category = "Rich Text Editor",
-                Type = SampleType.New,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/events",
                 FileName = "Events.razor"
@@ -144,7 +141,6 @@ namespace blazor_samples
             {
                 Name = "Use Case",
                 Category = "Rich Text Editor",
-                Type = SampleType.New,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/usecase",
                 FileName = "UseCase.razor"
@@ -153,7 +149,6 @@ namespace blazor_samples
             {
                 Name = "Auto Save",
                 Category = "Rich Text Editor",
-                Type = SampleType.New,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/auto-save",
                 FileName = "AutoSave.razor"

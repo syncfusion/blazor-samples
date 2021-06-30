@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -112,7 +112,6 @@ namespace blazor_samples
             {
                 Name = "Accordion Navigation Menu",
                 Category = "Use Case",
-                Type = SampleType.New,
                 Directory = "Layouts/Splitter",
                 Url = "splitter/accordion-menu",
                 FileName = "AccordionMenu.razor"
@@ -143,7 +142,4 @@ namespace blazor_samples
             }
         };
     }
-
-
 }
-

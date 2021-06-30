@@ -2,7 +2,7 @@ using System.IO;
 using Syncfusion.Blazor;
 using Syncfusion.Licensing;
 using System.Globalization;
-using blazor_samples.Shared;
+using BlazorDemos.Shared;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace blazor_samples
+namespace BlazorDemos
 {
     public class Startup
     {

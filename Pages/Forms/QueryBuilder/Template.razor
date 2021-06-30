@@ -1,6 +1,6 @@
 ﻿@page "/query-builder/template"
 
-@using blazor_samples
+@using BlazorDemos
 @using blazor_griddata
 @using Syncfusion.Blazor.QueryBuilder
 @using Syncfusion.Blazor.DropDowns
@@ -8,42 +8,31 @@
 @using Syncfusion.Blazor.Inputs
 @using SFInputs = Syncfusion.Blazor.Inputs
 
-@inherits SampleBaseComponent;
+@inherits SampleBaseComponent
 
 <SampleDescription>
-    <p>This sample demonstrates the integration of the Dropdown List and Slider components as templates in the Query Builder control.</p>
+    <p>This sample demonstrates the Value Template functionality in QueryBuilder component using Slider, DropDownList and Checkbox components. In this sample, user can select the Value using DropDownList, Checkbox and Slider components for CustomerID, Verified and Salary columns respectively.</p>
 </SampleDescription>
 <ActionDescription>
     <p>
-        This sample illustrates how to integrate the Dropdown List, Slider, and Checkbox components with the Query Builder. The available types of templates are:
-        <ul>
-            <li>
-                <code>DropDownList</code>
-            </li>
-            <li>
-                <code>AutoComplete</code>
-            </li>
-            <li>
-                <code>CheckBox</code>
-            </li>
-            <li>
-                <code>Slider</code>
-            </li>
-        </ul>
+        This sample illustrates how to integrate <a target="" _blank="" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.QueryBuilder.QueryBuilderTemplates.html#Syncfusion_Blazor_QueryBuilder_QueryBuilderTemplates_ValueTemplate">ValueTemplate</a> to the columns in the QueryBuilder. This is used for creating custom user interface for the columns with custom components and update the rule collection by using the component events. This can be specified by using ValueTemplate directive of QueryBuilderColumn directive. Inside the Template, you can access the data using the implicit named parameter <strong>Context</strong>.
     </p>
-    <p>More information about Blazor Query Builder component can be found in this <a target="" _blank"" href=" https://blazor.syncfusion.com/documentation/query-builder/getting-started/">documentation section</a>.</p>
+    <p>More information about Blazor QueryBuilder Template can be found in this <a target="" _blank"" href=" https://blazor.syncfusion.com/documentation/query-builder/templates/#value-template">documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
-    <SfQueryBuilder TValue="Orders" DataSource="@DataSource">
-        <QueryBuilderRule Condition="and" Rules="@Rules"></QueryBuilderRule>
+    <SfQueryBuilder TValue="Orders" DataSource="@dataSource">
+        <QueryBuilderRule Condition="and" Rules="@rules"></QueryBuilderRule>
         <QueryBuilderColumns>
             <QueryBuilderColumn Field="CustomerID" Label="CustomerID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String>
                 <QueryBuilderTemplates>
                     <ValueTemplate>
-                        <SfDropDownList TValue="string" TItem="ItemFields" DataSource="@Items" @bind-Value="@DefaultValue">
+                        @{
+                            string value = (string)context.Value;
+                        }
+                        <SfDropDownList TValue="string" TItem="ItemFields" DataSource="@items" @bind-Value="@value">
                             <DropDownListFieldSettings Text="Id"></DropDownListFieldSettings>
-                            <DropDownListEvents TItem="ItemFields" TValue="string" ValueChange="e => OnChange(e, context)"></DropDownListEvents>
+                            <DropDownListEvents TItem="ItemFields" TValue="string" ValueChange="e => onChange(e, context)"></DropDownListEvents>
                         </SfDropDownList>
                     </ValueTemplate>
                 </QueryBuilderTemplates>
@@ -52,7 +41,7 @@
             <QueryBuilderColumn Field="Verified" Label="Verified" Type=ColumnType.Boolean>
                 <QueryBuilderTemplates>
                     <ValueTemplate>
-                        <SfCheckBox TChecked="bool" Label="Yes" ValueChange="e => CheckboxChange(e, context)"></SfCheckBox>
+                        <SfCheckBox TChecked="bool" Label="Yes" ValueChange="e => checkboxChange(e, context)"></SfCheckBox>
                     </ValueTemplate>
                 </QueryBuilderTemplates>
             </QueryBuilderColumn>
@@ -61,12 +50,15 @@
             <QueryBuilderColumn Field="OrderDate" Label="OrderDate" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date Format="dd/MM/yyyy"></QueryBuilderColumn>
             <QueryBuilderColumn Field="ShipCountry" Label="ShipCountry" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
             <QueryBuilderColumn Field="ShipAddress" Label="ShipAddress" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
-            <QueryBuilderColumn Field="Salary" Label="Salary" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number Value="@DefaultSliderValue">
+            <QueryBuilderColumn Field="Salary" Label="Salary" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number>
                 <QueryBuilderTemplates>
                     <ValueTemplate>
-                        <SfSlider TValue="int" Min="0" Max="100" Value="@DefaultSliderValue">
-                            <SliderEvents TValue="int" OnChange="e => SliderChange(e, context)"></SliderEvents>
-                            <SliderTooltip IsVisible="true" Placement="@CurrentTooltipPlacement" ShowOn="@CurrentTooltipShowOn"></SliderTooltip>
+                        @{
+                            int value = (int)context.Value;
+                        }
+                        <SfSlider TValue="int" Min="0" Max="100" Value="@value">
+                            <SliderEvents TValue="int" OnChange="e => sliderChange(e, context)"></SliderEvents>
+                            <SliderTooltip IsVisible="true" Placement="@currentTooltipPlacement" ShowOn="@currentTooltipShowOn"></SliderTooltip>
                         </SfSlider>
                     </ValueTemplate>
                 </QueryBuilderTemplates>
@@ -76,49 +68,47 @@
 </div>
 
 @code{
-    public List<Orders> DataSource { get; set; }
-    public int DefaultSliderValue = 50;
-    public string DefaultValue = "BOLID";
-    SFInputs.TooltipPlacement CurrentTooltipPlacement = new TooltipPlacement();
-    SFInputs.TooltipShowOn CurrentTooltipShowOn = new TooltipShowOn();
-    bool Done { get; set; } = true;
-    string CheckboxValue { get; set; }
+    private List<Orders> dataSource;
+    private SFInputs.TooltipPlacement currentTooltipPlacement = new TooltipPlacement();
+    private SFInputs.TooltipShowOn currentTooltipShowOn = new TooltipShowOn();
+    private bool done = true;
+    private string checkboxValue;
 
     public class ItemFields
     {
         public string Id { get; set; }
     }
 
-    public List<ItemFields> Items = new List<ItemFields>() {
+    private List<ItemFields> items = new List<ItemFields>() {
         new ItemFields(){ Id= "ALFKI" },
         new ItemFields(){ Id= "BOLID" },
         new ItemFields(){ Id= "ANTON" },
         new ItemFields(){ Id= "ANATR" }
     };
 
-    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ItemFields> args, RuleModel Rule)
+    private void onChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ItemFields> args, RuleModel rule)
     {
-        Rule.Value = args.Value;
+        rule.Value = args.Value;
     }
 
-    public void SliderChange(Syncfusion.Blazor.Inputs.SliderChangeEventArgs<int> args, RuleModel Rule)
+    private void sliderChange(Syncfusion.Blazor.Inputs.SliderChangeEventArgs<int> args, RuleModel rule)
     {
-        Rule.Value = args.Value;
+        rule.Value = args.Value;
     }
 
-    public void CheckboxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, RuleModel Rule)
+    private void checkboxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, RuleModel rule)
     {
-        Done = args.Checked;
-        CheckboxValue = Done ? "Yes" : "No";
-        Rule.Value = CheckboxValue;
+        done = args.Checked;
+        checkboxValue = done ? "Yes" : "No";
+        rule.Value = checkboxValue;
     }
 
     protected override void OnInitialized()
     {
-        DataSource = Orders.GetAllRecords();
+        dataSource = Orders.GetAllRecords();
     }
 
-    List<RuleModel> Rules = new List<RuleModel>()
+    private List<RuleModel> rules = new List<RuleModel>()
     {
         new RuleModel { Label="CustomerID", Field="CustomerID", Type="String", Operator="equal", Value= "BOLID" },
         new RuleModel { Label="EmployeeID", Field="EmployeeID", Type="Number", Operator="equal", Value = 1234 },

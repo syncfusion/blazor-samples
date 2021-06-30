@@ -1,6 +1,6 @@
 ﻿using Syncfusion.Blazor;
 
-namespace blazor_samples.Shared
+namespace BlazorDemos.Shared
 {
     /// <summary>
     /// Extends ISyncfusionStringLocalizer for applying localization to Syncfusion components.
@@ -23,7 +23,7 @@ namespace blazor_samples.Shared
         {
             get
             {
-                return blazor_samples.Resources.SfResources.ResourceManager;
+                return BlazorDemos.Resources.SfResources.ResourceManager;
             }
         }
     }

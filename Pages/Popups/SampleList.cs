@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -70,7 +70,6 @@ namespace blazor_samples
                 Category = "Dialog",
                 Directory = "Popups/Dialog",
                 Url = "dialog/animation",
-                Type = SampleType.New,
                 FileName = "Animation.razor"
             },
             new Sample
@@ -85,7 +84,6 @@ namespace blazor_samples
             {
                 Name = "Components inside Dialog",
                 Category = "Dialog",
-                Type = SampleType.New,
                 Directory = "Popups/Dialog",
                 Url = "dialog/components-inside-dialog",
                 FileName = "ComponentsInsideDialog.razor"

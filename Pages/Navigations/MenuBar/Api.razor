@@ -3,30 +3,58 @@
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
-@inherits SampleBaseComponent;
+@inherits SampleBaseComponent
 
 <SampleDescription>
-    <p>  This sample demonstrates the customization of <code>Menu Bar</code> component by using its properties from the property pane. Select any combination of properties from the property pane to customize <code>Menu Bar</code> component.</p>
+    <p>  This sample demonstrates the customization of Menu component by using its properties from the property pane. Select any combination of properties from the property pane to customize Menu component.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this demo, default menu is rendered with minimal configuration.</p>
-    <p>This sample can be customized further with the combination of <code>Menu Bar</code> properties from the property pane. For example,</p>
+    <p>In this demo, default <code>Menu</code> is rendered with minimal configuration.</p>
+    <p>This sample can be customized further with the combination of <code>Menu</code> properties from the property pane. For example,</p>
     <ul>
-        <li>You can switch to <b>Vertical</b> and <b>Horizontal</b> modes by clicking and selecting the<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~Orientation.html'> Orientation </a> mode from <i>Orientation</i> dropdownlist.</li>
-        <li>You can enable or disable menu items by clicking and selecting the item from <i>Enable item</i> or <i>Disable item</i> dropdownlists.</li>
-        <li>You can also enable the show menu item on mouse click <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Navigations.IMenu~ShowItemOnClick.html'> ShowItemOnClick </a> property by checking the <i>Show item on Click</i> checkbox.</li>
+        <li>You can switch to <b>Vertical</b> and <b>Horizontal</b> mode by clicking and selecting the <b>Orientation</b> mode from <i>Orientation</i> dropdownlist.</li>
+        <li>You can enable or disable menu items by clicking and selecting the item from <i>Enable / Disable item</i> dropdownlist.</li>
+        <li>You can also enable the show menu item on mouse click <b>ShowItemOnClick</b> property by checking the <i>Show Item On Click</i> checkbox.</li>
     </ul>
-    <p>More information about Blazor Menu Bar component can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/menu-bar/getting-started/">documentation section</a>.</p>
+    <p>More information about Blazor Menu component can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/menu-bar/getting-started/">documentation section</a>.</p>
 </ActionDescription>
+
 <div class="control-section">
     <div class="col-lg-8 control-section">
         <div class="menu-control">
-            <SfMenu @ref="menu" Items="@menuItems" Orientation="@mode" ShowItemOnClick="@menuItemClick">
-                <MenuFieldSettings Children="SubItems"></MenuFieldSettings>
+            <SfMenu @ref="menu" TValue="MenuItem" Orientation="@mode" ShowItemOnClick="@menuItemClick">
+                <MenuItems>
+                    <MenuItem Text="Events">
+                        <MenuItems>
+                            <MenuItem Text="Conferences"></MenuItem>
+                            <MenuItem Text="Music"></MenuItem>
+                            <MenuItem Text="Workshops"></MenuItem>
+                        </MenuItems>
+                    </MenuItem>
+                    <MenuItem Text="Movies">
+                        <MenuItems>
+                            <MenuItem Text="Now Showing"></MenuItem>
+                            <MenuItem Text="Coming Soon"></MenuItem>
+                        </MenuItems>
+                    </MenuItem>
+                    <MenuItem Text="Directory">
+                        <MenuItems>
+                            <MenuItem Text="Media Gallery"></MenuItem>
+                            <MenuItem Text="Newsletters"></MenuItem>
+                        </MenuItems>
+                    </MenuItem>
+                    <MenuItem Text="Queries">
+                        <MenuItems>
+                            <MenuItem Text="Our Policy"></MenuItem>
+                            <MenuItem Text="Site Map"></MenuItem>
+                            <MenuItem Text="24x7 Support"></MenuItem>
+                        </MenuItems>
+                    </MenuItem>
+                    <MenuItem Text="Services"></MenuItem>
+                </MenuItems>
             </SfMenu>
         </div>
     </div>
-
     <div class="col-lg-4 property-section">
         <table id="property" title="Properties" style="width: 100%">
             <tbody>
@@ -37,7 +65,7 @@
                     <td style="width: 50%;padding-top:10px">
                         <div style="max-width: 200px">
                             <SfDropDownList DataSource="@dropDownListData" PopupHeight="200px" @bind-Value="horizontal" TValue="string" TItem="DataModel">
-                                <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@Change"></DropDownListEvents>
+                                <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@change"></DropDownListEvents>
                                 <DropDownListFieldSettings Value="Text" Text="Text"></DropDownListFieldSettings>
                             </SfDropDownList>
                         </div>
@@ -50,7 +78,7 @@
                     <td style="width: 50%;padding-top:10px">
                         <div style="max-width: 200px">
                             <SfMultiSelect DataSource="@headerData" PopupHeight="200px" Width="160px" Mode="Syncfusion.Blazor.DropDowns.VisualMode.CheckBox" ShowDropDownIcon="true" TValue="string[]" TItem="DataModel">
-                                <MultiSelectEvents ValueChange="EnableDisableChange" TValue="string[]" TItem="DataModel"></MultiSelectEvents>
+                                <MultiSelectEvents ValueChange="enableDisableChange" TValue="string[]" TItem="DataModel"></MultiSelectEvents>
                                 <MultiSelectFieldSettings Value="Text" Text="Text"></MultiSelectFieldSettings>
                             </SfMultiSelect>
                         </div>
@@ -61,7 +89,7 @@
                         <div>Show Item on Click</div>
                     </td>
                     <td style="width: 50%;padding-top:15px">
-                        <SfCheckBox ValueChange="@CheckBoxChange" @bind-Checked="showButtonChange" TChecked="bool"> </SfCheckBox>
+                        <SfCheckBox ValueChange="@checkboxChange" @bind-Checked="showButtonChange" TChecked="bool"> </SfCheckBox>
                     </td>
                 </tr>
             </tbody>
@@ -70,21 +98,22 @@
 </div>
 
 @code {
-@*Hidden:Lines*@
-#pragma warning disable
-@*End:Hidden*@
-    private SfMenu<DataModel> menu;
+    private SfMenu<MenuItem> menu;
     private List<string> items = new List<string>() { "Events", "Movies", "Directory", "Queries", "Services" };
     private string horizontal = "Horizontal";
     private Orientation mode = Orientation.Horizontal;
     private bool menuItemClick;
     private bool showButtonChange;
 
-    private void Change(ChangeEventArgs<string, DataModel> args)
+    private void change(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DataModel> args)
     {
         mode = args.Value == "Vertical" ? Orientation.Vertical : Orientation.Horizontal;
     }
-    private void EnableDisableChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+
+    @*Hidden:Lines*@
+    #pragma warning disable
+    @*End:Hidden*@
+    private void enableDisableChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
     {
         if (args.Value != null)
         {
@@ -96,43 +125,15 @@
             menu.EnableItems(items, true);
         }
     }
-    private void CheckBoxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    
+    @*Hidden:Lines*@
+    #pragma warning restore
+    @*End:Hidden*@
+
+    private void checkboxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.menuItemClick = args.Checked;
     }
-    private List<DataModel> menuItems = new List<DataModel>() {
-        new DataModel {
-            Text = "Events",
-            SubItems = new List<DataModel>() {
-                new DataModel { Text = "Conferences" },
-                new DataModel { Text = "Music" },
-                new DataModel { Text = "Workshops" }
-            }
-        },
-        new DataModel {
-            Text = "Movies",
-            SubItems = new List<DataModel>() {
-                new DataModel { Text = "Now Showing" },
-                new DataModel { Text = "Coming Soon" }
-            }
-        },
-        new DataModel {
-            Text = "Directory",
-            SubItems = new List<DataModel>() {
-                new DataModel { Text = "Media Gallery" },
-                new DataModel { Text = "Newsletters" }
-            }
-        },
-        new DataModel {
-            Text = "Queries",
-            SubItems = new List<DataModel>() {
-                new DataModel { Text = "Our Policy" },
-                new DataModel { Text = "Site Map"},
-                new DataModel { Text = "24x7 Support"}
-            }
-        },
-        new DataModel { Text = "Services" }
-    };
     private List<DataModel> headerData = new List<DataModel>()
     {
         new DataModel { Text = "Events" },
@@ -152,55 +153,9 @@
         public List<DataModel> SubItems { get; set; }
         public bool Disabled { get; set; }
     }
-@*Hidden:Lines*@
-#pragma warning restore
-@*End:Hidden*@
 }
 
 <style>
-    @@font-face {
-        font-family: 'em-icons';
-        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-    .em-icons {
-        font-family: 'em-icons';
-    }
-
-    .e-file::before {
-        content: '\e700';
-    }
-
-    .e-edit::before {
-        content: '\e701';
-    }
-
-    .e-tool::before {
-        content: '\e7cf';
-    }
-
-    .e-cut::before {
-        content: '\e704';
-    }
-
-    .e-copy::before {
-        content: '\e705';
-    }
-
-    .e-paste::before {
-        content: '\e706';
-    }
-
-    .e-open::before {
-        content: '\e702';
-    }
-
-    .e-save::before {
-        content: '\e703';
-    }
-
     .menu-control {
         margin: 45px auto 0;
         text-align: center;

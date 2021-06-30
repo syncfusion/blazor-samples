@@ -2,6 +2,7 @@
 
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
+@using ThemeHelper
 
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
@@ -76,29 +77,10 @@
 
     protected override void OnInitialized()
     {
-        if (NavigationManager.Uri.IndexOf("material") > -1)
-        {
-            theme = Syncfusion.Blazor.Theme.Material;
-        }
-        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
-        {
-            theme = Syncfusion.Blazor.Theme.Fabric;
-        }
-        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
-        {
-            theme = Syncfusion.Blazor.Theme.Bootstrap;
-        }
-        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
-        {
-            theme = Syncfusion.Blazor.Theme.HighContrast;
-        }
-        else
-        {
-            theme = Syncfusion.Blazor.Theme.Bootstrap4;
-        }
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 
-    private void LoadPoints()
+    private async Task LoadPoints()
     {
         chartPoints.Clear();
         for (int pts = 0; pts < 100000; pts++)
@@ -115,7 +97,7 @@
         }
         isPointsLoaded = true;
         start = DateTime.Now;
-        chartInstance.Refresh();
+        await chartInstance.RefreshAsync();
     }
 
     private void ChartLoaded(LoadedEventArgs args)

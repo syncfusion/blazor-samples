@@ -20,8 +20,6 @@
 <ActionDescription>
     <p>The Blazor Scheduler is a fully-features calendar component that is used to manage appointments with multiple resources. The data can be pulled from the <code>DataManager</code> component or <code>IEnumerable</code> of objects or Restful web services and bind the data fields using <code>ScheduleEventSettings.ScheduleField</code>.</p>
     <p>In this demo, Blazor Scheduler features such as Multiple views, Templates (Date Header, Quick Info), Resources, Grouping, Timezone, Timescale, etc... are used along with multiple resources.</p>
-    <p>More information on the Multiple resources and grouping feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/scheduler/resources/">
-        documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -689,7 +687,7 @@
             IsAllDay = false,
             CalendarId = this.ResourceRef.Value[0]
         };
-        await ScheduleRef.OpenEditor(eventData, CurrentAction.Add);
+        await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
     }
 
     private async void OnNewRecurringEventAdd()
@@ -708,7 +706,7 @@
             CalendarId = this.ResourceRef.Value[0],
             RecurrenceRule = "FREQ=DAILY;INTERVAL=1;"
         };
-        await ScheduleRef.OpenEditor(eventData, CurrentAction.Add);
+        await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
     }
 
     private void OnDayView()
@@ -745,7 +743,7 @@
     {
         this.IsSettingsVisible = !this.IsSettingsVisible;
         StateHasChanged();
-        await this.ScheduleRef.RefreshEvents();
+        await this.ScheduleRef.RefreshEventsAsync();
     }
 
     private string GetEventDetails(AppointmentData data)
@@ -789,7 +787,7 @@
 
     private async void OnMoreDetailsClick(MouseEventArgs args, AppointmentData data, bool isEventData)
     {
-        await ScheduleRef.CloseQuickInfoPopup();
+        await ScheduleRef.CloseQuickInfoPopupAsync();
         if (isEventData == false)
         {
             AppointmentData eventData = new AppointmentData
@@ -806,7 +804,7 @@
                 RecurrenceID = data.RecurrenceID,
                 RecurrenceRule = data.RecurrenceRule
             };
-            await ScheduleRef.OpenEditor(eventData, CurrentAction.Add);
+            await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
         }
         else
         {
@@ -824,13 +822,13 @@
                 RecurrenceID = data.RecurrenceID,
                 RecurrenceRule = data.RecurrenceRule
             };
-            await ScheduleRef.OpenEditor(eventData, CurrentAction.Save);
+            await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Save);
         }
     }
 
     private async Task OnAdd(MouseEventArgs args, AppointmentData data)
     {
-        await ScheduleRef.CloseQuickInfoPopup();
+        await ScheduleRef.CloseQuickInfoPopupAsync();
         AppointmentData cloneData = new AppointmentData
         {
             Id = new Random().Next(1000),
@@ -845,7 +843,7 @@
             RecurrenceID = data.RecurrenceID,
             RecurrenceRule = data.RecurrenceRule
         };
-        await ScheduleRef.AddEvent(cloneData);
+        await ScheduleRef.AddEventAsync(cloneData);
     }
 
     public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
@@ -1003,13 +1001,13 @@
         {
             file.Stream.Position = 0;
             StreamReader reader = new StreamReader(file.Stream);
-            await ScheduleRef.ImportICalendar(reader.ReadToEnd());
+            await ScheduleRef.ImportICalendarAsync(reader.ReadToEnd());
         }
     }
 
     public async void OnPrintClick()
     {
-        await ScheduleRef.Print();
+        await ScheduleRef.PrintAsync();
     }
 
     public async void OnExportClick(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
@@ -1017,7 +1015,7 @@
         if (args.Item.Text == "Excel")
         {
             List<AppointmentData> ExportDatas = new List<AppointmentData>();
-            List<AppointmentData> EventCollection = await ScheduleRef.GetEvents();
+            List<AppointmentData> EventCollection = await ScheduleRef.GetEventsAsync();
             List<Syncfusion.Blazor.Schedule.Resource> ResourceCollection = ScheduleRef.GetResourceCollections();
             List<CalendarData> ResourceData = ResourceCollection[0].DataSource as List<CalendarData>;
             for (int a = 0, count = ResourceData.Count(); a < count; a++)
@@ -1034,11 +1032,11 @@
                 CustomData = ExportDatas,
                 Fields = new string[] { "Id", "Subject", "StartTime", "EndTime", "CalendarId" }
             };
-            await ScheduleRef.ExportToExcel(Options);
+            await ScheduleRef.ExportToExcelAsync(Options);
         }
         else
         {
-            await ScheduleRef.ExportToICalendar();
+            await ScheduleRef.ExportToICalendarAsync();
         }
     }
 
@@ -1046,10 +1044,10 @@
     {
         if (args.ParentItem == null)
         {
-            CellData = await ScheduleRef.GetTargetCell((int)args.Left, (int)args.Top);
+            CellData = await ScheduleRef.GetTargetCellAsync((int)args.Left, (int)args.Top);
             if (CellData == null)
             {
-                EventData = await ScheduleRef.GetTargetEvent((int)args.Left, (int)args.Top);
+                EventData = await ScheduleRef.GetTargetEventAsync((int)args.Left, (int)args.Top);
                 if (EventData.Id == 0)
                 {
                     args.Cancel = true;
@@ -1076,7 +1074,7 @@
     public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
     {
         var SelectedMenuItem = args.Item.Id;
-        var ActiveCellsData = await ScheduleRef.GetSelectedCells();
+        var ActiveCellsData = await ScheduleRef.GetSelectedCellsAsync();
         if (ActiveCellsData == null)
         {
             ActiveCellsData = CellData;
@@ -1088,30 +1086,30 @@
                 SelectedDate = this.TimeConvertor(key);
                 break;
             case "Add":
-                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add);
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add);
                 break;
             case "AddRecurrence":
-                await ScheduleRef.OpenEditor(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
                 break;
             case "Save":
-                await ScheduleRef.OpenEditor(EventData, CurrentAction.Save);
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.Save);
                 break;
             case "EditOccurrence":
-                await ScheduleRef.OpenEditor(EventData, CurrentAction.EditOccurrence);
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditOccurrence);
                 break;
             case "EditSeries":
-                List<AppointmentData> Events = await ScheduleRef.GetEvents();
+                List<AppointmentData> Events = await ScheduleRef.GetEventsAsync();
                 EventData = (AppointmentData)Events.Where(data => data.Id == EventData.RecurrenceID).FirstOrDefault();
-                await ScheduleRef.OpenEditor(EventData, CurrentAction.EditSeries);
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditSeries);
                 break;
             case "Delete":
-                await ScheduleRef.DeleteEvent(EventData);
+                await ScheduleRef.DeleteEventAsync(EventData);
                 break;
             case "DeleteOccurrence":
-                await ScheduleRef.DeleteEvent(EventData, CurrentAction.DeleteOccurrence);
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteOccurrence);
                 break;
             case "DeleteSeries":
-                await ScheduleRef.DeleteEvent(EventData, CurrentAction.DeleteSeries);
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteSeries);
                 break;
         }
     }
@@ -1135,6 +1133,10 @@
         content: "\e7c7";
     }
 
+    .tailwind .e-schedule-clock::before {
+        content: "\e730";
+    }
+
     .material .e-schedule-timezone::before,
     .bootstrap .e-schedule-timezone::before {
         content: "\e30e";
@@ -1147,6 +1149,10 @@
 
     .bootstrap4 .e-schedule-timezone::before {
         content: "\e7c9";
+    }
+
+    .tailwind .e-schedule-timezone::before {
+        content: "\e736";
     }
 
     .material .e-schedule-print::before {
@@ -1163,8 +1169,16 @@
         content: "\e743";
     }
 
+    .tailwind .e-schedule-print::before {
+        content: "\e76c";
+    }
+
     .bootstrap4 .e-schedule-import::before {
         content: "\e77a";
+    }
+
+    .tailwind .e-schedule-import::before {
+        content: "\e76d";
     }
 
     .material .e-schedule-ical-export::before,
@@ -1184,6 +1198,10 @@
         content: "\e712";
     }
 
+    .tailwind .e-schedule-ical-export::before {
+        content: "\e7bf";
+    }
+
     .material .e-schedule-excel-export::before {
         content: "\e700";
     }
@@ -1201,6 +1219,10 @@
         content: "\e74e";
     }
 
+    .tailwind .e-schedule-excel-export::before {
+        content: "\e780";
+    }
+
     .material .e-schedule-add-event::before,
     .fabric .e-schedule-add-event::before,
     .bootstrap .e-schedule-add-event::before,
@@ -1210,6 +1232,10 @@
 
     .bootstrap4 .e-schedule-add-event::before {
         content: "\e759";
+    }
+
+    .tailwind .e-schedule-add-event::before {
+        content: "\e78a";
     }
 
     .material .e-schedule-add-recurrence-event::before,
@@ -1224,6 +1250,10 @@
 
     .bootstrap4 .e-schedule-add-recurrence-event::before {
         content: "\e7c8";
+    }
+
+    .tailwind .e-schedule-add-recurrence-event::before {
+        content: "\e71d";
     }
 
     .material .e-schedule-day-view::before {
@@ -1243,6 +1273,10 @@
         content: "\e7b8";
     }
 
+    .tailwind .e-schedule-day-view::before {
+        content: "\e767";
+    }
+
     .material .e-schedule-week-view::before {
         content: "\e315";
     }
@@ -1260,6 +1294,10 @@
         content: "\e7c0";
     }
 
+    .tailwind .e-schedule-week-view::before {
+        content: "\e795";
+    }
+
     .material .e-schedule-workweek-view::before {
         content: "\e314";
     }
@@ -1275,6 +1313,10 @@
 
     .bootstrap4 .e-schedule-workweek-view::before {
         content: "\e7c0";
+    }
+
+    .tailwind .e-schedule-workweek-view::before {
+        content: "\e795";
     }
 
     .material .e-schedule-month-view::before,
@@ -1299,6 +1341,11 @@
         content: "\e7c4";
     }
 
+    .tailwind .e-schedule-month-view::before,
+    .tailwind .e-schedule-year-view::before {
+        content: "\e719";
+    }
+
     .material .e-schedule-agenda-view::before {
         content: "\e31d";
     }
@@ -1316,8 +1363,17 @@
         content: "\e7bd";
     }
 
+    .tailwind .e-schedule-agenda-view::before {
+        content: "\e718";
+    }
+
     .e-schedule-toolbar-settings::before {
         content: "\e679";
+        font-size: 14px;
+    }
+
+    .tailwind .e-schedule-toolbar-settings::before {
+        content: "\e846";
         font-size: 14px;
     }
 
@@ -1675,5 +1731,92 @@
     .material .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-btn.e-tbar-btn .e-icons.e-btn-icon {
         line-height: 30px;
         min-height: 30px;
+    }
+
+    .tailwind .schedule-overview.e-schedule .e-left-indent .e-header-cells {
+        height: 66px;
+    }
+
+    .material .schedule-context-menu .e-menu-item .new::before,
+    .fabric .schedule-context-menu .e-menu-item .new::before,
+    .bootstrap .schedule-context-menu .e-menu-item .new::before,
+    .highcontrast .schedule-context-menu .e-menu-item .new::before {
+        content: "\e823";
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .new::before {
+        content: "\e759";
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .new::before {
+        content: "\e78a";
+    }
+
+    .material .schedule-context-menu .e-menu-item .recurrence::before,
+    .bootstrap .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e308";
+    }
+
+    .fabric .schedule-context-menu .e-menu-item .recurrence::before,
+    .highcontrast .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e309";
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e7c8";
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .recurrence::before {
+        content: "\e71d";
+    }
+
+    .schedule-context-menu .e-menu-item .today::before {
+        content: '\e322';
+    }
+
+    .highcontrast .schedule-context-menu .e-menu-item .today::before,
+    .fabric .schedule-context-menu .e-menu-item .today::before {
+        content: '\e321';
+    }
+
+    .bootstrap .schedule-context-menu .e-menu-item .today::before {
+        content: '\e312';
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .today::before {
+        content: '\e7be';
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .today::before {
+        content: '\e742';
+    }
+
+    .schedule-context-menu .e-menu-item .edit::before {
+        content: '\ea9a';
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .edit::before {
+        content: '\e78f';
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .edit::before {
+        content: '\e7d2';
+    }
+
+    .schedule-context-menu .e-menu-item .delete::before {
+        content: '\e94a';
+    }
+
+    .highcontrast .schedule-context-menu .e-menu-item .delete::before,
+    .fabric .schedule-context-menu .e-menu-item .delete::before {
+        content: '\eb00';
+    }
+
+    .bootstrap4 .schedule-context-menu .e-menu-item .delete::before {
+        content: '\e773';
+    }
+
+    .tailwind .schedule-context-menu .e-menu-item .delete::before {
+        content: '\e78d';
     }
 </style>

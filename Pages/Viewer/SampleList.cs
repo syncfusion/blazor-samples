@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -23,6 +23,15 @@ namespace blazor_samples
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/form-filling",
                 FileName = "FormFilling.razor"
+            },
+            new Sample
+            {
+                Name = "Handwritten Signature",
+                Category = "PDF Viewer",
+                Directory = "Viewer/PdfViewer",
+                Url = "pdf-viewer/handwritten-signature",
+                FileName = "HandwrittenSignature.razor",
+                Type = SampleType.Updated
             }
         };
     }

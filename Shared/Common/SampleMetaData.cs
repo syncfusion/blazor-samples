@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace blazor_samples.Shared
+namespace BlazorDemos.Shared
 {
     /// <summary>
     /// A component to render the application's meta data based on current component and sample information.

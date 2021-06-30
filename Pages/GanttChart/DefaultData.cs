@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
+using BlazorDemos;
 namespace ej2_blazor_defaultdata
 {
     public class DefaultData
@@ -76,10 +76,8 @@ namespace ej2_blazor_defaultdata
             StartDate = new DateTime(2019, 04, 08),
             EndDate = new DateTime(2019, 04, 08),
             Duration="0",
-            Predecessor="3,4",
-
-
-
+			ParentId = 1,
+            Predecessor="3,4"
         },
         new TaskData() {
             TaskId = 6,

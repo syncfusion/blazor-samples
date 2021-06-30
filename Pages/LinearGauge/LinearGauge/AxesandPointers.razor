@@ -24,11 +24,18 @@
     <SfLinearGauge Orientation="Orientation.Horizontal" @ref="@Linear">
         <LinearGaugeAxes>
             <LinearGaugeAxis ShowLastLabel="@GaugeLastLabel" Minimum="@GaugeMinimumValue" Maximum="@GaugeMaximumValue" IsInversed="@GaugeInversed" OpposedPosition="@GaugeOpposed">
-                <LinearGaugeAxisLabelStyle Offset="@GaugeLabelOffset" Format="@GaugeLabelFormat"/>
-                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="20" Height="20"/>
-                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="2" Height="10"/>
+                <LinearGaugeAxisLabelStyle Offset="@GaugeLabelOffset" Format="@GaugeLabelFormat" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="20" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="2" Height="10" />
+                <LinearGaugeAnnotations>
+                    <LinearGaugeAnnotation AxisIndex="0" AxisValue="@AnnotationAxisvalue" X="10" Y="@AnnotationY" ZIndex="1">
+                        <ContentTemplate>
+                            <div style='width:70px'><h1 style='font-size:14px;margin-left:-30px;'>@AnnotationText</h1></div>
+                        </ContentTemplate>
+                    </LinearGaugeAnnotation>
+                </LinearGaugeAnnotations>
                 <LinearGaugePointers>
-                    <LinearGaugePointer Value="20" Height="15" Width="15" Placement="@GaugePointerPlacement" Offset="@GaugePointerOffset" MarkerType="@GaugeMarkerType" Type="@GaugePointerType" Color="#757575"/>
+                    <LinearGaugePointer Value="@AnnotationAxisvalue" Height="15" Width="15" Placement="@GaugePointerPlacement" Offset="@GaugePointerOffset" MarkerType="@GaugeMarkerType" Type="@GaugePointerType" Color="#757575" />
                 </LinearGaugePointers>
             </LinearGaugeAxis>
         </LinearGaugeAxes>
@@ -162,8 +169,8 @@
     private MarkerType GaugeMarkerType = MarkerType.InvertedTriangle;
     private Syncfusion.Blazor.LinearGauge.Placement GaugePointerPlacement = Syncfusion.Blazor.LinearGauge.Placement.Far;
     private Point GaugePointerType = Point.Marker;
-    public string AnnotationText = "10 MPH";
-    private double AnnotationAxisvalue = 10;
+    public string AnnotationText = "20 MPH";
+    private double AnnotationAxisvalue = 20;
     private double MinimumValue = 0;
     private double MaximumValue = 115;
     private double MinimumValueText = 0;
@@ -175,6 +182,7 @@
     private string PointerTypeValue = "Marker";
     private string PlacementValue = "Far";
     private bool PlacementListEnable = true;
+    private double AnnotationY = 35;
     SfLinearGauge Linear;
     public class DropDownData {
         public string Name { get; set; }
@@ -191,15 +199,15 @@
     private void MinimumChange(Microsoft.AspNetCore.Components.ChangeEventArgs args) {
         MinimumValue = Convert.ToDouble(args.Value);
         GaugeMinimumValue = MinimumValueText = MinimumValue;
-        AnnotationAxisvalue = MinimumValue;
-        AnnotationText = (MinimumValue + " MPH").ToString();
+        AnnotationAxisvalue = (Math.Min(MinimumValue, MaximumValue)) > 20 ? Math.Min(MinimumValue, MaximumValue) : 20;
+        AnnotationText = (AnnotationAxisvalue + " MPH").ToString();
         GaugeMaximumValue = MaximumValue;
     }
     private void MaximumChange(Microsoft.AspNetCore.Components.ChangeEventArgs args) {
         MaximumValue = Convert.ToDouble(args.Value);
         GaugeMinimumValue = MinimumValue;
-        AnnotationAxisvalue = MinimumValue;
-        AnnotationText = (MinimumValue + " MPH").ToString();
+        AnnotationAxisvalue = (Math.Min(MinimumValue, MaximumValue)) > 20 ? Math.Min(MinimumValue, MaximumValue) : 20;
+        AnnotationText = (AnnotationAxisvalue + " MPH").ToString();
         GaugeMaximumValue = MaximumValueText = MaximumValue;
     }
     private void InversedChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
@@ -215,12 +223,14 @@
             GaugeMarkerType = MarkerType.Triangle;
             GaugePointerOffset = "-20";
             GaugeLabelOffset = 0;
+            AnnotationY = -75;
         }
         else {
             GaugePointerPlacement = Syncfusion.Blazor.LinearGauge.Placement.Far;
             GaugeMarkerType = MarkerType.InvertedTriangle;
             GaugePointerOffset = "30";
             GaugeLabelOffset = 50;
+            AnnotationY = 35;
         }
     }
     private void LabelFormatChange(ChangedEventArgs args) {

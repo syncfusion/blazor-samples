@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Syncfusion.Pdf.Security;
 using Syncfusion.Pdf.Parsing;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 {
     public class DigitalSignatureService
     {

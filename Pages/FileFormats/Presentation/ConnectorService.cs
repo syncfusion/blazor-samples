@@ -9,7 +9,7 @@
 using System.IO;
 using Syncfusion.Presentation;
 
-namespace blazor_samples.Data.FileFormats.Presentation
+namespace BlazorDemos.Data.FileFormats.Presentation
 {
     public class ConnectorService
     {

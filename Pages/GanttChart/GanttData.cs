@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
+using BlazorDemos;
 namespace ej2_blazor_ganttdata
 {
     public class GanttData
@@ -13,15 +13,11 @@ namespace ej2_blazor_ganttdata
             public string TaskName { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
-            public DateTime? BaselineStartDate { get; set; }
-            public DateTime? BaselineEndDate { get; set; }
             public string Duration { get; set; }
             public int Progress { get; set; }
             public string Predecessor { get; set; }
 
-            public object ResourceId { get; set; }
             public string Notes { get; set; }
-            public string TaskType { get; set; }
             public int? ParentId { get; set; }
         }
         public static List<TaskData> EditingData()

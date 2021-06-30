@@ -104,8 +104,8 @@
     public string[] ShapePropertyPath = { "name" };
     public string LegendText = "Inches";
     public string MinDisplay = "none";
-    public double MinOpacity = 0;
-    public double MaxOpacity = 0;
+    public double MinOpacity = -1;
+    public double MaxOpacity = -1;
     public double MinRange = 0.5;
     public string Display = "none";
     public double MaxRange = 1;
@@ -115,15 +115,20 @@
         if (OpacityChecked == true)
         {
             MinDisplay = "block";
+            MinOpacity = MinRange;
+            MaxOpacity = MaxRange;
         }
         else
         {
             MinDisplay = "none";
+            MinOpacity = 0.5;
+            MaxOpacity = 1;
         }
     }
     private void MinRangeChange(Microsoft.AspNetCore.Components.ChangeEventArgs args) {
         MinRange = Convert.ToDouble(args.Value, CultureInfo.InvariantCulture);
         MinOpacity = MinRange;
+        MaxOpacity = (MaxOpacity == -1) ? 1 : MaxOpacity;
     }
     private void MaxRangeChange(Microsoft.AspNetCore.Components.ChangeEventArgs args) {
         MaxRange = Convert.ToDouble(args.Value, CultureInfo.InvariantCulture);
@@ -226,6 +231,8 @@
             OpacityChecked = false;
             LegendText = "Category";
             ColorValuePath = "Value";
+            MinOpacity = -1;
+            MaxOpacity = -1;
             ColorMappingFromOne = null;
             ColorMappingToOne = null;
             ColorMappingColorOne = new string[] { "#DEEBAE" };

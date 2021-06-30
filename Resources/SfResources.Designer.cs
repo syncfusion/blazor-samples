@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace blazor_samples.Resources {
+namespace BlazorDemos.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace blazor_samples.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("blazor_samples.Resources.SfResources", typeof(SfResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BlazorDemos.Resources.SfResources", typeof(SfResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -4514,15 +4514,6 @@ namespace blazor_samples.Resources {
                 return ResourceManager.GetString("FileManager_ContentDelete", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete this folder?.
-        /// </summary>
-        public static string FileManager_ContentFolderDelete {
-            get {
-                return ResourceManager.GetString("FileManager_ContentFolderDelete", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} already exists. Do you want to rename and paste?.
@@ -4530,6 +4521,15 @@ namespace blazor_samples.Resources {
         public static string FileManager_ContentDuplicate {
             get {
                 return ResourceManager.GetString("FileManager_ContentDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this folder?.
+        /// </summary>
+        public static string FileManager_ContentFolderDelete {
+            get {
+                return ResourceManager.GetString("FileManager_ContentFolderDelete", resourceCulture);
             }
         }
         
@@ -4712,15 +4712,6 @@ namespace blazor_samples.Resources {
                 return ResourceManager.GetString("FileManager_HeaderDelete", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Delete Folder.
-        /// </summary>
-        public static string FileManager_HeaderFolderDelete {
-            get {
-                return ResourceManager.GetString("FileManager_HeaderFolderDelete", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///   Looks up a localized string similar to File/Folder exists.
@@ -4728,6 +4719,15 @@ namespace blazor_samples.Resources {
         public static string FileManager_HeaderDuplicate {
             get {
                 return ResourceManager.GetString("FileManager_HeaderDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Folder.
+        /// </summary>
+        public static string FileManager_HeaderFolderDelete {
+            get {
+                return ResourceManager.GetString("FileManager_HeaderFolderDelete", resourceCulture);
             }
         }
         
@@ -4856,6 +4856,7 @@ namespace blazor_samples.Resources {
                 return ResourceManager.GetString("FileManager_NewFolder", resourceCulture);
             }
         }
+        
         /// <summary>
         ///   Looks up a localized string similar to None.
         /// </summary>
@@ -8448,1343 +8449,11 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to add.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
-        public static string PivotFieldList_Add {
+        public static string PivotView_Add {
             get {
-                return ResourceManager.GetString("PivotFieldList_Add", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add field here.
-        /// </summary>
-        public static string PivotFieldList_AddFieldMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_AddFieldMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to After.
-        /// </summary>
-        public static string PivotFieldList_After {
-            get {
-                return ResourceManager.GetString("PivotFieldList_After", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to After Or Equal To.
-        /// </summary>
-        public static string PivotFieldList_AfterOrEqualTo {
-            get {
-                return ResourceManager.GetString("PivotFieldList_AfterOrEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Alert.
-        /// </summary>
-        public static string PivotFieldList_Alert {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Alert", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All.
-        /// </summary>
-        public static string PivotFieldList_All {
-            get {
-                return ResourceManager.GetString("PivotFieldList_All", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to All Fields.
-        /// </summary>
-        public static string PivotFieldList_AllFields {
-            get {
-                return ResourceManager.GetString("PivotFieldList_AllFields", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to and.
-        /// </summary>
-        public static string PivotFieldList_And {
-            get {
-                return ResourceManager.GetString("PivotFieldList_And", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to APPLY.
-        /// </summary>
-        public static string PivotFieldList_Apply {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Apply", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Avg.
-        /// </summary>
-        public static string PivotFieldList_Avg {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Avg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Base field.
-        /// </summary>
-        public static string PivotFieldList_BaseField {
-            get {
-                return ResourceManager.GetString("PivotFieldList_BaseField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Base item.
-        /// </summary>
-        public static string PivotFieldList_BaseItem {
-            get {
-                return ResourceManager.GetString("PivotFieldList_BaseItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Before.
-        /// </summary>
-        public static string PivotFieldList_Before {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Before", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Before Or Equal To.
-        /// </summary>
-        public static string PivotFieldList_BeforeOrEqualTo {
-            get {
-                return ResourceManager.GetString("PivotFieldList_BeforeOrEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Begins With.
-        /// </summary>
-        public static string PivotFieldList_BeginWith {
-            get {
-                return ResourceManager.GetString("PivotFieldList_BeginWith", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Between.
-        /// </summary>
-        public static string PivotFieldList_Between {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Between", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (Blank).
-        /// </summary>
-        public static string PivotFieldList_Blank {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Blank", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to by.
-        /// </summary>
-        public static string PivotFieldList_By {
-            get {
-                return ResourceManager.GetString("PivotFieldList_By", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Calculated Field.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clear edited field info.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_ClearTooltipMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_ClearTooltipMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A calculation field already exists in this name. Do you want to replace it?.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_ConfirmMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_ConfirmMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag and drop fields to formula.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_DragDropMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_DragDropMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag field to formula.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_DragMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_DragMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Calculated field cannot be place in any other region except value axis..
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_DropMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_DropMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit calculated field.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_EditTooltipMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_EditTooltipMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Example: (&apos;Sum(Order_Count)&apos; + &apos;Sum(In_Stock)&apos;&apos;) * 250.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_ExampleWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_ExampleWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to A field already exists in this name. Please enter a different name..
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_ExistMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_ExistMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add fields and edit formula here..
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_MobileWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_MobileWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter the field name.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_NameWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_NameWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Example: [Measures].[Order Quantity] + ([Measures].[Order Quantity] * 0.10).
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_OLAPExampleWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_OLAPExampleWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to delete this calculated field?.
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_RemoveMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_RemoveMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag and drop fields to create an expression. And, if you want to edit the existing the calculated fields! You can achieve it by simply selecting the field under &apos;Calculated Members&apos;..
-        /// </summary>
-        public static string PivotFieldList_CalculatedField_Tooltip {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CalculatedField_Tooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string PivotFieldList_Cancel {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Choose field.
-        /// </summary>
-        public static string PivotFieldList_ChooseFieldMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ChooseFieldMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clear.
-        /// </summary>
-        public static string PivotFieldList_Clear {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Clear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Clear.
-        /// </summary>
-        public static string PivotFieldList_ClearFilter {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ClearFilter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close.
-        /// </summary>
-        public static string PivotFieldList_Close {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Close", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop column here.
-        /// </summary>
-        public static string PivotFieldList_ColumnAxisWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ColumnAxisWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Columns.
-        /// </summary>
-        public static string PivotFieldList_Columns {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Columns", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Contains.
-        /// </summary>
-        public static string PivotFieldList_Contains {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Contains", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Copy.
-        /// </summary>
-        public static string PivotFieldList_Copy {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Copy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Count.
-        /// </summary>
-        public static string PivotFieldList_Count {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Count", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Calculated Field.
-        /// </summary>
-        public static string PivotFieldList_CreateCalculatedField {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CreateCalculatedField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Currency.
-        /// </summary>
-        public static string PivotFieldList_Currency {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Currency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Custom.
-        /// </summary>
-        public static string PivotFieldList_Custom {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Custom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter custom format string.
-        /// </summary>
-        public static string PivotFieldList_CustomFormat {
-            get {
-                return ResourceManager.GetString("PivotFieldList_CustomFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Date.
-        /// </summary>
-        public static string PivotFieldList_Date {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Date", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show the items for which the date.
-        /// </summary>
-        public static string PivotFieldList_DateTextMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DateTextMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Days.
-        /// </summary>
-        public static string PivotFieldList_Days {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Days", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Defer Layout Update.
-        /// </summary>
-        public static string PivotFieldList_DeferLayoutUpdate {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DeferLayoutUpdate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        public static string PivotFieldList_Delete {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Difference From.
-        /// </summary>
-        public static string PivotFieldList_DifferenceFrom {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DifferenceFrom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dimension.
-        /// </summary>
-        public static string PivotFieldList_Dimension {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Dimension", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Distinct Count.
-        /// </summary>
-        public static string PivotFieldList_DistinctCount {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DistinctCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Does Not Begin With.
-        /// </summary>
-        public static string PivotFieldList_DoesNotBeginWith {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DoesNotBeginWith", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Does Not Contain.
-        /// </summary>
-        public static string PivotFieldList_DoesNotContains {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DoesNotContains", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Does Not End With.
-        /// </summary>
-        public static string PivotFieldList_DoesNotEndsWith {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DoesNotEndsWith", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Does Not Equal.
-        /// </summary>
-        public static string PivotFieldList_DoesNotEquals {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DoesNotEquals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag.
-        /// </summary>
-        public static string PivotFieldList_Drag {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Drag", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag fields between axes below:.
-        /// </summary>
-        public static string PivotFieldList_DragFieldsMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_DragFieldsMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit.
-        /// </summary>
-        public static string PivotFieldList_Edit {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Ends With.
-        /// </summary>
-        public static string PivotFieldList_EndsWith {
-            get {
-                return ResourceManager.GetString("PivotFieldList_EndsWith", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter date.
-        /// </summary>
-        public static string PivotFieldList_EnterDate {
-            get {
-                return ResourceManager.GetString("PivotFieldList_EnterDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter value.
-        /// </summary>
-        public static string PivotFieldList_EnterValue {
-            get {
-                return ResourceManager.GetString("PivotFieldList_EnterValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Equals.
-        /// </summary>
-        public static string PivotFieldList_Equals {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Equals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error.
-        /// </summary>
-        public static string PivotFieldList_Error {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to e.g:.
-        /// </summary>
-        public static string PivotFieldList_Example {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Example", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Expression.
-        /// </summary>
-        public static string PivotFieldList_Expression {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Expression", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field Caption.
-        /// </summary>
-        public static string PivotFieldList_FieldCaption {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field caption.
-        /// </summary>
-        public static string PivotFieldList_FieldCaptionMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldCaptionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The field you are moving cannot be placed in that area of the report.
-        /// </summary>
-        public static string PivotFieldList_FieldDropErrorMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldDropErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field List.
-        /// </summary>
-        public static string PivotFieldList_FieldList {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field Name.
-        /// </summary>
-        public static string PivotFieldList_FieldName {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field name :.
-        /// </summary>
-        public static string PivotFieldList_FieldNameMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldNameMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field Type.
-        /// </summary>
-        public static string PivotFieldList_FieldType {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FieldType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Filter.
-        /// </summary>
-        public static string PivotFieldList_Filter {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Filter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop filter here.
-        /// </summary>
-        public static string PivotFieldList_FilterAxisWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FilterAxisWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Filtered.
-        /// </summary>
-        public static string PivotFieldList_Filtered {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Filtered", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Filters.
-        /// </summary>
-        public static string PivotFieldList_Filters {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Filters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Format.
-        /// </summary>
-        public static string PivotFieldList_Format {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Format", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Format String.
-        /// </summary>
-        public static string PivotFieldList_FormatString {
-            get {
-                return ResourceManager.GetString("PivotFieldList_FormatString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Formula.
-        /// </summary>
-        public static string PivotFieldList_Formula {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Formula", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Greater Than.
-        /// </summary>
-        public static string PivotFieldList_GreaterThan {
-            get {
-                return ResourceManager.GetString("PivotFieldList_GreaterThan", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Greater Than Or Equal To.
-        /// </summary>
-        public static string PivotFieldList_GreaterThanOrEqualTo {
-            get {
-                return ResourceManager.GetString("PivotFieldList_GreaterThanOrEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Group.
-        /// </summary>
-        public static string PivotFieldList_Group {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Group", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hours.
-        /// </summary>
-        public static string PivotFieldList_Hours {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Hours", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Index.
-        /// </summary>
-        public static string PivotFieldList_Index {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Index", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid formula..
-        /// </summary>
-        public static string PivotFieldList_InvalidFormula {
-            get {
-                return ResourceManager.GetString("PivotFieldList_InvalidFormula", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Label.
-        /// </summary>
-        public static string PivotFieldList_Label {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show the items for which the label.
-        /// </summary>
-        public static string PivotFieldList_LabelTextMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_LabelTextMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Less Than.
-        /// </summary>
-        public static string PivotFieldList_LessThan {
-            get {
-                return ResourceManager.GetString("PivotFieldList_LessThan", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Less Than Or Equal To.
-        /// </summary>
-        public static string PivotFieldList_LessThanOrEqualTo {
-            get {
-                return ResourceManager.GetString("PivotFieldList_LessThanOrEqualTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Max.
-        /// </summary>
-        public static string PivotFieldList_Max {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Max", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Measure.
-        /// </summary>
-        public static string PivotFieldList_Measure {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Measure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Member.
-        /// </summary>
-        public static string PivotFieldList_Member {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Member", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  more items. Search to refine further..
-        /// </summary>
-        public static string PivotFieldList_MemberLimitMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_MemberLimitMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Min.
-        /// </summary>
-        public static string PivotFieldList_Min {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Min", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Minutes.
-        /// </summary>
-        public static string PivotFieldList_Minutes {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Minutes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Months.
-        /// </summary>
-        public static string PivotFieldList_Months {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Months", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to More....
-        /// </summary>
-        public static string PivotFieldList_MoreOption {
-            get {
-                return ResourceManager.GetString("PivotFieldList_MoreOption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Multiple items.
-        /// </summary>
-        public static string PivotFieldList_MultipleItems {
-            get {
-                return ResourceManager.GetString("PivotFieldList_MultipleItems", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No.
-        /// </summary>
-        public static string PivotFieldList_No {
-            get {
-                return ResourceManager.GetString("PivotFieldList_No", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No matches.
-        /// </summary>
-        public static string PivotFieldList_NoMatchesMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_NoMatchesMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not Between.
-        /// </summary>
-        public static string PivotFieldList_NotBetween {
-            get {
-                return ResourceManager.GetString("PivotFieldList_NotBetween", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to null.
-        /// </summary>
-        public static string PivotFieldList_Null {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Null", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Example: C, P, 0000 %, ###0.##0#, etc..
-        /// </summary>
-        public static string PivotFieldList_NumberFormat_ExampleWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_NumberFormat_ExampleWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to of.
-        /// </summary>
-        public static string PivotFieldList_Of {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Of", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to OK.
-        /// </summary>
-        public static string PivotFieldList_OK {
-            get {
-                return ResourceManager.GetString("PivotFieldList_OK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Out of Range.
-        /// </summary>
-        public static string PivotFieldList_OutOfRange {
-            get {
-                return ResourceManager.GetString("PivotFieldList_OutOfRange", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Parent Hierarchy.
-        /// </summary>
-        public static string PivotFieldList_ParentHierarchy {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ParentHierarchy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Percent.
-        /// </summary>
-        public static string PivotFieldList_Percent {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Percent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Column Total.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfColumnTotal {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfColumnTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Difference From.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfDifferenceFrom {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfDifferenceFrom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Grand Total.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfGrandTotal {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfGrandTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Parent Column Total.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfParentColumnTotal {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfParentColumnTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Parent Row Total.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfParentRowTotal {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfParentRowTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Parent Total.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfParentTotal {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfParentTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to % of Row Total.
-        /// </summary>
-        public static string PivotFieldList_PercentageOfRowTotal {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PercentageOfRowTotal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Population StDev.
-        /// </summary>
-        public static string PivotFieldList_PopulationStDev {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PopulationStDev", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Population Var.
-        /// </summary>
-        public static string PivotFieldList_PopulationVar {
-            get {
-                return ResourceManager.GetString("PivotFieldList_PopulationVar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Product.
-        /// </summary>
-        public static string PivotFieldList_Product {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Product", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Quarters.
-        /// </summary>
-        public static string PivotFieldList_Quarters {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Quarters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Quarter Year.
-        /// </summary>
-        public static string PivotFieldList_QuarterYear {
-            get {
-                return ResourceManager.GetString("PivotFieldList_QuarterYear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove.
-        /// </summary>
-        public static string PivotFieldList_Remove {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Remove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop row here.
-        /// </summary>
-        public static string PivotFieldList_RowAxisWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_RowAxisWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rows.
-        /// </summary>
-        public static string PivotFieldList_Rows {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Rows", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Running Totals.
-        /// </summary>
-        public static string PivotFieldList_RunningTotals {
-            get {
-                return ResourceManager.GetString("PivotFieldList_RunningTotals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample StDev.
-        /// </summary>
-        public static string PivotFieldList_SampleStDev {
-            get {
-                return ResourceManager.GetString("PivotFieldList_SampleStDev", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample Var.
-        /// </summary>
-        public static string PivotFieldList_SampleVar {
-            get {
-                return ResourceManager.GetString("PivotFieldList_SampleVar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search.
-        /// </summary>
-        public static string PivotFieldList_Search {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Search", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Seconds.
-        /// </summary>
-        public static string PivotFieldList_Seconds {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Seconds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sort.
-        /// </summary>
-        public static string PivotFieldList_Sort {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Sort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sort ascending order.
-        /// </summary>
-        public static string PivotFieldList_SortAscending_TooltipMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_SortAscending_TooltipMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sort descending order.
-        /// </summary>
-        public static string PivotFieldList_SortDescending_TooltipMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_SortDescending_TooltipMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sort data order.
-        /// </summary>
-        public static string PivotFieldList_SortNone_TooltipMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_SortNone_TooltipMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Standard.
-        /// </summary>
-        public static string PivotFieldList_Standard {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Standard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pivot Field List.
-        /// </summary>
-        public static string PivotFieldList_StaticFieldList {
-            get {
-                return ResourceManager.GetString("PivotFieldList_StaticFieldList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sum.
-        /// </summary>
-        public static string PivotFieldList_Sum {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Sum", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Summaries values by.
-        /// </summary>
-        public static string PivotFieldList_Summaries {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Summaries", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Summarize values by.
-        /// </summary>
-        public static string PivotFieldList_SummarizeValuesBy {
-            get {
-                return ResourceManager.GetString("PivotFieldList_SummarizeValuesBy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to undefined.
-        /// </summary>
-        public static string PivotFieldList_Undefined {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Undefined", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value.
-        /// </summary>
-        public static string PivotFieldList_Value {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Value", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drop value here.
-        /// </summary>
-        public static string PivotFieldList_ValueAxisWatermark {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ValueAxisWatermark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value field settings.
-        /// </summary>
-        public static string PivotFieldList_ValueFieldSettings {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ValueFieldSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Values.
-        /// </summary>
-        public static string PivotFieldList_Values {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Values", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Show the items for which.
-        /// </summary>
-        public static string PivotFieldList_ValueTextMessage {
-            get {
-                return ResourceManager.GetString("PivotFieldList_ValueTextMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning.
-        /// </summary>
-        public static string PivotFieldList_Warning {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Warning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Years.
-        /// </summary>
-        public static string PivotFieldList_Years {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Years", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Yes.
-        /// </summary>
-        public static string PivotFieldList_Yes {
-            get {
-                return ResourceManager.GetString("PivotFieldList_Yes", resourceCulture);
+                return ResourceManager.GetString("PivotView_Add", resourceCulture);
             }
         }
         
@@ -9794,6 +8463,15 @@ namespace blazor_samples.Resources {
         public static string PivotView_AddCondition {
             get {
                 return ResourceManager.GetString("PivotView_AddCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add field here.
+        /// </summary>
+        public static string PivotView_AddFieldMessage {
+            get {
+                return ResourceManager.GetString("PivotView_AddFieldMessage", resourceCulture);
             }
         }
         
@@ -9906,7 +8584,7 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to APPLY.
+        ///   Looks up a localized string similar to Apply.
         /// </summary>
         public static string PivotView_Apply {
             get {
@@ -10194,6 +8872,15 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose field.
+        /// </summary>
+        public static string PivotView_ChooseFieldMessage {
+            get {
+                return ResourceManager.GetString("PivotView_ChooseFieldMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         public static string PivotView_Clear {
@@ -10410,6 +9097,15 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Defer Layout Update.
+        /// </summary>
+        public static string PivotView_DeferLayoutUpdate {
+            get {
+                return ResourceManager.GetString("PivotView_DeferLayoutUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string PivotView_Delete {
@@ -10527,11 +9223,29 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Doughnut.
+        /// </summary>
+        public static string PivotView_Doughnut {
+            get {
+                return ResourceManager.GetString("PivotView_Doughnut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drag.
         /// </summary>
         public static string PivotView_Drag {
             get {
                 return ResourceManager.GetString("PivotView_Drag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag fields between axes below:.
+        /// </summary>
+        public static string PivotView_DragFieldsMessage {
+            get {
+                return ResourceManager.GetString("PivotView_DragFieldsMessage", resourceCulture);
             }
         }
         
@@ -10716,11 +9430,29 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the field caption.
+        /// </summary>
+        public static string PivotView_FieldCaptionWatermark {
+            get {
+                return ResourceManager.GetString("PivotView_FieldCaptionWatermark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The field you are moving cannot be placed in that area of the report.
         /// </summary>
         public static string PivotView_FieldDropErrorMessage {
             get {
                 return ResourceManager.GetString("PivotView_FieldDropErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field List.
+        /// </summary>
+        public static string PivotView_FieldList {
+            get {
+                return ResourceManager.GetString("PivotView_FieldList", resourceCulture);
             }
         }
         
@@ -10824,6 +9556,15 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Funnel.
+        /// </summary>
+        public static string PivotView_Funnel {
+            get {
+                return ResourceManager.GetString("PivotView_Funnel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grand Total.
         /// </summary>
         public static string PivotView_GrandTotal {
@@ -10874,15 +9615,6 @@ namespace blazor_samples.Resources {
         public static string PivotView_GroupCaptionMessage {
             get {
                 return ResourceManager.GetString("PivotView_GroupCaptionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Field caption.
-        /// </summary>
-        public static string PivotView_GroupFieldCaption {
-            get {
-                return ResourceManager.GetString("PivotView_GroupFieldCaption", resourceCulture);
             }
         }
         
@@ -11130,7 +9862,7 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiple Axes.
+        ///   Looks up a localized string similar to Multiple Axis.
         /// </summary>
         public static string PivotView_MultipleAxes {
             get {
@@ -11243,6 +9975,15 @@ namespace blazor_samples.Resources {
         public static string PivotView_Number {
             get {
                 return ResourceManager.GetString("PivotView_Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Example: C, P, 0000 %, ###0.##0#, etc..
+        /// </summary>
+        public static string PivotView_NumberFormat_ExampleWatermark {
+            get {
+                return ResourceManager.GetString("PivotView_NumberFormat_ExampleWatermark", resourceCulture);
             }
         }
         
@@ -11400,6 +10141,15 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pie.
+        /// </summary>
+        public static string PivotView_Pie {
+            get {
+                return ResourceManager.GetString("PivotView_Pie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PNG.
         /// </summary>
         public static string PivotView_PNG {
@@ -11441,6 +10191,15 @@ namespace blazor_samples.Resources {
         public static string PivotView_Product {
             get {
                 return ResourceManager.GetString("PivotView_Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pyramid.
+        /// </summary>
+        public static string PivotView_Pyramid {
+            get {
+                return ResourceManager.GetString("PivotView_Pyramid", resourceCulture);
             }
         }
         
@@ -11504,6 +10263,24 @@ namespace blazor_samples.Resources {
         public static string PivotView_RenameReport {
             get {
                 return ResourceManager.GetString("PivotView_RenameReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to already exists. Do you want to replace it?.
+        /// </summary>
+        public static string PivotView_ReplaceReport_AfterMessage {
+            get {
+                return ResourceManager.GetString("PivotView_ReplaceReport_AfterMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A report named .
+        /// </summary>
+        public static string PivotView_ReplaceReport_BeforeMessage {
+            get {
+                return ResourceManager.GetString("PivotView_ReplaceReport_BeforeMessage", resourceCulture);
             }
         }
         
@@ -11697,6 +10474,15 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Legend.
+        /// </summary>
+        public static string PivotView_ShowLegend {
+            get {
+                return ResourceManager.GetString("PivotView_ShowLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show grand totals rows only.
         /// </summary>
         public static string PivotView_ShowRowGrandTotalsOnly {
@@ -11738,6 +10524,33 @@ namespace blazor_samples.Resources {
         public static string PivotView_Sort {
             get {
                 return ResourceManager.GetString("PivotView_Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort ascending order.
+        /// </summary>
+        public static string PivotView_SortAscending_TooltipMessage {
+            get {
+                return ResourceManager.GetString("PivotView_SortAscending_TooltipMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort descending order.
+        /// </summary>
+        public static string PivotView_SortDescending_TooltipMessage {
+            get {
+                return ResourceManager.GetString("PivotView_SortDescending_TooltipMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort data order.
+        /// </summary>
+        public static string PivotView_SortNone_TooltipMessage {
+            get {
+                return ResourceManager.GetString("PivotView_SortNone_TooltipMessage", resourceCulture);
             }
         }
         
@@ -11828,6 +10641,15 @@ namespace blazor_samples.Resources {
         public static string PivotView_StartAt {
             get {
                 return ResourceManager.GetString("PivotView_StartAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pivot Field List.
+        /// </summary>
+        public static string PivotView_StaticFieldList {
+            get {
+                return ResourceManager.GetString("PivotView_StaticFieldList", resourceCulture);
             }
         }
         
@@ -12093,7 +10915,7 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Empty.
+        ///   Looks up a localized string similar to Is Empty.
         /// </summary>
         public static string QueryBuilder_Empty {
             get {
@@ -12183,7 +11005,7 @@ namespace blazor_samples.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Empty.
+        ///   Looks up a localized string similar to Is Not Empty.
         /// </summary>
         public static string QueryBuilder_NotEmpty {
             get {

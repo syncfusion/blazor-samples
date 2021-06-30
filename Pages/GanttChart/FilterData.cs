@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
+using BlazorDemos;
 using Syncfusion.Blazor.Gantt;
 
 namespace ej2_blazor_filterdata

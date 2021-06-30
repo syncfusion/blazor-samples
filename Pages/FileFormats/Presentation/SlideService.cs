@@ -10,7 +10,7 @@ using System.IO;
 using Syncfusion.Presentation;
 using Microsoft.AspNetCore.Hosting;
 
-namespace blazor_samples.Data.FileFormats.Presentation
+namespace BlazorDemos.Data.FileFormats.Presentation
 {
     public class SlideService
     {

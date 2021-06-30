@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-namespace blazor_samples.Data.FileFormats.XlsIO
+namespace BlazorDemos.Data.FileFormats.XlsIO
 {
     public class AttendanceTrackerService
     {

@@ -1,7 +1,7 @@
 ﻿@page "/datagrid/external-form-editing"
 
 @using Syncfusion.Blazor.Grids
-@using blazor_samples
+@using BlazorDemos
 @using blazor_griddata
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
@@ -11,7 +11,7 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates editing operation in DataGrid using external custom edit form.To edit a record, select required row and edit data and click save.</p>
+    <p>This sample demonstrates editing operation in DataGrid using external custom edit form. To edit a record, select required row and edit data and click save.</p>
 
 </SampleDescription>
 <ActionDescription>
@@ -35,21 +35,21 @@
         <div class="form-group col-md-6">
 
 
-            <SfTextBox ID="CustomerID" @bind-Value="@SelectedData.CustomerID" Placeholder="Customer ID" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+            <SfTextBox ID="CustomerID" @bind-Value="@SelectedData.CustomerID" Enabled="@Enabled" Placeholder="Customer ID" FloatLabelType="FloatLabelType.Always"></SfTextBox>
         </div>
 
         <div class="form-group col-md-6">
 
-            <SfDatePicker ID="OrderDate" @bind-Value="@SelectedData.OrderDate" Placeholder="Order Date" FloatLabelType="FloatLabelType.Always"></SfDatePicker>
+            <SfDatePicker ID="OrderDate" @bind-Value="@SelectedData.OrderDate" Enabled="@Enabled" Placeholder="Order Date" FloatLabelType="FloatLabelType.Always"></SfDatePicker>
         </div>
         <div class="form-group col-md-6">
 
-            <SfNumericTextBox ID="Freight" TValue="double?" @bind-Value="@SelectedData.Freight" Placeholder="Freight" FloatLabelType="FloatLabelType.Always"></SfNumericTextBox>
+            <SfNumericTextBox ID="Freight" TValue="double?" @bind-Value="@SelectedData.Freight" Enabled="@Enabled" Placeholder="Freight" FloatLabelType="FloatLabelType.Always"></SfNumericTextBox>
         </div>
 
         <div class="form-group col-md-6">
 
-            <SfDropDownList ID="ShipCountry" @bind-Value="@SelectedData.ShipCountry" TItem="Country" Placeholder="Ship Country" FloatLabelType="FloatLabelType.Always" TValue="string" DataSource="@Name">
+            <SfDropDownList ID="ShipCountry" @bind-Value="@SelectedData.ShipCountry" Enabled="@Enabled" TItem="Country" Placeholder="Ship Country" FloatLabelType="FloatLabelType.Always" TValue="string" DataSource="@Name">
                 <DropDownListFieldSettings Value="ShipCountry" Text="ShipCountry"></DropDownListFieldSettings>
             </SfDropDownList>
 
@@ -57,16 +57,16 @@
         <div class="form-group col-md-6">
 
 
-            <SfTextBox ID="Ship Name" @bind-Value="@SelectedData.ShipName" Placeholder="Ship Name" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+            <SfTextBox ID="Ship Name" @bind-Value="@SelectedData.ShipName" Enabled="@Enabled" Placeholder="Ship Name" FloatLabelType="FloatLabelType.Always"></SfTextBox>
         </div>
 
         <div class="temp">
 
-            <SfButton @onclick="Cancel">Cancel</SfButton>
+            <SfButton @onclick="Cancel" Disabled="@Disabled">Cancel</SfButton>
         </div>
         <div class="temp">
 
-            <SfButton @onclick="Save">Save</SfButton>
+            <SfButton @onclick="Save" Disabled="@Disabled">Save</SfButton>
         </div>
     </div>
 </div>
@@ -77,7 +77,7 @@
             <SfGrid DataSource="@GridData" @ref="Grid" AllowPaging="true">
                
 
-                <GridEvents RowSelected="RowSelectHandler" TValue="OrderDetails"></GridEvents>
+                <GridEvents RowSelected="RowSelectHandler" RowDeselected="RowDeSelectHandler" TValue="OrderDetails"></GridEvents>
                 <GridColumns>
                     <GridColumn Field=@nameof(OrderDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="TextAlign.Right" Width="140"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.CustomerID) HeaderText="Customer Name" Width="140"></GridColumn>
@@ -96,6 +96,8 @@
 @code{
     public List<OrderDetails> GridData { get; set; }
     private Boolean Check = false;
+    private Boolean Disabled = true;
+    private Boolean Enabled = false;
 
     protected override void OnInitialized()
     {
@@ -111,15 +113,24 @@
 
     public void RowSelectHandler(RowSelectEventArgs<OrderDetails> args)
     {
-
-
         SelectedData = new OrderDetails() { OrderID = args.Data.OrderID, CustomerID = args.Data.CustomerID, Freight = args.Data.Freight, OrderDate = args.Data.OrderDate, ShipName = args.Data.ShipName, ShipCountry = args.Data.ShipCountry };
+        this.Disabled = false;
+        this.Enabled = true;
+
     }
+
+    public void RowDeSelectHandler(RowDeselectEventArgs<OrderDetails> args)
+    {
+        SelectedData = new OrderDetails();
+        this.Disabled = true;
+        this.Enabled = false;
+    }
+
     public async Task Save()
     {
         if (SelectedData.OrderID != null)
         {
-            await this.Grid.SetRowData(SelectedData.OrderID, SelectedData);
+            await this.Grid.SetRowDataAsync(SelectedData.OrderID, SelectedData);
             await Cancel();
         }
 
@@ -128,7 +139,7 @@
     {
 
         SelectedData = new OrderDetails() { };
-        await this.Grid.ClearSelection();
+        await this.Grid.ClearSelectionAsync();
     }
 
 

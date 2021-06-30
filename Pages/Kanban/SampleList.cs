@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace blazor_samples
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -25,6 +25,7 @@ namespace blazor_samples
             {
                 Name = "Swimlane",
                 Category = "Kanban",
+				Type = SampleType.Updated,
                 Directory = "Kanban/Kanban",
                 Url = "kanban/swimlane",
                 FileName = "Swimlane.razor"

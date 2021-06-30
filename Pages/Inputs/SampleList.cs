@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -23,6 +23,15 @@ namespace blazor_samples
                 Directory = "Inputs/TextBox",
                 Url = "TextBox/Multiline-TextBox",
                 FileName = "Multiline.razor"
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "TextBox",
+                Directory = "Inputs/TextBox",
+                Url = "TextBox/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -78,6 +87,15 @@ namespace blazor_samples
                 Directory = "Inputs/MaskedTextBox",
                 Url = "Input-Mask/Custom-Mask",
                 FileName = "CustomMask.razor"
+            },
+              new Sample
+            {
+                Name = "Validation",
+                Category = "Input Mask",
+                Directory = "Inputs/MaskedTextBox",
+                Url = "Input-Mask/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -113,6 +131,15 @@ namespace blazor_samples
                 Directory = "Inputs/NumericTextBox",
                 Url = "Numeric-TextBox/Range-Validation",
                 FileName = "RangeValidation.razor"
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "Numeric Textbox",
+                Directory = "Inputs/NumericTextBox",
+                Url = "Numeric-TextBox/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
         public List<Sample> FileUpload { get; set; } = new List<Sample>{
@@ -149,6 +176,15 @@ namespace blazor_samples
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/File-Validation",
                 FileName = "FileValidation.razor"
+            },
+               new Sample
+            {
+                Name = "Custom Drop Area",
+                Category = "File Upload",
+                Directory = "Inputs/Uploader",
+                Url = "File-Upload/Custom-DropArea",
+                FileName = "CustomDropArea.razor",
+                Type = SampleType.New
             }
         };
         public List<Sample> RangeSlider { get; set; } = new List<Sample>{

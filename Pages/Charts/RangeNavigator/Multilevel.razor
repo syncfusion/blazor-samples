@@ -22,16 +22,19 @@ else
         <br>
         <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi Level Labels</h4>
         <div align="center">
-            <SfRangeNavigator LabelPosition="AxisPosition.Outside" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@value" IntervalType="RangeIntervalType.Quarter" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@MultiLevelData" XName="x" YName="low">
+            <SfRangeNavigator LabelPosition="AxisPosition.Outside" Theme="@RangeNavigatorTheme" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@RangeValue" IntervalType="RangeIntervalType.Quarter" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@MultiLevelData" XName="x" YName="low">
                 <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
-                <RangeNavigatorEvents Loaded="BeforeRender" />
             </SfRangeNavigator>
         </div>
     </div>
-
 }
 @code{
-    private ChartData[] MultiLevelData;
+
+    public Theme RangeNavigatorTheme { get; set; }
+    public ChartData[] MultiLevelData { get; set; }
+    public object[] RangeValue { get; set; } = new object[] { new DateTime(2014, 01, 01), new DateTime(2016, 01, 01) };
+    private string currentUri;
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -39,36 +42,43 @@ else
             MultiLevelData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/chart-data.json"));
         });
     }
+
     public class ChartData
     {
         public DateTime x { get; set; }
         public double low { get; set; }
     }
-    private object[] value = new object[] { new DateTime(2014, 01, 01), new DateTime(2016, 01, 01) };
 
-    string CurrentUri;
-    void BeforeRender(RangeLoadedEventArgs Args)
+    protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
         {
-            Args.Theme = Theme.Material;
+            RangeNavigatorTheme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (currentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = Theme.Fabric;
+            RangeNavigatorTheme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (currentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = Theme.Bootstrap;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (currentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = Theme.HighContrast;
+            RangeNavigatorTheme = Theme.Bootstrap;
+        }
+        else if (currentUri.IndexOf("highcontrast") > -1)
+        {
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            RangeNavigatorTheme = Theme.Tailwind;
         }
         else
         {
-            Args.Theme = Theme.Bootstrap4;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
     }
 }

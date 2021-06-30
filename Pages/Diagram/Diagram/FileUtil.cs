@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples.Pages.Diagram.Diagram
+namespace BlazorDemos.Pages.Diagram.Diagram
 {
     public static class FileUtil
     {

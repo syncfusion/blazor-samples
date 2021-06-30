@@ -11,7 +11,7 @@ using Syncfusion.XlsIO;
 using Syncfusion.XlsIORenderer;
 using System.IO;
 
-namespace blazor_samples.Data.FileFormats.XlsIO
+namespace BlazorDemos.Data.FileFormats.XlsIO
 {
     public class WorksheetToImageService
     {
