@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
+using BlazorDemos;
 namespace sf_blazor_heatmapdata
 {
     public class HeatMapData

@@ -1,0 +1,57 @@
+﻿@page "/File-Upload/Custom-DropArea"
+
+@using System;
+@using System.IO;
+@using Syncfusion.Blazor;
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.DropDowns;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates how to configure custom drop area of the Uploader. You can drop the files into specified custom drop area location to upload.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Uploader control allows to set any external element as drop area using the DropArea property.</p>
+    <p>For more information, you can refer to the custom drop area section from this<a target='_blank' href='https://blazor.syncfusion.com/documentation/file-upload/file-source/#custom-drop-area'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control_wrapper">
+        <div class="sample_wrapper">
+            <div class="col-lg-6 dropArea_wrap" id="dropTarget">
+                <div class="font-icons">
+                    <span class="e-icons sf-icon-pdf"></span>
+                    <span class="e-icons sf-icon-txt"></span>
+                    <span class="e-icons sf-icon-png"></span>
+                </div>
+                <span class="dropText">Drop files here to upload</span>
+            </div>
+            <div class="col-lg-6" id="dropArea">
+                <SfUploader DropArea=".dropArea_wrap" AllowedExtensions="@ExtensionAllowed">
+                    <UploaderAsyncSettings SaveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save" RemoveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove"></UploaderAsyncSettings>
+                    <UploaderEvents OnRemove="@OnFileRemove" FileSelected="@AfterSelect"></UploaderEvents>
+                </SfUploader>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="styles/uploader/drop-area.css" rel="stylesheet" />
+
+@code {
+    private string ExtensionAllowed { get; set; } = ".pdf, .txt, .png";
+    private void AfterSelect(SelectedEventArgs args)
+    {
+        string[] Extension = { "pdf", "txt", "png" };
+        if (Extension.ToList().IndexOf(args.FilesData[0].Type) < 0)
+        {
+            args.Cancel = true;
+        }
+    }
+    private void OnFileRemove(RemovingEventArgs args)
+    {
+        args.PostRawFile = false;
+    }
+}

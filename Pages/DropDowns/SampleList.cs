@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -70,6 +70,15 @@ namespace blazor_samples
                 Url = "DropDown-List/Template",
                 FileName = "Template.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "Dropdown List",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDown-List/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -110,6 +119,15 @@ namespace blazor_samples
                 FileName = "Filtering.razor",
                 Type = SampleType.None
             },
+            new Sample
+            {
+                Name = "Custom Value",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/Custom-Value",
+                FileName = "CustomValue.razor",
+                Type = SampleType.New
+            },
              new Sample
             {
                 Name = "Grouping and Icon",
@@ -136,6 +154,15 @@ namespace blazor_samples
                 Url = "ComboBox/Multi-Column",
                 FileName = "MultiColumn.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Validation",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -184,6 +211,15 @@ namespace blazor_samples
                 Url = "AutoComplete/Highlight",
                 FileName = "Highlight.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "AutoComplete",
+                Directory = "DropDowns/AutoComplete",
+                Url = "AutoComplete/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -235,6 +271,15 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Chip Customization",
+                Category = "MultiSelect Dropdown",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect-Dropdown/Chip-Customization",
+                FileName = "ChipCustomization.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Grouping",
                 Category = "MultiSelect Dropdown",
                 Directory = "DropDowns/MultiSelect",
@@ -268,6 +313,15 @@ namespace blazor_samples
                 Url = "MultiSelect-Dropdown/Template",
                 FileName = "Template.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "MultiSelect Dropdown",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect-Dropdown/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -307,6 +361,15 @@ namespace blazor_samples
                 Url = "listbox/checkbox",
                 FileName = "Checkbox.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+               Name = "Template",
+               Category = "ListBox",
+               Directory = "DropDowns/ListBox",
+               Url = "listbox/template",
+               FileName = "Template.razor",
+               Type = SampleType.New
             },
             new Sample
             {

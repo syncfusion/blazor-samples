@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -541,6 +541,7 @@ namespace blazor_samples
                 Name = "PPTX To Image",
                 Category = "Conversion",
                 Directory = "FileFormats/Presentation",
+                Type = SampleType.Updated,
                 Url = "presentation/pptx-to-image",
                 FileName = "PPTXToImage.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -562,6 +563,7 @@ namespace blazor_samples
                 Name = "PPTX To PDF",
                 Category = "Conversion",
                 Directory = "FileFormats/Presentation",
+                Type = SampleType.Updated,
                 Url = "presentation/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -730,7 +732,6 @@ namespace blazor_samples
                 Name = "OLE Object",
                 Category = "Slide Elements",
                 Directory = "FileFormats/Presentation",
-                Type = SampleType.Updated,
                 Url = "presentation/ole-object",
                 FileName = "OLEObject.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -908,7 +909,7 @@ namespace blazor_samples
                     new SourceCollection
                     {
                         Id="ImportHTMLTable",
-                        FileName="ImportHTMLTable.cs"
+                        FileName="ImportHTMLTableService.cs"
                     }
                 }
             },
@@ -1392,7 +1393,7 @@ namespace blazor_samples
                 Category="Security",
                 Directory="FileFormats/PDF",
                 Url="pdf/digital-signature",
-                Type=SampleType.Updated,
+                Type=SampleType.None,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples.Pages.GanttChart
+namespace BlazorDemos.Pages.GanttChart
 {
     public class SelectionData
     {

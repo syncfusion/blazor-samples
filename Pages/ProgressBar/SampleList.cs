@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace blazor_samples
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
-namespace blazor_samples.Shared
+namespace BlazorDemos.Shared
 {
     /// <summary>
     /// A base component to perform common functionalities.

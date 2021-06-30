@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -46,7 +46,6 @@ namespace blazor_samples
                 Category = "Toast",
                 Directory = "Notifications/Toast",
                 Url = "toast/api",
-                Type = SampleType.Updated,
                 FileName = "API.razor"
             }
         };

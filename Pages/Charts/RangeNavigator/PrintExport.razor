@@ -22,9 +22,8 @@ else
         <div class="col-lg-9 control-section" align="center">
             <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Mobile Sales Trends - 2017</h4>
             <div>
-                <SfRangeNavigator @ref="RangeObj" @bind-Value="@Value" LabelFormat="MMM" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
+                <SfRangeNavigator @ref="RangeObj" @bind-Value="@RangeValue" LabelFormat="MMM" Theme="@RangeNavigatorTheme" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
                                   DataSource="@ExportData" XName="xDate" YName="Close" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
-                    <RangeNavigatorEvents Loaded="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
                 </SfRangeNavigator>
             </div>
         </div>
@@ -51,11 +50,12 @@ else
     </div>
 }
 @code{
-    private ChartData[] ExportData;
-    SfRangeNavigator RangeObj;
-    double ZF = 1;
-    double ZP = 0;
-    private Theme theme { get; set; }
+    public ChartData[] ExportData { get; set; }
+    public SfRangeNavigator RangeObj { get; set; }
+    public Theme RangeNavigatorTheme { get; set; }
+    public object RangeValue { get; set; } = new object[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
+    private string currentUri;
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -63,6 +63,7 @@ else
             ExportData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/export-data.json"));
         });
     }
+
     public class ChartData
     {
         public DateTime xDate { get; set; }
@@ -71,77 +72,52 @@ else
         public double Low { get; set; }
         public double Close { get; set; }
     }
-    private object Value = new object[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
-    protected void OnRangeChanged(ChangedEventArgs args)
+
+    public async Task PrintRangeNavigator(MouseEventArgs args)
     {
-        ZF = args.ZoomFactor;
-        ZP = args.ZoomPosition;
-        StateHasChanged();
+        await RangeObj.PrintAsync();
     }
-    public void PrintRangeNavigator(MouseEventArgs args)
+
+    public async Task ExportRangeNavigator(MouseEventArgs args)
     {
-        RangeObj.Print();
+        await RangeObj.ExportAsync(ExportType.PNG, "Chart");
     }
-    public void ExportRangeNavigator(MouseEventArgs args)
-    {
-        RangeObj.Export(ExportType.PNG, "Chart");
-    }
-    string CurrentUri;
-    void BeforeRender(RangeLoadedEventArgs Args)
-    {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Args.Theme = Theme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Args.Theme = Theme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Args.Theme = Theme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Args.Theme = Theme.HighContrast;
-        }
-        else
-        {
-            Args.Theme = Theme.Bootstrap4;
-        }
-    }
+
     protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
         {
-            theme = Theme.Material;
+            RangeNavigatorTheme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (currentUri.IndexOf("fabric") > -1)
         {
-            theme = Theme.Fabric;
+            RangeNavigatorTheme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        else if (currentUri.IndexOf("bootstrap4") > -1)
         {
-            theme = Theme.Bootstrap4;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (currentUri.IndexOf("bootstrap") > -1)
         {
-            theme = Theme.Bootstrap;
+            RangeNavigatorTheme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (currentUri.IndexOf("highcontrast") > -1)
         {
-            theme = Theme.HighContrast;
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            RangeNavigatorTheme = Theme.Tailwind;
         }
         else
         {
-            theme = Theme.Bootstrap4;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
     }
 }
-<style>
 
+<style>
     #button-control {
         width: 100%;
         text-align: center;
@@ -159,8 +135,7 @@ else
         content: '\e813';
     }
 
-    .btn-style
-    {
+    .btn-style {
         margin: 5px;
         width: 75px;
     }

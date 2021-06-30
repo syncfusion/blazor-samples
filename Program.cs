@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Runtime.Serialization;
 
-namespace blazor_samples
+namespace BlazorDemos
 {
     public class Program
     {
@@ -33,6 +33,7 @@ namespace blazor_samples
         public List<Sample> Samples { get; set; }
         public string DemoPath { get; set; }
         public string Category { get; set; }
+        public string InfoTooltip { get; set; }
     }
 
     public class SampleList
@@ -47,6 +48,8 @@ namespace blazor_samples
         public string DemoPath { get; set; }
         public bool IsPreview { get; set; }
         public string CustomDocLink { get; set; }
+        public bool IsHideFromHomePageList { get; set; }
+        public string InfoTooltip { get; set; }
     }
 
     public class Sample

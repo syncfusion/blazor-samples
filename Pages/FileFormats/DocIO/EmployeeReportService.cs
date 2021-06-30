@@ -14,7 +14,7 @@ using System.IO;
 using System.Xml;
 using Microsoft.AspNetCore.Hosting;
 
-namespace blazor_samples.Data.FileFormats.DocIO
+namespace BlazorDemos.Data.FileFormats.DocIO
 {
     public class EmployeeReportService
     {

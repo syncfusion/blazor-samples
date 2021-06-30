@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -243,8 +243,7 @@ namespace blazor_samples
                 Category = "Tabs",
                 Directory = "Navigations/Tabs",
                 FileName = "DragAndDrop.razor",
-                Url = "tabs/drag-and-drop",
-                Type = SampleType.New
+                Url = "tabs/drag-and-drop"
             }
         };
         public List<Sample> TreeView { get; set; } = new List<Sample>{
@@ -254,7 +253,10 @@ namespace blazor_samples
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "treeview/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor Treeview Example - Syncfusion Demos",
+                HeaderText = "Blazor TreeView Example",
+                MetaDescription = "This Blazor TreeView example demonstrates the Default Functionalities in Blazor TreeView Component.Explore here for more details."
             },
             new Sample
             {

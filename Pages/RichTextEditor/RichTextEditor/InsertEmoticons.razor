@@ -16,7 +16,7 @@
 </SampleDescription>
 <ActionDescription>
     <p>
-        The Rich Text Editor allows you to configure your own commands to its toolbar using <code>RichTextEditorToolbarSettings</code> property.
+        The Rich Text Editor allows you to configure your own commands to its toolbar using the <code>RichTextEditorToolbarSettings</code> property.
         The command can be plain text, icon, or HTML template.
         You can also define the order and group where the command should be included.
         Bind the action to the command by getting its instance.
@@ -57,15 +57,17 @@
                                     int index = i;
                                     if (currentIndex == i)
                                     {
-<div class="char_block @activeClass" title="@this.smileyList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index , 0))">
-    @((MarkupString)this.smileyList.Keys.ToList()[index])
-</div> }
-else
-{
-<div class="char_block" title="@this.smileyList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index, 0))">
-    @((MarkupString)this.smileyList.Keys.ToList()[index])
-</div>                              }
-}
+                                        <div class="char_block @activeClass" title="@this.smileyList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index , 0))">
+                                            @((MarkupString)this.smileyList.Keys.ToList()[index])
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                    <div class="char_block" title="@this.smileyList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index, 0))">
+                                        @((MarkupString)this.smileyList.Keys.ToList()[index])
+                                    </div>
+                                    }
+                                }
                             </div>
                         </ContentTemplate>
                     </TabItem>
@@ -80,15 +82,17 @@ else
                                     int index = i;
                                     if (currentIndex == i)
                                     {
-<div class="char_block @activeClass" title="@this.animalsList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index, 1))">
-    @((MarkupString)this.animalsList.Keys.ToList()[index])
-</div> }
-else
-{
-<div class="char_block" title="@this.animalsList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index , 1))">
-    @((MarkupString)this.animalsList.Keys.ToList()[index])
-</div>                              }
-}
+                                        <div class="char_block @activeClass" title="@this.animalsList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index, 1))">
+                                            @((MarkupString)this.animalsList.Keys.ToList()[index])
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="char_block" title="@this.animalsList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index , 1))">
+                                            @((MarkupString)this.animalsList.Keys.ToList()[index])
+                                        </div>
+                                    }
+                                }
                             </div>
                         </ContentTemplate>
                     </TabItem>
@@ -97,14 +101,14 @@ else
         </Content>
     </DialogTemplates>
     <DialogButtons>
-        <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert"></DialogButton>
-        <DialogButton Content="Cancel" OnClick="DialogOverlay"></DialogButton>
+        <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert" />
+        <DialogButton Content="Cancel" OnClick="DialogOverlay" />
     </DialogButtons>
-    <DialogEvents OnOverlayClick="DialogOverlay"></DialogEvents>
+    <DialogEvents OnOverlayClick="DialogOverlay" />
 </SfDialog>
 
-
-@code{ SfRichTextEditor rteObj;
+@code{
+    SfRichTextEditor rteObj;
 
     int currentIndex { get; set; } = -1;
     int currentTabIndex { get; set; }
@@ -112,7 +116,7 @@ else
     private bool dialogVisible { get; set; }
 
     Dictionary<string, string> smileyList = new Dictionary<string, string>()
-{
+    {
         {"&#128512;" ,"Grinning face"},
         {"&#128513;","Grinning face with smiling eyesGrinning face with smiling eyes" },
         {"&#128514;" ,"Face with tears of joy"},
@@ -170,7 +174,7 @@ else
     };
 
     Dictionary<string, string> animalsList = new Dictionary<string, string>()
-{
+    {
         {"&#128053", "Monkey Face"},
         {"&#128018", "Monkey"},
         {"&#129421", "Gorilla"},
@@ -228,7 +232,7 @@ else
     };
 
     private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
-{
+    {
         new ToolbarItemModel() { Command = ToolbarCommand.Bold },
         new ToolbarItemModel() { Command = ToolbarCommand.Italic },
         new ToolbarItemModel() { Command = ToolbarCommand.Underline },
@@ -247,16 +251,17 @@ else
         new ToolbarItemModel() { Command = ToolbarCommand.Redo }
 
     };
+
     private void OnIconIconClick(int index, int tabIndex)
     {
         this.currentIndex = index;
         this.currentTabIndex = tabIndex;
     }
 
-    private void ClickHandler()
+    private async Task ClickHandler()
     {
         this.dialogVisible = true;
-        this.rteObj.SaveSelection();
+        await this.rteObj.SaveSelectionAsync();
     }
 
     private async Task OnInsert()
@@ -264,8 +269,8 @@ else
         if (this.currentIndex > -1)
         {
             string value = this.currentTabIndex == 1 ? this.animalsList.Keys.ToList()[this.currentIndex] : this.smileyList.Keys.ToList()[this.currentIndex];
-            await this.rteObj.RestoreSelection();
-            await this.rteObj.ExecuteCommand(CommandName.InsertHTML, value);
+            await this.rteObj.RestoreSelectionAsync();
+            await this.rteObj.ExecuteCommandAsync(CommandName.InsertHTML, value);
             this.dialogVisible = false;
             this.currentIndex = -1;
         }
@@ -274,7 +279,8 @@ else
     {
         this.dialogVisible = false;
         this.currentIndex = -1;
-    } }
+    }
+}
 
 <style>
     #emot_tbar,

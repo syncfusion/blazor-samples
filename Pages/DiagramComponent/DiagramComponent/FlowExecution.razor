@@ -1,0 +1,413 @@
+﻿@page "/diagramcomponent/flow-execution"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p> This sample demonstrates how we can process and get consecutive nodes and connectors.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>We can get the inward connections and outward connections of a node using the <code class="language-text">InEdges</code> and <code class="language-text">OutEdges</code> properties of the Node. By using the connector’s name collection, we can find the node using <code class="language-text">GetObject</code>. And also, we can get the nodes connected to the connector using the <code class="language-text">SourceID</code> and <code class="language-text">TargetID</code> properties of the connector.</p><br>
+</ActionDescription>
+<div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagramComponent Height="640px" @ref="@Diagram"
+                       Nodes="@NodeCollection" SelectionChange="@OnSelectionChanged"
+                       Connectors="@ConnectorCollection">
+            <SnapSettings @ref="snapSettings" @bind-Constraints="@Constraints"></SnapSettings>
+        </SfDiagramComponent>
+    </div>
+</div>
+
+<div class="col-lg-3 property-section">
+    <style>
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .col-xs-7 {
+            width: 300px;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+    </style>
+    <div class="property-panel-header">
+        Choose a flow
+    </div>
+
+    <div class="row property-panel-content">
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="None" Name="radio" Value="UnhighlightAll" @bind-Checked="stringChecked" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Incoming connections" Name="radio" @bind-Checked="stringChecked" Value="LinksInto" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Outgoing connections" Name="radio" @bind-Checked="stringChecked" Value="LinksOutOf" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Incoming and outgoing connections" @bind-Checked="stringChecked" Name="radio" Value="LinksConnected" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Incoming nodes" Name="radio" @bind-Checked="stringChecked" Value="NodesInto" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Outgoing nodes" Name="radio" @bind-Checked="stringChecked" Value="NodesOutOf" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Incoming and outgoing nodes" @bind-Checked="stringChecked" Name="radio" Value="NodesConnected" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="col-xs-7">
+                <SfRadioButton Label="Flow of execution" Name="radio" @bind-Checked="stringChecked" Value="NodesReachable" ValueChange="OnCheckedItemChange" TChecked="string"></SfRadioButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code
+{
+    int connectorCount;
+    string currentButton;
+    private string stringChecked = "UnhighlightAll";
+    List<Connector> highLightedConnector = new List<Connector>();
+    List<Node> highLightedNode = new List<Node>();
+    List<Connector> reachableConnectors = new List<Connector>();
+    SnapSettings snapSettings;
+    SnapConstraints Constraints = SnapConstraints.None;
+
+    // Reference to diagram
+    SfDiagramComponent Diagram;
+
+    // Defines diagram's nodes collection
+    public DiagramObjectCollection<Node> NodeCollection { get; set; }
+
+    // Defines diagram's connector collection
+    public DiagramObjectCollection<Connector> ConnectorCollection { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(500);
+            Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[2] });
+        }
+    }
+    /// <summary>
+    /// Initializing the objects
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        InitDiagramModel();
+    }
+    private async void OnSelectionChanged(SelectionChangeEventArgs args)
+    {
+        if (args.State == EventState.Changed)
+            await ApplyChanges(currentButton);
+    }
+    private void InitDiagramModel()
+    {
+        NodeCollection = new DiagramObjectCollection<Node>();
+        ConnectorCollection = new DiagramObjectCollection<Connector>();
+
+        CreateNode("node1", 100, 125, FlowShapes.Terminator, "Begin");
+        CreateNode("node2", 300, 125, FlowShapes.Process, "Specify collection");
+        CreateNode("node3", 500, 125, FlowShapes.Decision, "Particulars \n required?");
+        CreateNode("node4", 730, 125, FlowShapes.Process, "Specify particulars");
+        CreateNode("node5", 500, 225, FlowShapes.Process, "Design collection");
+        CreateNode("node6", 500, 320, FlowShapes.Process, "Cluster of events");
+        CreateNode("node7", 500, 420, FlowShapes.Process, "Start the process");
+        CreateNode("node8", 730, 320, FlowShapes.Process, "Record and analyze \n results");
+        CreateNode("node9", 730, 420, FlowShapes.Terminator, "End");
+
+        OrthogonalSegment segment1 = new OrthogonalSegment()
+        {
+            Type = Segments.Orthogonal,
+            Length = 75,
+            Direction = Direction.Bottom
+        };
+
+        CreateConnector("node1", "node2");
+        CreateConnector("node2", "node3");
+        CreateConnector("node3", "node4", "Yes");
+        CreateConnector("node3", "node5", "No");
+        CreateConnector("node5", "node6");
+        CreateConnector("node6", "node7");
+        CreateConnector("node8", "node6");
+        CreateConnector("node7", "node9");
+        CreateConnector("node4", "node5", default(string), segment1);
+    }
+
+    private void CreateNode(string id, double x, double y, FlowShapes shape, string label)
+    {
+        ShapeAnnotation annotation = new ShapeAnnotation() { Content = label };
+
+        Node diagramNode = new Node()
+        {
+            ID = id,
+            OffsetX = x,
+            OffsetY = y,
+            Width = 150,
+            Height = 50,
+            Shape = new FlowShape() { Type = Syncfusion.Blazor.Diagram.Shapes.Flow, Shape = shape },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { annotation },
+            Style = new ShapeStyle() { Fill = "#FBF6E1", StrokeColor = "#E8DFB6", StrokeWidth = 2 }
+        };
+        if (id == "node3")
+        {
+            diagramNode.Height = 60;
+        }
+        NodeCollection.Add(diagramNode);
+    }
+
+    private void CreateConnector(string sourceId, string targetId, string label = default(string), OrthogonalSegment segment = null)
+    {
+        Connector diagramConnector = new Connector()
+        {
+            ID = string.Format("connector{0}", ++connectorCount),
+            SourceID = sourceId,
+            TargetID = targetId,
+            Style = new ShapeStyle() { StrokeWidth = 2, StrokeColor = "#8D8D8D" },
+            TargetDecorator = new Decorator()
+            {
+                Style = new ShapeStyle() { StrokeColor = "#8D8D8D", Fill = "#8D8D8D" }
+            }
+        };
+
+        if (label != default(string))
+        {
+            var annotation = new PathAnnotation()
+            {
+                Content = label,
+                Style = new TextShapeStyle()
+                {
+                    Fill = "white"
+                }
+            };
+            diagramConnector.Annotations = new DiagramObjectCollection<PathAnnotation>() { annotation };
+        }
+
+        if (segment != null)
+        {
+            diagramConnector.Type = Segments.Orthogonal;
+            diagramConnector.Segments = new DiagramObjectCollection<ConnectorSegment>() { segment };
+        }
+
+        ConnectorCollection.Add(diagramConnector);
+    }
+
+    private async void OnCheckedItemChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> args)
+    {
+        currentButton = args.Value.ToString();
+        await ApplyChanges(currentButton);
+    }
+
+    public async Task ApplyChanges(string selectedButton)
+    {
+        UnHighLight();
+        switch (selectedButton)
+        {
+            case "LinksInto":
+                LinkedConnector(false);
+                break;
+            case "LinksOutOf":
+                LinkedConnector(true);
+                break;
+            case "LinksConnected":
+                LinkedConnector(false);
+                LinkedConnector(true);
+                break;
+            case "NodesInto":
+                LinkedNode(false);
+                break;
+            case "NodesOutOf":
+                LinkedNode(true);
+                break;
+            case "NodesConnected":
+                LinkedNode(false);
+                LinkedNode(true);
+                break;
+            case "NodesReachable":
+                await ChildrenFlow();
+                break;
+        }
+    }
+
+    public void LinkedConnector(bool isOutEdge)
+    {
+        if (Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            Node nodeId = this.Diagram.SelectedItems.Nodes[0];
+            List<string> inedges = nodeId.InEdges;
+            List<string> outedge = nodeId.OutEdges;
+            List<string> edges = new List<string>();
+            if (isOutEdge)
+            {
+                foreach (string s in outedge)
+                {
+                    edges.Add(s);
+                }
+            }
+            else
+            {
+                foreach (string s in inedges)
+                {
+                    edges.Add(s);
+                }
+            }
+
+            foreach (string edge in edges)
+            {
+                IDiagramObject obj = Diagram.GetObject(edge) as IDiagramObject;
+                Connector connector = obj as Connector;
+                highLightedConnector.Add(connector);
+                connector.Style.StrokeColor = "#1413F8";
+                connector.TargetDecorator.Style.StrokeColor = "#1413F8";
+                connector.TargetDecorator.Style.Fill = "#1413F8";
+            }
+        }
+    }
+
+    public void LinkedNode(bool isOutEdge)
+    {
+        if (Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            Node nodeId = this.Diagram.SelectedItems.Nodes[0];
+            List<string> inedges = nodeId.InEdges;
+            List<string> outedge = nodeId.OutEdges;
+            List<string> edges = new List<string>();
+            if (!isOutEdge)
+            {
+                foreach (string s in inedges)
+                {
+                    edges.Add(s);
+                }
+            }
+            else
+            {
+                foreach (string s in outedge)
+                {
+                    edges.Add(s);
+                }
+            }
+
+            //string[] edges = await Diagram.GetEdges(nodeId, isOutEdge);
+            foreach (string edge in edges)
+            {
+                IDiagramObject obj = Diagram.GetObject(edge) as IDiagramObject;
+                Connector connector = obj as Connector;
+                Node node = null;
+                if (isOutEdge)
+                {
+                    IDiagramObject obj1 = Diagram.GetObject(connector.TargetID) as IDiagramObject;
+                    Node objj = obj1 as Node;
+                    node = objj;
+
+                }
+                else
+                {
+                    IDiagramObject obj1 = Diagram.GetObject(connector.SourceID) as IDiagramObject;
+                    Node objj = obj1 as Node;
+                    node = objj;
+
+                }
+
+                highLightedNode.Add(node);
+                node.Style.StrokeColor = "#1413F8";
+            }
+        }
+    }
+
+    public async Task ChildrenFlow()
+    {
+        if (Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            string nodeId = this.Diagram.SelectedItems.Nodes[0].ID;
+            await FindReachable(nodeId);
+            if (reachableConnectors.Count > 0)
+            {
+                foreach (Connector connector in reachableConnectors)
+                {
+                    highLightedConnector.Add(connector);
+                    connector.Style.StrokeColor = "#1413F8";
+                    connector.TargetDecorator.Style.StrokeColor = "#1413F8";
+                    connector.TargetDecorator.Style.Fill = "#1413F8";
+                }
+
+                reachableConnectors.Clear();
+            }
+        }
+    }
+
+    public async Task<List<Connector>> FindReachable(string nodeId)
+    {
+        IDiagramObject node = Diagram.GetObject(nodeId) as IDiagramObject;
+        Node nodes = node as Node;
+        List<string> inedges = nodes.InEdges;
+        List<string> outedge = nodes.OutEdges;
+        List<string> edges = new List<string>();
+        foreach (string s in outedge)
+        {
+            edges.Add(s);
+        }
+
+        foreach (string edge in edges)
+        {
+
+            IDiagramObject obj = Diagram.GetObject(edge) as IDiagramObject;
+            Connector connector = obj as Connector;
+            if (reachableConnectors.Contains(connector))
+            {
+                continue;
+            }
+
+            if (connector.Annotations == null || connector.Annotations.Count == 0 || connector.Annotations[0].Content != "No")
+            {
+                reachableConnectors.Add(connector);
+                await FindReachable(connector.TargetID);
+            }
+        }
+        return reachableConnectors;
+    }
+
+    public void UnHighLight()
+    {
+        foreach (Node node in highLightedNode)
+        {
+            node.Style.StrokeColor = "#E8DFB6";
+        }
+
+        foreach (Connector connector in highLightedConnector)
+        {
+            connector.Style.StrokeColor = "#8D8D8D";
+            connector.TargetDecorator.Style.StrokeColor = "#8D8D8D";
+            connector.TargetDecorator.Style.Fill = "#8D8D8D";
+        }
+
+        highLightedNode.Clear();
+        highLightedConnector.Clear();
+    }
+
+}
+

@@ -11,7 +11,7 @@ using System.IO;
 using Syncfusion.Pdf.Parsing;
 using System.Text;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class FindPDFCorruptionService
     {

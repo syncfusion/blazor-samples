@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples
+namespace BlazorDemos
 {
 
     internal partial class SampleConfig
@@ -15,7 +15,8 @@ namespace blazor_samples
                 Category = "DocumentEditor",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {

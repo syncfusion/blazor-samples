@@ -18,7 +18,7 @@ using System.Linq;
 using Syncfusion.Pdf.Tables;
 using System.Data;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class TableFeaturesService
     {

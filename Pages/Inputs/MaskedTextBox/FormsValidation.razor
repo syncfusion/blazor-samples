@@ -1,0 +1,101 @@
+﻿@page "/Input-Mask/Forms-Validation"
+
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample is used to validate form using the Data Annotation. Type the value in the input element. If the input value is valid, then the given input will be ready to submit. Otherwise, an error message will be shown until you enter the valid value.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The form enables the validation with data annotation attributes by clicking on the submit externally. All rules are validated by the DataAnnotationsValidator.</p>
+    <p>The above phone number field is configured with the following rules.</p>
+    <table style='width:100%'>
+        <tr>
+            <th>Field</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <td>Required</td>
+            <td>The field must have a valid value.</td>
+        </tr>
+        <tr>
+            <td>MinLength</td>
+            <td>The field must have more than 10 characters length.</td>
+        </tr>
+    </table>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            @if (string.IsNullOrEmpty(Message))
+            {
+                <EditForm Model="@annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                    <DataAnnotationsValidator />
+                    <div class="form-group">
+                        <SfMaskedTextBox Mask="000-000-0000" @bind-Value="@annotation.Phonenumber" Placeholder="Enter a Phone Number"></SfMaskedTextBox>
+                        <ValidationMessage For="@(() => annotation.Phonenumber)" />
+                    </div>
+                    <div class="sfButton">
+                        <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                    </div>
+                </EditForm>
+            }
+            else
+            {
+                <div class="alert alert-success">
+                    @Message
+                </div>
+            }
+        </div>
+    </div>
+ </div>
+<style>
+    .content-wrapper {
+        width: 30%;
+        margin: 0 auto;
+        min-width: 185px;
+        padding-top: 50px;
+    }
+
+    .control-label {
+        font-size: 12px;
+    }
+
+    .sfButton {
+        padding-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .validation-message {
+        color: red;
+        padding-top: 5px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    private Annotation annotation = new Annotation();
+    async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        annotation.Phonenumber = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The Phone Number field is required.")]
+        [MinLength(10, ErrorMessage = "Enter a valid Phone Number.")]
+        public string Phonenumber { get; set; }
+    }
+}

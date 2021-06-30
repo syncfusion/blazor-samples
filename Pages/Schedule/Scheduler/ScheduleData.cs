@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples.Pages.Schedule.Scheduler
+namespace BlazorDemos.Pages.Schedule.Scheduler
 {
     public class ScheduleData
     {

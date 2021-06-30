@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-namespace blazor_samples
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -945,33 +945,33 @@ namespace blazor_samples
                 FileName = "RangeNavigator.razor",
                 Type = SampleType.None
             },
-            new Sample
-             {
-                Name = "LightWeight",
-                Category = "Range Selector",
-                Directory = "Charts/RangeNavigator",
-                Url = "range-selector/light-weight",
-                FileName = "LightWeight.razor",
-                Type = SampleType.None
-            },
-              new Sample
-              {
+			new Sample
+			 {
+			    Name = "LightWeight",
+			    Category = "Range Selector",
+			    Directory = "Charts/RangeNavigator",
+			    Url = "range-selector/light-weight",
+			    FileName = "LightWeight.razor",
+			    Type = SampleType.None
+			},
+			  new Sample
+			  {
                 Name = "DateTime Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/date-time-axis",
                 FileName = "DateTimeAxis.razor",
                 Type = SampleType.None
-             },
-              new Sample
-              {
+			 },
+			  new Sample
+			  {
                 Name = "Numeric Axis",
                 Category = "Axis",
                 Directory = "Charts/RangeNavigator",
                 Url = "range-selector/numeric-axis",
                 FileName = "NumericAxis.razor",
                 Type = SampleType.None
-             },
+			 },
               new Sample
               {
                 Name = "Logarithmic Axis",
@@ -982,51 +982,51 @@ namespace blazor_samples
                 Type = SampleType.None
              },
               new Sample
-             {
-                Name = "Multilevel Labels",
-                Category = "Axis",
-                Directory = "Charts/RangeNavigator",
-                Url = "range-selector/multilevel",
-                FileName = "Multilevel.razor",
-                Type = SampleType.None
-            },
-               new Sample
-               {
-                  Name = "Empty Points",
-                  Category = "Customization",
-                  Directory = "Charts/RangeNavigator",
-                  Url = "range-selector/empty-point",
-                  FileName = "EmptyPoint.razor",
-                  Type = SampleType.None
-                },
-               new Sample
-               {
-                  Name = "Filter",
-                  Category = "Customization",
-                  Directory = "Charts/RangeNavigator",
-                  Url = "range-selector/filter",
-                  FileName = "Filter.razor",
-                  Type = SampleType.None
-              },
-               new Sample
-               {
-                  Name = "Print and Export",
-                  Category = "Export",
-                  Directory = "Charts/RangeNavigator",
-                  Url = "range-selector/print-export",
-                  FileName = "PrintExport.razor",
-                  Type = SampleType.None
-              },
-              new Sample
-              {
-                 Name = "RTL",
-                 Category = "Right To Left",
-                 Directory = "Charts/RangeNavigator",
-                 Url = "range-selector/rtl",
-                 FileName = "RTL.razor",
-                 Type = SampleType.None
-             }
-        };
+			 {
+			    Name = "Multilevel Labels",
+			    Category = "Axis",
+			    Directory = "Charts/RangeNavigator",
+			    Url = "range-selector/multilevel",
+			    FileName = "Multilevel.razor",
+			    Type = SampleType.None
+			},
+			   new Sample
+			   {
+			      Name = "Empty Points",
+			      Category = "Customization",
+			      Directory = "Charts/RangeNavigator",
+			      Url = "range-selector/empty-point",
+			      FileName = "EmptyPoint.razor",
+			      Type = SampleType.None
+			    },
+			   new Sample
+			   {
+			      Name = "Filter",
+			      Category = "Customization",
+			      Directory = "Charts/RangeNavigator",
+			      Url = "range-selector/filter",
+			      FileName = "Filter.razor",
+			      Type = SampleType.None
+			  },
+			   new Sample
+			   {
+			      Name = "Print and Export",
+			      Category = "Export",
+			      Directory = "Charts/RangeNavigator",
+			      Url = "range-selector/print-export",
+			      FileName = "PrintExport.razor",
+			      Type = SampleType.None
+			  },
+			  new Sample
+			  {
+			     Name = "RTL",
+			     Category = "Right To Left",
+			     Directory = "Charts/RangeNavigator",
+			     Url = "range-selector/rtl",
+			     FileName = "RTL.razor",
+			     Type = SampleType.None
+			 }
+		};
 
         public List<Sample> SparklineCharts { get; set; } = new List<Sample>{
             new Sample
@@ -1044,7 +1044,7 @@ namespace blazor_samples
                  Category = "Sparkline Charts",
                  Directory = "Charts/Sparkline",
                  Url = "sparkline/series-type",
-                 FileName = "SeriesType.razor",
+                 FileName = "SeriesType.razor",                 
                  Type = SampleType.None
              },
              new Sample
@@ -1101,7 +1101,7 @@ namespace blazor_samples
                 Category = "Smith Chart",
                 Directory = "Charts/SmithChart",
                 Url = "smith-chart/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
+                FileName = "DefaultFunctionalities.razor",                
                 Type = SampleType.None
             },
             new Sample
@@ -1197,15 +1197,15 @@ namespace blazor_samples
                 FileName = "Inversed Area.razor",
                 Type = SampleType.None
             },
-            new Sample
-            {
-                Name = "Hide Period Selector",
-                Category = "Stock Chart",
-                Directory = "Charts/StockChart",
-                Url = "stock-chart/hide-period-selector",
-                FileName = "Hide Period Selector.razor",
-                Type = SampleType.None
-            },
+		    new Sample
+		    {
+		        Name = "Hide Period Selector",
+		        Category = "Stock Chart",
+		        Directory = "Charts/StockChart",
+		        Url = "stock-chart/hide-period-selector",
+		        FileName = "Hide Period Selector.razor",
+		        Type = SampleType.None
+		    },
             new Sample
             {
                 Name = "Hide Range Selector",
@@ -1224,8 +1224,8 @@ namespace blazor_samples
                 FileName = "StockEvents.razor",
                 Type = SampleType.None
             }
-        };
-        public List<Sample> BulletChart { get; set; } = new List<Sample>{
+		};
+		public List<Sample> BulletChart { get; set; } = new List<Sample>{
            new Sample
             {
                 Name = "Default Functionalities",

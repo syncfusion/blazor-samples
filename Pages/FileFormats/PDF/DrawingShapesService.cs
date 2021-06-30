@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class DrawingShapesService
     {

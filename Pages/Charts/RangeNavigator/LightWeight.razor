@@ -21,54 +21,64 @@ else
     <div class="control-section" align="center">
         <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Calculate the Bussiness and Weekend days in a period</h4>
         <br /><div>
-            <SfRangeNavigator Value="@Value" IntervalType="RangeIntervalType.Months" AnimationDuration="500" LabelFormat="MMM" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@LightWeightData" XName="x" YName="y">
+            <SfRangeNavigator Value="@RangeValue" IntervalType="RangeIntervalType.Months" Theme="@RangeNavigatorTheme" AnimationDuration="500" LabelFormat="MMM" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@LightWeightData" XName="x" YName="y">
                 <RangeNavigatorMajorGridLines Width="0.000001"></RangeNavigatorMajorGridLines>
-                <RangeNavigatorEvents Loaded="BeforeRender" />
             </SfRangeNavigator>
         </div>
     </div>
 
 }
 @code{
-    private ChartData[] LightWeightData;
+
+    public Theme RangeNavigatorTheme { get; set; } = Theme.Bootstrap4;
+    public ChartData[] LightWeightData { get; set; }
+    public object[] RangeValue = new object[] { new DateTime(2017, 10, 01), new DateTime(2017, 11, 01) };
+    private string currentUri;
+
     protected override async Task OnInitializedAsync()
     {
-        //lightWeightData = await Http.GetJsonAsync<ChartData[]>("scripts/range-navigator/default_data.json");
         await Task.Run(() =>
         {
             LightWeightData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/default-data.json"));
         });
     }
+
     public class ChartData
     {
         public DateTime x { get; set; }
         public double y { get; set; }
     }
-    private object[] Value = new object[] { new DateTime(2017, 10, 01), new DateTime(2017, 11, 01) };
 
-    string CurrentUri;
-    void BeforeRender(RangeLoadedEventArgs Args)
+    protected override void OnInitialized()
     {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
         {
-            Args.Theme = Theme.Material;
+            RangeNavigatorTheme = Theme.Material;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (currentUri.IndexOf("fabric") > -1)
         {
-            Args.Theme = Theme.Fabric;
+            RangeNavigatorTheme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (currentUri.IndexOf("bootstrap4") > -1)
         {
-            Args.Theme = Theme.Bootstrap;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (currentUri.IndexOf("bootstrap") > -1)
         {
-            Args.Theme = Theme.HighContrast;
+            RangeNavigatorTheme = Theme.Bootstrap;
+        }
+        else if (currentUri.IndexOf("highcontrast") > -1)
+        {
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            RangeNavigatorTheme = Theme.Tailwind;
         }
         else
         {
-            Args.Theme = Theme.Bootstrap4;
+            RangeNavigatorTheme = Theme.Bootstrap4;
         }
     }
 }

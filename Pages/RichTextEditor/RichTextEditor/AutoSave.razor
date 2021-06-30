@@ -7,15 +7,15 @@
 
 <SampleDescription>
     <p>
-        Demonstrates how to save the Rich Text Editor’s content automatically with periodic interval. When you type or edit the content, it will be saved automatically by every 5 seconds.
+        This sample demonstrates how to save the Rich Text Editor’s content automatically with periodic interval. When you type or edit the content, it will be saved automatically every 5 seconds.
     </p>
 </SampleDescription>
 <ActionDescription>
     <p>
-        The Rich Text Editor provides options to save its content automatically using the <code>SaveInterval</code> property. By default, the save interval time has 10 seconds from built-in support, but it can be customizable as per the application needs. The interval
-        is calculated based on editing the content and does not considered on idle state.
+        The Rich Text Editor provides options to save its content automatically using the <code>SaveInterval</code> property. By default, the save interval time has 10 seconds from built-in support, but it can be customized as per the application needs. The interval
+        is calculated based on editing the content and will not be considered on idle state.
     </p>
-    <p>We have configured save interval as 5 seconds in this example. You can save the content in server also using this ‘Auto Save’ option.</p>
+    <p>We have configured save interval as 5 seconds in this example. You can save the content in the server also using this ‘Auto Save’ option.</p>
     <p>When you disable this 'Auto Save' option in a sample, the value will be saved on focus-out from the editor.</p>
     <p>Rich Text Editor content will be automatically saved when you focus out the editor.</p>
 </ActionDescription>
@@ -24,10 +24,10 @@
     <div class="control-wrapper">
         <div class="sample-container">
             <div class="default-section">
-                <SfRichTextEditor SaveInterval="saveInterval" EnablePersistence="true" Placeholder="Start to type a content to save">
-                    <RichTextEditorEvents ValueChange="UpdateStatus"></RichTextEditorEvents>
+                <SfRichTextEditor ID="AutoSave" SaveInterval="saveInterval" EnablePersistence="true" AutoSaveOnIdle="true" Placeholder="Start to type a content to save">
                     <p>Type or edit the content to be saved automatically in the editor </p>
                     <RichTextEditorToolbarSettings Items="@Items" />
+                    <RichTextEditorEvents ValueChange="UpdateStatus" />
                 </SfRichTextEditor>
                 <div id='statusEle' class='current-status'>
                     <div id='saving' class="@savingClass">
@@ -50,7 +50,7 @@
 
                 <div class="toggle-btn">
                     <div class="btn-text" style="display: inline">Auto Save</div>
-                    <SfSwitch @bind-Checked="switchChecked" TChecked="bool" ValueChange="OnChange"></SfSwitch>
+                    <SfSwitch @bind-Checked="switchChecked" TChecked="bool" ValueChange="OnChange" />
                 </div>
             </div>
         </div>
@@ -91,11 +91,15 @@
 
     private async Task UpdateStatus(Syncfusion.Blazor.RichTextEditor.ChangeEventArgs args)
     {
-        this.savingClass = "show";
-        this.savedClass = "hide";
-        await Task.Delay(500);
-        this.savingClass = "hide";
-        this.savedClass = "show";   
+        if (this.switchChecked)
+        {
+            this.savingClass = "show";
+            this.savedClass = "hide";
+            // Place the codes here, which save the Rich Text Editor value into database.
+            await Task.Delay(500);
+            this.savingClass = "hide";
+            this.savedClass = "show";   
+        }
     }
 }
 
@@ -135,6 +139,14 @@
 
     .bootstrap4 .e-icons.e-icon-refresh::before {
         content: "\e710";
+    }
+
+    .tailwind .e-icons.e-icon-refresh::before {
+        content: "\e711";
+    }
+
+    .tailwind .e-icons.e-icon-tick::before {
+        content: "\e75d";
     }
 
     .status-text {

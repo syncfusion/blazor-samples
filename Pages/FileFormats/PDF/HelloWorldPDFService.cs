@@ -10,7 +10,7 @@ using Syncfusion.Pdf.Graphics;
 using Syncfusion.Drawing;
 using System.IO;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class HelloWorldPDFService
     {

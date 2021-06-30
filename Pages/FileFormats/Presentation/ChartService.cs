@@ -11,7 +11,7 @@ using Syncfusion.Presentation;
 using Syncfusion.OfficeChart;
 using Syncfusion.Drawing;
 
-namespace blazor_samples.Data.FileFormats.Presentation
+namespace BlazorDemos.Data.FileFormats.Presentation
 {
     public class ChartService
     {

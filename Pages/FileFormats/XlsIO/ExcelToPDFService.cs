@@ -11,7 +11,7 @@ using Syncfusion.XlsIORenderer;
 using Syncfusion.Pdf;
 using System.IO;
 
-namespace blazor_samples.Data.FileFormats.XlsIO
+namespace BlazorDemos.Data.FileFormats.XlsIO
 {
     public class ExcelToPDFService
     {

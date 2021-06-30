@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 
-namespace blazor_samples.Controllers
+namespace BlazorDemos.Controllers
 {
 
     [Route("[controller]/[action]")]

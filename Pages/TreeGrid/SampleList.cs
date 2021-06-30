@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -89,6 +89,47 @@ namespace blazor_samples
                 Url = "tree-grid/expando-object",
                 FileName = "TreeGridExpandoObject.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "DynamicObject Binding",
+                Category = "Data Binding",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/dynamic-object",
+                FileName = "TreeGridDynamicObject.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "List Binding",
+                Category = "Virtual Scrolling",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/virtual-scrolling",
+                Type = SampleType.None,
+                FileName="VirtualScrolling.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id = "VirtualScrolling",
+                        FileName = "VirtualScrolling.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id = "VirtualScrollData",
+                        FileName = "VirtualData.cs"
+                    }
+                }
+            },
+             new Sample
+            {
+                Name = "Remote Data Binding",
+                Category = "Virtual Scrolling",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/remote-data-with-virtualization",
+                FileName = "RemoteDataWithVirtualization.razor",
+                Type = SampleType.New
+
             },
             new Sample
             {
@@ -773,28 +814,6 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Virtual Scrolling",
-                Category = "Tree Grid",
-                Directory = "TreeGrid/TreeGrid",
-                Url = "tree-grid/virtual-scrolling",
-                Type = SampleType.None,
-                FileName="VirtualScrolling.razor",
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id = "VirtualScrolling",
-                        FileName = "VirtualScrolling.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id = "VirtualScrollData",
-                        FileName = "VirtualData.cs"
-                    }
-                }
-            },
-            new Sample
-            {
                 Name = "Checkbox Selection",
                 Category = "Selection",
                 Directory = "TreeGrid/TreeGrid",
@@ -821,7 +840,7 @@ namespace blazor_samples
                 Category = "Exporting",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/exporting",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 FileName="Exporting.razor",
                 SourceFiles = new List<SourceCollection>()
                 {

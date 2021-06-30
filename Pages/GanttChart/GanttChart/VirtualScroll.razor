@@ -1,0 +1,90 @@
+﻿@page "/gantt-chart/virtual-scroll"
+@using Syncfusion.Blazor.Gantt
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the virtual scroll support in the Gantt Chart. This feature allows users to load a large amount of data effectively. It also reduces the DOM element's weight by virtually updating DOM during the vertical scroll.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Virtualization support is used to render a large number of tasks in Gantt with effective performance.</p>
+    <p>In this mode, all the tasks are fetched from the data source initially, then some of the records are rendered in DOM which is compact to the current viewport area. While scrolling, tasks are updated in the DOM as per the current viewport position. This mode can be enabled by setting the <code>EnableVirtualization</code> property as true.</p>
+    <p>More information on the virtual scroll can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/gantt-chart/virtualization/'>documentation</a></code> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row">
+        <div class="col-md-12">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" EnableVirtualization="true" ProjectStartDate="ProjectStartDate" ProjectEndDate="ProjectEndDate">
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskData"></GanttLabelSettings>
+                <GanttTaskFields ParentID="ParentId" Id="ID" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress">
+                </GanttTaskFields>
+                <GanttEditSettings AllowTaskbarEditing="true"></GanttEditSettings>
+                <GanttSplitterSettings Position="30%"></GanttSplitterSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    SfGantt<TaskData> Obj { get; set; }
+    public DateTime ProjectStartDate = new DateTime(2017, 01, 01);
+    public DateTime ProjectEndDate = new DateTime(2017, 01, 30);
+    public List<TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = VirtualData.GetTreeVirtualData();
+    }
+
+    public class VirtualData
+    {
+        public static List<TaskData> GetTreeVirtualData()
+        {
+            List<TaskData> DataCollection = new List<TaskData>();
+            Random rand = new Random();
+            var x = 0;
+            for (var i = 1; i <= 100; i++)
+            {
+                var name = rand.Next(0, 100);
+                TaskData Parent = new TaskData()
+                {
+                    ID = ++x,
+                    TaskName = "Task " + x,
+                    StartDate = new DateTime(2017, 1, 9),
+                    EndDate = new DateTime(2017, 1, 13),
+                    Duration = "5",
+                    Progress = rand.Next(100),
+                    ParentId = null,
+
+                };
+                DataCollection.Add(Parent);
+                for (var j = 1; j <= 4; j++)
+                {
+                    var childName = rand.Next(0, 100);
+                    DataCollection.Add(new TaskData()
+                    {
+                        ID = ++x,
+                        TaskName = "Task " + x,
+                        StartDate = new DateTime(2017, 1, 9),
+                        EndDate = new DateTime(2019, 1, 13),
+                        Duration = "5",
+                        Progress = rand.Next(100),
+                        ParentId = Parent.ID
+                    });
+                }
+            }
+            return DataCollection;
+        }
+    }
+
+    public class TaskData
+    {
+        public int ID { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int Progress { get; set; }
+        public int? ParentId { get; set; }
+    }
+}

@@ -15,7 +15,7 @@ using System;
 using Syncfusion.Pdf.ColorSpace;
 using Syncfusion.Pdf.Functions;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class GraphicBrushesService
     {

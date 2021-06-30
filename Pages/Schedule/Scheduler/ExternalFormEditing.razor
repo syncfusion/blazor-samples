@@ -6,7 +6,7 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates editing operation in Scheduler using external custom edit form. To edit a record, select required appointment and edit data and click save.</p>
+    <p>This sample demonstrates editing operation in Scheduler using external custom edit form. To edit a record, select required appointment and edit data and then click save.</p>
 </SampleDescription>
 <ActionDescription>
     <p>In this demo, external custom form editors are used to edit Scheduler appointments. You can start editing by selecting an appointment and the selected appointment will be shown on the external form. You can change the appointment values and save edited data to the datasource.</p>
@@ -40,6 +40,13 @@
             <SfSchedule TValue="ScheduleData.AppointmentData" @ref="Schedule" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
                 <ScheduleEvents TValue="ScheduleData.AppointmentData" OnEventDoubleClick="OnEventDoubleClick" OnEventClick="OnEventClick" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellDoubleClick"></ScheduleEvents>
                 <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+                <ScheduleViews>
+                    <ScheduleView Option="View.Day"></ScheduleView>
+                    <ScheduleView Option="View.Week"></ScheduleView>
+                    <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                    <ScheduleView Option="View.Month"></ScheduleView>
+                    <ScheduleView Option="View.Agenda"></ScheduleView>
+                </ScheduleViews>
             </SfSchedule>
         </div>
     </div>
@@ -50,17 +57,16 @@
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
     private DateTime CurrentDate = new DateTime(2020, 1, 9);
     public ScheduleData.AppointmentData SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(2020, 1, 10, 9, 0, 0), EndTime = new DateTime(2020, 1, 10, 10, 0, 0) };
-    private bool isCellClick { get; set; }
+
     private async Task OnSave()
     {
-        if (isCellClick)
+        if (SelectedData.Id == 0)
         {
-            await this.Schedule.AddEvent(SelectedData);
-            isCellClick = false;
+            await this.Schedule.AddEventAsync(SelectedData);
         }
         else
         {
-            await this.Schedule.SaveEvent(SelectedData);
+            await this.Schedule.SaveEventAsync(SelectedData);
         }
     }
 
@@ -80,14 +86,12 @@
         args.Cancel = true;
     }
 
-    private async Task OnCellClick(CellClickEventArgs args)
+    private void OnCellClick(CellClickEventArgs args)
     {
-        args.Cancel=isCellClick = true;
-        SelectedData = new ScheduleData.AppointmentData();
-        SelectedData.Id = await this.Schedule.GetMaxEventId<int>();
+        args.Cancel = true;
         SelectedData.StartTime = args.StartTime;
         SelectedData.EndTime = args.EndTime;
-        SelectedData.Subject = "Add title";
+        this.SelectedData.Subject = "Add title";
         SelectedData.Location = null;
     }
 

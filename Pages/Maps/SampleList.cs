@@ -1,5 +1,5 @@
 ﻿﻿using System.Collections.Generic;
-namespace blazor_samples
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -42,7 +42,7 @@ namespace blazor_samples
             },
              new Sample
              {
-                Name = "Marker template",
+                Name = "Marker Template",
                 Category = "Features",
                 Directory = "Maps/Maps",
                 Url = "maps/marker-template",
@@ -51,7 +51,7 @@ namespace blazor_samples
              },
             new Sample
             {
-                Name = "Marker clustering",
+                Name = "Marker Clustering",
                 Category = "Features",
                 Directory = "Maps/Maps",
                 Url = "maps/marker-cluster",
@@ -213,7 +213,7 @@ namespace blazor_samples
             },
              new Sample
             {
-                Name = "Flight routes",
+                Name = "Flight Routes",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
                 Url = "maps/flight-route",
@@ -222,7 +222,7 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Earthquake indication",
+                Name = "Earthquake Indication",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
                 Url = "maps/earth-quake",
@@ -231,7 +231,7 @@ namespace blazor_samples
             },
              new Sample
             {
-                Name = "HighlightedRegion",
+                Name = "Highlighted Region",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
                 Url = "maps/highlighted-region",
@@ -257,7 +257,7 @@ namespace blazor_samples
             },
               new Sample
             {
-                Name = "Sales map",
+                Name = "Sales Map",
                 Category = "Use Cases",
                 Directory = "Maps/Maps",
                 Url = "maps/sale-maps",

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
+using BlazorDemos;
 namespace ej2_blazor_defaultdata
 {
     public class ResourceData
@@ -36,8 +36,6 @@ namespace ej2_blazor_defaultdata
             public int TaskId { get; set; }
             public string TaskName { get; set; }
             public string TaskType { get; set; }
-            public DateTime? BaselineStartDate { get; set; }
-            public DateTime? BaselineEndDate { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
             public string Duration { get; set; }

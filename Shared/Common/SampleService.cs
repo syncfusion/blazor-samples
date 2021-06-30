@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Components;
 
-namespace blazor_samples.Shared
+namespace BlazorDemos.Shared
 {
     /// <summary>
     /// The injectable service class used to handle common functionalities all over the application.

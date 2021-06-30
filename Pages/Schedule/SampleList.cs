@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -15,10 +15,6 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/overview",
                 FileName = "Overview.razor",
-                MetaTitle = "Blazor Scheduler Example | Scheduler Overview | Syncfusion Demos ",
-                HeaderText = "Blazor Scheduler Example - Overview",
-                MetaDescription = "This example demonstrates the Overview of the Blazor Scheduler Example . Explore here for more details.",
-                Type = SampleType.Updated
             },
             new Sample
             {
@@ -91,7 +87,6 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/multi-drag",
                 FileName = "MultipleDrag.razor",
-                Type = SampleType.New
             },
             new Sample
             {
@@ -164,7 +159,8 @@ namespace blazor_samples
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/year-view",
-                FileName = "Year.razor"
+                FileName = "Year.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -181,7 +177,6 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/fare-calendar",
                 FileName = "FareCalendar.razor",
-                Type = SampleType.New
             },
             new Sample
             {
@@ -257,6 +252,15 @@ namespace blazor_samples
             },
             new Sample
             {
+               Name = "Adaptive Grouping",
+               Category = "Resource Grouping",
+               Directory = "Schedule/Scheduler",
+               Url = "scheduler/adaptive-grouping",
+               FileName = "AdaptiveGrouping.razor",
+               Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Date Header",
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
@@ -318,7 +322,6 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/external-form-editing",
                 FileName = "ExternalFormEditing.razor",
-                Type = SampleType.New
             },
             new Sample
             {
@@ -351,7 +354,6 @@ namespace blazor_samples
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/header-bar",
                 FileName = "HeaderBar.razor",
-                Type = SampleType.New
             },
              new Sample
              {
@@ -425,14 +427,15 @@ namespace blazor_samples
                Url = "scheduler/export-and-import-ics",
                FileName = "CalendarExportImport.razor"
             },
-            //new Sample
-            //{
-            //    Name = "Print Appointments",
-            //    Category = "Exporting",
-            //    Directory = "Schedule/Scheduler",
-            //    Url = "scheduler/print-appointments",
-            //    FileName = "Print.razor"
-            //},
+            new Sample
+            {
+               Name = "Print",
+               Category = "Exporting",
+               Directory = "Schedule/Scheduler",
+               Url = "scheduler/print",
+               FileName = "Print.razor",
+               Type = SampleType.New
+            },
             new Sample
             {
                Name = "RRule Generator",

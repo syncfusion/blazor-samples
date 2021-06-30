@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples.Pages.GanttChart
+namespace BlazorDemos.Pages.GanttChart
 {
     public class ScheduleData
     {
@@ -11,8 +11,6 @@ namespace blazor_samples.Pages.GanttChart
         {
             public int TaskId { get; set; }
             public string TaskName { get; set; }
-            public DateTime BaselineStartDate { get; set; }
-            public DateTime BaselineEndDate { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
             public string Duration { get; set; }
@@ -20,12 +18,6 @@ namespace blazor_samples.Pages.GanttChart
             public int? ParentId { get; set; }
             public string IsManual { get; set; }
             public string TaskMode { get; set; }
-           
-
-
-
-
-
         }
 
 

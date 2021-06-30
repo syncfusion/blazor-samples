@@ -1,0 +1,120 @@
+﻿@page "/diagramcomponent/local-data"
+
+
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Diagram
+@inherits SampleBaseComponent;
+<SampleDescription>
+    <p> This sample visualizes the classifications of species using a hierarchical tree layout algorithm. Data Manager support is used to bind data with the diagram.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>  This example shows how to generate a diagram from saved data. The <code class="language-text">DiagramDataSource</code> property can be used to map an external data source with the Diagram control. The <code class="language-text">Id</code> property of DiagramDataSource can be used to define a unique field of external data. The <code class="language-text">ParentId</code> property can be used to define the relationship between the objects.</p>
+</ActionDescription>
+<div class="content-wrapper" style="width: 100%">
+    <div>
+        <SfDiagramComponent Height="400px" Tool="DiagramTools.ZoomPan" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults">
+            <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+            <DataSourceSettings Id="Name" ParentId="Category" DataSource="@DataSource">
+            </DataSourceSettings>
+            <Layout @bind-Type="@type" @bind-HorizontalSpacing="@horizontalSpacing" @bind-VerticalSpacing="@verticalSpacing">
+                <LayoutMargin @bind-Left="@left" @bind-Right="@right" @bind-Top="@top"></LayoutMargin>
+            </Layout>
+        </SfDiagramComponent>
+    </div>
+</div>
+
+@code
+{
+    LayoutType type = LayoutType.HierarchicalTree;
+    int horizontalSpacing = 15;
+    int verticalSpacing = 50;
+    double left = 10;
+    double right = 10;
+    double top = 10;
+    // Defines default values for Node object
+    private void NodeDefaults(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        if (node.Data is System.Text.Json.JsonElement)
+        {
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<DataModel>(node.Data.ToString());
+        }
+
+        DataModel data = node.Data as DataModel;
+        node.Width = 95;
+        node.Height = 30;
+
+        node.Shape = new BasicShape() { Type = Syncfusion.Blazor.Diagram.Shapes.Basic, Shape = BasicShapes.Rectangle };
+        node.Style = new ShapeStyle() { StrokeWidth = 1, Fill = "#6A51CB", StrokeColor = "#433285" };
+        node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+{
+                new ShapeAnnotation()
+                {
+                    ID = "label1",
+                    Content = data.Name,
+                    Style = new TextShapeStyle() { Color = "White",Fill="Transparent" }
+                }
+
+            };
+        node.Ports = new DiagramObjectCollection<PointPort>()
+{
+            new PointPort()
+            {   ID="port1",
+                Offset =new Point(){X=0,Y=0.5},
+                Width=10,
+                Height=10,
+                Visibility = PortVisibility.Hidden,
+                Style = new ShapeStyle(){ Fill="Black"}
+            },
+            new PointPort()
+            {
+                ID="port2",
+                Offset =new Point(){X=1,Y=0.5},
+                Width=10,
+                Height=10,
+                Visibility = PortVisibility.Hidden,
+                Style = new ShapeStyle(){ Fill="Black"} },
+        };
+    }
+    // Defines default values for Connector object
+    private void ConnectorDefaults(IDiagramObject connector)
+    {
+        (connector as Connector).Type = Segments.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShapes.None;
+        (connector as Connector).SourceDecorator.Shape = DecoratorShapes.None;
+        (connector as Connector).Style = new ShapeStyle() { StrokeColor = "#4d4d4d" };
+    }
+
+    public class DataModel
+    {
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public string Content { get; set; }
+
+    };
+
+    public List<DataModel> DataSource = new List<DataModel>()
+{
+        new DataModel{ Name = "Species" },
+        new DataModel{ Name = "Plants", Category = "Species" },
+        new DataModel{ Name = "Fungi", Category = "Species" },
+        new DataModel{ Name = "Lichens", Category = "Species" },
+        new DataModel{ Name = "Animals", Category = "Species" },
+        new DataModel{ Name = "Mosses", Category = "Plants" },
+        new DataModel{ Name = "Ferns", Category = "Plants" },
+        new DataModel{ Name = "Gymnosperms", Category = "Plants" },
+        new DataModel{ Name = "Dicotyledens", Category = "Plants" },
+        new DataModel{ Name = "Monocotyledens", Category = "Plants" },
+        new DataModel{ Name = "Invertebrates", Category = "Animals" },
+        new DataModel{ Name = "Vertebrates", Category = "Animals" },
+        new DataModel{ Name = "Insects", Category = "Invertebrates" },
+        new DataModel{ Name = "Molluscs", Category = "Invertebrates" },
+        new DataModel{ Name = "Crustaceans", Category = "Invertebrates" },
+        new DataModel{ Name = "Others", Category = "Invertebrates" },
+        new DataModel{ Name = "Fish", Category = "Vertebrates" },
+        new DataModel{ Name = "Amphibians", Category = "Vertebrates" },
+        new DataModel{ Name = "Reptiles", Category = "Vertebrates" },
+        new DataModel{ Name = "Birds", Category = "Vertebrates" },
+        new DataModel{ Name = "Mammals", Category = "Vertebrates" }
+    };
+}   

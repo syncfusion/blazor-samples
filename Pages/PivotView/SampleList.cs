@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -15,6 +15,9 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor Pivot Table Example | Default Functionalities | Syncfusion Demos",
+                HeaderText = "Blazor Pivot Table Example - Default Functionalities",
+                MetaDescription = "This Blazor Pivot Table example demonstrates the default rendering of the Blazor Pivot Table component with a minimum configuration. Explore here for more details.",
                 Type = SampleType.None
             },
             new Sample
@@ -60,7 +63,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/grouping-bar",
                 FileName = "GroupingBar.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -105,7 +108,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/toolbar",
                 FileName = "Toolbar.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -123,7 +126,7 @@ namespace blazor_samples
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/aggregation",
                 FileName = "Aggregation.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated
             },
             new Sample
             {

@@ -16,7 +16,7 @@ using Syncfusion.Pdf.ColorSpace;
 using Syncfusion.Pdf.Functions;
 using Syncfusion.Pdf.Barcode;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class BarcodeService
     {

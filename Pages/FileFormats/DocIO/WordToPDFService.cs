@@ -17,7 +17,7 @@ using System.Data;
 using System.IO;
 using System.Xml;
 
-namespace blazor_samples.Data.FileFormats.DocIO
+namespace BlazorDemos.Data.FileFormats.DocIO
 {
     public class WordToPDFService
     {

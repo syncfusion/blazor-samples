@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 
-namespace blazor_samples.Pages.FileFormats.DocIO
+namespace BlazorDemos.Pages.FileFormats.DocIO
 {
     public class WordToWordMLService
     {

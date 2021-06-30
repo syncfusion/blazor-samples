@@ -12,7 +12,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Syncfusion.Pdf.Parsing;
 
-namespace blazor_samples.Data.FileFormats.PDF
+namespace BlazorDemos.Data.FileFormats.PDF
 { 
     public class RearrangePagesService
     {

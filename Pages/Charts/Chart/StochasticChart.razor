@@ -1,6 +1,7 @@
 ﻿@page "/chart/stochastic"
 
 @using Syncfusion.Blazor
+@using ThemeHelper
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
 
@@ -22,8 +23,8 @@
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Price" LabelFormat="${value}M" Minimum="50"
-                           Maximum="170" Interval="30" RowIndex="1" OpposedPosition="true">
+        <ChartPrimaryYAxis Title="Price (in Million)" LabelFormat="${value}M" Minimum="50"
+                           Maximum="170" Interval="30" RowIndex="1" OpposedPosition="true" PlotOffset="25">
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
@@ -72,26 +73,7 @@
     protected override void OnInitialized()
     {
         ChartPoints = JsonConvert.DeserializeObject<StochasticChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
-        if (NavigationManager.Uri.IndexOf("material") > -1)
-        {
-            Theme = Theme.Material;
-        }
-        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
-        {
-            Theme = Theme.Fabric;
-        }
-        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
-        {
-            Theme = Theme.Bootstrap;
-        }
-        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
-        {
-            Theme = Theme.HighContrast;
-        }
-        else
-        {
-            Theme = Theme.Bootstrap4;
-        }
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 
     public class StochasticChartData

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -62,6 +62,24 @@ namespace blazor_samples
             },
             new Sample
             {
+                Name = "Default Grouping",
+                Category = "Grouping",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/grouping",
+                FileName = "Grouping.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Lazy Load Grouping",
+                Category = "Grouping",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/lazyloadgroup",
+                FileName = "LazyLoadGrouping.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Context Menu",
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
@@ -86,6 +104,15 @@ namespace blazor_samples
                 Url = "datagrid/virtual-scrolling",
                 FileName = "VirtualScrolling.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Frozen Virtualization",
+                Category = "Scrolling",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/frozen-scrolling",
+                FileName = "FrozenVirtualization.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -167,6 +194,24 @@ namespace blazor_samples
                Url = "datagrid/draganddrop-within-grid",
                FileName = "DragAndDropWithinGrid.razor",
                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Default Frozen",
+                Category = "Frozen",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/frozen-rows",
+                FileName = "FrozenRowsAndColumns.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Frozen Right and Left",
+                Category = "Frozen",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/frozen-right",
+                FileName = "FrozenRight.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -255,7 +300,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/checkbox-filter",
                 FileName = "FilterCheckbox.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -291,7 +336,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/pager-template",
                 FileName = "PagerTemplate.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -358,15 +403,6 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Grouping",
-                Category = "DataGrid",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/grouping",
-                FileName = "Grouping.razor",
-                Type = SampleType.None
-            },
-            new Sample
-            {
                 Name = "Column Template",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
@@ -427,15 +463,6 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/data-annotation",
                 FileName = "DataAnnotation.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
-                Name = "Frozen Rows and Columns",
-                Category = "Columns",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/frozen-rows",
-                FileName = "FrozenRowsAndColumns.razor",
                 Type = SampleType.None
             },
             new Sample
@@ -537,7 +564,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/custom-validation",
                 FileName = "CustomValidation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
 
               new Sample
@@ -556,7 +583,7 @@ namespace blazor_samples
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/custom-command",
                 FileName = "CustomCommand.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
 
 

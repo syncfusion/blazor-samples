@@ -1,4 +1,4 @@
-namespace blazor_samples
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -19,7 +19,7 @@ namespace blazor_samples
                 Name = "Pivot Table",
                 Category = "Grids",
                 Directory = "PivotView/PivotTable",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = PivotTable,
                 ControllerName = "PivotTable",
                 DemoPath = "pivot-table/default-functionalities"
@@ -78,13 +78,25 @@ namespace blazor_samples
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "Diagram",
+                Name = "Diagram (Classic)",
                 Category = "Data Visualization",
                 Directory = "Diagram",
                 Type = SampleType.None,
                 Samples = Diagram,
                 ControllerName = "Diagram",
                 DemoPath = "diagram/flowchart"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Diagram",
+                Category = "Data Visualization",
+                Directory = "DiagramComponent",
+                Type = SampleType.New,
+                IsPreview = true,
+                Samples = DiagramComponent,
+                ControllerName = "DiagramComponent",
+                DemoPath = "diagramcomponent/flowchart",
+                InfoTooltip = "This diagram (preview), which is a new Blazor component, provides better performance than the existing diagram control in Blazor WebAssembly App."
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -101,7 +113,7 @@ namespace blazor_samples
                 Name = "Kanban",
                 Category = "Data Visualization",
                 Directory = "Kanban/Kanban",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Kanban,
                 ControllerName = "Kanban",
                 DemoPath = "kanban/overview"
@@ -202,6 +214,7 @@ namespace blazor_samples
                 Name = "Word Processor",
                 Category = "Editors",
                 Directory = "DocumentEditor/DocumentEditor",
+                Type = SampleType.Updated,
                 Samples = DocumentEditor,
                 ControllerName = "DocumentEditor",
                 CustomDocLink = "document-editor/getting-started/features",
@@ -222,7 +235,7 @@ namespace blazor_samples
                 Name = "Calendar",
                 Category = "Calendars",
                 Directory = "Calendars/Calendar",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Calendar,
                 ControllerName = "Calendar",
                 DemoPath = "calendar/default-functionalities"
@@ -232,7 +245,7 @@ namespace blazor_samples
                 Name = "DatePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DatePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DatePicker,
                 ControllerName = "DatePicker",
                 DemoPath = "datepicker/default-functionalities"
@@ -242,7 +255,7 @@ namespace blazor_samples
                 Name = "DateRangePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DateRangePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DateRangePicker,
                 ControllerName = "DateRangePicker",
                 DemoPath = "daterangepicker/default-functionalities"
@@ -252,7 +265,7 @@ namespace blazor_samples
                 Name = "DateTime Picker",
                 Category = "Calendars",
                 Directory = "Calendars/DateTimePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DateTimePicker,
                 ControllerName = "DateTimePicker",
                 DemoPath = "datetime-picker/default-functionalities"
@@ -262,7 +275,7 @@ namespace blazor_samples
                 Name = "Gantt Chart",
                 Category = "Calendars",
                 Directory = "GanttChart/GanttChart",
-                Type = SampleType.New,
+                Type = SampleType.Updated,
                 Samples = GanttChart,
                 ControllerName = "GanttChart",
                 DemoPath = "gantt-chart/default-functionalities",
@@ -273,7 +286,7 @@ namespace blazor_samples
                 Name = "TimePicker",
                 Category = "Calendars",
                 Directory = "Calendars/TimePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = TimePicker,
                 ControllerName = "TimePicker",
                 DemoPath = "timepicker/default-functionalities"
@@ -344,7 +357,7 @@ namespace blazor_samples
                 Name = "AutoComplete",
                 Category = "DropDowns",
                 Directory = "DropDowns/AutoComplete",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = AutoComplete,
                 ControllerName = "AutoComplete",
                 DemoPath = "autocomplete/default-functionalities"
@@ -354,7 +367,7 @@ namespace blazor_samples
                 Name = "ComboBox",
                 Category = "DropDowns",
                 Directory = "DropDowns/ComboBox",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = ComboBox,
                 ControllerName = "ComboBox",
                 DemoPath = "combobox/default-functionalities"
@@ -364,7 +377,7 @@ namespace blazor_samples
                 Name = "Dropdown List",
                 Category = "DropDowns",
                 Directory = "DropDowns/DropDownList",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DropDownList,
                 ControllerName = "DropDownList",
                 DemoPath = "dropdown-list/default-functionalities"
@@ -374,7 +387,7 @@ namespace blazor_samples
                 Name = "ListBox",
                 Category = "DropDowns",
                 Directory = "DropDowns/ListBox",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = ListBox,
                 ControllerName = "ListBox",
                 DemoPath = "listbox/default-functionalities"
@@ -384,7 +397,7 @@ namespace blazor_samples
                 Name = "MultiSelect Dropdown",
                 Category = "DropDowns",
                 Directory = "DropDowns/MultiSelect",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = MultiSelectDropdown,
                 ControllerName = "MultiSelectDropdown",
                 DemoPath = "multiselect-dropdown/default-functionalities"
@@ -414,7 +427,7 @@ namespace blazor_samples
                 Name = "File Upload",
                 Category = "Inputs",
                 Directory = "Inputs/Uploader",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = FileUpload,
                 ControllerName = "FileUpload",
                 DemoPath = "file-upload/default-functionalities"
@@ -424,7 +437,7 @@ namespace blazor_samples
                 Name = "Input Mask",
                 Category = "Inputs",
                 Directory = "Inputs/MaskedTextBox",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = InputMask,
                 ControllerName = "InputMask",
                 DemoPath = "input-mask/default-functionalities"
@@ -434,7 +447,7 @@ namespace blazor_samples
                 Name = "Numeric Textbox",
                 Category = "Inputs",
                 Directory = "Inputs/NumericTextBox",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = NumericTextbox,
                 ControllerName = "NumericTextBox",
                 DemoPath = "numeric-textbox/default-functionalities"
@@ -464,7 +477,7 @@ namespace blazor_samples
                 Name = "TextBox",
                 Category = "Inputs",
                 Directory = "Inputs",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = TextBox,
                 ControllerName = "TextBox",
                 DemoPath = "textbox/default-functionalities"
@@ -534,7 +547,6 @@ namespace blazor_samples
                 Name = "Tabs",
                 Category = "Navigation",
                 Directory = "Navigations/Tabs",
-                Type = SampleType.Updated,
                 Samples = Tabs,
                 ControllerName = "Tabs",
                 DemoPath = "tabs/default-functionalities"
@@ -584,7 +596,7 @@ namespace blazor_samples
                 Name = "Dialog",
                 Category = "Layout",
                 Directory = "Popups/Dialog",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Dialog,
                 ControllerName = "Dialog",
                 DemoPath = "dialog/default-functionalities"
@@ -605,7 +617,7 @@ namespace blazor_samples
                 Category = "Layout",
                 Directory = "Layouts/Splitter",
                 Samples = Splitter,
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ControllerName = "Splitter",
                 DemoPath = "splitter/default-functionalities"
             });
@@ -634,7 +646,7 @@ namespace blazor_samples
                 Name = "Toast",
                 Category = "Notifications",
                 Directory = "Notifications/Toast",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Toast,
                 ControllerName = "Toast",
                 DemoPath = "toast/default-functionalities"
@@ -654,7 +666,7 @@ namespace blazor_samples
                 Name = "Query Builder",
                 Category = "Forms",
                 Directory = "Forms/QueryBuilder",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = QueryBuilder,
                 ControllerName = "QueryBuilder",
                 DemoPath = "query-builder/default-functionalities"
@@ -664,6 +676,7 @@ namespace blazor_samples
                 Name = "PDF Viewer",
                 Category = "Viewer",
                 Directory = "Viewer/PdfViewer",
+                Type = SampleType.Updated,
                 Samples = PDFViewer,
                 ControllerName = "PdfViewer",
                 CustomDocLink = "pdfviewer/getting-started",
@@ -684,7 +697,7 @@ namespace blazor_samples
                 Name = "PDF",
                 Category = "File Formats",
                 Directory = "FileFormats/PDF",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = PDF,
                 ControllerName = "PDF",
                 DemoPath = "pdf/hello-world"

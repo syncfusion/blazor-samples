@@ -1,0 +1,128 @@
+﻿@page "/Calendar/Week-Number"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using System.Globalization
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>The following sample demonstrates the week number and different types of week rules functionalities of the Calendar.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Calendar has the WeekNumber and WeekRule properties that provide an option to specify the rule for defining the first week of the year (FirstDay, FirstFullWeek, and FirstFourDayWeek).</p>
+    <p>More information on the week number can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/calendar/how-to/render-the-calendar-with-week-numbers/'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section col-lg-12">
+    <div class="col-lg-8 calendar-weekrule">
+        <div class="calender-section">
+            <div id="calender-control">
+                <SfCalendar TValue="DateTime?" WeekNumber="@EnableWeekNumber" WeekRule="@EnableWeekRule" @bind-Value="@DropVal"></SfCalendar>
+            </div>
+            <div id="display_date">
+                <span id="date_value">Selected values: @(DropVal?.ToString("M/d/yyyy"))</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="content property-section">
+            <div class="property">Properties</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Week Rule</div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="WeekNumerTypes" DataSource="@Data" @bind-Index="@index" Width="200px">
+                                    <DropDownListEvents TItem="WeekNumerTypes" TValue="string" ValueChange="@OnWeekRuleChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Week Number</div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox ValueChange="@OnDisableWeekNumber" @bind-Checked="@IsChecked" TChecked="bool"></SfCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    #date_label {
+        display: block;
+        width: 248px;
+        color: rgba(0, 0, 0, 0.58);
+        margin-left: 5px;
+    }
+
+    #calender-control {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    #display_date {
+        max-width: 300px;
+        margin: 0 auto;
+        padding-top: 10px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .property {
+        padding: 0 0 0 10px;
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .selectionText {
+        margin: 10px;
+        width: 100px;
+        font-size: 13px;
+    }
+
+    .calendar-weekrule {
+        width: 500px;
+    }
+
+</style>
+
+@code {
+    private DateTime? DropVal { get; set; } = new DateTime(DateTime.Now.Year, 1, 1);
+    private bool IsChecked { get; set; } = true;
+    private CalendarWeekRule EnableWeekRule { get; set; } = CalendarWeekRule.FirstDay;
+    private bool EnableWeekNumber { get; set; } = true;
+
+    public class WeekNumerTypes
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    private int? index { get; set; } = 0;
+    private List<WeekNumerTypes> Data = new List<WeekNumerTypes>() {
+        new WeekNumerTypes(){ ID= "FirstDay", Text= "First Day" },
+        new WeekNumerTypes(){ ID= "FirstFullWeek", Text= "First Full Week" },
+        new WeekNumerTypes(){ ID= "FirstFourDayWeek", Text= "First Four Day Week" }
+    };
+    private void OnWeekRuleChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, WeekNumerTypes> args)
+    {
+        this.EnableWeekRule = (CalendarWeekRule)Enum.Parse(typeof(CalendarWeekRule), (args.Value));
+    }
+    private void OnDisableWeekNumber(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.EnableWeekNumber = args.Checked;
+    }
+
+}

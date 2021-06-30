@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace blazor_samples
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -18,11 +18,29 @@ namespace blazor_samples
             },
             new Sample
             {
-                Name = "Template",
-                Category = "Query Builder",
+                Name = "Value Template",
+                Category = "Templates",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/template",
                 FileName = "Template.razor"
+            },
+            new Sample
+            {
+                Name = "Column Template",
+                Category = "Templates",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/column-template",
+                FileName = "ColumnTemplate.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Header Template",
+                Category = "Templates",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/header-template",
+                FileName = "HeaderTemplate.razor",
+                Type = SampleType.New
             },
              new Sample
             {

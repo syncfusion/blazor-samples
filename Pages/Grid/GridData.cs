@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-using blazor_samples;
+using BlazorDemos;
 namespace blazor_griddata
 {
 
@@ -193,7 +193,12 @@ namespace blazor_griddata
         public string ShipCountry { get; set; }
 
         public DateTime? ShippedDate { get; set; }
+        
         public string ShipAddress { get; set; }
+
+        public string Mail { get; set; }
+
+        public string Location { get; set; }
     }
     public class OrdersDetails
     {
@@ -201,7 +206,7 @@ namespace blazor_griddata
         {
 
         }
-        public OrdersDetails(int OrderID, string CustomerId, int EmployeeId, double Freight, bool Verified, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress)
+        public OrdersDetails(int OrderID, string CustomerId, int EmployeeId, double Freight, bool Verified, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress, string Mail, string Location)
         {
             this.OrderID = OrderID;
             this.CustomerID = CustomerId;
@@ -214,6 +219,8 @@ namespace blazor_griddata
             this.ShipCountry = ShipCountry;
             this.ShippedDate = ShippedDate;
             this.ShipAddress = ShipAddress;
+            this.Mail = Mail;
+            this.Location = Location;
         }
 
         public static List<OrdersDetails> GetAllRecords()
@@ -222,11 +229,11 @@ namespace blazor_griddata
             int code = 10000;
             for (int i = 1; i < 15; i++)
             {
-                order.Add(new OrdersDetails(code + 1, "ALFKI", i + 0, 2.3 * i,false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
-                order.Add(new OrdersDetails(code + 2, "ANATR", i + 2, 3.3 * i,true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
-                order.Add(new OrdersDetails(code + 3, "ANTON", i + 1, 4.3 * i,false, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo"));
-                order.Add(new OrdersDetails(code + 4, "BLONP", i + 3, 5.3 * i,true, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
-                order.Add(new OrdersDetails(code + 5, "BOLID", i + 4, 6.3 * i,false, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
+                order.Add(new OrdersDetails(code + 1, "ALFKI", i + 0, 2.3 * i,false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6", "alf32@arpy.com", "Morbi Leo"));
+                order.Add(new OrdersDetails(code + 2, "ANATR", i + 2, 3.3 * i,true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123", "anat81@jourrapide.com", "Sed Blandit"));
+                order.Add(new OrdersDetails(code + 3, "ANTON", i + 1, 4.3 * i,false, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo", "anton99@rpy.com", "Congue Nisi"));
+                order.Add(new OrdersDetails(code + 4, "BLONP", i + 3, 5.3 * i,true, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7", "blonp97@gmail.com", "Aliquet Lectus"));
+                order.Add(new OrdersDetails(code + 5, "BOLID", i + 4, 6.3 * i,false, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S.", "bolid@mail.com", "Viverra Mauris In"));
                 code += 5;
             }
             return order;
@@ -246,6 +253,10 @@ namespace blazor_griddata
 
         public DateTime? ShippedDate { get; set; }
         public string ShipAddress { get; set; }
+
+        public string Mail { get; set; }
+
+        public string Location { get; set; }
     }
     public class OverviewData
     {

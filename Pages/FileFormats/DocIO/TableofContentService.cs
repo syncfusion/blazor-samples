@@ -13,7 +13,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Syncfusion.DocIORenderer;
 
-namespace blazor_samples.Data.FileFormats.DocIO
+namespace BlazorDemos.Data.FileFormats.DocIO
 {
     public class TableofContentService
     {

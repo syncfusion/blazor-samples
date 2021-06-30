@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using blazor_samples;
-namespace blazor_samples
+using BlazorDemos;
+namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
@@ -16,6 +16,15 @@ namespace blazor_samples
                 Url = "Calendar/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Disabled Dates",
+                Category = "Calendar",
+                Directory = "Calendars/Calendar",
+                Url = "Calendar/Disabled-Dates",
+                FileName = "DisabledDates.razor",
+                Type = SampleType.New
             },
              new Sample
             {
@@ -43,6 +52,15 @@ namespace blazor_samples
                 Url = "Calendar/Month-Picker",
                 FileName = "MonthPicker.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Week Number",
+                Category = "Calendar",
+                Directory = "Calendars/Calendar",
+                Url = "Calendar/Week-Number",
+                FileName = "WeekNumber.razor",
+                Type = SampleType.New
             }
         };
 
@@ -55,6 +73,15 @@ namespace blazor_samples
                 Url = "DatePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None
+            },
+              new Sample
+            {
+                Name = "Disabled Dates",
+                Category = "DatePicker",
+                Directory = "Calendars/DatePicker",
+                Url = "DatePicker/Disabled-Dates",
+                FileName = "DisabledDates.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -82,6 +109,24 @@ namespace blazor_samples
                 Url = "DatePicker/Month-Picker",
                 FileName = "MonthPicker.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Week Number",
+                Category = "DatePicker",
+                Directory = "Calendars/DatePicker",
+                Url = "DatePicker/Week-Number",
+                FileName = "WeekNumber.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Validation",
+                Category = "DatePicker",
+                Directory = "Calendars/DatePicker",
+                Url = "DatePicker/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -94,6 +139,15 @@ namespace blazor_samples
                 Url = "DateTime-Picker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Disabled Dates",
+                Category = "DateTime Picker",
+                Directory = "Calendars/DateTimePicker",
+                Url = "DateTime-Picker/Disabled-Dates",
+                FileName = "DisabledDates.razor",
+                Type = SampleType.New
             },
             new Sample
             {
@@ -112,6 +166,24 @@ namespace blazor_samples
                 Url = "DateTime-Picker/Format",
                 FileName = "Format.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Week Number",
+                Category = "DateTime Picker",
+                Directory = "Calendars/DateTimePicker",
+                Url = "DateTime-Picker/Week-Number",
+                FileName = "WeekNumber.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Validation",
+                Category = "DateTime Picker",
+                Directory = "Calendars/DateTimePicker",
+                Url = "DateTime-Picker/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -126,6 +198,15 @@ namespace blazor_samples
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None
             },
+            new Sample
+            {
+                Name = "Time Range",
+                Category = "TimePicker",
+                Directory = "Calendars/TimePicker",
+                Url = "TimePicker/Time-Range",
+                FileName = "TimeRange.razor",
+                Type = SampleType.New
+            },
              new Sample
             {
                 Name = "Time Format",
@@ -134,6 +215,24 @@ namespace blazor_samples
                 Url = "TimePicker/Time-Format",
                 FileName = "Format.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Time Duration",
+                Category = "TimePicker",
+                Directory = "Calendars/TimePicker",
+                Url = "TimePicker/Time-Duration",
+                FileName = "TimeDuration.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Validation",
+                Category = "TimePicker",
+                Directory = "Calendars/TimePicker",
+                Url = "TimePicker/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -146,6 +245,9 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the Default Functionalities. Explore here for more details.",
+                HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
             new Sample
@@ -155,6 +257,9 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Date-Range",
                 FileName = "DateRange.razor",
+                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the Date Range. Explore here for more details.",
+                HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
              new Sample
@@ -164,7 +269,19 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Day-Span",
                 FileName = "DaySpan.razor",
+                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the Day Span. Explore here for more details.",
+                HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Preset Ranges",
+                Category = "DateRangePicker",
+                Directory = "Calendars/DateRangePicker",
+                Url = "DateRangePicker/Preset-Ranges",
+                FileName = "PresetRanges.razor",
+                Type = SampleType.New
             },
              new Sample
             {
@@ -173,6 +290,9 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Format",
                 FileName = "Format.razor",
+                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the Format. Explore here for more details.",
+                HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
              new Sample
@@ -182,7 +302,28 @@ namespace blazor_samples
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Month-Range-Picker",
                 FileName = "MonthRangePicker.razor",
+                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the Month Range Picker. Explore here for more details.",
+                HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Week Number",
+                Category = "DateRangePicker",
+                Directory = "Calendars/DateRangePicker",
+                Url = "DateRangePicker/Week-Number",
+                FileName = "WeekNumber.razor",
+                Type = SampleType.New
+            },
+             new Sample
+            {
+                Name = "Validation",
+                Category = "DateRangePicker",
+                Directory = "Calendars/DateRangePicker",
+                Url = "DateRangePicker/Forms-Validation",
+                FileName = "FormsValidation.razor",
+                Type = SampleType.New
             }
         };
     }
