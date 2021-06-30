@@ -1,0 +1,113 @@
+﻿@page "/DateTime-Picker/Week-Number"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using System.Globalization
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>The following sample demonstrates the week number and different types of week rules functionalities of the DateTimePicker.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>DateTimePicker has the WeekNumber and WeekRule properties that provide an option to specify the rule for defining the first week of the year (FirstDay, FirstFullWeek, and FirstFourDayWeek).</p>
+</ActionDescription>
+
+<div class="control-section col-lg-12">
+    <div class="col-lg-8 datetimepicker-weekrule">
+        <div id="wrapper" class="datetimepicker-section">
+            <div id="datetimepicker-control">
+                <SfDateTimePicker TValue="DateTime?" WeekNumber="@EnableWeekNumber" WeekRule="@EnableWeekRule" Placeholder="Select a date and time" @bind-Value="@DateValue"></SfDateTimePicker>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4" style="padding-top: 15px">
+        <div class="content property-section">
+            <div class="property">Properties</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Week Rule</div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="WeekNumerTypes" DataSource="@Data" @bind-Index="@index" Width="200px">
+                                    <DropDownListEvents TItem="WeekNumerTypes" TValue="string" ValueChange="@OnWeekRuleChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="selectionText">Week Number</div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox @bind-Checked="@IsChecked" ValueChange="@OnDisableWeekNumber" TChecked="bool"></SfCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    #wrapper {
+        max-width: 300px;
+        margin: 0px auto;
+        padding-top: 20px;
+    }
+
+    .property {
+        padding: 5px 0 0 10px;
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .selectionText {
+        margin: 10px;
+        width: 100px;
+        font-size: 13px;
+    }
+
+    .datetimepicker-weekrule {
+        width: 500px;
+    }
+
+</style>
+
+@code {
+
+    private CalendarWeekRule EnableWeekRule { get; set; } = CalendarWeekRule.FirstDay;
+    private bool EnableWeekNumber { get; set; } = true;
+    private bool IsChecked { get; set; } = true;
+    private DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, 1, 1);
+
+    public class WeekNumerTypes
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    private int? index { get; set; } = 0;
+
+    private List<WeekNumerTypes> Data = new List<WeekNumerTypes>() {
+        new WeekNumerTypes(){ ID= "FirstDay", Text= "First Day" },
+        new WeekNumerTypes(){ ID= "FirstFullWeek", Text= "First Full Week" },
+        new WeekNumerTypes(){ ID= "FirstFourDayWeek", Text= "First Four Day Week" }
+    };
+    private void OnWeekRuleChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, WeekNumerTypes> args)
+    {
+        this.EnableWeekRule = (CalendarWeekRule)Enum.Parse(typeof(CalendarWeekRule), (args.Value));
+    }
+
+    private void OnDisableWeekNumber(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.EnableWeekNumber = args.Checked;
+    }
+}

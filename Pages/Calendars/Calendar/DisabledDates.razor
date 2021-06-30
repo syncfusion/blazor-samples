@@ -1,0 +1,61 @@
+﻿@page "/Calendar/Disabled-Dates"
+
+@using Syncfusion.Blazor.Calendars
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>In the following sample, all the weekends (Saturday and Sunday) of a month are <code>disabled</code>, and these dates are restricted to set or select in the Calendar.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Disabled Dates sample demonstrates, how to disable a specific dates in the Calendar by using <code>OnRenderDayCell</code> event. This event gets triggered on each day cell element creation that allows you to customize or disable the specific dates in the Calendar. Here the weekend date's are disabled by using OnRenderDayCell.</p>
+    <p>More information on the customize dates can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/calendar/events/#onrenderdaycell'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="calender-section">
+        <div id="calender-control">
+            <SfCalendar TValue="DateTime?" @ref="@CalendarObj" @bind-Value="@DropVal">
+                <CalendarEvents TValue="DateTime?" OnRenderDayCell="@DisableDate"></CalendarEvents>
+            </SfCalendar>
+            <div id="display_date">
+                <span id="date_value">Selected value: @(DropVal?.ToString("M/d/yyyy"))</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #date_label {
+        display: block;
+        width: 248px;
+        color: rgba(0, 0, 0, 0.58);
+        margin-left: 5px;
+    }
+
+    #calender-control {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    #display_date {
+        max-width: 300px;
+        margin: 0 auto;
+        padding-top: 10px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+</style>
+
+@code {
+
+    private DateTime? DropVal { get; set; } = DateTime.Now;
+    private SfCalendar<DateTime?> CalendarObj { get; set; }
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        var view = CalendarObj.CurrentView();
+        if (view == "Month" && ((int) args.Date.DayOfWeek == 0 || (int) args.Date.DayOfWeek == 6))
+        {
+            args.IsDisabled = true;
+        }
+    }
+}

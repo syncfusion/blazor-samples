@@ -1,0 +1,126 @@
+﻿@page "/TextBox/Forms-Validation"
+
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample is used to validate form using the Data Annotation. Type the value in the input element. If the input value is valid, then the given input will be ready to submit. Otherwise, an error message will be shown until you enter the valid value.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The form enables the validation with data annotation attributes by clicking on the submit externally. All rules are validated by the DataAnnotationsValidator.</p>
+    <p>The above name field is configured with the following rules.</p>
+    <table style='width:100%'>
+        <tr>
+            <th>Field</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <td style="width:195px">Required</td>
+            <td>The field must have a valid value.</td>
+        </tr>
+        <tr>
+            <td>MinLength</td>
+            <td>The field must have more than 3 characters in length.</td>
+        </tr>
+        <tr>
+            <td>MaxLength</td>
+            <td>The field should not have more than 10 characters in length.</td>
+        </tr>
+    </table>
+    <p style="margin-top:10px">The above address field is configured with the following rule.</p>
+    <table style='width:100%'>
+        <tr>
+            <th>Field</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <td style="width:195px">Required</td>
+            <td>The field must have a valid value.</td>
+        </tr>
+    </table>
+</ActionDescription>
+
+<div class="control-section col-lg-12">
+    <div class="content wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">                
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <div class="textbox">
+                        <label for="Name" style="padding: 20px 0 5px 0">Name</label>
+                        <SfTextBox id='textbox' @bind-Value="@annotation.Name" Placeholder="Enter a Name"></SfTextBox>
+                        <ValidationMessage For="@(() => annotation.Name)" />
+                    </div>                    
+                    <div class="multilinetextbox">
+                        <label for="Address" style="padding: 10px 0 5px 0">Address</label>
+                        <SfTextBox @bind-Value="@annotation.Address" Multiline="true" Placeholder="Enter an Address"></SfTextBox>
+                        <ValidationMessage For="@(() => annotation.Address)" />
+                    </div>
+                </div>
+                <div class="sfButton">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+    .control-section.multiline {
+        margin-top: 10px;
+    }
+
+    .wrapper {
+        width: 45%;
+        margin-left: 200px;
+    }
+
+    .sfButton {
+        padding-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .validation-message {
+        color: red;
+        padding-top: 5px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    private Annotation annotation = new Annotation();
+    async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        annotation.Name = null;
+        annotation.Address = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The Address field is required.")]
+        public string Address { get; set; }
+        [Required(ErrorMessage = "The Name field is required.")]
+        [MaxLength(10, ErrorMessage = "The Name field should not contain more than 10 characters.")]
+        [MinLength(3, ErrorMessage = "The Name field must contain at least 3 characters.")]
+        public string Name { get; set; }
+    }
+}

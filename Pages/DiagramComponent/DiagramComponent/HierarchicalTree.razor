@@ -1,0 +1,282 @@
+﻿@page "/diagramcomponent/hierarchical-tree"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Diagram.Internal
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>Diagram component's features are segregated into individual feature modules. To generate diagrams fromexternal data source.</p><br>
+</SampleDescription>
+<ActionDescription>
+    <p> In this example, you can see how to generate a hierarchical tree from external data sources. You can also customize the spacing among the objects in the tree. You can use the <code class="language-text">HorizontalSpacing</code> and <code class="language-text">VerticalSpacing</code> properties of <code class="language-text">DiagramLayout</code> to customize the space among the objects in the tree. You can use the <code class="language-text">Orientation</code> property of <code class="language-text">DiagramLayout</code> to change the orientation of the tree.</p>
+    <p> To change the orientation of the tree, click the templates that are added to the property panel.</p>
+</ActionDescription>
+@*Hidden:Lines*@
+<style>
+
+    #diagram {
+        display: block;
+    }
+
+    .row {
+        display: block;
+    }
+
+    .image-pattern-style {
+        background-color: white;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 75px;
+        width: calc((100% - 12px) / 2);
+        cursor: pointer;
+        border: 1px solid #D5D5D5;
+        background-position: center;
+        float: left;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .row-header {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .image-pattern-style:hover {
+        border-color: gray;
+        border-width: 2px;
+    }
+
+    .e-checkbox-wrapper .e-label {
+        font-size: 12px;
+    }
+
+    .e-selected-style {
+        border-color: #006CE6;
+        border-width: 2px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .textboxstyle {
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        width: 110px;
+    }
+
+    .sb-property-border {
+        border-right: 1px solid #D7D7D7;
+    }
+</style>
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfDiagramComponent @ref="@Diagram" Height="499px" Tool="@DiagramTools.ZoomPan" ConnectorDefaults="@ConnectorDefaults" NodeDefaults="@NodeDefaults">
+            <DataSourceSettings Id="Name" ParentId="Category" DataSource="DataSource"> </DataSourceSettings>
+            <Layout @bind-Type="type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@orientation" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@horizontalAlignment" @bind-VerticalAlignment="@verticalAlignment" GetLayoutInfo="GetLayoutInfo">
+                <LayoutMargin @bind-Top="@top" @bind-Bottom="@bottom" @bind-Right="@right" @bind-Left="@left"></LayoutMargin>
+            </Layout>
+            <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
+        </SfDiagramComponent>
+
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="row property-panel-content" id="appearance">
+        <div class="row row-header">
+            Appearance
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Top to Bottom  Orientation" class="@dict["topToBottom"]" @onclick="@ToptoBottomClick" id="topToBottom" style="background-image: url(images/diagram/common-orientation/top-to-bottom.png);
+        margin-right: 3px">
+            </div>
+            <div title="Bottom to top Orientation" class="@dict["bottomToTop"]" @onclick="@BottomtoTopClick" id="bottomToTop" style="background-image: url(images/diagram/common-orientation/bottom-to-top.png);
+        margin: 0px 3px">
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Left to right Orientation" class="@dict["leftToRight"]" @onclick="@LefttoRightClick" id="leftToRight" style="background-image: url(images/diagram/common-orientation/left-to-right.png);
+        margin-right: 3px">
+            </div>
+            <div title="Right to left Orientation" class="@dict["rightToLeft"]" @onclick="@RighttoLeftClick" id="rightToLeft" style="background-image: url(images/diagram/common-orientation/right-to-left.png);
+        margin: 0px 3px">
+            </div>
+        </div>
+    </div>
+    <div class="row property-panel-content" style="padding-top: 10px">
+        <div class="row row-header">
+            Layout Spacing
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Horizontal Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="hSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@HValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="HSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Vertical Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="vSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@VValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="VSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+
+@code{
+    SfDiagramComponent Diagram;
+    public int? HValue { get; set; } = 30;
+    public int? VValue { get; set; } = 30;
+    static string selecteditem = "image-pattern-style e-selected-style";
+    static string unselecteditem = "image-pattern-style";
+    double top = 50;
+    double bottom = 50;
+    double right = 50;
+    double left = 50;
+    LayoutType type = LayoutType.HierarchicalTree;
+    LayoutOrientation orientation = LayoutOrientation.TopToBottom;
+    HorizontalAlignment horizontalAlignment = HorizontalAlignment.Auto;
+    VerticalAlignment verticalAlignment = VerticalAlignment.Auto;
+    int HorizontalSpacing = 30;
+    int VerticalSpacing = 30;
+
+    Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
+
+    private void ConnectorDefaults(IDiagramObject connector)
+    {
+        (connector as Connector).Type = Segments.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShapes.None;
+        (connector as Connector).Style = new ShapeStyle() { StrokeColor = "#6d6d6d" };
+        (connector as Connector).Constraints = 0;
+        (connector as Connector).CornerRadius = 5;
+    }
+
+    private TreeInfo GetLayoutInfo(IDiagramObject obj, TreeInfo options)
+    {
+        options.CanEnableSubTree = true;
+        options.Orientation = SubTreeOrientation.Horizontal;
+        return options;
+    }
+    private void NodeDefaults(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        if (node.Data is System.Text.Json.JsonElement)
+        {
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<HierarchicalDetails>(node.Data.ToString());
+        }
+        HierarchicalDetails hierarchicalData = node.Data as HierarchicalDetails;
+        node.Style = new ShapeStyle() { Fill = "#659be5", StrokeColor = "none", StrokeWidth = 2, };
+        node.BackgroundColor = "#659be5";
+        node.Width = 150;
+        node.Height = 50;
+        node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+    {
+            new ShapeAnnotation()
+            {
+                Content = hierarchicalData.Name,
+                Style =new TextShapeStyle(){Color = "white"}
+            }
+        };
+    }
+
+    public class HierarchicalDetails
+    {
+        public string Name { get; set; }
+        public string FillColor { get; set; }
+        public string Category { get; set; }
+
+    }
+    //Datasoure items.
+    public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
+{
+        new HierarchicalDetails(){ Name ="Diagram", Category="",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Layout", Category="Diagram",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Tree layout", Category="Layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Organizational chart", Category="Layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Hierarchical tree", Category="Tree layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Radial tree", Category="Tree layout",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Mind map", Category="Hierarchical tree",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Family tree", Category="Hierarchical tree",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Management", Category="Organizational chart",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Human resources", Category="Management",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="University", Category="Management",FillColor="#659be5"},
+        new HierarchicalDetails(){ Name ="Business", Category="#Management",FillColor="#659be5"}
+    };
+
+    //Update the section to the property panel
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dict.Count; i++)
+        {
+            var value = dict.Values.ElementAt(i);
+            var key = dict.Keys.ElementAt(i);
+            if (dict.ContainsKey(id) && key == id)
+            {
+                value = selecteditem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dict.Remove(key);
+            dict.Add(key, value);
+        }
+    }
+
+    public class ImageFields
+    {
+        public string Text { get; set; }
+    }
+    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        HValue = (int)args.Value;
+        HorizontalSpacing = int.Parse(args.Value.ToString());
+    }
+    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        VValue = (int)args.Value;
+        VerticalSpacing = int.Parse(args.Value.ToString());
+    }
+
+    private void ToptoBottomClick()
+    {
+        UpdateSelection("topToBottom");
+        orientation = LayoutOrientation.TopToBottom;
+    }
+    private void LefttoRightClick()
+    {
+        UpdateSelection("leftToRight");
+        orientation = LayoutOrientation.LeftToRight;
+    }
+    private void RighttoLeftClick()
+    {
+        UpdateSelection("rightToLeft");
+        orientation = LayoutOrientation.RightToLeft;
+    }
+    private void BottomtoTopClick()
+    {
+        UpdateSelection("bottomToTop");
+        orientation = LayoutOrientation.BottomToTop;
+    }
+}
+
+

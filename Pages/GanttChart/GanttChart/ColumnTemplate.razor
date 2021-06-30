@@ -1,0 +1,161 @@
+﻿@page "/gantt-chart/column-template"
+@using Syncfusion.Blazor.Gantt
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>A column template is used to customize the column’s look. The following code example explains how to define the custom template in Gantt Chart using the Template property.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Gantt provides a way to use a custom layout for each cell using the column template feature. The GanttColumn <code>Template</code> sub component is used to insert the column template for the columns.</p>
+    <p>In this demo, using column template, resource column has been presented with employee photo.</p>
+    <p>More information about Column Template can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/gantt-chart/columns/#column-template'>documentation</a></code> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row">
+        <div class="col-md-12">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" RowHeight=60 ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" WorkUnit="WorkUnit.Hour">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 ParentID="ParentId" TaskType="TaskType">
+                </GanttTaskFields>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
+                                   ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="ID"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="TaskName"></GanttColumn>
+                    <GanttColumn Field="ResourceName" HeaderText="Resources" Width="220px">
+                        <Template>
+                            @{
+                                if ((context as TaskData).ResourceName != null)
+                                {
+                                    <div class="image">
+                                        <img src="images/gantt/@((context as TaskData).ResourceName.ToLower().Split(" ")[0]).png" style="height:40px;width:40px" />
+                                        <div style="display:inline-block;width:100%;position:relative;left:30px">@((context as TaskData).ResourceName)</div>
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="TaskType" HeaderText="Task Type"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+                </GanttColumns>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="50%"></GanttSplitterSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code{
+    public DateTime ProjectStart = new DateTime(2019, 3, 23);
+    public DateTime ProjectEnd = new DateTime(2019, 7, 28);
+    public List<TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = GetTaskCollection();
+    }
+
+    public class TaskData
+    {
+        public int TaskId { get; set; }
+        public string TaskName { get; set; }
+        public string TaskType { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int Progress { get; set; }
+        public int? ParentId { get; set; }
+        public string ResourceName { get; set; }
+    }
+
+    public static List<TaskData> GetTaskCollection()
+    {
+        List<TaskData> Tasks = new List<TaskData>() {
+        new TaskData() {
+            TaskId = 1,
+            TaskName = "Project initiation",
+            StartDate = new DateTime(2019, 03, 28),
+            EndDate = new DateTime(2019, 07, 28),
+            TaskType ="FixedDuration",
+            Duration="4",
+        },
+        new TaskData() {
+            TaskId = 2,
+            TaskName = "Identify Site location",
+            StartDate = new DateTime(2019, 03, 29),
+            Progress = 30,
+            ParentId = 1,
+            Duration="2",
+            ResourceName="Rose Fuller"
+        },
+        new TaskData() {
+            TaskId = 3,
+            TaskName = "Perform soil test",
+            StartDate = new DateTime(2019, 03, 29),
+            ParentId = 1,
+            Duration="4",
+            TaskType="Fixed work",
+            ResourceName="Margaret Buchanan"
+        },
+        new TaskData() {
+            TaskId = 4,
+            TaskName = "Soil test approval",
+            StartDate = new DateTime(2019, 03, 29),
+            Duration = "1",
+            Progress = 30,
+            ParentId = 1,
+            ResourceName="Fuller King",
+            TaskType="Fixed work"
+        },
+        new TaskData() {
+            TaskId = 5,
+            TaskName = "Project estimation",
+            StartDate = new DateTime(2019, 03, 29),
+            EndDate = new DateTime(2019, 04, 2),
+            TaskType="Fixed Duration",
+            Duration="4"
+        },
+        new TaskData() {
+            TaskId = 6,
+            TaskName = "Develop floor plan for estimation",
+            StartDate = new DateTime(2019, 03, 29),
+            Duration = "3",
+            Progress = 30,
+            ParentId = 5,
+            ResourceName="Van Jack",
+            TaskType="Fixed work"
+        },
+        new TaskData() {
+            TaskId = 7,
+            TaskName = "List materials",
+            StartDate = new DateTime(2019, 04, 01),
+            Duration = "3",
+            Progress = 30,
+            ParentId = 5,
+            TaskType="Fixedwork",
+            ResourceName="Martin Tamer"
+        },
+        new TaskData() {
+            TaskId = 8,
+            TaskName = "Estimation approval",
+            StartDate = new DateTime(2019, 04, 01),
+            Duration = "2",
+            ParentId = 5,
+            TaskType="Fixedwork",
+            ResourceName="Jack Davolio"
+        },
+        new TaskData() {
+            TaskId = 9,
+            TaskName = "Sign contract",
+            StartDate = new DateTime(2019, 03, 31),
+            EndDate = new DateTime(2019, 04, 01),
+            Duration="1",
+            TaskType="Fixedwork",
+            ResourceName="Davolio Fuller"
+        },
+    };
+        return Tasks;
+    }
+}

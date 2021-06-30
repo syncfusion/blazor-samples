@@ -1,0 +1,165 @@
+﻿@page "/gantt-chart/working-time-range"
+@using Syncfusion.Blazor.Gantt
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes the support for changing the working hours in a day.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render a Gantt chart with the provided data source and customizable working hours in a day. You can split the working hours in a day to one or more range. Gantt chart also supports different <code>DurationUnit</code> values as follows:
+        <ul>
+            <li><code>Day</code></li>
+            <li><code>Hour</code></li>
+            <li><code>Minute</code></li>
+        </ul>
+    </p>
+    <p>Given duration in dataSource will be considered with this unit. In this demo, the hour unit is used to render taskbars in day hour timeline mode. Gantt chart supports only 24hours format as of now. The working hours will differ between organizations. This feature will be helpful to keep track of each task and resource task status based on the working time of the company.</p>
+    <p>More information on the work time range can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/gantt-chart/scheduling-tasks/#working-time-range'>documentation</a></code> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" DurationUnit="DurationUnit.Hour"
+                     AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 Dependency="Predecessor" ParentID="ParentId" Notes="Notes"></GanttTaskFields>
+                <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="30%"></GanttSplitterSettings>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="8" To="17"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+                <GanttTimelineSettings TimelineUnitSize="40">
+                    <GanttTopTierSettings Unit="TimelineViewMode.Day"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Hour"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+@code{
+    public DateTime ProjectStart = new DateTime(2019, 04, 02);
+    public DateTime ProjectEnd = new DateTime(2019, 04, 06);
+    public List<TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = ProjectNewData();
+    }
+
+    public class TaskData
+    {
+        public int TaskId { get; set; }
+        public string TaskName { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+
+        public string Duration { get; set; }
+        public int Progress { get; set; }
+        public string Predecessor { get; set; }
+        public string Notes { get; set; }
+        public int? ParentId { get; set; }
+    }
+
+    public static List<TaskData> ProjectNewData()
+    {
+        List<TaskData> Tasks = new List<TaskData>() {
+        new TaskData() {
+            TaskId = 1,
+            TaskName = "Product concept ",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = "5days"
+        },
+        new TaskData() {
+            TaskId = 2,
+            TaskName = "Defining the product usage",
+            StartDate = new DateTime(2019, 04, 02),
+            Duration = "3",
+            Progress = 30,
+            ParentId = 1
+        },
+        new TaskData() {
+            TaskId = 3,
+            TaskName = "Defining the Target audience",
+            Progress = 40,
+            ParentId = 1
+        },
+        new TaskData() {
+            TaskId = 4,
+            TaskName = "Prepare product sketch and notes",
+            StartDate = new DateTime(2019, 04, 03),
+            Duration = "2",
+            Progress = 30,
+            ParentId = 1,
+            Predecessor="2"
+        },
+        new TaskData() {
+            TaskId = 5,
+            TaskName = "Concept approval",
+            StartDate = new DateTime(2019, 04, 04),
+            EndDate = new DateTime(2019, 04, 04),
+            Duration="0",
+            Predecessor="3,4",
+        },
+        new TaskData() {
+            TaskId = 6,
+            TaskName = "Market Research",
+            StartDate = new DateTime(2019, 04, 05),
+            Duration = "4",
+            Progress = 30,
+        },
+        new TaskData() {
+            TaskId = 7,
+            TaskName = "Demand Analysis",
+            Duration = "4",
+            Progress = 40,
+            ParentId = 6
+        },
+        new TaskData() {
+            TaskId = 8,
+            TaskName = "Customer Strength",
+            StartDate = new DateTime(2019, 04, 05),
+            Duration = "4",
+            Progress = 30,
+            ParentId = 7,
+            Predecessor="5"
+        }, new TaskData() {
+            TaskId = 9,
+            TaskName = "Market Opportunity analysis",
+            StartDate = new DateTime(2019, 04, 05),
+            Duration="4",
+            ParentId= 7,
+            Predecessor="5"
+        },
+        new TaskData() {
+            TaskId = 10,
+            TaskName = "Competitor analysis",
+            StartDate = new DateTime(2019, 04, 05),
+            Duration = "4",
+            Progress = 30,
+            ParentId= 6,
+            Predecessor="7,8"
+        },
+        new TaskData() {
+            TaskId = 11,
+            TaskName = "Product Strength Analysis",
+            StartDate = new DateTime(2019, 04, 06),
+            Duration = "4",
+            Progress = 40,
+            ParentId = 6,
+            Predecessor="9"
+        },
+        new TaskData() {
+            TaskId = 12,
+            TaskName = "Research Completed",
+            StartDate = new DateTime(2019, 04, 06),
+            Duration = "0",
+            Progress = 30,
+            ParentId = 6,
+            Predecessor="10"
+        }
+    };
+        return Tasks;
+    }
+}

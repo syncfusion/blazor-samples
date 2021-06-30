@@ -1,0 +1,107 @@
+﻿@page "/ComboBox/Forms-Validation"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample is used to validate form using the Data Annotation. Type the value in the input element or choose from the dropdown popup. If the input value is valid, then the given input will be ready to submit. Otherwise, an error message will be shown until you enter or choose the valid value.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The form enables the validation with data annotation attributes by clicking on the submit externally. All rules are validated by the DataAnnotationsValidator.</p>
+    <p>The above country field is configured with the following rule.</p>
+    <table style='width:100%'>
+        <tr>
+            <th>Field</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <td>Required</td>
+            <td>The field must have a valid value.</td>
+        </tr>
+    </table>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control_wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+        <EditForm Model="@model" OnValidSubmit="@onValidSubmit" OnInvalidSubmit="@onInvalidSubmit">
+            <DataAnnotationsValidator />
+            <div>
+                <SfComboBox Placeholder="Select a Country" @bind-Value="@model.Name" DataSource="@Country">
+                    <ComboBoxFieldSettings Value="Code" Text="Name"></ComboBoxFieldSettings>
+                </SfComboBox>
+                <ValidationMessage For="()=>model.Name"></ValidationMessage>
+            </div>            
+            <div class="sfButton">
+                <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+            </div>
+        </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+<style>
+    .control_wrapper {
+        width: 350px;
+        margin: 0 auto;
+        padding-top: 70px;
+    }
+
+    .sfButton {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .validation-message {
+        color: red;
+        padding-top: 5px;
+    }
+</style>
+
+@code{
+    private string Message = string.Empty;
+    async void onValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        model.Name = null;
+        StateHasChanged();
+    }
+    private void onInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    private Countries model = new Countries();
+    public class Countries
+    {
+        [Required(ErrorMessage = "The Country field is required.")]
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
+    private List<Countries> Country = new List<Countries>
+    {
+        new Countries() { Name = "Australia", Code = "AU" },
+        new Countries() { Name = "Bermuda", Code = "BM" },
+        new Countries() { Name = "Canada", Code = "CA" },
+        new Countries() { Name = "Cameroon", Code = "CM" },
+        new Countries() { Name = "Denmark", Code = "DK" },
+        new Countries() { Name = "France", Code = "FR" },
+        new Countries() { Name = "Finland", Code = "FI" },
+        new Countries() { Name = "Germany", Code = "DE" },
+        new Countries() { Name = "Greenland", Code = "GL" },
+        new Countries() { Name = "Hong Kong", Code = "HK" },
+        new Countries() { Name = "India", Code = "IN" },
+        new Countries() { Name = "Italy", Code = "IT" }
+    };
+}

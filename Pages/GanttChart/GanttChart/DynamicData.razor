@@ -1,0 +1,111 @@
+﻿@page "/gantt-chart/dynamic-data"
+@using Syncfusion.Blazor.Gantt
+@using System.Dynamic
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample explains the usage of DynamicObject data binding with CRUD operations and sorting functionalities in the Gantt component with DynamicObject.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>DynamicObject can be bound to Gantt by assigning to the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_DataSource'>DataSource</a></code> property.</p>
+    <p>The <code><a target='_blank' class='code' href='https://docs.microsoft.com/en-us/dotnet/api/system.dynamic.dynamicobject.getdynamicmembernames?view=netcore-3.1'>GetDynamicMemberNames</a></code> method of the DynamicObject class must be overridden and return the property names to render and perform data operations, editing, etc. while using DynamicObject.</p>
+    <p>More information on the DynamicObject data binding can be found in this <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/gantt-chart/data-binding/#dynamicobject-binding'>documentation</a></code> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@GanttDynamicData" Height="450px" Width="100%" HighlightWeekends="true" ProjectStartDate="@ProjectStart" 
+				Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })" ProjectEndDate="@ProjectEnd">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" Progress="Progress" Duration="Duration" ParentID="ParentId"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="Task ID" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Task Name"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+                </GanttColumns>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="DynamicDictionary"></GanttLabelSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    public DateTime ProjectStart = new DateTime(2021, 01, 04);
+    public DateTime ProjectEnd = new DateTime(2021, 03, 07);
+    public static List<DynamicDictionary> Data = new List<DynamicDictionary>();
+    public List<DynamicDictionary> GanttDynamicData { get; set; }
+    public static int ParentRecordID { get; set; }
+    public static int ChildRecordID { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.GanttDynamicData = GetData().ToList();
+    }
+
+    public static List<DynamicDictionary> GetData()
+    {
+        Data.Clear();
+        ParentRecordID = 0;
+        ChildRecordID = 0;
+        for (var i = 1; i <= 5; i++)
+        {
+            Random ran = new Random();
+            DateTime start = new DateTime(2021, 01, 10);
+            int range = (DateTime.Today - start).Days;
+            DateTime startingDate = start;
+            dynamic ParentRecord = new DynamicDictionary();
+            ParentRecord.TaskId = ++ParentRecordID;
+            ParentRecord.TaskName = "Parent Task " + i;
+            ParentRecord.StartDate = startingDate;
+            ParentRecord.Progress = ran.Next(10, 100);
+            ParentRecord.Duration = ParentRecordID % 2 == 0 ? (4).ToString() : (8).ToString();
+            ParentRecord.ParentId = null;
+            Data.Add(ParentRecord);
+            AddChildRecords(ParentRecordID);
+        }
+        return Data;
+    }
+
+    public static void AddChildRecords(int ParentId)
+    {
+        for (var i = 1; i < 4; i++)
+        {
+            Random ran = new Random();
+            DateTime start = new DateTime(2021, 01, 10);
+            int range = (DateTime.Today - start).Days;
+            DateTime startingDate = start;
+            dynamic ChildRecord = new DynamicDictionary();
+            ChildRecord.TaskId = ++ParentRecordID;
+            ChildRecord.TaskName = "Child Task " + ++ChildRecordID;
+            ChildRecord.StartDate = startingDate;
+            ChildRecord.Progress = ran.Next(10, 100);
+            ChildRecord.Duration = ParentRecordID % 3 == 0 ? (3).ToString() : (6).ToString();
+            ChildRecord.ParentId = ParentId;
+            Data.Add(ChildRecord);
+        }
+    }
+
+    public class DynamicDictionary : DynamicObject
+    {
+        Dictionary<string, object> dictionary = new Dictionary<string, object>();
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            string name = binder.Name;
+            return dictionary.TryGetValue(name, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            dictionary[binder.Name] = value;
+            return true;
+        }
+
+        public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
+        {
+            return this.dictionary?.Keys;
+        }
+    }
+}
