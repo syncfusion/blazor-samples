@@ -566,7 +566,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="BatchData",
-                        FileName="SelfData.cs"
+                        FileName="WrapData.cs"
                     }
                 }
             },
