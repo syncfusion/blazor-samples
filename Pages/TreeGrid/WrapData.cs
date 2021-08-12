@@ -7,7 +7,7 @@ namespace ej2_blazor_wrapdata
 {
     public class WrapData
     {
-        public int TaskId { get; set; }
+        public int? TaskId { get; set; }
         public string TaskName { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

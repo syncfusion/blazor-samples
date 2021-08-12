@@ -32,7 +32,8 @@ namespace BlazorDemos
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/paragraph-format",
-                FileName = "ParagraphFormat.razor"
+                FileName = "ParagraphFormat.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -64,7 +65,8 @@ namespace BlazorDemos
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/table-format",
-                FileName = "TableFormat.razor"
+                FileName = "TableFormat.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
