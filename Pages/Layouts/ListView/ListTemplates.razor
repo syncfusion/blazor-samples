@@ -1,0 +1,278 @@
+﻿@page "/listview/list-templates"
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+
+@using Syncfusion.Blazor.Lists
+@using BlazorDemos.Pages.Layouts.ListView;
+
+@inherits SampleBaseComponent
+
+<SampleDescription>
+  <p>This sample demonstrates the template functionalities of the ListView. Click any news header or thumbnail to open the complete article. To navigate back to the news list, click the back icon at the top left area.</p>  
+</SampleDescription>
+<ActionDescription>
+   <p>The above template represents the customizability of the ListView component. Here, list data is loaded and its value is directly mapped to your ListView datasource to load the content.</p>
+   <p>This sample also has the additional elements such as bookmark, comments, and share that can be customized to perform the appropriate action by adding your own events.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfListView DataSource="@DataSource"
+                ShowHeader="true"
+                HeaderTitle="Syncfusion Blog"
+                CssClass="e-list-template listview-template">
+        <ListViewFieldSettings TValue="NewsDataModel" Id="Id" Text="Text" Child="Child"></ListViewFieldSettings>
+        <ListViewTemplates TValue="NewsDataModel">
+            <Template>
+                @{
+                    <div class="@(context.Category != null ? "clearfix desc e-list-wrapper e-list-multi-line e-list-avatar" : "clearfix e-list-wrapper e-list-multi-line e-list-avatar")">
+                        @if (context.ImgSrc != "")
+                        {
+                            <img class="e-avatar" src="@UriHelper.ToAbsoluteUri($"images/list-view/{context.ImgSrc}.png")">
+                        }
+                        <span class="e-list-item-header">@context.Title</span>
+                        <span class="e-list-content e-text-overflow">@context.Description</span>
+                        @if (context.TimeStamp != "")
+                        {
+                            <div id="list-logo" onclick="event.stopPropagation();">
+                                <span class="bookmark" title="We can customize this element to perform our own action"></span>
+                                <span class="comments" title="We can customize this element to perform our own action"></span>
+                                <span class="share" title="We can customize this element to perform our own action"></span>
+                            </div>
+                        }
+                        @if (context.TimeStamp != "")
+                        {
+                            <div class="timeStamp">@context.TimeStamp</div>
+                        }
+                    </div>
+                }
+            </Template>
+        </ListViewTemplates>
+    </SfListView>
+</div>
+
+@code {
+    List<NewsDataModel> DataSource = ListViewDataSource.DataSource;
+}
+
+@*Hidden:Lines*@
+<style>
+    /* ListView position alignment */
+
+    .listview-template.e-listview {
+        max-width: 400px;
+        margin: auto;
+        border-radius: 2px;
+        height: 470px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+        /* ListView header alignment */
+
+        .listview-template.e-listview .e-list-header #list-logo {
+            margin-top: 2.5px;
+            position: absolute;
+            right: 20px;
+        }
+
+    /* ListView template customization */
+
+    @@font-face {
+        font-family: 'Bookmarks';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-listview.e-rtl.e-list-template .e-list-wrapper.e-list-avatar:not(.e-list-badge) {
+        padding-left: 1.0666em;
+        padding-right: 122px;
+    }
+
+    .e-listview.e-list-template .e-list-wrapper.e-list-avatar:not(.e-list-badge),
+    .tailwind .e-bigger .e-listview.e-list-template .e-list-wrapper.e-list-avatar,
+    .tailwind-dark .e-bigger .e-listview.e-list-template .e-list-wrapper.e-list-avatar{
+       padding-left: 122px;
+       padding-right: 1.0666em;
+     }
+
+    .listview-template.e-listview.e-list-template .e-list-wrapper.e-list-multi-line.e-list-avatar .e-avatar {
+        background: transparent;
+        width: 90px;
+        height: 90px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+
+    .listview-template.e-listview #list-logo {
+        float: right;
+    }
+
+    .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper,
+    .tailwind .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper,
+    .tailwind-dark .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper{
+        padding-left: 16px;
+    }
+
+        .listview-template.e-listview.e-list-template .clearfix.desc.e-list-wrapper p {
+            text-indent: 50px;
+        }
+
+    .listview-template.e-listview .e-list-item.e-has-child.e-hover:not(.e-focused) {
+        transition: 0.8s;
+    }
+
+    .listview-template.e-listview .e-list-item.e-active {
+        background-color: white;
+    }
+
+    .listview-template.e-listview .e-list-item.e-level-1.e-has-child {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+        .listview-template.e-listview .e-list-item.e-level-1.e-has-child:last-child {
+            border-bottom: 0px solid rgba(0, 0, 0, 0.12)
+        }
+
+    .listview-template.e-listview .timeStamp {
+        font-size: 10px;
+        padding: 4px 0;
+    }
+
+    .listview-template.e-listview .bookmark,
+    .listview-template.e-listview .share,
+    .listview-template.e-listview .comments {
+        cursor: pointer;
+    }
+
+        .listview-template.e-listview .bookmark::before,
+        .listview-template.e-listview .share::before,
+        .listview-template.e-listview .comments::before {
+            color: grey;
+            font-family: 'Bookmarks';
+            margin-left: 3px;
+        }
+
+
+        body.bootstrap5 .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+        body.bootstrap5 .listview-template.e-listview .e-list-item.e-focused .share::before,
+        body.bootstrap5 .listview-template.e-listview .e-list-item.e-focused .comments::before,
+        body.material-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+        body.material-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+        body.material-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+        body.fabric-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+        body.fabric-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+        body.fabric-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+        body.bootstrap-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+        body.bootstrap-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+        body.bootstrap-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+        body.tailwind-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+        body.tailwind-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+        body.tailwind-dark .listview-template.e-listview .e-list-item.e-focused .comments::before,
+        body.bootstrap5-dark .listview-template.e-listview .e-list-item.e-focused .bookmark::before,
+        body.bootstrap5-dark .listview-template.e-listview .e-list-item.e-focused .share::before,
+        body.bootstrap5-dark .listview-template.e-listview .e-list-item.e-focused .comments::before{
+            color: #ffffff;
+        }
+
+        .listview-template.e-listview .bookmark::before {
+            content: "\e700";
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .listview-template.e-listview .share::before {
+            content: "\e701";
+            margin-right: 3px;
+            font-size: 13px;
+        }
+
+        .listview-template.e-listview .comments::before {
+            content: "\e703";
+            margin-right: 12px;
+            font-size: 15px;
+        }
+
+    /* ListView theme customization */
+
+    .highcontrast .listview-template.e-listview .bookmark::before,
+    .highcontrast .listview-template.e-listview .share::before,
+    .highcontrast .listview-template.e-listview .comments::before {
+        color: #fff;
+    }
+
+    .highcontrast .listview-template.e-listview .e-list-item.e-active {
+        background-color: #333333;
+        color: #fff;
+    }
+
+    .material .listview-template.e-listview .e-has-child:hover .e-list-item-header {
+        color: #E91E63;
+        transition: 0.5s;
+    }
+
+    .fabric .listview-template.e-listview .e-has-child:hover .e-list-item-header {
+        color: #275395;
+        transition: 0.5s;
+    }
+
+    .bootstrap .listview-template.e-listview .e-has-child:hover .e-list-item-header {
+        color: #0644b4;
+        transition: 0.5s;
+    }
+
+    .highcontrast .listview-template.e-listview .e-list-item.e-hover:not(.e-focused) {
+        background-color: #333333;
+        color: #fff;
+        border-color: #333333;
+    }
+
+    .highcontrast .listview-template.e-listview .e-list-item.e-has-child.e-hover {
+        transition: 0s;
+        background-color: #685708;
+        border-color: #fff;
+        color: #fff;
+    }
+
+    .highcontrast .e-listview.e-list-template .e-list-item.e-active .e-list-item-header,
+    .highcontrast .e-listview.e-list-template .e-list-item.e-active .e-list-content {
+        color: #fff;
+    }
+
+    .bootstrap4 .e-listview.e-list-template .e-list-item.e-active .e-list-item-header,
+    .bootstrap4 .e-listview.e-list-template .e-list-item.e-active .e-list-content {
+        color: #333333;
+    }
+
+    .bootstrap4 .listview-template.e-listview .bookmark::before,
+    .bootstrap4 .listview-template.e-listview .share::before,
+    .bootstrap4 .listview-template.e-listview .comments::before {
+        color: #495057;
+    }
+
+
+
+    .tailwind-dark.e-bigger .listview-template.e-listview.e-list-template .e-list-wrapper.e-list-multi-line.e-list-avatar .e-avatar{
+        width: 65px;
+        height: 65px;
+    }
+
+    body.material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-item-header {
+        color: #ffffff;
+    }
+
+    body.material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content,
+    body.bootstrap-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content {
+        color: rgba(255,255,255,0.7);
+    }
+
+
+    /* Media query */
+
+    @@media screen and (max-width: 450px) {
+        .listview-template.e-listview #list-logo {
+            display: none
+        }
+    }
+</style>
+@*End:Hidden*@
