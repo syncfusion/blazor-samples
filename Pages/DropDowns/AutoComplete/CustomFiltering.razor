@@ -1,0 +1,56 @@
+﻿@page "/AutoComplete/Custom-Filtering"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Data
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the custom filtering functionalities of the AutoComplete. You can choose an item from the suggestion list that filters items based on the approximate string matching technique.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The AutoComplete can be customized to showcase the suggestion list by using the Filtering event and Filter method. You can also use your own filter libraries to filter data like Fuzzy search.</p>.
+   <p>More information on the filtering can be found in the <a href='https://blazor.syncfusion.com/documentation/autocomplete/filtering#custom-filtering' target='_blank'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        <SfAutoComplete TValue="string" @ref="AutocompleteObj" TItem="Countries" Placeholder="e.g. Australia">
+            <AutoCompleteFieldSettings Value="Name"></AutoCompleteFieldSettings>
+            <AutoCompleteEvents TValue="string" TItem="Countries" Filtering="OnFilter"></AutoCompleteEvents>
+        </SfAutoComplete>
+    </div>
+</div>
+
+@code{
+    SfAutoComplete<string, Countries> AutocompleteObj { get; set; }
+    public class Countries
+    {
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
+    List<Countries> Country = new List<Countries>
+    {
+        new Countries() { Name = "Australia", Code = "AU" },
+        new Countries() { Name = "Bermuda", Code = "BM" },
+        new Countries() { Name = "Canada", Code = "CA" },
+        new Countries() { Name = "Cameroon", Code = "CM" },
+        new Countries() { Name = "Denmark", Code = "DK" }
+    };
+
+    private async Task OnFilter(FilteringEventArgs args)
+    {
+        args.PreventDefaultAction = true;
+        var query = new Query().Where(new WhereFilter() { Field = "Name", Operator = "contains", value = args.Text, IgnoreCase = true });
+        query = !string.IsNullOrEmpty(args.Text) ? query : new Query();
+        await AutocompleteObj.FilterAsync(Country, query);
+    }
+}
+
+<style>
+    .control-wrapper {
+        width: 350px;
+        margin: 0 auto;
+        padding-top: 70px;
+    }
+</style>

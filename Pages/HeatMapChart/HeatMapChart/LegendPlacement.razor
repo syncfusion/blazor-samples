@@ -1,10 +1,12 @@
 ﻿@page "/heatmap-chart/legend-placement"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.HeatMap
 @using Syncfusion.Blazor.DropDowns
 @using sf_blazor_heatmapdata
 @using SFHeatMap = Syncfusion.Blazor.HeatMap
 @inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
 
 <SampleDescription>
     <p>This sample visualizes the hourly weather forecast for some major European cities. The data label is disabled in this sample, the Tooltip displays the data point values.</p>
@@ -16,7 +18,7 @@
 
 <div class="col-lg-9 control-section">
     <div class="row">
-        <SfHeatMap DataSource="@DataSource">
+        <SfHeatMap DataSource="@DataSource" Theme="@theme">
             <HeatMapTitleSettings Text="Hourly Weather Forecast (in Celsius)">
                 <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal"></HeatMapTitleTextStyle>
             </HeatMapTitleSettings>
@@ -43,14 +45,15 @@
 <div class="col-lg-3 property-section">
     <div><h5>Legend Placement</h5></div>
     <SfDropDownList TValue="string" TItem="DataModel" PopupHeight="230px" @bind-Index="@index" Placeholder="Select a game" DataSource="@LegendPlacements">
-        <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@(e => { Enum.TryParse<SFHeatMap.LegendPosition>(e.Value, out CurrentLegentPosition); })"></DropDownListEvents>
+        <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@(e => { Enum.TryParse<SFHeatMap.LegendPosition>(e.ItemData.Text, out CurrentLegentPosition); })"></DropDownListEvents>
         <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
     </SfDropDownList>
 </div>
 
 @code{
+    private Theme theme { get; set; }
     private int? index { get; set; } = 0;
-    SFHeatMap.LegendPosition CurrentLegentPosition;
+    SFHeatMap.LegendPosition CurrentLegentPosition = SFHeatMap.LegendPosition.Left;
     string[] XLabels = new string[] { "London", "Berlin", "Madrid", "Paris", "Rome", "Lisbon", "Dublin" };
     string[] YLabels = new string[] { "12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM" };
     int[,] DataSource = HeatMapData.GetLegendData();
@@ -62,6 +65,7 @@
         LegendPlacements.Add(new DataModel { Id = "1", Text = "Right" });
         LegendPlacements.Add(new DataModel { Id = "2", Text = "Top" });
         LegendPlacements.Add(new DataModel { Id = "3", Text = "Bottom" });
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
     }
     class DataModel
     {
@@ -69,3 +73,8 @@
         public string Text { get; set; }
     }
 }
+<style>
+    .col-lg-3.property-section {
+        padding-top: 60px;
+    }    
+</style>

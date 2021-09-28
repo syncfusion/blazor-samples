@@ -2,11 +2,10 @@
 
 @using Syncfusion.Blazor.Schedule
 @using Syncfusion.Blazor.Buttons
-
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This demo showcases the Scheduler with recurring meetings handled by a top-level manager on a regular pattern.</p>
+    <p>This demo showcases the Scheduler with recurring meetings handled by a top-level manager on a regular pattern.</p>
 </SampleDescription>
 <ActionDescription>
     <p>
@@ -37,7 +36,8 @@
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+            <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
@@ -63,7 +63,22 @@
 </div>
 
 @code{
-    private DateTime CurrentDate = new DateTime(2020, 1, 9);
+    public View CurrentView = View.Week;
+    private DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 12);
     public bool EditUpcoming = false;
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetRecurrenceData();
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
 }
+<style>
+    .fabric .e-dialog .e-footer-content .e-btn,
+    .fabric-dark .e-dialog .e-footer-content .e-btn {
+        margin-left: 0px;
+    }
+
+    .material-dark .property-panel-header {
+        color: #fff;
+    }
+</style>

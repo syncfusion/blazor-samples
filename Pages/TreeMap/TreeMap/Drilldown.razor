@@ -1,38 +1,43 @@
 @page "/treemap/drill-down"
 
-
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample demonstrates drill-down with the continents at the top level followed by regions and countries. By clicking a continent in the treemap item, you can view all the countries available in that continent clearly. Customizations can be done in the treemap, by using the options in the properties panel</p>
+    <p>This sample demonstrates drill-down, beginning with continents and progressing to countries and regions. By selecting a continent from the TreeMap, you can clearly see all of the countries available in that continent. Similarly, by selecting a country, you can view all of its regions.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render a treemap with multiple items and drill it further. You can change the drill down view and enable the breadcrumb using the options available in the properties panel.</p>
-   <p>More information about drilldown can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/drill-down'>documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure a TreeMap with multiple items, as well as drill-down and drill-up functionality. You can also change the drill down view, customize the breadcrumb, and change the header alignment using the options in the properties panel.</p>
+    <p>More information about drilldown can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/drill-down'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
     <SfTreeMap WeightValuePath="Population" EnableDrillDown="true" DrillDownView="@DrilldownCheckBoxValue" EnableBreadcrumb="@AllowBreadcrumb" BreadcrumbConnector="@BreadCrumbConnector" Palette="@Palette"
-                DataSource="@LevelDataSource">
+               DataSource="@LevelDataSource" Theme="@Theme">
         <TreeMapTitleSettings Text="List of countries by population">
-            <TreeMapTitleTextStyle Size="15px"/>
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
         </TreeMapTitleSettings>
         <TreeMapLeafItemSettings LabelPath=Name Fill="6699cc" ShowLabels="false">
-            <TreeMapLeafLabelStyle Size="0px"/>
-            <TreeMapLeafBorder Color="#000000" Width="0.5"/>
+            <TreeMapLeafLabelStyle Size="0px" />
+            <TreeMapLeafBorder Color="#000000" Width="0.5" />
         </TreeMapLeafItemSettings>
         <TreeMapLevels>
             <TreeMapLevel GroupPath="Continent" HeaderAlignment="@Header">
-                <TreeMapLevelBorder Color="#000000" Width="0.5"/>
+                <TreeMapLevelBorder Color="#000000" Width="0.5" />
+                <TreeMapHeaderStyle FontFamily="Segoe UI"></TreeMapHeaderStyle>
             </TreeMapLevel>
             <TreeMapLevel GroupPath=States HeaderAlignment="@Header">
-                <TreeMapLevelBorder Color="#000000" Width="0.5"/>
+                <TreeMapLevelBorder Color="#000000" Width="0.5" />
+                <TreeMapHeaderStyle FontFamily="Segoe UI"></TreeMapHeaderStyle>
             </TreeMapLevel>
             <TreeMapLevel GroupPath="Region" ShowHeader="false" HeaderAlignment="@Label">
-                <TreeMapLevelBorder Color="#000000" Width="0.5"/>
+                <TreeMapLevelBorder Color="#000000" Width="0.5" />
+                <TreeMapHeaderStyle FontFamily="Segoe UI"></TreeMapHeaderStyle>
             </TreeMapLevel>
         </TreeMapLevels>
     </SfTreeMap>
@@ -53,7 +58,7 @@
                         </td>
                         <td>
                             <div style="padding-left:10px;">
-                            <SfCheckBox Checked="@DrilldownCheckBoxValue" ValueChange="DrilldownEnable" TChecked="bool"/>
+                                <SfCheckBox Checked="@DrilldownCheckBoxValue" ValueChange="DrilldownEnable" TChecked="bool" />
                             </div>
                         </td>
                     </tr>
@@ -63,7 +68,7 @@
                         </td>
                         <td>
                             <div style="padding-left:10px;">
-                                <SfCheckBox Checked="@AllowBreadcrumb" ValueChange="BreadEnable" TChecked="bool"/>
+                                <SfCheckBox Checked="@AllowBreadcrumb" ValueChange="BreadEnable" TChecked="bool" />
                             </div>
                         </td>
                     </tr>
@@ -72,8 +77,8 @@
                             <div class="property-text">Breadcrumb Connector</div>
                         </td>
                         <td>
-                            <div >
-                                <input type="text" value=" - " disabled=@Disabled @onchange="BreadcrumbChange" style="width:70px;margin-left:10px"/>
+                            <div>
+                                <input type="text" value=" - " disabled=@Disabled @onchange="BreadcrumbChange" style="width:70px;margin-left:10px" />
                             </div>
                         </td>
                     </tr>
@@ -83,8 +88,8 @@
                         </td>
                         <td style="padding-left:10px">
                             <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@HeaderAlignment" @bind-Value="@headerAlignmentValue" Width="120px">
-                                <DropDownListEvents TValue="string" TItem="HeaderDropDownList" ValueChange="HeaderAlignmentvaluechange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TValue="string" TItem="HeaderDropDownList" ValueChange="HeaderAlignmentvaluechange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -95,13 +100,15 @@
 </div>
 <style>
     tr {
-       height: 40px;
+        height: 40px;
     }
+
     td {
-        width:50%;
+        width: 50%;
     }
 </style>
 @code {
+    public Theme Theme { get; set; }
     public bool DrilldownCheckBoxValue;
     public string BreadCrumbConnector = " - ";
     public bool Disabled = true;
@@ -109,22 +116,32 @@
     public Alignment Label = Alignment.Near;
     public Alignment Header = Alignment.Near;
     public string headerAlignmentValue = "Near";
-    public void HeaderAlignmentvaluechange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, HeaderDropDownList> args) {
-        headerAlignmentValue = args.Value;        
-            if (args.Value == "Near") {
-                Header = Alignment.Near;
-            }
-            else if (args.Value == "Far") {
-                Header = Alignment.Far;
-            }
-            else {
-                Header = Alignment.Center;
-            }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
-    public void BreadcrumbChange(Microsoft.AspNetCore.Components.ChangeEventArgs args) {
+    public void HeaderAlignmentvaluechange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, HeaderDropDownList> args)
+    {
+        headerAlignmentValue = args.Value;
+        if (args.Value == "Near")
+        {
+            Header = Alignment.Near;
+        }
+        else if (args.Value == "Far")
+        {
+            Header = Alignment.Far;
+        }
+        else
+        {
+            Header = Alignment.Center;
+        }
+    }
+    public void BreadcrumbChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
         BreadCrumbConnector = args.Value.ToString();
     }
-    public class HeaderDropDownList {
+    public class HeaderDropDownList
+    {
         public string Value { get; set; }
         public string Name { get; set; }
     };
@@ -133,27 +150,33 @@
         new HeaderDropDownList { Value="Far", Name="Far" },
         new HeaderDropDownList { Value="Center", Name="Center" }
     };
-    public void DrilldownEnable(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
+    public void DrilldownEnable(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
         DrilldownCheckBoxValue = args.Checked;
     }
-    public void BreadEnable(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
+    public void BreadEnable(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
         AllowBreadcrumb = args.Checked;
         Disabled = (AllowBreadcrumb == true) ? false : true;
     }
-    public class LevelOne {
+    public class LevelOne
+    {
         public List<LevelTwo> Continent { get; set; }
     }
-    public class LevelTwo {
+    public class LevelTwo
+    {
         public string Name { get; set; }
         public long Population { get; set; }
         public List<LevelThree> States { get; set; }
     }
-    public class LevelThree {
+    public class LevelThree
+    {
         public string Name { get; set; }
         public int Population { get; set; }
         public List<LevelFour> Region { get; set; }
     }
-    public class LevelFour {
+    public class LevelFour
+    {
         public string Name { get; set; }
         public int Population { get; set; }
     }

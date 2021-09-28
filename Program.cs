@@ -62,12 +62,13 @@ namespace BlazorDemos
         public string MappingSampleName { get; set; }
         public string MetaTitle { get; set; }
         public string MetaDescription { get; set; }
-        public string HeaderText {get;set;}
+        public string HeaderText { get; set; }
         public List<SourceCollection> SourceFiles { get; set; } = new List<SourceCollection>();
         [JsonConverter(typeof(StringEnumConverter))]
         public SampleType Type { get; set; }
+        public string[] NotificationDescription { get; set; }
     }
-    
+
     public class SourceCollection
     {
         public string FileName { get; set; }

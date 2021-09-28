@@ -1,29 +1,33 @@
 @page "/treemap/layout"
 
-
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
 @using Syncfusion.Blazor.DropDowns
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates the GDP nominal of top 10 countries in the year 2015. The layout and rendering direction of the TreeMap can be changed by using the <b>layout type</b> and <b>render direction</b> in the properties panel.</p>
+    <p>This sample illustrates the GDP nominal of top 10 countries in the year 2015. The TreeMap's layout and rendering direction are also customizable.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can change the layout of the TreeMap as desaturation color mapping has been applied to denote the weightage of the items by varying the fill color. The label text also has been formatted and placed in multiple lines. Tooltip is enabled in this example.</p>
-   <p>More information about layout can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/layout'>documentation section</a>.</p>
+    <p>In this example, you can change the layout of the TreeMap because desaturation color mapping has been used to denote the weightage of the items by varying the fill color. The label text has also been formatted and split into multiple lines. In this case, the tooltip is enabled.</p>
+    <p>More information about layout can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/layout'>documentation section</a>.</p>
 </ActionDescription>
 <div class="col-lg-9 control-section sb-property-border">
-    <SfTreeMap WeightValuePath="GDP" DataSource="@Economics" RangeColorValuePath="GDP" TValue="LeafData" LayoutType="@LayoutModes" RenderDirection="@RenderMode">
+    <SfTreeMap WeightValuePath="GDP" DataSource="@Economics" RangeColorValuePath="GDP" TValue="LeafData" LayoutType="@LayoutModes" RenderDirection="@RenderMode" Theme="@Theme">
         <TreeMapTitleSettings Text="Top 10 countries by GDP Nominal - 2015">
-            <TreeMapTitleTextStyle Size="15px"/>
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
         </TreeMapTitleSettings>
-        <TreeMapTooltipSettings Visible="true" Format="${State}<br>Rank : ${Rank}"/>
+        <TreeMapTooltipSettings Visible="true" Format="${State}<br>Rank : ${Rank}">
+            <TreeMapTooltipTextStyle FontFamily="Segoe UI"></TreeMapTooltipTextStyle>
+        </TreeMapTooltipSettings>
         <TreeMapLeafItemSettings LabelPath="State" LabelFormat="${State}<br>$${GDP} Trillion<br>(${Percentage} %)">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping StartRange="1550" EndRange="17946" Color="@LeafColor" MinOpacity="0.7" MaxOpacity="1"/>
+                <TreeMapLeafColorMapping StartRange="1550" EndRange="17946" Color="@LeafColor" MinOpacity="0.7" MaxOpacity="1" />
             </TreeMapLeafColorMappings>
-            <TreeMapLeafLabelStyle Color="#000000"/>
-            <TreeMapLeafBorder Color="#000000" Width="0.5"/>
+            <TreeMapLeafLabelStyle Color="#000000" FontFamily="Segoe UI" />
+            <TreeMapLeafBorder Color="#000000" Width="0.5" />
         </TreeMapLeafItemSettings>
     </SfTreeMap>
     <div class="urllink">
@@ -43,8 +47,8 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LayoutList" @bind-Value="@LayoutValue" Width="120px">
-                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LayoutTypechange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LayoutTypechange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -54,8 +58,8 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select intersect action" DataSource="@RenderingList" @bind-Value="@RenderValue" Width="120px">
-                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="RenderDirectionchange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="RenderDirectionchange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -66,19 +70,22 @@
 </div>
 <style>
     tr {
-        height:40px;
+        height: 40px;
     }
+
     td {
         width: 50%
     }
 </style>
 @code {
+    public Theme Theme { get; set; }
     public LayoutMode LayoutModes = LayoutMode.Squarified;
     public string[] LeafColor = new string[] { "#9cbb59" };
     public RenderingMode RenderMode = RenderingMode.TopLeftBottomRight;
     public string LayoutValue = "Squarified";
     public string RenderValue = "TopLeftBottomRight";
-    public class DropdownList {
+    public class DropdownList
+    {
         public string Value { get; set; }
         public string Name { get; set; }
     };
@@ -94,37 +101,52 @@
         new DropdownList { Value="BottomLeftTopRight", Name="BottomLeftTopRight" },
         new DropdownList { Value="BottomRightTopLeft", Name="BottomRightTopLeft" }
     };
-    private void LayoutTypechange(ChangeEventArgs<string,DropdownList> args) {
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    private void LayoutTypechange(ChangeEventArgs<string, DropdownList> args)
+    {
         LayoutValue = args.Value;
-        if (args.Value == "Squarified") {
+        if (args.Value == "Squarified")
+        {
             LayoutModes = LayoutMode.Squarified;
         }
-        else if (args.Value == "SliceAndDiceHorizontal") {
+        else if (args.Value == "SliceAndDiceHorizontal")
+        {
             LayoutModes = LayoutMode.SliceAndDiceHorizontal;
         }
-        else if (args.Value == "SliceAndDiceVertical") {
+        else if (args.Value == "SliceAndDiceVertical")
+        {
             LayoutModes = LayoutMode.SliceAndDiceVertical;
         }
-        else {
+        else
+        {
             LayoutModes = LayoutMode.SliceAndDiceAuto;
         }
     }
-    private void RenderDirectionchange(ChangeEventArgs<string, DropdownList> args) {
+    private void RenderDirectionchange(ChangeEventArgs<string, DropdownList> args)
+    {
         RenderValue = args.Value;
-        if (args.Value == "TopLeftBottomRight") {
+        if (args.Value == "TopLeftBottomRight")
+        {
             RenderMode = RenderingMode.TopLeftBottomRight;
         }
-        else if (args.Value == "BottomLeftTopRight") {
+        else if (args.Value == "BottomLeftTopRight")
+        {
             RenderMode = RenderingMode.BottomLeftTopRight;
         }
-        else if (args.Value == "BottomRightTopLeft") {
+        else if (args.Value == "BottomRightTopLeft")
+        {
             RenderMode = RenderingMode.BottomRightTopLeft;
         }
-        else {
+        else
+        {
             RenderMode = RenderingMode.TopRightBottomLeft;
         }
     }
-    public class LeafData {
+    public class LeafData
+    {
         public string State { get; set; }
         public int GDP { get; set; }
         public double Percentage { get; set; }

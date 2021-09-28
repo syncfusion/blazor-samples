@@ -25,20 +25,12 @@
         padding-left: 44%;
     }
 
-    .fabric .empimg {
-        background-color: #0078d6;
-    }
-
-    .material .empimg {
+    .material .e-grid .empimg {
         background-color: #e3165b;
     }
-    
-    .tailwind .empimg {
-        background-color: #4f46e5;
-    }
 
 
-    .highcontrast .empimg {
+    .highcontrast .e-grid .empimg {
         background-color: #ffd939;
     }
 
@@ -52,14 +44,17 @@
         color: black;
     }
 
-    .bootstrap .empimg {
+    .bootstrap .e-grid .empimg,
+    .bootstrap4 .e-grid .empimg,
+    .bootstrap5 .e-grid .empimg,
+    .fabric .e-grid .empimg {
         background-color: #0078d6;
     }
 
-    .bootstrap4 .empimg {
-        background-color: #0078d6;
+    .tailwind .e-grid .empimg {
+         background-color: #4f46e5;
     }
-
+    
     #Emptext {
         top: -12px;
         left: 41px;
@@ -258,22 +253,22 @@
 </SampleDescription>
 <ActionDescription>
     <p>The Blazor DataGrid is used to display and manipulate tabular data with configuration options to control the way the data is presented and manipulated. It can pull the data from data sources, like IEnumerable, OData web services, or <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html'>DataManager</a></code> Component and bind the data fields to columns. It also displays a column header to identify the field with support for grouped records.</p>
-    <p>In this demo, Blazor DataGrid features such as <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/virtual/'>Virtual Scrolling</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/filtering/'>Filtering</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/sorting/'>Sorting</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/columns/#column-template'>Column Template</a>, etc... are used along with large data source</p>
-    <p>More information on the Blazor DataGrid infinite scrolling can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/grid/virtual/'>Virtualization</a>.</p>
+    <p>In this demo, Blazor DataGrid features such as <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/virtual/'>Virtual Scrolling</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/filtering/'>Filtering</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/sorting/'>Sorting</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/columns/#column-template'>Column Template</a>, etc... are used along with large data source</p>
+    <p>More information on the Blazor DataGrid infinite scrolling can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/virtual/'>Virtualization</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfSpinner @ref="SpinnerObj" Target="#container"></SfSpinner>
+            
             <div class="e-dddata">
                 <SfDropDownList TItem="DDData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@index" DataSource="@DLData">
-                    <DropDownListEvents TItem="DDData" TValue="string" ValueChange="Changedata"></DropDownListEvents>
+                    <DropDownListEvents TItem="DDData" TValue="string" ValueChange="Changedata" Closed="DropdownClose"></DropDownListEvents>
                     <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
                 </SfDropDownList>
             </div>
             <div id="container">
-                <SfGrid DataSource="@GridData" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
+                <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
                     <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                     <GridPageSettings PageSize="40"></GridPageSettings>
                     <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Multiple"></GridSelectionSettings>
@@ -395,6 +390,7 @@
                         <GridColumn Field=@nameof(OverviewData.Address) HeaderText="Address" FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.Menu })" Width="240" ClipMode="ClipMode.EllipsisWithTooltip"></GridColumn>
                     </GridColumns>
                 </SfGrid>
+                <SfSpinner @ref="@SpinnerObj"></SfSpinner>
             </div>
         </div>
     </div>
@@ -405,7 +401,6 @@
     public List<OverviewData> GridData { get; set; }
     public int Value { get; set; } = 1000;
     SfSpinner SpinnerObj;
-    string target { get; set; } = "#container";
     public class DDData
     {
         public string Text { get; set; }
@@ -417,12 +412,23 @@
         new DDData(){ Text= "1,00,000 Rows and 11 Columns", Value= "100000" },
     };
     private int? index { get; set; } = 0;
+    private int? PreviousIndex { get; set; } = 0;
+    private async Task DropdownClose(@Syncfusion.Blazor.DropDowns.ClosedEventArgs args)
+    {
+        if (PreviousIndex != index)
+        {
+            GridData = OverviewData.GetAllRecords(Value);
+            await SpinnerObj.HideAsync();
+            PreviousIndex = index;
+        }
+    }
     public async Task Changedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DDData> args)
     {
-        await SpinnerObj.ShowAsync();
+        if (PreviousIndex != index)
+        {
+            await SpinnerObj.ShowAsync();
+        }
         Value = Int32.Parse(args.Value);
-        GridData = OverviewData.GetAllRecords(Value);
-        await SpinnerObj.HideAsync();
     }
 
     protected override void OnInitialized()

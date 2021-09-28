@@ -352,6 +352,10 @@ namespace BlazorDemos
                 Type = SampleType.Updated,
                 Url = "docio/word-to-pdf",
                 FileName = "WordToPDF.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Provided support to preserve comments while converting Word document to PDF."
+                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -541,7 +545,6 @@ namespace BlazorDemos
                 Name = "PPTX To Image",
                 Category = "Conversion",
                 Directory = "FileFormats/Presentation",
-                Type = SampleType.Updated,
                 Url = "presentation/pptx-to-image",
                 FileName = "PPTXToImage.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -563,7 +566,6 @@ namespace BlazorDemos
                 Name = "PPTX To PDF",
                 Category = "Conversion",
                 Directory = "FileFormats/Presentation",
-                Type = SampleType.Updated,
                 Url = "presentation/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -579,6 +581,32 @@ namespace BlazorDemos
                         FileName="PPTXToPDFService.cs"
                     }
                 }
+            },
+            new Sample
+            {
+                Name = "Encrypt and Decrypt",
+                Category = "Security",
+                Directory = "FileFormats/Presentation",
+                Type = SampleType.New,
+                Url = "presentation/encrypt-and-decrypt",
+                NotificationDescription = new string[]
+                {
+                    @"Added support for encrypting and decrypting a presentation document by using a password."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EncryptAndDecrypt",
+                        FileName="EncryptAndDecrypt.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EncryptAndDecryptService",
+                        FileName="EncryptAndDecryptService.cs"
+                    }
+                },
+                FileName = "EncryptAndDecrypt.razor"
             },
             new Sample
             {

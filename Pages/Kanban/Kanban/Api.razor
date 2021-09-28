@@ -22,6 +22,13 @@
             {
                 <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
             }
+			@if (@ColumnDynamicChange)
+            {
+                @foreach (ColumnModel changedItem in DynamicData)
+                {
+                    <KanbanColumn HeaderText="@changedItem.HeaderText" KeyField="@changedItem.KeyField" Index="@changedItem.Index"></KanbanColumn>
+                }
+            }
         </KanbanColumns>
         <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
     </SfKanban>
@@ -101,6 +108,7 @@
     SfDropDownList<string, string> AddKeyRef;
     SfNumericTextBox<int?> AddIndexRef;
     SfNumericTextBox<int?> DeleteIndexRef;
+	public bool ColumnDynamicChange = false;
     private int? AddIndexValue = 0;
     private int? DeleteIndexValue = 0;
     private bool IsAlertShow = false;
@@ -109,17 +117,19 @@
     private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
     private List<ColumnModel> columnData = new List<ColumnModel>() {
         new ColumnModel { HeaderText = "To Do", KeyField = new List<string>() { "Open" } },
-        new ColumnModel { HeaderText = "In Progress", KeyField = new List<string>() { "InProgress" } },
+        new ColumnModel { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" } },
         new ColumnModel { HeaderText = "Testing", KeyField = new List<string>() { "Testing" } },
         new ColumnModel { HeaderText = "Done", KeyField = new List<string>() { "Close" } }
     };
+	private List<ColumnModel> DynamicData = new List<ColumnModel>();
 
-    private async Task OnAddColumn()
+    private void OnAddColumn()
     {
         if (!string.IsNullOrEmpty(AddTextRef.Value) && !string.IsNullOrEmpty(AddKeyRef.Value) && AddIndexRef.Value != null)
         {
-            await KanbanRef.AddColumnAsync(new ColumnModel { HeaderText = AddTextRef.Value, KeyField = new List<string>() { AddKeyRef.Value } }, (int)AddIndexRef.Value);
+            DynamicData.Add(new ColumnModel { HeaderText = AddTextRef.Value, KeyField = new List<string>() { AddKeyRef.Value }, Index = (int)AddIndexRef.Value });
             AddIndexValue = null;
+            ColumnDynamicChange = true;
         }
         else
         {

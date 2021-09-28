@@ -105,7 +105,7 @@ namespace BlazorDemos
                 Category = "Virtual Scrolling",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/virtual-scrolling",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 FileName="VirtualScrolling.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -119,6 +119,9 @@ namespace BlazorDemos
                         Id = "VirtualScrollData",
                         FileName = "VirtualData.cs"
                     }
+                },
+                NotificationDescription = new string[] {
+                    @"Updated the demo with column virtualization which boosts performance of the TreeGrid.",
                 }
             },
              new Sample
@@ -127,8 +130,7 @@ namespace BlazorDemos
                 Category = "Virtual Scrolling",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/remote-data-with-virtualization",
-                FileName = "RemoteDataWithVirtualization.razor",
-                Type = SampleType.New
+                FileName = "RemoteDataWithVirtualization.razor"
 
             },
             new Sample
@@ -397,7 +399,7 @@ namespace BlazorDemos
             },
              new Sample
             {
-                Name = "Row Drag And Drop",
+                Name = "Row Drag and Drop",
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-drag-and-drop",
@@ -419,7 +421,7 @@ namespace BlazorDemos
             },
               new Sample
             {
-                Name = "Drag And Drop Within Tree Grid",
+                Name = "Drag and Drop Within Tree Grid",
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/draganddrop-within-grid",
@@ -902,7 +904,7 @@ namespace BlazorDemos
             },
              new Sample
             {
-                Name = "Keyboard Interaction",
+                Name = "Keyboard Navigation",
                 Category = "Miscellaneous",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/keyboard-interaction",

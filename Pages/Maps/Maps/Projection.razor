@@ -2,29 +2,37 @@
 
 @using Syncfusion.Blazor.Maps
 @using Syncfusion.Blazor.DropDowns
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>In this example, you can see how to render a map with various projections. This map depicts the members of the UN security council.</p>
+    <p>In this example, you can see how to render a map with various projections. This map depicts the members of the United Nations Security Council.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to render a map with various projections. Projection type is set using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#Syncfusion_Blazor_Maps_SfMaps_ProjectionType'>ProjectionType</a></code>. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeSettings.html#Syncfusion_Blazor_Maps_MapsShapeSettings_ColorMapping'>MapsShapeColorMapping</a></code> property to customize the color of the shapes. Tooltip is enabled in this example.</p>
-    <p>More information about projection type can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/customization/#change-maps-projection'>documentation section</a>.</p>
+    <p>In this example, you can see how to use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#Syncfusion_Blazor_Maps_SfMaps_ProjectionType'>ProjectionType</a></code> property to render a world map with various projections. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMapping.html'>MapsShapeColorMapping</a></code> class allows you to specify the color of the desired shape. The tooltip is enabled in this example.</p>
+    <p>More information about projection type can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/customization#projection-type'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="col-lg-9 control-section sb-property-border">
+<div class="col-lg-8 control-section sb-property-border">
     <div class="control-section">
-        <SfMaps ProjectionType="@ProjectionTypeValue">
+        <SfMaps ProjectionType="@ProjectionTypeValue" Theme="@Theme">
             <MapsTitleSettings Text="Members of the UN Security Council">
-                <MapsTitleTextStyle Size="16px" />
-                <MapsSubtitleSettings Text="- In 2017" Alignment="Alignment.Far" />
+                <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
+                <MapsSubtitleSettings Text="- In 2017" Alignment="Alignment.Far">
+                    <MapsSubtitleTextStyle FontFamily="Segoe UI"></MapsSubtitleTextStyle>
+                </MapsSubtitleSettings>
             </MapsTitleSettings>
-            <MapsLegendSettings Visible="true" />
+            <MapsLegendSettings Visible="true" ShapePadding="5">
+                <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+            </MapsLegendSettings>
             <MapsZoomSettings Enable="false" />
             <MapsLayers>
                 <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' ShapeDataPath="Country" ShapePropertyPath='@ShapePropertyPath' DataSource="@ProjectionData" TValue="MapLayerDataSource">
-                    <MapsLayerTooltipSettings Visible="true" ValuePath="Country" />
+                    <MapsLayerTooltipSettings Visible="true" ValuePath="Country">
+                        <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                    </MapsLayerTooltipSettings>
                     <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Membership">
                         <MapsShapeColorMappings>
                             <MapsShapeColorMapping Value="Permanent" Color="@ShapeColorOne" />
@@ -40,7 +48,7 @@
         </div>
     </div>
 </div>
-<div class="col-lg-3 property-section">
+<div class="col-lg-4 property-section">
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
@@ -141,5 +149,10 @@
         {
             ProjectionTypeValue = ProjectionType.Mercator;
         }
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 }

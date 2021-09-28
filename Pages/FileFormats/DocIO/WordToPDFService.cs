@@ -25,7 +25,7 @@ namespace BlazorDemos.Data.FileFormats.DocIO
         /// Generate a letter using Mail merge functionality of Essential DocIO
         /// </summary>
         /// <returns>Return the created Word document as stream</returns>
-        public MemoryStream WordToPDF(string button, bool preserveStructureTags, bool preserveFormFields, bool preserveWordHeadingsToPDFBookmarks, bool showRevisions)
+        public MemoryStream WordToPDF(string button, bool preserveStructureTags, bool preserveFormFields, bool preserveWordHeadingsToPDFBookmarks, bool showRevisions, bool showComments)
         {
             string basePath = @"wwwroot/";
             string dataPath = basePath + @"data/docio/doc-to-pdf.docx";
@@ -53,6 +53,13 @@ namespace BlazorDemos.Data.FileFormats.DocIO
             if (showRevisions)
                 //Enables to show the revision marks in the generated PDF for tracked changes or revisions in the Word document.
                 document.RevisionOptions.ShowMarkup = RevisionType.Deletions | RevisionType.Formatting | RevisionType.Insertions;
+            if (showComments)
+            {
+                //Sets ShowInBalloons to render a document comments in converted PDF document.
+                document.RevisionOptions.CommentDisplayMode = CommentDisplayMode.ShowInBalloons;
+                //Sets the color to be used for Comment Balloon
+                document.RevisionOptions.CommentColor = RevisionColor.Blue;
+            }
             // Converts Word document into PDF document.
             PdfDocument pdf = render.ConvertToPDF(document);
             //Save the document as a stream and retrun the stream

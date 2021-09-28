@@ -7,17 +7,20 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
- <p> This demo illustrates how to enable tooltip on Scheduler events as well as the way to customize it. The tooltip can be customized to display any of the information in a formatted style by using the tooltip template option. </p>   
+    <p> This demo illustrates how to enable tooltip on Scheduler events as well as the way to customize it. The tooltip can be customized to display any of the information in a formatted style by using the tooltip template option. </p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this demo, the tooltip is enabled to display on events by setting true to <code>EnableTooltip</code> option within the <code>EventSettings</code> property. After enabling the default tooltip, it is customized to display the needed event information along with
-    the appropriate images by using the <code>TooltipTemplate</code> option within the <code>EventSettings</code>. </p>
-   <p>The <code>TooltipTemplate</code> option will not work, if <code>EnableTooltip</code> is set to false. In mobile devices, tap holding the events will open the tooltip. </p>
+    <p>
+        In this demo, the tooltip is enabled to display on events by setting true to <code>EnableTooltip</code> option within the <code>EventSettings</code> property. After enabling the default tooltip, it is customized to display the needed event information along with
+        the appropriate images by using the <code>TooltipTemplate</code> option within the <code>EventSettings</code>.
+    </p>
+    <p>The <code>TooltipTemplate</code> option will not work, if <code>EnableTooltip</code> is set to false. In mobile devices, tap holding the events will open the tooltip. </p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="ScheduleData.EventsData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="ScheduleData.EventsData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+            <ScheduleEvents TValue="ScheduleData.EventsData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleEventSettings TValue="ScheduleData.EventsData" DataSource="@DataSource" EnableTooltip="@EnableTooltip">
                 <TooltipTemplate>
                     @{
@@ -61,13 +64,19 @@
 </div>
 
 @code{
-    public DateTime CurrentDate = new DateTime(2020, 1, 16);
+    private View CurrentView = View.Week;
+    public DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 16);
     List<ScheduleData.EventsData> DataSource = new ScheduleData().GetEventsData();
     public bool EnableTooltip = true;
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.EventsData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
 }
 <style>
         .e-schedule-event-tooltip .tooltip-wrap {
             display: flex;
+            align-items: center;
         }
 
         .e-schedule-event-tooltip .tooltip-wrap .image {
@@ -77,6 +86,21 @@
             background-size: cover;
             width: 50px;
             height: 50px;
+        }
+
+        .tailwind-dark .e-schedule-event-tooltip .tooltip-wrap .image,
+        .bootstrap5-dark .e-schedule-event-tooltip .tooltip-wrap .image {
+            background-color: #1F294A;
+        }
+        .bootstrap-dark .e-schedule-event-tooltip .tooltip-wrap .image {
+            background-color: #1a1a1a;
+        }
+        .fabric-dark .e-schedule-event-tooltip .tooltip-wrap .image,
+        .material-dark .e-schedule-event-tooltip .tooltip-wrap .image {
+            background-color: #000;
+        }
+        .material-dark .property-panel-header {
+            color: #fff;
         }
 
         .e-schedule-event-tooltip .tooltip-wrap .content-area {

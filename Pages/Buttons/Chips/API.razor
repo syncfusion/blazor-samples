@@ -2,7 +2,7 @@
 
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
-
+@inject IJSRuntime jsRuntime
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -14,13 +14,13 @@
     <ul>
         <li>Color variant can be changed by selecting the color DropdownList from property pane.</li>
         <li>Leading and Trailing icons can be enabled by selecting Leading or Trailing Icon checkbox from property pane.</li>
-        <li>Leading icon can be customized with avatar initials, icons and images from property pane</li>
+        <li>Leading icon can be customized with avatar initials, icons and images from property pane.</li>
         <li>Outline Chip type can be enabled by checking outline checkbox from property pane.</li>
     </ul>
 </ActionDescription>
 
 
-<div class="col-lg-8 control-section sb-property-border">
+<div class="col-lg-8 control-section sb-property-border chip-container">
     <div id="chip-api-wrapper">
         <SfChip CssClass="@ParentCssClass">
             <ChipItems>
@@ -159,9 +159,22 @@
         }
         StateHasChanged();
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // To prevent the page scrolling while pressing space key.
+            await jsRuntime.InvokeAsync<string>("preventSpaceKey");
+        }
+    }
 }
 
 <style>
+
+    .tailwind #chip-api-wrapper .e-chip-list.e-chip, .e-chip-list .e-chip {
+        margin: 4px;
+    }
     #chip-api-wrapper .janet {
         background-image: url('images/chips/janet.png');
     }

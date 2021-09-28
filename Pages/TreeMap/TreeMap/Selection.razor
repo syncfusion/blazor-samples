@@ -1,35 +1,42 @@
 ﻿@page "/treemap/selection"
 
-
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
-
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-  <p>This sample depicts the details of goods imported by Japan. Selection and highlight options have been enabled in this sample.</p>  
+    <p>This sample depicts the specific details of goods imported by the United States. The selection and highlight options have been enabled for demonstration purposes.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see the modes available for performing highlight and selection in treemap component. Selection and highlight can be either enabled or disabled.</p> 
-   <p>More information about selection and highlight can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/selection-and-highlight'>documentation section</a>.</p>
+    <p>In this example, you can see the modes available for performing highlight and selection in the TreeMap component. You can also enable and disable selection and highlight. The property panel gives you access to all of these options.</p>
+    <p>More information about selection and highlight can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/selection-and-highlight'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-    <SfTreeMap WeightValuePath="Sales" DataSource="@LeafDatasource" TValue="ImportExportData">
-        <TreeMapTitleSettings Text="Import and Export details of US"/>
+    <SfTreeMap WeightValuePath="Sales" DataSource="@LeafDatasource" TValue="ImportExportData" Theme="@Theme">
+        <TreeMapTitleSettings Text="Import and Export details of US">
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
+        </TreeMapTitleSettings>
         <TreeMapLevels>
             <TreeMapLevel GroupPath="DataType" Fill="#c5e2f7" GroupGap="5" HeaderAlignment="Alignment.Center">
-                <TreeMapHeaderStyle Size="16px"/>
+                <TreeMapHeaderStyle Size="16px" FontFamily="Segoe UI" />
             </TreeMapLevel>
-            <TreeMapLevel GroupPath="Product" Fill="#a4d1f2" GroupGap="2" HeaderAlignment="Alignment.Center"/>
+            <TreeMapLevel GroupPath="Product" Fill="#a4d1f2" GroupGap="2" HeaderAlignment="Alignment.Center">
+                <TreeMapHeaderStyle FontFamily="Segoe UI"></TreeMapHeaderStyle>
+            </TreeMapLevel>
         </TreeMapLevels>
-        <TreeMapLeafItemSettings LabelPath="Type" Fill="#8ebfe2" LabelPosition="@Syncfusion.Blazor.TreeMap.LabelPosition.Center" Gap="10"/>
+        <TreeMapLeafItemSettings LabelPath="Type" Fill="#8ebfe2" LabelPosition="@Syncfusion.Blazor.TreeMap.LabelPosition.Center" Gap="10">
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" />
+        </TreeMapLeafItemSettings>
         <TreeMapSelectionSettings Enable="@SelectionCheckBox" Fill="#58a0d3" Opacity="1" Mode="@SelectionModeValue">
-            <TreeMapSelectionBorder Width="0.3" Color="#000000"/>
+            <TreeMapSelectionBorder Width="0.3" Color="#000000" />
         </TreeMapSelectionSettings>
         <TreeMapHighlightSettings Enable="@HighlightCheckBoxValue" Fill="#71b0dd" Opacity="1" Mode="@HighlightModeValue">
-            <TreeMapHighlightBorder Width="0.3" Color="#000000"/>
+            <TreeMapHighlightBorder Width="0.3" Color="#000000" />
         </TreeMapHighlightSettings>
     </SfTreeMap>
     <div class="urllink">
@@ -53,7 +60,7 @@
                             Enable
                         </td>
                         <td>
-                            <SfCheckBox Checked="@HighlightCheckBoxValue" ValueChange="HighlightValue" TChecked="bool"/>
+                            <SfCheckBox Checked="@HighlightCheckBoxValue" ValueChange="HighlightValue" TChecked="bool" />
                         </td>
                     </tr>
                     <tr>
@@ -62,8 +69,8 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@HighlightMode" @bind-Value="@Highlight" Width="80px">
-                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="HighlightModeValueChange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="HighlightModeValueChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -78,7 +85,7 @@
                             Enable
                         </td>
                         <td>
-                            <SfCheckBox Checked="@SelectionCheckBox" ValueChange="SelectionValueChange" TChecked="bool"/>
+                            <SfCheckBox Checked="@SelectionCheckBox" ValueChange="SelectionValueChange" TChecked="bool" />
                         </td>
                     </tr>
                     <tr>
@@ -87,8 +94,8 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@HighlightMode" @bind-Value="@SelectionValue" Width="80px">
-                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="SelectionModeValueChange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="SelectionModeValueChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -99,26 +106,35 @@
 </div>
 <style>
     tr {
-        height:40px;
+        height: 40px;
     }
+
     td {
-        width:50%;
+        width: 50%;
     }
-</style> 
+</style>
 @code{
+    public Theme Theme { get; set; }
     public bool HighlightCheckBoxValue = true;
     public HighLightMode HighlightModeValue = HighLightMode.Item;
     public string Highlight = "Item";
     public bool SelectionCheckBox = true;
     public Syncfusion.Blazor.TreeMap.SelectionMode SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Item;
-    public string SelectionValue= "Item";
-    public void HighlightValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
+    public string SelectionValue = "Item";
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    public void HighlightValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
         HighlightCheckBoxValue = args.Checked;
     }
-    public void SelectionValueChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) {
+    public void SelectionValueChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
         SelectionCheckBox = args.Checked;
     }
-    public class DropdownList {
+    public class DropdownList
+    {
         public string Value { get; set; }
         public string Name { get; set; }
     };
@@ -128,37 +144,48 @@
         new DropdownList { Value="Parent", Name="Parent" },
         new DropdownList { Value="All", Name="All" }
     };
-    public void HighlightModeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args) {
+    public void HighlightModeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
         Highlight = args.Value;
-        if (args.Value == "Item") {
+        if (args.Value == "Item")
+        {
             HighlightModeValue = HighLightMode.Item;
         }
-        else if (args.Value == "Child") {
+        else if (args.Value == "Child")
+        {
             HighlightModeValue = HighLightMode.Child;
         }
-        else if (args.Value == "Parent") {
+        else if (args.Value == "Parent")
+        {
             HighlightModeValue = HighLightMode.Parent;
         }
-        else {
+        else
+        {
             HighlightModeValue = HighLightMode.All;
         }
     }
-    public void SelectionModeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args) {
-        SelectionValue= args.Value;
-        if (args.Value == "Item") {
+    public void SelectionModeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
+        SelectionValue = args.Value;
+        if (args.Value == "Item")
+        {
             SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Item;
         }
-        else if (args.Value == "Child") {
+        else if (args.Value == "Child")
+        {
             SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Child;
         }
-        else if (args.Value == "Parent") {
+        else if (args.Value == "Parent")
+        {
             SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Parent;
         }
-        else {
+        else
+        {
             SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.All;
         }
     }
-    public class ImportExportData {
+    public class ImportExportData
+    {
         public string DataType { get; set; }
         public string Product { get; set; }
         public long Sales { get; set; }

@@ -68,7 +68,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Button",
                 Url = "buttons/progress-button",
                 FileName = "ProgressButton.razor",
-                 Type = SampleType.None,
+                Type = SampleType.None,
                 HeaderText = "Example of Default Sample in Blazor Progress Button Component"
             },
            new Sample
@@ -79,6 +79,16 @@ namespace BlazorDemos
                Url = "buttons/button-group",
                FileName = "ButtonGroup.razor",
                HeaderText = "Example of Default Sample in Blazor Button Group Component"
+           },
+            new Sample
+           {
+               Name = "Keyboard Navigation",
+               Category = "Button",
+               Directory = "Buttons/Button",
+               Url = "buttons/keyboard-navigation",
+               FileName = "KeyboardNavigation.razor",
+               HeaderText = "Example of Keyboard Navigation",
+               Type = SampleType.New
            }
         };
         public List<Sample> Chips { get; set; } = new List<Sample>{
@@ -97,6 +107,32 @@ namespace BlazorDemos
                 Directory = "Buttons/Chips",
                 Url = "chips/api",
                 FileName = "API.razor"
+            },
+            new Sample
+            {
+                Name = "Events",
+                Category = "Chips",
+                Directory = "Buttons/Chips",
+                Url = "chips/events",
+                FileName = "Events.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to know more about the chip events."
+                }
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Chips",
+                Directory = "Buttons/Chips",
+                Url = "chips/keyboard-interaction",
+                FileName = "KeyboardInteraction.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to know more about keyboard accessibility of the Chip component."
+                }
             }
 
         };

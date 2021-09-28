@@ -1,30 +1,39 @@
 ﻿@page "/treemap/legend"
 
-
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
 @using Syncfusion.Blazor.DropDowns
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample visualizes the 2016 United States presidential election results. The type and position of the legends can be changed using the type and position options in the properties panel.</p>
+    <p>This sample depicts the presidential election results in the United States in 2016. The legend of the TreeMap can be customized in terms of both its type and position.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to see the type and position of the legend available in treemap. The equal color mapping is applied based on certain value. Tooltip is enabled in this example.</p>
-   <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/legend'>documentation section</a>.</p>
+    <p>In this example, you can see how to change the type and position of the legend available in the TreeMap using the options available in the properties panel. Equal color mapping is applied based on a specific value, and tooltip is enabled.</p>
+    <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/legend'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-    <SfTreeMap TValue="USAElectionResult" WeightValuePath="Population" EqualColorValuePath="Winner" RangeColorValuePath="WinPercentage" DataSource="@DataSource">
-        <TreeMapTitleSettings Text="US Presidential election result - 2016"/>
+    <SfTreeMap TValue="USAElectionResult" WeightValuePath="Population" EqualColorValuePath="Winner" RangeColorValuePath="WinPercentage" DataSource="@DataSource" Theme="@Theme">
+        <TreeMapTitleSettings Text="US Presidential election result - 2016">
+            <TreeMapTitleTextStyle FontFamily="Segoe UI" Size="15px"></TreeMapTitleTextStyle>
+        </TreeMapTitleSettings>
         <TreeMapLeafItemSettings LabelPath="State" Fill="6699cc">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping LeafValue="Trump" Color="@LeafColorOne"/>
-                <TreeMapLeafColorMapping LeafValue="Clinton" Color="@LeafColorTwo"/>
+                <TreeMapLeafColorMapping LeafValue="Trump" Color="@LeafColorOne" />
+                <TreeMapLeafColorMapping LeafValue="Clinton" Color="@LeafColorTwo" />
             </TreeMapLeafColorMappings>
-            <TreeMapLeafBorder Color="#FFFFFF" Width="0.5"/>
+            <TreeMapLeafBorder Color="#FFFFFF" Width="0.5" />
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" Size="12px"></TreeMapLeafLabelStyle>
         </TreeMapLeafItemSettings>
-        <TreeMapLegendSettings Visible="true" Mode="@LegendModes" Position="@LegendPositions" Shape="LegendShape.Rectangle"/>
-        <TreeMapTooltipSettings Visible="true" Format="<b>${Winner}</b><br>State : ${State}<br>Trump : ${Trump} %<br>Clinton : ${Clinton} %"/>
+        <TreeMapLegendSettings Visible="true" Mode="@LegendModes" Position="@LegendPositions" Shape="LegendShape.Rectangle">
+            <TreeMapLegendTextStyle FontFamily="Segoe UI"></TreeMapLegendTextStyle>
+        </TreeMapLegendSettings>
+        <TreeMapTooltipSettings Visible="true" Format="<b>${Winner}</b><br>State : ${State}<br>Trump : ${Trump} %<br>Clinton : ${Clinton} %">
+            <TreeMapTooltipTextStyle FontFamily="Segoe UI"></TreeMapTooltipTextStyle>
+        </TreeMapTooltipSettings>
     </SfTreeMap>
     <div class="urllink">
         Source:
@@ -43,8 +52,8 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@LegendType" @bind-Value="@LegendTypeValue" Width="120px">
-                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendTypeChange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendTypeChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -54,8 +63,8 @@
                         </td>
                         <td>
                             <SfDropDownList Placeholder="Select intersect action" DataSource="@LegendPositionList" Value="@LegendPositionValue" Width="120px">
-                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendPositionChange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendPositionChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -66,20 +75,23 @@
 </div>
 <style>
     tr {
-        height:40px;
+        height: 40px;
     }
+
     td {
         width: 50%
     }
 </style>
 @code {
+    public Theme Theme { get; set; }
     public string[] LeafColorOne = new string[] { "#D84444" };
     public string[] LeafColorTwo = new string[] { "#316DB5" };
     public LegendMode LegendModes = LegendMode.Default;
     public LegendPosition LegendPositions = LegendPosition.Top;
     public string LegendTypeValue = "Default";
     public string LegendPositionValue = "Top";
-    public class DropdownList {
+    public class DropdownList
+    {
         public string Value { get; set; }
         public string Name { get; set; }
     };
@@ -94,34 +106,48 @@
         new DropdownList { Value="Right", Name="Right" },
         new DropdownList { Value="Auto", Name="Auto" }
     };
-    public void LegendTypeChange(ChangeEventArgs<string, DropdownList> args) {
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    public void LegendTypeChange(ChangeEventArgs<string, DropdownList> args)
+    {
         LegendTypeValue = args.Value;
-        if (args.Value == "Default") {
+        if (args.Value == "Default")
+        {
             LegendModes = LegendMode.Default;
         }
-        else {
+        else
+        {
             LegendModes = LegendMode.Interactive;
         }
     }
-    public void LegendPositionChange(ChangeEventArgs<string, DropdownList> args) {
+    public void LegendPositionChange(ChangeEventArgs<string, DropdownList> args)
+    {
         LegendPositionValue = args.Value;
-        if (args.Value == "Top") {
+        if (args.Value == "Top")
+        {
             LegendPositions = LegendPosition.Top;
         }
-        else if (args.Value == "Bottom") {
+        else if (args.Value == "Bottom")
+        {
             LegendPositions = LegendPosition.Bottom;
         }
-        else if (args.Value == "Left") {
+        else if (args.Value == "Left")
+        {
             LegendPositions = LegendPosition.Left;
         }
-        else if (args.Value == "Right") {
+        else if (args.Value == "Right")
+        {
             LegendPositions = LegendPosition.Right;
         }
-        else {
+        else
+        {
             LegendPositions = LegendPosition.Auto;
         }
     }
-    public class USAElectionResult {
+    public class USAElectionResult
+    {
         public string State { get; set; }
         public double Trump { get; set; }
         public double Clinton { get; set; }

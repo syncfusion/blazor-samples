@@ -4,8 +4,11 @@
 @using ThemeHelper
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@using System.IO
+@using System.Net.Http.Json
 
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -13,8 +16,8 @@
 </SampleDescription>
 <ActionDescription>
     <p>In this example, you can see how to render and configure an accumulation distribution indicator. The accumulation distribution indicator is a volume-based indicator designed to measure the accumulative flow of money into and out of a stock.</p>
-    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-    <p>More information about the accumulation distribution indicator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/technical-indicators/#accumulation-distribution'>documentation section</a>.</p>
+    <p><a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/tool-tip'>Tooltip</a> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+    More information about the accumulation distribution indicator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/technical-indicators#accumulation-distribution'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -68,9 +71,17 @@
     private Theme Theme { get; set; }
     public ADIChartData[] ChartPoints { get; set; } = new ADIChartData[] { };
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        ChartPoints = JsonConvert.DeserializeObject<ADIChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        if(File.Exists("./wwwroot/data/chart/financial-data.json"))
+        {
+            ChartPoints = JsonConvert.DeserializeObject<ADIChartData[]>(File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        }
+        else
+        {
+            ChartPoints = await Http.GetFromJsonAsync<ADIChartData[]>("data/chart/financial-data.json");
+        }
+
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 

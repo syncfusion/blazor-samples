@@ -10,7 +10,7 @@ namespace ej2_blazor_selfdata
     {
         public static List<SelfReferenceData> tree = new List<SelfReferenceData>();
         [Key]
-        public int TaskID { get; set; }
+        public int? TaskID { get; set; }
         public string TaskName { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

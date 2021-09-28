@@ -1,0 +1,120 @@
+﻿@page "/kanban/observable"
+@inherits SampleBaseComponent;
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+@using System.Collections.ObjectModel;
+@using System.ComponentModel;
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of Observable data binding in Kanban component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Using Observable Collections, objects can be added, removed, or updated with automatic notification of actions. The UI will be automatically updated when an object is added to or removed from an observable collection.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper" id="toast-kanban-observable">
+        <div class="row">
+            <div class="btn" style="margin: 0 0 7px 7px;">
+                <SfButton @onclick="AddRecord">Add Card</SfButton>
+                <SfButton @onclick="DeleteRecord">Delete Card</SfButton>
+                <SfButton @onclick="UpdateRecord">Update Card</SfButton>
+            </div>
+            <SfKanban KeyField="Status" DataSource="@ObservableData">
+                <KanbanColumns>
+                    @foreach (ColumnModel item in columnData)
+                    {
+                        <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowAdding="true"></KanbanColumn>
+                    }
+                </KanbanColumns>
+                <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
+            </SfKanban>
+            <SfToast @ref="ToastObj" ID="toast_type" Content="@ToastContent" Timeout=2000 Target="@ToastTarget">
+                <ToastPosition X="Right" Y="Top"></ToastPosition>
+            </SfToast>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfToast ToastObj;
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "In Progress" } },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" } },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
+    };
+    public ObservableCollection<ObservableDatas> ObservableData { get; set; }
+    private string ToastContent { get; set; }
+    List<ObservableDatas> Tasks = new List<ObservableDatas>();
+    private int AddUniqueId { get; set; }
+    private int UpdateUniqueId { get; set; }
+    private string ToastTarget { get; set; } = "#toast-kanban-observable";
+    protected override void OnInitialized()
+    {
+        Tasks = Enumerable.Range(1, 20).Select(x => new ObservableDatas()
+        {
+            Id = "Task 1000" + x,
+            Status = (new string[] { "Open", "In Progress", "Testing", "Close" })[new Random().Next(4)],
+            Summary = (new string[] { "Analyze the new requirements gathered from the customer.", "Improve application performance", "Fix the issues reported in the IE browser.", "Validate new requirements", "Test the application in the IE browser." })[new Random().Next(5)],
+            Assignee = (new string[] { "Nancy Davloio", "Andrew Fuller", "Janet Leverling", "Steven walker", "Margaret hamilt", "Michael Suyama", "Robert King" })[new Random().Next(7)],
+        }).ToList();
+        ObservableData = new ObservableCollection<ObservableDatas>(Tasks);
+    }
+    public async Task AddRecord()
+    {
+        var TaskId = "Task 10000" + ++AddUniqueId;
+        this.ToastContent = "<b>Open</b> Column, <b>" + TaskId + "</b> Card has been added";
+        await Task.Delay(100);
+        ObservableData.Add(new ObservableDatas() { Id = TaskId, Status = "Open", Summary = "Improve application performance", Assignee = "Janet Leverling" });
+        await this.ToastObj.ShowAsync();
+    }
+    public async Task DeleteRecord()
+    {
+        if (ObservableData.Count() != 0)
+        {
+            this.ToastContent = "<b>" + ObservableData.First().Status + "</b> Column, <b>" + ObservableData.First().Id + "</b> Card has been deleted";
+            await Task.Delay(100);
+            ObservableData.Remove(ObservableData.First());
+            await this.ToastObj.ShowAsync();
+        }
+    }
+    public async Task UpdateRecord()
+    {
+        if (ObservableData.Count() != 0)
+        {
+            var updateId = ++UpdateUniqueId;
+            var data = ObservableData[updateId];
+            this.ToastContent = "<b>" + data.Status + "</b> Column, <b>" + data.Id + "</b> Card has been updated";
+            await Task.Delay(100);
+            data.Summary = "Card Updated";
+            await this.ToastObj.ShowAsync();
+        }
+    }
+    public class ObservableDatas : INotifyPropertyChanged
+    {
+        public string Id { get; set; }
+        private string status { get; set; }
+        public string Status
+        {
+            get { return status; }
+            set
+            {
+                this.status = value;
+                NotifyPropertyChanged("Status");
+            }
+        }
+        public string Summary { get; set; }
+        public string Assignee { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+}

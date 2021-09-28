@@ -15,6 +15,9 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/default-functionalities",
+                MetaTitle = "Blazor Gantt Chart Example | Default Functionalities | Syncfusion Demos",
+                HeaderText = "Blazor Gantt Chart Example - Default Functionalities",
+                MetaDescription = "This Blazor Gantt Chart example demonstrates the Default Functionalities in the Blazor Gantt Chart Component. Explore here for more details.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -135,6 +138,31 @@ namespace BlazorDemos
                     }
                 }
             },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Gantt Chart",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/keyboard-navigation",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to know more about keyboard accessibility of the Gantt Chart component."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Keyboard",
+                        FileName="KeyboardNavigation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DefaultRecord",
+                        FileName="DefaultData.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "DynamicObject Binding",
@@ -142,7 +170,7 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/dynamic-data",
                 FileName="DynamicData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -151,7 +179,7 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/expando-data",
                 FileName="ExpandoData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -210,7 +238,7 @@ namespace BlazorDemos
                 Category = "Scheduling Concepts",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/holidays",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -345,7 +373,7 @@ namespace BlazorDemos
                 Category = "Column",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/column-menu",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -366,7 +394,7 @@ namespace BlazorDemos
                 Category = "Column",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/column-reordering",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -388,7 +416,7 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/column-resizing",
                 FileName="ColumnResizing.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -397,7 +425,7 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/column-template",
                 FileName="ColumnTemplate.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -406,11 +434,11 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/virtual-scroll",
                 FileName="VirtualScroll.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
             },
             new Sample
             {
-                Name = "Row Drag And Drop",
+                Name = "Row Drag and Drop",
                 Category = "Row",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/row-drag-and-drop",
@@ -435,7 +463,7 @@ namespace BlazorDemos
                 Category = "Row",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/row-height",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -492,13 +520,38 @@ namespace BlazorDemos
                     }
                 }
             },
+             new Sample
+            {
+                Name = "Header Template",
+                Category = "Customization",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/header-template",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to customize the header template in Gantt Chart component."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="HeaderTemplate",
+                        FileName="GanttHeaderTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TaskbarRecord",
+                        FileName="DefaultData.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Tooltip Template",
                 Category = "Customization",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/tooltip-template",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

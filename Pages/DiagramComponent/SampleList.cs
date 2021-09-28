@@ -50,7 +50,7 @@ namespace BlazorDemos
                 Category = "Automatic Layouts",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/hierarchical-tree",
-                FileName = "HierarchicalModel.razor",
+                FileName = "HierarchicalTree.razor",
                 HeaderText="Example of Hierarchical Tree in Blazor Diagram Component",
             },
             new Sample

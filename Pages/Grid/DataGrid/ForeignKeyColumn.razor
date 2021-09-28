@@ -8,11 +8,12 @@
 
 <SampleDescription>
     <p>
-        In this sample, First Name column is a foreign column. You can perform filtering and editing in the foreign key column.
+        In this sample, First Name column is a foreign column. You can perform sorting, filtering, editing in the foreign key column.
     </p>
 </SampleDescription>
 <ActionDescription>
-    <p>Grid has option to show foreign key columns. It can be enabled by using the <strong>ForeignDataSource</strong>, <strong>ForeignKeyField</strong> and <strong>ForeignKeyValue</strong> properties of <strong>GridForeignColumn</strong> directive.</p>
+    <p>Grid has option to show foreign key columns. It can be enabled by using <strong>ForeignDataSource</strong>, <strong>ForeignKeyField</strong> and <strong>ForeignKeyValue</strong> properties of <strong>GridForeignColumn</strong> directive.</p>
+    <p>For Local data, foreign key coumn sorting will be performed by <strong>ForeignKeyValue</strong> instead of <strong>ForeignKeyField</strong>.</p>
     <p>More information on the foreign key column can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/columns/#foreign-key-column'>documentation section</a>.</p>
 </ActionDescription>
 
@@ -21,7 +22,7 @@
     <div class="content-wrapper">
         <div class="row">
             <div class='e-mastertext'><b>Local Data</b></div>
-            <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true" Toolbar="@(new List<string>() {"Add", "Edit", "Delete", "Update","Cancel","Search" })" >
+            <SfGrid DataSource="@GridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" Toolbar="@(new List<string>() {"Add", "Edit", "Delete", "Update","Cancel","Search" })" >
                 <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="5"></GridPageSettings>
                 <GridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true"></GridEditSettings>
@@ -30,7 +31,7 @@
                     <GridForeignColumn Field=@nameof(OrdersDetails.EmployeeID) HeaderText="First Name" ForeignKeyValue="FirstName" ValidationRules="@(new ValidationRules{ Required=true})" ForeignDataSource="@Employees" Width="150"></GridForeignColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="160"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140" EditType="EditType.DropDownEdit"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" DefaultValue="DefaultShipCountry" Width="140" EditType="EditType.DropDownEdit"></GridColumn>
                 </GridColumns>
             </SfGrid>
             <div class='e-mastertext'><b>Remote Data</b></div>
@@ -46,7 +47,7 @@
                     </GridForeignColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140" EditType="EditType.DropDownEdit"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140" DefaultValue="DefaultShipCountry" EditType="EditType.DropDownEdit"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
@@ -66,6 +67,7 @@
     public List<OrdersDetails> GridData { get; set; }
     public List<OrdersDetails> RemoteData { get; set; }
     public List<EmployeeData> Employees { get; set; }
+    public string DefaultShipCountry { get; set; } = "French";
     protected override void OnInitialized()
     {
         GridData = Enumerable.Range(1, 75).Select(x => new OrdersDetails()

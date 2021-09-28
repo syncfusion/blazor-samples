@@ -114,6 +114,15 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Color Range",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "heatmap-chart/color-range",
+                Type = SampleType.New,
+                FileName = "ColorRange.razor"
+            },
+            new Sample
+            {
                 Name = "Tooltip Template",
                 Category = "Features",
                 Directory = "HeatMapChart/HeatMapChart",

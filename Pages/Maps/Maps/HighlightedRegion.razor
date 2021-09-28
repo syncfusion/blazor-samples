@@ -1,15 +1,16 @@
 @page "/maps/highlighted-region"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>  This sample depicts the ATM populated areas in Oklahoma by highlighting the regions.</p>
+    <p>This sample depicts the ATM populated zone in Oklahoma by highlighting the regions.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to highlight some specific region by rendering circles. Any custom HTML element can be used as a marker.</p>
-   <p>More information about marker can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/markers/#marker-shapes'>documentation section</a>.</p>
+    <p>In this example, you can see how to render circles to highlight a specific region. More information about marker can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/markers'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -17,54 +18,61 @@
         <img src="images/maps/atm.png" style="width:25px;height:25px;float:left">
         <div style="padding-left:30px;font-size:18px;font-weight:400;">ATM locations in Oklahoma, USA</div>
     </div>
-    <SfMaps>
-        <MapsCenterPosition Latitude="35.65" Longitude="-97.3"/>
-        <MapsZoomSettings Enable="false" ZoomFactor="1.75"/>
+    <SfMaps Theme="@Theme">
+        <MapsCenterPosition Latitude="35.65" Longitude="-97.3" />
+        <MapsZoomSettings Enable="false" ZoomFactor="1.75" />
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/oklahoma.json"}' TValue="string">
                 <MapsShapeSettings Fill="#F5F5F5">
-                    <MapsShapeBorder Color="#EEDA97" Width="1"/>
+                    <MapsShapeBorder Color="#EEDA97" Width="1" />
                 </MapsShapeSettings>
                 <MapsMarkerSettings>
                     <MapsMarker Width="20" Height="20" Visible="true" Shape="MarkerType.Image" ImageUrl="images/maps/ballon.png" Fill="#000080" DataSource="@AtmMarkerData" TValue="MarkerData" AnimationDuration="0">
-                        <MapsMarkerBorder Color="transparent"/>
+                        <MapsMarkerBorder Color="transparent" />
                     </MapsMarker>
                     <MapsMarker Width="130" Height="130" Visible="true" Shape="MarkerType.Circle" Fill="#4682b4" DataSource="@MarkerAtmGroup" Opacity="0.4" TValue="MarkerGroup" AnimationDuration="0">
-                        <MapsMarkerBorder Color="transparent"/>
-                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Text"/>
+                        <MapsMarkerBorder Color="transparent" />
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Text">
+                            <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
                     </MapsMarker>
                     <MapsMarker Width="100" Height="100" Visible="true" Shape="MarkerType.Circle" Fill="#4682b4" DataSource="@AtmMarkerGroup" Opacity="0.4" TValue="MarkerGroup" AnimationDuration="0">
-                        <MapsMarkerBorder Color="transparent"/>
-                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Text"/>
+                        <MapsMarkerBorder Color="transparent" />
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Text">
+                            <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
                     </MapsMarker>
                     <MapsMarker Visible="true" DataSource="MarkerAtmData" TValue="Marker">
                         <MarkerTemplate>
                             @{
                                 var Data = context as Marker;
-                                <div style="margin-left:0px;margin-top:0px">@Data.Name</div>
+                                <div style="margin-left:0px;margin-top:0px;font-size:12px;color:black">@Data.Name</div>
                             }
                         </MarkerTemplate>
                     </MapsMarker>
                 </MapsMarkerSettings>
             </MapsLayer>
         </MapsLayers>
-    </SfMaps>    
+    </SfMaps>
     <div class="urllink">
         Source:
         <a href="https://www.google.co.in/maps/search/atm+in+oklahoma/35.3864432,-98.2888719,8z/data=!3m1!4b1" target="_blank">www.google.co.in/maps</a>
     </div>
 </div>
 @code {
-    public class Marker {
+    public class Marker
+    {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Name { get; set; }
     }
-    public class MarkerData {
+    public class MarkerData
+    {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     };
-    public class MarkerGroup {
+    public class MarkerGroup
+    {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Text { get; set; }
@@ -131,4 +139,9 @@
         new Marker { Longitude=-95.3173828, Latitude=36.3084855, Name="Pryor" },
         new Marker { Longitude=-96.7524719, Latitude=34.9596836, Name="Konawa" }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

@@ -1,19 +1,24 @@
 ﻿@page "/treemap/tooltip"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample depicts the number of international airports in various countries in South America. In this sample we have provided the custom html element as tooltip template to render the airport count in treemap.</p>
+    <p>This sample represents the number of international airports in various South American countries. In this example, we have used a custom HTML element as a tooltip template to display the airport count in the TreeMap.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>We have provided equal color mapping for treemap items based on certain value. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item in touch enabled devices.</p>
+    <p>In this example, we provided equal colour mapping for TreeMap items based on a specific value. The tooltip is enabled; to see it in action, hover your mouse over an item or tap an item on touch-enabled devices.</p>
     <p>More information about tooltip can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/tooltip'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfTreeMap TValue="AirPortDetails" WeightValuePath="Count" EqualColorValuePath="Count" DataSource="@DataSource">
-        <TreeMapTitleSettings Text="Country wise International Airport count in South America" />
+    <SfTreeMap TValue="AirPortDetails" WeightValuePath="Count" EqualColorValuePath="Count" DataSource="@DataSource" Theme="@Theme">
+        <TreeMapTitleSettings Text="International Airport count in South America">
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
+        </TreeMapTitleSettings>
         <TreeMapLeafItemSettings ShowLabels="true" LabelPath="State" Fill="6699cc" LabelPosition="LabelPosition.Center">
             <TreeMapLeafColorMappings>
                 <TreeMapLeafColorMapping LeafValue="25" Color="@LeafColorOne" />
@@ -26,8 +31,11 @@
                 <TreeMapLeafColorMapping LeafValue="1" Color="@LeafColorEight" />
             </TreeMapLeafColorMappings>
             <TreeMapLeafBorder Color="#FFFFFF" Width="1" />
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" Size="12px"></TreeMapLeafLabelStyle>
         </TreeMapLeafItemSettings>
-        <TreeMapLegendSettings Visible="true" Position="LegendPosition.Top" Shape="LegendShape.Rectangle" />
+        <TreeMapLegendSettings Visible="true" Position="LegendPosition.Top" Shape="LegendShape.Rectangle">
+            <TreeMapLegendTextStyle FontFamily="Segoe UI"></TreeMapLegendTextStyle>
+        </TreeMapLegendSettings>
         <TreeMapTooltipSettings Visible="true">
             <TooltipTemplate>
                 @{
@@ -37,8 +45,7 @@
                             <img src="images/treemap/airplane.svg" height="32" width="32" style="float:left;background-repeat:no-repeat;" />
                         </div>
                         <div class="value">
-                            <span class="label">Airports:</span>
-                            <b style="margin-left: -9px">@AirportCount.Count</b>
+                            <span class="label">Airports:&nbsp;<b>@AirportCount.Count</b></span>
                         </div>
                     </div>
                 }
@@ -71,7 +78,7 @@
     }
 
     .value {
-        float:left;
+        float: left;
         margin-top: -27px;
         color: #585C60;
         font-family: Roboto-Bold;
@@ -87,6 +94,7 @@
     }
 </style>
 @code {
+    public Theme Theme { get; set; }
     public string[] LeafColorOne = new string[] { "#634D6F" };
     public string[] LeafColorTwo = new string[] { "#B34D6D" };
     public string[] LeafColorThree = new string[] { "#557C5C" };
@@ -117,4 +125,8 @@
         new AirPortDetails { Title="State wise International Airport count in South America", State="Guyana", Count=1 },
         new AirPortDetails { Title="State wise International Airport count in South America", State="Suriname", Count=1 },
     };
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

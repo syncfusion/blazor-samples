@@ -60,10 +60,10 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Labels",
+                Name = "Data Labels",
                 Category = "Features",
                 Directory = "Maps/Maps",
-                Url = "maps/label",
+                Url = "maps/data-labels",
                 FileName = "Label.razor",
                 Type = SampleType.None
             },

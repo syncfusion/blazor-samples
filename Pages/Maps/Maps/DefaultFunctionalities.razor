@@ -1,35 +1,41 @@
 ﻿@page "/maps/default-functionalities"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p>This sample visualizes the continents in the world by rendering in a map layer. Also marks the office locations of YouTube in the world using markers.</p> 
+    <p>This sample visualizes the world's continents by rendering them in a map layer. Markers are used to mark YouTube's global office locations.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render a map with the provided GeoJSON data. You can bind the desired colors from the data source to the map shapes using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeSettings.html#Syncfusion_Blazor_Maps_MapsShapeSettings_ColorValuePath'>ColorValuePath</a></code>. The marker templates are used to display the names for shapes. Legend is enabled in this example to represent each continent. Tooltip is enabled in this example. Title is provided in this example by using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsTitleSettings.html'>MapsTitleSettings</a></code>.</p>
-   <p>More information about maps can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/getting-started'>documentation section</a>.</p>
+    <p>In this example, you can see how to render a world map with the provided GeoJSON data. The desired colors from the data source can be bound to the map shapes. The markers assist in highlighting key regions on the map. For a better user experience, the title, legend, and tooltip are enabled.</p>
+    <p>More information about maps can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/getting-started'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps>
+    <SfMaps Theme="@Theme">
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' DataSource="@MapsLayerDataSource" TValue="MapDataSource"
-                        ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="@ShapeDataPath">
+                       ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="@ShapeDataPath">
                 <MapsMarkerSettings>
                     <MapsMarker TValue="MapMarkerDataSource" Visible="true" DataSource="@MarkerDataSource" Height="20" Width="20" Shape="MarkerType.Image"
-                                ImageUrl="images/maps/ballon.png">
-                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name" Format="State: ${Name} <br> Country: ${Country}"/>
+                                ImageUrl="images/maps/ballon.png" AnimationDuration="0">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name" Format="State: ${Name} <br> Country: ${Country}">
+                            <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
                     </MapsMarker>
                 </MapsMarkerSettings>
-                <MapsShapeSettings ColorValuePath="Color"/>
+                <MapsShapeSettings ColorValuePath="Color" />
             </MapsLayer>
         </MapsLayers>
-        <MapsZoomSettings Enable="false"/>
-        <MapsLegendSettings Visible="true"/>
+        <MapsZoomSettings Enable="false" />
+        <MapsLegendSettings Visible="true" ShapePadding="5">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
         <MapsTitleSettings Text="YouTube office locations">
-            <MapsTitleTextStyle Size="16px"/>
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
     </SfMaps>
     <div class="urllink">
@@ -38,10 +44,11 @@
     </div>
 </div>
 
-@code {    
+@code {
     public string[] ShapePropertyPath = { "continent" };
     public string ShapeDataPath = "Continent";
-    public class MapDataSource {
+    public class MapDataSource
+    {
         public string Continent { get; set; }
         public string Color { get; set; }
     };
@@ -53,7 +60,8 @@
         new MapDataSource { Continent="Asia", Color="#266665" },
         new MapDataSource { Continent="Australia", Color="#124F5E" }
     };
-    public class MapMarkerDataSource {
+    public class MapMarkerDataSource
+    {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Name { get; set; }
@@ -71,4 +79,9 @@
         new MapMarkerDataSource{ Latitude=35.6628744, Longitude=139.7345469, Name="Minato", Country="Japan" },
         new MapMarkerDataSource{ Latitude=51.5326602, Longitude=-0.1262422, Name="London", Country="England" }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

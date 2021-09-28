@@ -2,24 +2,28 @@
 
 @using Syncfusion.Blazor.Maps
 @using Syncfusion.Blazor.Buttons
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample illustrates the print feature in Maps. By clicking the Print button, you can print the maps directly from the browser.</p>
+    <p>This sample demonstrates the map's print functionality. By clicking the <b>Print</b> button, you can print the map directly from the browser.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render and configure the print functionality. Print functionality is done by <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/maps/maps-method/?no-cache=1#print'>Print</a></code> method when <code><a target='_blank' class='code' href=''>AllowPrint</a></code> is set as true. Export functionality is done by <code><a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/maps/maps-method/?no-cache=1#export'>Export</a></code> method when <code><a target='_blank' class='code' href=''>AllowImageExport</a></code> and <code><a target='_blank' class='code' href=''>AllowPdfExport</a></code> is set as true. Also this sample visualizes the State-wise US population in the year 2010. </p>
-   <p>More information about print functionality can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/print-and-export/#print'>documentation section</a>.</p>
+    <p>In this example, you can see how to configure the print functionality. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#methods'>PrintAsync</a></code> method is used to print when the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#Syncfusion_Blazor_Maps_SfMaps_AllowPrint'>AllowPrint</a></code> property is set to <b>true</b>.</p>
+    <p>More information about print functionality can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/print-and-export/#print'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-    <SfMaps @ref="@MapsRef" Format="N0" UseGroupingSeparator="true" AllowPrint="true">
+    <SfMaps @ref="@MapsRef" Format="N0" UseGroupingSeparator="true" AllowPrint="true" Theme="@Theme">
         <MapsTitleSettings Text="State-wise US population - 2010">
-            <MapsTitleTextStyle Size="16px" />
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Bottom" Height="10" Width="350"
-                            LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center" />
+                            LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/usa.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@PopulationReport" TValue="State">
                 <MapsShapeSettings ColorValuePath="Population">
@@ -34,7 +38,9 @@
                         <MapsShapeColorMapping StartRange="26500000" EndRange="38400000" Color="@ShapeColorSeven" Label=">25M" />
                     </MapsShapeColorMappings>
                 </MapsShapeSettings>
-                <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}" />
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
             </MapsLayer>
         </MapsLayers>
     </SfMaps>
@@ -131,5 +137,10 @@
     public async Task PrintButton()
     {
         await MapsRef.PrintAsync();
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 }

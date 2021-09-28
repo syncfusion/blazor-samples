@@ -1,29 +1,40 @@
 ﻿@page "/treemap/default-functionalities"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample visualizes the car sales of various countries in 2017 by rendering the countries at top level and car manufacturing companies as leaf items.</p>
+    <p>This sample illustrates car sales in various countries in 2017 by displaying countries at the top level and car manufacturers as leaf items.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render a treemap with the provided data source. Palette color is applied for the items in treemap. Default legend is enabled in this example to represent the items in top level. Tooltip is enabled in this example.</p>
-   <p>More information about treemap can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/getting-started'>documentation section</a>.</p>
+    <p>In this example, you can see how to render a TreeMap using the data source provided. The palette color is applied for the TreeMap component's items. The legend is enabled to represent the items at the top level, and the tooltip is enabled.</p>
+    <p>More information about TreeMap can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/getting-started'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfTreeMap TValue="CarSalesDetails" Format="N0" EnableGroupingSeparator="true" WeightValuePath="Sales" RangeColorValuePath="Sales" DataSource="@DataSource" Palette="@Palette">
-        <TreeMapTitleSettings Text="Car Sales by Country - 2017"/>
+    <SfTreeMap TValue="CarSalesDetails" Format="N0" EnableGroupingSeparator="true" WeightValuePath="Sales" RangeColorValuePath="Sales" DataSource="@DataSource" Palette="@Palette" Theme="@Theme">
+        <TreeMapTitleSettings Text="Car sales by country - 2017">
+            <TreeMapTitleTextStyle FontFamily="Segoe UI" Size="15px"></TreeMapTitleTextStyle>
+        </TreeMapTitleSettings>
         <TreeMapLeafItemSettings LabelPath="Company">
-            <TreeMapLeafBorder Color="#FFFFFF" Width="0.5"/>
+            <TreeMapLeafBorder Color="#FFFFFF" Width="0.5" />
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" Size="12px"></TreeMapLeafLabelStyle>
         </TreeMapLeafItemSettings>
         <TreeMapLevels>
             <TreeMapLevel GroupPath="Continent">
-                <TreeMapLevelBorder Color="#FFFFFF" Width="0.5"/>
+                <TreeMapLevelBorder Color="#FFFFFF" Width="0.5" />
+                <TreeMapHeaderStyle FontFamily="Segoe UI"></TreeMapHeaderStyle>
             </TreeMapLevel>
         </TreeMapLevels>
-        <TreeMapLegendSettings Visible="true" Position="LegendPosition.Top" Shape="LegendShape.Rectangle"/>
-        <TreeMapTooltipSettings Visible="true"/>
+        <TreeMapLegendSettings Visible="true" Position="LegendPosition.Top" Shape="LegendShape.Rectangle">
+            <TreeMapLegendTextStyle FontFamily="Segoe UI"></TreeMapLegendTextStyle>
+        </TreeMapLegendSettings>
+        <TreeMapTooltipSettings Visible="true">
+            <TreeMapTooltipTextStyle FontFamily="Segoe UI"></TreeMapTooltipTextStyle>
+        </TreeMapTooltipSettings>
     </SfTreeMap>
     <div class="urllink">
         Source:
@@ -31,8 +42,10 @@
     </div>
 </div>
 @code {
+    public Theme Theme { get; set; }
     public string[] Palette = new string[] { "#C33764", "#AB3566", "#993367", "#853169", "#742F6A", "#632D6C", "#532C6D", "#412A6F", "#312870", "#1D2671" };
-    public class CarSalesDetails {
+    public class CarSalesDetails
+    {
         public string Continent { get; set; }
         public string Company { get; set; }
         public int Sales { get; set; }
@@ -69,4 +82,8 @@
         new CarSalesDetails { Continent="Canada", Company="FCA", Sales=278011 },
         new CarSalesDetails { Continent="Canada", Company="GM", Sales=266884 },
    };
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

@@ -1,0 +1,116 @@
+﻿@page "/treeview/lazy-loading"
+
+@using Syncfusion.Blazor.Navigations
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>The <a href='https://www.syncfusion.com/blazor-components/blazor-treeview' target='_blank'>Blazor TreeView</a> sample demonstrates the load on demand functionality of the TreeView. Click on the icon or double click node to expand the parent node, it loads the child nodes on demand based on the parentID/child member.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <code>TreeView</code> component has a built-in load on demand functionality support. This allows the user to load only the first level of nodes in the TreeView on initial loading to reduce the bandwidth size when consuming huge data. This support can be enabled or disabled using the <code>LoadOnDemand</code> property.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="control_wrapper">
+        <SfTreeView TValue="FileData" LoadOnDemand="false">
+            <TreeViewFieldsSettings TValue="FileData" Id="Id" Text="Name" HasChildren="HasChild" ParentID="Pid" DataSource="@TreeData" Expanded="Expanded"></TreeViewFieldsSettings>
+            <TreeViewEvents TValue="FileData" NodeExpanding="OnNodeExpanding"></TreeViewEvents>
+        </SfTreeView>
+    </div>
+</div>
+
+@code{
+    public class FileData
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public bool Expanded { get; set; }
+        public bool HasChild { get; set; }
+        public string Pid { get; set; }
+    }
+    public List<FileData> TreeData = new List<FileData>();
+    public List<string> ExpandedNodes = new List<string>();
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        TreeData.Add(new FileData
+        {
+            Id = "01",
+            Name = "Local Disk (C:)",
+            HasChild = true,
+        });
+        TreeData.Add(new FileData
+        {
+            Id = "03",
+            Name = "Local Disk (D:)",
+            HasChild = true
+        });
+    }
+    public async Task OnNodeExpanding(NodeExpandEventArgs args)
+    {
+        if (!ExpandedNodes.Contains(args.NodeData.Id))
+        {
+            List<FileData> data = new List<FileData>();
+            string ExpandingNodes = "";
+            if (args.NodeData.Id == "01")
+            {
+                data.Add(new FileData() { Id = "01-01", Name = "Program Files", HasChild = true, Pid = "01" });
+                data.Add(new FileData() { Id = "01-02", Name = "User", Pid = "01", HasChild = true });
+                ExpandingNodes = "01";
+            }
+            else if (args.NodeData.Id == "01-01")
+            {
+                data = GetData("01-01", "Application", 20, "1", "01-01");
+                ExpandingNodes = "01-01";
+            }
+            else if (args.NodeData.Id == "01-02")
+            {
+                data.Add(new FileData() { Id = "01-02-1", Name = "Smith", Pid = "01-02" });
+                data.Add(new FileData() { Id = "01-02-2", Name = "Public", Pid = "01-02" });
+                data.Add(new FileData() { Id = "01-02-3", Name = "Admin", Pid = "01-02" });
+                ExpandingNodes = "01-02";
+            }
+            else if (args.NodeData.Id == "03")
+            {
+                data.Add(new FileData() { Id = "03-01", Name = "Pictures", Pid = "03", HasChild = true });
+                data.Add(new FileData() { Id = "03-02", Name = "Documents", Pid = "03", HasChild = true });
+                ExpandingNodes = "03";
+            }
+            else if (args.NodeData.Id == "03-01")
+            {
+                data = GetData("03-01", "Image", 100, ".jpg", "03-01");
+                ExpandingNodes = "03-01";
+            }
+            else if (args.NodeData.Id == "03-02")
+            {
+                data = GetData("03-02", "Testing", 100, ".docx", "03-02");
+                ExpandingNodes = "03-02";
+            }
+            TreeData.AddRange(data);
+            await Task.Delay(100);
+            ExpandedNodes.Add(ExpandingNodes);
+        }
+        StateHasChanged();
+    }
+    public List<FileData> GetData(string id, string name, int counter, string extension, string parentId)
+    {
+        List<FileData> childData = new List<FileData>();
+        for (int i = 1; i <= counter; i++)
+        {
+            childData.Add(new FileData { Id = id + "-" + i.ToString(), Name = name + " " + i.ToString() + extension, Pid = parentId });
+        }
+        return childData;
+    }
+}
+
+<style>
+    .control_wrapper {
+        max-width: 500px;
+        margin: auto;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        max-height: 420px;
+        overflow: auto;
+    }
+</style>

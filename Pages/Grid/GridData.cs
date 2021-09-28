@@ -98,23 +98,23 @@ namespace blazor_griddata
 
                 Datas.Add(new BugData(" Words break when changing screen resolution", "Normal", "In Progress", "Joe", "Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa.", new DateTime(2019, 06, 15), 505, "Email issued from Jack (jack@example.com)", "Screen", "Isaac", "Need to Notify"));
 
-                Datas.Add(new BugData(" Download files to a private data directory", "Critical", "In Progress", "Jack", "Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.", new DateTime(2019, 06, 15), 504, "Email issued from John (john@example.com)", " Security", "Bold", "Need to Notify"));
+                Datas.Add(new BugData("Download files to a private data directory", "Critical", "In Progress", "Jack", "Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.", new DateTime(2019, 06, 15), 504, "Email issued from John (john@example.com)", " Security", "Bold", "Need to Notify"));
 
-                Datas.Add(new BugData(" Asking permission to access gallery", "Low", "By Design", "Nick", "Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.", new DateTime(2019, 06, 5), 490, "Posted in forum", "Security", "George", "Already Notified"));
+                Datas.Add(new BugData("Asking permission to access gallery", "Low", "By Design", "Nick", "Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.", new DateTime(2019, 06, 5), 490, "Posted in forum", "Security", "George", "Already Notified"));
 
 
-                Datas.Add(new BugData("  Data Leakage", "Critical", "In Progress", "John", "Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem.", new DateTime(2019, 06, 10), 500, "Found internally during testing", "Security", "Anton", "Need to Notify"));
+                Datas.Add(new BugData("Data Leakage", "Critical", "In Progress", "John", "Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem.", new DateTime(2019, 06, 10), 500, "Found internally during testing", "Security", "Anton", "Need to Notify"));
 
                 Datas.Add(new BugData("Installation error for previous Android versions", "Normal", "By Design", " Lewis", " Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit.", new DateTime(2019, 06, 15), 504, "Found during testing", "Android", "Kahn", "Already Notified"));
 
 
                 Datas.Add(new BugData("Opens after the location is accessed", "Low", "Won't Fix", "Gibson", "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante.", new DateTime(2019, 06, 5), 495, "Reported by unsigned user", "Security", "Herbert", "Already Notified"));
 
-                Datas.Add(new BugData(" Memory-related issue", "Normal", "In Progress", "Julie", "Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla.", new DateTime(2019, 06, 1), 480, "Posted in forum", " Memory", "Isaac", "Need to Notify"));
+                Datas.Add(new BugData("Memory-related issue", "Normal", "In Progress", "Julie", "Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla.", new DateTime(2019, 06, 1), 480, "Posted in forum", " Memory", "Isaac", "Need to Notify"));
 
-                Datas.Add(new BugData("  Security questions are not working properly", "High", "Completed", "Lucy", "Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi.", new DateTime(2019, 06, 1), 480, " Email from Andrew (andrew@example.com)", "Security", "Wells", "Already Notified"));
+                Datas.Add(new BugData("Security questions are not working properly", "High", "Completed", "Lucy", "Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi.", new DateTime(2019, 06, 1), 480, " Email from Andrew (andrew@example.com)", "Security", "Wells", "Already Notified"));
 
-                Datas.Add(new BugData(" Requires a login after the connection lost its strength ", "Low", "Can't Reproduce", "Issac", "Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. ", new DateTime(2019, 06, 15), 505, "Reported by unsigned user", "Speed", "Mary", "Already Notified"));
+                Datas.Add(new BugData("Requires a login after the connection lost its strength", "Low", "Can't Reproduce", "Issac", "Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. ", new DateTime(2019, 06, 15), 505, "Reported by unsigned user", "Speed", "Mary", "Already Notified"));
 
 
                 Datas.Add(new BugData("The app crashes", "High", "In Progress", "John", "Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit.", new DateTime(2019, 06, 1), 485, "Email issued from Jack (jack@example.com)", "Security", "Anton", "Need to Notify"));
@@ -122,6 +122,10 @@ namespace blazor_griddata
                 Datas.Add(new BugData("Showing wrong error message", "Normal", "Blocked", "William", " Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit.", new DateTime(2019, 06, 10), 500, " Posted in community forum", "Notification", " Gillian", "Need to Notify"));
 
                 Datas.Add(new BugData("Consumes more power when in battery-saving mode", "Critical", "In Progress", "John", "Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem.", new DateTime(2019, 06, 15), 505, "Email issued from Joe (joe@example.com)", "Battery", "Anton", "Need to Notify"));
+
+                Datas.Add(new BugData("Security level is low", "Critical", "In Progress", "Lucy", "Quisque volutpat condimentum velit, Integer euismod lacus luctus magna. Quisque cursus, luctus non, massa.", new DateTime(2019, 06, 20), 505, "Email issued from Issac (issac@example.com)", "Security", "Mary", "Already Notified"));
+
+
 
 
             }
@@ -193,12 +197,7 @@ namespace blazor_griddata
         public string ShipCountry { get; set; }
 
         public DateTime? ShippedDate { get; set; }
-        
         public string ShipAddress { get; set; }
-
-        public string Mail { get; set; }
-
-        public string Location { get; set; }
     }
     public class OrdersDetails
     {
@@ -206,7 +205,7 @@ namespace blazor_griddata
         {
 
         }
-        public OrdersDetails(int OrderID, string CustomerId, int EmployeeId, double Freight, bool Verified, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress, string Mail, string Location)
+        public OrdersDetails(int OrderID, string CustomerId, int EmployeeId, double Freight, bool Verified, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress)
         {
             this.OrderID = OrderID;
             this.CustomerID = CustomerId;
@@ -219,8 +218,6 @@ namespace blazor_griddata
             this.ShipCountry = ShipCountry;
             this.ShippedDate = ShippedDate;
             this.ShipAddress = ShipAddress;
-            this.Mail = Mail;
-            this.Location = Location;
         }
 
         public static List<OrdersDetails> GetAllRecords()
@@ -229,11 +226,11 @@ namespace blazor_griddata
             int code = 10000;
             for (int i = 1; i < 15; i++)
             {
-                order.Add(new OrdersDetails(code + 1, "ALFKI", i + 0, 2.3 * i,false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6", "alf32@arpy.com", "Morbi Leo"));
-                order.Add(new OrdersDetails(code + 2, "ANATR", i + 2, 3.3 * i,true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123", "anat81@jourrapide.com", "Sed Blandit"));
-                order.Add(new OrdersDetails(code + 3, "ANTON", i + 1, 4.3 * i,false, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo", "anton99@rpy.com", "Congue Nisi"));
-                order.Add(new OrdersDetails(code + 4, "BLONP", i + 3, 5.3 * i,true, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7", "blonp97@gmail.com", "Aliquet Lectus"));
-                order.Add(new OrdersDetails(code + 5, "BOLID", i + 4, 6.3 * i,false, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S.", "bolid@mail.com", "Viverra Mauris In"));
+                order.Add(new OrdersDetails(code + 1, "ALFKI", i + 0, 2.3 * i,false, new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6"));
+                order.Add(new OrdersDetails(code + 2, "ANATR", i + 2, 3.3 * i,true, new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123"));
+                order.Add(new OrdersDetails(code + 3, "ANTON", i + 1, 4.3 * i,false, new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo"));
+                order.Add(new OrdersDetails(code + 4, "BLONP", i + 3, 5.3 * i,true, new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7"));
+                order.Add(new OrdersDetails(code + 5, "BOLID", i + 4, 6.3 * i,false, new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S."));
                 code += 5;
             }
             return order;
@@ -253,10 +250,6 @@ namespace blazor_griddata
 
         public DateTime? ShippedDate { get; set; }
         public string ShipAddress { get; set; }
-
-        public string Mail { get; set; }
-
-        public string Location { get; set; }
     }
     public class OverviewData
     {
@@ -274,7 +267,7 @@ namespace blazor_griddata
 
 
 
-            string[] designation = { "Manager", "CFO", "Designer", "Developer", "Program Directory", "System Analyst", "Project Lead" };
+            string[] designation = { "Manager", "CFO", "Designer", "Developer", "Program Director", "System Analyst", "Project Lead" };
 
 
 

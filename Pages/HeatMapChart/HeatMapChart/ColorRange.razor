@@ -1,0 +1,98 @@
+﻿@page "/heatmap-chart/color-range"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using SFHeatMap = Syncfusion.Blazor.HeatMap
+@using Syncfusion.Blazor.Buttons;
+@using MSComponents = Microsoft.AspNetCore.Components
+@using sf_blazor_heatmapdata
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>This sample visualizes the energy consumption in trillion British Thermal Units (BTU) by the various public sectors in US government over the years. In the property panel, the options are available to change palette type in the Heatmap using the radio button.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example explains how to provide a specific range of color in the heatmap component. In this example we have used the <code>StartValue</code> and <code>EndValue</code> properties to define the range of start and end values in the data source, and the <code>MinColor</code> and <code>MaxColor</code> properties to represent the colors of a given range. Legend is enabled in this example. When the palette mode is changed, the Legend Type will be automatically switched between Gradient Legend and list type Legend.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <div class="row">
+        <SfHeatMap DataSource="@DataSource" Theme="@theme">
+            <HeatMapTitleSettings Text="U.S. Government Energy Consumption by Agency (Trillion Btu)">
+                <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal"></HeatMapTitleTextStyle>
+            </HeatMapTitleSettings>
+            <HeatMapXAxis Labels="@XLabels"
+                          LabelRotation="45"
+                          LabelIntersectAction="@SFHeatMap.LabelIntersectAction.None">
+            </HeatMapXAxis>
+            <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+            <HeatMapPaletteSettings Type="@PalatteType">
+                <HeatMapPalettes>
+                    <HeatMapPalette StartValue="4.3" EndValue="10" MinColor="#F0C27B" MaxColor="#BE8D6C"></HeatMapPalette>
+                    <HeatMapPalette StartValue="10" EndValue="15" MinColor="#A26E63" MaxColor="#4B1248"></HeatMapPalette>
+                    <HeatMapPalette StartValue="15" EndValue="20" MinColor="#694b77" MaxColor="#d27d85"></HeatMapPalette>
+                    <HeatMapPalette StartValue="20" EndValue="31.7" MinColor="#ed9485" MaxColor="#e44841"></HeatMapPalette>
+                    
+                </HeatMapPalettes>
+            </HeatMapPaletteSettings>
+            <HeatMapCellSettings ShowLabel="false">
+                <HeatMapCellBorder Width="0"></HeatMapCellBorder>
+            </HeatMapCellSettings>
+            <HeatMapLegendSettings Visible="true" Position="LegendPosition.Bottom">
+            </HeatMapLegendSettings>
+        </SfHeatMap>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div><h5>Properties</h5></div>
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 50%">
+                    <div div style="font-size: 14px;">Palette Type </div>
+                </td>
+                <td style="width: 40%;">
+                    <div class="row" style="padding-top: 10px;">
+                        <SfRadioButton Label="Fixed" Name="PaletteType" Value="Fixed" @bind-Checked="@Type" ValueChange="@ValueChange" TChecked="string">
+                        </SfRadioButton>
+                    </div>
+                    <div class="row" style="padding-top: 10px;">
+                        <SfRadioButton Label="Gradient" Name="PaletteType" Value="Gradient" @bind-Checked="@Type" ValueChange="@ValueChange" TChecked="string"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@code{
+    private Theme theme { get; set; }
+    PaletteType PalatteType = PaletteType.Gradient;
+    string Type = "Gradient";
+    string[] XLabels = new string[] { "China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico" };
+    string[] YLabels = new string[] { "1975-1980", "1980-1985", "1985-1990", "1990-1995", "1995-2000", "2000-2005", "2005-2010", "2010-2015" };
+    double[,] DataSource = HeatMapData.GetPaletteData();
+    protected override void OnInitialized()
+    {
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+    }
+    public void ValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> args)
+    {
+        if ((string)args.Value == "Fixed")
+        {
+            PalatteType = PaletteType.Fixed;
+            Type = "Fixed";
+        }
+        else
+        {
+            PalatteType = PaletteType.Gradient;
+            Type = "Gradient";
+        }
+    }
+}
+<style>
+    .col-lg-3.property-section {
+        padding-top: 60px;
+    }    
+</style>

@@ -50,6 +50,36 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Observable Collection",
+                Category = "Data Binding",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/observable-binding",
+                FileName = "ObservableCollection.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "DynamicObject Binding",
+                Category = "Data Binding",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/dynamicobject",
+                FileName = "DynamicObject.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo for Dynamic data binding (Dynamic and Expando Object) of the Scheduler component.",
+                }
+            },
+            new Sample
+            {
+                Name = "ExpandoObject Binding",
+                Category = "Data Binding",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/expandoobject",
+                FileName = "SchedulerExpandoObject.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Recurring Events",
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
@@ -66,6 +96,15 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Timezone",
+                Category = "Appointments",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/timezone",
+                FileName = "Timezone.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Search Events",
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
@@ -74,7 +113,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "External Drag And Drop",
+                Name = "External Drag and Drop",
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/external-drag-and-drop",
@@ -82,7 +121,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Multiple Drag",
+                Name = "Multiple Events Drag",
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/multi-drag",
@@ -103,6 +142,18 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/virtual-scrolling",
                 FileName = "VirtualScrolling.razor"
+            },
+             new Sample
+            {
+                Name = "Virtual Mask",
+                Category = "Scrolling",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/virtual-mask",
+                FileName = "VirtualMask.razor",
+                Type = SampleType.New,
+                 NotificationDescription = new string[] {
+                    @"Added a demo to showcase mask UI feature for Virtual scrolling in the Scheduler component.",
+                }
             },
 
             new Sample
@@ -159,8 +210,7 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/year-view",
-                FileName = "Year.razor",
-                Type = SampleType.Updated
+                FileName = "Year.razor"
             },
             new Sample
             {
@@ -168,7 +218,8 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/room-scheduler",
-                FileName = "TimelineResource.razor"
+                FileName = "TimelineResource.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -256,8 +307,7 @@ namespace BlazorDemos
                Category = "Resource Grouping",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/adaptive-grouping",
-               FileName = "AdaptiveGrouping.razor",
-               Type = SampleType.New
+               FileName = "AdaptiveGrouping.razor"
             },
             new Sample
             {
@@ -413,6 +463,18 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Reminder",
+                Category = "Customization",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/reminder",
+                FileName = "Reminder.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to notify Reminders based on the appointments of the Scheduler.",
+                }
+            },
+            new Sample
+            {
                 Name = "Export to Excel",
                 Category = "Exporting",
                 Directory = "Schedule/Scheduler",
@@ -433,8 +495,7 @@ namespace BlazorDemos
                Category = "Exporting",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/print",
-               FileName = "Print.razor",
-               Type = SampleType.New
+               FileName = "Print.razor"
             },
             new Sample
             {

@@ -9,7 +9,10 @@
 @using Syncfusion.Blazor.RichTextEditor;
 @using Syncfusion.Blazor.Calendars;
 @using Syncfusion.Blazor.Inputs;
-@using Pages.Schedule.Scheduler;
+@using BlazorDemos.Pages.Schedule.Scheduler;
+@using System.ComponentModel.DataAnnotations;
+@using Microsoft.AspNetCore.Components.Forms;
+
 @inject NavigationManager NavigationManager
 @using blazor_griddata;
 
@@ -31,6 +34,16 @@
     {
         <SfButton Content="Open" OnClick="OnClick"></SfButton>
     }
+    <SfDialog Target="#target" Width="250px" ShowCloseIcon="true" IsModal="true" @bind-Visible="@alertVisible">
+        <DialogTemplates>
+            <Header>
+                Success
+            </Header>
+            <Content>
+                Customer details added!
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
     <SfDialog Width="700px" Height="400px" Target="#target" ShowCloseIcon="true" @bind-Visible="@dialogVisible">
         <DialogTemplates>
             <Header>
@@ -62,7 +75,7 @@
                                 <TabHeader Text="Schedule"></TabHeader>
                             </ChildContent>
                             <ContentTemplate>
-                                <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" SelectedDate="new DateTime(2019, 1, 10)">
+                                <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" SelectedDate="new DateTime(DateTime.Now.Year, 1, 10)">
                                     <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
                                 </SfSchedule>
                             </ContentTemplate>
@@ -153,47 +166,43 @@
                                 <TabHeader Text="Forums"></TabHeader>
                             </ChildContent>
                             <ContentTemplate>
-                                <div>
-                                    <form method="post">
-                                        <div id="formId" class="form-horizontal e-lib e-formvalidator">
-                                            <div class="form-title"><span>Add Customer Details</span></div>
-                                            <div class="form-group">
-                                                <div class="e-float-input">
-                                                    <SfTextBox Placeholder="User Name" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-                                                </div>
+                                <div class="form-title"><span>Add Customer Details</span></div>
+                                <div id="formId" class="form-horizontal">
+                                    <EditForm Model="@Model" OnValidSubmit="@ValidSubmit">
+                                        <DataAnnotationsValidator />
+                                        <div class="form-group">
+                                            <SfTextBox Placeholder="User Name" FloatLabelType="FloatLabelType.Auto" @bind-Value="@Model.Username" />
+                                            <ValidationMessage For="@(() => Model.Username)" />
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="e-float-input">
+                                                <SfDatePicker TValue="DateTime" Placeholder="Date of Birth" @bind-Value="@Model.DOB" />
+                                                <ValidationMessage For="@(() => Model.DOB)" />
                                             </div>
-                                            <div class="form-group">
-                                                <div class="e-float-input">
-                                                    <SfDatePicker TValue="DateTime" Placeholder="Date of Birth"></SfDatePicker>
+                                        </div>
+                                        <div class="form-group">
+                                            <SfTextBox Placeholder="Address" FloatLabelType="FloatLabelType.Auto" Multiline="true" @bind-Value="@Model.Address" />
+                                            <ValidationMessage For="@(() => Model.Address)" />
+                                        </div>
+                                        <div class="form-group">
+                                            <SfTextBox Placeholder="City" FloatLabelType="FloatLabelType.Auto" @bind-Value="@Model.City" />
+                                            <ValidationMessage For="@(() => Model.City)" />
+                                        </div>
+                                        <div class="form-group">
+                                            <SfTextBox Placeholder="State" FloatLabelType="FloatLabelType.Auto" @bind-Value="@Model.State" />
+                                            <ValidationMessage For="@(() => Model.State)" />
+                                        </div>
+                                        <div class="e-row">
+                                            <div style="width: 220px;margin:0px auto;height: 100px;padding-top: 25px;">
+                                                <div style="display: inline-block;">
+                                                    <button class="samplebtn e-control e-btn" type="submit" data-ripple="true">Add Customer</button>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="e-float-input">
-                                                    <SfTextBox Placeholder="Address" FloatLabelType="FloatLabelType.Auto" Multiline="true"></SfTextBox>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="e-float-input">
-                                                    <SfTextBox Placeholder="City" FloatLabelType="FloatLabelType.Auto" Multiline="true"></SfTextBox>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="e-float-input">
-                                                    <SfTextBox Placeholder="State" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
-                                                </div>
-                                            </div>
-                                            <div class="e-row">
-                                                <div style="width: 220px;margin:0px auto;height: 100px;padding-top: 25px;">
-                                                    <div style="display: inline-block;">
-                                                        <button class="samplebtn e-control e-btn" type="submit" data-ripple="true">Add Customer</button>
-                                                    </div>
-                                                    <div style="float: right;">
-                                                        <button class="samplebtn e-control e-btn" type="reset" data-ripple="true">Clear</button>
-                                                    </div>
+                                                <div style="float: right;">
+                                                    <button class="samplebtn e-control e-btn" type="reset" data-ripple="true">Clear</button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    </EditForm>
                                 </div>
                             </ContentTemplate>
                         </TabItem>
@@ -204,19 +213,17 @@
         <DialogAnimationSettings Effect="animationEffect"></DialogAnimationSettings>
         <DialogEvents Opened="OnOpen" Closed="OnClose"></DialogEvents>
         <DialogButtons>
-            <DialogButton Content="Ok" IsPrimary="true" OnClick="OnBtnClick"></DialogButton>
+            <DialogButton Content="OK" IsPrimary="true" OnClick="OnBtnClick"></DialogButton>
             <DialogButton Content="Cancel" IsPrimary="true" OnClick="OnBtnClick"></DialogButton>
         </DialogButtons>
     </SfDialog>
-
 </div>
-
 
 @code {
     private string CurrentUri;
 
-
     bool buttonVisible { get; set; } = false;
+    bool alertVisible { get; set; } = false;
     bool dialogVisible { get; set; } = true;
     private Syncfusion.Blazor.Theme Theme { get; set; }
 
@@ -224,7 +231,7 @@
 
     public List<OrdersDetails> GridData { get; set; }
 
-    public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
+    public List<ScheduleData.AppointmentData> DataSource { get; set; }
 
     public class LineChartData
     {
@@ -263,6 +270,26 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
 
+    private class FormModel
+    {
+        [Required(ErrorMessage = "User Name required")]
+        public string Username { get; set; }
+
+        [Required(ErrorMessage = "Date of birth required")]
+        public DateTime DOB { get; set; } = new DateTime(2020, 10, 08);
+
+        [Required(ErrorMessage = "Address required")]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "City required")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "State required")]
+        public string State { get; set; }
+    }
+
+    private FormModel Model = new FormModel();
+
     private void OnOpen()
     {
         this.buttonVisible = false;
@@ -286,6 +313,7 @@
     protected override void OnInitialized()
     {
         GridData = OrdersDetails.GetAllRecords();
+        DataSource = new ScheduleData().GetScheduleData();
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
@@ -308,9 +336,13 @@
             Theme = Syncfusion.Blazor.Theme.Bootstrap4;
         }
     }
+
+    private void ValidSubmit(EditContext context)
+    {
+        Model = new FormModel();
+        this.alertVisible = true;
+    }
 }
-
-
 
 <style>
     .control-section {
@@ -346,6 +378,10 @@
         font-size: 16px;
         font-weight: 500;
         color: rgba(0, 0, 0, 0.70);
+    }
+
+    .tailwind-dark .form-title{
+        color: rgb(249 249 249);
     }
 
     .e-error,
@@ -389,5 +425,9 @@
         margin-left: 20px;
         margin-right: 20px;
         margin-bottom: 5px;
+    }
+
+    .e-dialog .e-dlg-content {
+        padding: 14px;
     }
 </style>

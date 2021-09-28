@@ -4,8 +4,11 @@
 @using ThemeHelper
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@using System.IO
+@using System.Net.Http.Json
 
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -13,8 +16,8 @@
 </SampleDescription>
 <ActionDescription>
     <p>In this example, you can see how to render and configure a bollinger band indicator. The bollinger band indicator shows the upper and lower limits of normal price movements based on the standard deviation of prices.</p>
-    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
-    <p>More information about the bollinger band indicator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/technical-indicators/#bollinger-band'>documentation section</a>.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+    More information about the bollinger band indicator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/technical-indicators#bollinger-band'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -55,9 +58,17 @@
     private Theme Theme { get; set; }
     public BollingerChartData[] ChartPoints { get; set; } = new BollingerChartData[] { };
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        ChartPoints = JsonConvert.DeserializeObject<BollingerChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        if(File.Exists("./wwwroot/data/chart/financial-data.json"))
+        {
+            ChartPoints = JsonConvert.DeserializeObject<BollingerChartData[]>(File.ReadAllText("./wwwroot/data/chart/financial-data.json"));
+        }
+        else
+        {
+            ChartPoints = await Http.GetFromJsonAsync<BollingerChartData[]>("data/chart/financial-data.json");
+        }
+
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 

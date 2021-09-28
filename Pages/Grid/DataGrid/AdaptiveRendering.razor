@@ -1,0 +1,226 @@
+﻿@page "/datagrid/adaptive-rendering"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos
+@using blazor_griddata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the rendering order of the data grid row elements and adaptive dialogs. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <strong>EnableAdaptiveUI</strong> property is used to render the grid filter, sort and edit dialogs adaptively and <strong>RowRenderingMode</strong> property is used to render the Data grid row elements in the following directions,</p>
+    <ul>
+        <li><strong>Horizontal </strong> - Renders the grid row elements in the horizontal direction.</li>
+        <li><strong>Vertical </strong> - Renders the grid row elements in the vertical direction.</li>
+    </ul>
+    <p>More information on the RowRenderingMode configuration can be found in the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/getting-started'>documentation section</a>.</p>
+</ActionDescription>
+
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                    <div class="content-wrapper e-bigger e-adaptive-demo">
+                        <div class="e-mobile-layout">
+                            <div class="e-mobile-content">
+                                    <SfGrid DataSource="@GridData" AllowSorting="true" AllowFiltering="true" EnableAdaptiveUI="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update", "Search" })" RowRenderingMode="RowDirection.Vertical" Height="100%" Width="100%" AllowPaging="true">
+                                        <GridFilterSettings Type="@FilterType.Excel"></GridFilterSettings>
+                                        <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog"></GridEditSettings>
+                                        <GridAggregates>
+                                            <GridAggregate>
+                                                <GridAggregateColumns>
+                                                    <GridAggregateColumn Field=@nameof(OrdersDetails.Freight) Type="AggregateType.Sum" Format="C2">
+                                                        <FooterTemplate>
+                                                            @{
+                                                                var aggregate = (context as AggregateTemplateContext);
+                                                                <div>
+                                                                    <p>Sum: @aggregate.Sum</p>
+                                                                </div>
+                                                            }
+                                                        </FooterTemplate>
+                                                    </GridAggregateColumn>
+                                                </GridAggregateColumns>
+                                            </GridAggregate>
+                                        </GridAggregates>
+                                        <GridColumns>
+                                            <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" Width="120"></GridColumn>
+                                            <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                                            <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" Width="130"></GridColumn>
+                                            <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" Width="120"></GridColumn>
+                                        </GridColumns>
+                                    </SfGrid>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    @code{
+
+        public List<OrdersDetails> GridData { get; set; }
+
+        protected override void OnInitialized()
+        {
+            GridData = OrdersDetails.GetAllRecords();
+        }
+    }
+    @*Hidden:Lines*@
+    <style>
+        /* The device with borders */
+        .e-mobile-layout {
+            position: relative;
+            width: 370px;
+            height: 640px;
+            margin: auto;
+            border: 16px #f4f4f4 solid;
+            border-top-width: 60px;
+            border-bottom-width: 60px;
+            border-radius: 36px;
+            box-shadow: 0 0px 2px rgb(144 144 144), 0 0px 10px rgb(0 0 0 / 16%);
+        }
+
+            /* The horizontal line on the top of the device */
+            .e-mobile-layout:before {
+                content: '';
+                display: block;
+                width: 60px;
+                height: 5px;
+                position: absolute;
+                top: -30px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #ebebeb;
+                border-radius: 10px;
+            }
+
+            /* The circle on the bottom of the device */
+            .e-mobile-layout:after {
+                content: '';
+                display: block;
+                width: 35px;
+                height: 35px;
+                position: absolute;
+                left: 50%;
+                bottom: -65px;
+                transform: translate(-50%, -50%);
+                background: #e8e8e8;
+                border-radius: 50%;
+            }
+
+            /* The screen (or content) of the device */
+            .e-mobile-layout .e-mobile-content {
+                overflow-x: hidden;
+                width: 328px;
+                height: 521px;
+                background: white;
+                border: 0px solid #dddddd;
+            }
+
+        .highcontrast .e-mobile-layout {
+            border: 16px #000000 solid;
+            border-top-width: 60px;
+            border-bottom-width: 60px;
+            box-shadow: -1px 2px white, -2px -2px white, 2px -2px white, 2px 1px white;
+        }
+
+        .e-responsive-dialog {
+            box-shadow: none;
+            border: 1px solid #dddddd;
+        }
+
+        #adaptivebrowser:not(.e-grid.e-row-responsive) > .e-gridcontent {
+            height: calc(100% - 224px) !important;
+        }
+
+        /* Render the mobile pager by default */
+        @@media (max-width: 3840px) {
+            .e-adaptive-demo .e-pager {
+                padding: 13px 0;
+            }
+
+                .e-adaptive-demo .e-pager div.e-parentmsgbar {
+                    box-sizing: border-box;
+                    display: inline-block;
+                    float: initial;
+                    padding-bottom: 0;
+                    padding-right: 0;
+                    padding-top: 0;
+                    text-align: center;
+                    vertical-align: top;
+                    width: calc(60% - 48px);
+                }
+
+                .e-adaptive-demo .e-pager .e-pagesizes {
+                    display: none;
+                }
+
+                .e-adaptive-demo .e-pager .e-pagecountmsg {
+                    display: none;
+                }
+
+                .e-adaptive-demo .e-pager .e-pagercontainer {
+                    display: none;
+                }
+
+                .e-adaptive-demo .e-pager .e-icons {
+                    font-size: 11px;
+                }
+
+                .e-adaptive-demo .e-pager .e-mfirst,
+                .e-adaptive-demo .e-pager .e-mprev,
+                .e-adaptive-demo .e-pager .e-mnext,
+                .e-adaptive-demo .e-pager .e-mlast {
+                    border: 0;
+                    box-sizing: border-box;
+                    display: inline-block;
+                    padding: 1% 5%;
+                }
+
+                .e-adaptive-demo .e-pager .e-mfirst {
+                    margin-right: 4px;
+                    text-align: right;
+                    width: calc(10% + 11px);
+                }
+
+                .e-adaptive-demo .e-pager .e-mprev {
+                    margin: 0 4px;
+                    text-align: right;
+                    width: 10%;
+                }
+
+                .e-adaptive-demo .e-pager .e-mnext {
+                    margin: 0 4px;
+                    text-align: left;
+                    width: 10%;
+                }
+
+                .e-adaptive-demo .e-pager .e-mlast {
+                    margin-left: 4px;
+                    text-align: left;
+                    width: calc(10% + 11px);
+                }
+
+                .e-adaptive-demo .e-bigger .e-pager,
+                .e-adaptive-demo .e-pager.e-bigger {
+                    padding: 19px 0;
+                }
+
+                    .e-adaptive-demo .e-bigger .e-pager.e-rtl div.e-parentmsgbar,
+                    .e-adaptive-demo .e-pager.e-bigger.e-rtl div.e-parentmsgbar {
+                        margin-right: 0;
+                    }
+
+                    .e-adaptive-demo .e-bigger .e-pager div.e-parentmsgbar,
+                    .e-adaptive-demo .e-pager.e-bigger div.e-parentmsgbar {
+                        padding: 0;
+                    }
+
+                    .e-mobile-layout .e-searchclear {
+                        pointer-events: none;
+
+                    }
+        }
+    </style>
+    @*End:Hidden*@

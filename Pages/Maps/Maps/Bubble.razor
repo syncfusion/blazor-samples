@@ -1,29 +1,37 @@
 ﻿@page "/maps/bubble"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates the top 30 countries which has highest Internet users in bubbles of the year 2016</p>
+    <p>This sample uses bubbles to represent the top 30 countries with the most internet users in 2016.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render the bubbles for each shape in a map. <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsBubbleSettings.html#Syncfusion_Blazor_Maps_MapsBubbleSettings_BubbleSettings'>MapsBubbleSettings</a></code> property is used to render the bubble in the maps. Values of the shapes can be visualized with the size and color of the bubbles. You can bind the desired colors from the data source to the bubbles. Tooltip is enabled in this example.</p>
-   <p>More information about bubbles can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/bubble'>documentation section</a>.</p>
+    <p>In this example, you can see how to configure and render bubbles in a map. The <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsBubbleSettings.html#Syncfusion_Blazor_Maps_MapsBubbleSettings_BubbleSettings'>MapsBubbleSettings</a></code> class is used to render the bubbles in the map. The size and color of the bubbles represent the values from the data source. You can bind the desired color from the data source to the bubbles. The tooltip is also enabled in this example.</p>
+    <p>More information about bubbles can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/bubble'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps Format="N0" UseGroupingSeparator="true">
-        <MapsZoomSettings Enable="true" HorizontalAlignment="Alignment.Near" ToolBarOrientation="Orientation.Vertical" />
-        <MapsTitleSettings Text="Top 30 countries with highest Internet users">
-            <MapsTitleTextStyle Size="16px" />
+    <SfMaps Format="N0" UseGroupingSeparator="true" Theme="@Theme">
+        <MapsZoomSettings Enable="true" HorizontalAlignment="Alignment.Near" ToolBarOrientation="Orientation.Vertical">
+            <MapsZoomToolbarSettings>
+                <MapsZoomToolbarTooltipSettings FontFamily="Segoe UI"></MapsZoomToolbarTooltipSettings>
+            </MapsZoomToolbarSettings>
+        </MapsZoomSettings>
+        <MapsTitleSettings Text="Top 30 countries with highest internet users">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsLayers>
             <MapsLayer TValue="string" ShapeData='new {dataOptions ="data/maps/world-map.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath">
                 <MapsShapeSettings Fill="#E5E5E5" />
                 <MapsBubbleSettings>
-                    <MapsBubble TValue="BubbleDataSource" Visible="true" ValuePath="Value" ColorValuePath="Color" MinRadius="3" MaxRadius="30" Opacity="0.8" DataSource="@BubbleData">
-                        <MapsBubbleTooltipSettings Visible="true" ValuePath="Population" Format=" <b>${Name}</b> <br> Rank : ${Rank} <br> Population : ${Population}" />
+                    <MapsBubble TValue="BubbleDataSource" Visible="true" ValuePath="Value" ColorValuePath="Color" MinRadius="3" MaxRadius="30" Opacity="0.8" DataSource="@BubbleData" AnimationDuration="0">
+                        <MapsBubbleTooltipSettings Visible="true" ValuePath="Population" Format=" <b>${Name}</b> <br> Rank : ${Rank} <br> Population : ${Population}">
+                            <MapsBubbleTooltipTextStyle FontFamily="Segoe UI"></MapsBubbleTooltipTextStyle>
+                        </MapsBubbleTooltipSettings>
                     </MapsBubble>
                 </MapsBubbleSettings>
             </MapsLayer>
@@ -32,7 +40,7 @@
     <div class="urllink">
         Source:
         <a href="https://en.wikipedia.org/wiki/List_of_countries_by_number_of_Internet_users"
-            target="_blank">en.wikipedia.org</a>
+           target="_blank">en.wikipedia.org</a>
     </div>
 </div>
 
@@ -78,4 +86,9 @@
         new BubbleDataSource { Rank=29, Name="Malaysia", Value=4.925185411253049, Color="#7F38A0", Population=24572446 },
         new BubbleDataSource { Rank=30, Name="Saudi Arabia", Value=4.853802121487009, Color="#7F38A0", Population=23803319 }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

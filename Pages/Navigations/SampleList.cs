@@ -14,8 +14,13 @@ namespace BlazorDemos
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "sidebar/default-functionalities",
-                FileName = "SidebarDefaultFunctionalities.razor",
-                MappingSampleName = "With Default Functionalities"
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated,
+                MappingSampleName = "With Default Functionalities",
+                NotificationDescription = new string[]
+                {
+                    @"Updated the default functionalities sample for Sidebar in which the Sidebar is populated like webmail with folder structure."
+                }
             },
             new Sample
             {
@@ -23,8 +28,13 @@ namespace BlazorDemos
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "sidebar/dock",
-                FileName = "SidebarDock.razor",
-                MappingSampleName = "With Dock"
+                FileName = "Dock.razor",
+                Type = SampleType.Updated,
+                MappingSampleName = "With Dock",
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo with dock state, which shown while clicking on the hamburger menu icon."
+                }
             },
             new Sample
             {
@@ -32,7 +42,7 @@ namespace BlazorDemos
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "sidebar/api",
-                FileName = "SidebarAPI.razor",
+                FileName = "API.razor",
                 MappingSampleName = "With API"
             },
             new Sample
@@ -41,8 +51,13 @@ namespace BlazorDemos
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "sidebar/sidebar-with-listview",
-                FileName = "SidebarList.razor",
-                MappingSampleName = "With ListView"
+                FileName = "SidebarWithListView.razor",
+                Type = SampleType.Updated,
+                MappingSampleName = "With ListView",
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo with template of the ListView component"
+                }
             },
             new Sample
             {
@@ -50,7 +65,7 @@ namespace BlazorDemos
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "sidebar/sidebar-with-menu",
-                FileName = "SidebarMenu.razor",
+                FileName = "SidebarWithMenu.razor",
                 MappingSampleName = "With Menu"
             },
             new Sample
@@ -59,7 +74,7 @@ namespace BlazorDemos
                 Category = "Sidebar",
                 Directory = "Navigations/Sidebar",
                 Url = "sidebar/panel-with-responsive",
-                FileName = "ResponsivePanel.razor",
+                FileName = "PanelWithResponsive.razor",
                 MappingSampleName = "With Responsive"
             }
 
@@ -75,6 +90,15 @@ namespace BlazorDemos
                 Directory = "Navigations/ContextMenu",
                 FileName = "DefaultFunctionalities.razor",
                 Url = "context-menu/default-functionalities"
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Context Menu",
+                Directory = "Navigations/ContextMenu",
+                FileName = "KeyboardNavigation.razor",
+                Url = "context-menu/keyboard-navigation",
+                Type = SampleType.New
             }
         };
         public List<Sample> MenuBar { get; set; } = new List<Sample>
@@ -129,13 +153,23 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Keyboard Navigation",
+                Category = "Menu Bar",
+                Directory = "Navigations/MenuBar",
+                FileName = "KeyboardNavigation.razor",
+                Url = "menu-bar/keyboard-navigation",
+                Type = SampleType.New
+             
+            },
+            new Sample
+            {
                 Name = "Toolbar Integration",
                 Category = "Use Case",
                 Directory = "Navigations/MenuBar",
                 FileName = "Toolbar.razor",
-                Url = "menu-bar/toolbar-integration"
+                Url = "menu-bar/toolbar-integration",
+                Type = SampleType.None
             }
-
         };
 
         public List<Sample> Accordion { get; set; } = new List<Sample>{
@@ -174,6 +208,19 @@ namespace BlazorDemos
                 Directory = "Navigations/Accordion",
                 FileName = "Icons.razor",
                 Url = "accordion/icons"
+            },
+            new Sample
+            {
+                Name = "Keyboard Interaction",
+                Category = "Accordion",
+                Directory = "Navigations/Accordion",
+                FileName = "KeyboardInteraction.razor",
+                Url = "accordion/keyboard-interaction",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for the keyboard accessibility of the Accordion component."
+                }
             }
         };
 
@@ -184,7 +231,8 @@ namespace BlazorDemos
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
                 FileName = "DefaultFunctionalities.razor",
-                Url = "toolbar/default-functionalities"
+                Url = "toolbar/default-functionalities",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -201,6 +249,19 @@ namespace BlazorDemos
                 Directory = "Navigations/Toolbar",
                 FileName = "Alignment.razor",
                 Url = "toolbar/alignment",
+            },
+            new Sample
+            {
+                Name = "Keyboard Interaction",
+                Category = "Toolbar",
+                Directory = "Navigations/Toolbar",
+                FileName = "KeyboardInteraction.razor",
+                Url = "toolbar/keyboard-interaction",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for keyboard accessibility of the Toolbar component."
+                }
             }
         };
 
@@ -244,6 +305,19 @@ namespace BlazorDemos
                 Directory = "Navigations/Tabs",
                 FileName = "DragAndDrop.razor",
                 Url = "tabs/drag-and-drop"
+            },
+            new Sample
+            {
+                Name = "Keyboard Interaction",
+                Category = "Tabs",
+                Directory = "Navigations/Tabs",
+                FileName = "KeyboardInteraction.razor",
+                Url = "tabs/keyboard-interaction",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for keyboard accessibility of the Tabs component."
+                }
             }
         };
         public List<Sample> TreeView { get; set; } = new List<Sample>{
@@ -256,7 +330,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Treeview Example - Syncfusion Demos",
                 HeaderText = "Blazor TreeView Example",
-                MetaDescription = "This Blazor TreeView example demonstrates the Default Functionalities in Blazor TreeView Component.Explore here for more details."
+                MetaDescription = "This Blazor TreeView example demonstrates the Default Functionalities in the Blazor TreeView Component. Explore here for more details."
             },
             new Sample
             {
@@ -268,11 +342,29 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Lazy Loading",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "treeview/lazy-loading",
+                Type = SampleType.New,
+                FileName = "LazyLoading.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase lazy loading feature of the TreeView component."
+                }
+            },
+            new Sample
+            {
                 Name = "Checkbox",
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "treeview/checkbox",
-                FileName = "CheckBox.razor"
+                Type = SampleType.Updated,
+                FileName = "CheckBox.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo by including option to display the checked item`s id and text."
+                }
             },
              new Sample
             {
@@ -288,7 +380,25 @@ namespace BlazorDemos
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "treeview/multiple-selection",
-                FileName = "MultipleSelection.razor"
+                Type = SampleType.Updated,
+                FileName = "MultipleSelection.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo that displays the selected item’s id and text of the TreeView node."
+                }
+            },
+            new Sample
+            {
+                Name = "Drag and Drop",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "treeview/drag-and-drop",
+                Type = SampleType.New,
+                FileName = "DragAndDrop.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to demonstrates the drag-and-drop behavior of the TreeView component."
+                }
             },
             new Sample
             {
@@ -297,6 +407,19 @@ namespace BlazorDemos
                 Directory = "Navigations/TreeView",
                 Url = "treeview/template",
                 FileName = "Template.razor"
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "treeview/keyboard-navigation",
+                Type = SampleType.New,
+                FileName = "KeyboardNavigation.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for keyboard accessibility of the TreeView component."
+                }
             },
               new Sample
             {
@@ -350,14 +473,176 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Keyboard Navigation",
+                Category = "File Manager",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/keyboard-navigation",
+                Type = SampleType.New,
+                FileName = "KeyboardNavigation.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for keyboard accessibility of the File Manager component."
+                }
+            },
+            //new Sample
+            //{
+            //    Name = "File Upload",
+            //    Category = "Use Case",
+            //    Directory = "Navigations/FileManager",
+            //    Url = "file-manager/file-upload",
+            //    Type = SampleType.New,
+            //    FileName = "FileUpload.razor"
+            //},
+            new Sample
+            {
                 Name = "Azure Blob Storage",
                 Category = "Cloud Service Providers",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/azure",
                 FileName = "Azure.razor"
+            },
+            new Sample
+            {
+                Name = "SQL Database Provider",
+                Category = "Cloud Service Providers",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/sql-server-provider",
+                Type = SampleType.New,
+                FileName = "SQL.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase the SQL file provider of the File Manager component."
+                }
+            },
+            // new Sample
+            // {
+            //     Name = "NodeJS File Provider",
+            //     Category = "Cloud Service Providers",
+            //     Directory = "Navigations/FileManager",
+            //     Url = "file-manager/nodejs-file-provider",
+            //     Type = SampleType.New,
+            //     FileName = "NodeJS.razor",
+            //     NotificationDescription = new string[]
+            //     {
+            //         @"Added the NodeJS file provider sample for the File Manager component."
+            //     }
+            // },
+            new Sample
+            {
+                Name = "AmazonS3 File Provider",
+                Category = "Cloud Service Providers",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/amazon-s3-provider",
+                Type = SampleType.New,
+                FileName = "AmazonS3.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase the Amazon S3 file provider of the File Manager component."
+                }
+            },
+            //new Sample
+            //{
+            //    Name = "Firebase File Provider",
+            //    Category = "Cloud Service Providers",
+            //    Directory = "Navigations/FileManager",
+            //    Url = "file-manager/firebase",
+            //    Type = SampleType.New,
+            //    FileName = "Firebase.razor"
+            //},
+            new Sample
+            {
+                Name = "FTP File Provider",
+                Category = "Cloud Service Providers",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/ftp-file-provider",
+                Type = SampleType.New,
+                FileName = "FTP.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase the FTP file provider of the File Manager component."
+                }
+            },
+            new Sample
+            {
+                Name = "IBM Cloud File Provider",
+                Category = "Cloud Service Providers",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/ibm-cos-node-file-provider",
+                Type = SampleType.New,
+                FileName = "IBM.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase the IBM file provider of the File Manager component."
+                }
             }
-
         };
-
+         public List<Sample> BreadCrumb { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Breadcrumb",
+                Directory = "Navigations/Breadcrumb",
+                Url = "breadcrumb/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[] {
+                    @"Introduced Breadcrumb component in Blazor which is a graphical user interface (UI) that helps to identify or highlight the current location within a hierarchical structure of websites."
+                }
+            },
+             new Sample
+            {
+                Name = "Bind to Location",
+                Category = "Breadcrumb",
+                Directory = "Navigations/Breadcrumb",
+                Url = "breadcrumb/bind-to-location",
+                FileName = "BindToLocation.razor",
+                NotificationDescription = new string[] {
+                    @"Added a demo to demonstrates items rendering based on current URL location and also using static URL in the Breadcrumb component."
+                }
+            },
+            new Sample
+            {
+                Name = "Template and Customization",
+                Category = "Breadcrumb",
+                Directory = "Navigations/Breadcrumb",
+                Url = "breadcrumb/template-and-customization",
+                FileName = "TemplateAndCustomization.razor",
+                NotificationDescription = new string[] {
+                    @"Added a demo to demonstrates customization of the Breadcrumb items."
+                }
+            },
+            new Sample
+            {
+                Name = "Events",
+                Category = "Breadcrumb",
+                Directory = "Navigations/Breadcrumb",
+                Url = "breadcrumb/events",
+                FileName = "Events.razor",
+                NotificationDescription = new string[] {
+                    @"Added a demo to know more about Breadcrumb component's events."
+                }
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Breadcrumb",
+                Directory = "Navigations/Breadcrumb",
+                Url = "breadcrumb/keyboard-navigation",
+                FileName = "KeyboardNavigation.razor",
+                NotificationDescription = new string[] {
+                    @"Added a demo for keyboard accessibility of the Breadcrumb component."
+                }
+            },
+            new Sample
+            {
+                Name = "Address Bar",
+                Category = "Use Case",
+                Directory = "Navigations/Breadcrumb",
+                Url = "breadcrumb/address-bar",
+                FileName = "AddressBar.razor",
+                NotificationDescription = new string[] {
+                    @"Added a demo to design address bar using the Menu and Breadcrumb component."
+                }
+            }
+        };
     }
 }

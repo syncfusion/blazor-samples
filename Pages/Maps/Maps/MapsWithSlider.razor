@@ -3,22 +3,25 @@
 @using Syncfusion.Blazor.Maps
 @using Syncfusion.Blazor.Inputs
 @using System.Globalization;
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample visualizes the average annual population growth of the countries in the North America continent.</p>
+    <p>This sample illustrates the average annual population growth of the countries of the North American continent.</p>
 </SampleDescription>
 <ActionDescription>
-    <p> This sample visualizes the average annual population growth of the countries in the North America continent. The range color mapping is applied to the shapes based on the population growth of the countries in percentage. Tooltip is enabled in this example.</p>
+    <p>The range color mapping is applied to the shapes based on the population growth of the countries in percentage. The tooltip is also enabled in this example.</p>
+    <p>More information about color mapping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/color-mapping/'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps Height="400">
-        <MapsMargin Bottom="20"/>
-        <MapsZoomSettings Enable="false"/>
+    <SfMaps Height="400" Theme="@Theme">
+        <MapsMargin Bottom="20" />
+        <MapsZoomSettings Enable="false" />
         <MapsTitleSettings Text="Average annual population growth in North American countries">
-            <MapsTitleTextStyle Size="16px"/>
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsAnnotations>
             <MapsAnnotation HorizontalAlignment="AnnotationAlignment.Center" Y="93%">
@@ -34,7 +37,7 @@
             </MapsAnnotation>
         </MapsAnnotations>
         <MapsLayers>
-            <MapsLayer ShapeData='new {dataOptions ="data/maps/north-america.json"}' ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name" DataSource="@PopulationGrowth" TValue="Growth">                
+            <MapsLayer ShapeData='new {dataOptions ="data/maps/north-america.json"}' ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name" DataSource="@PopulationGrowth" TValue="Growth">
                 <MapsShapeSettings ColorValuePath="Population">
                     <MapsShapeColorMappings>
                         <MapsShapeColorMapping StartRange="-1.5" EndRange="-0.75" Color='@ColorMappingColorOne' />
@@ -46,7 +49,9 @@
                         <MapsShapeColorMapping StartRange="3" EndRange="3.75" Color='@ColorMappingColorSeven' />
                     </MapsShapeColorMappings>
                 </MapsShapeSettings>
-                <MapsLayerTooltipSettings Visible="true" Format="${Name} : ${Population}%"/>
+                <MapsLayerTooltipSettings Visible="true" Format="${Name} : ${Population}%">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
             </MapsLayer>
         </MapsLayers>
     </SfMaps>
@@ -128,7 +133,8 @@
             ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#DCA87E", "#d075c6");
         }
     }
-    private void ColorSet(string Color1, string Color2, string Color3, string Color4, string Color5, string Color6, string Color7) {
+    private void ColorSet(string Color1, string Color2, string Color3, string Color4, string Color5, string Color6, string Color7)
+    {
         ColorMappingColorOne = new string[] { Color1 };
         ColorMappingColorTwo = new string[] { Color2 };
         ColorMappingColorThree = new string[] { Color3 };
@@ -137,7 +143,8 @@
         ColorMappingColorSix = new string[] { Color6 };
         ColorMappingColorSeven = new string[] { Color7 };
     }
-    public class Growth {
+    public class Growth
+    {
         public string Name { get; set; }
         public double Population { get; set; }
     };
@@ -177,5 +184,10 @@
         new Growth { Name="St. Pierre and Miquelon", Population=0.1},
         new Growth { Name="Montserrat", Population=0.1}
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 
 }

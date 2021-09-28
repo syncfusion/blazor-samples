@@ -1,11 +1,13 @@
 ﻿@page "/heatmap-chart/palette-mode"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.HeatMap
 @using SFHeatMap = Syncfusion.Blazor.HeatMap
 @using Syncfusion.Blazor.Buttons;
 @using MSComponents = Microsoft.AspNetCore.Components
 @using sf_blazor_heatmapdata
 @inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
 
 <SampleDescription>
     <p>This sample visualizes the energy consumption in trillion British thermal units (btu) by the various public sectors in US government over the years. The data label is disabled in this sample, the Tooltip displays the data point values.</p>
@@ -17,7 +19,7 @@
 
 <div class="col-lg-9 control-section">
     <div class="row">
-        <SfHeatMap DataSource="@DataSource">
+        <SfHeatMap DataSource="@DataSource" Theme="@theme">
             <HeatMapTitleSettings Text="U.S. Government Energy Consumption by Agency (Trillion Btu)">
                 <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal"></HeatMapTitleTextStyle>
             </HeatMapTitleSettings>
@@ -50,8 +52,8 @@
     <table id="property" title="Properties" style="width: 100%">
         <tbody>
             <tr style="height: 50px">
-                <td style="width: 60%">
-                    <div>Palette Type:</div>
+                <td style="width: 50%">
+                    <div style="font-size: 14px;">Palette Type </div>
                 </td>
                 <td style="width: 40%;">
                     <div class="row" style="padding-top: 10px;">
@@ -68,6 +70,7 @@
 </div>
 
 @code{
+    private Theme theme { get; set; }
     PaletteType PalatteType = PaletteType.Fixed;
     string Type = "Fixed";
     string[] XLabels = new string[] { "China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico" };
@@ -86,4 +89,14 @@
             Type = "Gradient";
         }
     }
+    protected override void OnInitialized()
+    {
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+    }
 }
+
+<style>
+    .col-lg-3.property-section {
+        padding-top: 60px;
+    }    
+</style>

@@ -125,7 +125,7 @@ namespace BlazorDemos.Shared
                         this.SampleInfo = controlInfo.Samples.First();
                     }
                     this.ComponentName = controlInfo.Name;
-                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=bootstrap4");
+                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=bootstrap5");
                 }
             }
         }

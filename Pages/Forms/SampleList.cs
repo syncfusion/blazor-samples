@@ -30,8 +30,7 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/column-template",
-                FileName = "ColumnTemplate.razor",
-                Type = SampleType.New
+                FileName = "ColumnTemplate.razor"
             },
             new Sample
             {
@@ -39,8 +38,7 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/header-template",
-                FileName = "HeaderTemplate.razor",
-                Type = SampleType.New
+                FileName = "HeaderTemplate.razor"
             },
              new Sample
             {

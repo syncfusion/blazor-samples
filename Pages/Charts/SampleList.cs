@@ -12,7 +12,7 @@ namespace BlazorDemos
                 Url = "chart/line",
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Line Chart Example - Syncfusion Demos",
-                MetaDescription = "Blazor Line Chart example visualizes the consumer price data with default line series. Explore here for more details.",
+                MetaDescription = "The Blazor Line Chart example visualizes the consumer price data with default line series. Explore here for more details.",
                 HeaderText = "Blazor Line Chart Example",
                 Type = SampleType.None
             },
@@ -85,7 +85,7 @@ namespace BlazorDemos
                 FileName = "StackedLine.razor",
                 MetaTitle = "Blazor Stacked Line Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Stacked Line Chart Example",
-                MetaDescription = "Blazor Stacked Line Chart represents time-dependent data, showing trends in data at equal intervals with stacked values of multiple series.",
+                MetaDescription = "The Blazor Stacked Line Chart represents time-dependent data, showing trends in data at equal intervals with stacked values of multiple series.",
                 Type = SampleType.None
             },
             new Sample
@@ -157,7 +157,7 @@ namespace BlazorDemos
                 FileName = "StackedArea.razor",
                 MetaTitle = "Blazor Stacked Area Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Stacked Area Chart Example",
-                MetaDescription = "Blazor Stacked Area Chart example shows the relation between individual values to total sum of the points.",
+                MetaDescription = "Blazor Stacked Area Chart example shows the relation between individual values and the total sum of the points.",
                 Type = SampleType.None
             },
             new Sample
@@ -199,7 +199,7 @@ namespace BlazorDemos
                 FileName = "Column.razor",
                 MetaTitle = "Blazor Column Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Column Chart Example",
-                MetaDescription = "Blazor Column Chart example demonstrates how to compares frequency, count, total, or average of data in different categories with a vertical bar.",
+                MetaDescription = "Blazor Column Chart example demonstrates how to compare frequency, count, total, or average of data in different categories with a vertical bar.",
                 Type = SampleType.None              
             },
             new Sample
@@ -250,7 +250,7 @@ namespace BlazorDemos
                 FileName = "Bar.razor",
                 MetaTitle = "Blazor Bar Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Bar Chart Example",
-                MetaDescription = "Blazor Bar Chart example demonstrates how to compares frequency, count, total, or average of data in different categories with a horizontal bar.",
+                MetaDescription = "Blazor Bar Chart example demonstrates how to compare frequency, count, total, or average of data in different categories with a horizontal bar.",
                 Type = SampleType.None
             },
             new Sample
@@ -262,7 +262,7 @@ namespace BlazorDemos
                 FileName = "StackedColumn.razor",
                 MetaTitle = "Blazor Stacked Column Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Stacked Column Chart Example",
-                MetaDescription = "Blazor Stacked Column Chart example shows the relation between individual values to total sum of the points.",
+                MetaDescription = "Blazor Stacked Column Chart example shows the relation between individual values and the total sum of the points.",
                 Type = SampleType.None
             },
             new Sample

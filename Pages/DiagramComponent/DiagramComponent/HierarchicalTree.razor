@@ -2,17 +2,18 @@
 
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Diagram
-@using Syncfusion.Blazor.Diagram.Internal
 @inherits SampleBaseComponent;
-
+@*Hidden:Lines*@
+@implements IDisposable
+@*End:Hidden*@
+@*Hidden:Lines*@
 <SampleDescription>
-    <p>Diagram component's features are segregated into individual feature modules. To generate diagrams fromexternal data source.</p><br>
+    <p>Diagram component's features are segregated into individual feature modules. To generate diagrams from external data source.</p><br>
 </SampleDescription>
 <ActionDescription>
-    <p> In this example, you can see how to generate a hierarchical tree from external data sources. You can also customize the spacing among the objects in the tree. You can use the <code class="language-text">HorizontalSpacing</code> and <code class="language-text">VerticalSpacing</code> properties of <code class="language-text">DiagramLayout</code> to customize the space among the objects in the tree. You can use the <code class="language-text">Orientation</code> property of <code class="language-text">DiagramLayout</code> to change the orientation of the tree.</p>
-    <p> To change the orientation of the tree, click the templates that are added to the property panel.</p>
+    <p> In this example, you can see how to generate a hierarchical tree from external data sources. You can use the <code class="language-text">HorizontalSpacing</code> and <code class="language-text">VerticalSpacing</code> properties of <code class="language-text">Layout</code> to customize the space among the objects in the tree. You can use the <code class="language-text">Orientation</code> property of <code class="language-text">Layout</code> to change the Orientation of the tree.</p>
+    <p> To change the Orientation of the tree, click the templates that are added to the property panel.</p>
 </ActionDescription>
-@*Hidden:Lines*@
 <style>
 
     #diagram {
@@ -78,10 +79,10 @@
 @*End:Hidden*@
 <div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
-        <SfDiagramComponent @ref="@Diagram" Height="499px" Tool="@DiagramTools.ZoomPan" ConnectorDefaults="@ConnectorDefaults" NodeDefaults="@NodeDefaults">
+        <SfDiagramComponent Height="499px" InteractionController="@InteractionController.ZoomPan" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating">
             <DataSourceSettings Id="Name" ParentId="Category" DataSource="DataSource"> </DataSourceSettings>
-            <Layout @bind-Type="type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@orientation" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@horizontalAlignment" @bind-VerticalAlignment="@verticalAlignment" GetLayoutInfo="GetLayoutInfo">
-                <LayoutMargin @bind-Top="@top" @bind-Bottom="@bottom" @bind-Right="@right" @bind-Left="@left"></LayoutMargin>
+            <Layout @bind-Type="Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@HorizontalAlignment" @bind-VerticalAlignment="@VerticalAlignment" GetLayoutInfo="GetLayoutInfo">
+                <LayoutMargin @bind-Top="@Top" @bind-Bottom="@Bottom" @bind-Right="@Right" @bind-Left="@Left"></LayoutMargin>
             </Layout>
             <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
         </SfDiagramComponent>
@@ -142,29 +143,31 @@
 </div>
 @*End:Hidden*@
 
-@code{
-    SfDiagramComponent Diagram;
+@code
+{
+    private static string selecteditem = "image-pattern-style e-selected-style";
+    private static string unselecteditem = "image-pattern-style";
+    
+    public SfDiagramComponent Diagram;
     public int? HValue { get; set; } = 30;
     public int? VValue { get; set; } = 30;
-    static string selecteditem = "image-pattern-style e-selected-style";
-    static string unselecteditem = "image-pattern-style";
-    double top = 50;
-    double bottom = 50;
-    double right = 50;
-    double left = 50;
-    LayoutType type = LayoutType.HierarchicalTree;
-    LayoutOrientation orientation = LayoutOrientation.TopToBottom;
-    HorizontalAlignment horizontalAlignment = HorizontalAlignment.Auto;
-    VerticalAlignment verticalAlignment = VerticalAlignment.Auto;
-    int HorizontalSpacing = 30;
-    int VerticalSpacing = 30;
+    public LayoutType Type = LayoutType.HierarchicalTree;
+    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
+    public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Auto;
+    public VerticalAlignment VerticalAlignment = VerticalAlignment.Auto;
+    public int HorizontalSpacing = 30;
+    public int VerticalSpacing = 30;
+    public double Top = 50;
+    public double Bottom = 50;
+    public double Right = 50;
+    public double Left = 50;
 
     Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
 
-    private void ConnectorDefaults(IDiagramObject connector)
+    private void OnConnectorCreating(IDiagramObject connector)
     {
-        (connector as Connector).Type = Segments.Orthogonal;
-        (connector as Connector).TargetDecorator.Shape = DecoratorShapes.None;
+        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShape.None;
         (connector as Connector).Style = new ShapeStyle() { StrokeColor = "#6d6d6d" };
         (connector as Connector).Constraints = 0;
         (connector as Connector).CornerRadius = 5;
@@ -172,11 +175,11 @@
 
     private TreeInfo GetLayoutInfo(IDiagramObject obj, TreeInfo options)
     {
-        options.CanEnableSubTree = true;
-        options.Orientation = SubTreeOrientation.Horizontal;
+        options.EnableSubTree = true;
+        options.Orientation = Orientation.Horizontal;
         return options;
     }
-    private void NodeDefaults(IDiagramObject obj)
+    private void OnNodeCreating(IDiagramObject obj)
     {
         Node node = obj as Node;
         if (node.Data is System.Text.Json.JsonElement)
@@ -189,11 +192,11 @@
         node.Width = 150;
         node.Height = 50;
         node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-    {
+        {
             new ShapeAnnotation()
             {
                 Content = hierarchicalData.Name,
-                Style =new TextShapeStyle(){Color = "white"}
+                Style =new TextStyle(){Color = "white"}
             }
         };
     }
@@ -203,11 +206,10 @@
         public string Name { get; set; }
         public string FillColor { get; set; }
         public string Category { get; set; }
-
     }
     //Datasoure items.
     public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
-{
+    {
         new HierarchicalDetails(){ Name ="Diagram", Category="",FillColor="#659be5"},
         new HierarchicalDetails(){ Name ="Layout", Category="Diagram",FillColor="#659be5"},
         new HierarchicalDetails(){ Name ="Tree layout", Category="Layout",FillColor="#659be5"},
@@ -260,23 +262,35 @@
     private void ToptoBottomClick()
     {
         UpdateSelection("topToBottom");
-        orientation = LayoutOrientation.TopToBottom;
+        OrientationType = LayoutOrientation.TopToBottom;
     }
     private void LefttoRightClick()
     {
         UpdateSelection("leftToRight");
-        orientation = LayoutOrientation.LeftToRight;
+        OrientationType = LayoutOrientation.LeftToRight;
     }
     private void RighttoLeftClick()
     {
         UpdateSelection("rightToLeft");
-        orientation = LayoutOrientation.RightToLeft;
+        OrientationType = LayoutOrientation.RightToLeft;
     }
     private void BottomtoTopClick()
     {
         UpdateSelection("bottomToTop");
-        orientation = LayoutOrientation.BottomToTop;
+        OrientationType = LayoutOrientation.BottomToTop;
     }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (dict != null)
+        {
+            dict.Clear();
+            dict = null;
+        }
+    }
+    @*End:Hidden*@
+
 }
 
 

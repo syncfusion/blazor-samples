@@ -31,7 +31,6 @@ namespace BlazorDemos
                 Directory = "Inputs/TextBox",
                 Url = "TextBox/Forms-Validation",
                 FileName = "FormsValidation.razor",
-                Type = SampleType.New
             }
         };
 
@@ -68,6 +67,15 @@ namespace BlazorDemos
                 Directory = "Inputs/ColorPicker",
                 Url = "color-picker/api",
                 FileName = "Api.razor"
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Color Picker",
+                Directory = "Inputs/ColorPicker",
+                Url = "color-picker/keyboard-navigation",
+                FileName = "KeyboardNavigation.razor",
+                Type = SampleType.New
             }
         };
 
@@ -86,7 +94,11 @@ namespace BlazorDemos
                 Category = "Input Mask",
                 Directory = "Inputs/MaskedTextBox",
                 Url = "Input-Mask/Custom-Mask",
-                FileName = "CustomMask.razor"
+                FileName = "CustomMask.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Updated the demo by including an option to change the prompt character of the masked textbox."
+                }
             },
               new Sample
             {
@@ -95,7 +107,6 @@ namespace BlazorDemos
                 Directory = "Inputs/MaskedTextBox",
                 Url = "Input-Mask/Forms-Validation",
                 FileName = "FormsValidation.razor",
-                Type = SampleType.New
             }
         };
 
@@ -139,6 +150,14 @@ namespace BlazorDemos
                 Directory = "Inputs/NumericTextBox",
                 Url = "Numeric-TextBox/Forms-Validation",
                 FileName = "FormsValidation.razor",
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Numeric Textbox",
+                Directory = "Inputs/NumericTextBox",
+                Url = "Numeric-TextBox/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             }
         };
@@ -184,6 +203,14 @@ namespace BlazorDemos
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/Custom-DropArea",
                 FileName = "CustomDropArea.razor",
+            },
+                new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "File Upload",
+                Directory = "Inputs/Uploader",
+                Url = "File-Upload/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             }
         };
@@ -191,7 +218,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Default",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/default",
                 FileName = "Default.razor"
@@ -199,7 +226,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Ticks",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/ticks",
                 FileName = "Ticks.razor"
@@ -207,7 +234,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Tooltip",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/tooltip",
                 FileName = "Tooltip.razor"
@@ -215,15 +242,24 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Vertical Orientation",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/vertical-orientation",
                 FileName = "VerticalOrientation.razor"
             },
+             new Sample
+            {
+                Name = "Formatting",
+                Category = "Range Slider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/formatting",
+                FileName = "Formatting.razor",
+                Type = SampleType.New
+            },
             new Sample
             {
                 Name = "Limits",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/limits",
                 FileName = "Limits.razor"
@@ -231,7 +267,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "API",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/api",
                 FileName = "API.razor"
@@ -239,10 +275,23 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Events",
-                Category = "RangeSlider",
+                Category = "Range Slider",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/events",
                 FileName = "Events.razor"
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Range Slider",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/keyboard-navigation",
+                FileName = "KeyboardNavigation.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for keyboard accessibility of the Slider component."
+                }
             },
             new Sample
             {
@@ -259,6 +308,32 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/custom-bar",
                 FileName = "CustomBar.razor"
+            },          
+                  new Sample
+            {
+                Name = "Tooltip",
+                Category = "Customization",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/custom-tooltip",
+                FileName = "CustomTooltip.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase the tooltip customization sample in the Slider component."
+                }
+            },
+             new Sample
+            {
+                Name = "Cloud Pricing",
+                Category = "Use Case",
+                Directory = "Inputs/RangeSlider",
+                Url = "range-slider/cloud-pricing",
+                FileName = "CloudPricing.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to demonstrates how to use the Slider component to calculate cloud budget."
+                }
             },
         };
     }

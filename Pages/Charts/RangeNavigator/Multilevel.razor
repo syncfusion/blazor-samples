@@ -2,14 +2,17 @@
 @using Newtonsoft.Json
 @using  Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor
+@using System.IO
+@using System.Net.Http.Json
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 @inherits SampleBaseComponent;
 
 <SampleDescription>
     <p>Axis labels are placed based on the values of the start and end ranges. You can add higher level of labels to the range navigator using multilevel labels.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to group the axis labels. Here the interval for the second level labels can be customized using <code>groupBy</code>.</p>
+    <p>In this example, you can see how to group the axis labels. Here, the interval for the second level labels can be customized using <code>groupBy</code>.</p>
 </ActionDescription>
 
 @if (MultiLevelData == null)
@@ -37,10 +40,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Run(() =>
+	    if(File.Exists("./wwwroot/data/range-navigator/chart-data.json"))
         {
             MultiLevelData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/chart-data.json"));
-        });
+        }
+        else
+        {
+            MultiLevelData = await Http.GetFromJsonAsync<ChartData[]>("data/range-navigator/chart-data.json");
+        }
     }
 
     public class ChartData
@@ -54,11 +61,36 @@ else
         currentUri = NavigationManager.Uri;
         if (currentUri.IndexOf("material") > -1)
         {
-            RangeNavigatorTheme = Theme.Material;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.MaterialDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Material;
+            }
         }
         else if (currentUri.IndexOf("fabric") > -1)
         {
-            RangeNavigatorTheme = Theme.Fabric;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FabricDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fabric;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5;
+            }
         }
         else if (currentUri.IndexOf("bootstrap4") > -1)
         {
@@ -66,7 +98,14 @@ else
         }
         else if (currentUri.IndexOf("bootstrap") > -1)
         {
-            RangeNavigatorTheme = Theme.Bootstrap;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.BootstrapDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap;
+            }
         }
         else if (currentUri.IndexOf("highcontrast") > -1)
         {
@@ -74,7 +113,14 @@ else
         }
         else if (currentUri.IndexOf("tailwind") > -1)
         {
-            RangeNavigatorTheme = Theme.Tailwind;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.TailwindDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Tailwind;
+            }
         }
         else
         {

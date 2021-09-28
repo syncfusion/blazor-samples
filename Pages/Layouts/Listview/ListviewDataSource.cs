@@ -239,7 +239,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Anderson",
-                Id = "received-01",
+                Id = "received-04",
                 Icon = "e-custom",
                 Type = "received",
                 Group = "Received",
@@ -248,7 +248,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Thomas",
-                Id = "received-02",
+                Id = "received-06",
                 Icon = "e-custom",
                 Type = "received",
                 Group = "Received",
@@ -257,7 +257,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Jackson",
-                Id = "missed-01",
+                Id = "missed-03",
                 Icon = "e-custom",
                 Type = "missed",
                 Group = "Missed",
@@ -266,7 +266,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Emily",
-                Id = "missed-01",
+                Id = "missed-04",
                 Icon = "e-custom",
                 Type = "missed",
                 Group = "Missed",
@@ -275,7 +275,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "White",
-                Id = "missed-02",
+                Id = "missed-05",
                 Icon = "e-custom",
                 Type = "missed",
                 Group = "Missed",
@@ -284,7 +284,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Jones",
-                Id = "missed-02",
+                Id = "missed-06",
                 Icon = "e-custom",
                 Type = "missed",
                 Group = "Missed",
@@ -293,7 +293,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Grace",
-                Id = "missed-02",
+                Id = "missed-07",
                 Icon = "e-custom",
                 Type = "missed",
                 Group = "Missed",
@@ -302,7 +302,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Brooklyn",
-                Id = "missed-02",
+                Id = "missed-08",
                 Icon = "e-custom",
                 Type = "missed",
                 Group = "Missed",
@@ -311,7 +311,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Arianna",
-                Id = "received-01",
+                Id = "received-05",
                 Icon = "e-custom",
                 Type = "received",
                 Group = "Received",
@@ -320,7 +320,7 @@ namespace BlazorDemos.Pages.Layouts.ListView
             },
             new CallHistoryModel {
                 Text = "Katherine",
-                Id = "received-02",
+                Id = "received-07",
                 Icon = "e-custom",
                 Type = "received",
                 Group = "Received",

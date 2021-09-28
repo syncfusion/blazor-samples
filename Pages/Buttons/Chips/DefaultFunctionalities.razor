@@ -1,7 +1,7 @@
 ﻿@page "/chips/default-functionalities"
 
 @using Syncfusion.Blazor.Buttons
-
+@inject IJSRuntime jsRuntime
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -17,7 +17,7 @@
     </ol>
 </ActionDescription>
 
- <div class="control-section">
+ <div class="control-section chip-container">
     <div id="chip-default-wrapper">
         <div class="chips-headers">Chips</div>
         <div class="sample-padding">
@@ -75,9 +75,20 @@
 @code{ 
     public string[] ChoiceSelected = {"Set a reminder"};
     public string[] FilterSelected = {"Small", "Large"};
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // To prevent the page scrolling while pressing space key.
+            await jsRuntime.InvokeAsync<string>("preventSpaceKey");
+        }
+    }
 }
  <style>
-
+     .tailwind #chip-default-wrapper .e-chip-list.e-chip, .e-chip-list .e-chip {
+         margin: 4px;
+     }
     #chip-default-wrapper .sample-padding {
         padding: 10px;
         display: flex;

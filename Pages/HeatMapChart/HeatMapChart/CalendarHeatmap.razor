@@ -1,9 +1,12 @@
 ﻿@page "/heatmap-chart/calendar-heatmap"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.HeatMap
+@using System.Globalization
 @using SFHeatMap = Syncfusion.Blazor.HeatMap
 @using sf_blazor_heatmapdata
 @inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
 
 <SampleDescription>
     <p> This sample visualizes the summary of user activities in GitLab account such as merge requests, push events and comments across 52 weeks in a year.</p>
@@ -16,7 +19,8 @@
 <div class="control-section">
     <div class="row">
         <div class="col-md-12">
-            <SfHeatMap DataSource="@DataSource" Height="300px">
+            <SfHeatMap DataSource="@DataSource" Height="240px" Theme="@theme">
+                <HeatMapEvents TooltipRendering="@TooltipRendering"></HeatMapEvents>
                 <HeatMapTitleSettings Text="Annual Summary of User Activities in GitLab">
                     <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal"></HeatMapTitleTextStyle>
                 </HeatMapTitleSettings>
@@ -31,19 +35,12 @@
                               LabelIntersectAction="@SFHeatMap.LabelIntersectAction.Rotate45">
                 </HeatMapXAxis>
                 <HeatMapYAxis Labels="@YLabels" IsInversed="true"></HeatMapYAxis>
-                <HeatMapPaletteSettings Type="@SFHeatMap.PaletteType.Fixed" EmptyPointColor="white">
-                    <HeatMapPalettes>
-                        <HeatMapPalette Value="0" Color="rgb(238,238,238)" Label="No contributions"></HeatMapPalette>
-                        <HeatMapPalette Value="1" Color="rgb(172, 213, 242)" Label="1-15 contributions"></HeatMapPalette>
-                        <HeatMapPalette Value="16" Color="rgb(127, 168, 201)" Label="16-31 contributions"></HeatMapPalette>
-                        <HeatMapPalette Value="32" Color="rgb(82, 123, 160)" Label="31-49 contributions"></HeatMapPalette>
-                        <HeatMapPalette Value="50" Color="rgb(37, 78, 119)" Label="50+ contributions"></HeatMapPalette>
-                    </HeatMapPalettes>
+                <HeatMapPaletteSettings Type="@SFHeatMap.PaletteType.Gradient" EmptyPointColor="white">
                 </HeatMapPaletteSettings>
                 <HeatMapCellSettings ShowLabel="false">
-                    <HeatMapCellBorder Color = "White" ></HeatMapCellBorder>
+                    <HeatMapCellBorder Color = "White" Width="7"></HeatMapCellBorder>
                 </HeatMapCellSettings>
-                <HeatMapLegendSettings Visible="false">
+                <HeatMapLegendSettings Visible="true">
                 </HeatMapLegendSettings>
             </SfHeatMap>
         </div>
@@ -51,8 +48,20 @@
 </div>
 
 @code{
+    private Theme theme { get; set; }
     string[] YLabels = new string[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
     DateTime XMinimum = new DateTime(2017, 6, 23);
     DateTime XMaximum = new DateTime(2018, 6, 30);
     int?[,] DataSource = HeatMapData.GetCalendarData();
+    protected override void OnInitialized()
+    {
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+    }
+    public void TooltipRendering(TooltipEventArgs args)
+    {
+        List<string> Ylabels = YLabels.ToList();
+        DateTime heatmapdate = DateTime.ParseExact(args.XValue, "dd-MMM-yyyy", CultureInfo.InvariantCulture);
+        heatmapdate = heatmapdate.AddDays(Ylabels.IndexOf(args.YLabel)).ToLocalTime();
+        args.Content = new string[] { args.Value + " contributions on " + heatmapdate.ToString("MMM") + " " + heatmapdate.ToString("dd") + ", " + heatmapdate.ToString("yyyy") };
+    }
 }
