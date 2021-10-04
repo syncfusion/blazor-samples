@@ -1,0 +1,448 @@
+@page "/dashboard-layout/overview"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Grids
+@inject NavigationManager NavigationManager
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+	<p>This sample demonstrates the overview of <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-dashboard'>Blazor DashboardLayout</a> features.</p>
+</SampleDescription>
+<ActionDescription>
+	<p>The DashboardLayout is a grid structured layout component that helps to create a static and dynamic dashboard layouts with panels. Dashboard panels are the basic building blocks of the dashboard and can be added programmatically or dynamically at runtime. The panels hold the UI components and allow resize, reorder, drag and drop, remove and add options. This allows users to easily place the components at the desired position within the grid layout. </p>
+</ActionDescription>
+
+<div class="control-section">
+
+	<SfDashboardLayout @ref="dashboardObject" Columns="8" CellSpacing="@Spacing" CellAspectRatio="@Ratio">
+		<DashboardLayoutPanels>
+			<DashboardLayoutPanel Column="0" Row="0" SizeX="2" SizeY="1">
+				<ContentTemplate>
+					<div class="root-container">
+						<div class="item-container income">
+							<p>$43,300</p>
+							<div class="auto-left">
+								<span class="income-icon e-icon"></span>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<p>Income</p>
+						</div>
+					</div>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+			<DashboardLayoutPanel Column="2" Row="0" SizeX="2" SizeY="1">
+				<ContentTemplate>
+					<div class="root-container">
+						<div class="item-container expense">
+							<p>$38,060</p>
+							<div class="auto-left">
+								<span class="expense-icon e-icon"></span>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<p>Expenses</p>
+						</div>
+					</div>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+			<DashboardLayoutPanel Column="4" Row="0" SizeX="2" SizeY="1">
+				<ContentTemplate>
+					<div class="root-container">
+						<div class="item-container balance">
+							<p>$38,060</p>
+							<div class="auto-left">
+								<span class="balance-icon e-icon"></span>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<p>Balance</p>
+						</div>
+					</div>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+			<DashboardLayoutPanel Column="6" Row="0" SizeX="2" SizeY="1">
+				<ContentTemplate>
+					<div class="root-container">
+						<div class="item-container transaction">
+							<p>$38,060</p>
+							<div class="auto-left">
+								<span class="transaction-icon e-icon"></span>
+							</div>
+						</div>
+						<div class="bottom-container">
+							<p>Transactions</p>
+						</div>
+					</div>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+			<DashboardLayoutPanel Column="0" Row="1" SizeX="4" SizeY="3">
+				<HeaderTemplate>
+					<span class="title">Income - Expense</span>
+				</HeaderTemplate>
+				<ContentTemplate>
+					<SfChart Height="100%" Width="100%" Theme="@Theme">
+						<ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+						<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTimeCategory" LabelFormat="MMM" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+							<ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+						</ChartPrimaryXAxis>
+						<ChartPrimaryYAxis LabelFormat="${value}" Minimum="1000" Maximum="9000" Interval="2000">
+							<ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+							<ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+						</ChartPrimaryYAxis>
+						<ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+						<ChartSeriesCollection>
+							<ChartSeries DataSource="@IncomeExpenseData" Name="Income" XName="Period" Width="2"
+										 Opacity="0.5" YName="Income" Type="ChartSeriesType.SplineArea" Fill="#00BCD7">
+							</ChartSeries>
+							<ChartSeries DataSource="@IncomeExpenseData" Name="Expense" XName="Period" Width="2"
+										 Opacity="0.5" YName="Expense" Type="ChartSeriesType.SplineArea" Fill="#CDDE1F">
+							</ChartSeries>
+						</ChartSeriesCollection>
+					</SfChart>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+			<DashboardLayoutPanel Column="4" Row="1" SizeX="4" SizeY="3">
+				<HeaderTemplate>
+					<span class="title">Total Expenses</span>
+				</HeaderTemplate>
+				<ContentTemplate>
+					<SfAccumulationChart Height="100%" Width="100%" EnableAnimation="false" EnableSmartLabels="true" Theme="@Theme">
+						<AccumulationChartSeriesCollection>
+							<AccumulationChartSeries DataSource="@PieRenderingData" XName="Text" YName="Y" Radius="83%" StartAngle="0" EndAngle="360" InnerRadius="50%" Palettes="@palettes">
+								<AccumulationDataLabelSettings Visible="true" Name="X" Position="AccumulationLabelPosition.Outside">
+									<AccumulationChartConnector Length="10%"></AccumulationChartConnector>
+									<AccumulationChartDataLabelFont Size="14px" FontFamily="Roboto"></AccumulationChartDataLabelFont>
+								</AccumulationDataLabelSettings>
+							</AccumulationChartSeries>
+						</AccumulationChartSeriesCollection>
+						<AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+						<AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+					</SfAccumulationChart>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+			<DashboardLayoutPanel Column="0" Row="4" SizeX="8" SizeY="3">
+				<HeaderTemplate>
+					<span class="title">Recent Transactions</span>
+				</HeaderTemplate>
+				<ContentTemplate>
+					<SfGrid TValue="TransactionData" DataSource="@TransactData" Width="100%" Height="100%" AllowSorting="true" EnableHover="false" AllowPaging="false">
+						<GridColumns>
+							<GridColumn Field="@nameof(TransactionData.TransactoinId)" HeaderText="Transaction ID" Width="120"  TextAlign="@TextAlign.Center"></GridColumn>
+							<GridColumn Field="@nameof(TransactionData.Category)" HeaderText="Category" Width="120">
+								<Template>
+									@{
+										var expense = (context as TransactionData);
+		 	<div class="normalRes">
+		  	<div class="category-icon @expense.IconCss"></div>
+		  	<div class='category-text'>@expense.Category</div>
+		 	</div>
+									}
+								</Template>
+							</GridColumn>
+							<GridColumn Field="@nameof(TransactionData.PaymentMode)" HeaderText="Payment Mode" Width="160"  TextAlign="@TextAlign.Center"></GridColumn>
+							<GridColumn Field="@nameof(TransactionData.Description)" HeaderText="Description" Width="160"  TextAlign="@TextAlign.Center"></GridColumn>
+							<GridColumn Field="@nameof(TransactionData.Amount)" HeaderText="Amount" Width="120" TextAlign="@TextAlign.Center">
+								<Template>
+									@{
+										var expense = (context as TransactionData);
+		 	<div class="normalRes">
+		  	<div class='amt-payment @(expense.IsExpense ? "expense-payment" : "income-payment")'>
+		   	<span>$</span><span>@expense.Amount</span>
+		  	</div>
+		 	</div>
+									}
+								</Template>
+							</GridColumn>
+						</GridColumns>
+					</SfGrid>
+				</ContentTemplate>
+			</DashboardLayoutPanel>
+		</DashboardLayoutPanels>
+	</SfDashboardLayout>
+</div>
+
+@code {
+	SfDashboardLayout dashboardObject;
+	private Theme Theme { get; set; }
+	private double[] Spacing = new double[] { 15, 15 };
+	private double Ratio = 160 / 100;
+	private List<TransactionData> TransactData = new List<TransactionData> {
+	new TransactionData { Category = "Food", Amount = 6, PaymentMode = "Debit Card", IconCss = "food", IsExpense = true, IsIncome = false, TransactoinId = "#131614678", Description = "Palmetto Cheese, Mint julep" },
+	new TransactionData { Category = "Transportation", Amount = 7, PaymentMode = "Debit Card", IconCss = "travel", IsExpense = true, IsIncome = false, TransactoinId = "#131416876", Description = "Other vehicle expenses" },
+	new TransactionData { Category = "Housing", Amount = 20, PaymentMode = "Credit Card", IconCss = "housing", IsExpense = true, IsIncome = false, TransactoinId = "#1711148579", Description = "Laundry and cleaning supplies" },
+	new TransactionData { Category = "Extra Income", Amount = 110, PaymentMode = "Cash", IconCss = "extra-income", IsExpense = false, IsIncome = true, TransactoinId = "#1922419785", Description = "Income from Sale" },
+	new TransactionData { Category = "Food", Amount = 10, PaymentMode = "Credit Card", IconCss = "food", IsExpense = true, IsIncome = false, TransactoinId = "#2744145880", Description = "Muffuletta sandwich, Mint julep" }
+	};
+	private List<RenderingData> PieRenderingData = new List<RenderingData>
+	{
+	new RenderingData { X = "Mortgage / Rent", Text="15.76%", Y = 6000 },
+	new RenderingData { X = "Food", Text="12.79%", Y = 4866 },
+	new RenderingData { X = "Utilities", Text="10.93%", Y = 4160 },
+	new RenderingData { X = "Bills", Text="10.4%", Y = 3960 },
+	new RenderingData { X = "Shopping", Text="8.87%", Y = 3375 },
+	new RenderingData { X = "Transportation", Text="8.49%", Y = 3230 },
+	new RenderingData { X = "Insurance", Text="7.59%", Y = 2890 },
+	new RenderingData { X = "Health Care", Text="6.52%", Y = 2480 },
+	new RenderingData { X = "Cloting", Text="5.92%", Y = 2255 },
+	new RenderingData { X = "Others", Text="12.73%", Y = 4844 }
+	};
+
+	private List<IncomeExpense> IncomeExpenseData = new List<IncomeExpense>
+	{
+	new IncomeExpense { Period = new DateTime(2021, 01, 01), Income = 7490, Expense = 6973 },
+	new IncomeExpense { Period = new DateTime(2021, 02, 01), Income = 6840, Expense = 6060 },
+	new IncomeExpense { Period = new DateTime(2021, 03, 01), Income = 6060, Expense = 5500 },
+	new IncomeExpense { Period = new DateTime(2012, 04, 01), Income = 8190, Expense = 7059 },
+	new IncomeExpense { Period = new DateTime(2021, 05, 01), Income = 7320, Expense = 6333 },
+	new IncomeExpense { Period = new DateTime(2021, 06, 01), Income = 7380, Expense = 6135 }
+	};
+
+	private string[] palettes = new string[] { "#61EFCD", "#CDDE1F", "#FEC200", "#CA765A", "#2485FA", "#F57D7D", "#C152D2",
+	"#8854D9", "#3D4EB8", "#00BCD7","#4472c4", "#ed7d31", "#ffc000", "#70ad47", "#5b9bd5", "#c1c1c1", "#6f6fe2", "#e269ae", "#9e480e", "#997300" };
+
+	protected override void OnInitialized()
+	{
+		Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+	}
+
+	private class RenderingData
+	{
+		public string X { get; set; }
+		public int Y { get; set; }
+		public string Text { get; set; }
+		public string Fill { get; set; }
+	}
+
+	private class IncomeExpense
+	{
+		public DateTime Period { get; set; }
+		public int Income { get; set; }
+		public int Expense { get; set; }
+	}
+
+	private class TransactionData
+	{
+		public string Category { get; set; }
+		public string Description { get; set; }
+		public string PaymentMode { get; set; }
+		public string IconCss { get; set; }
+		public string TransactoinId { get; set; }
+		public bool IsIncome { get; set; }
+		public bool IsExpense { get; set; }
+		public int Amount { get; set; }
+
+	}
+}
+<style>
+
+	.e-dashboardlayout {
+		padding: 10px;
+	}
+
+	.e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+		line-height: 40px;
+		height: 40px;
+	}
+
+	.bootstrap5 .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header,
+	.bootstrap5-dark .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header,
+	.tailwind .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header,
+	.tailwind-dark .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header{
+		line-height: inherit;
+	}
+
+	.root-container {
+		height: 100%;
+	}
+
+	.title {
+		font-size: 16px;
+		font-weight: 400;
+	}
+
+	.category-text {
+		float: left;
+		line-height: 30px;
+	}
+
+	.category-icon {
+		float: left;
+		background-repeat: no-repeat;
+		background-position-x: center;
+		background-size: 100%;
+		height: 30px;
+		width: 30px;
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+		.category-icon.food {
+			background-image: url(./images/dashboard-layout/food.png);
+		}
+
+		.category-icon.travel {
+			background-image: url(./images/dashboard-layout/transport.png);
+		}
+
+		.category-icon.housing {
+			background-image: url(./images/dashboard-layout/house.png);
+		}
+
+		.category-icon.extra-income {
+			background-image: url(./images/dashboard-layout/extra.png);
+		}
+
+	.item-container {
+		display: flex;
+		text-align: center;
+		height: 70%;
+		padding: 2rem;
+		font-size: 22px;
+		font-weight: 400;
+	}
+
+		.item-container.income {
+			color: #17a00e
+		}
+
+		.item-container.balance {
+			color: #008cff;
+		}
+
+		.item-container.transaction {
+			color: #f41127;
+		}
+
+		.item-container.expense {
+			color: #ca765a;
+		}
+
+	.bottom-container {
+		text-align: center;
+		font-weight: 400;
+		font-size: 16px;
+	}
+    .mobile .bottom-container {
+        font-size: 30px;
+    }
+
+	.material .bottom-container,
+	.fabric .bottom-container,
+	.bootstrap .bottom-container,
+	.bootstrap4 .bottom-container,
+	.tailwind .bottom-container,
+	.bootstrap5 .bottom-container{
+		color: #4c5258;
+    }
+
+	.amt-payment.expense-payment {
+		font-weight: bold;
+		color: #ff5e65;
+	}
+
+	.amt-payment.income-payment {
+		font-weight: bold;
+		color: #04cd93;
+	}
+
+	.auto-left {
+		margin-left: auto;
+	}
+
+	.e-panel-cotent {
+		padding: 1rem;
+	}
+
+	@@font-face {
+		font-family: 'e-sb-icons';
+		src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format("truetype");
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	.balance:after {
+		content: "\e900";
+		font-size: 24px;
+		font-family: "e-sb-icons";
+	}
+
+	.expense:after {
+		content: "\e901";
+		font-size: 24px;
+		font-family: "e-sb-icons";
+	}
+
+	.income:after {
+		content: "\e902";
+		font-size: 24px;
+		font-family: "e-sb-icons";
+	}
+
+	.transaction:after {
+		content: "\e903";
+		font-size: 24px;
+		font-family: "e-sb-icons";
+	}
+
+	.e-headercelldiv span.e-headertext {
+		font-size: 14px;
+		font-weight: 500;
+	}
+
+	.e-grid .e-rowcell {
+		font-size: 13px;
+	}
+    .mobile .e-control.e-lib.e-dashboardlayout.e-responsive {
+        z-index: 0;
+        overflow: scroll;
+    }
+    .mobile .item-container {
+        padding: 40px;
+        font-size: 40px;
+    }
+    .mobile .balance:after {
+        content: "\e900";
+        font-size: 40px;
+        font-family: "e-sb-icons";
+    }
+
+    .mobile .expense:after {
+        content: "\e901";
+        font-size: 40px;
+        font-family: "e-sb-icons";
+    }
+
+    .mobile .income:after {
+        content: "\e902";
+        font-size: 40px;
+        font-family: "e-sb-icons";
+    }
+
+    .mobile .transaction:after {
+        content: "\e903";
+        font-size: 40px;
+        font-family: "e-sb-icons";
+    }
+
+    .e-control.e-lib.e-dashboardlayout.e-responsive {
+        z-index: 0;
+    }
+
+	.e-dashboardlayout.e-control .e-panel .e-panel-container .e-grid.sf-grid .e-gridcontent .e-content.e-yscroll {
+		overflow: auto;
+	}
+	
+	body.tailwind-dark .e-dashboardlayout.e-control .e-panel {
+		border: 1px #435266 solid;
+	}
+
+	.e-gridheader {
+		padding-right: 0px !important;
+	}
+</style>

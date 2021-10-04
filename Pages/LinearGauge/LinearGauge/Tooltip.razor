@@ -1,74 +1,93 @@
 ﻿@page "/linear-gauge/tooltip"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.LinearGauge
 @using Newtonsoft.Json;
-
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
+@using System;
 
 <SampleDescription>
-    <p>This sample visualizes the tooltip for pointer in linear gauge.</p>
+    <p>This sample shows the tooltip of the pointer value and range value in the circular gauge.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This sample demonstrates the measuring scale by using the linear gauge. Tooltip is used to track the pointer value closer to the current mouse position or touch contact. You can show the tooltip for an individual marker or bar pointer by hover or tap on the pointer in touch-enabled devices.</p>
-   <br><p>More information about tooltip can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/linear-gauge/user-interaction/?no-cache=1#tooltip'>documentation section</a>.</p>
+    <p>The linear gauge is used in this sample to demonstrate the measuring scale. The tooltip is used to track the pointer value that is closest to the current mouse position or touch contact. When using a touch-enabled device, the tooltip for an individual marker or bar pointer is displayed by hovering or tapping on the pointer.</p>
+    <p>More information about tooltip can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/linear-gauge/user-interaction/?no-cache=1#tooltip'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfLinearGauge Orientation="Orientation.Horizontal">
-        <LinearGaugeEvents AxisLabelRendering="AxisLabel"/>
+    <SfLinearGauge Orientation="Orientation.Horizontal" Theme="@Theme">
+        <LinearGaugeEvents AxisLabelRendering="AxisLabel" />
         <LinearGaugeContainer Width="140">
-            <LinearGaugeContainerBorder Width="2" Color="#a6a6a6"/>
+            <LinearGaugeContainerBorder Width="2" Color="#a6a6a6" />
         </LinearGaugeContainer>
-        <LinearGaugeTooltipSettings Enable="true" ShowAtMousePosition="true"/>
+        <LinearGaugeTooltipSettings Enable="true" ShowAtMousePosition="true">
+            <LinearGaugeTooltipTextStyle FontFamily="Segoe UI"></LinearGaugeTooltipTextStyle>
+        </LinearGaugeTooltipSettings>
         <LinearGaugeAnnotations>
-            <LinearGaugeAnnotation AxisIndex="0" AxisValue="5.4" X="35" Y="-58" ZIndex="1">
+            <LinearGaugeAnnotation AxisIndex="0" AxisValue="5.4" X="10" Y="-58" ZIndex="1">
                 <ContentTemplate>
-                    <div><h1 class="annotationText">Inches</h1></div>
+                    <div><h1 class="annotationText" style="color:@AnnotationColor;">Inches</h1></div>
                 </ContentTemplate>
             </LinearGaugeAnnotation>
-            <LinearGaugeAnnotation AxisIndex="1" AxisValue="16.5" X="50" Y="52" ZIndex="1">
+            <LinearGaugeAnnotation AxisIndex="1" AxisValue="16.5" X="10" Y="52" ZIndex="1">
                 <ContentTemplate>
-                    <div><h1 class="annotationText">Centimeters</h1></div>
+                    <div><h1 class="annotationText" style="color:@AnnotationColor;">Centimeters</h1></div>
                 </ContentTemplate>
             </LinearGaugeAnnotation>
         </LinearGaugeAnnotations>
         <LinearGaugeAxes>
             <LinearGaugeAxis Maximum="@LinearOneMaximum" Minimum="@LinearOneMinimum">
-                <LinearGaugeLine Offset="140"/>
-                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20"/>
-                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10"/>
+                <LinearGaugeLine Offset="140" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10" />
+                <LinearGaugeAxisLabelStyle>
+                    <LinearGaugeAxisLabelFont FontFamily="Segoe UI"></LinearGaugeAxisLabelFont>
+                </LinearGaugeAxisLabelStyle>
                 <LinearGaugePointers>
-                    <LinearGaugePointer Value="5.4" Offset="15" Type="Point.Bar" Color="#ff66b3"/>
+                    <LinearGaugePointer PointerValue="5.4" Offset="15" Type="Point.Bar" Color="#ff66b3" />
                 </LinearGaugePointers>
             </LinearGaugeAxis>
             <LinearGaugeAxis OpposedPosition="true" Maximum="@LinearTwoMaximum" Minimum="@LinearTwoMinimum">
-                <LinearGaugeLine Offset="-140"/>
-                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20"/>
-                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10"/>
+                <LinearGaugeLine Offset="-140" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10" />
+                <LinearGaugeAxisLabelStyle>
+                    <LinearGaugeAxisLabelFont FontFamily="Segoe UI"></LinearGaugeAxisLabelFont>
+                </LinearGaugeAxisLabelStyle>
                 <LinearGaugePointers>
-                    <LinearGaugePointer Value="16.5" Offset="-15" Type="Point.Bar" Color="#4d94ff"/>
+                    <LinearGaugePointer PointerValue="16.5" Offset="-15" Type="Point.Bar" Color="#4d94ff" />
                 </LinearGaugePointers>
             </LinearGaugeAxis>
         </LinearGaugeAxes>
     </SfLinearGauge>
 </div>
 <style>
-    .annotationText{
-        font-size:15px;
-        color: #686868;
-        margin-top: -6px
+    .annotationText {
+        font-size: 15px;
+        margin-top: -4px
     }
-    </style>
+</style>
 @code {
+    public static Theme Theme { get; set; }
     public double LinearOneMinimum = 0;
     public double LinearOneMaximum = 10;
     public double LinearTwoMinimum = 25;
     public double LinearTwoMaximum = 0;
-    public void AxisLabel(AxisLabelRenderEventArgs args) {
-        if (this.LinearOneMinimum == args.AxisValue  || this.LinearTwoMaximum == args.AxisValue  ||
-            this.LinearOneMaximum == args.AxisValue  || this.LinearTwoMinimum == args.AxisValue ) {
+    public string AnnotationColor = "#686868";
+    public void AxisLabel(AxisLabelRenderEventArgs args)
+    {
+        if (this.LinearOneMinimum == args.AxisValue || this.LinearTwoMaximum == args.AxisValue ||
+            this.LinearOneMaximum == args.AxisValue || this.LinearTwoMinimum == args.AxisValue)
+        {
             args.Text = "";
         }
         this.StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        AnnotationColor = (Theme == Theme.HighContrast || Theme.ToString().IndexOf("Dark") > -1) ? "#DADADA" : "#686868";
     }
 }

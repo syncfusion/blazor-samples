@@ -12,10 +12,11 @@
 
 <div class="control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.FifaEventsData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="ScheduleData.FifaEventsData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+            <ScheduleEvents TValue="ScheduleData.FifaEventsData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleViews>
                 <ScheduleView Option="View.Day" DisplayName="3 Days" Interval="3"></ScheduleView>
-                <ScheduleView Option="View.Week" DisplayName="2 Weeks" Interval="2" IsSelected="true"></ScheduleView>
+                <ScheduleView Option="View.Week" DisplayName="2 Weeks" Interval="2"></ScheduleView>
                 <ScheduleView MaxEventsPerRow="1" Option="View.Month" DisplayName="4 Months" Interval="4"></ScheduleView>
             </ScheduleViews>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
@@ -25,6 +26,11 @@
 
 
 @code{
-    private DateTime CurrentDate = new DateTime(2020, 1, 22);
+    private DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 22);
+    public View CurrentView = View.Week;
     public List<ScheduleData.FifaEventsData> DataSource = new ScheduleData().GetFifaEventsData();
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.FifaEventsData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
 }

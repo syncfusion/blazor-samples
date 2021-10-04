@@ -1,0 +1,565 @@
+@page "/rich-text-editor/usecase"
+
+@using Syncfusion.Blazor.RichTextEditor
+@using System.ComponentModel.DataAnnotations;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how to design forum application using Rich Text Editor. You can type the content and click reply
+        button to post it.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        Rich Text Editor is a WYSIWYG editing control which will reduce the effort for users while trying to express their formatting
+        word content as HTML or Markdown format. So, Rich Text Editor can be easily customized to use for blog posting, forums
+        as an editor for response.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="control-wrapper">
+        <div class="default-section">
+            <div class='forum'>
+                <div class='questionSection'>
+                    <div class='raiser'>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class='questionar'> </div>
+                                </td>
+                                <td>
+                                    <div class='Questionarname'>Kimberly</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class='questionHeader'>
+                        <div class='header'>
+                            How to add a custom item to the toolbar of Rich Text Editor
+                        </div>
+                        <div class='detailsQuestion'>Posted on May 7, 2018 6.10 PM</div>
+                        <div class='explain'>
+                            I want to add a custom icon, "code-mirror" to the toolbar of Rich Text Editor and display the Rich Text Editor content in code-mirror format.
+                        </div>
+                        <div class='tags'>
+                            <div class='tagSection'>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <button class='e-btn e-flat tag'> HTML </button>
+                                        </td>
+                                        <td>
+                                            <button class='e-btn e-flat tag'> JavaScript </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class='questionLikes'>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <button class="e-btn e-flat e-primary">
+                                                <span class='e-icon e-like questionSide'>
+                                                    <img class='e-icon' src='images/rich-text-editor/like.svg' alt='like'>
+                                                    <span>Like</span>
+                                                </span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="e-btn e-flat">
+                                                <span class='e-icon e-dislike'>
+                                                    <img class='e-icon' src='images/rich-text-editor/dislike.svg' alt='dislike'>
+                                                    <span>Dislike</span>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='separator'></div>
+                </div>
+                <div class='answerSection'>
+                    <div class='answerCount'>@count Answer</div>
+                    @for (int i = 0; i < this.answersList.Count; i++)
+                    {
+                        <div class='answer'>
+                            <table>
+                                <tr>
+                                    <td rowspan="2">
+                                        <div class='@this.answersList[i].icon'> </div>
+                                    </td>
+                                    <td>
+                                        <div class='authorname'>
+                                            @this.answersList[i].name
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class='detailsAnswer'>
+                                            @this.answersList[i].time
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class='posting'>
+                                @((MarkupString)this.answersList[i].comment)
+                            </div>
+                            <div class='likeAnswer'>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <button class="e-btn e-flat e-primary">
+                                                <span class='e-icon e-like questionSide'>
+                                                    <img class='e-icon' src='images/rich-text-editor/like.svg' alt='like'>
+                                                    <span>Like</span>
+                                                </span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="e-btn e-flat">
+                                                <span class='e-icon e-dislike'>
+                                                    <img class='e-icon' src='images/rich-text-editor/dislike.svg' alt='dislike'>
+                                                    <span>Dislike</span>
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class='separator'></div>
+                        </div>
+                    }
+                </div>
+                <div id="createpostholder">
+                    <EditForm Model="@Model" OnValidSubmit="@ValidSubmit">
+                        <DataAnnotationsValidator />
+                        <SfRichTextEditor @ref="rteObj" @bind-Value="@Model.Description" Placeholder="Type something...">
+                        </SfRichTextEditor>
+                        <ValidationMessage For="@(() => Model.Description)" />
+                        <div id='buttonSection'>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <button class="samplebtn e-control e-btn" data-ripple="true" type="reset" @onclick="OnCancelClick">Cancel</button>
+                                    </td>
+                                    <td>
+                                        <button class="samplebtn e-control e-btn" data-ripple="true" type="submit">Reply</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfRichTextEditor rteObj;
+    string[] empList = new string[] { "emp1", "emp2", "emp3" };
+    string[] nameList = new string[] { "Anne Dodsworth", "Janet Leverling", "Laura Callahan" };
+    int count { get; set; }
+    List<Answers> answersList = new List<Answers>(100);
+
+    protected override void OnInitialized()
+    {
+        answersList.Add(
+                new Answers()
+                {
+                    comment = "To add a custom icon <b>code-mirror</b> to the toolbar, you have to use template option of the <b>toolbarSettings</b>. To know more about adding custom icons, refer to <a href='https://blazor.syncfusion.com/demos/rich-text-editor/insert-emoticons' target='_blank'>custom tool</a> sample of Rich Text Editor.",
+                    time = "Answered on May 7, 2018 6.30 PM",
+                    name = "Mabel Weber",
+                    icon = "logos"
+                });
+        count = count + 1;
+    }
+
+    private class Answers
+    {
+        public string comment { get; set; }
+        public string time { get; set; }
+        public string name { get; set; }
+        public string icon { get; set; }
+    }
+
+    private class FormModel
+    {
+        [Required]
+        [MinLength(20, ErrorMessage = "Please enter at least 20 characters based on HTML.")]
+        public string Description { get; set; }
+    }
+
+    private FormModel Model = new FormModel();
+
+    private string getMonthName(int index)
+    {
+        string[] month = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+        return month[index];
+    }
+    private void OnCancelClick()
+    {
+        Model = new FormModel();
+    }
+
+    private void OnSaveClick()
+    {
+        answersList.Add(new Answers
+        {
+            comment = this.rteObj.Value,
+            name = count < 4 ? nameList[count - 1] : "User",
+            time = "Answered on " + DateTime.Now.ToString("MMM") + " " + DateTime.Now.ToString("dd") + ", " + DateTime.Now.ToString("yyyy") + " " + DateTime.Now.ToString("h:mm tt"),
+            icon = count < 4 ? empList[count - 1] : "logo"
+        });
+        count = count + 1;
+    }
+
+    private void ValidSubmit(EditContext context)
+    {
+        FormModel contextModel = (FormModel)context.Model;
+        this.OnSaveClick();
+        Model = new FormModel();
+    }
+}
+
+<style>
+    .tagSection {
+        float: left;
+    }
+
+    .likeAnswer span.e-icon {
+        float: left;
+    }
+
+    img.e-icon {
+        width: 13px;
+        height: 20px;
+    }
+
+    span.questionSide {
+        float: left;
+    }
+
+    .e-dislike {
+        float: left;
+    }
+
+    .questionHeader {
+        margin-top: 12px;
+        margin-bottom: 5px;
+    }
+
+    .header {
+        font-size: 16px;
+        font-family: roboto-Semibold, SegoeUI-Semibold;
+        color: #000000;
+        font-weight: bold;
+        clear: both;
+    }
+
+    .fabric-dark .header,
+    .tailwind-dark .header,
+    .bootstrap5-dark .header,
+    .highcontrast .header {
+        color: #fff;
+    }
+
+    @@media (max-width: 550px) {
+        .forum {
+            padding: 20px 20px 60px 20px;
+        }
+    }
+
+    @@media (min-width: 550px) {
+        .forum {
+            margin: 0 auto;
+            width: 80%;
+            border: 1px solid #d8d8c0;
+            padding: 10px 90px 60px 90px;
+            box-shadow: 2px 2px 2px 2px #f5f5ef;
+        }
+
+        .fabric-dark .forum,
+        .tailwind-dark .forum,
+        .bootstrap5-dark .forum,
+        .highcontrast .forum {
+            border: 1px solid #fff;
+        }
+    }
+
+    .e-like span {
+        font-family: Helvetica, Times New Roman;
+        color: #E3175A;
+        font-size: 12px;
+    }
+
+    .e-dislike span {
+        font-family: Helvetica, Times New Roman;
+        color: #717171;
+        font-size: 12px;
+    }
+
+    .boostrap4 .e-dislike span {
+        color: #fff;
+    }
+
+    .detailsQuestion {
+        font-size: 12px;
+        font-family: roboto, SegoeUI;
+        color: #575757;
+        margin-top: 8px;
+    }
+
+    .explain {
+        margin-top: 16px;
+        font-size: 13px;
+        font-family: roboto, SegoeUI;
+        color: #000000;
+    }
+
+    .fabric-dark .explain,
+    .tailwind-dark .explain,
+    .bootstrap5-dark .explain,
+    .highcontrast .explain {
+        color: #fff;
+    }
+
+    .separator {
+        margin-top: 5px;
+        border-bottom: 1px solid #DADADA;
+        margin-bottom: 5px;
+    }
+
+    .tags td:first-child div {
+        margin-left: 0px;
+    }
+
+    .e-btn.e-flat.tag {
+        color: #000000;
+        padding: 3px 14px;
+        background-color: #DDDDDD;
+        font-size: 13px;
+        margin-left: 8px;
+        border-radius: 6px;
+        float: left;
+        text-transform: lowercase;
+        font-family: roboto, SegoeUI;
+        text-transform: none;
+    }
+
+    .e-btn.e-flat.tag:hover {
+        background-color: #a09c9c;
+        color: #ffffff;
+    }
+
+    .answerCount {
+        color: #575757;
+        margin-top: 24px;
+        margin-bottom: 24px;
+        font-family: roboto-Semibold, SegoeUI-Semibold;
+        width: 63px;
+    }
+
+    .likeAnswer {
+        margin-top: 13px;
+    }
+
+    .tags {
+        margin-top: 10px;
+        margin-bottom: 24px;
+    }
+
+    .questionar {
+        width: 32px;
+        background: url(images/rich-text-editor/emp1.png);
+        height: 32px;
+        float: left;
+        -ms-flex-line-pack: center;
+        align-content: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: #bcbcbc;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        color: #fff;
+        margin-top: 2px;
+    }
+
+    .raiser {
+        height: 34px;
+    }
+
+    .questionLikes .e-btn,
+    .likeAnswer .e-btn {
+        padding-top: 0;
+        padding-bottom: 0;
+        text-transform: lowercase;
+    }
+
+    .Questionarname {
+        margin-top: 13px;
+        float: left;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+
+    .your-answer {
+        color: #3b3b3b;
+        font-weight: 300;
+    }
+
+    .rating {
+        padding-left: 10px;
+        margin-top: -95px;
+    }
+
+    .logos {
+        background: url(images/rich-text-editor/emp2.png);
+        height: 32px;
+        -ms-flex-line-pack: center;
+        align-content: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: #bcbcbc;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        color: #fff;
+        width: 32px;
+    }
+
+    .logo {
+        background: url(images/rich-text-editor/author.png) no-repeat scroll 0 0 transparent;
+        height: 32px;
+        width: 32px;
+    }
+
+    .emp1 {
+        background: url(images/rich-text-editor/1.png) no-repeat scroll 0 0 transparent;
+        height: 32px;
+        width: 32px;
+    }
+
+    .emp2 {
+        background: url(images/rich-text-editor/2.png) no-repeat scroll 0 0 transparent;
+        height: 32px;
+        width: 32px;
+    }
+
+    .emp3 {
+        background: url(images/rich-text-editor/3.png) no-repeat scroll 0 0 transparent;
+        height: 32px;
+        width: 32px;
+    }
+
+    .author {
+        margin-bottom: 5px;
+        height: 50px;
+        margin-top: 5px;
+    }
+
+    .name {
+        margin: 5px;
+        float: left;
+        color: blue;
+    }
+
+    .posting {
+        clear: both;
+        color: #000;
+        line-height: 24px;
+        margin-top: 12px;
+        font-family: roboto, SegoeUI;
+        font-size: 13px;
+    }
+
+    .fabric-dark .posting,
+    .tailwind-dark .posting,
+    .bootstrap5-dark .posting,
+    .highcontrast .posting {
+        color: #fff;
+    }
+
+    .authorname {
+        font-family: SegoeUI-Semibold;
+        color: #000000;
+        font-size: 13px;
+    }
+
+    .fabric-dark .authorname,
+    .tailwind-dark .authorname,
+    .bootstrap5-dark .authorname,
+    .highcontrast .authorname {
+        color: #fff;
+    }
+
+    .detailsAnswer {
+        color: #575757;
+        font-size: 12px;
+        font-family: roboto, SegoeUI;
+        margin-top: 7px;
+    }
+
+    #buttonSection {
+        float: right;
+        margin-top: 11px;
+    }
+
+        #buttonSection input {
+            margin-right: 11px;
+        }
+
+    .authorname,
+    .detailsAnswer {
+        margin-left: 11px;
+    }
+
+    .answerCount {
+        color: #76766f;
+        margin-top: 20px;
+        margin-bottom: 12px;
+    }
+
+    .questDesc {
+        min-height: 120px;
+        width: 100%;
+    }
+
+    .answerHeader {
+        border-bottom: 1px solid #ced1d1;
+        margin-bottom: 20px;
+        margin-top: -40px;
+    }
+
+    .answer {
+        margin-top: 15px;
+    }
+
+    .editorholder h4 {
+        padding: 15px 0;
+    }
+
+    #createpostholder {
+        margin-top: 25px;
+    }
+
+    #buttonSection button {
+        margin-right: 11px;
+    }
+
+    .validation-message {
+        color: #f44336;
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+        font-size: 12px;
+        font-weight: normal;
+    }
+</style>

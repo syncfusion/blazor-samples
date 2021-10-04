@@ -1,196 +1,149 @@
 ﻿@page "/treeview/multiple-selection"
 
-@using Syncfusion.Blazor.Lists
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @using Syncfusion.Blazor.Navigations
-
 
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-  <p> The <a href='https://www.syncfusion.com/blazor-components/blazor-treeview' target='_blank'>Blazor TreeView</a> sample demonstrates the multiple node selection functionalities of the TreeView. To select multiple nodes, press the CTRL key and select the desired nodes; or select any node and by pressing SHIFT key select another node, this selects all the nodes in-between the selected nodes.</p>  
+  <p> The <a href='https://www.syncfusion.com/blazor-components/blazor-treeview' target='_blank'>Blazor TreeView</a> sample demonstrates the multiple node selection functionalities of the TreeView. To select multiple nodes, press the <code>CTRL</code> key and select the desired nodes; or select any node and by pressing <code>SHIFT</code> key select another node, this selects all the nodes in-between the selected nodes.</p>  
 </SampleDescription>
 <ActionDescription>
   <p>The TreeView component allows to select multiple nodes by enabling the <code>AllowMultiSelection</code> property. In this demo, the TreeView is enabled with multiple selection. More information about Treeview can be found in this <a href='https://blazor.syncfusion.com/documentation/treeview/multiple-selection/' target='_blank'>documentation</a> section .</p> 
 </ActionDescription>
 
-@using Syncfusion
-<div class="control-section">
+<div class="col-lg-8 control-section sb-property-border">
     <div class="control_wrapper">
-        <SfTreeView TValue="TreeData" AllowMultiSelection="true">
-            <TreeViewFieldsSettings DataSource="@TreeDataSource" Id="Id" ParentID="Pid" Text="Name" HasChildren="HasChild" Expanded="Expanded" Selected="IsSelected"></TreeViewFieldsSettings>
+        <SfTreeView @ref="TreeRef" TValue="TreeItem" AllowMultiSelection="true" @bind-SelectedNodes="@SelectedNodes">
+            <TreeViewFieldsSettings DataSource="@TreeDataSource" ImageUrl="ImageUrl" Id="NodeId" Text="NodeText" Expanded="Expanded" Child="@("Child")" IconCss="Icon"></TreeViewFieldsSettings>
         </SfTreeView>
+    </div>
+</div>
+<div class="col-lg-4 property-section property-custom">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Selected Items</div>
+        <div id="selecttable" class="property-panel-content">
+            <table id="property" title="Properties" class="property-panel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%">Id</th>
+                        <th style="width: 50%;">Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (TreeRef != null)
+                    {
+                        @for (int i = 0; i < SelectedNodes.Length; i++)
+                        {
+                            List<TreeItem> tree = TreeRef.GetTreeData(SelectedNodes[i]);
+                            <tr>
+                                <td style="width: 30%">
+                                    <div>@tree[0].NodeId</div>
+                                </td>
+                                <td style="width: 30%">
+                                    <div>@tree[0].NodeText</div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 @code{
-    List<TreeData> TreeDataSource = new List<TreeData>();
-    
+    List<TreeItem> TreeDataSource = new List<TreeItem>();
+    SfTreeView<TreeItem> TreeRef;
+    string[] SelectedNodes = new string[] { "02", "03" };
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+        {
+            StateHasChanged();
+        }
+    }
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        TreeDataSource.Add(new TreeData
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "1",
-            Name = "Australia",
-            HasChild = true,
-            Expanded = true
+            NodeId = "01",
+            NodeText = "Documents",
+            Icon = "folder",            
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "01-01", NodeText = "Environment Pollution.docx", Icon = "docx" },
+                new TreeItem { NodeId = "01-02", NodeText = "Global Water, Sanitation, & Hygiene.docx", Icon = "docx" },
+                new TreeItem { NodeId = "01-03", NodeText = "Global Warming.ppt", Icon = "ppt" },
+                new TreeItem { NodeId = "01-04", NodeText = "Social Network.pdf", Icon = "pdf" },
+                new TreeItem { NodeId = "01-05", NodeText = "Youth Empowerment.pdf", Icon = "pdf" },
+            },
         });
-        TreeDataSource.Add(new TreeData
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "2",
-            Pid= "1",
-            Name = "New South Wales",
-            IsSelected = true
-
-
+            NodeId = "02",
+            NodeText = "Downloads",
+            Icon = "folder",
+            Selected = true,
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "02-01", NodeText = "UI-Guide.pdf", Icon = "pdf" },
+                new TreeItem { NodeId = "02-02", NodeText = "Tutorials.zip", Icon = "zip" },
+                new TreeItem { NodeId = "02-03", NodeText = "Game.exe", Icon = "exe", Selected = true },
+                new TreeItem { NodeId = "02-04", NodeText = "TypeScript.7z", Icon = "zip" },
+            },
         });
-        TreeDataSource.Add(new TreeData
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "3",
-            Pid= "1",
-            Name = "Victoria"
+            NodeId = "03",
+            NodeText = "Music",
+            Icon = "folder",
+            Selected = true,
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "03-01", NodeText = "Gouttes.mp3", Icon = "audio" }
+            }
         });
-
-        TreeDataSource.Add(new TreeData
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "4",
-            Pid= "1",
-            Name = "South Australia"
+            NodeId = "04",
+            NodeText = "Pictures",
+            Icon = "folder",
+            Expanded = true,
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "04-01", NodeText = "Camera Roll", Icon = "folder", Expanded = true,
+                Child = new List<TreeItem>(){
+                    new TreeItem { NodeId = "04-01-01", NodeText = "WIN_20160726_094117.JPG", ImageUrl = "//ej2.syncfusion.com/demos/src/treeview/images/employees/9.png" },
+                    new TreeItem { NodeId = "04-01-02", NodeText = "WIN_20160726_094118.JPG", ImageUrl="//ej2.syncfusion.com/demos/src/treeview/images/employees/3.png" },
+                } },
+                new TreeItem { NodeId = "04-02", NodeText = "Wind.jpg", Icon = "images" },
+                new TreeItem { NodeId = "04-03", NodeText = "Stone.jpg", Icon = "images" },
+            },
         });
-        TreeDataSource.Add(new TreeData
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "6",
-            Pid= "1",
-            Name = "Western Australia",
-            IsSelected = true
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "7",
-            Name = "Brazil",
-            HasChild = true
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "8",
-            Pid= "7",
-            Name = "Paraná"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "9",
-            Pid= "7",
-            Name = "Ceará"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "10",
-            Pid= "7",
-            Name = "Acre"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "11",
-            Name = "China",
-            HasChild = true
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "12",
-            Pid= "11",
-            Name = "Guangzhou",
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "13",
-            Pid= "11",
-            Name = "Shanghai"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "14",
-            Pid= "11",
-            Name = "Beijing"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "15",
-            Pid= "11",
-            Name = "Shantou"
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "16",
-            Name = "France",
-            HasChild = true
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "17",
-            Pid= "16",
-            Name = "Pays de la Loire"
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "18",
-            Pid= "16",
-            Name = "Aquitaine"
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "19",
-            Pid= "16",
-            Name = "Brittany"
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "20",
-            Pid= "16",
-            Name = "Lorraine"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "21",
-            Name = "India",
-            HasChild = true
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "22",
-            Pid= "21",
-            Name = "Assam"
-
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "23",
-            Pid= "21",
-            Name = "Bihar"
-        });
-        TreeDataSource.Add(new TreeData
-        {
-            Id = "24",
-            Pid= "21",
-            Name = "Tamil Nadu"
-
+            NodeId = "05",
+            NodeText = "Videos",
+            Icon = "folder",
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "05-01", NodeText = "Naturals.mp4", Icon = "video" },
+                new TreeItem { NodeId = "05-02", NodeText = "Wild.mpeg", Icon = "video" },
+            },
         });
     }
 
-    class TreeData
+    class TreeItem
     {
-        public string Id { get; set; }
-        public string Pid { get; set; }
-        public bool HasChild { get; set; }
+        public string NodeId { get; set; }
+        public string NodeText { get; set; }
+        public string Icon { get; set; }
+        public string ImageUrl { get; set; }
         public bool Expanded { get; set; }
-        public bool IsSelected { get; set; }
-        public string Name { get; set; }
+        public bool Selected { get; set; }
+        public List<TreeItem> Child;
     }
 }
 <style>
@@ -199,5 +152,55 @@
         margin: auto;
         border: 1px solid #dddddd;
         border-radius: 3px;
+        max-height: 470px;
+        overflow: auto;
+    }
+    .e-treeview .e-list-img {
+        width: 25px;
+        height: 25px;
+    }
+    /* Loading sprite image for TreeView */
+    .e-treeview .e-list-icon {
+        background-repeat: no-repeat;
+        background-image: url('@UriHelper.ToAbsoluteUri($"images/treeview/file-icons.png")');
+        height: 20px;
+    }
+    /* Specify the Icon positions based upon class name */
+    .e-treeview .e-list-icon.folder {
+        background-position: -197px -552px
+    }
+    .e-bigger .e-treeview .e-list-icon.folder {
+        background-position: -197px -549px;
+    }
+    .e-treeview .e-list-icon.docx {
+        background-position: -197px -20px
+    }
+    .e-treeview .e-list-icon.ppt {
+        background-position: -197px -48px
+    }
+    .e-treeview .e-list-icon.pdf {
+        background-position: -197px -104px
+    }
+    .e-treeview .e-list-icon.images {
+        background-position: -197px -132px
+    }
+    .e-treeview .e-list-icon.zip {
+        background-position: -197px -188px
+    }
+    .e-treeview .e-list-icon.audio {
+        background-position: -197px -244px
+    }
+    .e-treeview .e-list-icon.video {
+        background-position: -197px -272px
+    }
+    .e-treeview .e-list-icon.exe {
+        background-position: -197px -412px
+    }
+    #selecttable {
+        overflow: auto;
+        max-height: 420px;
+    }
+    #selecttable div {
+        padding-left: 0;
     }
 </style>

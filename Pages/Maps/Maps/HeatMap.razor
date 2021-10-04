@@ -1,27 +1,33 @@
 @page  "/maps/heat-map"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample visualizes the state wise population of India in the year 2011. Color for each state will be applied based on its value.</p>
+    <p>This sample represents India's population by state in 2011. Each state's color will be determined by its value.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to apply the desired colors for the shapes, if its value is within the specified range using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMapping.html'>MapsShapeColorMappings</a></code>. Also, the interactive legend has been placed at the bottom of the map. Tooltip is enabled in this example.</p>
-    <p>More information about colormapping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/color-mapping/'>documentation section</a>.</p>
+    <p>In this example, you can see how to apply desired colors for the shapes, if its value is within the specified range using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMapping.html'>MapsShapeColorMappings</a></code> class. In addition, the legend has been added to the bottom of the map. In this case, the tooltip is enabled.</p>
+    <p>More information about color mapping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/color-mapping/'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps Format="N0" UseGroupingSeparator="true">
+    <SfMaps Format="N0" UseGroupingSeparator="true" Theme="@Theme">
         <MapsTitleSettings Text="State wise India's population - 2011">
-            <MapsTitleTextStyle Size="16px" />
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
-        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Bottom" Height="10" Width="350" LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center"></MapsLegendSettings>
+        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Bottom" Height="10" Width="350" LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
         <MapsZoomSettings Enable="false" />
         <MapsLayers>
             <MapsLayer ShapeData='new { dataOptions = "data/maps/india.json" }' ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name" DataSource="@StateWisePopulation" TValue="State">
-                <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}" />
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
                 <MapsShapeSettings ColorValuePath='@("Population")'>
                     <MapsShapeBorder Color="white" Width="0.2" />
                     <MapsShapeColorMappings>
@@ -92,4 +98,9 @@
         new State { Name="Daman and Diu", Population=242911 },
         new State { Name="Lakshadweep", Population=64429 }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

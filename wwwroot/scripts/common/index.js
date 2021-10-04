@@ -1,9 +1,9 @@
 var showcaseRef;
 var isScrolled = false;
 var isUpdatedDevice = false;
-var themeCollection = ['material', 'fabric', 'bootstrap', 'bootstrap4', 'highcontrast'];
+var themeCollection = ['bootstrap5', 'bootstrap5-dark', 'tailwind', 'tailwind-dark', 'material', 'bootstrap4', 'bootstrap', 'bootstrap-dark', 'fabric', 'fabric-dark', 'highcontrast'];
 
-const DEFAULT_THEME = 'bootstrap4';
+const DEFAULT_THEME = 'bootstrap5';
 
 window.sfBlazorSB = {
   dotnetRef: null,
@@ -52,16 +52,13 @@ window.sfBlazorSB = {
   },
   // set e-bigger class to the body based on mouse/touch selection
   setBiggerSize: function (isTouch) {
-    var element = document.getElementsByClassName('sb-content-section');
-    if (element.length) {
       if (isTouch) {
-        element[0].classList.add('e-bigger');
+        document.body.classList.add('e-bigger');
         localStorage.setItem("sfPreferenceMode", "touch");
       } else {
-        element[0].classList.remove('e-bigger');
+          document.body.classList.remove('e-bigger');
         localStorage.setItem("sfPreferenceMode", "mouse");
       }
-    }
   },
   // returns the preferences mode.
   getPreferenceMode: function () {
@@ -211,6 +208,16 @@ function refreshTab(code, filename) {
   }
 }
 
+function OnDragStopCall(dragEventArgs) {
+  var targetElement = document.elementFromPoint(dragEventArgs.left, dragEventArgs.top);
+  var listEle = targetElement.closest(".e-droppable");
+  if (listEle && listEle.classList.contains("custom-list")) {
+      var id = dragEventArgs.draggedNodeData.id;
+      var text = dragEventArgs.draggedNodeData.text;
+      return { Id: id, Text: text };
+  }
+}
+
 function callResizeEvent() {
   //window.dispatchEvent(new Event('resize'));
   window.resizeTo(
@@ -225,6 +232,49 @@ function setThemeSelection(themeName) {
     element.classList.add('sb-icon-icon-selection', 'sb-icons');
   }
 }
+
+window.preventSpaceKey = () => {
+  var element = document.getElementsByClassName("control-section chip-container")[0];
+  if (element != null) {
+      element.addEventListener("keydown", function (e) {
+          if (e.target && e.target.classList.contains("e-chip") && e.keyCode == 32) {
+              e.preventDefault();
+          }
+      });
+  }
+};
+
+function focusElement(ele) {
+    if (ele) {
+        ele.focus();
+    }
+}
+
+//tooltip keyboard navigation sample function for focuing input
+function focusInput(id) {
+    setTimeout(function () {
+        document.getElementById(id).focus();
+    }, 500);
+}
+
+document.addEventListener("keydown", function (e) {
+    if (e.altKey === true && e.keyCode === 74) {
+        var ele = document.querySelector('.sb-demo-section .e-control');
+        if (ele) {
+            if (ele.classList.contains('e-tab')) {
+                ele = ele.querySelector('.e-toolbar-item .e-tab-wrap');
+                ele.tabIndex = 0;
+            }
+            else if (ele.classList.contains('e-accordion')) {
+                ele = ele.querySelector('.e-acrdn-header');
+            }
+            else if (ele.classList.contains('e-dropdownlist')) {
+                ele = ele.parentElement;
+            }
+        }
+        focusElement(ele);
+    }
+});
 
 window.addEventListener('load', function () {
   // Add mobile class to the body element for device rendering.
@@ -255,6 +305,10 @@ window.onscroll = function () {
     headerElement = scroll > 0 ? headerElement.classList.add('active') : headerElement.classList.contains('active') ? headerElement.classList.remove('active') : headerElement;
   }
   sfBlazorSB.renderShowCase();
+};
+
+window.onbeforeunload = function () {
+  localStorage.removeItem("sfPreferenceMode");
 };
 
 (function () {

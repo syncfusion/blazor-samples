@@ -4,20 +4,24 @@
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Diagram
 @inherits SampleBaseComponent;
+@*Hidden:Lines*@
+@implements IDisposable
+
 <SampleDescription>
-    <p> This sample visualizes the classifications of species using a hierarchical tree layout algorithm. Data Manager support is used to bind data with the diagram.</p>
+    <p> This sample visualizes the classifications of species using a hierarchical tree layout algorithm. DataManager support is used to bind data with the diagram.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>  This example shows how to generate a diagram from saved data. The <code class="language-text">DiagramDataSource</code> property can be used to map an external data source with the Diagram control. The <code class="language-text">Id</code> property of DiagramDataSource can be used to define a unique field of external data. The <code class="language-text">ParentId</code> property can be used to define the relationship between the objects.</p>
+    <p>  This example shows how to generate a diagram from saved data. The <code class="language-text">DataSourceSettings</code> property can be used to map an external data source with the Diagram control. The <code class="language-text">ID</code> property of <code class="language-text">DataSourceSettings</code> can be used to define a unique field of external data. The <code class="language-text">ParentID</code> property can be used to define the relationship between the objects.</p>
 </ActionDescription>
+@*End:Hidden*@
 <div class="content-wrapper" style="width: 100%">
     <div>
-        <SfDiagramComponent Height="400px" Tool="DiagramTools.ZoomPan" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults">
+        <SfDiagramComponent Height="400px" InteractionController="@InteractionController.ZoomPan" NodeCreating="@OnNodeCreating" ConnectorCreating="@OnConnectorCreating">
             <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
             <DataSourceSettings Id="Name" ParentId="Category" DataSource="@DataSource">
             </DataSourceSettings>
-            <Layout @bind-Type="@type" @bind-HorizontalSpacing="@horizontalSpacing" @bind-VerticalSpacing="@verticalSpacing">
-                <LayoutMargin @bind-Left="@left" @bind-Right="@right" @bind-Top="@top"></LayoutMargin>
+            <Layout @bind-Type="@Type" @bind-HorizontalSpacing="@horizontalSpacing" @bind-VerticalSpacing="@verticalSpacing">
+                <LayoutMargin @bind-Left="@Left" @bind-Right="@Right" @bind-Top="@Top"></LayoutMargin>
             </Layout>
         </SfDiagramComponent>
     </div>
@@ -25,14 +29,14 @@
 
 @code
 {
-    LayoutType type = LayoutType.HierarchicalTree;
-    int horizontalSpacing = 15;
-    int verticalSpacing = 50;
-    double left = 10;
-    double right = 10;
-    double top = 10;
+    public LayoutType Type = LayoutType.HierarchicalTree;
+    public int horizontalSpacing = 15;
+    public int verticalSpacing = 50;
+    public double Left = 10;
+    public double Right = 10;
+    public double Top = 10;
     // Defines default values for Node object
-    private void NodeDefaults(IDiagramObject obj)
+    private void OnNodeCreating(IDiagramObject obj)
     {
         Node node = obj as Node;
         if (node.Data is System.Text.Json.JsonElement)
@@ -44,23 +48,22 @@
         node.Width = 95;
         node.Height = 30;
 
-        node.Shape = new BasicShape() { Type = Syncfusion.Blazor.Diagram.Shapes.Basic, Shape = BasicShapes.Rectangle };
+        node.Shape = new BasicShape() { Type = Syncfusion.Blazor.Diagram.Shapes.Basic, Shape = BasicShapeType.Rectangle };
         node.Style = new ShapeStyle() { StrokeWidth = 1, Fill = "#6A51CB", StrokeColor = "#433285" };
         node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-{
-                new ShapeAnnotation()
-                {
-                    ID = "label1",
-                    Content = data.Name,
-                    Style = new TextShapeStyle() { Color = "White",Fill="Transparent" }
-                }
-
-            };
+        {
+            new ShapeAnnotation()
+            {
+                ID = "label1",
+                Content = data.Name,
+                Style = new TextStyle() { Color = "White",Fill="Transparent" }
+            }
+        };
         node.Ports = new DiagramObjectCollection<PointPort>()
-{
+        {
             new PointPort()
             {   ID="port1",
-                Offset =new Point(){X=0,Y=0.5},
+                Offset =new DiagramPoint(){X=0,Y=0.5},
                 Width=10,
                 Height=10,
                 Visibility = PortVisibility.Hidden,
@@ -69,19 +72,20 @@
             new PointPort()
             {
                 ID="port2",
-                Offset =new Point(){X=1,Y=0.5},
+                Offset =new DiagramPoint(){X=1,Y=0.5},
                 Width=10,
                 Height=10,
                 Visibility = PortVisibility.Hidden,
-                Style = new ShapeStyle(){ Fill="Black"} },
+                Style = new ShapeStyle(){ Fill="Black"}
+            },
         };
     }
     // Defines default values for Connector object
-    private void ConnectorDefaults(IDiagramObject connector)
+    private void OnConnectorCreating(IDiagramObject connector)
     {
-        (connector as Connector).Type = Segments.Orthogonal;
-        (connector as Connector).TargetDecorator.Shape = DecoratorShapes.None;
-        (connector as Connector).SourceDecorator.Shape = DecoratorShapes.None;
+        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShape.None;
+        (connector as Connector).SourceDecorator.Shape = DecoratorShape.None;
         (connector as Connector).Style = new ShapeStyle() { StrokeColor = "#4d4d4d" };
     }
 
@@ -90,11 +94,10 @@
         public string Name { get; set; }
         public string Category { get; set; }
         public string Content { get; set; }
-
     };
 
     public List<DataModel> DataSource = new List<DataModel>()
-{
+    {
         new DataModel{ Name = "Species" },
         new DataModel{ Name = "Plants", Category = "Species" },
         new DataModel{ Name = "Fungi", Category = "Species" },
@@ -117,4 +120,15 @@
         new DataModel{ Name = "Birds", Category = "Vertebrates" },
         new DataModel{ Name = "Mammals", Category = "Vertebrates" }
     };
-}   
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (DataSource != null)
+        {
+            DataSource.Clear();
+            DataSource = null;
+        }
+    }
+    @*End:Hidden*@
+}

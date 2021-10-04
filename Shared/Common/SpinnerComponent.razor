@@ -2,8 +2,8 @@
 
 @if (!isModalType)
 {
-    <div class="@classNames">
-        <div id="loader" class="sb-loading">
+    <div class="@classNames" @onclick="onOverlayClick">
+        <div id="loader" class="@loadingClass">
             <svg class="circular" height="40" width="40">
                 <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10"></circle>
             </svg>
@@ -12,19 +12,25 @@
 }
 else
 {
-    <div class="@classNames"></div>
+    <div class="@classNames" @onclick="onOverlayClick"></div>
 }
 
 @code {
     private string classNames = "sb-body-overlay";
+    private string loadingClass = "sb-loading";
     private bool isModalType { get; set; }
+    [CascadingParameter]
+    protected MainLayout Layout { get; set; }
 
     /// <summary>
     /// Hides the Spinner component.
     /// </summary>
     public void Hide()
     {
-        classNames = SampleUtils.AddClass(classNames, SampleUtils.HIDDEN);
+        if (classNames.Contains("sb-body-overlay"))
+        {
+            classNames = SampleUtils.AddClass(classNames, SampleUtils.HIDDEN);
+        }
         StateHasChanged();
     }
 
@@ -35,6 +41,31 @@ else
     {
         classNames = SampleUtils.RemoveClass(classNames, SampleUtils.HIDDEN);
         StateHasChanged();
+    }
+
+    public void NotifyOpened()
+    {
+        classNames = SampleUtils.AddClass(classNames, "sb-notification-overlay");
+        classNames = SampleUtils.RemoveClass(classNames, SampleUtils.HIDDEN);
+        classNames = SampleUtils.RemoveClass(classNames, "sb-body-overlay");
+        loadingClass = SampleUtils.AddClass(loadingClass, SampleUtils.HIDDEN);
+        StateHasChanged();
+    }
+    public void NotifyClosed()
+    {
+        classNames = SampleUtils.RemoveClass(classNames, "sb-notification-overlay");
+        classNames = SampleUtils.AddClass(classNames, SampleUtils.HIDDEN);
+        classNames = SampleUtils.AddClass(classNames, "sb-body-overlay");
+        loadingClass = SampleUtils.RemoveClass(loadingClass, SampleUtils.HIDDEN);
+        StateHasChanged();
+    }
+
+    private void onOverlayClick()
+    {
+        if (Layout.headerRef.isNotifyClicked)
+        {
+            Layout.headerRef.OnPopupHide();
+        }
     }
 
     /// <summary>
@@ -52,7 +83,10 @@ else
         else
         {
             classNames = SampleUtils.RemoveClass(classNames, SampleUtils.MODAL_CLASS);
-            classNames = SampleUtils.AddClass(classNames, SampleUtils.HIDDEN);
+            if (classNames.Contains("sb-body-overlay"))
+            {
+                classNames = SampleUtils.AddClass(classNames, SampleUtils.HIDDEN);
+            }
         }
         StateHasChanged();
     }

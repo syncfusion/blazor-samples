@@ -20,7 +20,7 @@
                            Theme="@CurrentTheme">
                 <ProgressBarAnimation Enable="true" Duration="2000" Delay="0"></ProgressBarAnimation>
             </SfProgressBar>
-            <div class="@LabelClass">Determinate</div>
+            <div class="@labelClass">Determinate</div>
         </div>
 
         <div class="col-lg-3 col-md-3 col-3" align="center">
@@ -29,7 +29,7 @@
                            Theme="@CurrentTheme">
                 <ProgressBarAnimation Enable="true" Duration="2000" Delay="0"></ProgressBarAnimation>
             </SfProgressBar>
-            <div class="@LabelClass">Buffer </div>
+            <div class="@labelClass">Buffer </div>
         </div>
 
         <div class="col-lg-3 col-md-3 col-3" align="center">
@@ -38,7 +38,7 @@
                            Theme="@CurrentTheme">
                 <ProgressBarAnimation Enable="true" Duration="2000" Delay="0"></ProgressBarAnimation>
             </SfProgressBar>
-            <div class="@LabelClass">Segment</div>
+            <div class="@labelClass">Segment</div>
         </div>
 
         <div class="col-lg-3 col-md-3 col-3" align="center">
@@ -48,7 +48,7 @@
                            Theme="@CurrentTheme">
                 <ProgressBarAnimation Enable="true" Duration="2000" Delay="0"></ProgressBarAnimation>
             </SfProgressBar>
-            <div class="@LabelClass">Indeterminate</div>
+            <div class="@labelClass">Indeterminate</div>
         </div>
     </div>
     <div class="row" align="center">
@@ -56,9 +56,12 @@
     </div>
 </div>
 
-@code{
-    SfProgressBar ProObj1, ProObj2, ProObj3, ProObj4;
-    string LabelClass = "";
+@code { 
+    public SfProgressBar ProObj1, ProObj2, ProObj3, ProObj4;
+    public Theme CurrentTheme { get; set; }
+    private string labelClass = "";
+    private string currentUri;
+
     public async Task ProgressRefresh()
     {
         await ProObj1.RefreshAsync();
@@ -67,44 +70,62 @@
         await ProObj4.RefreshAsync();
     }
 
-    string CurrentUri;
-    Theme CurrentTheme;
     protected override void OnInitialized()
     {
-        CurrentUri = Navigation.Uri;
-        LabelClass = "progress-text-align";
-        if (CurrentUri.IndexOf("material") > -1)
+        currentUri = Navigation.Uri;
+        if (currentUri.Contains("fabric-dark"))
         {
-            CurrentTheme = Theme.Material;
+            CurrentTheme = Theme.FabricDark;
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (currentUri.Contains("fabric"))
         {
             CurrentTheme = Theme.Fabric;
         }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        else if (currentUri.Contains("bootstrap5-dark"))
+        {
+            CurrentTheme = Theme.Bootstrap5Dark;
+            labelClass = "progress-text-align-dark";
+        }
+        else if (currentUri.Contains("bootstrap-dark"))
+        {
+            CurrentTheme = Theme.BootstrapDark;
+        }
+        else if (currentUri.Contains("bootstrap5"))
+        {
+            CurrentTheme = Theme.Bootstrap5;
+        }
+        else if (currentUri.Contains("bootstrap4"))
         {
             CurrentTheme = Theme.Bootstrap4;
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (currentUri.Contains("bootstrap"))
         {
             CurrentTheme = Theme.Bootstrap;
         }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        else if (currentUri.Contains("highcontrast"))
         {
             CurrentTheme = Theme.HighContrast;
-            LabelClass = "progress-text-align-dark";
+            labelClass = "progress-text-align-dark";
         }
-        else if (CurrentUri.IndexOf("tailwind") > -1)
+        else if (currentUri.Contains("tailwind-dark"))
+        {
+            CurrentTheme = Theme.TailwindDark;
+        }
+        else if (currentUri.Contains("tailwind"))
         {
             CurrentTheme = Theme.Tailwind;
         }
-        else
+        else if (currentUri.Contains("material-dark"))
         {
-            CurrentTheme = Theme.Bootstrap4;
+            CurrentTheme = Theme.MaterialDark;
+        }
+        else if (currentUri.Contains("material"))
+        {
+            CurrentTheme = Theme.Material;
         }
     }
-
 }
+
 <style>
     #control-container {
         padding: 0px !important;
@@ -121,7 +142,6 @@
         font-size: 14px;
         color: white;
     }
-
 
     #reLoad {
         border-radius: 4px;

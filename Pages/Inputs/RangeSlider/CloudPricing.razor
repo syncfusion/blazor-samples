@@ -1,0 +1,1112 @@
+﻿@page "/range-slider/cloud-pricing"
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Popups;
+@inherits SampleBaseComponent;
+
+
+    <SampleDescription>
+        <p>This sample demonstrates the cloud pricing slider used to calculate the cloud costs by considering web hosting, VPS hosting, and cloud server providers. Drag the thumb over the bar to select processor, memory, and storage.</p>
+    </SampleDescription>
+    <ActionDescription>
+        <p>This sample calculates the cloud cost based on the number of workloads, complexity of workloads, system, and monitoring requirements that are used in cloud operation.</p><br />
+        <p>In this demo, default rendering of slider is used for selecting processor, memory, and storage. The estimated price for the selection will appear on the left pane.</p><br />
+        <p>25% offer can be availed for an annual pack. This can be applied by checking the checkbox from the left pane.</p><br />
+        <p>By default, cPanel will be included in the monthly pack. If you don't want, check the checkbox from the left pane which will reduce $10 from the estimated price.</p><br />
+        <p>Different range of packs can also be selected from the left pane toolbar which will have default configuration based on the range size.</p><br />
+        <p>
+            After choosing your pack, confirm it by clicking sign up which will show your selected package details in a dialog box.
+        </p>
+
+        
+    </ActionDescription>
+    <div class="control-section">
+        <div class="content-wrapper">
+            <div id="pricing-slider" class="pricing-slider">
+                <div class="row">
+                    <div id="cloud-left-pane" class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="cloud-slider">
+                            <div id="processor">@processorValue CORE </div>
+                            <span class="label-text"> Processor </span>
+
+                            <SfSlider @bind-Value="@processorValue"
+                                      TValue="int"
+                                      Min="@processorMin"
+                                      Max="@processorMax"
+                                      Type="@SliderType.Default">
+                                <SliderEvents TValue="int" ValueChange="@processorChanged"></SliderEvents>
+                            </SfSlider>
+
+                            <div class="sub-heading"> Each core included minimum 2.26 GHz power </div>
+                        </div>
+                        <div class="cloud-slider cloud-left-slider">
+                            <div id="memory">@memoryValue GB</div>
+                            <span class="label-text"> Memory </span>
+
+                            <SfSlider @bind-Value="@memoryValue" Min="@memoryMin"
+                                      TValue="int"
+                                      Max="@memoryMax"
+                                      Type="@SliderType.Default">
+                                <SliderEvents TValue="int" ValueChange="@memoryChanged"></SliderEvents>
+                            </SfSlider>
+
+                            <div class="sub-heading"> Equal to burstable memory included </div>
+                        </div>
+                        <div class="cloud-slider cloud-left-slider">
+                            <div id="storage">@storageValue GB</div>
+                            <span class="label-text"> Storage </span>
+
+                            <SfSlider @bind-Value="@storageValue"
+                                      TValue="int"
+                                      Min="@storageMin"
+                                      Max="@storageMax"
+                                      Type="@SliderType.Default">
+                                <SliderEvents TValue="int" ValueChange="@storageChanged"></SliderEvents>
+                            </SfSlider>
+
+                            <div class="sub-heading"> 1000 GB bandwidth per month, at 100 Mbit/s uplink port </div>
+                        </div>
+                    </div>
+
+
+                    <div id="cloud-right-pane" class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="cloud-right-content">
+                            <div class="label-text"> Size Range </div>
+                            <div class="btn-size" >
+                                <!-- Button element -->
+                                <SfButton id="xSmallBtn" @onclick="(e => { sliderPriceValue(1,1,10); })" CssClass="buttonCss" IsPrimary="true">XS</SfButton>
+                                <SfButton id="smallBtn" @onclick="(e => { sliderPriceValue(1,2,10); })" CssClass="buttonCss" IsPrimary="true">S</SfButton>
+                                <SfButton id="mediumBtn" @onclick="(e => { sliderPriceValue(4,4,300); })" CssClass="buttonCss" IsPrimary="true">M</SfButton>
+                                <SfButton id="largeBtn" @onclick="(e => { sliderPriceValue(12,6,100); })" CssClass="buttonCss" IsPrimary="true">L</SfButton>
+                                <SfButton id="xLargeBtn" @onclick="(e => { sliderPriceValue(8,12,300); })" CssClass="buttonCss" IsPrimary="true">XL</SfButton>
+                            </div>
+                            <div class="label-text right-text"> Estimated Price </div>
+                            <div id="cloud-slider-text">
+                                <span id=dollar>$ </span>
+                                <span id="value">@finalValuechange()</span>
+                                <span class="suffix">/month</span>
+                            </div>
+                            <div class="discount">
+                                <div class="cloud-slider-right">
+                                    <!-- cPanel Check Box element -->
+                                    <SfCheckBox id="cPanel" @bind-Checked="@iscPanelChecked"> <span class="statement">Not required cPanel included</span>
+
+                                    </SfCheckBox>
+
+
+                                </div>
+                                <div class="cloud-slider-right discount-pay">
+                                    <!-- discount Check Box element -->
+                                    <SfCheckBox id="dPanel"@bind-Checked="isdiscountChecked"> <span class="statement">12 Months</span> <span class="offer"> Save 25%.</span> <span class="statement"> Pay Monthly</span> </SfCheckBox>
+
+                                </div>
+                            </div>
+                            <!-- Button element -->
+                            <div class="slider-button">
+                                <SfButton id="signbtn" class="dlgbtn" @onclick="@DialogBtn" IsPrimary="true"> SIGNUP NOW </SfButton>
+
+                            </div>
+                        </div>
+                        <div id="target" class="cloud-content-wrapper">
+                            <!-- Initialize alert Dialog -->
+                            <SfDialog @bind-Visible="@AlertVisibility" ID="alertDialogs" Target=".content-wrapper" Width="450px">
+                                <DialogTemplates>
+
+                                    <Header>
+                                        <div>
+                                            <b><span id="cloudhead">Cloud Price Details</span></b>
+                                            <div><span id="processorPriceName">Processor Price</span><span id="processorPrice">      @processorValue CORE</span> </div>
+                                            <div><span id="memoryPriceName">Memory Price</span><span id="memoryPrice"> @memoryValue GB</span> </div>
+                                            <div><span id="storagePriceName">Storage Price</span><span id="storagePrice"> @storageValue GB</span> </div>
+                                        </div>
+                                    </Header>
+                                    <Content>
+                                        
+                                        <div id="cloud" style="width:100%;"><span id="cloudPriceName">Estimated Price</span><span id="cloudPrice">$@finalValuechange()</span> </div>
+
+                                    </Content>
+                                </DialogTemplates>
+                                <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
+                                <DialogButtons>
+                                    <DialogButton Content="Close" IsPrimary="true" OnClick="@HideDialog" />
+                                </DialogButtons>
+                            </SfDialog>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @code{
+
+        public double finalValue { get; set; }
+        public bool iscPanelChecked { get; set; } = false;
+        public bool isdiscountChecked { get; set; } = false;
+        private bool ShowButtons { get; set; } = true;
+        private bool AlertVisibility { get; set; } = false;
+        private bool ConfirmDlgVisible { get; set; } = false;
+        private bool PromptDlgVisible { get; set; } = false;
+        private string inputValue { get; set; }
+        int processorValue = 4;
+        int processorMin = 1;
+        int processorMax = 16;
+        int memoryValue = 4;
+        int memoryMin = 1;
+        int memoryMax = 12;
+        int storageValue = 300;
+        int storageMin = 10;
+        int storageMax = 500;
+
+
+        public void processorChanged(SliderChangeEventArgs<int> args)
+        {
+            processorValue = args.Value;
+            finalValuechange();
+        }
+        public void memoryChanged(SliderChangeEventArgs<int> args)
+        {
+            memoryValue = args.Value;
+            finalValuechange();
+        }
+        public void storageChanged(SliderChangeEventArgs<int> args)
+        {
+            storageValue = args.Value;
+            finalValuechange();
+        }
+        public double finalValuechange()
+        {
+            finalValue = (((((processorValue * memoryValue) * 1000) + ((processorValue * memoryValue) * storageValue)
+          + ((processorValue * memoryValue) * 100)) / 12));
+            if (iscPanelChecked == true)
+            {
+                finalValue = (this.finalValue - 10);
+            }
+            if (isdiscountChecked == true)
+            {
+                finalValue = (finalValue - ((finalValue * 25) / 100));
+            }
+            return Math.Round(finalValue, 2);
+        }
+        //common method to change the slider value
+        public void sliderPriceValue(int processor, int memory, int storage)
+        {
+            this.processorValue = processor;
+            this.memoryValue = memory;
+            this.storageValue = storage;
+
+        }
+        private void BeforeDialogOpen(BeforeOpenEventArgs args)
+        {
+            this.ShowButtons = false;
+        }
+        private void DialogClose(CloseEventArgs args)
+        {
+            this.ShowButtons = true;
+        }
+        private void HideDialog(Object e)
+        {
+            this.AlertVisibility = false;
+            this.ConfirmDlgVisible = false;
+            this.PromptDlgVisible = false;
+            this.inputValue = "";
+        }
+        private void DialogBtn()
+        {
+            this.AlertVisibility = true;
+        }
+    }
+<style>
+
+        .slider-content-wrapper {
+            width: 40%;
+            margin: 0 auto;
+            min-width: 185px;
+        }
+
+       #pricing-slider #cloud-right-pane .btn-size {
+        padding-top: 16px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid lightgrey;
+    }
+
+    #pricing-slider .e-slider-container.e-horizontal {
+        height: 56px;
+    }
+
+    #pricing-slider .row {
+        border: 1px solid #CCCCCC;
+        box-shadow: 0px 0px 4px;
+        opacity: 100;
+
+        border-radius: 4px;
+    }
+    
+    .discount .e-label,
+    .discount .e-label {
+        white-space: initial;
+    }
+
+    #pricing-slider .sub-heading {
+        margin-top: -8px;
+        font-size: 14px;
+        color: #808080;
+    }
+
+    #pricing-slider .label-text.right-text {
+        padding-top: 16px;
+        padding-bottom: 20px;
+    }
+
+    #pricing-slider .label-text {
+        color: #000000;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    span.e-label .offer {
+        color: #4A90E2;
+    }
+    span.e-label .statement {
+       
+        font-size:14px;
+    }
+    .highcontrast #cPanel .statement {
+        color: white;
+        font-size: 14px;
+    }
+
+    .cloud-slider {
+        display: block;
+        position: relative;
+    }
+
+
+    #processor {
+        background-color: #A06AFF;
+    }
+
+    #memory {
+        background-color: #7ED321;
+    }
+
+    #storage {
+        background-color: #4A90E2;
+    }
+
+    #memory,
+    #storage,
+    #processor {
+        font-family: Roboto-Medium;
+        font-size: 14px;
+        height: 24px;
+        width: 70px;
+        text-align: center;
+        line-height: 24px;
+        float: right;
+        color: #FFFFFF;
+        font-weight: 500;
+        border-radius: 18px;
+    }
+
+    #cPanel,
+    #discount {
+        height: 30px;
+        margin-top: -10px;
+        width: 20px;
+    }
+
+    .material #memoryPrice,
+    .material #storagePrice,
+    .material #processorPrice,
+    .material #cloudhead,
+    .material #processorPriceName,
+    .material #memoryPriceName,
+    .material #storagePriceName,
+    .material #cloudPriceName {
+        color: black;
+        opacity: 1;
+    }
+
+    .fabric #memoryPrice,
+    .fabric #storagePrice,
+    .fabric #processorPrice,
+    .fabric #cloudhead,
+    .fabric #processorPriceName,
+    .fabric #memoryPriceName,
+    .fabric #storagePriceName,
+    .fabric #cloudPriceName {
+        color: black;
+        opacity: 1;
+    }
+
+    .bootstrap #memoryPrice,
+    .bootstrap #storagePrice,
+    .bootstrap #processorPrice,
+    .bootstrap #cloudhead,
+    .bootstrap #processorPriceName,
+    .bootstrap #memoryPriceName,
+    .bootstrap #storagePriceName,
+    .bootstrap #cloudPriceName {
+        color: black;
+        opacity: 1;
+    }
+    .bootstrap4 #memoryPrice,
+    .bootstrap4 #storagePrice,
+    .bootstrap4 #processorPrice,
+    .bootstrap4 #cloudhead,
+    .bootstrap4 #processorPriceName,
+    .bootstrap4 #memoryPriceName,
+    .bootstrap4 #storagePriceName,
+    .bootstrap4 #cloudPriceName {
+        color: black;
+        opacity: 1;
+    }
+
+
+    #target {
+        min-height: 350px;
+    }
+
+    .fabric #target #prompt_dialog.e-dialog {
+        height: 291px;
+    }
+
+    .material #target #prompt_dialog.e-dialog {
+        height: 270px;
+    }
+
+    #target #prompt_dialog.e-dialog {
+        height: 270px;
+    }
+
+    .bootstrap4 #target #prompt_dialog.e-dialog {
+        height: 285px;
+    }
+
+    #value {
+        color: #000000;
+        font-family: Roboto-Bold;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    #suffix {
+        color: #000000;
+        font-family: Roboto-Regular;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .text {
+        font-size: 13px;
+        padding-top: 26px;
+        width: 190px;
+    }
+
+    #cloud-right-pane {
+        background-color: #FFFFFF;
+        border-left: 1px solid #CCCCCC;
+        padding: 20px;
+        height: 443px;
+    }
+
+    .pricing-slider {
+        margin-top: 40px;
+        min-height: 20px;
+        margin-bottom: 20px;
+    }
+
+    .cloud-slider-right {
+        color: #000000;
+        font-size: 14px;
+    }
+
+    .cloud-slider-right.discount-pay {
+        padding-top: 20px;
+    }
+
+    #cloud-left-pane {
+        height: 443px;
+        padding: 40px;
+        background-color: #FAFAFA;
+    }
+   
+    .e-dlg-header, .e-dlg-header * {
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .discount {
+        padding-top: 20px;
+        padding-bottom: 35px;
+    }
+
+    @@media (max-width: 1010px) {
+        #cloud-right-pane {
+            border-top: 1px solid #d5d7d8 !important;
+            border-left: none !important;
+            border-width: 1px 0 0!important;
+            padding-top: 15px !important;
+            padding-left: 0!important;
+        }
+        .cloud-right-content {
+            padding-left: 24px !important;
+        }
+        #cloud-left-pane {
+            width: 100%;
+        }
+        #cloud-right-pane {
+            width: 100%;
+        }
+    }
+
+    #cloud-slider-text {
+        padding-bottom: 20px;
+        border-bottom: 1px solid lightgrey;
+    }
+   .fabric .e-bigger.e-dialog .e-dlg-content, *.e-bigger .e-dialog .e-dlg-content {
+        font-size: 14px;
+       padding-left:25px;
+    }
+    .highcontrast .e-bigger.e-dialog .e-dlg-content, *.e-bigger .e-dialog .e-dlg-content {
+        font-size: 14px;
+        padding-left: 25px;
+    }
+    #dollar {
+        color: #000000;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        font-weight: 500;
+        position: relative;
+        top: -7px;
+    }
+
+
+    #btn {
+        text-transform: uppercase;
+        width: -webkit-fill-available;
+    }
+
+    .cloud-left-slider {
+        margin-top: 40px;
+    }
+
+    .control-section {
+        padding-top: 0px;
+        margin-left: 75px;
+        margin-right: 75px;
+    
+    }
+   #alertDialogs {
+        max-height: 425px;
+        z-index: 1004;
+        /*width: 360px;*/
+        left: 311.385px;
+        top: 400px;
+    }
+    #alertDialogs_title {
+        width: 100%;
+    }
+    .e-dialog {
+        max-height: 98%;
+        max-width: 100%;
+        min-width: 240px;
+        position: absolute;
+        border: none;
+        border-radius: 2px;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cloud-right-content .e-btn.e-info {
+        padding: 0px;
+        width: 30px;
+        height: 30px;
+        line-height: inherit;
+    }
+    .e-btn.e-primary, .e-css.e-btn.e-primary {
+        padding: 0px;
+        width: 30px;
+        height: 30px;
+        line-height: inherit;
+    }
+    .e-dialog .e-footer-content .e-btn {
+        margin-left: 8px;
+        width: 50px;
+        height: 30px;
+    }
+    .highcontrast .pricing-slider,
+    .highcontrast #pricing-slider .label-text,
+    .highcontrast #pricing-slider .sub-heading {
+        color: white;
+    }
+    .tailwind .pricing-slider,
+    .tailwind #pricing-slider .label-text,
+    .tailwind #pricing-slider .sub-heading {
+        color: black;
+    }
+    .tailwind-dark .pricing-slider,
+    .tailwind-dark #pricing-slider .label-text,
+    .tailwind-dark #pricing-slider .sub-heading,
+    .bootstrap5-dark .pricing-slider,
+    .bootstrap5-dark #pricing-slider .label-text,
+    .bootstrap5-dark #pricing-slider .sub-heading {
+        color: white;
+    }
+    .fabric-dark .pricing-slider,
+    .fabric-dark #pricing-slider .label-text,
+    .fabric-dark #pricing-slider .sub-heading {
+        color: white;
+    }
+    .bootstrap-dark .pricing-slider,
+    .bootstrap-dark #pricing-slider .label-text,
+    .bootstrap-dark #pricing-slider .sub-heading {
+        color: white;
+    }
+    .material-dark .pricing-slider,
+    .material-dark #pricing-slider .label-text,
+    .material-dark #pricing-slider .sub-heading {
+        color: white;
+    }
+    .fabric .cloud-right-content .e-btn.e-info,
+    .highcontrast .e-btn.e-info {
+        line-height: 2px;
+    }
+
+    .material-dark #dollar,
+    .material-dark #value,
+    .material-dark #dialog-header,
+    .material-dark #StorageDialog,
+    .material-dark #CloudDialog,
+    .material-dark #processorDialog,
+    .bootstrap5-dark #dollar,
+    .bootstrap5-dark #value,
+    .bootstrap5-dark #dialog-header,
+    .bootstrap5-dark #StorgeDialog,
+    .bootstrap5-dark #CloudDialog,
+    .bootstrap5-dark #processorDialog {
+        color: white;
+    }
+
+    .highcontrast #dollar,
+    .highcontrast #value,
+    .highcontrast #dialog-header,
+    .highcontrast #StorageDialog,
+    .highcontrast #CloudDialog,
+    .highcontrast #processorDialog {
+        color: white;
+    }
+
+    .highcontrast #pricing-slider .row,
+    .bootstrap5-dark #pricing-slider .row {
+        border: 1px solid #969696;
+    }
+
+    .highcontrast #cloud-right-pane,
+    .bootstrap5-dark #cloud-right-pane {
+        border-left: 1px solid #969696;
+    }
+
+    .highcontrast #cloud-slider-text,
+    .highcontrast #pricing-slider #cloud-right-pane .btn-size,
+    .bootstrap5-dark #cloud-slider-text,
+    .bootstrap5-dark #pricing-slider #cloud-right-pane .btn-size {
+        border-bottom: 1px solid #969696;
+    }
+
+    .highcontrast #processor,
+    .bootstrap5-dark #processor {
+        background-color: #AE80FF;
+    }
+
+    .highcontrast #memory,
+    .bootstrap5-dark #memory {
+        background-color: #7ED321;
+    }
+
+    .highcontrast #storage,
+    .bootstrap5-dark #storage {
+        background-color: #61A4EF;
+    }
+
+    .highcontrast #cloud-left-pane,
+    .bootstrap5-dark #cloud-left-pane {
+        background-color: #1a1a1a;
+    }
+
+    .highcontrast #cloud-right-pane,
+    .bootstrap5-dark #cloud-right-pane {
+        background-color: #000;
+    }
+
+    .highcontrast #processorPriceName,
+    .highcontrast #memoryPriceName,
+    .highcontrast #storagePriceName,
+    .highcontrast #cloudPriceName,
+    .bootstrap5-dark #processorPriceName,
+    .bootstrap5-dark #memoryPriceName,
+    .bootstrap5-dark #storagePriceName,
+    .bootstrap5-dark #cloudPriceName {
+        color: white;
+        opacity: 1;
+    }
+
+
+    .fabric-dark #cloud-left-pane {
+        background-color: #1a1a1a;
+    }
+
+    .fabric-dark #cloud-right-pane {
+        background-color: #000;
+    }
+    .tailwind #dollar,
+    .tailwind #value,
+    .tailwind #dialog-header,
+    .tailwind #StorageDialog,
+    .tailwind #CloudDialog,
+    .tailwind #processorDialog {
+        color: black;
+    }
+
+    .tailwind #pricing-slider .row {
+        border: 1px solid #969696;
+    }
+
+    .tailwind #cloud-right-pane {
+        border-left: 1px solid #969696;
+    }
+
+    .tailwind #cloud-slider-text,
+    .tailwind #pricing-slider #cloud-right-pane .btn-size {
+        border-bottom: 1px solid #969696;
+    }
+
+    .tailwind #processor {
+        background-color: #AE80FF;
+    }
+
+    .tailwind #memory {
+        background-color: #7ED321;
+    }
+
+    .tailwind #storage {
+        background-color: #61A4EF;
+    }
+
+    .tailwind #memoryPrice,
+    .tailwind #storagePrice,
+    .tailwind #processorPrice,
+    .tailwind #cloudhead,
+    .tailwind #processorPriceName,
+    .tailwind #memoryPriceName,
+    .tailwind #storagePriceName,
+    .tailwind #cloudPriceName {
+        color: black;
+        opacity: 1;
+    }
+
+    .tailwind-dark #dollar,
+    .tailwind-dark #value,
+    .tailwind-dark #dialog-header,
+    .tailwind-dark #StorageDialog,
+    .tailwind-dark #CloudDialog,
+    .tailwind-dark #processorDialog {
+        color: white;
+    }
+
+    .tailwind-dark #pricing-slider .row {
+        border: 1px solid #969696;
+    }
+
+    .tailwind-dark #cloud-right-pane {
+        border-left: 1px solid #969696;
+    }
+
+    .tailwind-dark #cloud-slider-text,
+    .tailwind-dark #pricing-slider #cloud-right-pane .btn-size {
+        border-bottom: 1px solid #969696;
+    }
+
+    .tailwind-dark #processor {
+        background-color: #AE80FF;
+    }
+
+    .tailwind-dark #memory {
+        background-color: #7ED321;
+    }
+
+    .tailwind-dark #storage {
+        background-color: #61A4EF;
+    }
+
+    .tailwind-dark #cloud-left-pane {
+        background-color: #1a1a1a;
+    }
+
+    .tailwind-dark #cloud-right-pane {
+        background-color: #000;
+    }
+
+    .tailwind-dark #processorPriceName,
+    .tailwind-dark #memoryPriceName,
+    .tailwind-dark #storagePriceName,
+    .tailwind-dark #cloudPriceName {
+        color: white;
+        opacity: 1;
+    }
+    .bootstrap-dark #dollar,
+    .bootstrap-dark #value,
+    .bootstrap-dark #dialog-header,
+    .bootstrap-dark #StorageDialog,
+    .bootstrap-dark #CloudDialog,
+    .bootstrap-dark #processorDialog {
+        color: white;
+    }
+
+    .bootstrap-dark #pricing-slider .row {
+        border: 1px solid #969696;
+    }
+
+    .bootstrap-dark #cloud-right-pane {
+        border-left: 1px solid #969696;
+    }
+
+    .bootstrap-dark #cloud-slider-text,
+    .bootstrap-dark #pricing-slider #cloud-right-pane .btn-size {
+        border-bottom: 1px solid #969696;
+    }
+
+    .bootstrap-dark #processor {
+        background-color: #AE80FF;
+    }
+
+    .bootstrap-dark #memory {
+        background-color: #7ED321;
+    }
+
+    .bootstrap-dark #storage {
+        background-color: #61A4EF;
+    }
+
+    .bootstrap-dark #cloud-left-pane {
+        background-color: #1a1a1a;
+    }
+
+    .bootstrap-dark #cloud-right-pane {
+        background-color: #000;
+    }
+
+    .bootstrap-dark #processorPriceName,
+    .bootstrap-dark #memoryPriceName,
+    .bootstrap-dark #storagePriceName,
+    .bootstrap-dark #cloudPriceName {
+        color: white;
+        opacity: 1;
+    }
+    .fabric-dark #dollar,
+    .fabric-dark #value,
+    .fabric-dark #dialog-header,
+    .fabric-dark #StorageDialog,
+    .fabric-dark #CloudDialog,
+    .fabric-dark #processorDialog {
+        color: white;
+    }
+
+    .fabric-dark #pricing-slider .row {
+        border: 1px solid #969696;
+    }
+
+    .fabric-dark #cloud-right-pane {
+        border-left: 1px solid #969696;
+    }
+
+    .fabric-dark #cloud-slider-text,
+    .fabric-dark #pricing-slider #cloud-right-pane .btn-size {
+        border-bottom: 1px solid #969696;
+    }
+
+    .fabric-dark #processor {
+        background-color: #AE80FF;
+    }
+
+    .fabric-dark #memory {
+        background-color: #7ED321;
+    }
+
+    .fabric-dark #storage {
+        background-color: #61A4EF;
+    }
+
+    .fabric-dark #cloud-left-pane {
+        background-color: #1a1a1a;
+    }
+
+    .fabric-dark #cloud-right-pane {
+        background-color: #000;
+    }
+
+    .fabric-dark #processorPriceName,
+    .fabric-dark #memoryPriceName,
+    .fabric-dark #storagePriceName,
+    .fabric-dark #cloudPriceName {
+        color: white;
+        opacity: 1;
+    }
+    .material-dark #pricing-slider .row {
+        border: 1px solid #969696;
+    }
+
+    .material-dark #cloud-right-pane {
+        border-left: 1px solid #969696;
+    }
+
+    .material-dark #cloud-slider-text,
+    .material-dark #pricing-slider #cloud-right-pane .btn-size {
+        border-bottom: 1px solid #969696;
+    }
+
+    .material-dark #processor {
+        background-color: #AE80FF;
+    }
+
+    .material-dark #memory {
+        background-color: #7ED321;
+    }
+
+    .material-dark #storage {
+        background-color: #61A4EF;
+    }
+
+    .material-dark #cloud-left-pane {
+        background-color: #1a1a1a;
+    }
+
+    .material-dark #cloud-right-pane {
+        background-color: #000;
+    }
+
+    .material-dark #processorPriceName,
+    .material-dark #memoryPriceName,
+    .material-dark #storagePriceName,
+    .material-dark #cloudPriceName {
+        color: white;
+        opacity: 1;
+    }
+    .material-dark .e-dlg-header, .e-dlg-header * {
+        font-size: 18px;
+        font-weight: normal;
+    }
+    .material-dark .alertDialogs_dialog-content, .alertDialogs_dialog-content * {
+        color: #fff;
+      
+    }
+    
+    #dialog-header {
+        color: #000000;
+        opacity: .87;
+        font-family: Roboto-Medium;
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    #CloudDialog {
+        color: #000000;
+        padding-top: 14px;
+        padding-bottom: 24px;
+        border-top: 1px solid #CCCCCC;
+    }
+
+
+    #processorPrice,
+    #memoryPrice,
+    #storagePrice {
+        opacity: 0.9;
+        font-family: Roboto-Bold;
+        font-weight: 600;
+        font-size: 16px;
+        float: right;
+    }
+
+    #alertDialogs .e-footer-content {
+        padding-top: 0;
+    }
+
+    #processorPriceName,
+    #memoryPriceName,
+    #storagePriceName,
+    #cloudPriceName {
+        opacity: 0.9;
+        color: #000000;
+        font-family: Roboto-Regular;
+        font-size: 16px;
+    }
+
+    #cloudPrice {
+        opacity: 0.9;
+        font-family: Roboto-Bold;
+        font-weight: 600;
+        font-size: 26px;
+        float: right;
+      
+    }
+
+    #processorDialog {
+        color: #000000;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    #StorageDialog {
+        color: #000000;
+        padding-top: 12px;
+        padding-bottom: 16px;
+    }
+
+    .bootstrap4 #pricing-slider .row {
+		box-shadow: none;
+       
+	}
+   /* .e-btn.e-info, .e-css.e-btn.e-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: #fff;
+    }
+
+    .e-btn.e-primary, .e-css.e-btn.e-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }*/
+    .bootstrap4 #xSmallBtn,
+    .bootstrap4 #smallBtn,
+    .bootstrap4 #mediumBtn,
+    .bootstrap4 #largeBtn,
+    .bootstrap4 #xLargeBtn {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: #fff;
+    }
+    .material #xSmallBtn,
+    .material #smallBtn,
+    .material #mediumBtn,
+    .material #largeBtn,
+    .material #xLargeBtn {
+        background-color: #0378d5;
+        border-color: transparent;
+        color: #fff;
+    }
+    .bootstrap #xSmallBtn,
+    .bootstrap #smallBtn,
+    .bootstrap #mediumBtn,
+    .bootstrap #largeBtn,
+    .bootstrap #xLargeBtn {
+        background-color: #1b809e;
+        border-color: #145d72;
+        color: #fff;
+    }
+    .tailwind #xSmallBtn,
+    .tailwind #smallBtn,
+    .tailwind #mediumBtn,
+    .tailwind #largeBtn,
+    .tailwind #xLargeBtn {
+        background-color: #0e7490;
+        border-color: #0e7490;
+        color: #fff;
+    }
+    .highcontrast #xSmallBtn,
+    .highcontrast #smallBtn,
+    .highcontrast #mediumBtn,
+    .highcontrast #largeBtn,
+    .highcontrast #xLargeBtn {
+        background-color: rgb(0, 86, 179);
+        color: rgb(255, 255, 255);
+        border-color: rgb(0, 86, 179);
+    }
+
+    .tailwind-dark #xSmallBtn,
+    .tailwind-dark #smallBtn,
+    .tailwind-dark #mediumBtn,
+    .tailwind-dark #largeBtn,
+    .tailwind-dark #xLargeBtn {
+        background-color: rgb(0, 86, 179);
+        color: rgb(255, 255, 255);
+        border-color: rgb(0, 86, 179);
+    }
+    .bootstrap-dark #xSmallBtn,
+    .bootstrap-dark #smallBtn,
+    .bootstrap-dark #mediumBtn,
+    .bootstrap-dark #largeBtn,
+    .bootstrap-dark #xLargeBtn {
+        background-color: rgb(0, 86, 179);
+        color: rgb(255, 255, 255);
+        border-color: rgb(0, 86, 179);
+    }
+    .fabric-dark #xSmallBtn,
+    .fabric-dark #smallBtn,
+    .fabric-dark #mediumBtn,
+    .fabric-dark #largeBtn,
+    .fabric-dark #xLargeBtn {
+        background-color: rgb(0, 86, 179);
+        color: rgb(255, 255, 255);
+        border-color: rgb(0, 86, 179);
+    }
+    .e-bigger.e-dialog .e-dlg-header-content, *.e-bigger .e-dialog .e-dlg-header-content {
+        line-height: 1.5;
+    }
+    .fabric-dark.e-bigger.e-dialog .e-dlg-content, *.e-bigger .e-dialog .e-dlg-content {
+        font-size: 14px;     
+    }
+    .bootstrap4 #signbtn {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+        width:220px;
+    }
+    .highcontrast #signbtn {
+        background-color: #ffd939;
+        border-color: #ffd939;
+        color: rgb(255, 255, 255);
+        width: 220px;
+    }
+    #signbtn {
+        width: 180px;
+    }
+    .fabric #signbtn {       
+        width: 180px;
+    }
+
+    span#cloudhead {
+        font-weight: 600;
+        font-size: 16px;
+    }
+        .material #signbtn {
+        background-color: #e3165b;
+        border-color: transparent;
+        color: #fff;
+        width: 220px;
+    }
+    fabric-dark .e-checkbox-wrapper .e-label, .e-css.e-checkbox-wrapper .e-label {
+        color: black;
+    }
+    bootstrap-dark.checkbox-wrapper .e-frame + .e-label, .e-bigger .e-css.e-checkbox-wrapper .e-frame + .e-label, .e-bigger.e-css.e-checkbox-wrapper .e-frame + .e-label {
+        font-size: 14px;
+        line-height: 22px;
+        margin-left: 10px;
+        color: black;
+    }
+   tailwind-dark.checkbox-wrapper .e-frame + .e-label, .e-bigger .e-css.e-checkbox-wrapper .e-frame + .e-label, .e-bigger.e-css.e-checkbox-wrapper .e-frame + .e-label {
+        font-size: 14px;
+        line-height: 18px;
+        margin-left: 10px;
+        color: black;
+    }
+
+    .e-checkbox-wrapper .e-frame, .e-css.e-checkbox-wrapper .e-frame {
+        background-color: #fff;
+        border-color: #adb5bd;
+        color:black;
+    }
+
+</style>

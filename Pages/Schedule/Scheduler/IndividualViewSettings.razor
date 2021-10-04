@@ -8,12 +8,13 @@
     <p>This demo showcases how to customize each view with specific configurations like applying event template on agenda view, setting different start/end hour to day and week views and enabling grouping in month view. It also shows how to hide the weekend days and to set different time intervals on week view.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>  In this demo, the <code>ScheduleViews</code> property is defined to accept the collection of view options and therefore for each view, it is possible to set different configurations. In Day view, the <code>StartHour</code> is set to 7 and <code>EndHour</code> set to 18 whereas in Week view, the same is set as 9 and 19 respectively. Also, the <code>ShowWeekend</code> property is set to false only on Week view along with different timescale interval. The customized template is applied to the events on Agenda view and on Month view, the grouping functionality is enabled by setting <code>ScheduleGroup</code> property.</p>
+    <p>In this demo, the <code>ScheduleViews</code> property is defined to accept the collection of view options and therefore for each view, it is possible to set different configurations. In Day view, the <code>StartHour</code> is set to 7 and <code>EndHour</code> set to 18 whereas in Week view, the same is set as 9 and 19 respectively. Also, the <code>ShowWeekend</code> property is set to false only on Week view along with different timescale interval. The customized template is applied to the events on Agenda view and on Month view, the grouping functionality is enabled by setting <code>ScheduleGroup</code> property.</p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="schedule-wrapper">
         <SfSchedule TValue="ScheduleData.FifaEventsData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate">
+            <ScheduleEvents TValue="ScheduleData.FifaEventsData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleResources>
                 <ScheduleResource TItem="FifaData" TValue="int" DataSource="@ResourceData" Field="GroupId" Title="Owner" Name="Owners" TextField="GroupText" IdField="GroupId" ColorField="GroupColor"></ScheduleResource>
             </ScheduleResources>
@@ -24,7 +25,7 @@
                 </ScheduleView>
                 <ScheduleView MaxEventsPerRow="2" Option="View.Month">
                     <EventTemplate>
-                        <div class='subject'>@((context as ScheduleData.FifaEventsData).Subject)</div>
+                        <div class='e-subject'>@((context as ScheduleData.FifaEventsData).Subject)</div>
                     </EventTemplate>
                     <ChildContent>
                         <ScheduleViewGroup Resources="@GroupData"></ScheduleViewGroup>
@@ -43,7 +44,7 @@
 </div>
 
 @code{
-    private DateTime CurrentDate = new DateTime(2020, 1, 22);
+    private DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 22);
     private View CurrentView = View.Month;
     public List<ScheduleData.FifaEventsData> DataSource = new ScheduleData().GetFifaEventsData();
     public static string getTimeString(DateTime date)
@@ -60,6 +61,10 @@
         public string GroupText { get; set; }
         public int GroupId { get; set; }
         public string GroupColor { get; set; }
+    }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.FifaEventsData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
     }
 }
 

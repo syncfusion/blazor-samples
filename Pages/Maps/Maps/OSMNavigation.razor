@@ -1,39 +1,44 @@
 @page "/maps/osm-navigation"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This sample illustrates the flight route from Los Angeles to Mexico City using navigation lines in the OpenStreetMap.</p>
+    <p>This sample illustrates the flight route from Los Angeles to Mexico City using navigation lines in the OpenStreetMap.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>   More information about OpenStreetmaps can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap'>documentation section</a>.</p>
+    <p>In this example, you can see how to configure and render the OpenStreetMap. The OpenStreetmaps is rendered by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html#Syncfusion_Blazor_Maps_MapsLayer_1_LayerType'>LayerType</a></code> as <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.ShapeLayerType.html'>OSM</a></code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html'>MapsLayer</a></code> class.</p>
+    <p>More information about OpenStreetMap can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps>
+    <SfMaps Theme="@Theme">
         <MapsTitleSettings Text="Flight route from Los Angeles to Mexico city">
-            <MapsTitleTextStyle Size="16px" />
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsZoomSettings Enable="false" ZoomFactor="5" />
         <MapsCenterPosition Latitude="27.0902" Longitude="-105.7129" />
         <MapsLayers>
-            <MapsLayer LayerType="ShapeLayerType.OSM" TValue="string">
+            <MapsLayer UrlTemplate="https://a.tile.openstreetmap.org/level/tileX/tileY.png" TValue="string">
                 <MapsNavigationLines>
-                    <MapsNavigationLine Visible="true" Width="8" Angle="-0.05" Color="#00ace6"
+                    <MapsNavigationLine Visible="true" Width="45" Angle="-0.05" Color="#00ace6"
                                         Latitude="@naviagtionLineOne" Longitude="@naviagtionLineTwo" />
                 </MapsNavigationLines>
                 <MapsMarkerSettings>
-                    <MapsMarker Visible="true" Shape="MarkerType.Circle" Fill="#FFFFFF" Height="20" Width="20" DataSource="@AirportLocation" TValue="MarkerLocation" AnimationDuration="0">
+                    <MapsMarker Visible="true" Shape="MarkerType.Circle" Fill="#FFFFFF" Height="15" Width="15" DataSource="@AirportLocation" TValue="MarkerLocation" AnimationDuration="0">
                         <MapsMarkerBorder Width="1" Color="#000000" />
-                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name" />
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                            <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
                     </MapsMarker>
                     <MapsMarker Visible="true" DataSource="@AirportDistance" TValue="MarkerLocation">
                         <MarkerTemplate>
                             @{
                                 <div>
-                                    <img class="markerTemplate" src="images/maps/map-tooltip.svg" />
+                                    <img class="markerTemplate" src="images/maps/map-tooltip.svg" style="margin-left:-56px" />
                                 </div>
                             }
                         </MarkerTemplate>
@@ -42,7 +47,7 @@
                         <MarkerTemplate>
                             @{
                                 <div>
-                                    <div style="text-align: right; font-weight:500; font-size: 13px;">
+                                    <div style="text-align: right; font-weight:500; font-size: 13px;color: black;">
                                         <b>Los Angeles<br />International Airport</b>
                                     </div>
                                 </div>
@@ -53,7 +58,7 @@
                         <MarkerTemplate>
                             @{
                                 <div>
-                                    <div style="text-align: right; font-weight:500; font-size: 13px;"><b>Mexico</b></div>
+                                    <div style="text-align: right; font-weight:500; font-size: 13px;color: black;margin-top:17px;margin-left:-10px"><b>Mexico</b></div>
                                 </div>
                             }
                         </MarkerTemplate>
@@ -62,18 +67,20 @@
                         <MarkerTemplate>
                             @{
                                 <div>
-                                    <img src="images/maps/group.svg" style="height:30px;width:20px;" />
+                                    <img src="images/maps/group.svg" style="height:30px;width:20px;margin-top: 39%;" />
                                 </div>
                             }
                         </MarkerTemplate>
                     </MapsMarker>
                     <MapsMarker Visible="true" DataSource="@MexicoLocations" TValue="MarkerLocation">
                         <ChildContent>
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name"></MapsMarkerTooltipSettings>
+                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                                <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                            </MapsMarkerTooltipSettings>
                         </ChildContent>
                         <MarkerTemplate>
                             @{
-                                <div style="margin-top:-10px;">
+                                <div style="margin-top:6px;">
                                     <img src="images/maps/ballon.png" style="height:30px;width:20px;" />
                                 </div>
                             }
@@ -109,15 +116,20 @@
         new MarkerLocation { Latitude=23.6445, Longitude=-102.832, Name="Mexico" },
     };
     public List<MarkerLocation> AirportDistance = new List<MarkerLocation> {
-        new MarkerLocation { Latitude=27.5, Longitude=-111.200, Name="tooltip" },
+        new MarkerLocation { Latitude=28.5, Longitude=-110.400, Name="tooltip" },
     };
     public List<MarkerLocation> LosAngelsLocation = new List<MarkerLocation> {
-        new MarkerLocation { Latitude=35.7000, Longitude=-122.5000, Name="Los Angeles City" },
+        new MarkerLocation { Latitude=34.7000, Longitude=-121.5000, Name="Los Angeles City" },
     };
     public List<MarkerLocation> MexicoLocation = new List<MarkerLocation> {
-       new MarkerLocation { Latitude=23.5005, Longitude=-101.200, Name="Mexico City" },
+       new MarkerLocation { Latitude=24.0005, Longitude=-101.200, Name="Mexico City" },
     };
     public List<MarkerLocation> MexicoLocations = new List<MarkerLocation> {
-        new MarkerLocation { Latitude=24.0005, Longitude=-102.832, Name="Mexico City" },
+        new MarkerLocation { Latitude=24.2005, Longitude=-102.832, Name="Mexico City" },
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

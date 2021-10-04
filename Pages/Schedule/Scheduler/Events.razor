@@ -20,8 +20,8 @@
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
-            <ScheduleEvents TValue="ScheduleData.AppointmentData" Created="OnCreate" OnActionBegin="OnActionBegin" ActionCompleted="OnActionComplete" OnActionFailure="OnActionFailure"
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+            <ScheduleEvents TValue="ScheduleData.AppointmentData" Created="OnCreate" EventRendered="OnEventRendered" OnActionBegin="OnActionBegin" ActionCompleted="OnActionComplete" OnActionFailure="OnActionFailure"
                             OnCellDoubleClick="OnCellDoubleClick" OnCellClick="OnCellClick" Navigating="OnNavigating" Destroyed="OnDestroyed" OnEventClick="OnEventClick" OnEventDoubleClick="OnEventDoubleClick"
                             OnPopupOpen="OnPopupOpen" OnPopupClose="OnPopupClose" OnDragStart="OnDragStart" OnResizeStart="OnResizeStart" Dragged="OnDragStop" Resized="OnResizeStop"></ScheduleEvents>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
@@ -76,15 +76,25 @@
         margin: 1px 10px 1px 0px;
         border-top: 1px solid #eee;
     }
+
+    .material-dark .property-panel-section {
+        color: #fff;
+    }
 </style>
 @code{
-    public DateTime CurrentDate = new DateTime(2020, 1, 9);
+    public View CurrentView = View.Week;
+    public DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 9);
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
     public List<string> EventLog { get; set; } = new List<string>();
 
     public void ClearButtonClick()
     {
         EventLog.Clear();
+    }
+
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
     }
 
     public void OnCreate() { EventLog.Insert(0, "Load"); }

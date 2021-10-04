@@ -25,7 +25,7 @@ namespace BlazorDemos
             {
                 Name = "Swimlane",
                 Category = "Kanban",
-				Type = SampleType.Updated,
+                Type = SampleType.None,
                 Directory = "Kanban/Kanban",
                 Url = "kanban/swimlane",
                 FileName = "Swimlane.razor"
@@ -77,6 +77,42 @@ namespace BlazorDemos
                 Directory = "Kanban/Kanban",
                 Url = "kanban/remote-data",
                 FileName = "RemoteData.razor"
+            },
+            new Sample
+            {
+                Name = "Observable Collection",
+                Category = "Data Binding",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/observable",
+                FileName = "KanbanObservable.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to showcase Observable collection data binding of the Kanban component."
+                }
+            },
+            new Sample
+            {
+                Name = "ExpandoObject Binding",
+                Category = "Data Binding",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/expando-object",
+                FileName = "KanbanExpandoObject.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to showcase dynamic data binding (Expando Object) of the Kanban component."
+                }
+            },
+            new Sample
+            {
+                Name = "DynamicObject Binding",
+                Category = "Data Binding",
+                Directory = "Kanban/Kanban",
+                Url = "kanban/dynamic-object",
+                FileName = "KanbanDynamicObject.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to showcase dynamic data binding (Dynamic Object) of the Kanban component."
+                }
             },
             new Sample
             {

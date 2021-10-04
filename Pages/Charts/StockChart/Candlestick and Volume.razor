@@ -5,6 +5,10 @@
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 @using ThemeHelper
+@using System.IO
+@using System.Net.Http.Json
+@inject HttpClient Http
+
 
 <SampleDescription>
     <p>This sample visualizes stock chart with multiple pan.</p>
@@ -74,10 +78,14 @@ else
     protected override async Task OnInitializedAsync()
     {
         BeforeRender();
-        await Task.Run(() =>
+        if(File.Exists("./wwwroot/data/stock-chart/chart-data.json"))
         {
-            DataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/stock-chart/chart-data.json"));
-        });
+            DataSource = JsonConvert.DeserializeObject<ChartData[]>(File.ReadAllText("./wwwroot/data/stock-chart/chart-data.json"));
+        }
+        else
+        {
+            DataSource = await Http.GetFromJsonAsync<ChartData[]>("data/stock-chart/chart-data.json");
+        }
     }
 
     public class ChartData

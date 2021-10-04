@@ -1,0 +1,145 @@
+﻿@page "/chips/keyboard-interaction"
+
+@using Syncfusion.Blazor.Buttons
+@inject IJSRuntime jsRuntime
+
+<SampleDescription>
+    <p> The Blazor Chip is accessible through keyboard shortcuts. In the below sample, various key combinations can be
+        used to interact to access chip component's functionalities. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The applicable key combinations and its relative functionalities are listed below.</p>
+    <ul>
+        <li>
+            <b>Supported keys and user actions</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Alt</kbd> + <kbd>J</kbd></span>
+                    <span> - Focuses on the first component of the sample.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Tab</kbd></span>
+                    <span> - Focus the chip item.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Del</kbd></span>
+                    <span> - Deletes the focused chip item when EnableDelete property is enabled.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Space</kbd> or <kbd>Enter</kbd></span>
+                    <span> - Selects the focused chip item.</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section chip-container">
+    <div id="chip-default-wrapper">
+        <div class="chips-headers">Chips</div>
+        <div class="sample-padding">
+            @*initialize default chip component*@
+            <SfChip>
+                <ChipItems>
+                    <ChipItem Text="Apple" CssClass="e-primary" Enabled="true"></ChipItem>
+                    <ChipItem Text="Microsoft" CssClass="e-info" Enabled="true"></ChipItem>
+                    <ChipItem Text="Google" CssClass="e-success" Enabled="true"></ChipItem>
+                    <ChipItem Text="Tesla" CssClass="e-warning" Enabled="true"></ChipItem>
+                    <ChipItem Text="Intel" CssClass="e-danger" Enabled="true"></ChipItem>
+                </ChipItems>
+            </SfChip>
+        </div>
+        <div class="chips-headers">Filter Chips</div>
+        <div class="sample-padding">
+            @*initialize filter chip component*@
+            <SfChip EnableDelete="true" Selection="SelectionType.Multiple" SelectedChips=@FilterSelected>
+                <ChipItems>
+                    <ChipItem Text="Extra Small" Enabled="true"></ChipItem>
+                    <ChipItem Text="Small" Enabled="true"></ChipItem>
+                    <ChipItem Text="Medium" Enabled="true"></ChipItem>
+                    <ChipItem Text="Large" Enabled="true"></ChipItem>
+                    <ChipItem Text="Extra Large" Enabled="true"></ChipItem>
+                </ChipItems>
+            </SfChip>
+        </div>
+        <div class="chips-headers">Choice Chips</div>
+        <div class="sample-padding">
+            @*initialize choice chip component*@
+            <SfChip ID="chip-choice" Selection="SelectionType.Single" SelectedChips=@ChoiceSelected>
+                <ChipItems>
+                    <ChipItem Text="Send a text" cssClass="e-outline" LeadingIconCss="text" Enabled="true"></ChipItem>
+                    <ChipItem Text="Set a reminder" cssClass="e-outline" LeadingIconCss="alarm" Enabled="true">
+                    </ChipItem>
+                    <ChipItem Text="Read my emails" cssClass="e-outline" LeadingIconCss="mail" Enabled="true">
+                    </ChipItem>
+                    <ChipItem Text="Play a game" cssClass="e-outline" LeadingIconCss="game" Enabled="true"></ChipItem>
+                </ChipItems>
+            </SfChip>
+        </div>
+    </div>
+</div>
+
+@code {
+    public string[] ChoiceSelected = { "Set a reminder" };
+    public string[] FilterSelected = { "Small", "Large" };
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // To prevent the page scrolling while pressing space key.
+            await jsRuntime.InvokeAsync<string>("preventSpaceKey");
+        }
+    }
+
+}
+<style>
+    .tailwind #chip-default-wrapper .e-chip-list.e-chip,
+    .e-chip-list .e-chip {
+        margin: 4px;
+    }
+
+    #chip-default-wrapper .sample-padding {
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .chips-headers {
+        font-size: 12px;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    #chip-choice .e-chip .e-chip-icon {
+        font-family: 'e-chips-icons';
+    }
+
+    #chip-choice .text::before {
+        content: '\e701';
+    }
+
+    #chip-choice .mail::before {
+        content: '\e700';
+    }
+
+    #chip-choice .alarm::before {
+        content: '\e704';
+    }
+
+    #chip-choice .game::before {
+        content: '\e703';
+    }
+
+    @@font-face {
+        font-family: 'e-chips-icons';
+        src:
+            url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .key-class {
+        display: inline-block;
+        width: 130px;
+    }
+</style>

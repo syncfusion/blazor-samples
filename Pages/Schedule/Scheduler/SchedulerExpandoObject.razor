@@ -1,0 +1,61 @@
+﻿@page "/scheduler/expandoobject"
+
+@using System.Dynamic
+@using Syncfusion.Blazor.Schedule
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the usage of ExpandoObject data binding with CRUD operations in Scheduler component.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The Scheduler supports dynamic data binding. The <code>DataSource</code> of the <code>ScheduleEventSettings</code> property can be assigned as list of ExpandoObject.
+    </p>
+    <p>
+        In this demo, we have bound the dynamic list of objects as dataSource to Scheduler using the ExpandoObjects.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <SfSchedule TValue="ExpandoObject" @bind-SelectedDate="@CurrentDate" Width="100%" Height="550px">
+            <ScheduleEventSettings DataSource="@EventsCollection"></ScheduleEventSettings>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+            </ScheduleViews>
+        </SfSchedule>
+    </div>
+</div>
+<style>
+    .deleteBtn {
+        margin: 0 5px 0 5px;
+    }
+</style>
+@code {
+    DateTime CurrentDate = new DateTime(2021, 8, 10);
+    public List<ExpandoObject> EventsCollection = new List<ExpandoObject>() { };
+    protected override void OnInitialized()
+    {
+        DateTime scheduleStart = new DateTime(2021, 8, 8, 10, 0, 0);
+        EventsCollection = Enumerable.Range(1, 5).Select((x) =>
+        {
+            scheduleStart = scheduleStart.AddDays(1);
+            dynamic d = new ExpandoObject();
+            d.Id = 1000 + x;
+            d.Subject = (new string[] { "Project Discussion", "Work Flow Analysis", "Report", "Meeting", "Project Demo" })[new Random().Next(5)];
+            d.StartTime = scheduleStart;
+            d.EndTime = scheduleStart.AddHours(1);
+            d.IsAllDay = false;
+            d.RecurrenceRule = null;
+            d.RecurrenceException = null;
+            d.RecurrenceID = null;
+            return d;
+        }).Cast<ExpandoObject>().ToList<ExpandoObject>();
+    }
+}

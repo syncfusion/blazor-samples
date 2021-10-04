@@ -1,29 +1,35 @@
 ﻿@page "/maps/tooltip"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-     This sample depicts the countries that were appeared in the finals of Cricket World Cup and their counts. By hovering the mouse over the shapes, county name, finalist count, and winning count will be displayed in the tooltip format.
+    <p>This sample depicts the countries that appeared in the Cricket World Cup finals, as well as their respective counts. By hovering the mouse over the appropriate shape, the county name, finalist count, and winning count will be displayed in the desired tooltip format.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, to see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. Tooltip is enabled in this sample using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerTooltipSettings.html'>MapsLayerTooltipSettings</a></code> Also, the interactive legend has been placed at the left of the map.</p>
-   <p>More information about tooltip can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/user-interactions/#tooltip'>documentation section</a>.</p>
+    <p>In this example, to see the tooltip in action, hover the mouse over a shape or tap a shape in touch enabled devices. The tooltip is enabled in this sample by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerTooltipSettings.html'>MapsLayerTooltipSettings</a></code> class. In addition, the interactive legend has been placed to the left of the map.</p>
+    <p>More information about tooltip can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/user-interactions/#tooltip'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps>
+    <SfMaps Theme="@Theme">
         <MapsEvents TooltipRendering="OnTooltipRendering" />
         <MapsTitleSettings Text="Finalist in Cricket World Cup">
-            <MapsTitleTextStyle Size="16px" />
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsZoomSettings Enable="false" />
-        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Left" Orientation="LegendArrangement.Vertical" Height="70%" Width="10" />
+        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Left" Orientation="LegendArrangement.Vertical" Height="70%" Width="10">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' DataSource="@PerformanceReport" TValue="Country"
-                        ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name">
-                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}" />
+                       ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name">
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
                 <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Winner">
                     <MapsShapeColorMappings>
                         <MapsShapeColorMapping Value="1" Color="@ShapeColorOne" />
@@ -75,5 +81,10 @@
         {
             args.Cancel = true;
         }
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 }

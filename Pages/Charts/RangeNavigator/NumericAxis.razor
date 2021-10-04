@@ -2,7 +2,10 @@
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor
 @using Newtonsoft.Json
+@using System.IO
+@using System.Net.Http.Json
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -21,8 +24,8 @@ else
     <div class="control-section" align="center">
         <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Score Comparision AUS vs SL</h4>
         <div>
-            <SfRangeNavigator LabelPosition="AxisPosition.Outside" @bind-Value="@Value">
-                <RangeNavigatorEvents Loaded="BeforeRender" Changed="OnRangeChanged"></RangeNavigatorEvents>
+            <SfRangeNavigator LabelPosition="AxisPosition.Outside" @bind-Value="@Value"  Theme="@theme">
+                <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorRangeTooltipSettings Enable="true"></RangeNavigatorRangeTooltipSettings>
                 <RangeNavigatorSeriesCollection>
                     <RangeNavigatorSeries DataSource="@AusData" Width="2" XName="x" Type="RangeNavigatorType.Line" YName="y">
@@ -33,7 +36,7 @@ else
             </SfRangeNavigator>
         </div>
         <div id="chartcontainer">
-            <SfChart>
+            <SfChart Theme="@theme">
                 <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
                 <ChartPrimaryXAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" Title="Overs" ZoomFactor="@ZF" ZoomPosition="@ZP">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
@@ -68,11 +71,16 @@ else
     private Theme theme { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        await Task.Run(() =>
+	    if(File.Exists("./wwwroot/data/range-navigator/double-data-aus.json") && File.Exists("./wwwroot/data/range-navigator/double-data-sl.json"))
         {
             AusData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/double-data-aus.json"));
-            SlData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/double-data-sl.json"));
-        });
+			SlData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/double-data-sl.json"));
+        }
+        else
+        {
+            AusData = await Http.GetFromJsonAsync<ChartData[]>("data/range-navigator/double-data-aus.json");
+			SlData = await Http.GetFromJsonAsync<ChartData[]>("data/range-navigator/double-data-sl.json");
+        }
     }
     public class ChartData
     {
@@ -89,45 +97,41 @@ else
     }
 
     string CurrentUri;
-    void BeforeRender(RangeLoadedEventArgs Args)
-    {
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material") > -1)
-        {
-            Args.Theme = Theme.Material;
-        }
-        else if (CurrentUri.IndexOf("fabric") > -1)
-        {
-            Args.Theme = Theme.Fabric;
-        }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
-        {
-            Args.Theme = Theme.Bootstrap;
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            Args.Theme = Theme.HighContrast;
-        }
-        else if (CurrentUri.IndexOf("tailwind") > -1)
-        {
-            Args.Theme = Theme.Tailwind;
-        }
-        else
-        {
-            Args.Theme = Theme.Bootstrap4;
-        }
-    }
-
     protected override void OnInitialized()
     {
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material") > -1)
         {
-            theme = Theme.Material;
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.MaterialDark;
+            }
+            else
+            {
+                theme = Theme.Material;
+            }
         }
         else if (CurrentUri.IndexOf("fabric") > -1)
         {
-            theme = Theme.Fabric;
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FabricDark;
+            }
+            else
+            {
+                theme = Theme.Fabric;
+            }
+        }
+        else if (CurrentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                theme = Theme.Bootstrap5;
+            }
         }
         else if (CurrentUri.IndexOf("bootstrap4") > -1)
         {
@@ -135,7 +139,14 @@ else
         }
         else if (CurrentUri.IndexOf("bootstrap") > -1)
         {
-            theme = Theme.Bootstrap;
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.BootstrapDark;
+            }
+            else
+            {
+                theme = Theme.Bootstrap;
+            }
         }
         else if (CurrentUri.IndexOf("highcontrast") > -1)
         {
@@ -143,7 +154,14 @@ else
         }
         else if (CurrentUri.IndexOf("tailwind") > -1)
         {
-            theme = Theme.Tailwind;
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.TailwindDark;
+            }
+            else
+            {
+                theme = Theme.Tailwind;
+            }
         }
         else
         {

@@ -24,6 +24,15 @@ namespace BlazorDemos
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Disabled-Dates",
                 FileName = "DisabledDates.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Special Dates",
+                Category = "Calendar",
+                Directory = "Calendars/Calendar",
+                Url = "Calendar/Special-Dates",
+                FileName = "SpecialDates.razor",
                 Type = SampleType.New
             },
              new Sample
@@ -60,6 +69,15 @@ namespace BlazorDemos
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Week-Number",
                 FileName = "WeekNumber.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Calendar",
+                Directory = "Calendars/Calendar",
+                Url = "Calendar/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             }
         };
@@ -81,6 +99,15 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Disabled-Dates",
                 FileName = "DisabledDates.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Special Dates",
+                Category = "DatePicker",
+                Directory = "Calendars/DatePicker",
+                Url = "DatePicker/Special-Dates",
+                FileName = "SpecialDates.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -117,7 +144,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Week-Number",
                 FileName = "WeekNumber.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -126,6 +153,15 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Forms-Validation",
                 FileName = "FormsValidation.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "DatePicker",
+                Directory = "Calendars/DatePicker",
+                Url = "DatePicker/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             }
         };
@@ -147,6 +183,15 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Disabled-Dates",
                 FileName = "DisabledDates.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Special Dates",
+                Category = "DateTime Picker",
+                Directory = "Calendars/DateTimePicker",
+                Url = "DateTime-Picker/Special-Dates",
+                FileName = "SpecialDates.razor",
                 Type = SampleType.New
             },
             new Sample
@@ -174,7 +219,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Week-Number",
                 FileName = "WeekNumber.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -183,8 +228,17 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Forms-Validation",
                 FileName = "FormsValidation.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "DateTime Picker",
+                Directory = "Calendars/DateTimePicker",
+                Url = "DateTime-Picker/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
-            }
+            },
         };
 
 
@@ -205,7 +259,7 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Time-Range",
                 FileName = "TimeRange.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -214,7 +268,10 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Time-Format",
                 FileName = "Format.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Updated the demo by including an option to change the display format of the TimePicker."
+                }
             },
             new Sample
             {
@@ -223,7 +280,7 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Time-Duration",
                 FileName = "TimeDuration.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -232,6 +289,15 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Forms-Validation",
                 FileName = "FormsValidation.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "TimePicker",
+                Directory = "Calendars/TimePicker",
+                Url = "TimePicker/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             }
         };
@@ -281,7 +347,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Preset-Ranges",
                 FileName = "PresetRanges.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -314,7 +380,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Week-Number",
                 FileName = "WeekNumber.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -323,6 +389,15 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Forms-Validation",
                 FileName = "FormsValidation.razor",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "DateRangePicker",
+                Directory = "Calendars/DateRangePicker",
+                Url = "DateRangePicker/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
                 Type = SampleType.New
             }
         };

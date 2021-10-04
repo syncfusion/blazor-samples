@@ -1,18 +1,16 @@
 ﻿@page "/diagramcomponent/organization-model"
 
 @using Syncfusion.Blazor.Inputs
-@using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Diagram
-@using Syncfusion.Blazor.Diagram.Internal
 @inherits SampleBaseComponent;
-
+@*Hidden:Lines*@
+@implements IDisposable;
 <SampleDescription>
     <p> This sample illustrates a simple business management structure built from an external data source. A hierarchical tree layout algorithm is used to build organizational charts.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows how to generate an organizational chart from an external data source. The spacing between the objects can also be customized in the chart. The <code class="language-text">HorizontalSpacing</code> and <code class="language-text">VerticalSpacing</code> properties of <code class="language-text">DiagramLayout</code> can be used to customize the space among objects in a tree. The <code class="language-text">Orientation</code> property of <code class="language-text">DiagramLayout</code> can be used to change the orientation of the chart.</p>
+    <p>This example shows how to generate an organizational chart from an external data source. The spacing between the objects can also be customized in the chart. The <code class="language-text">HorizontalSpacing</code> and <code class="language-text">VerticalSpacing</code> properties of <code class="language-text">Layout</code> can be used to customize the space among objects in a tree. The <code class="language-text">Orientation</code> property of <code class="language-text">Layout</code> can be used to change the orientation of the chart.</p>
 </ActionDescription>
-@*Hidden:Lines*@
 <style>
     #diagram {
         display: block;
@@ -93,10 +91,10 @@
 @*End:Hidden*@
 <div class="col-lg-8 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent @ref="@Diagram" Height="690px" Tool="@DiagramTools.ZoomPan" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults">
+        <SfDiagramComponent @ref="@Diagram" Height="690px" InteractionController="@InteractionController.ZoomPan" NodeCreating="@OnNodeCreating" ConnectorCreating="@OnConnectorCreating">
             <DataSourceSettings Id="Id" ParentId="Manager" DataSource="DataSource"></DataSourceSettings>
-            <Layout @bind-Type="@type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@orientation" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@horizontalAlignment" @bind-VerticalAlignment="@verticalAlignment" GetLayoutInfo="GetLayoutInfo">
-                <LayoutMargin @bind-Top="@top" @bind-Bottom="@bottom" @bind-Right="@right" @bind-Left="@left"></LayoutMargin>
+            <Layout @bind-Type="@Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@HorizontalAlignment" @bind-VerticalAlignment="@VerticalAlignment" GetLayoutInfo="GetLayoutInfo">
+                <LayoutMargin @bind-Top="@Top" @bind-Bottom="@Bottom" @bind-Right="@Right" @bind-Left="@Left"></LayoutMargin>
             </Layout>
             <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
         </SfDiagramComponent>
@@ -197,32 +195,23 @@
 </div>
 @*End:Hidden*@
 @code
-    {
-    public int? HValue { get; set; } = 30;
-    public int? VValue { get; set; } = 30;
-    SubTreeOrientation subTreeOrientation = SubTreeOrientation.Vertical;
-    SubTreeAlignments subTreeAlignment = SubTreeAlignments.Right;
-    LayoutOrientation orientation = LayoutOrientation.TopToBottom;
-    LayoutType type = LayoutType.OrganizationalChart;
-    HorizontalAlignment horizontalAlignment = HorizontalAlignment.Auto;
-    VerticalAlignment verticalAlignment = VerticalAlignment.Auto;
-    int HorizontalSpacing = 30;
-    int VerticalSpacing = 30;
-    double top = 50;
-    double bottom = 50;
-    double right = 50;
-    double left = 50;
-    double offset = 20;
-    static string selecteditem = "image-pattern-style  e-selected-orientation-style";
-    static string unselecteditem = "image-pattern-style";
-    static string selectedPattenitem = "image-pattern-style  e-selected-pattern-style";
-    Dictionary<string, string> dict = new Dictionary<string, string>() {
+{
+    private static string selecteditem = "image-pattern-style  e-selected-orientation-style";
+    private static string unselecteditem = "image-pattern-style";
+    private static string selectedPattenitem = "image-pattern-style  e-selected-pattern-style";
+
+    private Orientation subTreeOrientation = Orientation.Vertical;
+    private SubTreeAlignmentType subTreeAlignment = SubTreeAlignmentType.Right;
+    private int rows = 0;
+    private string pattern;
+    private double offset = 20;
+    private Dictionary<string, string> dict = new Dictionary<string, string>() {
         { "topToBottom", selecteditem },
         { "bottomToTop", unselecteditem },
         { "leftToRight", unselecteditem },
         { "rightToLeft", unselecteditem }
     };
-    Dictionary<string, string> pattendict = new Dictionary<string, string>() {
+    private Dictionary<string, string> pattendict = new Dictionary<string, string>() {
        { "pattern1", unselecteditem },
        { "pattern2", unselecteditem },
        { "pattern3", unselecteditem },
@@ -231,12 +220,25 @@
        { "pattern6", unselecteditem },
        { "pattern7", unselecteditem },
        { "pattern8", unselecteditem },
-       { "pattern9", unselecteditem },
+       { "pattern9", unselecteditem }
     };
+    
+    public SfDiagramComponent Diagram;
+    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
+    public int? HValue { get; set; } = 30;
+    public int? VValue { get; set; } = 30;
+    public LayoutType Type = LayoutType.OrganizationalChart;
+    public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Auto;
+    public VerticalAlignment VerticalAlignment = VerticalAlignment.Auto;
+    public int HorizontalSpacing = 30;
+    public int VerticalSpacing = 30;
+    public double Top = 50;
+    public double Bottom = 50;
+    public double Right = 50;
+    public double Left = 50;
 
-    SfDiagramComponent Diagram;
     // Defines default values for Node object
-    private void NodeDefaults(IDiagramObject obj)
+    private void OnNodeCreating(IDiagramObject obj)
     {
         Node node = obj as Node;
         if (node.Data is System.Text.Json.JsonElement)
@@ -248,21 +250,21 @@
         node.Height = 50;
         node.Style.Fill = organizationData.Color;
         node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-    {
-                new ShapeAnnotation()
-                {
-                    Content = organizationData.Role,
-                    Offset = new Point(0.5, 0.5),
-                    Style = new TextShapeStyle() { Color = "white" }
-                }
-            };
+        {
+            new ShapeAnnotation()
+            {
+                Content = organizationData.Role,
+                Offset = new DiagramPoint(0.5, 0.5),
+                Style = new TextStyle() { Color = "white" }
+            }
+        };
     }
     // Defines default values for Connector object
-    private void ConnectorDefaults(IDiagramObject connector)
+    private void OnConnectorCreating(IDiagramObject connector)
     {
-        (connector as Connector).Type = Segments.Orthogonal;
-        (connector as Connector).TargetDecorator.Shape = DecoratorShapes.None;
-        (connector as Connector).SourceDecorator.Shape = DecoratorShapes.None;
+        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShape.None;
+        (connector as Connector).SourceDecorator.Shape = DecoratorShape.None;
     }
 
     public class OrganizationalDetails
@@ -272,13 +274,11 @@
         public string Color { get; set; }
         public string Manager { get; set; }
         public string ChartType { get; set; }
-
-
     }
     //DataSource Items.
     public List<OrganizationalDetails> DataSource = new List<OrganizationalDetails>()
-{
-        new OrganizationalDetails(){Id= "parent", Role= "Board", Color = "#71AF17", Manager = "",ChartType = "" },
+    {
+        new OrganizationalDetails() { Id= "parent", Role= "Board", Color = "#71AF17", Manager = "",ChartType = "" },
         new OrganizationalDetails() { Id = "1",Role=  "General manager", Color = "#71AF17", Manager =  "parent", ChartType ="right"},
         new OrganizationalDetails() { Id = "11", Role= "Assistant general manager",Color =  "#71AF17", Manager =  "1",ChartType = ""},
         new OrganizationalDetails() { Id = "2", Role= "Human resource manager", Color = "#1859B7", Manager =  "1",ChartType = "right"},
@@ -297,10 +297,7 @@
         new OrganizationalDetails() { Id = "18", Role= "Petroleum manager", Color = "#2E95D8",  Manager = "16", ChartType =""},
         new OrganizationalDetails() { Id = "20",Role=  "Service department manager",Color =  "#2E95D8",  Manager = "16",ChartType = ""},
         new OrganizationalDetails() { Id = "21", Role= "Quality control department", Color = "#2E95D8",  Manager = "16", ChartType =""},
-
     };
-    private int rows = 0;
-    private string pattern;
     private TreeInfo GetLayoutInfo(IDiagramObject obj, TreeInfo options)
     {
         if (rows == 0)
@@ -320,14 +317,14 @@
             if (!options.HasSubTree)
             {
                 options.Orientation = subTreeOrientation;
-                options.Type = subTreeAlignment;
+                options.AlignmentType = subTreeAlignment;
             }
         }
         else
         {
             if (!options.HasSubTree)
             {
-                options.Type = subTreeAlignment;
+                options.AlignmentType = subTreeAlignment;
                 options.Orientation = subTreeOrientation;
                 options.Offset = offset;
             }
@@ -337,14 +334,13 @@
 
     public void LeftToRight()
     {
-        orientation = LayoutOrientation.LeftToRight;
+        OrientationType = LayoutOrientation.LeftToRight;
     }
 
     public class ImageFields
     {
         public string Text { get; set; }
     }
-
 
     private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
@@ -360,32 +356,32 @@
 
     private void ToptoBottomClick()
     {
-        orientation = LayoutOrientation.TopToBottom;
-        updateSelection("topToBottom");
+        OrientationType = LayoutOrientation.TopToBottom;
+        UpdateSelection("topToBottom");
     }
     private void LefttoRightClick()
     {
-        orientation = LayoutOrientation.LeftToRight;
-        updateSelection("leftToRight");
+        OrientationType = LayoutOrientation.LeftToRight;
+        UpdateSelection("leftToRight");
     }
     private void RighttoLeftClick()
     {
-        orientation = LayoutOrientation.RightToLeft;
-        updateSelection("rightToLeft");
+        OrientationType = LayoutOrientation.RightToLeft;
+        UpdateSelection("rightToLeft");
     }
     private void BottomtoTopClick()
     {
-        orientation = LayoutOrientation.BottomToTop;
-        updateSelection("bottomToTop");
+        OrientationType = LayoutOrientation.BottomToTop;
+        UpdateSelection("bottomToTop");
     }
     private async Task Pattern1Click()
     {
         pattern = "Pattern1Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Alternate;
-        subTreeOrientation = SubTreeOrientation.Vertical;
+        subTreeAlignment = SubTreeAlignmentType.Alternate;
+        subTreeOrientation = Orientation.Vertical;
         offset = 20;
-        updatePatternSelection("pattern1");
+        UpdatePatternSelection("pattern1");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -393,10 +389,10 @@
     {
         pattern = "Pattern2Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Left;
-        subTreeOrientation = SubTreeOrientation.Vertical;
+        subTreeAlignment = SubTreeAlignmentType.Left;
+        subTreeOrientation = Orientation.Vertical;
         offset = 20;
-        updatePatternSelection("pattern2");
+        UpdatePatternSelection("pattern2");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -404,10 +400,10 @@
     {
         pattern = "Pattern3Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Left;
-        subTreeOrientation = SubTreeOrientation.Vertical;
+        subTreeAlignment = SubTreeAlignmentType.Left;
+        subTreeOrientation = Orientation.Vertical;
         offset = -50;
-        updatePatternSelection("pattern3");
+        UpdatePatternSelection("pattern3");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -415,10 +411,10 @@
     {
         pattern = "Pattern4Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Right;
-        subTreeOrientation = SubTreeOrientation.Vertical;
+        subTreeAlignment = SubTreeAlignmentType.Right;
+        subTreeOrientation = Orientation.Vertical;
         offset = -50;
-        updatePatternSelection("pattern4");
+        UpdatePatternSelection("pattern4");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -426,10 +422,10 @@
     {
         pattern = "Pattern5Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Right;
-        subTreeOrientation = SubTreeOrientation.Vertical;
+        subTreeAlignment = SubTreeAlignmentType.Right;
+        subTreeOrientation = Orientation.Vertical;
         offset = 20;
-        updatePatternSelection("pattern5");
+        UpdatePatternSelection("pattern5");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -437,10 +433,10 @@
     {
         pattern = "Pattern6Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Balanced;
-        subTreeOrientation = SubTreeOrientation.Horizontal;
+        subTreeAlignment = SubTreeAlignmentType.Balanced;
+        subTreeOrientation = Orientation.Horizontal;
         offset = 20;
-        updatePatternSelection("pattern6");
+        UpdatePatternSelection("pattern6");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -448,10 +444,10 @@
     {
         pattern = "Pattern7Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Center;
-        subTreeOrientation = SubTreeOrientation.Horizontal;
+        subTreeAlignment = SubTreeAlignmentType.Center;
+        subTreeOrientation = Orientation.Horizontal;
         offset = -50;
-        updatePatternSelection("pattern7");
+        UpdatePatternSelection("pattern7");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -459,10 +455,10 @@
     {
         pattern = "Pattern8Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Left;
-        subTreeOrientation = SubTreeOrientation.Horizontal;
+        subTreeAlignment = SubTreeAlignmentType.Left;
+        subTreeOrientation = Orientation.Horizontal;
         offset = 20;
-        updatePatternSelection("pattern8");
+        UpdatePatternSelection("pattern8");
         _ = Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
@@ -470,14 +466,14 @@
     {
         pattern = "Pattern9Click";
         Diagram.BeginUpdate();
-        subTreeAlignment = SubTreeAlignments.Right;
-        subTreeOrientation = SubTreeOrientation.Horizontal;
+        subTreeAlignment = SubTreeAlignmentType.Right;
+        subTreeOrientation = Orientation.Horizontal;
         offset = 20;
-        updatePatternSelection("pattern9");
+        UpdatePatternSelection("pattern9");
         await Diagram.EndUpdate();
         await Diagram.DoLayout();
     }
-    private void updatePatternSelection(string id)
+    private void UpdatePatternSelection(string id)
     {
         for (int i = 0; i < pattendict.Count; i++)
         {
@@ -496,7 +492,7 @@
         }
     }
     //Method is used to apply the selection to the prroperty panel.
-    private void updateSelection(string id)
+    private void UpdateSelection(string id)
     {
         for (int i = 0; i < dict.Count; i++)
         {
@@ -515,4 +511,21 @@
         }
     }
 
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (dict != null)
+        {
+            dict.Clear();
+            dict = null;
+        }
+        if (pattendict != null)
+        {
+            pattendict.Clear();
+            pattendict = null;
+        }
+        Diagram = null;
+        pattern = null;
+    }
+    @*End:Hidden*@
 }

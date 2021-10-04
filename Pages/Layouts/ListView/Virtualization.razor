@@ -1,0 +1,159 @@
+﻿@page "/listview/virtualization"
+
+@using Syncfusion.Blazor.Lists
+@using Newtonsoft.Json
+@inherits SampleBaseComponent
+
+<SampleDescription>
+    <p>This sample demonstrates the default functionalities of UI virtualization. Scroll list item to experience UI virtualization.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>UI virtualization is an optimization technique to avoid unnecessarily constructing and rendering objects for list items by loading only visible list items in a view port. This helps improve ListView performance when loading a large number of items. The list items are updated dynamically while users scroll the list. The virtualization can be enabled by using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Lists.SfListView%601~EnableVirtualization.html'>EnableVirtualization</a></code> API in Listview.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section sb-property-border">
+    <SfListView DataSource="@DataSource" TValue="DataModel" EnableVirtualization="true" CssClass="e-list-template ui-list" HeaderTitle="Contacts" Height="500px" ShowHeader="true">
+        <ListViewTemplates TValue="DataModel">
+            <Template>
+                <div class='e-list-wrapper e-list-avatar'>
+                    @if (context.ImgUrl != "")
+                    {
+                        <img id='showUI' class='e-avatar e-avatar-circle' src=@context.ImgUrl />
+                    }
+                    else
+                    {
+                        <span id="showUI" class='e-avatar e-avatar-circle' icon=@context.Icon> @context.Icon</span>
+                    }
+                    <span class='e-list-content'>@context.Name</span>
+                </div>
+            </Template>
+        </ListViewTemplates>
+        <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Name"></ListViewFieldSettings>
+    </SfListView>
+</div>
+@code {
+    List<DataModel> CommonData = new List<DataModel>();
+    List<DataModel> DataSource = new List<DataModel>();
+
+    List<DataModel> DropDownData = new List<DataModel>()
+    {
+        new DataModel{ Id = "1", Name = "1k", Value = 1000 },
+        new DataModel{ Id = "2", Name = "5k", Value = 5000  },
+        new DataModel{ Id = "3", Name = "10k", Value = 10000  },
+        new DataModel{ Id = "4", Name = "25k", Value = 25000  },
+    };
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        CommonData.Add(new DataModel { Name = "Nancy", ImgUrl = "", Icon = "N", Id = "0" });
+        CommonData.Add(new DataModel { Name = "Andrew", ImgUrl = "", Icon = "A", Id = "1" });
+        CommonData.Add(new DataModel { Name = "Janet", ImgUrl = "", Icon = "J", Id = "2" });
+        CommonData.Add(new DataModel { Name = "Margaret", Icon = "", ImgUrl = "https://ej2.syncfusion.com/demos/src/listview/images/margaret.png", Id = "3" });
+        CommonData.Add(new DataModel { Name = "Steven", ImgUrl = "", Icon = "S", Id = "4" });
+        CommonData.Add(new DataModel { Name = "Laura", Icon = "", ImgUrl = "https://ej2.syncfusion.com/demos/src/listview/images/laura.png", Id = "5" });
+        CommonData.Add(new DataModel { Name = "Robert", ImgUrl = "", Icon = "R", Id = "6" });
+        CommonData.Add(new DataModel { Name = "Michael", ImgUrl = "", Icon = "M", Id = "7" });
+        CommonData.Add(new DataModel { Name = "Albert", Icon = "", ImgUrl = "https://ej2.syncfusion.com/demos/src/listview/images/albert.png", Id = "8" });
+        CommonData.Add(new DataModel { Name = "Nolan", ImgUrl = "", Icon = "N", Id = "9" });
+
+        DataSource = GenerateData(500);
+    }
+
+
+    List<DataModel> GenerateData(int no)
+    {
+        int index = 0;
+        int spyIndex = 0;
+        List<DataModel> data = new List<DataModel>();
+        for (int i = 0; i < no; i++)
+        {
+            while (index == spyIndex)
+            {
+                index = new Random().Next(0, 10);
+            }
+            data.Add(new DataModel
+            {
+                Name = CommonData[index].GetType().GetProperty("Name").GetValue(CommonData[index], null).ToString(),
+                Icon = CommonData[index].GetType().GetProperty("Icon").GetValue(CommonData[index], null).ToString(),
+                ImgUrl = CommonData[index].GetType().GetProperty("ImgUrl").GetValue(CommonData[index], null).ToString(),
+                Id = i.ToString()
+            });
+            spyIndex = index;
+        }
+
+        return data;
+    }
+
+    class DataModel
+    {
+        public string Name { get; set; }
+        public string ImgUrl { get; set; }
+        public string Icon { get; set; }
+        public string Id { get; set; }
+        public int Value { get; set; }
+    }
+}
+
+<style>
+
+    /* ListView position alignment */
+
+    .ui-list.e-listview {
+        margin: auto;
+        max-width: 325px;
+        line-height: initial;
+        border: 1px solid lightgray;
+    }
+
+    /* ListView header alignment */
+
+    .ui-list.e-listview .e-list-header {
+        height: 50px
+    }
+
+    .ui-list.e-listview .e-list-header .e-text {
+        line-height: 18px
+    }
+
+    /* ListView template customization */
+
+    .ui-list.e-listview #showUI {
+        display: flex;
+    }
+
+    .ui-list.e-listview .e-list-item {
+        padding: 3px 0;
+    }
+
+    .ui-list.e-listview [icon="R"] {
+        background: lightgrey;
+    }
+
+    .ui-list.e-listview [icon="M"] {
+        background: pink;
+    }
+
+    .ui-list.e-listview [icon="A"] {
+        background: lightgreen;
+    }
+
+    .ui-list.e-listview [icon="S"] {
+        background: lightskyblue;
+    }
+
+    .ui-list.e-listview [icon="J"] {
+        background: orange;
+    }
+
+    .ui-list.e-listview [icon="N"] {
+        background: lightblue;
+    }
+
+    /* ListView theme customization */
+
+    .highcontrast .ui-list.e-listview .e-list-item.e-active {
+        background: #ffd939;
+        color: #000000;
+    }
+</style>

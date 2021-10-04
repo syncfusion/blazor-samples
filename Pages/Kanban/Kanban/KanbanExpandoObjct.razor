@@ -1,0 +1,47 @@
+﻿@page "/kanban/expando-object"
+@inherits SampleBaseComponent;
+
+@using Syncfusion.Blazor.Kanban
+@using System.Dynamic
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of ExpandoObject (dynamic) data binding with CRUD operations in Kanban component with ExpandoObject.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Kanban supports dynamic data binding. The <code><a target='_blank' class='code' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_DataSource">DataSource</a></code>  property can be assigned as a list of ExpandoObject.</p>
+    <p>In this demo, we have bound the dynamic list of objects as dataSource to Kanban using the ExpandoObjects.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@Tasks">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowAdding="true"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
+    </SfKanban>
+</div>
+
+@code{
+    public List<ExpandoObject> Tasks { get; set; } = new List<ExpandoObject>();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "In Progress" } },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" } },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
+    };
+    protected override void OnInitialized()
+    {
+        Tasks = Enumerable.Range(1, 20).Select((x) =>
+        {
+            dynamic d = new ExpandoObject();
+            d.Id = "Task 1000" + x;
+            d.Status = (new string[] { "Open", "In Progress", "Testing", "Close" })[new Random().Next(4)];
+            d.Summary = (new string[] { "Analyze the new requirements gathered from the customer.", "Improve application performance", "Fix the issues reported in the IE browser.", "Validate new requirements", "Test the application in the IE browser." })[new Random().Next(5)];
+            d.Assignee = (new string[] { "Nancy Davloio", "Andrew Fuller", "Janet Leverling", "Steven walker", "Margaret hamilt", "Michael Suyama", "Robert King" })[new Random().Next(7)];
+            return d;
+        }).Cast<ExpandoObject>().ToList<ExpandoObject>();
+    }
+}

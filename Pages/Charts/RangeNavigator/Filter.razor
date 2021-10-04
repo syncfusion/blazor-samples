@@ -3,7 +3,10 @@
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor
 @using Newtonsoft.Json
+@using System.IO
+@using System.Net.Http.Json
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -52,10 +55,14 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Run(() =>
+	    if(File.Exists("./wwwroot/data/range-navigator/employee-data.json"))
         {
             FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/employee-data.json"));
-        });
+        }
+        else
+        {
+            FilterData = await Http.GetFromJsonAsync<ChartData[]>("data/range-navigator/employee-data.json");
+        }
     }
 
     public class ChartData
@@ -86,11 +93,36 @@ else
         currentUri = NavigationManager.Uri;
         if (currentUri.IndexOf("material") > -1)
         {
-            RangeNavigatorTheme = Theme.Material;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.MaterialDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Material;
+            }
         }
         else if (currentUri.IndexOf("fabric") > -1)
         {
-            RangeNavigatorTheme = Theme.Fabric;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FabricDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fabric;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5;
+            }
         }
         else if (currentUri.IndexOf("bootstrap4") > -1)
         {
@@ -98,7 +130,14 @@ else
         }
         else if (currentUri.IndexOf("bootstrap") > -1)
         {
-            RangeNavigatorTheme = Theme.Bootstrap;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.BootstrapDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap;
+            }
         }
         else if (currentUri.IndexOf("highcontrast") > -1)
         {
@@ -106,7 +145,14 @@ else
         }
         else if (currentUri.IndexOf("tailwind") > -1)
         {
-            RangeNavigatorTheme = Theme.Tailwind;
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.TailwindDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Tailwind;
+            }
         }
         else
         {

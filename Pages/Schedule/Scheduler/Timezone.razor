@@ -1,0 +1,72 @@
+﻿@page "/scheduler/timezone"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This demo visualizes the 2021 FIFA football match scheduler which is depicted as events here. The timings of each event are associated with the timezone of the match location where it will be held. When the Scheduler time zone changes, the events in it displays according to the selected timezone's offset time difference.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, the <code>Timezone</code> of Scheduler is set to UTC and each events on it holds different <code>StartTimezone</code> and <code>EndTimezone</code> values, therefore the event timings will be converted based on timezone assigned to Scheduler and will be displayed appropriately in UTC timings.</p>
+    <p>When the user selects different timezone value listed out in a dropdown on properties panel, Scheduler will display the events accordingly to the selected timezone value as the selected timezone will be assigned to Scheduler <code>Timezone</code> property.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="property-panel-section">
+        <div class="property-panel-content">
+            <table id="property" style="width:100%; margin-bottom: 18px" title="Properties">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width:5%">
+                            <div class="timezone" style="font-size: 14px;">
+                                Timezone
+                            </div>
+                        </td>
+                        <td style="width: 70%">
+                            <SfDropDownList TValue="string" PopupWidth="310px" Width="250px" TItem="DropDownData" @bind-Value="@TimezoneValue" DataSource="@TimezoneData">
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <SfSchedule TValue="ScheduleData.FifaEventsData" Width="100%" Height="550px" @bind-SelectedDate="@CurrentDate" Timezone="@TimezoneValue">
+                <ScheduleEvents TValue="ScheduleData.FifaEventsData" EventRendered="OnEventRendered"></ScheduleEvents>
+                <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+                <ScheduleViews>
+                    <ScheduleView Option="View.Day"></ScheduleView>
+                    <ScheduleView Option="View.Week"></ScheduleView>
+                    <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                    <ScheduleView Option="View.Month"></ScheduleView>
+                    <ScheduleView Option="View.Agenda"></ScheduleView>
+                </ScheduleViews>
+            </SfSchedule>
+        </div>
+    </div>
+</div>
+
+@code{
+    private DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 22);
+    public List<ScheduleData.FifaEventsData> DataSource = new ScheduleData().GetFifaEventsData();
+    public string TimezoneValue { get; set; } = "UTC";
+    List<DropDownData> TimezoneData = new List<DropDownData>() {
+        new DropDownData { Name = "(UTC-05:00) Eastern Time", Value = "America/New_York" },
+        new DropDownData { Name = "Coordinated Universal Time", Value = "UTC" },
+        new DropDownData { Name = "(UTC+03:00) Moscow+00 - Moscow", Value = "Europe/Moscow" },
+        new DropDownData { Name = "(UTC+05:30) India Standard Time", Value = "Asia/Kolkata" },
+        new DropDownData { Name = "(UTC+08:00) Western Time - Pert", Value = "Australia/Perth" },
+    };
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.FifaEventsData> args)
+    {
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        attributes.Add("style", "background: " + args.Data.CategoryColor);
+        args.Attributes = attributes;
+    }
+}

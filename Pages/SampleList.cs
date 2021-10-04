@@ -84,6 +84,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 Samples = Diagram,
                 ControllerName = "Diagram",
+                IsHideFromHomePageList = true,
                 DemoPath = "diagram/flowchart"
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -91,7 +92,7 @@ namespace BlazorDemos
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "DiagramComponent",
-                Type = SampleType.New,
+                Type = SampleType.Preview,
                 IsPreview = true,
                 Samples = DiagramComponent,
                 ControllerName = "DiagramComponent",
@@ -103,7 +104,7 @@ namespace BlazorDemos
                 Name = "HeatMap Chart",
                 Category = "Data Visualization",
                 Directory = "HeatMapChart/HeatMapChart",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = HeatMapChart,
                 ControllerName = "HeatMapChart",
                 DemoPath = "heatmap-chart/default-functionalities"
@@ -192,7 +193,7 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "InPlace Editor",
-                Category = "Editors",
+                Category = "File Viewers & Editors",
                 Directory = "Editors/InPlaceEditor",
                 Type = SampleType.None,
                 Samples = InPlaceEditor,
@@ -202,9 +203,9 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Rich Text Editor",
-                Category = "Editors",
+                Category = "File Viewers & Editors",
                 Directory = "RichTextEditor/RichTextEditor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = RichTextEditor,
                 ControllerName = "RichTextEditor",
                 DemoPath = "rich-text-editor/overview"
@@ -212,13 +213,13 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Word Processor",
-                Category = "Editors",
+                Category = "File Viewers & Editors",
                 Directory = "DocumentEditor/DocumentEditor",
-                Type = SampleType.Updated,
                 Samples = DocumentEditor,
+                Type = SampleType.Updated,
                 ControllerName = "DocumentEditor",
                 CustomDocLink = "document-editor/getting-started/features",
-                DemoPath = "document-editor/default-functionalities"
+                DemoPath = "document-editor/default-functionalities",
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -279,7 +280,7 @@ namespace BlazorDemos
                 Samples = GanttChart,
                 ControllerName = "GanttChart",
                 DemoPath = "gantt-chart/default-functionalities",
-                
+
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -297,6 +298,7 @@ namespace BlazorDemos
                 Category = "Buttons",
                 Directory = "Buttons",
                 Samples = Button,
+                Type = SampleType.Updated,
                 ControllerName = "Buttons",
                 CustomDocLink = "button/getting-started",
                 DemoPath = "buttons/default-functionalities"
@@ -313,10 +315,21 @@ namespace BlazorDemos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Keyboard Navigation",
+                Category = "Buttons",
+                Directory = "Buttons",
+                Samples = Button,
+                ControllerName = "Buttons",
+                CustomDocLink = "button/getting-started",
+                DemoPath = "buttons/keyboard-navigation",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Chips",
                 Category = "Buttons",
                 Directory = "Buttons/Chips",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Chips,
                 ControllerName = "Chips",
                 CustomDocLink = "chip/getting-started",
@@ -417,10 +430,20 @@ namespace BlazorDemos
                 Name = "Color Picker",
                 Category = "Inputs",
                 Directory = "Inputs/ColorPicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = ColorPicker,
                 ControllerName = "ColorPicker",
                 DemoPath = "color-picker/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Color Palette ",
+                Category = "Inputs",
+                Directory = "Inputs/ColorPicker",
+                Type = SampleType.Updated,
+                Samples = ColorPicker,
+                ControllerName = "ColorPicker",
+                DemoPath = "color-picker/inline"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -467,7 +490,7 @@ namespace BlazorDemos
                 Name = "Range Slider",
                 Category = "Inputs",
                 Directory = "Inputs/RangeSlider",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = RangeSlider,
                 ControllerName = "RangeSlider",
                 DemoPath = "range-slider/default"
@@ -477,7 +500,7 @@ namespace BlazorDemos
                 Name = "TextBox",
                 Category = "Inputs",
                 Directory = "Inputs",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = TextBox,
                 ControllerName = "TextBox",
                 DemoPath = "textbox/default-functionalities"
@@ -497,27 +520,38 @@ namespace BlazorDemos
                 Name = "Accordion",
                 Category = "Navigation",
                 Directory = "Navigations/Accordion",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Accordion,
                 ControllerName = "Accordion",
                 DemoPath = "accordion/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Breadcrumb",
+                Category = "Navigation",
+                Directory = "Navigations/Breadcrumb",
+				IsPreview = true,
+                Type = SampleType.Preview,
+                Samples = BreadCrumb,
+                ControllerName = "Breadcrumb",
+                DemoPath = "breadcrumb/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Context Menu",
                 Category = "Navigation",
                 Directory = "Navigations/ContextMenu",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = ContextMenu,
                 ControllerName = "ContextMenu",
-                DemoPath = "context-menu/default-functionalities"
+                DemoPath = "context-menu/default-functionalities",
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "File Manager",
                 Category = "Navigation",
                 Directory = "Navigations/FileManager",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = FileManager,
                 ControllerName = "FileManager",
                 DemoPath = "file-manager/overview"
@@ -527,7 +561,7 @@ namespace BlazorDemos
                 Name = "MenuBar",
                 Category = "Navigation",
                 Directory = "Navigations/MenuBar",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = MenuBar,
                 ControllerName = "MenuBar",
                 DemoPath = "menu-bar/default-functionalities"
@@ -537,7 +571,7 @@ namespace BlazorDemos
                 Name = "Sidebar",
                 Category = "Navigation",
                 Directory = "Navigations/Sidebar",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Sidebar,
                 ControllerName = "Sidebar",
                 DemoPath = "sidebar/default-functionalities"
@@ -547,6 +581,7 @@ namespace BlazorDemos
                 Name = "Tabs",
                 Category = "Navigation",
                 Directory = "Navigations/Tabs",
+                Type = SampleType.Updated,
                 Samples = Tabs,
                 ControllerName = "Tabs",
                 DemoPath = "tabs/default-functionalities"
@@ -556,7 +591,7 @@ namespace BlazorDemos
                 Name = "Toolbar",
                 Category = "Navigation",
                 Directory = "Navigations/Toolbar",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Toolbar,
                 ControllerName = "Toolbar",
                 DemoPath = "toolbar/default-functionalities"
@@ -566,7 +601,7 @@ namespace BlazorDemos
                 Name = "TreeView",
                 Category = "Navigation",
                 Directory = "Navigations/TreeView",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = TreeView,
                 ControllerName = "TreeView",
                 DemoPath = "treeview/default-functionalities"
@@ -586,10 +621,10 @@ namespace BlazorDemos
                 Name = "Dashboard Layout",
                 Category = "Layout",
                 Directory = "Layouts/DashboardLayout",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DashboardLayout,
                 ControllerName = "DashboardLayout",
-                DemoPath = "dashboard-layout/default"
+                DemoPath = "dashboard-layout/overview"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -606,7 +641,7 @@ namespace BlazorDemos
                 Name = "ListView",
                 Category = "Layout",
                 Directory = "Layouts/ListView",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = ListView,
                 ControllerName = "ListView",
                 DemoPath = "listview/default-functionalities"
@@ -626,7 +661,7 @@ namespace BlazorDemos
                 Name = "Tooltip",
                 Category = "Layout",
                 Directory = "Layouts/Tooltip",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Tooltip,
                 ControllerName = "Tooltip",
                 DemoPath = "tooltip/default"
@@ -666,7 +701,7 @@ namespace BlazorDemos
                 Name = "Query Builder",
                 Category = "Forms",
                 Directory = "Forms/QueryBuilder",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = QueryBuilder,
                 ControllerName = "QueryBuilder",
                 DemoPath = "query-builder/default-functionalities"
@@ -674,9 +709,8 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "PDF Viewer",
-                Category = "Viewer",
+                Category = "File Viewers & Editors",
                 Directory = "Viewer/PdfViewer",
-                Type = SampleType.Updated,
                 Samples = PDFViewer,
                 ControllerName = "PdfViewer",
                 CustomDocLink = "pdfviewer/getting-started",
@@ -685,7 +719,7 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "DocIO",
-                Category = "File Formats",
+                Category = "File Formats FrameWorks",
                 Directory = "FileFormats/DocIO",
                 Type = SampleType.Updated,
                 Samples = DocIO,
@@ -695,7 +729,7 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "PDF",
-                Category = "File Formats",
+                Category = "File Formats FrameWorks",
                 Directory = "FileFormats/PDF",
                 Type = SampleType.None,
                 Samples = PDF,
@@ -705,7 +739,7 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Presentation",
-                Category = "File Formats",
+                Category = "File Formats FrameWorks",
                 Directory = "FileFormats/Presentation",
                 Type = SampleType.Updated,
                 Samples = Presentation,
@@ -715,13 +749,13 @@ namespace BlazorDemos
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "XlsIO",
-                Category = "File Formats",
+                Category = "File Formats FrameWorks",
                 Directory = "FileFormats/XlsIO",
                 Samples = XlsIO,
                 ControllerName = "XlsIO",
                 DemoPath = "xlsio/create-excel"
             });
-            
+
         }
     }
 }

@@ -1,0 +1,277 @@
+﻿@page "/datagrid/customsorting"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos
+@using blazor_griddata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the DataGrid custom sorting feature. Here, we implement custom sorting logic for <strong> Priority</strong> and <strong> Status</strong> columns by defining <strong> SortComparer</strong> property of columns in DataGrid.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Sorting feature enables us to order the data in a particular direction. It can be enabled by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowSorting'>AllowSorting</a></code> property as true.</p>
+    <p>To sort a DataGrid column simply click the column header. The icons <span class="" e-icons e-icon-ascending""></span>(ascending) and <span class="" e-icons e-icon-descending""></span>(descending) specifies the sort direction of a column.</p>
+    <p>In this demo, simply click the <strong> Priority</strong> or <strong> Status</strong> column then corresponding comparer function will be called, In the comparer function we implement custom logic for sorting.</p>
+    <p>More information on the sorting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/sorting'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" AllowPaging="true" AllowTextWrap="true" AllowSorting="true">
+                <GridPageSettings PageSize="10"></GridPageSettings>
+                <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(BugData.Name) HeaderText="Title" TextAlign="TextAlign.Left" Width="180" MaxWidth="300"></GridColumn>
+                    <GridColumn Field=@nameof(BugData.Priority) SortComparer="new CustomPriorityComparer()" HeaderText="Priority" Width="150" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var catagory = (context as BugData);
+                                @if (catagory.Priority == "Critical")
+                                {
+                                    <div class="title-temp1 critical">
+                                        <span class="font">@catagory.Priority</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Priority == "High")
+                                {
+                                    <div class="title-temp1 high">
+                                        <span class="font">@catagory.Priority</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Priority == "Normal")
+                                {
+                                    <div class="title-temp1 normal">
+                                        <span class="font">@catagory.Priority</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Priority == "Low")
+                                {
+                                    <div class="title-temp1 low">
+                                        <span class="font">@catagory.Priority</span>
+                                    </div>
+
+                                }
+
+
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(BugData.Status) HeaderText="Status" SortComparer="new CustomStatusComparer()" Width="150" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var catagory = (context as BugData);
+                                @if (catagory.Status == "In Progress")
+                                {
+                                    <div class="title-temp2 inprogress">
+                                        <span class="font">@catagory.Status</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Status == "Completed")
+                                {
+                                    <div class="title-temp2 completed">
+                                        <span class="font">@catagory.Status</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Status == "Blocked")
+                                {
+                                    <div class="title-temp2 blocked">
+                                        <span class="font">@catagory.Status</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Status == "Won't Fix")
+                                {
+                                    <div class="title-temp2 wontfix ">
+                                        <span class="font">@catagory.Status</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Status == "Can't Reproduce")
+                                {
+                                    <div class="title-temp2 notreproduced">
+                                        <span class="font">@catagory.Status</span>
+                                    </div>
+
+                                }
+                                @if (catagory.Status == "By Design")
+                                {
+                                    <div class="title-temp2 bydesign">
+                                        <span class="font">@catagory.Status</span>
+                                    </div>
+
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(BugData.Description) HeaderText="Description" Width="300"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+
+
+@code{
+
+    public List<BugData> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = BugData.GetAllBugData();
+    }
+
+    public class CustomPriorityComparer : IComparer<object>
+    {
+        public int Compare(object X, object Y)
+        {
+            BugData XData = X as BugData;
+            BugData YData = Y as BugData;
+            int XPriority = MapPriority(XData.Priority);
+            int YPriority = MapPriority(YData.Priority);
+            if (XPriority < YPriority)
+            {
+                return -1;
+            }
+            else if (XPriority > YPriority)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+
+    private static int MapPriority(string priority)
+    {
+        switch (priority.ToUpperInvariant())
+        {
+            case "CRITICAL":
+                return 1;
+            case "HIGH":
+                return 2;
+            case "NORMAL":
+                return 3;
+            default:
+                return 4;
+        }
+    }
+
+    private static int MapStatus(string status)
+    {
+        switch (status)
+        {
+            case "Completed":
+                return 1;
+            case "In Progress":
+                return 2;
+            case "By Design":
+                return 3;
+            case "Blocked":
+                return 4;
+            case "Can't Reproduce":
+                return 5;
+            default:
+                return 6;
+        }
+    }
+
+    public class CustomStatusComparer : IComparer<object>
+    {
+        public int Compare(object X, object Y)
+        {
+            BugData XData = X as BugData;
+            BugData YData = Y as BugData;
+            int XStatus = MapStatus(XData.Status);
+            int YStatus = MapStatus(YData.Status);
+            if (XStatus < YStatus)
+            {
+                return -1;
+            }
+            else if (XStatus > YStatus)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+}
+
+@*Hidden:Lines*@
+<style type="text/css" class="cssStyles">
+
+    .title-temp1 {
+        border-radius: 16px;
+        padding: 0px 3px;
+        text-align: center;
+        width: 64px;
+        margin: 10px 40px;
+    }
+
+    .title-temp2 {
+        border-radius: 16px;
+        padding: 0px 3px;
+        text-align: center;
+        margin: 10px 40px;
+        width: 95px;
+    }
+
+    .font {
+        color: #FFFFFF;
+        font-size: 12px;
+    }
+
+    .critical {
+        background: #8B0000;
+    }
+
+    .high {
+        background: #FFA500;
+    }
+
+    .normal {
+        background: #0094ff;
+    }
+
+    .low {
+        background: #32CD32;
+    }
+
+    .inprogress {
+        background: #8b008b;
+    }
+
+    .completed {
+        background: #006400;
+    }
+
+    .blocked {
+        background: #b200ff;
+    }
+
+    .wontfix {
+        background: #FFA7B2;
+    }
+
+    .notreproduced {
+        background: #556B2F;
+    }
+
+    .bydesign {
+        background: #00CED1;
+    }
+
+</style>
+@*End:Hidden*@

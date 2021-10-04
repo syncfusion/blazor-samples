@@ -63,7 +63,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/grouping-bar",
                 FileName = "GroupingBar.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -108,7 +108,16 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/toolbar",
                 FileName = "Toolbar.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
+            },            
+            new Sample
+            {
+                Name="Keyboard Navigation",
+                Category="Keyboard Navigation",
+                Directory = "PivotView/PivotTable",
+                Url="pivot-table/keyboard-navigation",
+                FileName="PivotKeyboard.razor",
+                Type=SampleType.New
             },
             new Sample
             {
@@ -126,7 +135,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/aggregation",
                 FileName = "Aggregation.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -226,8 +235,6 @@ namespace BlazorDemos
                 FileName = "DeferUpdate.razor",
                 Type = SampleType.None
             },
-
-
             new Sample
             {
                 Name = "Export",
@@ -236,6 +243,7 @@ namespace BlazorDemos
                 Url = "pivot-table/export",
                 FileName = "Exporting.razor"
             }
+            
         };
     }
 }

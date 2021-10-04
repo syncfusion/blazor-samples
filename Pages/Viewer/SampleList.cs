@@ -30,8 +30,7 @@ namespace BlazorDemos
                 Category = "PDF Viewer",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/handwritten-signature",
-                FileName = "HandwrittenSignature.razor",
-                Type = SampleType.Updated
+                FileName = "HandwrittenSignature.razor"                
             }
         };
     }

@@ -24,34 +24,21 @@
         <div class="menu-control">
             <SfMenu @ref="menu" TValue="MenuItem" Orientation="@mode" ShowItemOnClick="@menuItemClick">
                 <MenuItems>
-                    <MenuItem Text="Events">
-                        <MenuItems>
-                            <MenuItem Text="Conferences"></MenuItem>
-                            <MenuItem Text="Music"></MenuItem>
-                            <MenuItem Text="Workshops"></MenuItem>
-                        </MenuItems>
-                    </MenuItem>
-                    <MenuItem Text="Movies">
-                        <MenuItems>
-                            <MenuItem Text="Now Showing"></MenuItem>
-                            <MenuItem Text="Coming Soon"></MenuItem>
-                        </MenuItems>
-                    </MenuItem>
-                    <MenuItem Text="Directory">
-                        <MenuItems>
-                            <MenuItem Text="Media Gallery"></MenuItem>
-                            <MenuItem Text="Newsletters"></MenuItem>
-                        </MenuItems>
-                    </MenuItem>
-                    <MenuItem Text="Queries">
-                        <MenuItems>
-                            <MenuItem Text="Our Policy"></MenuItem>
-                            <MenuItem Text="Site Map"></MenuItem>
-                            <MenuItem Text="24x7 Support"></MenuItem>
-                        </MenuItems>
-                    </MenuItem>
-                    <MenuItem Text="Services"></MenuItem>
-                </MenuItems>
+                    @foreach(var item in menuItems)
+                    {
+                        <MenuItem Text="@item.Text" Disabled="@item.IsDisabled">
+                            @if(item.SubItems != null)
+                            {
+                                <MenuItems>
+                                    @foreach(var subItem in item.SubItems)
+                                    {
+                                        <MenuItem Text="@subItem.Text"></MenuItem>
+                                    }
+                                </MenuItems>
+                            }
+                        </MenuItem>
+                    }
+                </MenuItems>                
             </SfMenu>
         </div>
     </div>
@@ -78,8 +65,8 @@
                     <td style="width: 50%;padding-top:10px">
                         <div style="max-width: 200px">
                             <SfMultiSelect DataSource="@headerData" PopupHeight="200px" Width="160px" Mode="Syncfusion.Blazor.DropDowns.VisualMode.CheckBox" ShowDropDownIcon="true" TValue="string[]" TItem="DataModel">
-                                <MultiSelectEvents ValueChange="enableDisableChange" TValue="string[]" TItem="DataModel"></MultiSelectEvents>
                                 <MultiSelectFieldSettings Value="Text" Text="Text"></MultiSelectFieldSettings>
+                                <MultiSelectEvents ValueChange="enableDisableChange" TValue="string[]" TItem="DataModel"></MultiSelectEvents>
                             </SfMultiSelect>
                         </div>
                     </td>
@@ -104,36 +91,24 @@
     private Orientation mode = Orientation.Horizontal;
     private bool menuItemClick;
     private bool showButtonChange;
+    private List<DataModel> menuItems = new List<DataModel>();
+
+    protected override Task OnInitializedAsync()
+    {
+        menuItems = getItems();
+        return base.OnInitializedAsync();
+    }
 
     private void change(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DataModel> args)
     {
         mode = args.Value == "Vertical" ? Orientation.Vertical : Orientation.Horizontal;
     }
 
-    @*Hidden:Lines*@
-    #pragma warning disable
-    @*End:Hidden*@
-    private void enableDisableChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
-    {
-        if (args.Value != null)
-        {
-            menu.EnableItems(items, true);
-            menu.EnableItems(args.Value.ToList(), false);
-        }
-        else
-        {
-            menu.EnableItems(items, true);
-        }
-    }
-    
-    @*Hidden:Lines*@
-    #pragma warning restore
-    @*End:Hidden*@
-
     private void checkboxChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.menuItemClick = args.Checked;
     }
+
     private List<DataModel> headerData = new List<DataModel>()
     {
         new DataModel { Text = "Events" },
@@ -142,16 +117,58 @@
         new DataModel { Text = "Queries" },
         new DataModel { Text = "Services" }
     };
+
     private List<DataModel> dropDownListData = new List<DataModel>()
     {
         new DataModel { Text = "Horizontal" },
         new DataModel { Text = "Vertical" }
     };
+
+    private void enableDisableChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    {
+        menuItems = getItems();
+        if (args.Value != null)
+        {
+            for (int i = 0; i < args.Value.Length; i++)
+            {
+                DataModel item = menuItems.Where(item => item.Text == args.Value[i]).FirstOrDefault();
+                item.IsDisabled = true;
+            }
+        }
+    }
+
+    private List<DataModel> getItems()
+    {
+        List<DataModel> menuItems = new List<DataModel>()
+        {
+            new DataModel { Text = "Events", IsDisabled = false, SubItems = new List<DataModel> {
+                new DataModel { Text="Conferences" },
+                new DataModel { Text="Music" },
+                new DataModel { Text="Workshops" }
+            } },
+            new DataModel { Text = "Movies", IsDisabled = false, SubItems = new List<DataModel> {
+                new DataModel { Text="Now Showing" },
+                new DataModel { Text="Coming Soon" }
+            } },
+            new DataModel { Text = "Directory", IsDisabled = false, SubItems = new List<DataModel> {
+                new DataModel { Text="Media Gallery" },
+                new DataModel { Text="Newsletters" }
+            } },
+            new DataModel { Text = "Queries", IsDisabled = false, SubItems = new List<DataModel> {
+                new DataModel { Text="Our Policy" },
+                new DataModel { Text="Site Map" },
+                new DataModel { Text="24x7 Support" }
+            } },
+            new DataModel { Text = "Services", IsDisabled = false }
+        };
+        return menuItems;
+    }
+
     public class DataModel
     {
         public string Text { get; set; }
         public List<DataModel> SubItems { get; set; }
-        public bool Disabled { get; set; }
+        public bool IsDisabled { get; set; }
     }
 }
 

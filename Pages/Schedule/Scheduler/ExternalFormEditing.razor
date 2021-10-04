@@ -55,13 +55,15 @@
 @code{
     SfSchedule<ScheduleData.AppointmentData> Schedule;
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
-    private DateTime CurrentDate = new DateTime(2020, 1, 9);
-    public ScheduleData.AppointmentData SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(2020, 1, 10, 9, 0, 0), EndTime = new DateTime(2020, 1, 10, 10, 0, 0) };
+    public static int CurrentYear = DateTime.Today.Year;
+    private DateTime CurrentDate = new DateTime(CurrentYear, 1, 9);
+    public ScheduleData.AppointmentData SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(CurrentYear, 1, 10, 9, 0, 0), EndTime = new DateTime(CurrentYear, 1, 10, 10, 0, 0) };
 
     private async Task OnSave()
     {
         if (SelectedData.Id == 0)
         {
+            SelectedData.Id = await Schedule.GetMaxEventIdAsync<int>();
             await this.Schedule.AddEventAsync(SelectedData);
         }
         else
@@ -72,7 +74,7 @@
 
     private void OnCancel()
     {
-        SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(2020, 1, 10, 9, 0, 0), EndTime = new DateTime(2020, 1, 10, 10, 0, 0), Subject = "Add title" };
+        SelectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(CurrentYear, 1, 10, 9, 0, 0), EndTime = new DateTime(CurrentYear, 1, 10, 10, 0, 0), Subject = "Add title" };
     }
 
     private void OnEventClick(EventClickArgs<ScheduleData.AppointmentData> args)
@@ -89,6 +91,7 @@
     private void OnCellClick(CellClickEventArgs args)
     {
         args.Cancel = true;
+        SelectedData = new ScheduleData.AppointmentData();
         SelectedData.StartTime = args.StartTime;
         SelectedData.EndTime = args.EndTime;
         this.SelectedData.Subject = "Add title";

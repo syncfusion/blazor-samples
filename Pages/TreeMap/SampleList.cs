@@ -41,7 +41,7 @@ namespace BlazorDemos
                 Type = SampleType.None
             },
              new Sample {
-                Name = "Data Label",
+                Name = "Label",
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
                 Url = "treemap/label",
@@ -97,10 +97,6 @@ namespace BlazorDemos
                 FileName = "Rtl.razor",
                 Type = SampleType.None
             }
-        };      
+        };
     }
-
-   
-
-
 }

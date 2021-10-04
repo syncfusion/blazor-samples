@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using Syncfusion.Blazor.Navigations;
 using Microsoft.AspNetCore.Components;
+using System.Text.RegularExpressions;
 
 namespace BlazorDemos.Shared
 {
@@ -117,6 +118,10 @@ namespace BlazorDemos.Shared
         public const string DROPDOWN_POPUP = "sf-dropdown-popup";
         #endregion
 
+        #region NotificationComponent
+        public const string NOTIFICATION_POPUP_CLASS = "sb-notification-popup";
+        #endregion
+
         /// <summary>
         /// Add a class to the existing string content.
         /// </summary>
@@ -174,18 +179,25 @@ namespace BlazorDemos.Shared
         {
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
-            themeName = themeName != null ? themeName : "bootstrap4";
+            themeName = themeName != null ? themeName : "bootstrap5";
             return themeName;
         }
 
         public static List<DropDownData> ThemeData = new List<DropDownData>
         {
+            new DropDownData { ID = "bootstrap5", Text = "Bootstrap v5" },
+            new DropDownData { ID = "bootstrap5-dark", Text = "Bootstrap v5 Dark" },
+            new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
+            new DropDownData { ID = "tailwind-dark", Text = "Tailwind CSS Dark" },
             new DropDownData { ID = "material", Text = "Material" },
-            new DropDownData { ID = "fabric", Text = "Fabric" },
-            new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
             new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
-            new DropDownData { ID = "highcontrast", Text = "High Contrast" },
-            new DropDownData { ID = "tailwind", Text = "Tailwind" }
+#if DEBUG
+            new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
+            new DropDownData { ID = "bootstrap-dark", Text = "Bootstrap Dark" },
+#endif
+            new DropDownData { ID = "fabric", Text = "Fabric" },
+            new DropDownData { ID = "fabric-dark", Text = "Fabric Dark" },
+            new DropDownData { ID = "highcontrast", Text = "High Contrast" }
         };
 
         /// <summary>
@@ -213,12 +225,16 @@ namespace BlazorDemos.Shared
                     "styles/common/roboto.css",
                     "styles/common/highlight.css",
                     "styles/common/demos.css",
-                    "scripts/common/lodash.min.js",
+                    // "scripts/common/lodash.min.js",
                     "scripts/common/highlight.min.js"
                 };
                 if (uriHelper.Uri.Contains("theme=highcontrast"))
                 {
                     resourceList.Add("styles/common/highcontrast.css");
+                }
+                if (new Regex(@"theme=.*-dark").IsMatch(uriHelper.Uri))
+                {
+                    resourceList.Add("styles/common/dark-theme.css");
                 }
 #else
                 resourceList = new List<string>
@@ -226,9 +242,9 @@ namespace BlazorDemos.Shared
                     "styles/common/demos.min.css",
                     "scripts/common/demos.min.js"
                 };
-                if (uriHelper.Uri.Contains("theme=highcontrast"))
+                if (uriHelper.Uri.Contains("theme=highcontrast") || new Regex(@"theme=.*-dark").IsMatch(uriHelper.Uri))
                 {
-                    resourceList.Add("styles/common/highcontrast.min.css");
+                    resourceList.Add("styles/common/dark-theme.min.css");
                 }
 #endif
             }
@@ -291,6 +307,48 @@ namespace BlazorDemos.Shared
     {
         public string SampleName { get; set; }
         public string SamplePath { get; set; }
+    }
+    /// <summary>
+    /// Notification component's data model class.
+    /// </summary
+    public class NotificationList
+    {
+        public string Name { get; set; }
+        public string DefaultSamplePath { get; set; }
+        public List<NotificationData> SampleList { get; set; }
+        public List<NotificationList> GetNotificationData()
+        {
+            var notificationlist = new List<NotificationList>();
+            var sampleList = SampleBrowser.SampleList;
+            for (int i = 0; i < sampleList.Count; i++)
+            {
+                var samples = sampleList[i].Samples;
+                var notificationResultData = new List<NotificationData>();
+                for (int j = 0; j < samples.Count; j++)
+                {
+                    var sample = samples[j];
+                    if (sample.Type.ToString() == "New" || sample.Type.ToString() == "Updated" || sampleList[i].IsPreview)
+                    {
+                        if (sample.NotificationDescription != null)
+                        {
+                            notificationResultData.Add(new NotificationData { SampleName = sample.Name, SampleUrl = sample.Url, NotificationContent = sample.NotificationDescription });
+                        }
+                    }
+                }
+                if (notificationResultData.Count != 0)
+                {
+                    notificationlist.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, SampleList = notificationResultData });
+                }
+            }
+            return notificationlist;
+        }
+    }
+
+    public class NotificationData
+    {
+        public string SampleName { get; set; }
+        public string SampleUrl { get; set; }
+        public string[] NotificationContent { get; set; }
     }
 
     /// <summary>

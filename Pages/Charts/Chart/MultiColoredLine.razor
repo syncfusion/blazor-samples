@@ -4,8 +4,11 @@
 @using ThemeHelper
 @using Syncfusion.Blazor.Charts
 @using Newtonsoft.Json
+@using System.IO
+@using System.Net.Http.Json
 
 @inject NavigationManager NavigationManager
+@inject HttpClient Http
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -48,9 +51,18 @@
     private Theme Theme { get; set; }
     public List<LineChartData> ChartPoints { get; set; } = new List<LineChartData>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        chartJsonPoints = JsonConvert.DeserializeObject<Double[]>(System.IO.File.ReadAllText("./wwwroot/data/chart/rainfall-data.json"));
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if(File.Exists("./wwwroot/data/chart/rainfall-data.json"))
+        {
+            chartJsonPoints = JsonConvert.DeserializeObject<Double[]>(File.ReadAllText("./wwwroot/data/chart/rainfall-data.json"));
+        }
+        else
+        {
+            chartJsonPoints = await Http.GetFromJsonAsync<Double[]>("data/chart/rainfall-data.json");
+        }
+        
         for (int i = 0; i < chartJsonPoints.Length; i++)
         {
             ChartPoints.Add(new LineChartData
@@ -60,7 +72,6 @@
                 PointColor = colors[(i / 16)]
             });
         }
-        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 
     public class LineChartData

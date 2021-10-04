@@ -2,18 +2,20 @@
 
 @using Syncfusion.Blazor.Schedule
 @using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
 @inherits SampleBaseComponent;
 
 <SampleDescription>
     <p> This demo illustrates the way of manually scrolling to specific time on Scheduler.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this demo, the way of manually scrolling to specific time on Scheduler has been demonstrated by using the <code>ScrollTo</code> method of Scheduler. </p>
+    <p>In this demo, the way of manually scrolling to specific time on Scheduler has been demonstrated by using the <code>ScrollTo</code> method of Scheduler. </p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleObj" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleObj" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+            <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
@@ -29,15 +31,10 @@
     <div class="property-panel-content">
         <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
             <tbody>
-                <tr style="height: 50px">
-                    <td style="width: 30%">
+                <tr>
+                    <td>
                         <div>
-                            Scroll To
-                        </div>
-                    </td>
-                    <td style="width: 50%;">
-                        <div>
-                            <SfTimePicker TValue="DateTime?" Width="100px" Format="HH:mm" @bind-Value="TimeValue">
+                            <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="TimeValue" Placeholder="Scroll To" FloatLabelType="FloatLabelType.Always">
                                 <TimePickerEvents TValue="DateTime?" ValueChange="OnValueChange"></TimePickerEvents>
                             </SfTimePicker>
                         </div>
@@ -49,12 +46,22 @@
 </div>
 
 @code{
+    public View CurrentView = View.Week;
     SfSchedule<ScheduleData.AppointmentData> ScheduleObj;
-    public DateTime CurrentDate = new DateTime(2020, 1, 16);
+    public DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 16);
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetEmployeeEventData();
     public DateTime? TimeValue = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 9, 0, 0);
     public async void OnValueChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
     {
         await this.ScheduleObj.ScrollToAsync(args.Text);
     }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
 }
+<style>
+    .material-dark .property-section {
+        color: #fff;
+    }
+</style>

@@ -39,9 +39,7 @@
             <span id="button">
                 <SfButton CssClass="e-info" IsPrimary="true" @onclick="LoadPoints">Load 100K Points</SfButton>
             </span>
-            <span id="information">
-                Time Taken : <b>@timediff</b>
-            </span>
+            <TimeSpan @ref="timerInstance" Timediff="@timediff"></TimeSpan>
             <br />
         </div>
 
@@ -56,7 +54,6 @@
                         <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     </ChartSeries>
                 </ChartSeriesCollection>
-                <ChartEvents Loaded="ChartLoaded"></ChartEvents>
             </SfChart>
         </div>
 
@@ -66,13 +63,14 @@
 
 @code{
 
-    private DateTime start;
+    private DateTime start = DateTime.Now;
     private double value = 0;
     private bool isPointsLoaded;
+    private TimeSpan timerInstance;
     private SfChart chartInstance { get; set; }
     private string timediff { get; set; } = "0 ms";
     private Random randomNum { get; set; } = new Random();
-    private List<LineChartData> chartPoints { get; set; } = new List<LineChartData>();
+    private List<LineChartData> chartPoints { get; set; } = null;
     private Syncfusion.Blazor.Theme theme { get; set; }
 
     protected override void OnInitialized()
@@ -80,9 +78,10 @@
         theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 
-    private async Task LoadPoints()
+    private void LoadPoints()
     {
-        chartPoints.Clear();
+        chartPoints = new List<LineChartData>();
+        isPointsLoaded = true;
         for (int pts = 0; pts < 100000; pts++)
         {
             if (pts % 3 == 0)
@@ -95,18 +94,18 @@
             }
             chartPoints.Add(new LineChartData() { XValue = pts, YValue = this.value });
         }
-        isPointsLoaded = true;
         start = DateTime.Now;
-        await chartInstance.RefreshAsync();
-    }
-
-    private void ChartLoaded(LoadedEventArgs args)
-    {
-        if (!isPointsLoaded)
-            return;
-        timediff = Math.Round((DateTime.Now - start).TotalMilliseconds).ToString() + " ms";
-        isPointsLoaded = false;
         StateHasChanged();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (isPointsLoaded)
+        {
+            timediff = Math.Round((DateTime.Now - start).TotalMilliseconds).ToString() + " ms";
+            isPointsLoaded = false;
+            timerInstance.UpdateTimer(timediff);
+        }
     }
 
     public class LineChartData

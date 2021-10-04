@@ -17,6 +17,7 @@
 <div class="control-section">
     <div class="content-wrapper">
         <SfSchedule TValue="ScheduleData.DoctorsEventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+            <ScheduleEvents TValue="ScheduleData.DoctorsEventData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleTemplates>
                 <EditorTemplate>
                     <input type="hidden" name="Id" class="e-field" value="@((context as ScheduleData.DoctorsEventData).Id)" />
@@ -66,25 +67,42 @@
                 <ScheduleView Option="View.Week"></ScheduleView>
                 <ScheduleView Option="View.WorkWeek"></ScheduleView>
                 <ScheduleView Option="View.Month"></ScheduleView>
-                <ScheduleView Option="View.Agenda"></ScheduleView>
             </ScheduleViews>
         </SfSchedule>
     </div>
 </div>
 @code{
-    private DateTime CurrentDate = new DateTime(2020, 1, 16);
+    private DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 16);
     public class EventFields
     {
         public string Id { get; set; }
         public string Text { get; set; }
     }
     List<EventFields> StatusData = new List<EventFields>() {
-            new EventFields(){ Id= "New", Text= "New" },
-            new EventFields(){ Id= "Requested", Text= "Requested" },
-            new EventFields(){ Id= "Confirmed", Text= "Confirmed" },
-        };
-
+        new EventFields(){ Id= "New", Text= "New" },
+        new EventFields(){ Id= "Requested", Text= "Requested" },
+        new EventFields(){ Id= "Confirmed", Text= "Confirmed" },
+    };
     List<ScheduleData.DoctorsEventData> DataSource = new ScheduleData().GetDoctorsEventData();
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.DoctorsEventData> args)
+    {
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        switch (args.Data.EventType)
+        {
+            case "Requested":
+                attributes.Add("style", "background: #F57F17");
+                args.Attributes = attributes;
+                break;
+            case "Confirmed":
+                attributes.Add("style", "background: #7fa900");
+                args.Attributes = attributes;
+                break;
+            case "New":
+                attributes.Add("style", "background: #8e24aa");
+                args.Attributes = attributes;
+                break;
+        }
+    }
 }
 
 <style>

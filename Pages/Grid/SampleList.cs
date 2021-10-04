@@ -17,8 +17,8 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor DataGrid Example | Grid Overview | Syncfusion Demos",
                 HeaderText = "Blazor DataGrid Example - Overview",
-                MetaDescription = "This Blazor DataGrid example is an overview of the Blazor DataGrid features with its performance metrics of large amounts of data. To change the record count, select the rows and columns count from the dropdown.",
-                Type = SampleType.None
+                MetaDescription = "This Blazor DataGrid example is an overview of the Blazor DataGrid features with its performance metrics calculated for huge volume of data.",
+                Type = SampleType.None,
             },
              
             new Sample
@@ -31,7 +31,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Grid Example | Default Functionalities | Syncfusion Demos",
                 HeaderText = "Blazor Grid Example - Default Functionalities",
                 MetaDescription = "This Blazor Grid example demonstrates the default rendering of the DataGrid with a minimum configuration.",
-                Type = SampleType.None
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -62,24 +62,6 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Default Grouping",
-                Category = "Grouping",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/grouping",
-                FileName = "Grouping.razor",
-                Type = SampleType.None
-            },
-            new Sample
-            {
-                Name = "Lazy Load Grouping",
-                Category = "Grouping",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/lazyloadgroup",
-                FileName = "LazyLoadGrouping.razor",
-                Type = SampleType.New
-            },
-            new Sample
-            {
                 Name = "Context Menu",
                 Category = "DataGrid",
                 Directory = "Grid/DataGrid",
@@ -104,15 +86,6 @@ namespace BlazorDemos
                 Url = "datagrid/virtual-scrolling",
                 FileName = "VirtualScrolling.razor",
                 Type = SampleType.None
-            },
-             new Sample
-            {
-                Name = "Frozen Virtualization",
-                Category = "Scrolling",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/frozen-scrolling",
-                FileName = "FrozenVirtualization.razor",
-                Type = SampleType.New
             },
             new Sample
             {
@@ -152,6 +125,18 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Column Chooser Template",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/column-chooser-template",
+                FileName = "ColumnChooserTemplate.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to customize the column chooser dialog in Grid component.",
+                }
+            },
+            new Sample
+            {
                 Name = "Column Resize",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
@@ -179,7 +164,7 @@ namespace BlazorDemos
             },
              new Sample
              {
-                 Name = "Row Drag And Drop",
+                 Name = "Row Drag and Drop",
                  Category = "Rows",
                  Directory = "Grid/DataGrid",
                  Url = "datagrid/row-drag-and-drop",
@@ -188,30 +173,12 @@ namespace BlazorDemos
              },
             new Sample
             {
-               Name = "Row Drag And Drop Within Grid",
+               Name = "Row Drag and Drop Within Grid",
                Category = "Rows",
                Directory = "Grid/DataGrid",
                Url = "datagrid/draganddrop-within-grid",
                FileName = "DragAndDropWithinGrid.razor",
                Type = SampleType.None
-            },
-            new Sample
-            {
-                Name = "Default Frozen",
-                Category = "Frozen",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/frozen-rows",
-                FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.None
-            },
-            new Sample
-            {
-                Name = "Frozen Right and Left",
-                Category = "Frozen",
-                Directory = "Grid/DataGrid",
-                Url = "datagrid/frozen-right",
-                FileName = "FrozenRight.razor",
-                Type = SampleType.New
             },
             new Sample
             {
@@ -269,11 +236,23 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Multi Sorting",
-                Category = "DataGrid",
+                Category = "Sorting",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/sorting",
                 FileName = "Sorting.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Custom Sorting",
+                Category = "Sorting",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/customsorting",
+                FileName = "CustomSorting.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to customize the default sort action in column-wise manner."
+                }
             },
             new Sample
             {
@@ -367,7 +346,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Group And Caption Aggregate",
+                Name = "Group and Caption Aggregate",
                 Category = "Aggregates",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/group-and-caption-aggregate",
@@ -399,6 +378,15 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/print",
                 FileName = "Print.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Grouping",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/grouping",
+                FileName = "Grouping.razor",
                 Type = SampleType.None
             },
             new Sample
@@ -467,6 +455,15 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Frozen Rows and Columns",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/frozen-rows",
+                FileName = "FrozenRowsAndColumns.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
                 Name = "Show or Hide Column",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
@@ -481,7 +478,10 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/foreign-key-column",
                 FileName = "ForeignKeyColumn.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Updated a sample with sorting the foreign-key column based on text values instead of the field.",
+                }
             },
             new Sample
             {
@@ -538,6 +538,18 @@ namespace BlazorDemos
                 Url = "datagrid/keyboard-navigation",
                 FileName = "KeyboardNavigation.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Adaptive",
+                Category = "DataGrid",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/adaptive-rendering",
+                FileName = "AdaptiveRendering.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to showcase adaptive view of the DataGrid component that provides optimal viewing experience in all devices.",
+                }
             },
              new Sample
             {

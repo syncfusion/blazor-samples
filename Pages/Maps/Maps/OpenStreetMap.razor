@@ -1,34 +1,39 @@
 ﻿@page "/maps/open-street-map"
 
-
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-   <p> This sample visualizes the location of United Nations Headquarters in the OpenStreetMap with marker</p> 
+    <p>This sample uses a marker to show the location of the United Nations Headquarters in OpenStreetMap.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to render the OpenStreetMap. The OpenStreetmaps is rendered by setting <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer.html#Syncfusion_Blazor_Maps_MapsLayer_LayerType'>layerType</a></code> as <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.ShapeLayerType.html'>OSM</a></code> in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer.html'>Mapslayer</a></code> property The location of United Nations Headquarters is denoted using marker.</p>
-   <p>More information about OpenStreetmaps can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap'>documentation section</a>.</p>
+    <p>In this example, you can see how to configure and render the OpenStreetMap. The OpenStreetmaps is rendered by setting the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html#Syncfusion_Blazor_Maps_MapsLayer_1_LayerType'>LayerType</a></code> as <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.ShapeLayerType.html'>OSM</a></code> in the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html'>MapsLayer</a></code> class.</p>
+    <p>More information about OpenStreetMap can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps>
-        <MapsTitleSettings Text="Headquarters of the United Nations"/>
-        <MapsCenterPosition Latitude="40.7209" Longitude="-73.9680"/>
-        <MapsZoomSettings Enable="false" ZoomFactor="10"/>
+    <SfMaps Theme="@Theme">
+        <MapsTitleSettings Text="Headquarters of the United Nations">
+            <MapsTitleTextStyle FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsCenterPosition Latitude="40.7209" Longitude="-73.9680" />
+        <MapsZoomSettings Enable="false" ZoomFactor="10" />
         <MapsLayers>
-            <MapsLayer LayerType="ShapeLayerType.OSM" TValue="string">
+            <MapsLayer UrlTemplate="https://a.tile.openstreetmap.org/level/tileX/tileY.png" TValue="string">
                 <MapsMarkerSettings>
                     <MapsMarker Visible="true" DataSource="@MarkerDatas" TValue="MarkerData">
                         <ChildContent>
-                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name"/>
+                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                                <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                            </MapsMarkerTooltipSettings>
                         </ChildContent>
                         <MarkerTemplate>
                             @{
                                 <div style="pointer-events: none;">
-                                    <img class="markerTemplate" src="images/maps/ballon.png" />                                        
+                                    <img class="markerTemplate" src="images/maps/ballon.png" />
                                 </div>
                             }
                         </MarkerTemplate>
@@ -53,16 +58,22 @@
         display: block;
         margin: auto;
         font-size: 14px;
-        pointer-events:none;
+        pointer-events: none;
     }
 </style>
 @code {
-    public class MarkerData {
+    public class MarkerData
+    {
         public string Name { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
     }
     public List<MarkerData> MarkerDatas = new List<MarkerData> {
-        new MarkerData { Name="Manhattan, New York, USA",  Latitude=40.7488758, Longitude=-73.9730091 }
+        new MarkerData { Name="Manhattan, New York, USA",  Latitude=40.7388758, Longitude=-73.9730091 }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

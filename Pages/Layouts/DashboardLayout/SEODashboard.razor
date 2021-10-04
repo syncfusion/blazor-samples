@@ -1,0 +1,743 @@
+﻿@page "/dashboard-layout/seo"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Navigations
+@inject NavigationManager NavigationManager
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+	<p>The following sample demonstrates the usecase of DashboardLayout component in realtime SEO data analysis.</p>
+</SampleDescription>
+<ActionDescription>
+	<p>The sample demonstrates the realtime SEO data analytics dashboard layout.</p>
+</ActionDescription>
+
+
+
+<div class="control-section">
+	<div class="col-lg-12 col-sm-12 col-md-12" id="sidebar-section">
+		<div id="head">
+			<div class="header">
+				<div class="menu"><span class="e-icons expand"></span></div>
+				<div class="searchContent">
+					<div class="analysis">SEO Analysis Dashboard</div>
+				</div>
+				<div class="right-content">
+					<div class="information">
+						<span class="e-avatar e-avatar-medium e-avatar-circle image"></span>
+						<div class="text-content">John</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- sidebar element declaration -->
+		<SfSidebar ID="dockSidebar" DockSize="60px" EnableDock="true" Type="SidebarType.Over" CloseOnDocumentClick="true" Target="#target">
+			<ChildContent>
+				<div class="content-area">
+					<div class="dock">
+						<ul>
+							<li class="sidebar-item"><span class="e-icons home"></span></li>
+							<li class="sidebar-item filterHover">
+								<span class="e-icons filter"></span>
+							</li>
+							<li class="sidebar-item">
+								<span class="e-icons analyticsChart"></span>
+							</li>
+							<li class="sidebar-item"><span class="e-icons settings"></span></li>
+							<li class="sidebar-item">
+								<span class="e-icons analytics"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</ChildContent>
+		</SfSidebar>
+		<!-- end of sidebar element -->
+		<!-- main content declaration -->
+		<div id="target">
+			<div class="sidebar-content">
+				<div class="dashboardParent">
+					<SfDashboardLayout @ref="dashboardObject" CellSpacing="@CellSpacing" Columns="@Columns" CellAspectRatio="@Ratio">
+						<DashboardLayoutPanels>
+							<DashboardLayoutPanel SizeX="2" SizeY="1" Row="0" Column="0">
+								<ContentTemplate>
+									<div class="card">
+										<span class="e-icons session"></span>
+										<div class="card-content text">Session</div>
+										<div class="card-content number">124,444</div>
+									</div>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+							<DashboardLayoutPanel SizeX="2" SizeY="1" Row="0" Column="2">
+								<ContentTemplate>
+									<div class="card">
+										<span class="e-icons profile"></span>
+										<div class="card-content text">Users</div>
+										<div class="card-content number">64,496</div>
+									</div>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+							<DashboardLayoutPanel SizeX="2" SizeY="1" Row="0" Column="4">
+								<ContentTemplate>
+									<div class="card">
+										<span class="e-icons views"></span>
+										<div class="card-content text">Views</div>
+										<div class="card-content number">442,278</div>
+									</div>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+							<DashboardLayoutPanel SizeX="2" SizeY="2" Row="1" Column="0">
+								<HeaderTemplate>
+									<div>Active Visitors</div>
+								</HeaderTemplate>
+								<ContentTemplate>
+									<SfAccumulationChart Theme="@Theme" Height="100%" Width="100%" EnableSmartLabels="true" SelectionMode="AccumulationSelectionMode.Point">
+										<AccumulationChartLegendSettings Visible="true" Position="@Syncfusion.Blazor.Charts.LegendPosition.Bottom"></AccumulationChartLegendSettings>
+										<AccumulationChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" Format="Composition : <b>${point.y}%</b>"></AccumulationChartTooltipSettings>
+										<AccumulationChartSeriesCollection>
+											<AccumulationChartSeries DataSource="@VisitorData" XName="Device" YName="Amount" Radius="100%" InnerRadius="35%" Name="Revenue" Palettes="@(new string[] { "#357cd2", "#00bdae", "#e36593" })">
+												<AccumulationDataLabelSettings Visible="true" Name="text" Position="AccumulationLabelPosition.Inside">
+													<AccumulationChartDataLabelFont FontWeight="600" Color="white" Size="14px"></AccumulationChartDataLabelFont>
+												</AccumulationDataLabelSettings>
+											</AccumulationChartSeries>
+										</AccumulationChartSeriesCollection>
+									</SfAccumulationChart>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+							<DashboardLayoutPanel SizeX="4" SizeY="2" Row="1" Column="2">
+								<HeaderTemplate>
+									<div>Visitors By Type</div>
+								</HeaderTemplate>
+								<ContentTemplate>
+									<SfChart Theme="@Theme" Height="100%" Width="100%">
+										<ChartMargin Top="30"></ChartMargin>
+										<ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+										<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
+											<ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+										</ChartPrimaryXAxis>
+										<ChartPrimaryYAxis>
+											<ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+											<ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+										</ChartPrimaryYAxis>
+										<ChartSeriesCollection>
+											<ChartSeries DataSource="@DesktopVisitData" Fill="#e36593" XName="Month" YName="Visits" Name="Desktop" Type="ChartSeriesType.Column" Width="2">
+												<ChartMarker>
+													<ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+														<ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+													</ChartDataLabel>
+												</ChartMarker>
+											</ChartSeries>
+											<ChartSeries DataSource="@MobileVisitData" Fill="#00bdae" XName="Month" YName="Visits" Name="Mobile" Type="ChartSeriesType.Column" Width="2">
+												<ChartMarker>
+													<ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+														<ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+													</ChartDataLabel>
+												</ChartMarker>
+											</ChartSeries>
+											<ChartSeries DataSource="@TabletVisitData" Fill="#357cd2" XName="Month" YName="Visits" Name="Tablet" Type="ChartSeriesType.Column" Width="2">
+												<ChartMarker>
+													<ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+														<ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+													</ChartDataLabel>
+												</ChartMarker>
+											</ChartSeries>
+										</ChartSeriesCollection>
+										<ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+										<ChartLegendSettings Visible="true"></ChartLegendSettings>
+									</SfChart>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+							<DashboardLayoutPanel SizeX="2" SizeY="2" Row="3" Column="4">
+								<HeaderTemplate>
+									<div>Usage Statistics</div>
+								</HeaderTemplate>
+								<ContentTemplate>
+									<SfAccumulationChart Theme="@Theme" Height="100%" Width="100%" EnableSmartLabels="true" SelectionMode="AccumulationSelectionMode.Point">
+										<AccumulationChartCenter X="50%" Y="50%"></AccumulationChartCenter>
+										<AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+										<AccumulationChartLegendSettings Visible="true" Position="@Syncfusion.Blazor.Charts.LegendPosition.Bottom"></AccumulationChartLegendSettings>
+										<AccumulationChartSeriesCollection>
+											<AccumulationChartSeries DataSource="@UsageDataValue" XName="Device" YName="Count" Radius="100%" InnerRadius="0%" Name="Usage" Explode="true" ExplodeIndex="2" ExplodeOffset="10%" Palettes="@(new string[] { "#357cd2", "#00bdae", "#e36593" })">
+												<AccumulationDataLabelSettings Visible="true" Name="Text" Position="AccumulationLabelPosition.Inside">
+													<AccumulationChartDataLabelFont FontWeight="600"></AccumulationChartDataLabelFont>
+												</AccumulationDataLabelSettings>
+											</AccumulationChartSeries>
+										</AccumulationChartSeriesCollection>
+									</SfAccumulationChart>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+							<DashboardLayoutPanel SizeX="4" SizeY="2" Row="3" Column="0">
+								<HeaderTemplate>
+									<div>Traffic History</div>
+								</HeaderTemplate>
+								<ContentTemplate>
+									<SfChart Theme="@Theme" Height="100%" Width="100%">
+										<ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+										<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="MMM" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+											<ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+										</ChartPrimaryXAxis>
+										<ChartPrimaryYAxis LabelFormat="{value}" Minimum="0" Maximum="4" Interval="1">
+											<ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+											<ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+										</ChartPrimaryYAxis>
+										<ChartLegendSettings Visible="true"></ChartLegendSettings>
+										<ChartSeriesCollection>
+											<ChartSeries DataSource="@TrafficData" Name="Jan" XName="Period"
+														 Opacity="0.5" YName="TrafficRate" Type="ChartSeriesType.SplineArea" Fill="rgb(239, 183, 202)">
+											</ChartSeries>
+											<ChartSeries DataSource="@TrafficData1" Name="Feb" XName="Period"
+														 Opacity="0.5" YName="TrafficRate" Type="ChartSeriesType.SplineArea" Fill="rgb(0, 189, 174)">
+											</ChartSeries>
+										</ChartSeriesCollection>
+									</SfChart>
+								</ContentTemplate>
+							</DashboardLayoutPanel>
+						</DashboardLayoutPanels>
+					</SfDashboardLayout>
+				</div>
+			</div>
+		</div>
+		<!--end of main content declaration -->
+	</div>
+</div>
+
+
+@code {
+	SfDashboardLayout dashboardObject;
+	double[] CellSpacing = new double[] { 5, 5 };
+	int Columns = 6;
+	double Ratio = 100 / 85;
+	private Theme Theme { get; set; }
+	public string[] ShapePropertyPath = { "continent" };
+	public string ShapeDataPath = "Continent";
+
+	public List<VisitorsData> VisitorData = new List<VisitorsData>
+	{
+	new VisitorsData { Amount = 900, Device = "Tablet"  },
+	new VisitorsData { Amount = 1200, Device = "Desktop"  },
+	new VisitorsData { Amount = 600, Device = "Mobile"  }
+	};
+
+	public List<UsageData> UsageDataValue = new List<UsageData>
+	{
+	new UsageData { Count = 37, Device = "Desktop", Text = "60%"  },
+	new UsageData { Count = 17, Device = "Mobile", Text = "10%"  },
+	new UsageData { Count = 19, Device = "Tablet", Text = "20%"  }
+	};
+
+	public List<VisitsCountData> MobileVisitData = new List<VisitsCountData>
+	{
+	new VisitsCountData { Visits = 37, Month = "Jan"  },
+	new VisitsCountData { Visits = 23, Month = "Feb"  },
+	new VisitsCountData { Visits = 18, Month = "Mar"  }
+	};
+
+	public List<VisitsCountData> TabletVisitData { get; set; } = new List<VisitsCountData>
+	{
+	new VisitsCountData { Visits = 38, Month = "Jan"  },
+	new VisitsCountData { Visits = 17, Month = "Feb"  },
+	new VisitsCountData { Visits = 26, Month = "Mar"  }
+	};
+
+	public List<VisitsCountData> DesktopVisitData { get; set; } = new List<VisitsCountData>
+	{
+	new VisitsCountData { Visits = 46, Month = "Jan"  },
+	new VisitsCountData { Visits = 27, Month = "Feb"  },
+	new VisitsCountData { Visits = 26, Month = "Mar"  }
+	};
+
+	public List<SplineAreaChartData> TrafficData { get; set; } = new List<SplineAreaChartData>
+    {
+        new SplineAreaChartData { Period = new DateTime(2002, 01, 01), TrafficRate = 2.1  },
+		new SplineAreaChartData { Period = new DateTime(2003, 01, 01), TrafficRate = 3.5  },
+		new SplineAreaChartData { Period = new DateTime(2004, 01, 01), TrafficRate = 2.7  },
+		new SplineAreaChartData { Period = new DateTime(2005, 01, 01), TrafficRate = 1.7  },
+		new SplineAreaChartData { Period = new DateTime(2006, 01, 01), TrafficRate = 2.2  },
+		new SplineAreaChartData { Period = new DateTime(2007, 01, 01), TrafficRate = 2.6  },
+		new SplineAreaChartData { Period = new DateTime(2008, 01, 01), TrafficRate = 2.9  },
+		new SplineAreaChartData { Period = new DateTime(2009, 01, 01), TrafficRate = 3.7  },
+		new SplineAreaChartData { Period = new DateTime(2010, 01, 01), TrafficRate = 1.4  },
+		new SplineAreaChartData { Period = new DateTime(2011, 01, 01), TrafficRate = 3.2  }
+    };
+
+	public List<SplineAreaChartData> TrafficData1 { get; set; } = new List<SplineAreaChartData>
+    {
+        new SplineAreaChartData { Period = new DateTime(2002, 01, 01), TrafficRate = 2  },
+		new SplineAreaChartData { Period = new DateTime(2003, 01, 01), TrafficRate = 1.7  },
+		new SplineAreaChartData { Period = new DateTime(2004, 01, 01), TrafficRate = 1.9  },
+		new SplineAreaChartData { Period = new DateTime(2005, 01, 01), TrafficRate = 2.3  },
+		new SplineAreaChartData { Period = new DateTime(2006, 01, 01), TrafficRate = 2.3  },
+		new SplineAreaChartData { Period = new DateTime(2007, 01, 01), TrafficRate = 1.6  },
+		new SplineAreaChartData { Period = new DateTime(2008, 01, 01), TrafficRate = 1.5  },
+		new SplineAreaChartData { Period = new DateTime(2009, 01, 01), TrafficRate = 2.7  },
+		new SplineAreaChartData { Period = new DateTime(2010, 01, 01), TrafficRate = 1.5  },
+		new SplineAreaChartData { Period = new DateTime(2011, 01, 01), TrafficRate = 2.2  }
+    };
+   
+    public class SplineAreaChartData
+    {
+        public DateTime Period { get; set; }
+        public double TrafficRate { get; set; }
+    }
+	
+	protected override void OnInitialized()
+	{
+		Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+	}
+
+	public class ColumnChartData
+	{
+		public string Country { get; set; }
+		public double GoldMedal { get; set; }
+		public double SilverMedal { get; set; }
+		public double BronzeMedal { get; set; }
+	}
+
+	public class VisitorsData
+	{
+		public string Device { get; set; }
+		public int Amount { get; set; }
+	}
+
+	public class VisitsCountData
+	{
+		public string Month { get; set; }
+		public int Visits { get; set; }
+	}
+
+	public class UsageData
+	{
+		public string Device { get; set; }
+		public int Count { get; set; }
+		public string Text { get; set; }
+	}
+}
+
+
+<style>
+	.sidebar-content {
+		padding: 10px;
+		width: calc(100% - 60px);
+	}
+
+	#pie, #colChart, #visitorsChart, #pieChart {
+		width: 100%;
+		height: 100%;
+	}
+
+	.header {
+		border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+		height: 55px;
+		position: relative;
+	}
+
+	.bootstrap5-dark .header {
+		background: #343a40;
+	}
+	.tailwind-dark .header {
+		background: #4b5563;
+	}
+
+	.e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+		padding: 10px;
+		border-bottom: 2px solid #e6e9ed !important;
+		height: 35px;
+		margin: 0 15px 0 15px;
+	}
+
+	.bootstrap5 .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+		padding: 5px 18px;
+		margin: 0px;
+	}
+
+	#sidebar-section {
+		padding: 0px !important;
+		border: 1px solid rgba(0, 0, 0, 0.12);
+	}
+
+	.tailwind-dark .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header,
+	.tailwind .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header { 
+		margin: 0px;
+	}
+
+	.bootstrap5-dark .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+		padding: 5px;
+		border-bottom: 2px solid #444c54 !important;
+		height: 35px;
+		margin: 0px;
+	}
+
+	.tailwind-dark .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+		border-bottom: 2px solid #4b5563 !important;
+	}
+
+	.e-bigger #search {
+		display: none;
+	}
+
+	@@media (max-width: 650px) {
+		.e-bigger .searchContent {
+			display: none;
+		}
+
+
+		.information {
+			right: 17% !important;
+		}
+
+		#pieChart, #colChart, #visitorsChart, #pie {
+			width: 100% !important;
+			height: 100% !important;
+		}
+	}
+
+	@@font-face {
+		font-family: "e-sb-icons";
+		src: url(data:application/x-font-ttf;charset=utf-8;base64,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cwBSAGUAZwB1AGwAYQByAGUALQBzAGIALQBpAGMAbwBuAHMAZQAtAHMAYgAtAGkAYwBvAG4AcwBWAGUAcgBzAGkAbwBuACAAMQAuADAAZQAtAHMAYgAtAGkAYwBvAG4AcwBGAG8AbgB0ACAAZwBlAG4AZQByAGEAdABlAGQAIAB1AHMAaQBuAGcAIABTAHkAbgBjAGYAdQBzAGkAbwBuACAATQBlAHQAcgBvACAAUwB0AHUAZABpAG8AdwB3AHcALgBzAHkAbgBjAGYAdQBzAGkAbwBuAC4AYwBvAG0AAAAAAgAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2AQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREBEgETARQBFQEWARcBGAEZARoBGwEcAR0BHgEfASABIQEiASMBJAElASYBJwEoASkBKgErASwBLQEuAS8BMAExATIBMwE0ATUBNgE3AAZtaWMtMDMMYnVsbGV0cy0tLTA1CmJ1bGxldHMtd2YJd2FsbGV0LXdmCWhlbHAtLS0wMgloZWxwLS0tMDEQcGFpZC1pbnZvaWNlMy13ZhBwYWlkLWludm9pY2UyLXdmEHBhaWQtaW52b2ljZTEtd2YOZm9sZGVyLW9wZW4tMDEFdGFza3MKdGFzay0wMi13Zgd0YXNrLTAyB3Rhc2stMDEKYXJyb3d1cC13Zg1hcnJvdy1kb3duLXdmDWNhbGVuZGFyLS0wMS0OY2FsZW5kYXItMDItd2YOY2FsZW5kYXItMDMtd2YMYnVsbGV0cy0tLTAyDGJ1bGxldHMtLS0wMQpidWxsZXRzXzAxB2hvbWVfMDEIaG91c2UtMDcIaG91c2UtMDkIc2V0dGluZ3MNc2V0dGluZ3MtLS0xMQ1zZXR0aW5ncy0tLTEwC3NldHRpbmdzLTAyBXRpbWVyFXNob3J0LWFzY2VuZGluZy0wMS13Zgxwcm9maXQtMDEtd2YOc3RvY2staW5kZXgtdXAIY2hhcnQtd2YFZ3JhcGgIZ3JhcGgtMDEJZGF0YS1lZGl0EXRleHQtaGlnaGxpZ2h0LXdmDGRhdGEtZWRpdC13ZglzZWFyY2gtd2YLc2VhcmNoLWZpbmQLZmlsdGVyLWVkaXQOZmlsdGVyLS0tMDItd2YMZmlsdGVyLTEwLXdmB21lbnVfMDEKbWVudS0wMS13ZhFtZW51LWludGVyZmFjZS13Zgx1c2VyLXByb2ZpbGURdXNlci1wcm9maWxlLTEtd2YLdXNlci1hZGQtd2YEc2hvdwhjbG9jay13Zgh0aW1lci13ZgAA) format("truetype");
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	[class^="sf-icon-"],
+	[class*=" sf-icon-"] {
+		font-family: "e-sb-icons" !important;
+		speak: none;
+		font-size: 55px;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	#dockSidebar {
+		text-align: center;
+	}
+
+	.e-icons::before {
+		font-size: 20px;
+	}
+
+	li.sidebar-item.filterHover {
+		background: #eef4f7;
+		border-left: 4px solid #057ece;
+	}
+	/* dockbar icon Style */
+
+	.home::before {
+		content: "\e718";
+		font-family: "e-sb-icons";
+	}
+
+	.filter::before {
+		content: "\e72a";
+		font-family: "e-sb-icons";
+	}
+
+	.analyticsChart::before {
+		content: "\e722";
+		font-family: "e-sb-icons";
+	}
+
+	.analytics::before {
+		content: "\e720";
+		font-family: "e-sb-icons";
+	}
+
+	.session::before {
+		content: "\e735";
+		font-family: "e-sb-icons";
+	}
+
+	.profile::before {
+		content: "\e730";
+		font-family: "e-sb-icons";
+	}
+
+	.views::before {
+		content: "\e733";
+		font-family: "e-sb-icons";
+	}
+
+	.search::before {
+		content: "\e728";
+		font-family: "e-sb-icons";
+		font-size: 14px;
+		position: absolute;
+		top: 5px;
+		left: 12%;
+		font-weight: 800;
+	}
+
+	#search:hover {
+		background-color: transparent !important;
+	}
+
+	.settings::before {
+		content: "\e71d";
+		font-family: "e-sb-icons";
+	}
+
+	span.e-input-group.e-control-wrapper.e-ddl {
+		left: 12%;
+	}
+
+	.expand::before,
+	.expand::before {
+		content: "\e72d";
+		margin-left: 18px;
+		font-family: "e-sb-icons";
+		position: absolute;
+		top: 12%;
+	}
+
+	.right-content {
+		float: right;
+		height: 55px;
+		width: 100px;
+	}
+
+	#right-sidebar {
+		display: none;
+	}
+
+	.e-dock.e-close span.e-text {
+		display: none;
+	}
+
+	.e-dock.e-open span.e-text {
+		display: inline-block;
+	}
+
+	#dockSidebar li {
+		list-style-type: none;
+		padding: 5px;
+	}
+
+	#dockSidebar ul {
+		padding: 0px;
+	}
+
+	span.e-icons {
+		line-height: 2;
+	}
+
+	.e-open .e-icons {
+		margin-right: 16px;
+	}
+
+	.analysis {
+		font-size: 18px;
+		padding: 12px;
+		text-align: left;
+		vertical-align: middle;
+	}
+
+	#search {
+		margin-left: 10px;
+		text-indent: 8px;
+	}
+
+	.searchContent .e-input-group.e-control-wrapper.e-ddl {
+		height: 28px !important;
+	}
+
+	.piecontent .content {
+		display: inline-block;
+		padding: 4px;
+		width: 31%;
+		font-size: 13px;
+		text-align: center;
+	}
+
+	.card-content.text {
+		font-size: 15px;
+		text-align: right;
+		color: #66696b;
+	}
+
+	.bootstrap5-dark .card-content.text {
+		font-size: 15px;
+		text-align: right;
+		color: #ced4da;
+	}
+
+	.tailwind-dark .card-content.text {
+		 color: #e5e7eb;
+	}
+	.card {
+		margin-right: 5%;
+		margin-top: 10%;
+	}
+
+	.card-content.number {
+		font-size: 16px;
+		text-align: right;
+		padding-top: 10px;
+	}
+
+	.e-dashboardlayout.e-control.e-responsive {
+		width: 100% !important;
+		overflow: hidden;
+	}
+
+	.e-avatar.image {
+		background-image: url("images/avatar/pic.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+	}
+
+	#target {
+		background: linear-gradient(-141deg, #eef5f7 14%, #eef2fb 100%);
+	}
+
+	.tailwind-dark #target,
+	.bootstrap5-dark #target{
+		background: inherit;
+	}
+
+	.markerTemplate {
+		font-size: 12px;
+		color: white;
+		text-shadow: 0px 1px 1px black;
+		font-weight: 500;
+	}
+
+	.menu {
+		display: inline-block;
+		position: absolute;
+		width: 60px;
+		height: 55px;
+		border-right: 1px solid rgba(0, 0, 0, 0.12);
+	}
+
+	.searchContent {
+		display: inline-block;
+		position: absolute;
+		left: 60px;
+	}
+
+	.e-panel-content {
+		height: calc(100% - 35px) !important;
+		width: 100%;
+	}
+
+	.e-dock {
+		padding-top: 8px;
+	}
+
+	.right-content div {
+		display: inline-block;
+	}
+
+	.information {
+		top: 15%;
+		font-size: 12px;
+		position: absolute;
+	}
+
+		.information span {
+			float: left;
+		}
+
+	.text-content {
+		font-size: 17px;
+		line-height: 17px;
+		margin-top: 10px;
+		margin-left: 10px;
+	}
+
+	.card .e-icons {
+		position: absolute;
+		top: 20%;
+		left: 12%;
+		width: 60px;
+		height: 60px;
+		text-align: center;
+		border: 1px solid;
+		line-height: 60px;
+		color: #25c3cb;
+		background: #eef5f7;
+		border-radius: 60px;
+	}
+
+	.card .home::before {
+		font-size: 25px;
+	}
+
+	.dashboardParent {
+		width: 100%;
+	}
+
+	/* styles for highcontrast theme */
+
+	body.highcontrast #sidebar-section {
+		border: 1px solid #969696;
+	}
+
+	body.highcontrast .header {
+		border-bottom: 1px solid #969696;
+	}
+
+	body.highcontrast #dockSidebar .e-icons::before {
+		color: #fff;
+	}
+
+	body.highcontrast #dockSidebar li.sidebar-item.filterHover, body.highcontrast #dockSidebar {
+		background: #000;
+	}
+    .mobile .e-control.e-lib.e-dashboardlayout.e-responsive {
+        z-index: 999;
+        overflow: scroll;
+    }
+
+	.mobile .e-dashboardlayout .card .e-icons {
+		top: 32%;
+		width: 30%;
+		height: 30%;
+	}
+
+	.bootstrap-dark li.sidebar-item.filterHover,
+	.material-dark li.sidebar-item.filterHover,
+	.fabric-dark li.sidebar-item.filterHover,
+	.tailwind-dark li.sidebar-item.filterHover,
+	.bootstrap5-dark li.sidebar-item.filterHover{
+		background: inherit;
+	}
+
+
+	.mobile .e-dashboardlayout .card .e-icons::before {
+		font-size: 25px;
+		top: 10%;
+		left: 33%;
+		position: absolute;
+	}
+
+	.mobile .e-dashboardlayout .card-content.number {
+		top: 50%;
+		left: 55%;
+		position: absolute;
+		font-size: 25px;
+	}
+
+	.mobile .e-dashboardlayout .card-content.text {
+		top: 26%;
+		left: 55%;
+		position: absolute;
+		font-size: 25px;
+	}
+
+	.mobile #dockSidebar {
+		z-index: auto !important;
+	}
+    .e-control.e-sidebar.e-lib.e-dock.e-left.e-sidebar-absolute.e-transition.e-close.e-over.e-touch {
+    z-index: 99;
+	}
+</style>

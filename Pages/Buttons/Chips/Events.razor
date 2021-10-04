@@ -1,0 +1,125 @@
+﻿@page "/chips/events"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@inject IJSRuntime jsRuntime
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the events that trigger on every action of the Chip. The event details are showcased in the event trace panel.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, chip performs following actions which can be traced by event trace panel:</p>
+    <ul>
+        <li>Created - Triggers when the chip is created.</li>
+        <li>OnBeforeClick - Triggers before the chip gets clicked.</li>
+        <li>OnClick - Triggers when the chip item is clicked.</li>
+        <li>OnDelete - Triggers when the particular chip is deleted.</li>
+        <li>Destroyed - Triggers when the component is destroyed.</li>
+    </ul>
+    <p>For more information, refer to the events <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Buttons.ChipEvents.html'> API </a> from the documentation.</p>
+</ActionDescription>
+
+
+<div class="col-lg-8 control-section sb-property-border chip-container">
+    <div id="chip-events-wrapper">
+        <SfChip EnableDelete="true">
+            <ChipEvents Created="@Created"
+                        OnBeforeClick="@OnBeforeClick"
+                        OnClick="@OnClick"
+                        OnDelete="@OnDelete"></ChipEvents>
+            <ChipItems>
+                <ChipItem Text="Apple" CssClass="e-primary" Enabled="true"></ChipItem>
+                <ChipItem Text="Microsoft" CssClass="e-info" Enabled="true"></ChipItem>
+                <ChipItem Text="Google" CssClass="e-success" Enabled="true"></ChipItem>
+                <ChipItem Text="Tesla" CssClass="e-warning" Enabled="true"></ChipItem>
+                <ChipItem Text="Intel" CssClass="e-danger" Enabled="true"></ChipItem>
+            </ChipItems>
+        </SfChip>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Event Trace</div>
+        <div class="property-panel-content">
+            <table id="property" title="Event Trace" class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="eventarea" style="height: 245px;overflow: auto">
+                                <div class="EventLog" id="EventLog" style="word-break: normal;">
+                                    <span>@((MarkupString)Output)</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="evtbtn" style="padding-bottom: 10px">
+                                <button class="e-btn e-outline" @onclick="ClearLog">Clear log</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    private string Output = "";
+    public void ClearLog()
+    {
+        this.Output = "";
+    }
+    private void Created(object args)
+    {
+        this.Output = this.Output + "<span><b>Created</b> event called<hr></span>";
+    }
+    private void OnBeforeClick(Syncfusion.Blazor.Buttons.ChipEventArgs args)
+    {
+        this.Output = this.Output + "<span><b>OnBeforeClick</b> event called<hr></span>";
+    }
+    private void OnClick(Syncfusion.Blazor.Buttons.ChipEventArgs args)
+    {
+        this.Output = this.Output + "<span><b>OnClick</b> event called<hr></span>";
+    }
+    private void OnDelete(Syncfusion.Blazor.Buttons.ChipEventArgs args)
+    {
+        this.Output = this.Output + "<span><b>OnDelete</b> event called<hr></span>";
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // To prevent the page scrolling while pressing space key.
+            await jsRuntime.InvokeAsync<string>("preventSpaceKey");
+        }
+    }
+}
+
+<style>
+
+    .tailwind #chip-events-wrapper .e-chip-list.e-chip, .e-chip-list .e-chip {
+        margin: 4px;
+    }
+    .control-wrapper {
+        margin: 0 auto;
+    }
+
+    #chip-events-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+    }
+
+    #EventLog b {
+        color: #388e3c;
+    }
+
+    #EventLog hr {
+        margin: 1px 10px 1px 0px;
+        border-top: 1px solid #eee;
+    }
+</style>

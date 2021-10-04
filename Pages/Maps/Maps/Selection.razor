@@ -1,29 +1,33 @@
 @page "/maps/selection"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample visualizes USA president election results in the year 2016. Placed interactive legend at the top of the map.</p>
+    <p>This sample depicts the 2016 presidential election results in the United States. In addition, an interactive legend is added to the top of the map.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to apply various styles for a shape in the map, when it is clicked or mouse hovered.</p>
-   <p>More information about selection and highlight can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/user-interactions/#shape-selection'>documentation section</a>. Selection is enabled by <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerSelectionSettings.html'>MapsLayerSelectionSettings</a></code> property and highlight is enabled by <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerHighlightSettings.html'>MapsLayerHighlightSettings</a></code> Property </p>
+    <p>In this example, you can see how to apply different styles to a shape in the map when it is clicked or hovered with the mouse. The selection is enabled by the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerSelectionSettings.html'>MapsLayerSelectionSettings</a></code> class, and the highlight is enabled by the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerHighlightSettings.html'>MapsLayerHighlightSettings</a></code> class.</p>
+    <p>More information about selection and highlight can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/user-interactions'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps>
+    <SfMaps Theme="@Theme">
         <MapsTitleSettings Text="USA Election Results - 2016">
-            <MapsTitleTextStyle Size="16px" />
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Top" Width="80%">
-            <MapsLegendTextStyle FontWeight="400" Size="16px" />
+            <MapsLegendTextStyle FontWeight="400" Size="14px" FontFamily="Segoe UI" />
         </MapsLegendSettings>
         <MapsZoomSettings Enable="false" />
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/usa.json"}' ShapeDataPath="State" ShapePropertyPath="@ShapePropertyPath" DataSource="@SelectionDataSource" TValue="SelectionData">
-                <MapsLayerTooltipSettings Visible="true" ValuePath="State" />
+                <MapsLayerTooltipSettings Visible="true" ValuePath="State">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
                 <MapsLayerHighlightSettings Enable="true" Fill="#A3B0D0" />
                 <MapsLayerSelectionSettings Enable="true" Fill="#4C515B" Opacity="1" />
                 <MapsShapeSettings ColorValuePath="Candidate">
@@ -106,4 +110,9 @@
         new SelectionData { Value=5, State="West Virginia", Candidate="Trump", Trump=47.9, Clinton=46.9 },
         new SelectionData { Value=5, State="Wyoming", Candidate="Trump", Trump=70.1, Clinton=22.5 }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

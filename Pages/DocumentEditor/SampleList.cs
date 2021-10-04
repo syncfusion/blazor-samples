@@ -16,7 +16,10 @@ namespace BlazorDemos
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated
+                NotificationDescription = new string[]
+                {
+                    @"Improved the sample with text measuring logic to get Microsoft Word application like document pagination."
+                }
             },
             new Sample
             {
@@ -33,7 +36,11 @@ namespace BlazorDemos
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/paragraph-format",
                 FileName = "ParagraphFormat.razor",
-                Type = SampleType.Updated
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo with paragraph pagination properties (Keep with next, Keep lines together, and widow/orphan control)."
+                }
             },
             new Sample
             {
@@ -66,7 +73,11 @@ namespace BlazorDemos
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/table-format",
                 FileName = "TableFormat.razor",
-                Type = SampleType.Updated
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo with support to preserve table position properties."
+                }
             },
             new Sample
             {

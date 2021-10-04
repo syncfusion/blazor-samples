@@ -9,17 +9,17 @@
 @if (SampleService.IsDevice && DeviceMode)
 {
     <div class='sb-mobile-footer e-view sample-navigation' id='mobile-footer'>
-        <SfButton ID="mobile-prev-sample" Disabled="@isFirstSample" IsPrimary="true" CssClass="@PREV_CLASS" OnClick="OnPrevClick">PREVIOUS</SfButton>
-        <SfButton ID="mobile-next-sample" Disabled="@isLastSample" IsPrimary="true" CssClass="@NEXT_CLASS" OnClick="OnNextClick">NEXT</SfButton>
+        <SfButton ID="mobile-prev-sample" Disabled="@isFirstSample" IsPrimary="true" Class="@PREV_CLASS" OnClick="OnPrevClick">PREVIOUS</SfButton>
+        <SfButton ID="mobile-next-sample" Disabled="@isLastSample" IsPrimary="true" Class="@NEXT_CLASS" OnClick="OnNextClick">NEXT</SfButton>
     </div>
 }
 else if (isDesktop)
 {
 <div id="navigation-btn">
-    <SfTooltip OpensOn="Hover Click" ID="next-tooltip" Content="Next Sample" @ref="NextTooltipRef" Target=".sb-icon-next" Position="Position.BottomCenter">
+    <SfTooltip OpensOn="Hover" ID="next-tooltip" Content="Next Sample" @ref="NextTooltipRef" Target=".sb-icon-next" Position="Position.BottomCenter">
         <SfButton ID="next-sample" Disabled="@isLastSample" IsPrimary="true" IconCss="@NEXT_ICON" OnClick="OnNextClick"></SfButton>
     </SfTooltip>
-    <SfTooltip OpensOn="Hover Click" ID="prev-tooltip" Content="Previous Sample" @ref="PrevTooltipRef" Target=".sb-icon-previous" Position="Position.BottomCenter">
+    <SfTooltip OpensOn="Hover" ID="prev-tooltip" Content="Previous Sample" @ref="PrevTooltipRef" Target=".sb-icon-previous" Position="Position.BottomCenter">
         <SfButton ID="prev-sample" Disabled="@isFirstSample" IsPrimary="true" IconCss="@PREV_ICON" OnClick="OnPrevClick"></SfButton>
     </SfTooltip>
 </div>
@@ -28,9 +28,9 @@ else if (isDesktop)
 @code {
     const string NEXT_ICON = "sb-icons sb-icon-next";
     const string PREV_ICON = "sb-icons sb-icon-previous";
-    const string NEXT_CLASS = "e-flat sb-navigation-next sb-right";
-    const string PREV_CLASS = "e-flat sb-navigation-prev sb-left";
 
+    private string PREV_CLASS = "e-flat sb-navigation-prev sb-left";
+    private string NEXT_CLASS = "e-flat sb-navigation-next sb-right";
     private bool isDesktop { get; set; }
     private bool isFirstSample { get; set; }
     private bool isLastSample { get; set; }
@@ -65,6 +65,15 @@ else if (isDesktop)
     {
         isFirstSample = SampleService.FirstSampleUrl == url;
         isLastSample = SampleService.LastSampleUrl == url;
+        if (isFirstSample)
+        {
+            NEXT_CLASS = SampleUtils.AddClass(NEXT_CLASS, SampleUtils.ACTIVE_CLASS);
+            PREV_CLASS = SampleUtils.RemoveClass(PREV_CLASS, SampleUtils.ACTIVE_CLASS);
+        }
+        if (isLastSample) {
+            PREV_CLASS = SampleUtils.AddClass(PREV_CLASS, SampleUtils.ACTIVE_CLASS);
+            NEXT_CLASS = SampleUtils.RemoveClass(NEXT_CLASS, SampleUtils.ACTIVE_CLASS);
+        }
         if (isStateChanged && (isFirstSample || isLastSample))
         {
             StateHasChanged();
@@ -87,6 +96,8 @@ else if (isDesktop)
         isNavigated = true;
         PrevTooltipRef?.Close();
         var sampleIndex = GetSampleIndex();
+        PREV_CLASS = SampleUtils.AddClass(PREV_CLASS, SampleUtils.ACTIVE_CLASS);
+        NEXT_CLASS = SampleUtils.RemoveClass(NEXT_CLASS, SampleUtils.ACTIVE_CLASS);
         if (sampleIndex > 0)
         {
             var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
@@ -107,6 +118,8 @@ else if (isDesktop)
         isNavigated = true;
         NextTooltipRef?.Close();
         var sampleIndex = GetSampleIndex();
+        NEXT_CLASS = SampleUtils.AddClass(NEXT_CLASS, SampleUtils.ACTIVE_CLASS);
+        PREV_CLASS = SampleUtils.RemoveClass(PREV_CLASS, SampleUtils.ACTIVE_CLASS);
         var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
         var nextSample = SampleBrowser.SampleUrls[sampleIndex + 1];
         this.RefreshState(nextSample);
@@ -123,6 +136,7 @@ else if (isDesktop)
         base.OnInitialized();
         SampleService.FirstSampleUrl = SampleBrowser.SampleList.First().Samples.First().Url;
         SampleService.LastSampleUrl = SampleBrowser.SampleList.Last().Samples.Last().Url;
+        NEXT_CLASS = SampleUtils.AddClass(NEXT_CLASS,SampleUtils.ACTIVE_CLASS);
     }
 
     protected override void OnAfterRender(bool firstRender)

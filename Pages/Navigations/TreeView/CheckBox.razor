@@ -1,7 +1,7 @@
 ﻿@page "/treeview/checkBox"
 
 @using Syncfusion.Blazor.Navigations
-
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -13,173 +13,135 @@
    <p>For more information, you can refer to the <a href='https://blazor.syncfusion.com/documentation/treeview/check-box/' target='_blank'>Checkboxes</a> section from the documentation.</p>
 </ActionDescription>
 
-<div class="control-section">
+<div class="col-lg-8 control-section sb-property-border">
     <div class="control_wrapper">
-        <SfTreeView TValue="TreeItem" ShowCheckBox="true">
-            <TreeViewFieldsSettings DataSource="@TreeItems" Id="Id" Text="Name" Expanded="Expanded" Child="@("Child")"></TreeViewFieldsSettings>
+        <SfTreeView @ref="TreeRef" TValue="TreeItem" ShowCheckBox="true" @bind-CheckedNodes="@CheckedNodes">
+            <TreeViewFieldsSettings DataSource="@TreeDataSource" ImageUrl="ImageUrl" Id="NodeId" Text="NodeText" Expanded="Expanded" Child="@("Child")" IconCss="Icon"></TreeViewFieldsSettings>
         </SfTreeView>
     </div>
 </div>
-
+<div class="col-lg-4 property-section property-custom">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Checked Items</div>
+        <div id="selecttable" class="property-panel-content">
+            <table id="property" title="Properties" class="property-panel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50%">Id</th>
+                        <th style="width: 50%;">Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (TreeRef != null)
+                    {
+                        @for (int i = 0; i < CheckedNodes.Length; i++)
+                        {
+                            List<TreeItem> tree = TreeRef.GetTreeData(CheckedNodes[i]);
+                            <tr>
+                                <td style="width: 30%">
+                                    <div>@tree[0].NodeId</div>
+                                </td>
+                                <td style="width: 30%">
+                                    <div>@tree[0].NodeText</div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @code{
-    List<TreeItem> TreeItems = new List<TreeItem>();
-
+    List<TreeItem> TreeDataSource = new List<TreeItem>();
+    SfTreeView<TreeItem> TreeRef;
+    string[] CheckedNodes = new string[] { "04-01" };
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if(firstRender)
+        {
+            StateHasChanged();
+        }
+    }
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        TreeItems.Add(new TreeItem
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "1",
-            Name = "Australia",
+            NodeId = "01",
+            NodeText = "Documents",
+            Icon = "folder",
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "01-01", NodeText = "Environment Pollution.docx", Icon = "docx" },
+                new TreeItem { NodeId = "01-02", NodeText = "Global Water, Sanitation, & Hygiene.docx", Icon = "docx" },
+                new TreeItem { NodeId = "01-03", NodeText = "Global Warming.ppt", Icon = "ppt" },
+                new TreeItem { NodeId = "01-04", NodeText = "Social Network.pdf", Icon = "pdf" },
+                new TreeItem { NodeId = "01-05", NodeText = "Youth Empowerment.pdf", Icon = "pdf" },
+            },
+        });
+        TreeDataSource.Add(new TreeItem
+        {
+            NodeId = "02",
+            NodeText = "Downloads",
+            Icon = "folder",
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "02-01", NodeText = "UI-Guide.pdf", Icon = "pdf" },
+                new TreeItem { NodeId = "02-02", NodeText = "Tutorials.zip", Icon = "zip" },
+                new TreeItem { NodeId = "02-03", NodeText = "Game.exe", Icon = "exe" },
+                new TreeItem { NodeId = "02-04", NodeText = "TypeScript.7z", Icon = "zip" },
+            },
+        });
+        TreeDataSource.Add(new TreeItem
+        {
+            NodeId = "03",
+            NodeText = "Music",
+            Icon = "folder",
+            Child = new List<TreeItem>()
+            {
+                new TreeItem { NodeId = "03-01", NodeText = "Gouttes.mp3", Icon = "audio" }
+            }
+        });
+        TreeDataSource.Add(new TreeItem
+        {
+            NodeId = "04",
+            NodeText = "Pictures",
+            Icon = "folder",
             Expanded = true,
             Child = new List<TreeItem>()
             {
-                new TreeItem
-                {
-                    Id = "2",
-                    Name = "New South Wales",
-
-                },
-                        new TreeItem
-                {
-                    Id = "3",
-                    Name = "Victoria"
-                },
-                        new TreeItem
-                {
-                    Id = "4",
-                    Name = "South Australia"
-                },
-                        new TreeItem
-                {
-                    Id = "6",
-                    Name = "Western Australia",
-
-                }
-            }
+                new TreeItem { NodeId = "04-01", NodeText = "Camera Roll", Icon = "folder", Expanded = true,
+                Child = new List<TreeItem>(){
+                    new TreeItem { NodeId = "04-01-01", NodeText = "WIN_20160726_094117.JPG", ImageUrl = "//ej2.syncfusion.com/demos/src/treeview/images/employees/9.png" },
+                    new TreeItem { NodeId = "04-01-02", NodeText = "WIN_20160726_094118.JPG", ImageUrl="//ej2.syncfusion.com/demos/src/treeview/images/employees/3.png" },
+                } },
+                new TreeItem { NodeId = "04-02", NodeText = "Wind.jpg", Icon = "images" },
+                new TreeItem { NodeId = "04-03", NodeText = "Stone.jpg", Icon = "images" },
+            },
         });
-
-        TreeItems.Add(new TreeItem
+        TreeDataSource.Add(new TreeItem
         {
-            Id = "7",
-            Name = "Brazil",
+            NodeId = "05",
+            NodeText = "Videos",
+            Icon = "folder",
             Child = new List<TreeItem>()
             {
-                new TreeItem
-                {
-                    Id = "8",
-                    Name = "Paraná"
-                },
-                new TreeItem
-                {
-                    Id = "9",
-                    Name = "Ceará"
-                },
-                new TreeItem
-                {
-                    Id = "10",
-                    Name = "Acre"
-                }
-            }
+                new TreeItem { NodeId = "05-01", NodeText = "Naturals.mp4", Icon = "video" },
+                new TreeItem { NodeId = "05-02", NodeText = "Wild.mpeg", Icon = "video" },
+            },
         });
-        TreeItems.Add(new TreeItem
-        {
-            Id = "11",
-            Name = "China",
-            Child = new List<TreeItem>()
-            {
-                new TreeItem
-                {
-                    Id = "12",
-                    Name = "Guangzhou"
-                },
-                        new TreeItem
-                {
-                    Id = "13",
-                    Name = "Shanghai"
-                },
-                        new TreeItem
-                {
-                    Id = "14",
-                    Name = "Beijing"
-                },
-                        new TreeItem
-                {
-                    Id = "15",
-                    Name = "Shantou"
-
-                }
-            }
-        });
-        TreeItems.Add(new TreeItem
-        {
-            Id = "16",
-            Name = "France",
-            Child = new List<TreeItem>()
-            {
-                    new TreeItem
-                {
-                    Id = "17",
-                    Name = "Pays de la Loire"
-
-                },
-                        new TreeItem
-                {
-                    Id = "18",
-                    Name = "Aquitaine"
-
-                },
-                        new TreeItem
-                {
-                    Id = "19",
-                    Name = "Brittany"
-
-                },
-                        new TreeItem
-                {
-                    Id = "20",
-                    Name = "Lorraine"
-                }
-            }
-
-        });
-        TreeItems.Add(new TreeItem
-        {
-            Id = "21",
-            Name = "India",
-            Child = new List<TreeItem>()
-            {
-                new TreeItem
-                {
-                    Id = "22",
-                    Name = "Assam"
-
-                },
-                        new TreeItem
-                {
-                    Id = "23",
-                    Name = "Bihar"
-                },
-                        new TreeItem
-                {
-                    Id = "24",
-                    Name = "Tamil Nadu"
-
-                }
-            }
-
-        });
-
     }
 
     class TreeItem
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public bool HasChild { get; set; }
+        public string NodeId { get; set; }
+        public string NodeText { get; set; }
+        public string Icon { get; set; }
+        public string ImageUrl { get; set; }
         public bool Expanded { get; set; }
+        public bool Selected { get; set; }
         public List<TreeItem> Child;
-
     }
 }
 
@@ -189,5 +151,55 @@
         margin: auto;
         border: 1px solid #dddddd;
         border-radius: 3px;
+        max-height: 470px;
+        overflow: auto;
+    }
+    .e-treeview .e-list-img {
+        width: 25px;
+        height: 25px;
+    }
+    /* Loading sprite image for TreeView */
+    .e-treeview .e-list-icon {
+        background-repeat: no-repeat;
+        background-image: url('@UriHelper.ToAbsoluteUri($"images/treeview/file-icons.png")');
+        height: 20px;
+    }
+    /* Specify the Icon positions based upon class name */
+    .e-treeview .e-list-icon.folder {
+        background-position: -197px -552px
+    }
+    .e-bigger .e-treeview .e-list-icon.folder {
+        background-position: -197px -549px;
+    }
+    .e-treeview .e-list-icon.docx {
+        background-position: -197px -20px
+    }
+    .e-treeview .e-list-icon.ppt {
+        background-position: -197px -48px
+    }
+    .e-treeview .e-list-icon.pdf {
+        background-position: -197px -104px
+    }
+    .e-treeview .e-list-icon.images {
+        background-position: -197px -132px
+    }
+    .e-treeview .e-list-icon.zip {
+        background-position: -197px -188px
+    }
+    .e-treeview .e-list-icon.audio {
+        background-position: -197px -244px
+    }
+    .e-treeview .e-list-icon.video {
+        background-position: -197px -272px
+    }
+    .e-treeview .e-list-icon.exe {
+        background-position: -197px -412px
+    }
+    #selecttable {
+        overflow: auto;
+        max-height: 420px;
+    }
+    #selecttable div {
+        padding-left: 0;
     }
 </style>

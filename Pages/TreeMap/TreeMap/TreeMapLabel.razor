@@ -1,31 +1,39 @@
 ﻿@page "/treemap/label"
 
-
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
 @using Syncfusion.Blazor.DropDowns
-
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates the population level of various countries in 2017. The intersect action of leaf item labels can be changed by using the label intersect action in properties panel.</p>
+    <p>This sample illustrates the population density of various countries in 2017. The intersect action of leaf item labels can also be customized.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see the various label intersect actions available in treemap component. Range color mapping has been provided, and the default legend has been enabled in this example. Tooltip is enabled in this example.</p>
-   <p>More information about label can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/labels'>documentation section</a>.</p>
+    <p>In this example, you can see the various label intersect actions available in the TreeMap component. The range color mapping, the default legend, and the tooltip have all been enabled.</p>
+    <p>More information about label can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/labels'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
-    <SfTreeMap TValue="PopulationDetails" WeightValuePath="Population" Format='N0' EnableGroupingSeparator="true" RangeColorValuePath="Population" DataSource="@LeafDataSource">
-        <TreeMapTitleSettings Text="Countries ordered based on Population - 2017"/>
+    <SfTreeMap TValue="PopulationDetails" WeightValuePath="Population" Format='N0' EnableGroupingSeparator="true" RangeColorValuePath="Population" DataSource="@LeafDataSource" Theme="@Theme">
+        <TreeMapTitleSettings Text="Countries ordered based on Population - 2017">
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
+        </TreeMapTitleSettings>
         <TreeMapLeafItemSettings ShowLabels="true" LabelPath="Country" Fill="#FF0000" InterSectAction="@LabelAction">
             <TreeMapLeafColorMappings>
-                <TreeMapLeafColorMapping StartRange="100000000" EndRange="10000000000" Label="200M - 1.3M" Color="@LeafColorOne"/>
-                <TreeMapLeafColorMapping StartRange="20000000" EndRange="100000000" Label="20M - 200M" Color="@LeafColorTwo"/>
-                <TreeMapLeafColorMapping StartRange="100000" EndRange="20000000" Label="0.1M - 20M" Color="@LeafColorThree"/>
+                <TreeMapLeafColorMapping StartRange="100000000" EndRange="10000000000" Label="200M - 1.3M" Color="@LeafColorOne" />
+                <TreeMapLeafColorMapping StartRange="20000000" EndRange="100000000" Label="20M - 200M" Color="@LeafColorTwo" />
+                <TreeMapLeafColorMapping StartRange="100000" EndRange="20000000" Label="0.1M - 20M" Color="@LeafColorThree" />
             </TreeMapLeafColorMappings>
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" Size="12px"></TreeMapLeafLabelStyle>
         </TreeMapLeafItemSettings>
-        <TreeMapLegendSettings Visible="true" Mode="LegendMode.Interactive" Width="300px" Height="10" Position="LegendPosition.Top"/>
-        <TreeMapTooltipSettings Visible="true" Format="${Country} : ${Population}"/>
+        <TreeMapLegendSettings Visible="true" Mode="LegendMode.Interactive" Width="300px" Height="10" Position="LegendPosition.Top">
+            <TreeMapLegendTextStyle FontFamily="Segoe UI"></TreeMapLegendTextStyle>
+        </TreeMapLegendSettings>
+        <TreeMapTooltipSettings Visible="true" Format="${Country} : ${Population}">
+            <TreeMapTooltipTextStyle FontFamily="Segoe UI"></TreeMapTooltipTextStyle>
+        </TreeMapTooltipSettings>
     </SfTreeMap>
     <div class="urllink">
         Source:
@@ -41,13 +49,13 @@
                     <tr>
                         <td class="property-text">
                             <div style="width:70%">
-                            Label Intersect Action
+                                Label Intersect Action
                             </div>
                         </td>
                         <td>
                             <SfDropDownList DataSource="@LabelActionList" @bind-Value="@LabelActionValue" Width="120px">
-                                <DropDownListEvents TItem="LabelDropdownList" TValue="string" ValueChange="LabelActionechange"/>
-                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                                <DropDownListEvents TItem="LabelDropdownList" TValue="string" ValueChange="LabelActionechange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -58,19 +66,22 @@
 </div>
 <style>
     tr {
-       height: 50px;
+        height: 50px;
     }
+
     td {
-        width:50%;
+        width: 50%;
     }
 </style>
 @code {
+    public Theme Theme { get; set; }
     public LabelAlignment LabelAction = LabelAlignment.Trim;
     public string[] LeafColorOne = new string[] { "#4B134F" };
     public string[] LeafColorTwo = new string[] { "#8C304D" };
     public string[] LeafColorThree = new string[] { "#C84B4B" };
     public string LabelActionValue = "Trim";
-    public class LabelDropdownList {
+    public class LabelDropdownList
+    {
         public string Value { get; set; }
         public string Name { get; set; }
     };
@@ -80,22 +91,28 @@
         new LabelDropdownList { Value="Wrap", Name="Wrap"  },
         new LabelDropdownList { Value="WrapByWord", Name="WrapByWord" }
     };
-    public void LabelActionechange(ChangeEventArgs<string, LabelDropdownList> args) {
+    public void LabelActionechange(ChangeEventArgs<string, LabelDropdownList> args)
+    {
         LabelActionValue = args.Value;
-        if (args.Value == "Trim") {
+        if (args.Value == "Trim")
+        {
             LabelAction = LabelAlignment.Trim;
         }
-        else if (args.Value == "Hide") {
+        else if (args.Value == "Hide")
+        {
             LabelAction = LabelAlignment.Hide;
         }
-        else if (args.Value == "Wrap") {
+        else if (args.Value == "Wrap")
+        {
             LabelAction = LabelAlignment.Wrap;
         }
-        else {
+        else
+        {
             LabelAction = LabelAlignment.WrapByWord;
         }
     }
-    public class PopulationDetails {
+    public class PopulationDetails
+    {
         public string Country { get; set; }
         public int Population { get; set; }
     }
@@ -302,4 +319,8 @@
         new PopulationDetails { Country="Seychelles", Population=97539 },
         new PopulationDetails { Country="Antigua and Barbuda", Population=93659 },
     };
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 } 

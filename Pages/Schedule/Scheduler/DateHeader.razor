@@ -14,7 +14,8 @@
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" CssClass="schedule-date-header-template" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" CssClass="schedule-date-header-template" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+            <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleTemplates>
                 <DateHeaderTemplate>
                     <div class="date-text">@(getDateHeaderText((context as TemplateContext).Date))</div>
@@ -57,11 +58,16 @@
 </div>
 
 @code {
-    private DateTime CurrentDate = new DateTime(2020, 1, 9);
+    public View CurrentView = View.Week;
+    private DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 9);
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
     public static string getDateHeaderText(DateTime date)
     {
         return date.ToString("dd ddd", CultureInfo.InvariantCulture);
+    }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
     }
 }
 <style>
@@ -84,6 +90,11 @@
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+
+    .tailwind .schedule-date-header-template.e-schedule .e-left-indent .e-header-cells,
+    .tailwind-dark .schedule-date-header-template.e-schedule .e-left-indent .e-header-cells {
+        height: 66px;
     }
 
     .schedule-date-header-template.e-schedule .weather-text {

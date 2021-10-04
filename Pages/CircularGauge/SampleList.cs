@@ -15,7 +15,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Range",
+                Name = "Ranges",
                 Category = "Circular Gauge",
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/range",

@@ -1,33 +1,40 @@
 ﻿@page "/treemap/customization"
 
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.TreeMap
+@using ThemeHelper
 @inject NavigationManager UriHelper
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample depicts the gold medal categories of US in 2016 summer Olympics. Each categories are denoted with label template. </p>
+    <p>This sample represents the gold medal categories in which US athletes competed during the 2016 Summer Olympics. Each category is identified by a label template.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>In this example, you can see how to place custom templates in the treemap items. Also we have formatted the label text. Tooltip is enabled in this example.</p>
+    <p>In this example, you can see how to insert custom templates into TreeMap items. In addition, the label text has been formatted and the tooltip has been enabled.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfTreeMap WeightValuePath="Gold" RangeColorValuePath="Sales" DataSource="@DataSource" TValue="TreeMapData">
-        <TreeMapTitleSettings Text="US Gold medal categories in Summer Olympics - 2016"/>
+    <SfTreeMap WeightValuePath="Gold" RangeColorValuePath="Sales" DataSource="@DataSource" TValue="TreeMapData" Theme="@Theme">
+        <TreeMapTitleSettings Text="US Gold Medal categories in Summer Olympics - 2016">
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
+        </TreeMapTitleSettings>
         <TreeMapLeafItemSettings LabelPath="Sport" Fill="#993399" LabelFormat="${Sport} - ${Gold}" TemplatePosition="LabelPosition.Center">
             <LabelTemplate>
                 @{
                     var Employee = (context as TreeMapData);
                     <div>
-                        <img src="images/treemap/@Employee.GameImage" style="height:@Employee.ItemHeight;width:@Employee.ItemWidth;"/>
+                        <img src="images/treemap/@Employee.GameImage" style="height:@Employee.ItemHeight;width:@Employee.ItemWidth;" />
                     </div>
                 }
             </LabelTemplate>
             <ChildContent>
-                <TreeMapLeafBorder Color="#000000" Width="0.5"/>
+                <TreeMapLeafBorder Color="#000000" Width="0.5" />
+                <TreeMapLeafLabelStyle FontFamily="Segoe UI" />
             </ChildContent>
         </TreeMapLeafItemSettings>
-        <TreeMapTooltipSettings Visible="true" Format="${Sport} : ${Gold}"/>
+        <TreeMapTooltipSettings Visible="true" Format="${Sport} : ${Gold}">
+            <TreeMapTooltipTextStyle FontFamily="Segoe UI"></TreeMapTooltipTextStyle>
+        </TreeMapTooltipSettings>
     </SfTreeMap>
     <div class="urllink">
         Source:
@@ -35,7 +42,9 @@
     </div>
 </div>
 @code {
-    public class TreeMapData {
+    public Theme Theme { get; set; }
+    public class TreeMapData
+    {
         public string Sport { get; set; }
         public int Gold { get; set; }
         public string GameImage { get; set; }
@@ -57,4 +66,8 @@
         new TreeMapData { Sport="Triathlon", Gold=1, GameImage="Triathlon.svg", ItemHeight="40px", ItemWidth="40px" },
         new TreeMapData { Sport="Water polo", Gold=1, GameImage="Water-polo.svg", ItemHeight="40px", ItemWidth="40px" }
     };
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(UriHelper.Uri);
+    }
 }

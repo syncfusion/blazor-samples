@@ -1,6 +1,7 @@
 ﻿@page "/File-Upload/Default-Functionalities"
 
 @using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent;
 
@@ -15,24 +16,77 @@
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
-    <div class="control_wrapper">
-        <SfUploader ID="UploadFiles" DropArea=".control-fluid">
-            <UploaderEvents OnRemove="OnFileRemove"></UploaderEvents>
-            <UploaderAsyncSettings SaveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save" RemoveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove"></UploaderAsyncSettings>
-        </SfUploader>
+    <div class="col-lg-8">
+        <div class="control-wrapper">
+            <SfUploader @ref="UploadObj" AutoUpload="SetAutoUpload" SequentialUpload="SetSequentialUpload">
+                <UploaderEvents OnRemove="OnFileRemove"></UploaderEvents>
+                <UploaderAsyncSettings SaveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save" RemoveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove"></UploaderAsyncSettings>
+            </SfUploader>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="content property-section">
+            <div class="property">Properties</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfCheckBox ValueChange="OnAutoChange" TChecked="bool"></SfCheckBox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-label">Auto Upload </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfCheckBox ValueChange="OnSequentialChange" TChecked="bool"></SfCheckBox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-label">Sequential Upload</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <style>
-    .control_wrapper {
+    .control-wrapper {
         width: 350px;
         margin: 0 auto;
+    }
+    .property {
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .property-label {
+        margin: 10px;
+        width: 140px;
     }
 </style>
 
 @code {
+    SfUploader UploadObj;
+    private bool SetAutoUpload { get; set; } = false;
+    private bool SetSequentialUpload { get; set; } = false;
     public void OnFileRemove(RemovingEventArgs args)
     {
         args.PostRawFile = false;
+    }
+    public void OnAutoChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.UploadObj.ClearAll();
+        this.SetAutoUpload = args.Checked;
+    }
+    public void OnSequentialChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.UploadObj.ClearAll();
+        this.SetSequentialUpload = args.Checked;
     }
 }

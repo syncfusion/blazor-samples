@@ -108,11 +108,50 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Template",
+                Category = "Tooltip",
+                Directory = "Popups/Tooltip",
+                Url = "tooltip/template",
+                FileName = "Template.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to demonstrate template functionalities of the Tooltip component."
+                }
+            },
+            new Sample
+            {
+                Name = "Tooltip Menu",
+                Category = "Tooltip",
+                Directory = "Popups/Tooltip",
+                Url = "tooltip/menu",
+                FileName = "Menu.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to demonstrate customization of the Tooltip component."
+                }
+            },
+            new Sample
+            {
                 Name = "API",
                 Category = "Tooltip",
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/api",
                 FileName = "Api.razor"
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Tooltip",
+                Directory = "Popups/Tooltip",
+                Url = "tooltip/keyboard-navigation",
+                FileName = "KeyboardNavigation.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase keyboard accessibility of the Tooltip component."
+                }
             }
         };   
     }

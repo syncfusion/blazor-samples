@@ -3,8 +3,84 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorDemos;
+using Syncfusion.Blazor;
+using Syncfusion.Blazor.HeatMap;
+
 namespace sf_blazor_heatmapdata
 {
+    internal class HeatmapThemeHelper
+    {
+        internal static Theme GetCurrentHeatmapTheme(string navURL)
+        {
+            if (navURL.IndexOf("material") > -1)
+            {
+                if (navURL.IndexOf("dark") > -1)
+                {
+                    return Theme.MaterialDark;
+                }
+                else
+                {
+                    return Theme.Material;
+                }
+            }
+            else if (navURL.IndexOf("fabric") > -1)
+            {
+                if (navURL.IndexOf("dark") > -1)
+                {
+                    return Theme.FabricDark;
+                }
+                else
+                {
+                    return Theme.Fabric;
+                }
+            }
+            else if (navURL.IndexOf("bootstrap5") > -1)
+            {
+                if (navURL.IndexOf("dark") > -1)
+                {
+                    return Theme.Bootstrap5Dark;
+                }
+                else
+                {
+                    return Theme.Bootstrap5;
+                }
+            }
+            else if (navURL.IndexOf("bootstrap4") > -1)
+            {
+                return Theme.Bootstrap4;
+            }
+            else if (navURL.IndexOf("bootstrap") > -1)
+            {
+                if (navURL.IndexOf("dark") > -1)
+                {
+                    return Theme.BootstrapDark;
+                }
+                else
+                {
+                    return Theme.Bootstrap;
+                }
+            }
+            else if (navURL.IndexOf("tailwind") > -1)
+            {
+                if (navURL.IndexOf("dark") > -1)
+                {
+                    return Theme.TailwindDark;
+                }
+                else
+                {
+                    return Theme.Tailwind;
+                }
+            }
+            else if (navURL.IndexOf("highcontrast") > -1)
+            {
+                return Theme.HighContrast;
+            }
+            else
+            {
+                return Theme.Bootstrap4;
+            }
+        }
+    }
     public class HeatMapData
     {
         public static int[,] GetDefaultData()
@@ -867,60 +943,60 @@ namespace sf_blazor_heatmapdata
         {
             int?[,] dataSource = new int?[,]
             {
-                { null, null, null, null, 16, 48, 0 },
-                {0, 15, 0, 24, 0, 39, 0},
-                { 0, 18, 37, 0, 0, 50, 0},
-                { 0, 10, 0, 0, 44, 5, 0},
-                { 0, 36, 0, 45, 20, 18, 0},
-                { 0, 28, 1, 42, 0, 10, 0},
-                { 0, 16, 32, 0, 1, 25, 0},
-                { 0, 31, 2, 9, 24, 0, 0},
-                { 0, 8, 47, 0, 0, 35, 0},
-                { 0, 31, 0, 0, 0, 40, 0},
-                { 0, 8, 0, 27, 0, 35, 0},
-                {0, 12, 9, 45, 0, 8, 0},
-                {0, 0, 13, 0, 22, 10, 0},
-                {0, 16, 32, 0, 1, 25, 0},
-                {0, 31, 2, 9, 24, 0, 0},
-                {0, 8, 47, 27, 0, 35, 0},
-                {0, 28, 14, 10, 0, 0, 0},
-                {0, 36, 0, 45, 20, 18, 0},
-                {0, 28, 1, 42, 0, 10, 0},
-                {0, 31, 0, 24, 0, 40, 0},
-                {0, 8, 47, 27, 0, 35, 0},
-                {0, 36, 0, 45, 20, 18, 0},
-                {0, 28, 1, 42, 0, 10, 0},
-                {0, 31, 0, 24, 0, 40, 0},
-                {0, 16, 32, 0, 1, 25, 0},
-                {0, 31, 2, 9, 24, 0, 0},
-                {0, 8, 47, 27, 0, 35, 0},
-                {0, 10, 0, 36, 23, 19, 0},
-                {0, 18, 37, 23, 0, 50, 0},
-                {0, 28, 14, 10, 0, 0, 0},
-                {0, 18, 37, 23, 0, 50, 0},
-                {0, 18, 37, 23, 0, 50, 0},
-                {0, 28, 14, 10, 0, 0, 0},
-                {0, 31, 2, 9, 24, 0, 0},
-                {0, 8, 47, 27, 0, 35, 0},
-                {0, 10, 2, 0, 44, 5, 0},
-                {0, 36, 0, 45, 20, 18, 0},
-                {0, 28, 1, 42, 0, 10, 0},
-                {0, 31, 0, 24, 0, 40, 1},
-                {0, 16, 32, 0, 1, 25, 0},
-                {0, 31, 2, 9, 24, 0, 0},
-                {0, 8, 47, 27, 0, 35, 0},
-                {0, 10, 2, 0, 44, 5, 0},
-                {0, 12, 9, 45, 0, 8, 0},
-                {0, 0, 13, 35, 22, 10, 0},
-                {0, 28, 14, 10, 0, 0, 0},
-                {0, 36, 0, 45, 20, 18, 2},
-                {0, 28, 1, 42, 0, 10, 0},
-                {0, 31, 0, 24, 0, 40, 1},
-                {0, 8, 47, 27, 0, 35, 0},
-                {0, 10, 2, 0, 44, 5, 0},
-                {0, 31, 2, 9, 24, 0, 1},
-                {0, 8, 47, 27, 0, 35, 40},
-                {0, 10, 2, 0, 44, 5, null},
+                { null, null, null, null, 16, null, null },
+                {null, null, null, null, null, null, null},
+                { null, 18, null, null, null, null, null},
+                { null, null, null, null, null, null, null},
+                { null, null, null, null, 20, null, null},
+                { null, null, 1, null, null, null, null},
+                { null, null, null, null, null, null, null},
+                { null, 31, null, null, null, null, null},
+                { null, null, null, null, null, null, null},
+                { null, null, null, null, null, 40, null},
+                { null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, 13, null, null, null, null},
+                {null, null, null, null, null, 25, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, 20},
+                {null, null, null, null, null, null, null},
+                {null, 28, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {11, null, null, null, null, null, null},
+                {null, null, null, null, null, 18, null},
+                {null, null, null, null, null, null, null},
+                {null, null, 1, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, 24, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, 50, null},
+                {null, 28, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, 50, null},
+                {null, null, null, null, null, null, null},
+                {38, null, null, 9, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, 2, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, 28, null, null, null, null, null},
+                {null, null, null, null, null, null, 39},
+                {null, null, null, null, null, null, null},
+                {null, null, null, 30, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, 25, null, null, null, 36, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, 35, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, 43},
+                {40, null, null, null, null, null, null},
+                {null, null, null, 24, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, 39, null, null, null, null, null},
+                {null, null, null, null, null, null, 45},
+                {null, null, null, null, null, null, null},
+                {null, null, 40, null, null, null, null},
             };
             return dataSource;
         }

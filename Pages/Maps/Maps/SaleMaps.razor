@@ -1,22 +1,28 @@
 @page "/maps/sale-maps"
 
 @using Syncfusion.Blazor.Maps
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample illustrates the world's top 50 cities by showing the markers in their locations and clustering the markers to avoid intersecting.</p>
+    <p>This sample illustrates the sales details of the products and users location by rendering the markers. Marker clustering is also enabled in this sample.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to display multiple markers in the same region without intersecting each other. If a marker intersects, it will be clustered and the total number of markers will be displayed over the cluster. When zooming in, the number of clusters will be decreased, and the individual marker will be displayed. When zooming out, markers that intersect will again be clustered. You can use the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsMarkerClusterSettings.html'>MapsMarkerClusterSettings</a></code> property in layer to enable marker clustering. Tooltip is enabled in this example.</p>
-   <p> More information about marker clustering can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/markers/#marker-cluster-expand'>documentation section</a>.</p>
+    <p>In this example, you can see how to configure and render a cluster for a larger number of markers if the latitude and longitude values are close. When you click on the cluster, it expands.</p>
+    <p>More information about marker clustering can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/markers#expanding-the-marker-cluster'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
-    <SfMaps TooltipDisplayMode="TooltipGesture.Click">
-        <MapsZoomSettings Enable="true" />
+    <SfMaps TooltipDisplayMode="TooltipGesture.Click" Theme="@Theme">
+        <MapsZoomSettings Enable="true">
+            <MapsZoomToolbarSettings>
+                <MapsZoomToolbarTooltipSettings FontFamily="Segoe UI"></MapsZoomToolbarTooltipSettings>
+            </MapsZoomToolbarSettings>
+        </MapsZoomSettings>
         <MapsTitleSettings Text="Sales details of products in various countries">
-            <MapsTitleTextStyle Size="16px" />
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' TValue="string">
@@ -26,7 +32,9 @@
                 </MapsMarkerClusterSettings>
                 <MapsMarkerSettings>
                     <MapsMarker TValue="ProductDetails" Visible="true" Shape="MarkerType.Image" ImageUrl="images/maps/ballon.png" Height="15" Width="15" DataSource="@LargestCities">
-                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Area" Format="Name: <b>${Name}</b><br>Product: <b>${Product}</b><br>Worth: <b>${Worth} sq kms</b>" />
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Area" Format="Name: <b>${Name}</b><br>Product: <b>${Product}</b><br>Worth: <b>${Worth} sq kms</b>">
+                            <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
                     </MapsMarker>
                 </MapsMarkerSettings>
             </MapsLayer>
@@ -466,4 +474,9 @@
             Worth= "$190"
         }
     };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
 }

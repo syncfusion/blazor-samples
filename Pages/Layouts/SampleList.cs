@@ -72,8 +72,34 @@ namespace BlazorDemos
                 Url = "listview/call-history",
                 FileName = "CallHistory.razor"
             },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "ListView",
+                Directory = "Layouts/ListView",
+                Url = "listview/keyboard-navigation",
+                Type = SampleType.New,
+                FileName = "KeyboardNavigation.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo for keyboard accessibility of the ListView component."
+                }
+            },
         };
          public List<Sample> DashboardLayout { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Overview",
+                Category = "Dashboard Layout",
+                Directory = "Layouts/DashboardLayout",
+                Type = SampleType.New,
+                Url = "dashboard-layout/overview",
+                FileName = "Overview.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a overview sample to demonstrate most features of the DashboardLayout component."
+                }
+            },
             new Sample
             {
                 Name = "Default Functionalities",
@@ -84,11 +110,37 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Predefined Layouts",
+                Category = "Dashboard Layout",
+                Directory = "Layouts/DashboardLayout",
+                Type = SampleType.New,
+                Url = "dashboard-layout/predefined-layouts",
+                FileName = "PredefinedLayouts.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to demonstrates how to handle dynamic update on the DashboardLayout panels."
+                }
+            },
+            new Sample
+            {
                 Name = "API",
                 Category = "Dashboard Layout",
                 Directory = "Layouts/DashboardLayout",
                 Url = "dashboard-layout/api",
                 FileName = "API.razor"
+            },
+            new Sample
+            {
+                Name = "SEO Dashboard",
+                Category = "Use Case",
+                Directory = "Layouts/DashboardLayout",
+                Url = "dashboard-layout/seo",
+                Type = SampleType.New,
+                FileName = "SEODashboard.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Added a demo to showcase the SEO analytics using the DashboardLayout component."
+                }
             }
         };
         public List<Sample> Splitter { get; set; } = new List<Sample>{

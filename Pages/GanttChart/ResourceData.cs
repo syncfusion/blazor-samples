@@ -11,7 +11,7 @@ namespace ej2_blazor_defaultdata
         {
             public int ResourceId { get; set; }
             public string ResourceName { get; set; }
-            public int Unit { get; set; }
+            public double Unit { get; set; }
 
         }
         public static List<ResourceAlloacteData> GetResources = new List<ResourceAlloacteData>()
@@ -65,7 +65,7 @@ namespace ej2_blazor_defaultdata
             Progress = 30,
             ParentId = 1,
             Duration="2",
-
+            TaskType ="FixedDuration",
             Work=16,
             Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1,Unit=70} ,new ResourceAlloacteData() { ResourceId=6} }
         },
@@ -77,7 +77,7 @@ namespace ej2_blazor_defaultdata
             ParentId = 1,
             Work=96,
             Duration="4",
-            TaskType="Fixed work"
+            TaskType="FixedWork"
         },
         new TaskData() {
             TaskId = 4,
@@ -88,7 +88,7 @@ namespace ej2_blazor_defaultdata
             ParentId = 1,
             Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} ,new ResourceAlloacteData() { ResourceId=9} },
             Work=16,
-            TaskType="Fixed work"
+            TaskType="FixedWork"
         },
         new TaskData() {
             TaskId = 5,
@@ -96,7 +96,7 @@ namespace ej2_blazor_defaultdata
             StartDate = new DateTime(2019, 03, 29),
             EndDate = new DateTime(2019, 04, 2),
 
-            TaskType="Fixed Duration",
+            TaskType="FixedDuration",
             Duration="4"
         },
         new TaskData() {
@@ -108,7 +108,7 @@ namespace ej2_blazor_defaultdata
             ParentId = 5,
             Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4} },
             Work=30,
-            TaskType="Fixed work"
+            TaskType="FixedWork"
         },
         new TaskData() {
             TaskId = 7,
@@ -117,7 +117,7 @@ namespace ej2_blazor_defaultdata
             Duration = "3",
             Progress = 30,
             ParentId = 5,
-            TaskType="Fixedwork",
+            TaskType="FixedWork",
             Work=48,
                         Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4},new ResourceAlloacteData() { ResourceId=8} },
 
@@ -129,7 +129,7 @@ namespace ej2_blazor_defaultdata
             Duration = "2",
             ParentId = 5,
             Work=60,
-            TaskType="Fixedwork",
+            TaskType="FixedWork",
             Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId= 12},new ResourceAlloacteData() { ResourceId= 5} },
 
         },
@@ -139,7 +139,7 @@ namespace ej2_blazor_defaultdata
             StartDate = new DateTime(2019, 03, 31),
             EndDate = new DateTime(2019, 04, 01),
             Duration="1",
-            TaskType="Fixedwork",
+            TaskType="FixedWork",
             Work=24,
 
              Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId= 12},new ResourceAlloacteData() { ResourceId= 5} }

@@ -3,29 +3,34 @@
 @using Syncfusion.Blazor.Maps
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
-
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample visualizes grouping of countries in the legend based on their population density. The type and position of the legend can be changed using the Type and Position options in the properties panel.</p>
+    <p>This sample depicts grouping of countries based on population density and represents the same via the legend. The type and position of the legend can also be modified.</p>
 </SampleDescription>
 <ActionDescription>
-   <p> In this example, you can see how to render a legend in maps using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLegendSettings.html'>MapsLegendSettings</a></code> property. A legend item denotes the value of a shape. Any number of legend items can be added to a legend. You can bind the desired colors to the shapes if its values are within the specified range using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMappings.html'>MapsShapeColorMappings</a></code> property. You can also show or hide color mapping related to population density while toggling the legend item. Tooltip is enabled in this example.</p>
-   <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/legend'>documentation section</a>.</p>
+    <p>In this example, you can see how to configure and render legend in the map using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLegendSettings.html'>MapsLegendSettings</a></code> class. A legend item represents the value of a shape. A legend can contain any number of legend items. Using the<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMappings.html'>MapsShapeColorMappings</a></code> property, you can bind the desired color to the shapes if its values fall within the specified range. Toggling the legend item also allows you to show or hide color mapping related to population density.</p>
+    <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/legend'>documentation section</a>.</p>
 </ActionDescription>
 
-<div class="col-lg-9 control-section sb-property-border">
-    <SfMaps>
+<div class="col-lg-8 control-section sb-property-border">
+    <SfMaps Theme="@Theme">
         <MapsZoomSettings Enable="false" />
-        <MapsTitleSettings Text="Population density (per square kilometers) - 2015">
-            <MapsTitleTextStyle Size="16px" />
+        <MapsTitleSettings Text="Population Density (per square kilometers) - 2015">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
-        <MapsLegendSettings Visible="true" Mode="@LegendTypeValue" Position="@LegendPositionValue">
+        <MapsLegendSettings Visible="true" Mode="@LegendTypeValue" Position="@LegendPositionValue" ShapePadding="5">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
             <MapsToggleLegendSettings Enable="@ToggleCheck" />
         </MapsLegendSettings>
         <MapsLayers>
             <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData" TValue="PopulationDensityData">
-                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="${Name} : ${Density} per square kms"/>
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="${Name} : ${Density} per square kms">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
                 <MapsShapeSettings ColorValuePath="Density" Fill="#E5E5E5">
                     <MapsShapeColorMappings>
                         <MapsShapeColorMapping StartRange="0.00001" EndRange="100" Color="@ShapeColorOne" Label="<100" />
@@ -43,42 +48,44 @@
         <a href="https://simple.wikipedia.org/wiki/List_of_countries_by_population_density" target="_blank">simple.wikipedia.org</a>
     </div>
 </div>
-<div class="col-lg-3 property-section">
+<div class="col-lg-4 property-section">
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
             <table style="width:100%" title="Properties">
                 <tbody>
-                    <tr style="height: 35px">
-                        <td style="width: 70%">
+                    <tr>
+                        <td>
                             Legend Type
                         </td>
-                        <td style="width: 50%">
-                            <SfDropDownList Placeholder="Select layoutMode type" DataSource="@LegendType" @bind-Value="@LegendTypeDropDownValue" Width="120px">
+                        <td>
+                            <SfDropDownList Placeholder="Select layoutMode type" DataSource="@LegendType" @bind-Value="@LegendTypeDropDownValue" Width="100%">
                                 <DropDownListEvents TItem="DropValues" TValue="string" ValueChange="LegendTypeChange" />
                                 <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
-                    <tr style="height: 35px">
-                        <td style="width: 70%">
+                    <tr>
+                        <td>
                             Legend Position
                         </td>
-                        <td style="width: 50%">
-                            <SfDropDownList Placeholder="Legend Position" DataSource="@LegendPosition" @bind-Value="@LegendPositionDropDownValue" Width="120px">
+                        <td>
+                            <SfDropDownList Placeholder="Legend Position" DataSource="@LegendPosition" @bind-Value="@LegendPositionDropDownValue" Width="100%">
                                 <DropDownListEvents TItem="DropValues" ValueChange="LegendPositionChange" TValue="string" />
                                 <DropDownListFieldSettings Text="Name" Value="Value" />
                             </SfDropDownList>
                         </td>
                     </tr>
-                    <tr style="height: 80px">
-                        <td style="width: 70%">
-                            <div style="width:90%">
-                            Show population density when the legend item is toggled
+                    <tr>
+                        <td>
+                            <div style="width:91%">
+                                Show population density when the legend item is toggled
                             </div>
                         </td>
-                        <td style="width: 50%">
-                            <SfCheckBox Checked="@ToggleCheck" ValueChange="LegendToggleChange" TChecked="bool" />
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@ToggleCheck" ValueChange="LegendToggleChange" TChecked="bool" />
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -86,6 +93,16 @@
         </div>
     </div>
 </div>
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+
 @code {
     public LegendMode LegendTypeValue = LegendMode.Default;
     public Syncfusion.Blazor.Maps.LegendPosition LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Top;
@@ -329,5 +346,10 @@
     private void LegendToggleChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         ToggleCheck = args.Checked;
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 }
