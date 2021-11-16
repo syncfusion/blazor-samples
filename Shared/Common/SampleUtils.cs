@@ -247,6 +247,16 @@ namespace BlazorDemos.Shared
                     resourceList.Add("styles/common/dark-theme.min.css");
                 }
 #endif
+				if(sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScriptLoaded)
+                {
+                    sampleService.IsPdfScriptLoaded = true;
+                    resourceList.Add(sampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js");
+                }
+                if(sampleService.ComponentName.Equals("Word Processor") && !sampleService.IsDocScriptLoaded)
+                {
+                    sampleService.IsDocScriptLoaded = true;
+                    resourceList.Add(sampleService.DocScriptPath + "/syncfusion-blazor-documenteditor.min.js");
+                }
             }
             return resourceList;
         }

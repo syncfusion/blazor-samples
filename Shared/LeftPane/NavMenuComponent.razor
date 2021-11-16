@@ -4,6 +4,7 @@
 
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
+@inject IJSRuntime JsRuntime;
 
 <CascadingValue Value="@this">
     <TreeComponent @ref="TreeRef" DataSource="@TreeDataSource" OnNodeSelect="@OnComponentSelection">
@@ -91,6 +92,22 @@
     {
         this.isCurrentComponent = false;
         this.ListDataSource = nodeItem.Samples;
+
+        //Load dynamic script for Pdfviewer and Document editor component
+
+        if (nodeItem.Name.Equals("PDF Viewer") && !SampleService.IsPdfScriptLoaded)
+        {
+            SampleService.IsPdfScriptLoaded = true;
+            var resources = new List<string> { SampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js" };
+            this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
+
+        }
+        if (nodeItem.Name.Equals("Word Processor") && !SampleService.IsDocScriptLoaded)
+        {
+            SampleService.IsDocScriptLoaded = true;
+            var resources = new List<string> { SampleService.DocScriptPath + "/syncfusion-blazor-documenteditor.min.js" };
+            this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
+        }
 
         // Hides tree component and show list component.
         TreeRef.ShowTree(false);
