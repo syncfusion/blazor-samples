@@ -53,15 +53,35 @@ namespace BlazorDemos.Shared
         /// Specifies the demo page loaded or not.
         /// </summary>
         public bool IsDemoLoaded { get; set; }
+        /// <summary>
+        /// Specifies the pdfviewer script path.
+        /// </summary>
+        public string PdfScriptPath { get; set; }
+        /// <summary>
+        /// Specifies the document editor script path.
+        /// </summary>
+        public string DocScriptPath { get; set; }
+        /// <summary>
+        /// Specifies the pdfviewer Script loaded or not.
+        /// </summary>
+        public bool IsPdfScriptLoaded { get; set; }
+        /// <summary>
+        /// Specifies the document editor script loaded or not.
+        /// </summary>
+        public bool IsDocScriptLoaded { get; set; }
 
         public SampleService()
         {
 #if DEBUG
             ImagePath = "./images/common/";
             ShowCaseImagePath = "./images/showcase/";
+            PdfScriptPath = "_content/Syncfusion.Blazor.PdfViewer/scripts";
+            DocScriptPath = "_content/Syncfusion.Blazor.WordProcessor/scripts";
 #else
             ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
             ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
+            PdfScriptPath = "https://cdn.syncfusion.com/blazor/19.3.53";
+            DocScriptPath = "https://cdn.syncfusion.com/blazor/19.5.53";
 #endif
         }
 
