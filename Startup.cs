@@ -33,13 +33,14 @@ namespace BlazorDemos
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            #region Localization
-            // Set the resx file folder path to access
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            // Inject Syncfusion Blazor Services
             services.AddSyncfusionBlazor(options =>
             {
                 options.IgnoreScriptIsolation = true;
             });
+            #region Localization
+            // Set the resx file folder path to access
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
             // Register the Syncfusion locale service to customize the  SyncfusionBlazor component locale culture
             services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(SyncfusionLocalizer));
             services.Configure<RequestLocalizationOptions>(options =>
