@@ -14,16 +14,17 @@
     <p> This sample demonstrates simple train reservation wizard that Enable/Disable Tab items based on sequential validation of each Tab content.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>Tab items can be disabled dynamically by passing the index and boolean value to the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfTab.html#Syncfusion_Blazor_Navigations_SfTab_EnableTab_System_Int32_System_Boolean_'>EnableTab</a> method.</p>
-   <p>You can design wizard like sample with Tab using the in-built API and customizing the content with proper validations.</p>
-   <p>More information about Tab can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/tab/getting-started/'> documentation </a> section.</p>
+   <p>In this demo, two way binding of <code>SelectedItem</code>, <code>LoadOn</code>, <code>Disabled</code> properties of Tabs are used to achieve wizard like tabs with proper validations.</p>
+   <p>Initially, New Booking Tab alone is enabled and other tabs are disabled using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.TabItem.html#Syncfusion_Blazor_Navigations_TabItem_Disabled">Disabled</a> property.</p>
+   <p>Once validation of a tab page is success, the next tab page is enabled and selected to proceed with the corresponding page. The selection of tab can be handled using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfTab.html#Syncfusion_Blazor_Navigations_SfTab_SelectedItem">SelectedItem</a> property.</p>
+   <p>To maintain the state of each tab page until the train has been booked successfully, we have used the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfTab.html#Syncfusion_Blazor_Navigations_SfTab_LoadOn">LoadOn</a> mode as <code>Demand</code>.</p>
+   <p>More information about Blazor Tabs can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/tab/getting-started/'> documentation </a> section.</p>
 </ActionDescription>
 
 <div class="control-section e-tab-section">
-    <SfTab @ref="Tab" CssClass="BlazorTab" Height="390" LoadOn="ContentLoad.Demand">
-        <TabEvents Created="TabCreate"></TabEvents>
+    <SfTab CssClass="BlazorTab" Height="440" @bind-SelectedItem="SelectedPage" LoadOn="ContentLoad.Demand">
         <TabItems>
-            <TabItem>
+            <TabItem Disabled="@JourneyPage">
                 <ChildContent>
                     <TabHeader Text="New Booking"></TabHeader>
                 </ChildContent>
@@ -45,7 +46,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 search-item">
-                                    <SfDatePicker @ref="Date" Width="100%" Placeholder="Journey Date" FloatLabelType="FloatLabelType.Auto" TValue="DateTime?" Value="@(DateTime.Now)" Min="@((DateTime.Now).AddDays(-1))" Max="@(DateTime.Now.AddMonths(3))"></SfDatePicker>
+                                    <SfDatePicker @ref="Date" Width="100%" Placeholder="Journey Date" FloatLabelType="FloatLabelType.Auto" TValue="DateTime?" @bind-Value="JourneyDate" Min="@(DateTime.Now)" Max="@(DateTime.Now.AddMonths(3))"></SfDatePicker>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6 search-item">
                                     <SfDropDownList @ref="Quota" TValue="string" TItem="DropdownFields" FloatLabelType="FloatLabelType.Auto" DataSource="@QuotaList" Index="1" Placeholder="Ticket type">
@@ -68,7 +69,7 @@
                     </div>
                 </ContentTemplate>
             </TabItem>
-            <TabItem>
+            <TabItem Disabled="@TrainListPage">
                 <ChildContent>
                     <TabHeader Text="Train List"></TabHeader>
                 </ChildContent>
@@ -97,7 +98,7 @@
                     </div>
                 </ContentTemplate>
             </TabItem>
-            <TabItem>
+            <TabItem Disabled="@PassengerPage">
                 <ChildContent>
                     <TabHeader Text="Add Passenger"></TabHeader>
                 </ChildContent>
@@ -192,7 +193,7 @@
                     </div>
                 </ContentTemplate>
             </TabItem>
-            <TabItem>
+            <TabItem Disabled="@PaymentPage">
                 <ChildContent>
                     <TabHeader Text="Make Payment"></TabHeader>
                 </ChildContent>
@@ -220,11 +221,10 @@
         </TabItems>
     </SfTab>
     <div>
-        <SfDialog @ref="AlertDialog" Width=250 Target=".BlazorTab" IsModal=true Visible=false ShowCloseIcon="true">
-            <DialogEvents Created="DialogCreate"></DialogEvents>
+        <SfDialog Width=250 Target=".BlazorTab" IsModal=true @bind-Visible="ShowAlert" ShowCloseIcon="true">
             <DialogTemplates>
                 <Header><div>Success</div></Header>
-                <Content><div>Your payment successfully processed</div></Content>
+                <Content><div>Your payment was successfully processed.</div></Content>
             </DialogTemplates>
             <DialogButtons>
                 <DialogButton OnClick="@OnSubmit" Content="OK" IsPrimary="true"></DialogButton>
@@ -234,13 +234,19 @@
 </div>
 
 @code{
-    SfTab Tab;
     public SfDropDownList<string, CitiesFields> StartPoint;
     public SfDropDownList<string, CitiesFields> EndPoint;
     public SfDropDownList<string, DropdownFields> Quota;
+
+    public int SelectedPage { get; set; } = 0;
     public int SelectedTrain { get; set; }
     public Boolean IsSelectedTrain { get; set; } = false;
-    SfDialog AlertDialog;
+    public Boolean JourneyPage { get; set; } = false;
+    public Boolean TrainListPage { get; set; } = true;
+    public Boolean PaymentPage { get; set; } = true;
+    public Boolean PassengerPage { get; set; } = true;
+    public Boolean ShowAlert { get; set; } = false;
+    public DateTime? JourneyDate { get; set; } = DateTime.Now.AddDays(1);
     SfDatePicker<DateTime?> Date;
     SfTextBox FirstPassengerName;
     SfTextBox SecondPassengerName;
@@ -254,13 +260,7 @@
     public bool EmptyField { get; set; } = false;
     public bool SameField { get; set; } = false;
     public List<PassengerFields> PassengerData;
-
-    public class CitiesFields
-    {
-        public string Name { get; set; }
-        public int Fare { get; set; }
-    }
-
+    public List<GridFields> GridData;
 
     public List<CitiesFields> CitiesData = new List<CitiesFields>()
 {
@@ -271,12 +271,6 @@
         new CitiesFields() { Name = "Florida", Fare = 150 }
     };
 
-    public class DropdownFields
-    {
-        public string ID { get; set; }
-        public string Text { get; set; }
-    }
-
     public List<DropdownFields> QuotaList = new List<DropdownFields>()
 {
         new DropdownFields { ID = "1", Text = "Business Class" },
@@ -284,7 +278,21 @@
         new DropdownFields { ID = "3", Text = "Common Class" }
     };
 
-    public async Task SearchButtonClick()
+    public List<DropdownFields> Gender = new List<DropdownFields>() {
+        new DropdownFields { ID = "1", Text = "Male" },
+        new DropdownFields { ID = "2", Text = "Female" }
+    };
+
+    public List<DropdownFields> Berth = new List<DropdownFields>()
+{
+        new DropdownFields { ID = "1", Text = "Upper" },
+        new DropdownFields { ID = "2", Text = "Lower" },
+        new DropdownFields { ID = "2", Text = "Middle" },
+        new DropdownFields { ID = "2", Text = "Window" },
+        new DropdownFields { ID = "2", Text = "Aisle" }
+    };
+
+    public void SearchButtonClick()
     {
         if ((StartPoint.Value == null) || (EndPoint.Value == null) || (Quota.Value == null))
         {
@@ -317,11 +325,8 @@
                 }
             };
 
-            await Tab.EnableTabAsync(1, true);
-            await Tab.EnableTabAsync(2, false);
-            await Tab.EnableTabAsync(3, false);
-            await Tab.SelectAsync(1);
-            StateHasChanged();
+            TrainListPage = false;
+            SelectedPage = 1;
         }
     }
 
@@ -339,6 +344,108 @@
         }
     }
 
+    public void SelectTrainBack()
+    {
+        SelectedPage = 0;
+    }
+
+    public void SelectTrainContinue()
+    {
+        if (IsSelectedTrain)
+        {
+            EmptyField = false;
+            PassengerPage = false;
+            SelectedPage = 2;
+        }
+        else
+        {
+            PassengerPage = true;
+            EmptyField = true;
+        }
+    }
+
+    public void PassengerListBack()
+    {
+        SelectedPage = 1;
+    }
+
+    public void PassengerListContinue()
+    {
+        if (FirstPassengerName.Value == null || FirstPassengerGender.Value == null)
+        {
+            EmptyField = true;
+        }
+        else
+        {
+            EmptyField = false;
+            PaymentPage = false;
+            SelectedPage = 3;
+            PassengerData = new List<PassengerFields>();
+            if (FirstPassengerName.Value != null)
+            {
+                PassengerData.Add(new PassengerFields
+                {
+                    TrainNo = SelectedTrain,
+                    Name = FirstPassengerName.Value,
+                    Gender = FirstPassengerGender.Value,
+                    Berth = FirstPassengerBerth.Value
+                });
+            }
+            if (SecondPassengerName.Value != null)
+            {
+                PassengerData.Add(new PassengerFields
+                {
+                    TrainNo = SelectedTrain,
+                    Name = SecondPassengerName.Value,
+                    Gender = SecondPassengerGender.Value,
+                    Berth = SecondPassengerBerth.Value
+                });
+            }
+            if (ThirdPassengerName.Value != null)
+            {
+                PassengerData.Add(new PassengerFields
+                {
+                    TrainNo = SelectedTrain,
+                    Name = ThirdPassengerName.Value,
+                    Gender = ThirdPassengerGender.Value,
+                    Berth = ThirdPassengerBerth.Value
+                });
+            }
+        }
+    }
+
+    public void ConfirmBack()
+    {
+        SelectedPage = 2;
+    }
+
+    public void ConfirmPayment()
+    {
+        ShowAlert = true;
+    }
+
+    public void OnSubmit(Object args)
+    {
+        ShowAlert = false;
+        JourneyPage = false;
+        TrainListPage = true;
+        PassengerPage = true;
+        PaymentPage = true;
+        SelectedPage = 0;
+    }
+    
+    public class CitiesFields
+    {
+        public string Name { get; set; }
+        public int Fare { get; set; }
+    }
+
+    public class DropdownFields
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
     public class GridFields
     {
         public int TrainNo { get; set; }
@@ -354,119 +461,6 @@
         public string Name { get; set; }
         public string Gender { get; set; }
         public string Berth { get; set; }
-    }
-
-    public List<GridFields> GridData;
-
-    public List<DropdownFields> Gender = new List<DropdownFields>() {
-        new DropdownFields { ID = "1", Text = "Male" },
-        new DropdownFields { ID = "2", Text = "Female" }
-    };
-
-    public List<DropdownFields> Berth = new List<DropdownFields>()
-{
-        new DropdownFields { ID = "1", Text = "Upper" },
-        new DropdownFields { ID = "2", Text = "Lower" },
-        new DropdownFields { ID = "2", Text = "Middle" },
-        new DropdownFields { ID = "2", Text = "Window" },
-        new DropdownFields { ID = "2", Text = "Aisle" }
-    };
-    public void TabCreate()
-    {
-        Tab.EnableTab(1, false);
-        Tab.EnableTab(2, false);
-        Tab.EnableTab(3, false);
-    }
-    public void SelectTrainBack()
-    {
-        Tab.Select(0);
-    }
-    public void SelectTrainContinue()
-    {
-        if (IsSelectedTrain)
-        {
-            EmptyField = false;
-            Tab.EnableTab(2, true);
-            Tab.Select(2);
-        }
-        else
-        {
-            Tab.EnableTab(2, false);
-            EmptyField = true;
-        }
-    }
-
-    public void PassengerListBack()
-    {
-        Tab.Select(1);
-    }
-
-    public void PassengerListContinue()
-    {
-        if (FirstPassengerName.Value == null)
-        {
-            EmptyField = true;
-        }
-        else
-        {
-            EmptyField = false;
-            Tab.EnableTab(3, true);
-            Tab.Select(3);
-            PassengerData = new List<PassengerFields>();
-            if(FirstPassengerName.Value != null)
-            {
-                PassengerData.Add (new PassengerFields {
-                    TrainNo = SelectedTrain,
-                    Name = FirstPassengerName.Value,
-                    Gender = FirstPassengerGender.Value,
-                    Berth = FirstPassengerBerth.Value
-                });
-            }
-            if(SecondPassengerName.Value != null)
-            {
-                PassengerData.Add (new PassengerFields
-                {
-                    TrainNo = SelectedTrain,
-                    Name = SecondPassengerName.Value,
-                    Gender = SecondPassengerGender.Value,
-                    Berth = SecondPassengerBerth.Value
-                });
-            }
-            if(ThirdPassengerName.Value != null)
-            {
-                PassengerData.Add(new PassengerFields
-                {
-                    TrainNo = SelectedTrain,
-                    Name = ThirdPassengerName.Value,
-                    Gender = ThirdPassengerGender.Value,
-                    Berth = ThirdPassengerBerth.Value
-                });
-            }
-        }
-    }
-
-    public void ConfirmBack()
-    {
-        Tab.Select(2);
-    }
-    public void ConfirmPayment()
-    {
-        AlertDialog.Show();
-        StateHasChanged();
-    }
-    public void DialogCreate()
-    {
-        AlertDialog.Hide();
-    }
-    public void OnSubmit(Object args)
-    {
-
-        AlertDialog.Hide();
-        Tab.EnableTab(0, true);
-        Tab.EnableTab(1, false);
-        Tab.EnableTab(2, false);
-        Tab.EnableTab(3, false);
-        Tab.Select(0);
     }
 }
 
@@ -489,10 +483,11 @@
         padding-right: 50px;
         padding-bottom: 20px;
     }
-    
+
     .btn-container {
         padding-bottom: 15px;
     }
+
     #amount {
         text-align: right;
         font-size: 15px;
@@ -513,6 +508,7 @@
     #passenger-table td {
         border: 1px solid gainsboro;
     }
+
     .material-dark .wizard-title {
         color: #fff;
     }

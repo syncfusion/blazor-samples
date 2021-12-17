@@ -1,7 +1,7 @@
 ﻿@page "/kanban/wip-validation"
 @inherits SampleBaseComponent;
 
-@using ej2_blazor_kanban_data_models
+@using Syncfusion.Blazor.KanbanDemo
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Inputs
@@ -11,15 +11,16 @@
     <p>This sample demonstrates how to limit the minimum and maximum number of cards to each column of the Kanban control. Configured the options in the property panel to change the constraint type and related attributes.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This sample validates the number of cards in the particular column or swimlane using the <code>ConstraintType</code> property. This property contains two types:</p>
+    <p>The Kanban component validates the number of cards in the particular column or swimlane using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_ConstraintType">ConstraintType</a> property as follows, 
+    </p>
     <ul>
-        <li><code>Column</code>: Validates the number of cards based on the particular column. By default, column validation is applied to Kanban board.</li>
+        <li><code>Column</code>: Validates the number of cards based on the column. By default, column validation is applied to Kanban board.</li>
         <li><code>Swimlane</code>: Validation applies based on number of cards in a particular column cell and swimlane.</li>
     </ul>
-    <p>This sample contains the following properties: </p>
+    <p>In this demo, property panel shows the following options: </p>
     <ul>
         <li><code>Columns</code>: You can choose a column and set maximum and minimum limit to the selected column.</li>
-        <li><code>MinCount</code>: Minimum limit of cards required for each column. If the cards count do not reach the minimum limit, it will indicate the validation failed state.</li>
+        <li><code>MinCount</code>: Minimum limit of cards required for each column. If the cards count does not reach the minimum limit, it will indicate the validation failed state.</li>
         <li><code>MaxCount</code>: Maximum limit of cards per column. If the cards count exceeds the maximum limit, it will indicate the validation failed state.</li>
     </ul>
 </ActionDescription>
@@ -29,11 +30,12 @@
         <KanbanColumns>
             @foreach (ColumnModel item in columnData)
             {
-                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="true" ShowItemCount="true" MinCount="@item.MinCount" MaxCount="@item.MaxCount"></KanbanColumn>
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="true" ShowItemCount="true" 
+                            MinCount="@item.MinCount" MaxCount="@item.MaxCount"/>
             }
         </KanbanColumns>
-        <KanbanCardSettings HeaderField="Id" ContentField="Summary"></KanbanCardSettings>
-        <KanbanSwimlaneSettings KeyField="Assignee" ShowItemCount="true" AllowDragAndDrop="true"></KanbanSwimlaneSettings>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary"/>
+        <KanbanSwimlaneSettings KeyField="Assignee" ShowItemCount="true" AllowDragAndDrop="true"/>
     </SfKanban>
 </div>
 <div class="col-lg-3 property-section">
@@ -46,7 +48,7 @@
                         <td style="width: 35%">Type</td>
                         <td style="width: 65%">
                             <SfDropDownList TItem="string" TValue="string" DataSource="@ColumnConstraints" @bind-Value="@ColumnConstraintValue">
-                                <DropDownListEvents TItem="string" TValue="string" ValueChange="@((args) => IsSwimlaneEnable = args.Value == "Swimlane")"></DropDownListEvents>
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="@((args) => IsSwimlaneEnable = args.Value == "Swimlane")"/>
                             </SfDropDownList>
                         </td>
                     </tr>
@@ -60,29 +62,30 @@
                     <tr>
                         <td style="width: 35%">Columns</td>
                         <td style="width: 65%">
-                            <SfDropDownList TItem="string" TValue="string" DataSource="@KanbanColumns" Placeholder="Header Text" ShowClearButton="true" @bind-Value="@ColumnKeyValue">
-                                <DropDownListFieldSettings Text="HeaderText" Value="KeyField"></DropDownListFieldSettings>
-                                <DropDownListEvents TItem="string" TValue="string" ValueChange="ColumnValueUpdate"></DropDownListEvents>
+                            <SfDropDownList TItem="string" TValue="string" DataSource="@KanbanColumns" Placeholder="Header Text" ShowClearButton="true" 
+                                            @bind-Value="@ColumnKeyValue">
+                                <DropDownListFieldSettings Text="HeaderText" Value="KeyField"/>
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="ColumnValueUpdate"/>
                             </SfDropDownList>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 35%">MinCount</td>
                         <td style="width: 65%">
-                            <SfNumericTextBox ID="minIndex" TValue="int?" Placeholder="Minimum Count" Min="0" Max="20" @bind-Value=@ColumnMinCount></SfNumericTextBox>
+                            <SfNumericTextBox ID="minIndex" TValue="int?" Placeholder="Minimum Count" Min="0" Max="20" @bind-Value=@ColumnMinCount/>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 35%">MaxCount</td>
                         <td style="width: 65%">
-                            <SfNumericTextBox ID="maxIndex" TValue="int?" Placeholder="Maximum Count" Min="0" Max="20" @bind-Value=@ColumnMaxCount></SfNumericTextBox>
+                            <SfNumericTextBox ID="maxIndex" TValue="int?" Placeholder="Maximum Count" Min="0" Max="20" @bind-Value=@ColumnMaxCount/>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="2">
-                            <SfButton ID="validate" Content="Validate" OnClick="OnColumnValidationUpdate"></SfButton>
+                            <SfButton ID="validate" Content="Validate" OnClick="OnColumnValidationUpdate"/>
                         </td>
                     </tr>
                 </tfoot>
@@ -147,9 +150,12 @@
 
     private void OnColumnValidationUpdate()
     {
-        ColumnModel ColumnData = columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
-        ColumnData.MinCount = (int)this.ColumnMinCount;
-        ColumnData.MaxCount = (int)this.ColumnMaxCount;
-        this.ColumnKeyValue = null;
+        if (this.ColumnDataValue != null) {
+            ColumnModel ColumnData = columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
+            ColumnData.MinCount = (int)this.ColumnMinCount;
+            ColumnData.MaxCount = (int)this.ColumnMaxCount;
+            this.ColumnKeyValue = null;
+            this.ColumnDataValue = null;
+        }
     }
 }

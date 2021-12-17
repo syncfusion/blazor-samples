@@ -10,7 +10,7 @@ namespace BlazorDemos
         public List<Sample> Barcode { get; set; } = new List<Sample>{
             new Sample
             {
-                Name = "Ean8",
+                Name = "EAN-8",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/default-functionalities",
@@ -18,39 +18,39 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Code128",
+                Name = "EAN-13",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-128",
-                FileName = "Code128.razor"
+                Url = "barcodes/ean-13",
+                FileName = "Ean13.razor"
             },
             new Sample
             {
-                Name = "Code128A",
+                Name = "Code 32",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-128a",
-                FileName = "Code128A.razor"
+                Url = "barcodes/code-32",
+                FileName = "Code32.razor"
             },
             new Sample
             {
-                Name = "Code128B",
+                Name = "Code 39",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-128b",
-                FileName = "Code128B.razor"
+                Url = "barcodes/code-39",
+                FileName = "Code39.razor"
             },
             new Sample
             {
-                Name = "Code128C",
+                Name = "Extended Code 39",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-128c",
-                FileName = "Code128C.razor"
+                Url = "barcodes/extended-code-39",
+                FileName = "Code39Extension.razor"
             },
             new Sample
             {
-                Name = "Code93",
+                Name = "Code 93",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-93",
@@ -58,11 +58,35 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Code32",
+                Name = "Code 128",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-32",
-                FileName = "Code32.razor"
+                Url = "barcodes/code-128",
+                FileName = "Code128.razor"
+            },
+            new Sample
+            {
+                Name = "Code 128A",
+                Category = "Getting started",
+                Directory = "Barcodes/Barcode",
+                Url = "barcodes/code-128a",
+                FileName = "Code128A.razor"
+            },
+            new Sample
+            {
+                Name = "Code 128B",
+                Category = "Getting started",
+                Directory = "Barcodes/Barcode",
+                Url = "barcodes/code-128b",
+                FileName = "Code128B.razor"
+            },
+            new Sample
+            {
+                Name = "Code 128C",
+                Category = "Getting started",
+                Directory = "Barcodes/Barcode",
+                Url = "barcodes/code-128c",
+                FileName = "Code128C.razor"
             },
             new Sample
             {
@@ -71,18 +95,10 @@ namespace BlazorDemos
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/codabar",
                 FileName = "Codabar.razor"
-            },
+            },            
             new Sample
             {
-                Name = "Ean13",
-                Category = "Getting started",
-                Directory = "Barcodes/Barcode",
-                Url = "barcodes/ean-13",
-                FileName = "Ean13.razor"
-            },
-            new Sample
-            {
-                Name = "UpcA",
+                Name = "UPC-A",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/upc-a",
@@ -90,7 +106,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "UpcE",
+                Name = "UPC-E",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/upc-e",
@@ -98,23 +114,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Code39",
-                Category = "Getting started",
-                Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-39",
-                FileName = "Code39.razor"
-            },
-            new Sample
-            {
-                Name = "Code39Extension",
-                Category = "Getting started",
-                Directory = "Barcodes/Barcode",
-                Url = "barcodes/code-39-extension",
-                FileName = "Code39Extension.razor"
-            },
-            new Sample
-            {
-                Name = "QRCode",
+                Name = "QR Code",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/qr-code",
@@ -122,7 +122,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "DataMatrix",
+                Name = "Data Matrix",
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/data-matrix",

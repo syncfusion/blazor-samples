@@ -31,13 +31,13 @@ namespace ej2_blazor_timelinedata
         new TaskData() {
            TaskId = 1,
             TaskName = "Project initiation",
-            StartDate = new DateTime(2019, 04, 03),
-            EndDate = new DateTime(2019, 04, 21),
+            StartDate = new DateTime(2021, 04, 03),
+            EndDate = new DateTime(2021, 04, 21)
         },
         new TaskData() {
                     TaskId = 2,
                     TaskName = "Identify site location",
-                    StartDate = new DateTime(2019, 04, 03),
+                    StartDate = new DateTime(2021, 04, 03),
                     Duration = "5",
                     Progress = 70,
                     ParentId=1
@@ -45,52 +45,42 @@ namespace ej2_blazor_timelinedata
             new TaskData() {
                     TaskId = 3,
                     TaskName = "Perform soil test",
-                    StartDate = new DateTime(2019, 04, 03),
+                    StartDate = new DateTime(2021, 04, 03),
                     Duration = "5",
                     Progress = 50,
-            ParentId = 1
+                    ParentId = 1
         },
          new TaskData() {
                     TaskId = 4,
                     TaskName = "Soil test approval",
-                    StartDate = new DateTime(2019, 04, 03),
+                    StartDate = new DateTime(2021, 04, 03),
                     Duration = "5",
-                    Progress = 50,
-               
-            ParentId = 1,
-            Predecessor="2"
-
+                    Progress = 50,               
+                    ParentId = 1,
+                    Predecessor="2"
         },
          new TaskData(){
-         TaskId = 5,
-
+            TaskId = 5,
             TaskName = "Project estimation",
-            StartDate = new DateTime(2019, 04, 10),
-            EndDate = new DateTime(2019, 04, 21),
-
-
-
+            StartDate = new DateTime(2021, 04, 10),
+            EndDate = new DateTime(2021, 04, 21)
         },
          new TaskData() {
                     TaskId = 6,
                     TaskName = "Develop floor plan for estimation",
-                    StartDate = new DateTime(2019, 04, 10),
+                    StartDate = new DateTime(2021, 04, 10),
                     Duration = "5",
-            ParentId=5
-
+                    ParentId=5
         },
         new TaskData() {
                     TaskId = 7,
                     TaskName = "List materials",
-                    StartDate = new DateTime(2019, 04, 10),
+                    StartDate = new DateTime(2021, 04, 10),
                     Duration = "5",
                     Progress = 50,
             ParentId = 5
-        },
-           
-        
+        },       
     };
-
             return Tasks;
         }
     }

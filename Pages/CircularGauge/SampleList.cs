@@ -13,115 +13,134 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None
             },
-            new Sample
-            {
-                Name = "Ranges",
-                Category = "Circular Gauge",
-                Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/range",
-                FileName = "Range.razor",
-                Type = SampleType.None
-            },
+            
             new Sample
             {
                 Name = "Ticks and Labels",
-                Category = "Circular Gauge",
+                Category = "Axis",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/labels",
-                FileName = "Labels.razor",
-                Type = SampleType.None
-            },
-             new Sample
-            {
-                Name = "Gauge Customization",
-                Category = "Circular Gauge",
-                Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/customization",
-                FileName = "Customization.razor",
-                Type = SampleType.None
-            },
-             new Sample
-            {
-                Name = "Semi-circular Gauge",
-                Category = "Circular Gauge",
-                Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/semi-circular-gauge",
-                FileName = "Semicirculargauge.razor",
-                Type = SampleType.None
-            },	
-			 new Sample
-			{
-			    Name = "Arc Gauge",
-			    Category = "Circular Gauge",
-			    Directory = "CircularGauge/CircularGauge",
-			    Url = "circular-gauge/arc-gauges",
-			    FileName = "ArcGauges.razor",
-                Type = SampleType.None
-			},
-              new Sample
-            {
-                Name = "Legend",
-                Category = "Circular Gauge",
-                Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/circular-gauge-legend",
-                FileName = "CircularGaugeLegend.razor",
+                Url = "circular-gauge/ticks-and-labels",
+                FileName = " TicksLabels.razor",
                 Type = SampleType.None
             },
             new Sample
             {
-                Name = "Gradient Color",
-                Category = "Circular Gauge",
+                Name = "Multiple Axes",
+                Category = "Axis",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/gradient-color",
-                FileName = "GradientColor.razor",
+                Url = "circular-gauge/multiple-axes",
+                FileName = "MultipleAxes.razor",
                 Type = SampleType.None
+            },            
+            new Sample
+            {
+                Name = "Custom Labels",
+                Category = "Axis",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/custom-labels",
+                FileName = "CustomLabels.razor",
+                Type = SampleType.New
             },
-             new Sample
+            new Sample
             {
-                Name = "Direction Compass",
-                Category = "Circular Gauge",
+                Name = "Range Color for Axis",
+                Category = "Axis",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/compass",
-                FileName = "Compass.razor",
-                Type = SampleType.None
-            },			 
-			 new Sample
+                Url = "circular-gauge/range-color-for-axis",
+                FileName = "RangeColorsForAxis.razor",
+                Type = SampleType.New
+            },
+            new Sample
             {
-                Name = "Pointer Image",
+                Name = "Axis Background",
+                Category = "Axis",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/axis-background",
+                FileName = "AxisBackground.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Pointer Types",
                 Category = "Pointer",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/pointer-image",
-                FileName = "PointerImage.razor",
+                Url = "circular-gauge/pointer-types",
+                FileName = "PointerTypes.razor",
                 Type = SampleType.None
             },
-             new Sample
+            new Sample
             {
-                Name = "Pointer Customization",
+                Name = "Text Pointer",
                 Category = "Pointer",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/pointer-customization",
-                FileName = "PointerCustomization.razor",
-                Type = SampleType.None
+                Url = "circular-gauge/text-pointer",
+                FileName = "TextPointer.razor",
+                Type = SampleType.New
             },
              new Sample
             {
-                Name = "Multiple Axis",
-                Category = "Axes",
+                Name = "Image Pointer",
+                Category = "Pointer",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/multiple-axis",
-                FileName = "MultipleAxis.razor",
+                Url = "circular-gauge/image-pointer",
+                FileName = "ImagePointer.razor",
                 Type = SampleType.None
             },
+            new Sample
+            {
+                Name = "Range Customization",
+                Category = "Range",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/range-customization",
+                FileName = "RangeCustomization.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Multiple Ranges",
+                Category = "Range",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/multiple-ranges",
+                FileName = "MultipleRanges.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Legend",
+                Category = "Range",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/legend",
+                FileName = "Legend.razor",
+                Type = SampleType.None
+            },            
+            new Sample
+            {
+                Name = "Arc Gauge",
+                Category = "Arc Gauge",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/arc-gauge",
+                FileName = "ArcGauge.razor",
+                Type = SampleType.None
+            },	
+			new Sample
+			{
+			    Name = "Semi-circular Gauge",
+			    Category = "Arc Gauge",
+			    Directory = "CircularGauge/CircularGauge",
+			    Url = "circular-gauge/semi-circular-gauge",
+			    FileName = "SemiCircularGauge.razor",
+                Type = SampleType.None
+			},
             new Sample
             {
                 Name = "Pointer & Ranges Drag",
                 Category = "User Interaction",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/pointer-drag",
-                FileName = "PointerDrag.razor",
+                Url = "circular-gauge/pointer-ranges-drag",
+                FileName = "PointerRangesDrag.razor",
                 Type = SampleType.None
             },
-             new Sample
+            new Sample
             {
                 Name = "Tooltip",
                 Category = "User Interaction",
@@ -130,16 +149,61 @@ namespace BlazorDemos
                 FileName = "Tooltip.razor",
                 Type = SampleType.None
             },
-             new Sample
+            new Sample
             {
                 Name = "Print & Export",
-                Category = "Export",
+                Category = "Print & Export",
                 Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/export",
-                FileName = "Export.razor",
+                Url = "circular-gauge/print-export",
+                FileName = "PrintExport.razor",
                 Type = SampleType.None
             },
-             new Sample
+            new Sample
+            {
+                Name = "Clock",
+                Category = "Use Cases",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/clock",
+                FileName = "Clock.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Radial Slider",
+                Category = "Use Cases",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/radial-slider",
+                FileName = "RadialSlider.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Direction Compass",
+                Category = "Use Cases",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/direction-compass",
+                FileName = "DirectionCompass.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Speedometer",
+                Category = "Use Cases",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/speedometer",
+                FileName = "Speedometer.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Sleep Tracker",
+                Category = "Use Cases",
+                Directory = "CircularGauge/CircularGauge",
+                Url = "circular-gauge/sleep-tracker",
+                FileName = "SleepTracker.razor",
+                Type = SampleType.New
+            },
+            new Sample
             {
                 Name = "Data Sample",
                 Category = "Use Cases",
@@ -155,15 +219,6 @@ namespace BlazorDemos
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/apple-watch-rings",
                 FileName = "AppleWatchRings.razor",
-                Type = SampleType.None
-            },
-            new Sample
-            {
-                Name = "Speedometer",
-                Category = "Use Cases",
-                Directory = "CircularGauge/CircularGauge",
-                Url = "circular-gauge/speedometer",
-                FileName = "Speedometer.razor",
                 Type = SampleType.None
             }
         };

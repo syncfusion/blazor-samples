@@ -7,13 +7,14 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates the different behavior of toolbar support in the Rich Text Editor. Change the toolbar type as multiRow or expand from the property panel to see its appearance.</p>
+    <p>This sample demonstrates the various display modes supported by the Rich Text Editor's Toolbar. Change the Toolbar type see how the toolbar arranges items when they can't fit in the viewing area.</p>
 </SampleDescription>
 <ActionDescription>
-    <p> The Rich Text Editor allows you to configure different types of toolbar using the <code>ToolbarSettings.Type</code> property. The types of toolbar are: </p>
+    <p>The Rich Text Editor allows supports to set different display modes using <code>Type</code> property of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html">RichTextEditorToolbarSettings</a>. The possible types are as follows,</p>
     <ul>
-        <li><code>Expand</code>: The toolbar hides the overflowing items in the next row. Click the expand arrow to view overflowing toolbar items</li>
-        <li><code>MultiRow</code>: The toolbar hides the overflowing items in the next row.</li>
+        <li><code>Expand</code> - The Toolbar hides the overflowing items in the next row. Click the expand arrow to view the overflowing Toolbar items.</li>
+        <li><code>MultiRow</code> - The Toolbar shows the overflowing items in the next row.</li>
+        <li><code>Scrollable</code> -  The Toolbar displays all the items in a single line with horizontal scrolling enabled when commands overflow to available space.</li>
     </ul>
 </ActionDescription>
 
@@ -72,7 +73,7 @@
                     <p>Provides an option to customize the quick toolbar for an image. </p>
                 </li>
             </ol>
-            <img alt="Logo" src="images/rich-text-editor/rte-image-feather.png" />
+            <img alt="Logo" src="@("images/rich-text-editor/rte-image-feather.png")" />
             <RichTextEditorToolbarSettings Type="@Tooltype" Items="@Tools" />
         </SfRichTextEditor>
     </div>
@@ -84,13 +85,13 @@
             <tbody>
                 <tr>
                     <td>
-                        <div> ToolbarType </div>
+                        <div> Toolbar Type </div>
                     </td>
                     <td>
                         <div style="width: 200px">
-                            <SfDropDownList @ref="DropObj" TItem="GameFields" TValue="string" PopupHeight="200px" @bind-Value="@DropValue" DataSource="@Options">
+                            <SfDropDownList TItem="ToolbarOption" TValue="string" PopupHeight="200px" @bind-Value="@DropValue" DataSource="@Options">
                                 <DropDownListFieldSettings Text="text" Value="value" />
-                                <DropDownListEvents TValue="string" TItem="GameFields" ValueChange="valueChange" />
+                                <DropDownListEvents TValue="string" TItem="ToolbarOption" ValueChange="valueChange" />
                             </SfDropDownList>
                         </div>
                     </td>
@@ -109,10 +110,24 @@
         padding-left: 10px;
         padding-top: 35px;
     }
+
+    @@media print {
+        a, a:visited {
+            color: blue !important;
+            text-decoration: underline;
+        }
+
+        a[href^="javascript:"]:after, a[href^="#"]:after {
+            content: "";
+        }
+
+        a[href]:after {
+            content: "";
+        }
+    }
 </style>
 
 @code{
-    SfDropDownList<string, GameFields> DropObj;
 
     private ToolbarType Tooltype = ToolbarType.Expand;
     private string DropValue { get; set; } = "Expand";
@@ -148,27 +163,21 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
 
-    private class GameFields
+    private class ToolbarOption
     {
-        public string value { get; set; }
+        public ToolbarType value { get; set; }
         public string text { get; set; }
     }
 
-    private List<GameFields> Options = new List<GameFields>() {
-        new GameFields(){ value= "Expand", text= "Expand" },
-        new GameFields(){ value= "Multi Row", text= "Multi Row" },
+    private List<ToolbarOption> Options = new List<ToolbarOption>() 
+    {
+        new ToolbarOption(){ value= ToolbarType.Expand, text= "Expand" },
+        new ToolbarOption(){ value= ToolbarType.MultiRow, text= "Multi Row" },
+        new ToolbarOption(){ value= ToolbarType.Scrollable, text= "Scrollable" }
     };
 
-    private void valueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, GameFields> args)
-    {
-        switch (args.Value)
-        {
-            case "Expand":
-                this.Tooltype = ToolbarType.Expand;
-                break;
-            case "Multi Row":
-                this.Tooltype = ToolbarType.MultiRow;
-                break;
-        }
+    private void valueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ToolbarOption> args) {
+        this.Tooltype = args.ItemData.value;
+        StateHasChanged();
     }
 }

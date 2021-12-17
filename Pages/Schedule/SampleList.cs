@@ -54,8 +54,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/observable-binding",
-                FileName = "ObservableCollection.razor",
-                Type = SampleType.New
+                FileName = "ObservableCollection.razor"
             },
             new Sample
             {
@@ -63,11 +62,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/dynamicobject",
-                FileName = "DynamicObject.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @"Added a demo for Dynamic data binding (Dynamic and Expando Object) of the Scheduler component.",
-                }
+                FileName = "DynamicObject.razor"
             },
             new Sample
             {
@@ -75,8 +70,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/expandoobject",
-                FileName = "SchedulerExpandoObject.razor",
-                Type = SampleType.New
+                FileName = "SchedulerExpandoObject.razor"
             },
             new Sample
             {
@@ -88,7 +82,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Block-out Dates and Hours",
+                Name = "Blockout Dates and Hours",
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/block-out-dates-and-hours",
@@ -96,12 +90,19 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Read-only Events",
+                Category = "Appointments",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/readonly-events",
+                FileName = "ReadonlyEvents.razor"
+            },
+            new Sample
+            {
                 Name = "Timezone",
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/timezone",
-                FileName = "Timezone.razor",
-                Type = SampleType.New
+                FileName = "Timezone.razor"
             },
             new Sample
             {
@@ -149,11 +150,7 @@ namespace BlazorDemos
                 Category = "Scrolling",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/virtual-mask",
-                FileName = "VirtualMask.razor",
-                Type = SampleType.New,
-                 NotificationDescription = new string[] {
-                    @"Added a demo to showcase mask UI feature for Virtual scrolling in the Scheduler component.",
-                }
+                FileName = "VirtualMask.razor"
             },
 
             new Sample
@@ -214,12 +211,23 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Custom Month View",
+                Category = "Views",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/custom-month-view",
+                FileName = "CustomMonthView.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to customize the starting week of month and no of weeks to be rendered in month view of the Scheduler."
+                }
+            },
+            new Sample
+            {
                 Name = "Room Scheduler",
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/room-scheduler",
-                FileName = "TimelineResource.razor",
-                Type = SampleType.Updated
+                FileName = "TimelineResource.razor"
             },
             new Sample
             {
@@ -455,23 +463,11 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Read-only Events",
-                Category = "Customization",
-                Directory = "Schedule/Scheduler",
-                Url = "scheduler/readonly-events",
-                FileName = "ReadonlyEvents.razor"
-            },
-            new Sample
-            {
                 Name = "Reminder",
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/reminder",
-                FileName = "Reminder.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @"Added a demo to notify Reminders based on the appointments of the Scheduler.",
-                }
+                FileName = "Reminder.razor"
             },
             new Sample
             {
@@ -479,7 +475,11 @@ namespace BlazorDemos
                 Category = "Exporting",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/export-to-excel",
-                FileName = "ExcelExport.razor"
+                FileName = "ExcelExport.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Added an option to customize the column header texts in the exported excel file."
+                }
             },
             new Sample
             {

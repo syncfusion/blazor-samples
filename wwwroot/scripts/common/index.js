@@ -83,7 +83,9 @@ window.sfBlazorSB = {
       else {
         resource = document.createElement('script');
         resource.setAttribute('src', resources[i]);
-        resource.setAttribute('async', true);
+        if (resources[i].indexOf('/common/lodash') < 0) {
+          resource.setAttribute('async', true);
+        }
       }
       document.getElementsByClassName('dynamic-resources')[0].appendChild(resource);
     }

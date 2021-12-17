@@ -11,8 +11,8 @@
     <p> In this demo, the quick popup of appointments and cells is customized using the <code>ScheduleQuickInfoTemplates</code> property.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this demo, the quick popup is customized based on the office required appointment related fields which can be achieved by using the <code>ScheduleQuickInfoTemplates</code> option.  </p>
-    <p>The <code>ScheduleQuickInfoTemplates</code> has three options <code>Header</code>, <code>Content</code> and <code>Footer</code>, where we can customize the particular portion of quick popup. We can also customize only cell click quick popup or only event click quick popup using the <code>TemplateType</code> property in <code>ScheduleQuickInfoTemplates</code> option or the combinations of both using <code>ElementType</code> property.    </p>
+    <p>In this demo, the quick popup is customized based on the office required appointment related fields which can be achieved by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleQuickInfoTemplates.html">ScheduleQuickInfoTemplates</a> option.</p>
+    <p>The <code>ScheduleQuickInfoTemplates</code> has three options <code>Header</code>, <code>Content</code> and <code>Footer</code>, where we can customize the particular portion of quick popup. We can also customize the quick popups opened on cell or event alone using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleQuickInfoTemplates.html#Syncfusion_Blazor_Schedule_ScheduleQuickInfoTemplates_TemplateType">TemplateType</a> property in <code>ScheduleQuickInfoTemplates</code> option or the combinations of both using <code>ElementType</code> property.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -34,7 +34,7 @@
                     {
                         <div class="e-cell-content">
                             <div class="content-area">
-                                <SfTextBox @ref="SubjectRef" @bind-Value="@((context as ScheduleData.RoomData).Subject)" Placeholder="Title"></SfTextBox>
+                                <SfTextBox @ref="SubjectRef" @bind-Value="@((context as ScheduleData.RoomData).Subject)" Created="Created" Placeholder="Title"></SfTextBox>
                             </div>
                             <div class="content-area">
                                 <SfDropDownList @ref="EventTypeRef" TValue="int?" TItem="ScheduleData.RoomsData" Index="0" DataSource="@ResourceData" Placeholder="Choose Type">
@@ -45,6 +45,10 @@
                                 <SfTextBox @ref="DescriptionRef" @bind-Value="@((context as ScheduleData.RoomData).Description)" Placeholder="Notes"></SfTextBox>
                             </div>
                         </div>
+                        @if (isCreated)
+                        {
+                            Task.Run(async () => await SetFocus());
+                        }
                     }
                     else
                     {
@@ -76,6 +80,7 @@
                     else
                     {
                         <div class="event-footer">
+							<SfButton CssClass="e-event-delete" Content="Delete" OnClick="@(e => OnDelete(context as ScheduleData.RoomData))"></SfButton>
                             <SfButton IsPrimary="true" Content="More Details" OnClick="@(e => OnMoreDetailsClick(e, (context as ScheduleData.RoomData), true))"></SfButton>
                         </div>
                     }
@@ -84,7 +89,7 @@
             <ScheduleViews>
                 <ScheduleView Option="View.Day"></ScheduleView>
                 <ScheduleView Option="View.Week"></ScheduleView>
-                <ScheduleView MaxEventsPerRow="2" Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
             </ScheduleViews>
             <ScheduleResources>
                 <ScheduleResource TItem="ScheduleData.RoomsData" TValue="int" DataSource="@ResourceData" Field="RoomId" Title="Room Type" Name="MeetingRoom" TextField="Name" IdField="Id" ColorField="Color" AllowMultiple="false"></ScheduleResource>
@@ -101,6 +106,7 @@
     SfDropDownList<int?, ScheduleData.RoomsData> EventTypeRef;
     SfTextBox SubjectRef;
     SfTextBox DescriptionRef;
+    bool isCreated;
 
     private string GetEventDetails(ScheduleData.RoomData data)
     {
@@ -118,6 +124,19 @@
             //EventClick Header Styles
             return "background:" + this.ResourceData.Where(item => item.Id.Equals(data.RoomId)).FirstOrDefault().Color + "; color: #FFFFFF;";
         }
+    }
+    private async Task SetFocus()
+    {
+        if (isCreated)
+        {
+            await Task.Delay(20);
+            await SubjectRef.FocusAsync();
+        }
+    }
+    private async Task Created()
+    {
+        await SubjectRef.FocusAsync();
+        isCreated = true;
     }
     private async void OnMoreDetailsClick(MouseEventArgs args, ScheduleData.RoomData data, bool isEventData)
     {
@@ -156,8 +175,14 @@
                 RecurrenceID = data.RecurrenceID,
                 RecurrenceRule = data.RecurrenceRule
             };
-            await ScheduleObj.OpenEditorAsync(eventData, CurrentAction.Save);
+            await ScheduleObj.OpenEditorAsync(eventData, !string.IsNullOrEmpty(eventData.RecurrenceRule) ? CurrentAction.EditOccurrence : CurrentAction.Save);
         }
+    }
+
+    private async Task OnDelete(ScheduleData.RoomData data)
+    {
+        await ScheduleObj.CloseQuickInfoPopupAsync();
+        await ScheduleObj.DeleteEventAsync(data, !string.IsNullOrEmpty(data.RecurrenceRule) ? CurrentAction.DeleteOccurrence : CurrentAction.Delete);
     }
 
     private async Task OnAdd(MouseEventArgs args, ScheduleData.RoomData data)
@@ -307,7 +332,8 @@
         color: #fff;
     }
 
-    .material .e-quick-popup-wrapper .e-popup-footer {
+    .material .e-quick-popup-wrapper .e-popup-footer,
+    .material-dark .e-quick-popup-wrapper .e-popup-footer {
         display: block !important;
         padding: 0px 18px 8px 22px !important;
     }

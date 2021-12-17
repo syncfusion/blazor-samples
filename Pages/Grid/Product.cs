@@ -55,7 +55,7 @@ namespace blazor_productdata
             product.Add(new Product("100 - 250 g bags", "Gumbr Gummibrchen", 26, 11, 31.23, true, 15));
             product.Add(new Product("100 - 100 g pieces", "Schoggi Schokolade", 27, 11, 43.9, true, 49));
             product.Add(new Product("25 - 825 g cans", "Rssle Sauerkraut", 28, 12, 45.6, true, 26));
-            product.Add(new Product("50 bags x 30 sausgs.", "Thringer Rostbratwurst", 29, 12, 123.79, true, 0));
+            product.Add(new Product("50 bags x 30 sausages", "Thringer Rostbratwurst", 29, 12, 123.79, true, 0));
             product.Add(new Product("10 - 200 g glasses", "Nord-Ost Matjeshering", 30, 13, 25.89, true, 10));
             product.Add(new Product("12 - 100 g pkgs", "Gorgonzola Telino", 31, 14, 12.5, true, 0));
             product.Add(new Product("24 - 200 g pkgs.", "Mascarpone Fabioli", 32, 14, 32, false, 9));

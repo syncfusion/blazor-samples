@@ -113,11 +113,7 @@ namespace BlazorDemos
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/template",
                 FileName = "Template.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to demonstrate template functionalities of the Tooltip component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -126,11 +122,7 @@ namespace BlazorDemos
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/menu",
                 FileName = "Menu.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to demonstrate customization of the Tooltip component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -147,11 +139,7 @@ namespace BlazorDemos
                 Directory = "Popups/Tooltip",
                 Url = "tooltip/keyboard-navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to showcase keyboard accessibility of the Tooltip component."
-                }
+                Type = SampleType.None
             }
         };   
     }

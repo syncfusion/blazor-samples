@@ -117,7 +117,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url="pivot-table/keyboard-navigation",
                 FileName="PivotKeyboard.razor",
-                Type=SampleType.New
+                Type=SampleType.None
             },
             new Sample
             {

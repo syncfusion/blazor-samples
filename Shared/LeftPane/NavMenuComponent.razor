@@ -6,51 +6,49 @@
 @inject SampleService SampleService;
 @inject IJSRuntime JsRuntime;
 
-<CascadingValue Value="@this">
-    <TreeComponent @ref="TreeRef" DataSource="@TreeDataSource" OnNodeSelect="@OnComponentSelection">
-        <TreeTemplate>
-            <div>
-                <span class="tree-text">@context.Name</span>
-                @if (context.InfoTooltip != null)
-                {
-                    <SfTooltip Target="#infoTooltip" Content=@context.InfoTooltip>
-                        <span id="infoTooltip" class="e-sample-info-icon sf-sb-icon-circle-info"></span>
-                    </SfTooltip>
-                }
-                @if (context.Type != SampleType.None)
-                {
-                    <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower()) tree tree-badge"></span>
-                }
-            </div>
-        </TreeTemplate>
-    </TreeComponent>
-    <div class="@samplesClass">
-        <div id="sb-left-all-components" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
-            <div class="sb-icons sb-back-icon"></div>
-            <div class='all-components'>All Components</div>
+<TreeComponent @ref="TreeRef" DataSource="@TreeDataSource" OnNodeSelect="@OnComponentSelection">
+    <TreeTemplate>
+        <div>
+            <span class="tree-text">@context.Name</span>
+            @if (context.InfoTooltip != null)
+            {
+                <SfTooltip Target="#infoTooltip" Content=@context.InfoTooltip>
+                    <span id="infoTooltip" class="e-sample-info-icon sf-sb-icon-circle-info"></span>
+                </SfTooltip>
+            }
+            @if (context.Type != SampleType.None)
+            {
+                <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower()) tree tree-badge"></span>
+            }
         </div>
-        <ListComponent @ref="ListRef" DataSource="@ListDataSource" OnSelectList="OnSampleSelection">
-            <Template>
-                @{
-                    <div class="sf-text-content">
-                        <span class="sf-list-text">@context.Name</span>
-                        @if (@context.Type != SampleType.None)
-                        {
-                            <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower())"></span>
-                        }
-                    </div>
-                }
-            </Template>
-            <GroupTemplate>
-                @{
-                    <div class="sf-text-content" role="presentation">
-                        <span class="sf-list-text">@context.Category</span>
-                    </div>
-                }
-            </GroupTemplate>
-        </ListComponent>
+    </TreeTemplate>
+</TreeComponent>
+<div class="@samplesClass">
+    <div id="sb-left-all-components" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
+        <div class="sb-icons sb-back-icon"></div>
+        <div class='all-components'>All Components</div>
     </div>
-</CascadingValue>
+    <ListComponent @ref="ListRef" DataSource="@ListDataSource" OnSelectList="OnSampleSelection">
+        <Template>
+            @{
+                <div class="sf-text-content">
+                    <span class="sf-list-text">@context.Name</span>
+                    @if (@context.Type != SampleType.None)
+                    {
+                        <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower())"></span>
+                    }
+                </div>
+            }
+        </Template>
+        <GroupTemplate>
+            @{
+                <div class="sf-text-content" role="presentation">
+                    <span class="sf-list-text">@context.Category</span>
+                </div>
+            }
+        </GroupTemplate>
+    </ListComponent>
+</div>
 @code {
     private bool isCurrentComponent { get; set; }
     private string samplesClass = "sb-component-samples";
@@ -106,6 +104,16 @@
         {
             SampleService.IsDocScriptLoaded = true;
             var resources = new List<string> { SampleService.DocScriptPath + "/syncfusion-blazor-documenteditor.min.js" };
+            this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
+        }
+        if (nodeItem.Name.Equals("Diagram") && !SampleService.IsDiagramScriptLoaded)
+        {
+            SampleService.IsDiagramScriptLoaded = true;
+            string interopScript = "scripts/diagram/interop.min.js";
+#if DEBUG
+            interopScript = "scripts/diagram/interop.js";
+#endif
+            var resources = new List<string> {  interopScript };
             this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
         }
 
@@ -255,7 +263,7 @@
                         }
                     }
                 }
-                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, Category = item.Category, DemoPath = item.DemoPath, InfoTooltip = item.InfoTooltip });
+                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, Category = item.Category, DemoPath = item.DemoPath, InfoTooltip = item.InfoTooltip, IsHide = item.IsHide });
                 // Update first sample information in the sample service.
                 if (SampleService.SampleInfo == null)
                 {

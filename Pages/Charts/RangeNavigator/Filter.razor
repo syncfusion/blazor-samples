@@ -14,6 +14,7 @@
 </SampleDescription>
 <ActionDescription>
     <p>In this example, you can see how to bind the value of the range navigator to the grid control using the <code>Changed</code> event.</p>
+     <p>More information about the range navigator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/getting-started'>documentation section</a>.</p>
 </ActionDescription>
 
 @if (FilterData == null)
@@ -23,14 +24,14 @@
 else
 {
     <div class="control-section" align="center">
-        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter From Hire Date</h4>
+        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter from Hire Date</h4>
         <div>
             <SfRangeNavigator ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime"
                               AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
                               EnableGrouping="true" GroupBy="RangeIntervalType.Years" Theme="@RangeNavigatorTheme"
                               EnableDeferredUpdate="true" @bind-Value="@RangeValue" DataSource="@FilterData"
                               XName="HireDate" YName="yValue">
-                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorEvents Changed="onRangeChanged" LabelRender="AxisLabelRendering"></RangeNavigatorEvents>
             </SfRangeNavigator>
         </div> <br>
         <div>
@@ -39,7 +40,7 @@ else
                     <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
                     <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
                     <GridColumn Field="Title" HeaderText="Title" TextAlign="TextAlign.Center"></GridColumn>
-                    <GridColumn Field="HireDate" HeaderText="Hire Date" TextAlign="TextAlign.Center" Format="yMd"></GridColumn>
+                    <GridColumn Field="HireDate" HeaderText="Hire Date" TextAlign="TextAlign.Center" Format="d/M/yyyy"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
@@ -50,14 +51,14 @@ else
     public ChartData[] FilterData { get; set; }
     public ChartData[] Data { get; set; }
     public Theme RangeNavigatorTheme { get; set; }
-    public object RangeValue { get; set; } = new object[] { new DateTime(1992, 05, 31), new DateTime(1993, 04, 30) };
+    public object RangeValue { get; set; } = new object[] { new DateTime(1992, 06, 1), new DateTime(1993, 05, 1) };
     private string currentUri;
 
     protected override async Task OnInitializedAsync()
     {
-	    if(File.Exists("./wwwroot/data/range-navigator/employee-data.json"))
+	    if(File.Exists("../Common/wwwroot/data/range-navigator/employee-data.json"))
         {
-            FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("./wwwroot/data/range-navigator/employee-data.json"));
+            FilterData = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("../Common/wwwroot/data/range-navigator/employee-data.json"));
         }
         else
         {
@@ -86,6 +87,11 @@ else
         }
         Data = FilterData1.ToArray();
         StateHasChanged();
+    }
+
+    public void AxisLabelRendering(RangeLabelRenderEventArgs args)
+    {
+        args.Text = args.Text.Contains("Quarter", StringComparison.InvariantCulture) ? args.Text.Replace("Quarter", "Quarter-") : args.Text;
     }
 
     protected override void OnInitialized()

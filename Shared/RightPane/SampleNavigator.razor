@@ -39,9 +39,6 @@ else if (isDesktop)
     [CascadingParameter]
     protected MainLayout Layout { get; set; }
 
-    [CascadingParameter]
-    protected RightPaneComponent RightPane { get; set; }
-
     protected SfTooltip NextTooltipRef { get; set; }
     protected SfTooltip PrevTooltipRef { get; set; }
 
@@ -105,11 +102,17 @@ else if (isDesktop)
             this.RefreshState(prevSample);
             if (themeName != null)
             {
+#if NET6_0
+                prevSample = UriHelper.GetUriWithQueryParameters(prevSample, new Dictionary<string, object>{
+                     ["theme"] = themeName
+                });
+#else
                 prevSample += "?theme=" + themeName;
+#endif 
             }
             UriHelper.NavigateTo(prevSample);
         }
-        RightPane?.TabSelectedItemChange();
+        Layout?.RightPaneRef?.TabSelectedItemChange();
     }
 
     // Next sample navigator click handler.
@@ -125,10 +128,18 @@ else if (isDesktop)
         this.RefreshState(nextSample);
         if (themeName != null)
         {
+#if NET6_0
+            nextSample = UriHelper.GetUriWithQueryParameters(nextSample, new Dictionary<string, object>{
+                 ["theme"] = themeName
+             });
+#else
             nextSample += "?theme=" + themeName;
+#endif 
+
+            
         }
         UriHelper.NavigateTo(nextSample);
-        RightPane?.TabSelectedItemChange();
+        Layout?.RightPaneRef?.TabSelectedItemChange();
     }
 
     protected override void OnInitialized()

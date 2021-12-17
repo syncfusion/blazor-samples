@@ -33,38 +33,6 @@ namespace BlazorDemos
                 Type = SampleType.None
             },
             new Sample {
-                Name = "Customization",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "treemap/customization",
-                FileName = "Customization.razor",
-                Type = SampleType.None
-            },
-             new Sample {
-                Name = "Label",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "treemap/label",
-                FileName = "TreeMapLabel.razor",
-                Type = SampleType.None
-            },
-              new Sample {
-                Name = "Tooltip",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "treemap/tooltip",
-                FileName = "Tooltip.razor",
-                Type = SampleType.None
-            },
-               new Sample {
-                Name = "Legend",
-                Category = "TreeMap",
-                Directory = "TreeMap/TreeMap",
-                Url = "treemap/legend",
-                FileName = "Legend.razor",
-                Type = SampleType.None
-            },
-            new Sample {
                 Name = "Color Mapping",
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
@@ -76,8 +44,40 @@ namespace BlazorDemos
                 Name = "Selection & Highlight",
                 Category = "TreeMap",
                 Directory = "TreeMap/TreeMap",
-                Url = "treemap/selection",
+                Url = "treemap/selection-highlight",
                 FileName = "Selection.razor",
+                Type = SampleType.None
+            },
+             new Sample {
+                Name = "Label",
+                Category = "TreeMap",
+                Directory = "TreeMap/TreeMap",
+                Url = "treemap/label",
+                FileName = "TreeMapLabel.razor",
+                Type = SampleType.None
+            },
+             new Sample {
+                Name = "Legend",
+                Category = "TreeMap",
+                Directory = "TreeMap/TreeMap",
+                Url = "treemap/legend",
+                FileName = "Legend.razor",
+                Type = SampleType.None
+            },
+            new Sample {
+                Name = "Template",
+                Category = "TreeMap",
+                Directory = "TreeMap/TreeMap",
+                Url = "treemap/customization",
+                FileName = "Customization.razor",
+                Type = SampleType.None
+            },
+              new Sample {
+                Name = "Tooltip",
+                Category = "TreeMap",
+                Directory = "TreeMap/TreeMap",
+                Url = "treemap/tooltip",
+                FileName = "Tooltip.razor",
                 Type = SampleType.None
             },
             new Sample {

@@ -53,6 +53,18 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Adaptive",
+                Category = "Tree Grid",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/adaptive",
+                FileName = "Adaptive.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to show the adaptive rendering behavior of tree grid features such as filtering, paging and searching etc.",
+                }
+            },
+            new Sample
+            {
                 Name = "Context Menu",
                 Category = "Tree Grid",
                 Directory = "TreeGrid/TreeGrid",
@@ -105,7 +117,7 @@ namespace BlazorDemos
                 Category = "Virtual Scrolling",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/virtual-scrolling",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 FileName="VirtualScrolling.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -120,9 +132,6 @@ namespace BlazorDemos
                         FileName = "VirtualData.cs"
                     }
                 },
-                NotificationDescription = new string[] {
-                    @"Updated the demo with column virtualization which boosts performance of the TreeGrid.",
-                }
             },
              new Sample
             {

@@ -56,6 +56,18 @@ namespace BlazorDemos
                 Url = "rich-text-editor/paste-cleanup",
                 FileName = "Paste-Cleanup.razor"
             },
+              new Sample
+            {
+                Name = "Enter Key Configuration",
+                Category = "Rich Text Editor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/enterKeyConfiguration",
+                FileName = "EnterKey-Configuration.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to showcase enter and shift-enter key configuration of the Rich Text Editor component."
+                }
+            },
             new Sample
             {
                 Name = "Resizeable Editor",

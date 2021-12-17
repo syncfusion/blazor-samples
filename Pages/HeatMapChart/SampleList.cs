@@ -118,7 +118,7 @@ namespace BlazorDemos
                 Category = "Features",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/color-range",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 FileName = "ColorRange.razor"
             },
             new Sample

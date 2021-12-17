@@ -23,7 +23,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Button",
                 Url = "buttons/checkbox",
                 FileName = "CheckBox.razor",
-                HeaderText = "Example of Default Sample in Blazor Checkbox Component"
+                HeaderText = "Blazor Checkbox Component Example - Default Functionalities"
             },
            new Sample
             {
@@ -32,7 +32,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Button",
                 Url = "buttons/radio-button",
                 FileName = "RadioButton.razor",
-                HeaderText = "Example of Default Sample in Blazor Radio Button Component"
+                HeaderText = "Blazor Radio Button Component Example - Default Functionalities"
             },
            new Sample
             {
@@ -41,7 +41,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Button",
                 Url = "buttons/dropdown-menu",
                 FileName = "DropDownButton.razor",
-                HeaderText = "Example of Default Sample in Blazor Dropdown Menu Component",
+                HeaderText = "Blazor Dropdown Menu Component Example - Default Functionalities",
             },
            new Sample
             {
@@ -50,7 +50,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Button",
                 Url = "buttons/split-button",
                 FileName = "SplitButton.razor",
-                HeaderText = "Example of Default Sample in Blazor Split Button Component"
+                HeaderText = "Blazor Split Button Component Example - Default Functionalities"
             },
            new Sample
             {
@@ -59,7 +59,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Button",
                 Url = "buttons/toggle-switch-button",
                 FileName = "Switch.razor",
-                HeaderText = "Example of Default Sample in Blazor Toggle Switch Button Component"
+                HeaderText = "Blazor Toggle Switch Button Component Example - Default Functionalities"
             },
            new Sample
             {
@@ -69,7 +69,7 @@ namespace BlazorDemos
                 Url = "buttons/progress-button",
                 FileName = "ProgressButton.razor",
                 Type = SampleType.None,
-                HeaderText = "Example of Default Sample in Blazor Progress Button Component"
+                HeaderText = "Blazor Progress Button Component Example - Default Functionalities"
             },
            new Sample
            {
@@ -78,7 +78,7 @@ namespace BlazorDemos
                Directory = "Buttons/Button",
                Url = "buttons/button-group",
                FileName = "ButtonGroup.razor",
-               HeaderText = "Example of Default Sample in Blazor Button Group Component"
+               HeaderText = "Blazor Button Group Component Example - Default Functionalities"
            },
             new Sample
            {
@@ -87,8 +87,6 @@ namespace BlazorDemos
                Directory = "Buttons/Button",
                Url = "buttons/keyboard-navigation",
                FileName = "KeyboardNavigation.razor",
-               HeaderText = "Example of Keyboard Navigation",
-               Type = SampleType.New
            }
         };
         public List<Sample> Chips { get; set; } = new List<Sample>{
@@ -115,11 +113,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Chips",
                 Url = "chips/events",
                 FileName = "Events.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to know more about the chip events."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -128,11 +122,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Chips",
                 Url = "chips/keyboard-interaction",
                 FileName = "KeyboardInteraction.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to know more about keyboard accessibility of the Chip component."
-                }
+                Type = SampleType.None
             }
 
         };

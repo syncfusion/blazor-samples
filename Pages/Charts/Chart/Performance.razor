@@ -2,16 +2,17 @@
 
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Spinner
 @using ThemeHelper
 
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>  This sample demonstrates the performance of Blazor chart to render 100K points. </p>
+    <p>  This sample demonstrates the performance of Blazor chart to render 100K points while a button is clicked. </p>
 </SampleDescription>
 <ActionDescription>
-    <p>  Chart includes several data rendering optimizations to achieve the best possible performance when plotting large volumes of data as well as handling high frequency real-time data. In this demo, line series is rendered with 100K points. </p>
+    <p>  Chart includes several data rendering optimizations to achieve the best possible performance when plotting large volumes of data as well as handling high frequency real-time data. In this demo, line series is rendered with 100K points while a button is clicked. </p>
 </ActionDescription>
 
 <style>
@@ -44,14 +45,18 @@
         </div>
 
         <div class="row">
+            <div id="container">
+                <SfSpinner @ref="SpinnerRef" Size="40" Visible="VisibleProperty"></SfSpinner>
+            </div>
             <SfChart ID="performance" @ref="chartInstance" Theme="@theme">
                 <ChartPrimaryXAxis>
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 </ChartPrimaryXAxis>
                 <ChartLegendSettings Visible="false"></ChartLegendSettings>
+                <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
                 <ChartSeriesCollection>
                     <ChartSeries Name="Series" XName="@nameof(LineChartData.XValue)" YName="@nameof(LineChartData.YValue)" DataSource="@chartPoints">
-                        <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                       <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                     </ChartSeries>
                 </ChartSeriesCollection>
             </SfChart>
@@ -72,6 +77,8 @@
     private Random randomNum { get; set; } = new Random();
     private List<LineChartData> chartPoints { get; set; } = null;
     private Syncfusion.Blazor.Theme theme { get; set; }
+    private bool VisibleProperty { get; set; }
+    private SfSpinner SpinnerRef { get; set; }
 
     protected override void OnInitialized()
     {
@@ -82,6 +89,8 @@
     {
         chartPoints = new List<LineChartData>();
         isPointsLoaded = true;
+        this.VisibleProperty = true;
+        SpinnerRef?.ShowAsync();
         for (int pts = 0; pts < 100000; pts++)
         {
             if (pts % 3 == 0)
@@ -105,6 +114,9 @@
             timediff = Math.Round((DateTime.Now - start).TotalMilliseconds).ToString() + " ms";
             isPointsLoaded = false;
             timerInstance.UpdateTimer(timediff);
+            this.VisibleProperty = false;
+            SpinnerRef?.HideAsync();
+            SpinnerRef?.Dispose();
         }
     }
 
@@ -114,5 +126,3 @@
         public double YValue { get; set; }
     }
 }
-
-

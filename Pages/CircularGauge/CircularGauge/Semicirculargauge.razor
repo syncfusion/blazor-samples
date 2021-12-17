@@ -1,5 +1,6 @@
 ﻿@page "/circular-gauge/semi-circular-gauge"
 
+@using Microsoft.AspNetCore.Components
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.CircularGauge
 @using Syncfusion.Blazor.Buttons
@@ -8,30 +9,36 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates how to render the circular gauge with different start and end angles to create semi-circular or quarter-circular gauges.</p>
+    <p>This sample shows how to create semi-circular or quarter-circular gauges by modifying a circular gauge with different start and end angles.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, the circular gauge is rendered with different start and end angles to create semi and quarter circular gauges. The radius, start angle, end angle, and center position of the circular gauge can all be customized using the options in the properties panel.</p>
-    <p>More information on the semi and quarter circular gauge can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/circular-gauge/appearance#radius-calculation-based-on-angles'>documentation section</a>.</p>
+    <p>In this example, a circular gauge is rendered with different start and end angles to create semi-circular or quarter-circular gauges. The radius, start angle, end angle, and center position of the circular gauge can all be customized using the options in the properties panel.</p>
+    <p>More information on the semi-circular or quarter-circular gauges can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/circular-gauge/appearance#radius-calculation-based-on-angles'>documentation section</a>.</p>
 </ActionDescription>
 
+<style>
+    tr {
+        height: 40px;
+    }
+</style>
+
 <div class="col-lg-8 control-section sb-property-border">
-    <SfCircularGauge CenterX="@GaugeCenterX" CenterY="@GaugeCenterY" MoveToCenter="@GaugeMoveToCenter" Theme="@Theme">
+    <SfCircularGauge CenterX="@GaugeCenterX" CenterY="@GaugeCenterY" MoveToCenter="@GaugeMoveToCenter" Theme="@Theme" Background="transparent">
         <CircularGaugeAxes>
             <CircularGaugeAxis HideIntersectingLabel="@HideLabelCheck" StartAngle="@GaugeStartAngle" EndAngle="@GaugeEndAngle" Minimum="0" Maximum="100" Radius="@GaugeRadius">
-                <CircularGaugeAxisLineStyle Width="0.01" Color="#0450C2" />
-                <CircularGaugeAxisLabelStyle Position="Syncfusion.Blazor.CircularGauge.Position.Outside" AutoAngle=true>
-                    <CircularGaugeAxisLabelFont FontWeight="Normal" FontFamily="Segoe UI" />
+                <CircularGaugeAxisLineStyle Width="3" />
+                <CircularGaugeAxisLabelStyle Position="Syncfusion.Blazor.CircularGauge.Position.Outside" AutoAngle=true Format="{value}%">
+                    <CircularGaugeAxisLabelFont FontWeight="Normal" FontFamily="inherit" />
                 </CircularGaugeAxisLabelStyle>
-                <CircularGaugeAxisMajorTicks Position="Syncfusion.Blazor.CircularGauge.Position.Inside" Width="2" Height="12" Interval="4" />
-                <CircularGaugeAxisMinorTicks Position="Syncfusion.Blazor.CircularGauge.Position.Inside" Height="5" Width="1" Interval="2" />
+                <CircularGaugeAxisMajorTicks Position="Syncfusion.Blazor.CircularGauge.Position.Inside" Width="2" Height="15" Interval="10" />
+                <CircularGaugeAxisMinorTicks Position="Syncfusion.Blazor.CircularGauge.Position.Inside" Height="8" Width="1" Interval="2" />
                 <CircularGaugePointers>
-                    <CircularGaugePointer Value="30" Radius="75%" Color="#FF9200" PointerWidth="7">
+                    <CircularGaugePointer Value="30" Radius="75%" PointerWidth="7">
                         <CircularGaugePointerAnimation Enable=false />
-                        <CircularGaugeCap Radius="8" Color="#565656">
+                        <CircularGaugeCap Radius="8">
                             <CircularGaugeCapBorder Width="0" />
                         </CircularGaugeCap>
-                        <CircularGaugeNeedleTail Length="13%" Color="#FF9200" />
+                        <CircularGaugeNeedleTail Length="13%" />
                     </CircularGaugePointer>
                 </CircularGaugePointers>
             </CircularGaugeAxis>
@@ -137,30 +144,23 @@
         </div>
     </div>
 </div>
-<style>
-    tr {
-        height: 40px;
-    }
-</style>
+
 @code{
     public Theme Theme { get; set; }
-    private double GaugeStartAngle = 270;
-    private double GaugeEndAngle = 90;
-    private string GaugeRadius = "100%";
-    private double SliderRadius = 100;
-    private string GaugeCenterX = "50%";
-    private string GaugeCenterY = "50%";
-    private double CenterxSlider = 50;
-    private double CenterySlider = 50;
-    private bool GaugeMoveToCenter = false;
-    private bool IntersectLabelChecked = true;
-    private bool HideLabelCheck = true;
-    private bool CenterSliderEnable = false;
-    protected override void OnInitialized()
-    {
-        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-    }
-    private void RadiusAngleCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    public double GaugeStartAngle = 270;
+    public double GaugeEndAngle = 90;
+    public string GaugeRadius = "100%";
+    public double SliderRadius = 100;
+    public string GaugeCenterX = "50%";
+    public string GaugeCenterY = "50%";
+    public double CenterxSlider = 50;
+    public double CenterySlider = 50;
+    public bool GaugeMoveToCenter = false;
+    public bool IntersectLabelChecked = true;
+    public bool HideLabelCheck = true;
+    public bool CenterSliderEnable = false;
+
+    private void RadiusAngleCheckbox(ChangeEventArgs<bool> args)
     {
         GaugeMoveToCenter = args.Checked;
         if (GaugeMoveToCenter)
@@ -174,32 +174,43 @@
         }
         CenterSliderEnable = GaugeMoveToCenter;
     }
-    private void LabelCheck(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+
+    private void LabelCheck(ChangeEventArgs<bool> args)
     {
         IntersectLabelChecked = args.Checked;
         HideLabelCheck = IntersectLabelChecked;
     }
-    private void StartSlider(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    private void StartSlider(ChangeEventArgs args)
     {
         GaugeStartAngle = Convert.ToDouble(args.Value);
     }
-    private void EndSlider(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    private void EndSlider(ChangeEventArgs args)
     {
         GaugeEndAngle = Convert.ToDouble(args.Value);
     }
-    private void RadiusSlider(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    private void RadiusSlider(ChangeEventArgs args)
     {
         GaugeRadius = (args.Value.ToString() + "%");
         SliderRadius = Convert.ToDouble(args.Value);
     }
-    private void CenterxSliderChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    private void CenterxSliderChange(ChangeEventArgs args)
     {
         GaugeCenterX = (args.Value.ToString() + "%");
         CenterxSlider = Convert.ToDouble(args.Value);
     }
-    private void CenterySliderChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    private void CenterySliderChange(ChangeEventArgs args)
     {
         GaugeCenterY = (args.Value.ToString() + "%");
         CenterySlider = Convert.ToDouble(args.Value);
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
 }

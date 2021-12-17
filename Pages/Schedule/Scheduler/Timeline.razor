@@ -19,7 +19,7 @@
 
 <div class="col-lg-12 control-section">
     <div class="schedule-wrapper">
-        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView=@CurrentView>
             <ScheduleViews>
                 <ScheduleView MaxEventsPerRow="12" Option="View.TimelineDay"></ScheduleView>
                 <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWeek"></ScheduleView>
@@ -27,6 +27,7 @@
                 <ScheduleView MaxEventsPerRow="13" Option="View.TimelineMonth"></ScheduleView>
                 <ScheduleView Option="View.Agenda"></ScheduleView>
             </ScheduleViews>
+            <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
         </SfSchedule>
     </div>
@@ -35,4 +36,9 @@
 @code{
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
     public DateTime CurrentDate = new DateTime(DateTime.Today.Year, 1, 9);
+    public View CurrentView = View.TimelineWeek;
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
 }

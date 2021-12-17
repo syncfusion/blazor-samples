@@ -60,16 +60,16 @@ namespace blazor_categorydata
             category.Add(new Category("Confections", "Teatime Chocolate Biscuits", "10 boxes x 12 pieces", false, 25));
             category.Add(new Category("Confections", "Valkoinen suklaa", "12 - 100 g bars", false, 65));
             category.Add(new Category("Confections", "Zaanse koeken", "10 - 4 oz boxes", true, 36));
-            category.Add(new Category("Dairy Categorys", "Camembert Pierrot", "15 - 300 g rounds", false, 19));
-            category.Add(new Category("Dairy Categorys", "Flotemysost", "10 - 500 g pkgs.", false, 26));
-            category.Add(new Category("Dairy Categorys", "Geitost", "500 g", false, 112));
-            category.Add(new Category("Dairy Categorys", "Gorgonzola Telino", "12 - 100 g pkgs", true, 0));
-            category.Add(new Category("Dairy Categorys", "Gudbrandsdalsost", "10 kg pkg.", true, 26));
-            category.Add(new Category("Dairy Categorys", "Mascarpone Fabioli", "24 - 200 g pkgs.", true, 9));
-            category.Add(new Category("Dairy Categorys", "Mozzarella di Giovanni", "24 - 200 g pkgs.", true, 14));
-            category.Add(new Category("Dairy Categorys", "Queso Cabrales", "1 kg pkg.", true, 22));
-            category.Add(new Category("Dairy Categorys", "Queso Manchego La Pastora", "10 - 500 g pkgs.", true, 86));
-            category.Add(new Category("Dairy Categorys", "Raclette Courdavault", "5 kg pkg.", false, 79));
+            category.Add(new Category("Dairy Categories", "Camembert Pierrot", "15 - 300 g rounds", false, 19));
+            category.Add(new Category("Dairy Categories", "Flotemysost", "10 - 500 g pkgs.", false, 26));
+            category.Add(new Category("Dairy Categories", "Geitost", "500 g", false, 112));
+            category.Add(new Category("Dairy Categories", "Gorgonzola Telino", "12 - 100 g pkgs", true, 0));
+            category.Add(new Category("Dairy Categories", "Gudbrandsdalsost", "10 kg pkg.", true, 26));
+            category.Add(new Category("Dairy Categories", "Mascarpone Fabioli", "24 - 200 g pkgs.", true, 9));
+            category.Add(new Category("Dairy Categories", "Mozzarella di Giovanni", "24 - 200 g pkgs.", true, 14));
+            category.Add(new Category("Dairy Categories", "Queso Cabrales", "1 kg pkg.", true, 22));
+            category.Add(new Category("Dairy Categories", "Queso Manchego La Pastora", "10 - 500 g pkgs.", true, 86));
+            category.Add(new Category("Dairy Categories", "Raclette Courdavault", "5 kg pkg.", false, 79));
             category.Add(new Category("Grains/Cereals", "Filo Mix", "16 - 2 kg boxes", false, 38));
             category.Add(new Category("Grains/Cereals", "Gnocchi di nonna Alice", "24 - 250 g pkgs.", false, 21));
             category.Add(new Category("Grains/Cereals", "Gustaf's Knckebrd", "24 - 500 g pkgs.", true, 104));
@@ -103,5 +103,4 @@ namespace blazor_categorydata
         public short UnitsInStock { get; set; }
         public bool Discontinued { get; set; }
     }
-
 }

@@ -52,19 +52,19 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <SfTextBox Placeholder="Enter Search Text" ShowClearButton="true" Width="200px" ValueChange="OnSearch" @bind-Value="SearchValue"></SfTextBox>
+                            <SfTextBox Placeholder="Search book" ShowClearButton="true" Width="200px" ValueChange="OnSearch" @bind-Value="SearchValue"></SfTextBox>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <SfDropDownList TValue="string" TItem="string" DataSource="@SortingType" Placeholder="Choose Sorting Type" Width="200px" @bind-Value="SortingValue">
+                            <SfDropDownList TValue="string" TItem="string" DataSource="@SortingType" Placeholder="Sorting order" Width="200px" @bind-Value="SortingValue">
                                 <DropDownListEvents TValue="string" TItem="string" ValueChange="OnSorting"></DropDownListEvents>
                             </SfDropDownList>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <SfMultiSelect Mode="VisualMode.Default" AllowFiltering="true" DataSource="@FilteringType" Placeholder="Choose Filtering Type" ShowClearButton="true" Width="200px" @bind-Value="FilteringValue">
+                            <SfMultiSelect Mode="VisualMode.Default" AllowFiltering="true" DataSource="@FilteringType" Placeholder="Book category" ShowClearButton="true" Width="200px" @bind-Value="FilteringValue">
                                 <MultiSelectEvents TValue="string[]" TItem="string" ValueChange="OnFiltering"></MultiSelectEvents>
                             </SfMultiSelect>
                         </td>
@@ -130,10 +130,15 @@
 @code{
     [Inject] public NavigationManager NavigationManager { get; set; }
     [Inject] public IJSRuntime JsRuntime { get; set; }
-
     public string SearchValue { get; set; }
     public string SortingValue { get; set; }
     public string[] FilteringValue { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _cardDatas = this.GetCardDatas();
+        base.OnInitialized();
+    }
 
     public class CardDataModel
     {
@@ -143,39 +148,33 @@
         public string Content { get; set; }
         public string NavUrl { get; set; }
         public string Tag { get; set; }
-
-        public CardDataModel() { }
-
-        public CardDataModel(string ImageUrl, string Title, string SubTitle, string Content, string NavUrl, string Tag)
-        {
-            this.ImageUrl = ImageUrl;
-            this.Title = Title;
-            this.SubTitle = SubTitle;
-            this.Content = Content;
-            this.NavUrl = NavUrl;
-            this.Tag = Tag;
-        }
-
-        public static List<CardDataModel> GetCardDatas()
-        {
-            List<CardDataModel> CardData = new List<CardDataModel>();
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-one.png", Title = "ASP.NET MVC", SubTitle = "Nick Harrison", Content = "ASP.NET Model View Controller design pattern to keep the data, views, and logic clearly separated in apps.", NavUrl = "https://www.syncfusion.com/ebooks/ASPNET_MVC_Succinctly", Tag = "Server-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-two.png", Title = "Node.js", SubTitle = "Emanuele DelBono", Content = "Node.js is a wildly popular platform for writing web applications that has revolutionized web development in many ways.", NavUrl = "https://www.syncfusion.com/ebooks/nodejs", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-three.png", Title = "React.js", SubTitle = "Dmitri Nesteruk", Content = "React is a JavaScript library that has revolutionized how developers design and think about views in web applications.", NavUrl = "https://www.syncfusion.com/ebooks/reactjs_succinctly", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-four.png", Title = "TypeScript", SubTitle = "Steve Fenton", Content = "Microsoft TypeScript extends many familiar features of .NET programming to JavaScript.", NavUrl = "https://www.syncfusion.com/ebooks/typescript", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-five.png", Title = "PHP", SubTitle = "Jose Roberto Olivas Mendoza", Content = "Known for its straightforward simplicity, PHP is an open source, general-purpose scripting language oriented for web development.", NavUrl = "https://www.syncfusion.com/ebooks/php_succinctly", Tag = "Server-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-six.png", Title = "CSS3", SubTitle = "Peter Shaw", Content = "In CSS3 Succinctly, author Peter Shaw provides an overview of the latest features available for custom cascading style sheets.", NavUrl = "https://www.syncfusion.com/ebooks/css3", Tag = "Front-end" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-seven.png", Title = "ASP.NET Core", SubTitle = "Simone Chiaretta and Ugo Lattanzi", Content = "In ASP.NET Core Succinctly, seasoned authors Simone Chiaretta and Ugo Lattanzi update you on all the advances provided by Microsoft’s landmark framework.", NavUrl = "https://www.syncfusion.com/ebooks/asp_net_core_succinctly", Tag = "Server-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-eight.png", Title = "Aurelia", SubTitle = "Matthew Duffield", Content = "Aurelia is a relatively new, open-source JavaScript library/framework that simplifies the creation of web-based applications.", NavUrl = "https://www.syncfusion.com/ebooks/aurelia_succinctly", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-nine.png", Title = "ECMAScript 6", SubTitle = "Matthew Duffield", Content = "ECMAScript 6 (ES6), also known as ECMAScript 2015, brings new functionality and features to the table that developers have been wanting for a long time.", NavUrl = "https://www.syncfusion.com/ebooks/ecmascript_6_succinctly", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-ten.png", Title = "JavaScript", SubTitle = "Cody Lindley", Content = "JavaScript Succinctly was written to give readers an accurate, concise examination of JavaScript objects and their supporting nuances.", NavUrl = "https://www.syncfusion.com/ebooks/javascript", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-eleven.png", Title = "Knockout.js", SubTitle = "Ryan Hodson", Content = "Knockout.js Succinctly is intended for professional web developers who need to build dynamic, scalable user interfaces with minimal code.", NavUrl = "https://www.syncfusion.com/ebooks/knockoutjs", Tag = "Client-side" });
-            CardData.Add(new CardDataModel { ImageUrl = "images/cards/tile-twelve.png", Title = "Angular 2", SubTitle = "Joseph D.Booth", Content = "Angular 2 is a massively popular JavaScript framework built to take advantage of component development in web apps.", NavUrl = "https://www.syncfusion.com/ebooks/angular2_succinctly", Tag = "Client-side" });
-            return CardData;
-        }
     }
 
-    public List<CardDataModel> CardDatas = CardDataModel.GetCardDatas();
+    public List<CardDataModel> GetCardDatas()
+    {
+        var assetpath =  "images/cards/";
+        List<CardDataModel> CardData = new List<CardDataModel>();
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-one.png", Title = "ASP.NET MVC", SubTitle = "Nick Harrison", Content = "ASP.NET Model View Controller design pattern to keep the data, views, and logic clearly separated in apps.", NavUrl = "https://www.syncfusion.com/ebooks/ASPNET_MVC_Succinctly", Tag = "Server-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-two.png", Title = "Node.js", SubTitle = "Emanuele DelBono", Content = "Node.js is a wildly popular platform for writing web applications that has revolutionized web development in many ways.", NavUrl = "https://www.syncfusion.com/ebooks/nodejs", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-three.png", Title = "React.js", SubTitle = "Dmitri Nesteruk", Content = "React is a JavaScript library that has revolutionized how developers design and think about views in web applications.", NavUrl = "https://www.syncfusion.com/ebooks/reactjs_succinctly", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-four.png", Title = "TypeScript", SubTitle = "Steve Fenton", Content = "Microsoft TypeScript extends many familiar features of .NET programming to JavaScript.", NavUrl = "https://www.syncfusion.com/ebooks/typescript", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-five.png", Title = "PHP", SubTitle = "Jose Roberto Olivas Mendoza", Content = "Known for its straightforward simplicity, PHP is an open source, general-purpose scripting language oriented for web development.", NavUrl = "https://www.syncfusion.com/ebooks/php_succinctly", Tag = "Server-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-six.png", Title = "CSS3", SubTitle = "Peter Shaw", Content = "In CSS3 Succinctly, author Peter Shaw provides an overview of the latest features available for custom cascading style sheets.", NavUrl = "https://www.syncfusion.com/ebooks/css3", Tag = "Front-end" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-seven.png", Title = "ASP.NET Core", SubTitle = "Simone Chiaretta and Ugo Lattanzi", Content = "In ASP.NET Core Succinctly, seasoned authors Simone Chiaretta and Ugo Lattanzi update you on all the advances provided by Microsoft’s landmark framework.", NavUrl = "https://www.syncfusion.com/ebooks/asp_net_core_succinctly", Tag = "Server-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-eight.png", Title = "Aurelia", SubTitle = "Matthew Duffield", Content = "Aurelia is a relatively new, open-source JavaScript library/framework that simplifies the creation of web-based applications.", NavUrl = "https://www.syncfusion.com/ebooks/aurelia_succinctly", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-nine.png", Title = "ECMAScript 6", SubTitle = "Matthew Duffield", Content = "ECMAScript 6 (ES6), also known as ECMAScript 2015, brings new functionality and features to the table that developers have been wanting for a long time.", NavUrl = "https://www.syncfusion.com/ebooks/ecmascript_6_succinctly", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-ten.png", Title = "JavaScript", SubTitle = "Cody Lindley", Content = "JavaScript Succinctly was written to give readers an accurate, concise examination of JavaScript objects and their supporting nuances.", NavUrl = "https://www.syncfusion.com/ebooks/javascript", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-eleven.png", Title = "Knockout.js", SubTitle = "Ryan Hodson", Content = "Knockout.js Succinctly is intended for professional web developers who need to build dynamic, scalable user interfaces with minimal code.", NavUrl = "https://www.syncfusion.com/ebooks/knockoutjs", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-twelve.png", Title = "Angular 2", SubTitle = "Joseph D.Booth", Content = "Angular 2 is a massively popular JavaScript framework built to take advantage of component development in web apps.", NavUrl = "https://www.syncfusion.com/ebooks/angular2_succinctly", Tag = "Client-side" });
+        return CardData;
+    }
+
+    private List<CardDataModel> _cardDatas;
+    public List<CardDataModel> CardDatas
+    {
+        get {  return _cardDatas; }
+        set { _cardDatas = value; }
+    } 
 
     public List<string> SortingType = new List<string>() { "Ascending", "Descending" };
 
@@ -188,26 +187,22 @@
 
     public List<CardDataModel> GetCardDatas(string[] values)
     {
-        List<CardDataModel> cardDatas = CardDataModel.GetCardDatas();
+        var cardDatas = GetCardDatas();
         if (values == null)
         {
-            cardDatas = this.GetSortedCardDatas(cardDatas);
-            return cardDatas;
+            return this.GetSortedCardDatas(cardDatas);
         }
-        else
+        
+        var filterCards = new List<CardDataModel>();
+        foreach (string value in values)
         {
-            List<CardDataModel> filterCards = new List<CardDataModel>();
-            foreach (string value in values)
+            var cards = cardDatas.Where(e => e.Tag == value);
+            foreach (var card in cards)
             {
-                List<CardDataModel> cards = cardDatas.Where(e => e.Tag == value).ToList();
-                foreach (CardDataModel card in cards)
-                {
-                    filterCards.Add(card);
-                }
+                filterCards.Add(card);
             }
-            filterCards = this.GetSortedCardDatas(filterCards);
-            return filterCards;
         }
+        return this.GetSortedCardDatas(filterCards);
     }
 
     public List<CardDataModel> GetSortedCardDatas(List<CardDataModel> sortingCards)
@@ -250,6 +245,6 @@
         this.SearchValue = null;
         this.SortingValue = null;
         this.FilteringValue = null;
-        this.CardDatas = CardDataModel.GetCardDatas();
+        this.CardDatas = this.GetCardDatas();
     }
 }

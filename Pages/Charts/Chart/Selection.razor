@@ -5,17 +5,18 @@
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
 
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample demonstrates the selection behavior and its mode along with the highlight and highlight patterns in the chart.</p>
+    <p>This sample demonstrates the different mode of selection and highlight behavior in the chart.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this sample, any point or series can be selected in the chart by clicking on or touching the point. You can also change the selection mode by changing the <code>Selection Mode</code> option in the properties panel. You can enable multiple selections with the <code>Enable Multi Selection</code> option. You can also select a point while loading a chart using the <code>SelectedDataIndexes</code> option.</p>
-    <p>While hovering the point, the point is highlighted using the <code>Enable Highlight</code> option, as well as you can set different highlight patterns such as dots, chessboard, triangle, etc... using the <code>Highlight Patterns</code> option.</p>
-    <p>The chart supports the following that can be set using the <code>SelectionMode</code> property.</p>
+    <p>In this sample, any point or series can be selected in the chart by clicking on or touching the point. You can also change the selection mode by changing the <b>Selection Mode</b> option in the properties panel. You can enable multiple selections with the <b>Enable Multi Selection</b> option. You can also select a point while loading a chart using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartSelectedDataIndexes.html'>SelectedDataIndexes</a> option.</p>
+    <p>Highlight the points in the sample using the <a>Enable Highlight</a> option, as well as you can set different highlight patterns and colors using the <a>Highlight Patterns</a> and <a>Highlight Color</a> option.</p>
+    <p>Selection can be set using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SelectionMode.html'>SelectionMode</a> property and its supports following mode.</p>
     <ul>
         <li><code>Series</code> - Select the series in the chart.</li>
         <li><code>Point</code> - Select a point in the series.</li>
@@ -24,10 +25,11 @@
         <li><code>DragX</code> - Rectangular selection with respect to horizontal axis.</li>
         <li><code>DragY</code> - Rectangular selection with respect to vertical axis.</li>
     </ul>
+    <p>More information about the selection can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/selection'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section col-md-8 sb-property-border">
-    <SfChart Title="Age Distribution by Country" SelectionMode="@Mode" IsMultiSelect="@EnableMultiSelect" SelectionPattern="@Pattern"
+    <SfChart HighlightColor="@highLightColor" Title="Age Distribution by Country" SelectionMode="@Mode" IsMultiSelect="@EnableMultiSelect" SelectionPattern="@Pattern"
              HighlightMode="@HighMode" HighlightPattern="@HighLightPattern" Theme="@Theme">
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
@@ -37,9 +39,15 @@
         <ChartPrimaryYAxis Title="Distribution" Interval="20" LabelFormat="{value}%"></ChartPrimaryYAxis>
         <ChartLegendSettings Visible="true" ToggleVisibility="false"></ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="Children" Name="Age 0-14" Width="2" Type="ChartSeriesType.Column"></ChartSeries>
-            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="Adult" Name="Age 15-64" Width="2" Type="ChartSeriesType.Column"></ChartSeries>
-            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="SeniorAdult" Name="Age 65 & Above" Width="2" Type="ChartSeriesType.Column"></ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="Children" Name="Age 0-14" Width="2" Type="ChartSeriesType.Column">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="Adult" Name="Age 15-64" Width="2" Type="ChartSeriesType.Column">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="SeniorAdult" Name="Age 65 & Above" Width="2" Type="ChartSeriesType.Column">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="false"></ChartTooltipSettings>
     </SfChart>
@@ -53,6 +61,14 @@
                 <tbody>
                     <tr style="height: 50px">
                         <td>
+                            <div> Enable Multi Selection:</div>
+                        </td>
+                        <td>
+                            <SfCheckBox Checked="@IsMultiSelect" ValueChange="@ChangeSelection" TChecked="bool"></SfCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td>
                             <div>Selection Mode:</div>
                         </td>
                         <td>
@@ -60,14 +76,6 @@
                                 <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeMode"></DropDownListEvents>
                                 <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
                             </SfDropDownList>
-                        </td>
-                    </tr>
-                    <tr style="height: 50px">
-                        <td>
-                            <div> Enable Multi Selection:</div>
-                        </td>
-                        <td>
-                            <SfCheckBox Checked="@IsMultiSelect" ValueChange="@ChangeSelection" TChecked="bool"></SfCheckBox>
                         </td>
                     </tr>
                     <tr style="height: 50px">
@@ -88,6 +96,15 @@
                         <td>
                             <SfCheckBox Checked="@IsHighlight" ValueChange="@CheckHighlight" TChecked="bool"></SfCheckBox>
                         </td>
+                    </tr>
+                    <tr style="height: 50px">
+                         <td style="width: 60%">
+                             <div>Highlight Color:</div>
+                         </td>
+                         <td style="width: 40%;">
+                             <SfColorPicker Mode="ColorPickerMode.Palette" Value="@highLightColor" NoColor="true" ShowButtons="false" ModeSwitcher="false" ValueChange="ColorPickerChanged">
+                             </SfColorPicker>
+                         </td>
                     </tr>
                     <tr style="height: 50px">
                         <td>
@@ -113,6 +130,7 @@
     private HighlightMode HighMode { get; set; } = HighlightMode.None;
     private SelectionPattern Pattern { get; set; } = SelectionPattern.None;
     private SelectionPattern HighLightPattern { get; set; } = SelectionPattern.None;
+    private string highLightColor { get; set; } = string.Empty;
     public List<DropDownData> Modes { get; set; } = new List<DropDownData>
     {
         new DropDownData() { Type = "Point" },
@@ -141,7 +159,7 @@
     {
         new SelectionData { Country = "CHN", Children = 17, Adult = 54, SeniorAdult  = 9 },
         new SelectionData { Country = "USA", Children = 19, Adult = 67, SeniorAdult  = 14 },
-        new SelectionData { Country = "IDN", Children = 29, Adult = 65, SeniorAdult  = 6 },
+        new SelectionData { Country = "IND", Children = 29, Adult = 65, SeniorAdult  = 6 },
         new SelectionData { Country = "JAP", Children = 13, Adult = 61, SeniorAdult  = 26 },
         new SelectionData { Country = "BRZ", Children = 24, Adult = 68, SeniorAdult  = 8 },
     };
@@ -182,6 +200,11 @@
     private void ChangeHighlightMode()
     {
         HighMode = (IsHighlight) ? (HighlightMode)Enum.Parse(typeof(Syncfusion.Blazor.Charts.SelectionMode), Mode.ToString(), true) : HighlightMode.None;
+    }
+
+    public void ColorPickerChanged(ColorPickerEventArgs args)
+    {
+        highLightColor = args.CurrentValue.Hex;
     }
 
     public class DropDownData

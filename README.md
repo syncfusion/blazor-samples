@@ -15,8 +15,10 @@ The below topics can help you to use the Syncfusion Blazor Components and run th
 
 The samples requires the below requirements to run.
 
-* [Visual Studio 2019 16.7 or later](https://visualstudio.microsoft.com/vs/preview/)
+* [Visual Studio 2019 16.7 or later](https://visualstudio.microsoft.com/vs/preview/) for [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) Project.
+* [Visual Studio 2022 17.0 latest preview or later](https://visualstudio.microsoft.com/vs/preview/) for [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) Project.
 * [.NET Core SDK 3.1.8](https://dotnet.microsoft.com/download/dotnet-core/3.1) / [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
+* Nodejs Version : [8.1.0](https://nodejs.org/download/release/v8.1.0/)
 
 ## Using the demos
 
