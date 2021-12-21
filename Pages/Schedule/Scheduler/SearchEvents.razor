@@ -25,20 +25,17 @@
 
 <div class="col-lg-9 control-section">
     <div class="schedule-wrapper">
-        @if (Show)
-        {
-            <SfSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleObj" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
-                <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
-                <ScheduleViews>
-                    <ScheduleView Option="View.Day"></ScheduleView>
-                    <ScheduleView Option="View.Week"></ScheduleView>
-                    <ScheduleView Option="View.WorkWeek"></ScheduleView>
-                    <ScheduleView Option="View.Month"></ScheduleView>
-                    <ScheduleView Option="View.Agenda"></ScheduleView>
-                </ScheduleViews>
-            </SfSchedule>
-        }
-        else
+        <SfSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleObj" Width="100%" CssClass="@(Show ? string.Empty : "schedule-hide")" Height="650px" @bind-SelectedDate="@CurrentDate">
+            <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.Week"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView Option="View.Month"></ScheduleView>
+                <ScheduleView Option="View.Agenda"></ScheduleView>
+            </ScheduleViews>
+        </SfSchedule>
+        @if (!Show)
         {
             <SfGrid DataSource="GridDataSource" Width="auto" Height="505px">
                 <GridColumns>
@@ -56,7 +53,7 @@
     <div class="property-panel-section">
         <p class="property-panel-header header-customization" style="width: 100%;">Search by all event fields</p>
         <div class="property-panel-content">
-            <SfTextBox ID="events-search" Placeholder='Enter the Search text' Input="@OnEventSearch"></SfTextBox>
+            <SfTextBox ID="events-search" Placeholder='Enter the Search text' @bind-Value="@SearchValue" OnChange="@OnEventSearch"></SfTextBox>
         </div>
         <div class="event-search">
             <p class="property-panel-header header-customization" style="width: 100%;">Search by specific event fields</p>
@@ -114,17 +111,18 @@
     public List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetScheduleData();
     public List<ScheduleData.AppointmentData> GridDataSource = new List<ScheduleData.AppointmentData>();
     public bool Show { get; set; } = true;
+    public string SearchValue { get; set; }
     public string SubjectValue { get; set; }
     public string LocationValue { get; set; }
     public DateTime? DateStart { get; set; }
     public DateTime? DateEnd { get; set; }
 
 #pragma warning disable BL0005, CA2000  // Component parameter should not be set outside of its component, Dispose objects before losing scope
-    public async Task OnEventSearch(InputEventArgs args)
+    public async Task OnEventSearch()
     {
-        if (!string.IsNullOrEmpty(args.Value))
+        if (!string.IsNullOrEmpty(SearchValue) && ScheduleObj != null)
         {
-            Query query = new Query().Search(args.Value, new List<string> { "Subject", "Location", "Description" }, null, true, true);
+            Query query = new Query().Search(SearchValue, new List<string> { "Subject", "Location", "Description" }, null, true, true);
             List<ScheduleData.AppointmentData> eventCollections = await ScheduleObj.GetEventsAsync(null, null, true);
             object data = await new DataManager() { Json = eventCollections }.ExecuteQuery<ScheduleData.AppointmentData>(query);
             List<ScheduleData.AppointmentData> resultData = (data as List<ScheduleData.AppointmentData>);
@@ -187,7 +185,7 @@
     public void OnClearClick()
     {
         Show = true;
-        SubjectValue = LocationValue = string.Empty;
+        SearchValue = SubjectValue = LocationValue = string.Empty;
         DateStart = DateEnd = null;
     }
 }
@@ -202,6 +200,10 @@
 
     .button-customization {
         padding: 15px 3px;
+    }
+
+    .schedule-hide {
+        display: none;
     }
 
     @@media (max-width: 441px) {

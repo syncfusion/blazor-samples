@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor
 @using ThemeHelper
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Inputs
 
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
@@ -11,7 +12,7 @@
     <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/pie-chart'>Blazor Pie Chart</a> example demonstrates pie chart for mobile browser usage statistics. Datalabel shows the Information about the points. While hovering on the slice, border will be highlighted.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to render and configure the pie chart. The pie chart is a circular graphic, which is ideal for displaying proportional values in different categories. The <code>Pie Angle</code>, <code>Outer Radius</code>, <code>Explode Radius</code> and <code>Explode Index</code> options in the property panel can be used to customize the pie chart.</p>
+    <p>In this example, you can see how to render and configure the pie chart. The pie chart is a circular graphic, which is ideal for displaying proportional values in different categories. The <b>Pie Angle</b>, <b>Outer Radius</b>, <b>Explode Radius</b> and <b>Explode Index</b> options in the property panel can be used to customize the pie chart.</p>
     <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
     <p>More information about the pie series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut'>documentation section</a>.</p>
 </ActionDescription>
@@ -35,7 +36,7 @@
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
-            <table title="Properties" style="width: 100%">
+            <table style="width: 100%">
                 <tr style="height: 50px">
                     <td style="width: 50%">
                         <div>
@@ -44,7 +45,9 @@
                     </td>
                     <td style="width: 70%;">
                         <div class="">
-                            <input type="range" @onchange="changeAngle" value="@angle" min="0" max="360" style="width:90%" />
+                            <SfNumericTextBox TValue="int?" Value="@angle" Max=360 Min=0 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="changeAngle" />
+                            </SfNumericTextBox>
                         </div>
                     </td>
                     <td style="width: 30%">
@@ -59,7 +62,9 @@
                     </td>
                     <td style="width: 50%;">
                         <div data-role="rangeslider">
-                            <input type="range" @onchange="ChangeOuterRadius" value="@radius" min="0" max="80" style="width:90%" />
+                            <SfNumericTextBox TValue="int?" Value="@radius" Max=80 Min=10 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeOuterRadius" />
+                            </SfNumericTextBox>
                         </div>
                     </td>
                     <td style="width: 30%">
@@ -74,7 +79,9 @@
                     </td>
                     <td style="width: 50%;">
                         <div data-role="rangeslider">
-                            <input type="range" @onchange="ChangeExplodeRadius" value="@exploderadius" min="0" max="40" style="width:90%" />
+                            <SfNumericTextBox TValue="int?" Value="@exploderadius" Max=40 Min=0 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeExplodeRadius" />
+                            </SfNumericTextBox>
                         </div>
                     </td>
                     <td style="width: 30%">
@@ -89,7 +96,9 @@
                     </td>
                     <td style="width: 50%;">
                         <div data-role="rangeslider">
-                            <input type="range" @onchange="ChangeExplodeIndex" value="@ExplodeIndex" min="0" max="6" style="width:90%" />
+                            <SfNumericTextBox TValue="int?" Value="@ExplodeIndex" Max=5 Min=0 Step=1 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeExplodeIndex" />
+                            </SfNumericTextBox>
                         </div>
                     </td>
                     <td style="width: 30%">
@@ -97,19 +106,19 @@
                     </td>
                 </tr>
             </table>
-            </div>
         </div>
     </div>
+</div>
 
 
-    @code{
+@code{
 
-        public Theme Theme { get; set; }
-        public double ExplodeIndex { get; set; } = 1;
-        public string OuterRadius = "70%", ExplodeRadius = "10%";
-        public int StartAngle = 0, EndAngle = 360;
-        public List<PieData> PieChartPoints { get; set; } = new List<PieData>
-    {
+    public Theme Theme { get; set; }
+    public int ExplodeIndex { get; set; } = 1;
+    public string OuterRadius = "70%", ExplodeRadius = "10%";
+    public int StartAngle = 0, EndAngle = 360;
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
+{
         new PieData { Browser = "Chrome", Users = 37},
         new PieData { Browser = "UC Browse", Users = 17},
         new PieData { Browser = "iPhone",  Users = 19 },
@@ -117,39 +126,39 @@
         new PieData { Browser = "Opera", Users = 11 },
         new PieData { Browser = "Android", Users = 12}
     };
-        private int angle = 0, radius = 70, exploderadius = 10;
+    private int angle = 0, radius = 70, exploderadius = 10;
 
-        protected override void OnInitialized()
-        {
-            Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        }
-
-        private void changeAngle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-        {
-            StartAngle = EndAngle = angle = Convert.ToInt32(args.Value);
-        }
-
-        private void ChangeOuterRadius(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-        {
-            radius = Convert.ToInt32(args.Value);
-            OuterRadius = radius + "%";
-        }
-
-        private void ChangeExplodeRadius(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-        {
-            exploderadius = Convert.ToInt32(args.Value);
-            ExplodeRadius = exploderadius + "%";
-        }
-
-        private void ChangeExplodeIndex(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-        {
-            ExplodeIndex = Convert.ToInt32(args.Value);
-        }
-
-        public class PieData
-        {
-            public string Browser { get; set; }
-            public double Users { get; set; }
-        }
-
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
     }
+
+    private void changeAngle(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        StartAngle = EndAngle = angle = Convert.ToInt32(args.Value);
+    }
+
+    private void ChangeOuterRadius(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        radius = Convert.ToInt32(args.Value);
+        OuterRadius = radius + "%";
+    }
+
+    private void ChangeExplodeRadius(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        exploderadius = Convert.ToInt32(args.Value);
+        ExplodeRadius = exploderadius + "%";
+    }
+
+    private void ChangeExplodeIndex(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        ExplodeIndex = Convert.ToInt32(args.Value);
+    }
+
+    public class PieData
+    {
+        public string Browser { get; set; }
+        public double Users { get; set; }
+    }
+
+}

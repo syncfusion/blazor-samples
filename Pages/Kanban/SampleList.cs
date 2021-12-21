@@ -84,11 +84,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/observable",
-                FileName = "KanbanObservable.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @"Added a demo to showcase Observable collection data binding of the Kanban component."
-                }
+                FileName = "KanbanObservable.razor"
             },
             new Sample
             {
@@ -96,11 +92,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/expando-object",
-                FileName = "KanbanExpandoObject.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @"Added a demo to showcase dynamic data binding (Expando Object) of the Kanban component."
-                }
+                FileName = "KanbanExpandoObject.razor"
             },
             new Sample
             {
@@ -108,11 +100,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/dynamic-object",
-                FileName = "KanbanDynamicObject.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @"Added a demo to showcase dynamic data binding (Dynamic Object) of the Kanban component."
-                }
+                FileName = "KanbanDynamicObject.razor"
             },
             new Sample
             {

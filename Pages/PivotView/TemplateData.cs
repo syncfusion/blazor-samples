@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BlazorDemos;
-namespace ej2_blazor_templatedata
+namespace BlazorDemos.Pages.PivotView.PivotTable
 {
 
     public class TemplateData

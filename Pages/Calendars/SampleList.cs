@@ -33,7 +33,7 @@ namespace BlazorDemos
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Special-Dates",
                 FileName = "SpecialDates.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -78,7 +78,7 @@ namespace BlazorDemos
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -108,7 +108,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Special-Dates",
                 FileName = "SpecialDates.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -162,7 +162,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -192,7 +192,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Special-Dates",
                 FileName = "SpecialDates.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -237,7 +237,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
         };
 
@@ -268,10 +268,7 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Time-Format",
                 FileName = "Format.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo by including an option to change the display format of the TimePicker."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -298,7 +295,7 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -312,7 +309,7 @@ namespace BlazorDemos
                 Url = "DateRangePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This Blazor DataRangePicker example demonstrates the Default Functionalities. Explore here for more details.",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the default functionalities. Explore here for more details.",
                 HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
@@ -324,7 +321,7 @@ namespace BlazorDemos
                 Url = "DateRangePicker/Date-Range",
                 FileName = "DateRange.razor",
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This Blazor DataRangePicker example demonstrates the Date Range. Explore here for more details.",
+                MetaDescription = "This example demonstrates the setting minimum and maximum date range in Blazor DataRangePicker. Explore here for more details.",
                 HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
@@ -336,7 +333,7 @@ namespace BlazorDemos
                 Url = "DateRangePicker/Day-Span",
                 FileName = "DaySpan.razor",
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This Blazor DataRangePicker example demonstrates the Day Span. Explore here for more details.",
+                MetaDescription = "This example demonstrates the minimum and maximum day span in Blazor DataRangePicker. Explore here for more details.",
                 HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
@@ -357,8 +354,8 @@ namespace BlazorDemos
                 Url = "DateRangePicker/Format",
                 FileName = "Format.razor",
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This Blazor DataRangePicker example demonstrates the Format. Explore here for more details.",
-                HeaderText = "Blazor Date Range Picker Example",
+                MetaDescription = "This example demonstrates the formatting in Blazor DataRangePicker. Explore here for more details.",
+                HeaderText = "Example of Formatting in Blazor Date Range Picker Component",
                 Type = SampleType.None
             },
              new Sample
@@ -369,8 +366,8 @@ namespace BlazorDemos
                 Url = "DateRangePicker/Month-Range-Picker",
                 FileName = "MonthRangePicker.razor",
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This Blazor DataRangePicker example demonstrates the Month Range Picker. Explore here for more details.",
-                HeaderText = "Blazor Date Range Picker Example",
+                MetaDescription = "This example demonstrates creating Month Range Picker using Blazor DataRangePicker. Explore here for more details.",
+                HeaderText = "Blazor Month Range Picker Example",
                 Type = SampleType.None
             },
             new Sample
@@ -398,7 +395,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
     }

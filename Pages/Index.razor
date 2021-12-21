@@ -69,27 +69,41 @@
                         {
                             <div class="sf-catagory">@category</div>
                             var components = SampleBrowser.SampleList.Where(comp => comp.Category == category).ToList();
-                    <ul>
-                        @foreach (var component in components)
-                        {
-
-
-                            @if (!component.IsHideFromHomePageList)
+                            @if (isWasmSample && category == "File Formats FrameWorks")
                             {
-                                <li>
-                                    <a href=@component.DemoPath @onclick="@(() => NavToSample(component.DemoPath))" @onclick:preventDefault
-                                       rel="noopener noreferrer">
-                                        <span class="sf-home-icon sf-icon-@string.Join("", component.Name.ToLower().Split(" "))"></span>
-                                        <span class="sf-component-name">@component.Name</span>
-                                        @if (component.IsPreview)
-                                        {
-                                            <span class="sf-preview">PREVIEW</span>
-                                        }
-                                    </a>
-                                </li>
+                                var fileFormat = new List<string> { "DocIO", "PDF", "Presentation", "XlsIO" };
+                                <ul>
+                                    @foreach (var component in fileFormat)
+                                    {
+                                        <li>
+                                            <span class="sf-home-icon sf-icon-@string.Join("", component.ToLower().Split(" "))" style="color:#c8c8c8"></span>
+                                            <span class="sf-component-name" style="color:#c8c8c8">@component</span>
+                                        </li>
+                                    }
+                                </ul>
                             }
-                        }
-                    </ul>
+                            else
+                            {
+                                <ul>
+                                    @foreach (var component in components)
+                                    {
+                                        @if (!component.IsHideFromHomePageList)
+                                        {
+                                            <li>
+                                                <a href=@component.DemoPath @onclick="@(() => NavToSample(component.DemoPath))" @onclick:preventDefault
+                                                   rel="noopener noreferrer">
+                                                    <span class="sf-home-icon sf-icon-@string.Join("", component.Name.ToLower().Split(" "))"></span>
+                                                    <span class="sf-component-name">@component.Name</span>
+                                                    @if (component.IsPreview)
+                                                    {
+                                                        <span class="sf-preview">PREVIEW</span>
+                                                    }
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
                         }
                     </div>
                 }
@@ -193,6 +207,7 @@
     private string searchContainer { get; set; }
     private SearchComponent searchRef { get; set; }
     private List<List<string>> categoryOrders { get; set; } = new List<List<string>>();
+    private bool isWasmSample { get; set; }
 
     [CascadingParameter(Name = "IsDevice")]
     protected bool IsDevice { get; set; }
@@ -218,7 +233,14 @@
     private void NavToSample(string path)
     {
         SampleService.Spinner.Show();
-        UriHelper.NavigateTo(path + "?theme=bootstrap5");
+#if NET6_0
+        var newUri = UriHelper.GetUriWithQueryParameters(path, new Dictionary<string, object>{
+            ["theme"] = "bootstrap5"
+        });
+        UriHelper.NavigateTo(newUri, true);
+#else
+        UriHelper.NavigateTo(path + "?theme=bootstrap5", true);
+#endif
     }
 
     // Show or hide the search container in device mode.
@@ -250,6 +272,9 @@
         this.categoryOrders.Add(new List<string> { "Data Visualization", "Buttons" });
         this.categoryOrders.Add(new List<string> { "Calendars", "Inputs", "Forms" });
         this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Notifications" });
+#if WASM
+        isWasmSample = true;
+#endif
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -15,11 +15,7 @@ namespace BlazorDemos
                 Category = "DocumentEditor",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Improved the sample with text measuring logic to get Microsoft Word application like document pagination."
-                }
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -39,7 +35,7 @@ namespace BlazorDemos
                 Type = SampleType.Updated,
                 NotificationDescription = new string[]
                 {
-                    @"Updated the demo with paragraph pagination properties (Keep with next, Keep lines together, and widow/orphan control)."
+                    @"Updated the demo with paragraph justification to match the justification alignment of Microsoft Word 2013 and newer versions."
                 }
             },
             new Sample
@@ -72,12 +68,7 @@ namespace BlazorDemos
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/table-format",
-                FileName = "TableFormat.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with support to preserve table position properties."
-                }
+                FileName = "TableFormat.razor"
             },
             new Sample
             {

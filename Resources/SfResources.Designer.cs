@@ -7369,6 +7369,15 @@ namespace BlazorDemos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BROWSE.
+        /// </summary>
+        public static string PdfViewer_Browse_Signature_Image {
+            get {
+                return ResourceManager.GetString("PdfViewer_Browse_Signature_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calibrate.
         /// </summary>
         public static string PdfViewer_Calibrate {
@@ -7630,11 +7639,11 @@ namespace BlazorDemos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Draw Signature.
+        ///   Looks up a localized string similar to DRAW.
         /// </summary>
-        public static string PdfViewer_DrawSignature {
+        public static string PdfViewer_Draw_hand_Signature {
             get {
-                return ResourceManager.GetString("PdfViewer_DrawSignature", resourceCulture);
+                return ResourceManager.GetString("PdfViewer_Draw_hand_Signature", resourceCulture);
             }
         }
         
@@ -7653,6 +7662,15 @@ namespace BlazorDemos.Resources {
         public static string PdfViewer_EndArrow {
             get {
                 return ResourceManager.GetString("PdfViewer_EndArrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter your name.
+        /// </summary>
+        public static string PdfViewer_Enter_Signature_as_Name {
+            get {
+                return ResourceManager.GetString("PdfViewer_Enter_Signature_as_Name", resourceCulture);
             }
         }
         
@@ -7815,6 +7833,15 @@ namespace BlazorDemos.Resources {
         public static string PdfViewer_GoToPage {
             get {
                 return ResourceManager.GetString("PdfViewer_GoToPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Signature.
+        /// </summary>
+        public static string PdfViewer_HandwrittenSignatureDialogHeaderText {
+            get {
+                return ResourceManager.GetString("PdfViewer_HandwrittenSignatureDialogHeaderText", resourceCulture);
             }
         }
         
@@ -8206,6 +8233,15 @@ namespace BlazorDemos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Signature.
+        /// </summary>
+        public static string PdfViewer_Save_Signature {
+            get {
+                return ResourceManager.GetString("PdfViewer_Save_Signature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scale Ratio.
         /// </summary>
         public static string PdfViewer_ScaleRatio {
@@ -8368,6 +8404,15 @@ namespace BlazorDemos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TYPE.
+        /// </summary>
+        public static string PdfViewer_Type_Signature {
+            get {
+                return ResourceManager.GetString("PdfViewer_Type_Signature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Underline Text.
         /// </summary>
         public static string PdfViewer_Underline {
@@ -8400,6 +8445,15 @@ namespace BlazorDemos.Resources {
         public static string PdfViewer_Undo {
             get {
                 return ResourceManager.GetString("PdfViewer_Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPLOAD.
+        /// </summary>
+        public static string PdfViewer_Upload_Signature {
+            get {
+                return ResourceManager.GetString("PdfViewer_Upload_Signature", resourceCulture);
             }
         }
         

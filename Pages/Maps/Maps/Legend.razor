@@ -12,22 +12,23 @@
     <p>This sample depicts grouping of countries based on population density and represents the same via the legend. The type and position of the legend can also be modified.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to configure and render legend in the map using <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLegendSettings.html'>MapsLegendSettings</a></code> class. A legend item represents the value of a shape. A legend can contain any number of legend items. Using the<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMappings.html'>MapsShapeColorMappings</a></code> property, you can bind the desired color to the shapes if its values fall within the specified range. Toggling the legend item also allows you to show or hide color mapping related to population density.</p>
+    <p>In this example, you can see how to configure and render legend in the map using <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLegendSettings.html'>MapsLegendSettings</a>. A legend item represents the value of a shape. A legend can contain any number of legend items. Using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMappings.html'>MapsShapeColorMappings</a> property, you can bind the desired color to the shapes if its values fall within the specified range. Toggling the legend item also allows you to show or hide color mapping related to population density.</p>
     <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/legend'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-8 control-section sb-property-border">
-    <SfMaps Theme="@Theme">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
         <MapsZoomSettings Enable="false" />
         <MapsTitleSettings Text="Population Density (per square kilometers) - 2015">
             <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
         </MapsTitleSettings>
-        <MapsLegendSettings Visible="true" Mode="@LegendTypeValue" Position="@LegendPositionValue" ShapePadding="5">
+        <MapsLegendSettings Visible="true" Mode="@LegendTypeValue" Position="@LegendPositionValue" ShapePadding="5" Height="@Height" Width="@Width">
             <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
             <MapsToggleLegendSettings Enable="@ToggleCheck" />
         </MapsLegendSettings>
         <MapsLayers>
-            <MapsLayer ShapeData='new {dataOptions ="data/maps/world-map.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData" TValue="PopulationDensityData">
+            <MapsLayer ShapeData='new {dataOptions = "data/maps/world-map.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData" TValue="PopulationDensityData">
                 <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="${Name} : ${Density} per square kms">
                     <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
                 </MapsLayerTooltipSettings>
@@ -115,6 +116,8 @@
     public string[] ShapeColorThree = { "#4D70B8" };
     public string[] ShapeColorFour = { "#2652A8" };
     public string[] ShapeColorFive = { "#003399" };
+    public string Height = "";
+    public string Width = "";
     public class PopulationDensityData
     {
         public string Code { get; set; }
@@ -317,10 +320,20 @@
         if (LegendTypeDropDownValue == "Default")
         {
             LegendTypeValue = LegendMode.Default;
+            Height = "";
+            Width = "";
         }
         else if (LegendTypeDropDownValue == "Interactive")
         {
             LegendTypeValue = LegendMode.Interactive;
+            if (LegendPositionDropDownValue == "Left" || LegendPositionDropDownValue == "Right")
+            {
+                this. SetVerticalLegendSize();
+            }
+            else
+            {
+                this.SetHorizontalLegendSize();
+            }
         }
     }
     private void LegendPositionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropValues> args)
@@ -329,23 +342,46 @@
         if (LegendPositionDropDownValue == "Top")
         {
             LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Top;
+            if (LegendTypeDropDownValue == "Interactive") {
+                this.SetHorizontalLegendSize();
+            }
         }
         else if (LegendPositionDropDownValue == "Bottom")
         {
             LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Bottom;
+            if (LegendTypeDropDownValue == "Interactive")
+            {
+                this.SetHorizontalLegendSize();
+            }
         }
         else if (LegendPositionDropDownValue == "Left")
         {
             LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Left;
+            if (LegendTypeDropDownValue == "Interactive")
+            {
+                this. SetVerticalLegendSize();
+            }
         }
         else if (LegendPositionDropDownValue == "Right")
         {
             LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Right;
+            if (LegendTypeDropDownValue == "Interactive")
+            {
+                this. SetVerticalLegendSize();
+            }
         }
     }
     private void LegendToggleChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         ToggleCheck = args.Checked;
+    }
+    private void  SetVerticalLegendSize() {
+        Height = "70%";
+        Width = "10";
+    }
+    private void SetHorizontalLegendSize() {
+        Height = "10";
+        Width = "70%";
     }
     public Theme Theme { get; set; }
     protected override void OnInitialized()

@@ -78,12 +78,8 @@ namespace BlazorDemos
                 Category = "ListView",
                 Directory = "Layouts/ListView",
                 Url = "listview/keyboard-navigation",
-                Type = SampleType.New,
-                FileName = "KeyboardNavigation.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo for keyboard accessibility of the ListView component."
-                }
+                Type = SampleType.None,
+                FileName = "KeyboardNavigation.razor"
             },
         };
          public List<Sample> DashboardLayout { get; set; } = new List<Sample>{
@@ -92,13 +88,9 @@ namespace BlazorDemos
                 Name = "Overview",
                 Category = "Dashboard Layout",
                 Directory = "Layouts/DashboardLayout",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 Url = "dashboard-layout/overview",
-                FileName = "Overview.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Added a overview sample to demonstrate most features of the DashboardLayout component."
-                }
+                FileName = "Overview.razor"
             },
             new Sample
             {
@@ -113,13 +105,9 @@ namespace BlazorDemos
                 Name = "Predefined Layouts",
                 Category = "Dashboard Layout",
                 Directory = "Layouts/DashboardLayout",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 Url = "dashboard-layout/predefined-layouts",
-                FileName = "PredefinedLayouts.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to demonstrates how to handle dynamic update on the DashboardLayout panels."
-                }
+                FileName = "PredefinedLayouts.razor"
             },
             new Sample
             {
@@ -135,12 +123,8 @@ namespace BlazorDemos
                 Category = "Use Case",
                 Directory = "Layouts/DashboardLayout",
                 Url = "dashboard-layout/seo",
-                Type = SampleType.New,
-                FileName = "SEODashboard.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to showcase the SEO analytics using the DashboardLayout component."
-                }
+                Type = SampleType.None,
+                FileName = "SEODashboard.razor"
             }
         };
         public List<Sample> Splitter { get; set; } = new List<Sample>{

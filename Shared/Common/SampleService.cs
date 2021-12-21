@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
 
 namespace BlazorDemos.Shared
 {
@@ -69,10 +70,18 @@ namespace BlazorDemos.Shared
         /// Specifies the document editor script loaded or not.
         /// </summary>
         public bool IsDocScriptLoaded { get; set; }
+        /// <summary>
+        /// Specifies the diagram interop script loaded or not.
+        /// </summary>
+        public bool IsDiagramScriptLoaded { get; set; }
+        ///// <summary>
+        ///// Specifies the Blazor Samples Common Static Web Assets location based on the project.
+        ///// </summary>
 
+        //public string WebAssetsPath = string.Empty;
         public SampleService()
         {
-#if DEBUG
+#if DEBUG || STAGING
             ImagePath = "./images/common/";
             ShowCaseImagePath = "./images/showcase/";
             PdfScriptPath = "_content/Syncfusion.Blazor.PdfViewer/scripts";
@@ -80,8 +89,8 @@ namespace BlazorDemos.Shared
 #else
             ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
             ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
-            PdfScriptPath = "https://cdn.syncfusion.com/blazor/19.3.53";
-            DocScriptPath = "https://cdn.syncfusion.com/blazor/19.5.53";
+            PdfScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
+            DocScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
 #endif
         }
 
@@ -145,7 +154,16 @@ namespace BlazorDemos.Shared
                         this.SampleInfo = controlInfo.Samples.First();
                     }
                     this.ComponentName = controlInfo.Name;
+#if NET6_0
+                    var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
+                    {
+                        ["theme"] = "bootstrap5"
+                    });
+                    urlHelper.NavigateTo(newUri);
+#else
                     urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=bootstrap5");
+#endif
+
                 }
             }
         }

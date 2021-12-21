@@ -1,16 +1,17 @@
 ﻿@page "/scheduler/header-rows"
 
 @using Syncfusion.Blazor.Schedule
+@using System.Globalization
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p> This demo showcases how to display the additional header rows on timeline view. In this demo, an additional row for displaying <b>month</b> and <b>week number</b> has been added. </p>
+    <p> This demo showcases how to display the additional header rows on timeline view. In this demo, an additional row for displaying <b>Month</b> and <b>Week number</b> has been added. </p>
 </SampleDescription>
 <ActionDescription>
     <p>
         Unlike the usual date and time rows, timeline view can be displayed with additional header rows to display the years, months and week numbers. To do so, define the
-        <code>HeaderRows</code> property which accepts an array of object and each object includes the <code>Option</code> API to define the specific header row type such as <code>Year</code>,
-        <code>Month</code>,<code>Week</code> and <code>Date</code>. The object also includes the <code>Template</code> option to provide label customization on these rows. This <code>HeaderRows</code> property is applicable only on timeline views.
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleHeaderRows.html">ScheduleHeaderRows</a> tag which accepts an collections of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleHeaderRow.html">ScheduleHeaderRow</a> and each object includes the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleHeaderRow.html#Syncfusion_Blazor_Schedule_ScheduleHeaderRow_Option">Option</a> property to define the specific header row type such as <code>Year</code>,
+        <code>Month</code>,<code>Week</code> and <code>Date</code>. The <code>ScheduleHeaderRow</code> also includes the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleHeaderRow.html#Syncfusion_Blazor_Schedule_ScheduleHeaderRow_Template">Template</a> option to provide label customization on these rows. The <code>ScheduleHeaderRows</code> is applicable only on timeline views.
     </p>
 </ActionDescription>
 
@@ -20,7 +21,11 @@
             <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
             <ScheduleHeaderRows>
                 <ScheduleHeaderRow Option="HeaderRowType.Month"></ScheduleHeaderRow>
-                <ScheduleHeaderRow Option="HeaderRowType.Week"></ScheduleHeaderRow>
+                <ScheduleHeaderRow Option="HeaderRowType.Week">
+                    <Template>
+                        <div class="date-text">Week: @(getWeekText((context as TemplateContext).Date))</div>
+                    </Template>
+                </ScheduleHeaderRow>
                 <ScheduleHeaderRow Option="HeaderRowType.Date"></ScheduleHeaderRow>
             </ScheduleHeaderRows>
             <ScheduleViews>
@@ -37,5 +42,9 @@
     public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
     {
         args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, View.TimelineMonth);
+    }
+    public static string getWeekText(DateTime date)
+    {
+        return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday).ToString();
     }
 }

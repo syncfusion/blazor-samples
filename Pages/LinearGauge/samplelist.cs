@@ -16,7 +16,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Container",
-                Category = "Linear Gauge",
+                Category = "Axis",
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/container",
                 FileName = "Container.razor",
@@ -24,62 +24,71 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Ranges",
-                Category = "Linear Gauge",
+                Name = "Track",
+                Category = "Axis",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "linear-gauge/ranges",
-                FileName = "Ranges.razor",
-                Type = SampleType.None
+                Url = "linear-gauge/track",
+                FileName = "Track.razor",
+                Type = SampleType.New
             },
             new Sample
             {
-               Name = "Data Sample",
-               Category = "Linear Gauge",
-               Directory = "LinearGauge/LinearGauge",
-               Url = "linear-gauge/data-sample",
-               FileName = "DataSample.razor",
-               Type = SampleType.None
-            },
-            new Sample
-            {
-                Name = "Axes and Pointers",
-                Category = "Linear Gauge",
+                Name = "Ticks",
+                Category = "Axis",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "linear-gauge/axes-and-pointers",
-                FileName = "AxesandPointers.razor",
-                Type = SampleType.None
+                Url = "linear-gauge/ticks",
+                FileName = "Ticks.razor",
+                Type = SampleType.New
             },
             new Sample
             {
-                Name = "Annotation",
-                Category = "Linear Gauge",
+                Name = "Labels",
+                Category = "Axis",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "linear-gauge/annotation",
-                FileName = "Annotation.razor",
-                Type = SampleType.None
+                Url = "linear-gauge/labels",
+                FileName = "Labels.razor",
+                Type = SampleType.New
             },
             new Sample
             {
-               Name = "Gradient Color",
-               Category = "Linear Gauge",
-               Directory = "LinearGauge/LinearGauge",
-               Url = "linear-gauge/gradient-color",
-               FileName = "GradientColor.razor",
-               Type = SampleType.None
-            },
-            new Sample
-            {
-                Name = "Styles",
-                Category = "Linear Gauge",
+                Name = "Range",
+                Category = "Range",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "linear-gauge/styles",
-                FileName = "Styles.razor",
-                Type = SampleType.None
+                Url = "linear-gauge/range",
+                FileName = "Range.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Marker Pointer",
+                Category = "Pointer",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/marker-pointer",
+                FileName = "MarkerPointer.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Bar Pointer",
+                Category = "Pointer",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/bar-pointer",
+                FileName = "BarPointer.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Custom Pointer",
+                Category = "Pointer",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/custom-pointer",
+                FileName = "CustomPointer.razor",
+                Type = SampleType.New
             },
             new Sample
             {
                Name = "Tooltip",
-               Category = "Linear Gauge",
+               Category = "User Interaction",
                Directory = "LinearGauge/LinearGauge",
                Url = "linear-gauge/tooltip",
                FileName = "Tooltip.razor",
@@ -88,11 +97,83 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Print & Export",
-                Category = "Linear Gauge",
+                Category = "Print & Export",
                 Directory = "LinearGauge/LinearGauge",
-                Url = "linear-gauge/export",
-                FileName = "Export.razor",
+                Url = "linear-gauge/print-export",
+                FileName = "PrintExport.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Progress Bar",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/progress-bar",
+                FileName = "ProgressBar.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Step Progress Bar",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/step-progress-bar",
+                FileName = "StepProgressBar.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Slider",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/slider",
+                FileName = "Slider.razor",
+                Type = SampleType.New
+            },
+            //new Sample
+            //{
+            //    Name = "Range Slider",
+            //    Category = "Use Cases",
+            //    Directory = "LinearGauge/LinearGauge",
+            //    Url = "linear-gauge/range-slider",
+            //    FileName = "RangeSlider.razor",
+            //    Type = SampleType.New
+            //},
+            new Sample
+            {
+                Name = "Thermometer",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/thermometer",
+                FileName = "Thermometer.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Steps Counter",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/steps-counter",
+                FileName = "StepsCounter.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Volume Settings",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/volume-settings",
+                FileName = "VolumeSettings.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Battery Indicator",
+                Category = "Use Cases",
+                Directory = "LinearGauge/LinearGauge",
+                Url = "linear-gauge/battery-indicator",
+                FileName = "BatteryIndicator.razor",
+                Type = SampleType.New
             }
          };
     }

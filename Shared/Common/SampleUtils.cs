@@ -160,14 +160,22 @@ namespace BlazorDemos.Shared
         /// <param name="url">Current url need to be validated.</param>
         /// <param name="themeName">Selected theme name to be added in the query string.</param>
         /// <returns>Returns class string.</returns>
-        public static string GetThemeUrl(string url, string themeName)
+        public static string GetThemeUrl(NavigationManager UriHelper, string themeName)
         {
+            string url = UriHelper.Uri.TrimEnd('/');
             if (url.Contains("?theme="))
             {
                 string[] splittedUrl = url.Split("?theme=");
                 url = splittedUrl[0];
             }
+#if NET6_0
+            url = UriHelper.GetUriWithQueryParameters(url, new Dictionary<string, object>
+            {
+                ["theme"] = themeName
+            });
+#else
             url += "?theme=" + themeName;
+#endif
             return url;
         }
 
@@ -219,13 +227,14 @@ namespace BlazorDemos.Shared
             else if (!sampleService.IsDemoLoaded)
             {
                 sampleService.IsDemoLoaded = true;
-#if DEBUG
+#if DEBUG || STAGING
                 resourceList = new List<string>
                 {
+                    "scripts/common/lodash.min.js",
+                    "_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js",
                     "styles/common/roboto.css",
                     "styles/common/highlight.css",
                     "styles/common/demos.css",
-                    // "scripts/common/lodash.min.js",
                     "scripts/common/highlight.min.js"
                 };
                 if (uriHelper.Uri.Contains("theme=highcontrast"))
@@ -239,15 +248,17 @@ namespace BlazorDemos.Shared
 #else
                 resourceList = new List<string>
                 {
-                    "styles/common/demos.min.css",
-                    "scripts/common/demos.min.js"
+                    $"scripts/common/lodash.min.js",
+                    $"https://cdn.syncfusion.com/blazor/19.3.43/syncfusion-blazor.min.js",
+                    $"styles/common/demos.min.css",
+                    $"scripts/common/demos.min.js"
                 };
                 if (uriHelper.Uri.Contains("theme=highcontrast") || new Regex(@"theme=.*-dark").IsMatch(uriHelper.Uri))
                 {
                     resourceList.Add("styles/common/dark-theme.min.css");
                 }
 #endif
-				if(sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScriptLoaded)
+                if (sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScriptLoaded)
                 {
                     sampleService.IsPdfScriptLoaded = true;
                     resourceList.Add(sampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js");
@@ -256,6 +267,15 @@ namespace BlazorDemos.Shared
                 {
                     sampleService.IsDocScriptLoaded = true;
                     resourceList.Add(sampleService.DocScriptPath + "/syncfusion-blazor-documenteditor.min.js");
+                }
+                if (sampleService.ComponentName.Equals("Diagram") && !sampleService.IsDiagramScriptLoaded)
+                {
+                    sampleService.IsDiagramScriptLoaded = true;
+#if DEBUG || STAGING
+                    resourceList.Add("scripts/diagram/interop.js");
+#else
+                    resourceList.Add("scripts/diagram/interop.min.js");
+#endif
                 }
             }
             return resourceList;
@@ -460,7 +480,7 @@ namespace BlazorDemos.Shared
                 components.Add(new PopularComponents("Data Grid", "data-grid", "datagrid/overview"));
                 components.Add(new PopularComponents("Charts", "charts", "chart/line"));
                 components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
-                components.Add(new PopularComponents("Diagram", "diagram", "diagram/flowchart"));
+                components.Add(new PopularComponents("Diagram", "diagram", "diagramcomponent/flowchart"));
                 components.Add(new PopularComponents("Document Editor", "document-editor", "document-editor/default-functionalities"));
                 components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer/default-functionalities"));
             }

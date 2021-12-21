@@ -66,7 +66,7 @@ namespace ej2_blazor_summarydata
             {
                 ID = 14,
                 FreightID = "QW6549NJ",
-                FreightName = "Chef Antons Gumbo Mix",
+                FreightName = "Chef Anton's Gumbo Mix",
                 TotalUnits = 34,
                 TotalCosts = 590,
                 UnitWeight = 50,
@@ -86,7 +86,7 @@ namespace ej2_blazor_summarydata
             {
                 ID = 21,
                 FreightID = "UF5647YH",
-                FreightName = "Reebox CrossFit Back Bay",
+                FreightName = "Reebok CrossFit Back Bay",
                 TotalUnits = 60,
                 TotalCosts = 870,
                 UnitWeight = 73,
@@ -107,7 +107,7 @@ namespace ej2_blazor_summarydata
             {
                 ID = 23,
                 FreightID = "UF8956KU",
-                FreightName = "DeFrancos",
+                FreightName = "DeFranco",
                 TotalUnits = 45,
                 TotalCosts = 458,
                 UnitWeight = 68,
@@ -129,7 +129,7 @@ namespace ej2_blazor_summarydata
             {
                 ID = 3,
                 FreightID = "EJ9456KN",
-                FreightName = "Sun technologies inc",
+                FreightName = "Sun technologies Inc.",
                 TotalUnits = 33,
                 TotalCosts = 229,
                 UnitWeight = 192,

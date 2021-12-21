@@ -12,7 +12,7 @@ namespace BlazorDemos
                 Url = "chart/line",
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Line Chart Example - Syncfusion Demos",
-                MetaDescription = "The Blazor Line Chart example visualizes the consumer price data with default line series. Explore here for more details.",
+                MetaDescription = "The Blazor Line Chart example visualizes the consumer price data using line series. Explore here for more details.",
                 HeaderText = "Blazor Line Chart Example",
                 Type = SampleType.None
             },
@@ -24,7 +24,7 @@ namespace BlazorDemos
                 Url = "chart/spline",
                 FileName = "Spline.razor",
                 MetaTitle = "Blazor Spline Chart Example - Syncfusion Demos",
-                MetaDescription = "This example demonstrates the Blazor Spline component. Explore here for more details.",
+                MetaDescription = "This example demonstrates the default functionalities of Blazor Spline Chart. Explore here for more details.",
                 HeaderText = "Blazor Spline Chart Example",
                 Type = SampleType.None
             },
@@ -204,6 +204,18 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Grouped Column",
+                Category = "Bar Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/grouped-column",
+                FileName = "GroupedColumn.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to group the column series in Chart component."
+                }
+            },
+            new Sample
+            {
                 Name = "Rounded Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
@@ -300,6 +312,21 @@ namespace BlazorDemos
                 HeaderText = "Blazor 100% Stacked Bar Chart Example",
                 MetaDescription = "Blazor 100% Stacked Bar Chart example shows how to render and configure the 100% stacking bar type chart.",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Negative Stack",
+                Category = "Bar Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/negative-stack",
+                FileName = "NegativeStack.razor",
+                MetaTitle = "Blazor Negative Stacked Bar Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Negative Stacked Bar Chart Example",
+                MetaDescription = "Blazor Negative Stacked Bar Chart example shows how to render and configure the negative stacking bar type chart.",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to showcase negative values in stacking series."
+                }
             },
              new Sample
             {
@@ -527,12 +554,15 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Pie With Various Radius",
+                Name = "Pie with Various Radius",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/pie-radius",
                 FileName = "PieRadius.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Updated the demo by including an option to reverse the legend order for the pie chart."
+                }
             },
             new Sample
             {
@@ -572,12 +602,15 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Pie With Legend",
+                Name = "Pie with Legend",
                 Category = "Accumulation Charts",
                 Directory = "Charts/Chart",
                 Url = "chart/pie-legend",
                 FileName = "PieLegend.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Updated the demo by including an option to wrap the legend item text for the pie chart."
+                }
             },
             new Sample
             {
@@ -596,6 +629,18 @@ namespace BlazorDemos
                 Url = "chart/smart-labels",
                 FileName = "SmartLabels.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Drilldown",
+                Category = "Accumulation Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/drilldown",
+                FileName = "Drilldown.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to show case drilldown options in Chart component."
+                }
             },
             new Sample
             {
@@ -836,6 +881,18 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "RTL",
+                Category = "Chart Customization",
+                Directory = "Charts/Chart",
+                Url = "chart/rtl",
+                FileName = "RTL.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Added a demo to show the RTL support in Chart component."
+                }
+            },
+            new Sample
+            {
                 Name = "Vertical Chart",
                 Category = "Chart Customization",
                 Directory = "Charts/Chart",
@@ -886,7 +943,10 @@ namespace BlazorDemos
                 Directory = "Charts/Chart",
                 Url = "chart/selection",
                 FileName = "Selection.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Updated the demo by including an option to customize the highlight color for data point."
+                }
             },
             new Sample
             {
@@ -947,7 +1007,7 @@ namespace BlazorDemos
             },
 			new Sample
 			 {
-			    Name = "LightWeight",
+			    Name = "Lightweight",
 			    Category = "Range Selector",
 			    Directory = "Charts/RangeNavigator",
 			    Url = "range-selector/light-weight",

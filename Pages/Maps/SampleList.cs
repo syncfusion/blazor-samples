@@ -153,7 +153,7 @@ namespace BlazorDemos
                 Name = "Selection & Highlight",
                 Category = "User Interaction",
                 Directory = "Maps/Maps",
-                Url = "maps/selection",
+                Url = "maps/selection-highlight",
                 FileName = "Selection.razor",
                 Type = SampleType.None
             },
@@ -184,6 +184,15 @@ namespace BlazorDemos
                 FileName = "Drilldown.razor",
                 Type = SampleType.None
             },
+            //new Sample
+            //{
+            //    Name = "Keyboard Navigation",
+            //    Category = "User Interaction",
+            //    Directory = "Maps/Maps",
+            //    Url = "maps/keyboard-navigation",
+            //    FileName = "KeyboardNavigation.razor",
+            //    Type = SampleType.New
+            //},
             new Sample
             {
                 Name = "Print",
@@ -264,6 +273,15 @@ namespace BlazorDemos
                 FileName = "SaleMaps.razor",
                 Type = SampleType.None
             },
+              new Sample
+              {
+                  Name = "Bus seat selection",
+                  Category = "Use Cases",
+                  Directory = "Maps/Maps",
+                  Url = "maps/bus-seat-selection",
+                  FileName= "SeatSelection.razor",
+                  Type = SampleType.None
+              }
         };
     }
 }

@@ -24,42 +24,35 @@ namespace ej2_blazor_zoomingdata
             public string Notes { get; set; }
             public string TaskType { get; set; }
         }
-
-
         public static List<TaskData> ZoomData()
         {
-            
                 List<TaskData> Tasks = new List<TaskData>()
                 {
-
                     new TaskData()
                     {
                         TaskId = 1,
-                        TaskName = "Product concept ",
-                        StartDate = new DateTime(2019, 04, 02),
-                        EndDate = new DateTime(2019, 04, 08),
+                        TaskName = "Product concept",
+                        StartDate = new DateTime(2021, 04, 02),
+                        EndDate = new DateTime(2021, 04, 08),
                         Duration = "5days"
                     },
                     new TaskData()
                     {
                         TaskId = 2,
                         TaskName = "Defining the product usage",
-                        StartDate = new DateTime(2019, 04, 02),
-                        EndDate = new DateTime(2019, 04, 08),
+                        StartDate = new DateTime(2021, 04, 02),
+                        EndDate = new DateTime(2021, 04, 08),
 
                         Duration = "3",
                         Progress = 30,
-                        ParentId = 1,
-
-
-
+                        ParentId = 1
                     },
                     new TaskData()
                     {
                         TaskId = 3,
-                        TaskName = "Defining the Target audience",
-                        StartDate = new DateTime(2019, 04, 02),
-                        EndDate = new DateTime(2019, 04, 04),
+                        TaskName = "Defining the target audience",
+                        StartDate = new DateTime(2021, 04, 02),
+                        EndDate = new DateTime(2021, 04, 04),
                         Duration = "3",
                         Progress = 40,
                         ParentId = 1
@@ -68,43 +61,37 @@ namespace ej2_blazor_zoomingdata
                     {
                         TaskId = 4,
                         TaskName = "Prepare product sketch and notes",
-                        StartDate = new DateTime(2019, 04, 05),
-                        EndDate = new DateTime(2019, 04, 08),
+                        StartDate = new DateTime(2021, 04, 05),
+                        EndDate = new DateTime(2021, 04, 08),
                         Duration = "2",
                         Progress = 30,
                         ParentId = 1,
                         Predecessor = "2"
-
                     },
                     new TaskData()
                     {
                         TaskId = 5,
                         TaskName = "Concept approval",
-                        StartDate = new DateTime(2019, 04, 08),
-                        EndDate = new DateTime(2019, 04, 08),
+                        StartDate = new DateTime(2021, 04, 08),
+                        EndDate = new DateTime(2021, 04, 08),
                         Duration = "0",
-                        Predecessor = "3,4",
-
-
-
+                        Predecessor = "3,4"
                     },
                     new TaskData()
                     {
                         TaskId = 6,
-                        TaskName = "Market Research",
-                        StartDate = new DateTime(2019, 04, 09),
-                        EndDate = new DateTime(2019, 04, 18),
-
+                        TaskName = "Market research",
+                        StartDate = new DateTime(2021, 04, 09),
+                        EndDate = new DateTime(2021, 04, 18),
                         Duration = "4",
-                        Progress = 30,
-
+                        Progress = 30
                     },
                     new TaskData()
                     {
                         TaskId = 7,
-                        TaskName = "Demand Analysis",
-                        StartDate = new DateTime(2019, 04, 09),
-                        EndDate = new DateTime(2019, 04, 12),
+                        TaskName = "Demand analysis",
+                        StartDate = new DateTime(2021, 04, 09),
+                        EndDate = new DateTime(2021, 04, 12),
                         Duration = "4",
                         Progress = 40,
                         ParentId = 6
@@ -112,45 +99,41 @@ namespace ej2_blazor_zoomingdata
                     new TaskData()
                     {
                         TaskId = 8,
-                        TaskName = "Customer Strength",
-                        StartDate = new DateTime(2019, 04, 09),
-                        EndDate = new DateTime(2019, 04, 12),
+                        TaskName = "Customer strength",
+                        StartDate = new DateTime(2021, 04, 09),
+                        EndDate = new DateTime(2021, 04, 12),
                         Duration = "4",
                         Progress = 30,
                         ParentId = 7,
                         Predecessor = "5"
-
                     },
                     new TaskData()
                     {
                         TaskId = 9,
-                        TaskName = "Market Opportunity analysis",
-                        StartDate = new DateTime(2019, 04, 09),
-                        EndDate = new DateTime(2019, 04, 012),
+                        TaskName = "Market opportunity analysis",
+                        StartDate = new DateTime(2021, 04, 09),
+                        EndDate = new DateTime(2021, 04, 012),
                         Duration = "4",
                         ParentId = 7,
                         Predecessor = "5"
-
                     },
                     new TaskData()
                     {
                         TaskId = 10,
                         TaskName = "Competitor analysis",
-                        StartDate = new DateTime(2019, 04, 15),
-                        EndDate = new DateTime(2019, 04, 18),
-
+                        StartDate = new DateTime(2021, 04, 15),
+                        EndDate = new DateTime(2021, 04, 18),
                         Duration = "4",
                         Progress = 30,
                         ParentId = 6,
                         Predecessor = "7,8"
-
                     },
                     new TaskData()
                     {
                         TaskId = 11,
-                        TaskName = "Product Strength Analysis",
-                        StartDate = new DateTime(2019, 04, 15),
-                        EndDate = new DateTime(2019, 04, 18),
+                        TaskName = "Product strength analysis",
+                        StartDate = new DateTime(2021, 04, 15),
+                        EndDate = new DateTime(2021, 04, 18),
                         Duration = "4",
                         Progress = 40,
                         ParentId = 6,
@@ -159,20 +142,16 @@ namespace ej2_blazor_zoomingdata
                     new TaskData()
                     {
                         TaskId = 12,
-                        TaskName = "Research Completed",
-                        StartDate = new DateTime(2019, 04, 18),
-                        EndDate = new DateTime(2019, 04, 18),
+                        TaskName = "Research completed",
+                        StartDate = new DateTime(2021, 04, 18),
+                        EndDate = new DateTime(2021, 04, 18),
                         Duration = "0",
                         Progress = 30,
                         ParentId = 6,
-                        Predecessor = "10",
-
-
-
+                        Predecessor = "10"
                     },
                 };
             return Tasks;
         }
-
     }
 }

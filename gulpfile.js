@@ -5,6 +5,8 @@ var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
+var shelljs = require('shelljs');
+var glob = require('glob');
 var bundleConfig = require('./bundleconfig.json');
 
 const REGEX = {
@@ -37,3 +39,13 @@ const getBundles = (regexPattern) => {
 };
 
 gulp.task('minify', gulp.series(['min:js', 'min:css']));
+
+gulp.task('ship-client-pages', function (done) {
+    shelljs.rm('-Rf', './wwwroot/scripts/Pages/**');
+    shelljs.cp('-R', './Pages', './wwwroot/scripts/Pages');
+    var files = glob.sync('./wwwroot/scripts/Pages/**/*.*');
+    files.forEach(function (path) {
+        shelljs.mv(path, path + '.txt');
+    });
+    done();
+});

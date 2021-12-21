@@ -7,7 +7,6 @@
 
 @inherits SampleBaseComponent;
 
-
 <SampleDescription>
     <p>This sample demonstrates the Template rendering of the Toast. Static HTML toast to display an alarm notification which can be snoozed or dismissed and Dynamic template rendered using template engine to display mail remainders.</p>
 </SampleDescription>
@@ -29,7 +28,8 @@
                 <SfButton id="toast_mail_remainder" @onclick="@MailBtnclick"> Mail Reminder</SfButton>
                 @if (this.ShowButton)
                 {
-    <SfButton id="Alarm_turn_on" @onclick="@AlarmBtnclick"> Turn on Alarm</SfButton>}
+                    <SfButton id="Alarm_turn_on" @onclick="@AlarmBtnclick"> Turn on Alarm</SfButton>
+                }
             </div>
         </div>
         <div class="row">
@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="images/toast/map.png" style="width:100%;height:50%;">
+                                <img src="@("images/toast/map.png")" style="width:100%;height:50%;">
                                 <div class="snooze"> Snooze for </div>
                                 <div id='snoozedropDown'>
                                     <SfDropDownList TItem="DropDownValues" @bind-Index="@index" TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" Placeholder="Select a snooze time">
@@ -80,100 +80,104 @@
     </div>
 </div>
 
-@code{ private int? index { get; set; } = 0;
-            SfToast MailToastObj;
-            SfToast AlarmToastObj;
-            SfDropDownList<string, DropDownValues> DropDownObj;
+@code
+{ 
+    private int? index { get; set; } = 0;
+    SfToast MailToastObj;
+    SfToast AlarmToastObj;
+    SfDropDownList<string, DropDownValues> DropDownObj;
 
-            private int ToastFlag { get; set; } = 0;
-            private string ToastFieldData { get; set; }
-            private string ToastImageData { get; set; }
-            private string ToastSubjectData { get; set; }
-            private bool SnoozeFlag { get; set; } = false;
-            private string DropValue { get; set; } = "2";
-            private int AlarmTimeout { get; set; } = 120000;
-            private bool ShowButton { get; set; } = true;
+    private int ToastFlag { get; set; } = 0;
+    private string ToastFieldData { get; set; }
+    private string ToastImageData { get; set; }
+    private string ToastSubjectData { get; set; }
+    private bool SnoozeFlag { get; set; } = false;
+    private string DropValue { get; set; } = "2";
+    private int AlarmTimeout { get; set; } = 120000;
+    private bool ShowButton { get; set; } = true;
 
-            public class ToastFields
-            {
-                public string from { get; set; }
-                public string subject { get; set; }
-                public string image { get; set; }
-            }
+    public class ToastFields
+    {
+        public string from { get; set; }
+        public string subject { get; set; }
+        public string image { get; set; }
+    }
 
-            public class DropDownValues
-            {
-                public string value { get; set; }
-                public string text { get; set; }
-            }
+    public class DropDownValues
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
 
-            private List<ToastFields> ToastData = new List<ToastFields>() {
+    private List<ToastFields> ToastData = new List<ToastFields>() 
+    {
         new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = "images/toast/laura.png" },
-        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = "images/toast/janat.png" },
-        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = "images/toast/camden.png" },
-        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = "images/toast/chase.png" },
-        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = "images/toast/michael.png" }
+        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image =  "images/toast/janat.png" },
+        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image =  "images/toast/camden.png" },
+        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image =  "images/toast/chase.png" },
+        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image =  "images/toast/michael.png" }
     };
 
-            private List<DropDownValues> DropData = new List<DropDownValues>()
-        {
+    private List<DropDownValues> DropData = new List<DropDownValues>()
+    {
         new DropDownValues(){ value= "2", text= "2 minutes" },
         new DropDownValues(){ value= "5", text= "5 minutes" },
         new DropDownValues(){ value= "10", text= "10 minutes" }
     };
 
-            private async Task MailBtnclick()
-            {
-                string template = "<div id='toastEmail_template'><div class='e-toast-template'><img class='e-toast-icon e-toast-image' src='" + this.ToastData[ToastFlag].image + "' /><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
-                await this.MailToastObj.ShowAsync(new ToastModel { Content = template, ShowCloseButton = true });
-                ToastFlag++;
-                if (ToastFlag == ToastData.Count)
-                {
-                    ToastFlag = 0;
-                }
-            }
+    private async Task MailBtnclick()
+    {
+        string template = "<div id='toastEmail_template'><div class='e-toast-template'><img class='e-toast-icon e-toast-image' src='" + this.ToastData[ToastFlag].image + "' /><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
+        await this.MailToastObj.ShowAsync(new ToastModel { Content = template, ShowCloseButton = true });
+        ToastFlag++;
+        if (ToastFlag == ToastData.Count)
+        {
+            ToastFlag = 0;
+        }
+    }
 
-            private async Task AlarmBtnclick()
-            {
-                await this.AlarmToastObj.ShowAsync();
-            }
+    private async Task AlarmBtnclick()
+    {
+        await this.AlarmToastObj.ShowAsync();
+    }
 
-            private async Task SnoozeBtnclick()
-            {
-                await this.AlarmToastObj.HideAsync();
-                this.SnoozeFlag = true;
-            }
+    private async Task SnoozeBtnclick()
+    {
+        await this.AlarmToastObj.HideAsync();
+        this.SnoozeFlag = true;
+    }
 
-            private async Task DismissBtnclick()
-            {
-                await this.AlarmToastObj.HideAsync();
-            }
+    private async Task DismissBtnclick()
+    {
+        await this.AlarmToastObj.HideAsync();
+    }
 
-            private async Task OnToastClose()
-            {
-                if (this.SnoozeFlag)
-                {
-                    this.AlarmTimeout = Int32.Parse(this.DropDownObj.Value) * 60000;
-                    this.StateHasChanged();
-                    await this.AlarmToastObj.ShowAsync();
-                    this.SnoozeFlag = false;
-                }
-                else
-                {
-                    this.ShowButton = true;
-                }
-            }
+    private async Task OnToastClose()
+    {
+        if (this.SnoozeFlag)
+        {
+            this.AlarmTimeout = Int32.Parse(this.DropDownObj.Value) * 60000;
+            this.StateHasChanged();
+            await this.AlarmToastObj.ShowAsync();
+            this.SnoozeFlag = false;
+        }
+        else
+        {
+            this.ShowButton = true;
+        }
+    }
 
-            private void OnToastOpen()
-            {
-                this.ShowButton = false;
-            }
+    private void OnToastOpen()
+    {
+        this.ShowButton = false;
+    }
 
-            private async Task ListChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownValues> args)
-            {
-                this.SnoozeFlag = true;
-                await this.AlarmToastObj.HideAsync();
-            } }
+    private async Task ListChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownValues> args)
+    {
+        this.SnoozeFlag = true;
+        await this.AlarmToastObj.HideAsync();
+    }
+}
 
 <style>
     #snooze {

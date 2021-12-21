@@ -17,7 +17,7 @@ namespace BlazorDemos
                 Url = "gantt-chart/default-functionalities",
                 MetaTitle = "Blazor Gantt Chart Example | Default Functionalities | Syncfusion Demos",
                 HeaderText = "Blazor Gantt Chart Example - Default Functionalities",
-                MetaDescription = "This Blazor Gantt Chart example demonstrates the Default Functionalities in the Blazor Gantt Chart Component. Explore here for more details.",
+                MetaDescription = "This example demonstrates the default functionalities in the Blazor Gantt Chart Component. Explore here for more details.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -39,7 +39,11 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/editing",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo with parent dependency support."
+                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -51,6 +55,27 @@ namespace BlazorDemos
                     {
                         Id="EditData",
                         FileName="GanttData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Sorting",
+                Category = "Gantt Chart",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/sorting",
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Sorting",
+                        FileName="Sorting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="DefaultRecord",
+                        FileName="DefaultData.cs"
                     }
                 }
             },
@@ -72,6 +97,27 @@ namespace BlazorDemos
                     {
                         Id="Filter",
                         FileName="FilterData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Selection",
+                Category = "Gantt Chart",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/selection",
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Schedule",
+                        FileName="Selection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="SelectionRecord",
+                        FileName="SelectionData.cs"
                     }
                 }
             },
@@ -144,11 +190,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/keyboard-navigation",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to know more about keyboard accessibility of the Gantt Chart component."
-                },
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -477,28 +519,7 @@ namespace BlazorDemos
                         FileName="DefaultData.cs"
                     }
                 }
-            },
-            new Sample
-            {
-                Name = "Default Selection",
-                Category = "Selection",
-                Directory = "GanttChart/GanttChart",
-                Url = "gantt-chart/selection",
-                Type = SampleType.None,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="Schedule",
-                        FileName="Selection.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="SelectionRecord",
-                        FileName="SelectionData.cs"
-                    }
-                }
-            },
+            },            
             new Sample
             {
                 Name = "Taskbar Template",
@@ -526,11 +547,7 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/header-template",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to customize the header template in Gantt Chart component."
-                },
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -565,28 +582,7 @@ namespace BlazorDemos
                         FileName="DefaultData.cs"
                     }
                 }
-            },
-            new Sample
-            {
-                Name = "Default Sort",
-                Category = "Sorting",
-                Directory = "GanttChart/GanttChart",
-                Url = "gantt-chart/sorting",
-                Type = SampleType.None,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="Sorting",
-                        FileName="Sorting.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="DefaultRecord",
-                        FileName="DefaultData.cs"
-                    }
-                }
-            },
+            },            
         };
     }
 }

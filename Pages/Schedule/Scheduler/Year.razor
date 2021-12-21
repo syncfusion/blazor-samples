@@ -7,26 +7,38 @@
 
 <SampleDescription>
     <p>
-        This example showcases the year and timeline year views of the Scheduler with the FirstMonthOfYear and MonthCount properties customizations.
+        This example showcases the Year and Timeline year views of the Scheduler with the starting month of the year and the number of months customizations.
         Once the property value has been changed in the properties, it will be reflected in the Scheduler.
     </p>
 </SampleDescription>
 <ActionDescription>
     <p>
-        In this demo, we have showcased the <code>Year</code> and <code>TimelineYear</code> views that help to view the appointment in an annual calendar view. The view options are enabled by using the <code>ScheduleView</code> property.
-        In the <code>TimelineYear</code>, <code>Horizontal</code> and <code>Vertical</code> orientations are available to view the events with a different layout. Also this demo explains the customization of the different starting month of
-        the year using <code>FirstMonthOfYear</code> property and the number of months using the <code>MonthsCount</code> property.
+        In this demo, we have showcased the <code>Year</code> and <code>TimelineYear</code> views that help to view the appointment in an annual calendar view. The view options are enabled by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html">ScheduleView</a> property.
+        In the <code>TimelineYear</code> view, <code>Horizontal</code> and <code>Vertical</code> orientations are available to view the events with a different layout. Also, this demo explains the option to set starting month of the year using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_FirstMonthOfYear">FirstMonthOfYear</a> property and set n number of months using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_MonthsCount">MonthsCount</a> property.
     </p>
 </ActionDescription>
 
-<div class="col-lg-10 control-section">
+<div class="col-lg-12" style="padding-top:15px">
+    <div class="form-row">
+        <div class="col-md-3">
+            <SfDropDownList TValue="int" TItem="MonthsData" Placeholder="First month of year" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always" @bind-Value="@FirstMonthOfYear" DataSource="@Months">
+                <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+            </SfDropDownList>
+        </div>
+        <div class="col-md-3">
+            <SfNumericTextBox TValue="int" Placeholder="Number of months" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always" Min="@MinMonth" Max="@MaxMonth" Format="###.##" @bind-Value="@NumberOfMonths">
+            </SfNumericTextBox>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 control-section">
     <div class="schedule-wrapper">
         <SfSchedule TValue="EventData" Width="100%" Height="555px" CssClass="year-view" @bind-SelectedDate="@CurrentDate" FirstMonthOfYear="@FirstMonthOfYear" MonthsCount="@NumberOfMonths">
             <ScheduleEventSettings DataSource="@AppointmentData"></ScheduleEventSettings>
             <ScheduleViews>
-                <ScheduleView Option="View.Year" IsSelected="true"></ScheduleView>
+                <ScheduleView Option="View.Year"></ScheduleView>
                 <ScheduleView Option="View.TimelineYear" Orientation="Orientation.Horizontal" DisplayName="Horizontal Timeline Year"></ScheduleView>
-                <ScheduleView MaxEventsPerRow="3" Option="View.TimelineYear" Orientation="Orientation.Vertical" DisplayName="Vertical Timeline Year">
+                <ScheduleView MaxEventsPerRow="3" Option="View.TimelineYear" IsSelected="true" Orientation="Orientation.Vertical" DisplayName="Vertical Timeline Year">
                     <ScheduleViewGroup Resources="@ResourceName"></ScheduleViewGroup>
                 </ScheduleView>
             </ScheduleViews>
@@ -36,40 +48,20 @@
         </SfSchedule>
     </div>
 </div>
-<div class="col-lg-2 property-section">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
-    <div class="property-panel-section">
-        <div class="property-panel-header">Properties</div>
-        <div class="property-panel-content">
-            <table id='property' title='Properties' class='property-panel-table'>
-                <tbody>
-                    <tr>
-                        <td>
-                            <SfDropDownList TValue="int" TItem="MonthsData" Placeholder="First month of year" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always" @bind-Value="@FirstMonthOfYear" DataSource="@Months">
-                                <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                            </SfDropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <SfNumericTextBox TValue="int" Placeholder="Number of months" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always" Min="@MinMonth" Max="@MaxMonth" Format="###.##" @bind-Value="@NumberOfMonths">
-                            </SfNumericTextBox>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 @code{
-    public static List<EventData> AppointmentData = GenerateEvents();
+    public List<EventData> AppointmentData = new List<EventData>();
     public DateTime CurrentDate = DateTime.Today;
     public string[] ResourceName = { "Categories" };
     public int FirstMonthOfYear = 1;
     public int MinMonth = 1;
     public int MaxMonth = 24;
     public int NumberOfMonths = 12;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        AppointmentData = GenerateEvents();
+    }
     public List<ResourceData> TaskData { get; set; } = new List<ResourceData> {
         new ResourceData{ Text = "Nancy", Id= 1, Color = "#df5286" },
         new ResourceData{ Text = "Steven", Id= 2, Color = "#7fa900" },
@@ -92,12 +84,12 @@
         new MonthsData{ Text = "December", Value = 12 },
     };
 
-    public static List<EventData> GenerateEvents()
+    public List<EventData> GenerateEvents()
     {
         List<EventData> dataCollections = new List<EventData>(360);
         int count = 250;
         int year = DateTime.Now.Year;
-        var names = new string[] { "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration", "Wedding Aniversary", "Alaska: The Last Frontier", "Deadest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell", "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico", "Opening ceremony", "Final presentation" };
+        var names = new string[] { "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration", "Wedding Aniversary", "Alaska: The Last Frontier", "Deadliest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell", "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico", "Opening ceremony", "Final presentation" };
         DateTime startDate = new DateTime(year - 2, 1, 1);
         DateTime endDate = new DateTime(year + 2, 12, 31);
         var id = 1;
@@ -168,9 +160,5 @@
 
     .property-panel-table td {
         padding-bottom: 1rem;
-    }
-
-    .material-dark .property-panel-section {
-        color: #fff;
     }
 </style>

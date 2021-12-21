@@ -24,10 +24,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo with dynamic data binding (ExpandoObject and Dynamic Object) and Observable collections."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -81,7 +78,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -99,7 +96,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -120,10 +117,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo with dynamic data binding (ExpandoObject and Dynamic Object) and Observable collections."
-                }
+                Type = SampleType.None
             },
            new Sample
             {
@@ -186,7 +180,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -204,7 +198,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -225,10 +219,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo with dynamic data binding (ExpandoObject and Dynamic Object) and Observable collections."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -264,7 +255,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
              new Sample
             {
@@ -273,7 +264,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Custom-Filtering",
                 FileName = "CustomFiltering.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -291,7 +282,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -312,10 +303,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo with dynamic data binding (ExpandoObject and Dynamic Object) and Observable collections."
-                }
+                Type = SampleType.None
             },
              new Sample
             {
@@ -360,7 +348,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Grouping",
                 FileName = "Grouping.razor",
-                Type = SampleType.Updated
+                Type = SampleType.None
             },
             new Sample
             {
@@ -387,7 +375,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -405,7 +393,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
 
@@ -425,11 +413,7 @@ namespace BlazorDemos
                 Category = "ListBox",
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/dual-listbox",
-                FileName = "DualListBox.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo with no records template option, which shown when the ListBox is empty."
-                }
+                FileName = "DualListBox.razor"
             },
             new Sample
             {
@@ -473,8 +457,7 @@ namespace BlazorDemos
                 Category = "ListBox",
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/keyboard-navigation",
-                FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                FileName = "KeyboardNavigation.razor"
             }
         };
     }

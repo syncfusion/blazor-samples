@@ -74,8 +74,7 @@ namespace BlazorDemos
                 Category = "Color Picker",
                 Directory = "Inputs/ColorPicker",
                 Url = "color-picker/keyboard-navigation",
-                FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                FileName = "KeyboardNavigation.razor"
             }
         };
 
@@ -95,10 +94,7 @@ namespace BlazorDemos
                 Directory = "Inputs/MaskedTextBox",
                 Url = "Input-Mask/Custom-Mask",
                 FileName = "CustomMask.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Updated the demo by including an option to change the prompt character of the masked textbox."
-                }
+                Type = SampleType.None
             },
               new Sample
             {
@@ -158,7 +154,7 @@ namespace BlazorDemos
                 Directory = "Inputs/NumericTextBox",
                 Url = "Numeric-TextBox/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
         public List<Sample> FileUpload { get; set; } = new List<Sample>{
@@ -211,7 +207,7 @@ namespace BlazorDemos
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             }
         };
         public List<Sample> RangeSlider { get; set; } = new List<Sample>{
@@ -254,7 +250,7 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/formatting",
                 FileName = "Formatting.razor",
-                Type = SampleType.New
+                Type = SampleType.None
             },
             new Sample
             {
@@ -287,11 +283,7 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/keyboard-navigation",
                 FileName = "KeyboardNavigation.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo for keyboard accessibility of the Slider component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -316,11 +308,7 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/custom-tooltip",
                 FileName = "CustomTooltip.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to showcase the tooltip customization sample in the Slider component."
-                }
+                Type = SampleType.None
             },
              new Sample
             {
@@ -329,12 +317,32 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/cloud-pricing",
                 FileName = "CloudPricing.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Added a demo to demonstrates how to use the Slider component to calculate cloud budget."
+                Type = SampleType.None
+            },
+        };
+        public List<Sample> Signature { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Signature",
+                Directory = "Inputs/Signature",
+                Url = "Signature/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[] {
+                    @"Introduced Signature component in Blazor which is a graphical user interface (UI) that helps to draw the signature digitally."
                 }
             },
+             new Sample
+             {
+                Name = "Toolbar",
+                Category = "Signature",
+                Directory = "Inputs/Signature",
+                Url = "Signature/Toolbar",
+                FileName = "Toolbar.razor",
+                NotificationDescription = new string[] {
+                    @"Added a demo to demonstrates Signature component functionalities using toolbar items."
+                }
+             }
         };
     }
 

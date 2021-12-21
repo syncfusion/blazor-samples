@@ -54,7 +54,10 @@ namespace BlazorDemos.Shared
                 {
                     sb.Append($"    <script");
                     sb.Append($" src=\"" + resource + "\"");
-                    sb.Append($" async");
+                    if (resource.IndexOf("/common/lodash") < 0)
+                    {
+                        sb.Append($" async");
+                    }
                     sb.Append(" ></script>");
                 }
             }

@@ -349,7 +349,7 @@ namespace BlazorDemos
                 Name = "Word to PDF",
                 Category = "Import and Export",
                 Directory = "FileFormats/DocIO",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Url = "docio/word-to-pdf",
                 FileName = "WordToPDF.razor",
                 NotificationDescription = new string[]
@@ -587,7 +587,7 @@ namespace BlazorDemos
                 Name = "Encrypt and Decrypt",
                 Category = "Security",
                 Directory = "FileFormats/Presentation",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 Url = "presentation/encrypt-and-decrypt",
                 NotificationDescription = new string[]
                 {

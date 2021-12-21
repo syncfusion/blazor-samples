@@ -2,7 +2,6 @@
 
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Schedule
-@using Syncfusion.Blazor.Navigations
 @inherits SampleBaseComponent;
 
 <SampleDescription>
@@ -25,21 +24,16 @@
     <p>
         Scheduler has been rendered in a readonly mode and therefore no editing actions are allowed here. To customize the look of
         the appointments that displays the fare value,
-        <code>EventTemplate</code> option within the
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#Syncfusion_Blazor_Schedule_ScheduleView_EventTemplate">EventTemplate</a> option within the
         <code>ScheduleView</code> tag is being used. Also, the tooltip has been enabled with
-        <code>TooltipTemplate</code> option to display the flight details in a customized style.
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleEventSettings-1.html#Syncfusion_Blazor_Schedule_ScheduleEventSettings_1_TooltipTemplate">TooltipTemplate</a> option to display the flight details in a customized style.
     </p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
     <div class="content-wrapper">
         <div class="schedule-demo-heading">Cheapest one way fares from Barcelona to Los Angeles</div>
-        <SfToolbar>
-            <ToolbarItems>
-                <ToolbarItem Align="ItemAlign.Center" Text="@(CurrentDate.ToString("MMMM yyyy"))"></ToolbarItem>
-            </ToolbarItems>
-        </SfToolbar>
-        <SfSchedule @ref="@ScheduleObj" TValue="EventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" ShowHeaderBar="false" Readonly="true">
+        <SfSchedule @ref="@ScheduleObj" TValue="EventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" MinDate=@(new DateTime(DateTime.Today.Year, 3, 1)) MaxDate=@(new DateTime(DateTime.Today.Year, 5, 31)) Readonly="true">
             <ScheduleResources>
                 <ScheduleResource TValue="int[]" TItem="AirlinesData" DataSource="@AirlineData" Field="AirlineId" Title="Airline" Name="Airlines" TextField="Text" IdField="Id" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
@@ -82,7 +76,7 @@
                             </div>
                             <div class='airline-flex-row text-size'>
                                 <div class='airline-flex-col airline-title border-right'>Arrival</div>
-                                <div class='airline-flex-col airline-title text-right'>Depature</div>
+                                <div class='airline-flex-col airline-title text-right'>Departure</div>
                             </div>
                             <div class='airline-flex-row text-size'>
                                 <div class='airline-flex-col border-right'>@(getFormattedTime((context as EventData).StartTime))</div>
@@ -100,7 +94,7 @@
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
-            <table id='property' title='Properties' class='property-panel-table' style="width: 100%;">
+            <table id='property' class='property-panel-table' style="width: 100%;">
                 <tbody>
                     <tr style="height: 50px">
                         <td style="width: 100%">
@@ -189,10 +183,9 @@
         };
         DateTime start = new DateTime(CurrentYear, 3, 1);
         List<DateTime> dateCollections = new List<DateTime>();
-        int DaysCountInMonth = DateTime.DaysInMonth(CurrentDate.Year, CurrentDate.Month);
         int id = 1;
         int day = 0;
-        for (int date = 0; date < DaysCountInMonth; date++)
+        for (int date = 0; date < 92; date++)
         {
             int resource = 1;
             foreach (EventData data in dataCollections)
@@ -203,7 +196,7 @@
                     StartTime = data.StartTime.AddDays(day),
                     EndTime = data.EndTime.AddDays(day),
                     AirlineId = resource,
-                    Fare = Convert.ToDouble(((new Random().NextDouble() * 500) + 100).ToString("n2"))
+                    Fare = Convert.ToDouble(((new Random().NextDouble() * 50) + 10).ToString("n2"))
                 });
                 resource += 1;
                 id += 1;

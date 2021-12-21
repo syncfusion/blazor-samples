@@ -5,18 +5,21 @@
 @using Syncfusion.Blazor.Buttons
 @inherits SampleBaseComponent;
 @using BlazorDemos
-@using ej2_blazor_productdetails
 
 <SampleDescription>
-    <p>This sample demonstrates showing and hiding grand totals and subtotals in rows, columns, or both at runtime. Also, end users can specify and hide subtotals of specific fields.</p>
+    <p>This sample demonstrates showing and hiding grand totals and sub-totals in rows, columns, or both at runtime. Also, end users can specify and hide sub-totals of specific fields.</p>
 </SampleDescription>
 <ActionDescription>
-  <p>In this sample, you can hide grand totals in row, column, or both using radio buttons available under the
-     <b>Hide grand totals</b> category. To hide grand totals in both row and column, set the <code>ShowGrandTotals</code> property in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a></code> class to <b>false</b>. To hide the row and column grand totals separately,
-     set the <code>ShowRowGrandTotals</code> and <code>ShowColumnGrandTotals</code> properties in <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a></code> class to <b>false</b>.</p>
-  <p>Also, in this sample, you can hide subtotals for specific fields too. It can be achieved by selecting appropriate fields from the drop-down available under the <b>Hide sub-totals</b> category.
-        To hide subtotals for a specific field, set the <code>ShowSubTotals</code> property to <b>false</b> inside the field definition.</p>
-  <p>For more information <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/show-hide-totals/'>refer</a>.</p> 
+    <p>
+        In this sample, you can hide grand totals in row, column, or both using radio buttons available under the
+        <b>Hide grand totals</b> category. To hide grand totals in both row and column, set the <code>ShowGrandTotals</code> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a> to <b>false</b>. To hide the row and column grand totals separately,
+        set the <code>ShowRowGrandTotals</code> and <code>ShowColumnGrandTotals</code> properties in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a> to <b>false</b>.
+    </p>
+    <p>
+        Also, in this sample, you can hide sub-totals for specific fields too. It can be achieved by selecting appropriate fields from the drop-down available under the <b>Hide sub-totals</b> category.
+        To hide sub-totals for a specific field, set the <code>ShowSubTotals</code> property to <b>false</b> inside the field definition.
+    </p>
+    <p>More information on the hide totals feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/show-hide-totals/'>documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
@@ -53,7 +56,6 @@
     </div>
 </div>
 <div class="col-lg-3 property-section pivot-table-property-section">
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
     <div class="property-panel-section">
         <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
         <div class="property-panel-content">
@@ -98,7 +100,7 @@
                         <td>
                             <div style="padding-top: 20px;">
                                 <SfMultiSelect TValue="string[]" TItem="DropDownData" Placeholder="Select fields to hide its sub-totals" Mode="@VisualMode.CheckBox" DataSource="@Fields" ShowClearButton="false"
-                                                EnableSelectionOrder="false" ShowDropDownIcon="true" PopupWidth="100%" Width="80%" AllowFiltering="false">
+                                               EnableSelectionOrder="false" ShowDropDownIcon="true" PopupWidth="100%" AllowFiltering="false">
                                     <MultiSelectEvents TValue="string[]" TItem="DropDownData" ValueChange="UpdateSubTotals"></MultiSelectEvents>
                                     <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
                                 </SfMultiSelect>
@@ -119,71 +121,79 @@
         overflow: auto;
     }
 
-	.pivot-table-property-section .e-multiselect {
-		padding: 0;
-	}
+    .pivot-table-property-section .e-multiselect {
+        padding: 0;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
 </style>
 
 @code{
     public string[] DrilledMembers = new string[] { "France" };
-    public bool RowGrandTotal = true;
-    public bool ColumnGrandTotal = true;
-    public bool GrandTotal = false;
-    public bool RowSubTotal = true;
-    public bool ColumnSubTotal = true;
-    public List<PivotProductDetails> Data { get; set; }
+            public bool RowGrandTotal = true;
+            public bool ColumnGrandTotal = true;
+            public bool GrandTotal = false;
+            public bool RowSubTotal = true;
+            public bool ColumnSubTotal = true;
+            public List<PivotProductDetails> Data { get; set; }
 
-    protected override void OnInitialized()
-    {
-        this.Data = PivotProductDetails.GetProductData();
-    }
-
-    public void OnChange(ChangeArgs<string> args)
-    {
-        if (args.Value == "Row")
-        {
-            this.RowGrandTotal = false;
-            this.GrandTotal = this.ColumnGrandTotal = true;
-        }
-        else if (args.Value == "Column")
-        {
-            this.ColumnGrandTotal = false;
-            this.GrandTotal = this.RowGrandTotal = true;
-        }
-        else
-        {
-            this.GrandTotal = false;
-            this.ColumnGrandTotal = this.RowGrandTotal = true;
-        }
-    }
-
-    public void UpdateSubTotals(@Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
-    {
-        this.RowSubTotal = this.ColumnSubTotal = true;
-        if (args.Value != null)
-        {
-            foreach (string value in args.Value)
+            protected override void OnInitialized()
             {
-                if (value == "Country")
+                this.Data = PivotProductDetails.GetProductData();
+            }
+
+            public void OnChange(ChangeArgs<string> args)
+            {
+                if (args.Value == "Row")
                 {
-                    this.RowSubTotal = false;
+                    this.RowGrandTotal = false;
+                    this.GrandTotal = this.ColumnGrandTotal = true;
                 }
-                else if (value == "Year")
+                else if (args.Value == "Column")
                 {
-                    this.ColumnSubTotal = false;
+                    this.ColumnGrandTotal = false;
+                    this.GrandTotal = this.RowGrandTotal = true;
+                }
+                else
+                {
+                    this.GrandTotal = false;
+                    this.ColumnGrandTotal = this.RowGrandTotal = true;
                 }
             }
-        }
-    }
 
-    List<DropDownData> Fields = new List<DropDownData>() {
+            public void UpdateSubTotals(@Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+            {
+                this.RowSubTotal = this.ColumnSubTotal = true;
+                if (args.Value != null)
+                {
+                    foreach (string value in args.Value)
+                    {
+                        if (value == "Country")
+                        {
+                            this.RowSubTotal = false;
+                        }
+                        else if (value == "Year")
+                        {
+                            this.ColumnSubTotal = false;
+                        }
+                    }
+                }
+            }
+
+            List<DropDownData> Fields = new List<DropDownData>() {
         new DropDownData { Name = "Country", Value = "Country" },
         new DropDownData { Name = "Year", Value = "Year" }
     };
 
-    public class DropDownData
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
+            public class DropDownData
+            {
+                public string Name { get; set; }
+                public string Value { get; set; }
     }
 }

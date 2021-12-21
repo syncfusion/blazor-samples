@@ -1,28 +1,32 @@
 ﻿@page "/breadcrumb/address-bar"
 
 @using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
 
 @inherits SampleBaseComponent
 
 <SampleDescription>
     <p>
-        This sample demonstrates the Address Bar functionalities using the <b>Breadcrumb</b> component. Click the right arrow icon to view and navigate to the next level items.
+        This sample demonstrates the address bar functionalities using the <b>Blazor Breadcrumb</b> component. Click the right arrow icon to view and navigate to the next level items.
     </p>
 </SampleDescription>
 <ActionDescription>
-    <p>In the <code>Breadcrumb</code> component, <code>ItemTemplate</code> property is used to render <code>Menu</code> as <code>Breadcrumb</code> items.</p>
-    <p>
-        In this demo, we have rendered Address of <b>Pictures</b> folder in <code>Breadcrumb</code>. And click the
-        right arrow icon to view and navigate to the next level items.
+    <p>In the demo, <code>ItemTemplate</code> property is used to render <code>Menu</code> component as Breadcrumb items. 
+        Click the right arrow icon to view and navigate to the next level items.
     </p>
-    <p>More information about Blazor <code>Breadcrumb</code> component can be found in this <a target='_blank' href="https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/">documentation section</a>.</p>
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/' target='_blank'>Getting started with Blazor Breadcrumb</a></li>
+       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/templates' target='_blank'>Blazor Breadcrumb - Template</a></li>
+    </ul>
 </ActionDescription>
 
 <div class="control-section">
     <div class="content-wrapper">
         <div class="row material2">
             <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-                <h5>File Manager like Breadcrumb</h5>
+                <h5 style="display: inline-block">File Manager like Breadcrumb</h5>
+                <SfButton class="e-small reset-btn" @onclick="ResetBtnClickHandler">Reset State</SfButton>
             </div>
         </div>
         <div class="row material2">
@@ -37,33 +41,42 @@
                     <BreadcrumbTemplates>
                         <ItemTemplate>
                             <div style="display: flex;">
-                                <SfMenu TValue="MenuItem">
-                                    <MenuItems>
-                                        <MenuItem Text="@context.Text" IconCss="@context.IconCss" />
-                                    </MenuItems>
-                                    <MenuEvents TValue="MenuItem" ItemSelected="@MenuItemSelected"></MenuEvents>
-                                </SfMenu>
-                                @{
-                                    var items = getItems(@context.Text, false);
-                                    if (items != null && items.Count > 0)
-                                    {
-                                        <SfMenu TValue="MenuItem" ShowItemOnClick="true">
-                                            <MenuItems>
-                                                <MenuItem>
-                                                    <MenuItems>
-                                                        @foreach (var item in items)
-                                                        {
-                                                            <MenuItem Text="@item.Text" Id="@item.Type"></MenuItem>
-                                                        }
-                                                    </MenuItems>
-                                                </MenuItem>
-                                            </MenuItems>
-                                            <MenuEvents TValue="MenuItem" ItemSelected="@((MenuEventArgs<MenuItem> args) => { SubMenuItemSelected(args, context.Text); })"></MenuEvents>
-                                        </SfMenu>
-                                    }
+                                @if (context.Text != "LastItem")
+                                {
+                                    <SfMenu TValue="MenuItem">
+                                        <MenuItems>
+                                            <MenuItem Text="@context.Text" IconCss="@context.IconCss" />
+                                        </MenuItems>
+                                        <MenuEvents TValue="MenuItem" ItemSelected="@MenuItemSelected"></MenuEvents>
+                                    </SfMenu>
                                 }
                             </div>
                         </ItemTemplate>
+                        <SeparatorTemplate>
+                            <div style="display: flex;">
+                                @{if (context.PreviousItem.Text != "LastItem")
+                                    {
+                                        var items = getItems(@context.PreviousItem.Text, false);
+                                        if (items != null && items.Count > 0)
+                                        {
+                                            <SfMenu TValue="MenuItem" ShowItemOnClick="true">
+                                                <MenuItems>
+                                                    <MenuItem>
+                                                        <MenuItems>
+                                                            @foreach (var item in items)
+                                                            {
+                                                                <MenuItem Text="@item.Text" Id="@item.Type"></MenuItem>
+                                                            }
+                                                        </MenuItems>
+                                                    </MenuItem>
+                                                </MenuItems>
+                                                <MenuEvents TValue="MenuItem" ItemSelected="@((MenuEventArgs<MenuItem> args) => { SubMenuItemSelected(args, context.PreviousItem.Text); })"></MenuEvents>
+                                            </SfMenu>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </SeparatorTemplate>
                     </BreadcrumbTemplates>
                 </SfBreadcrumb>
             </div>
@@ -92,6 +105,7 @@
                 break;
             }
         }
+        breadcrumbItems.Add(new BreadcrumbItemModel { Text = "LastItem" });
     }
 
     private void SubMenuItemSelected(MenuEventArgs<MenuItem> args, string text)
@@ -112,6 +126,7 @@
             }
             bItems[0].IconCss = "e-bicons e-" + args.Item.Id;
             bItems.Add(new BreadcrumbItemModel { Text = args.Item.Text });
+            bItems.Add(new BreadcrumbItemModel { Text = "LastItem" });
             breadcrumbItems = bItems;
         }
     }
@@ -148,6 +163,10 @@
                         {
                             mItems = mItems[j].Items;
                             j = 0;
+                            if (mItems == null)
+                            {
+                                isBreaked = true;
+                            }
                         }
                         break;
                     }
@@ -266,6 +285,19 @@
        new AddressBarItemModel { Text = "Recycle Bin", Type = "recyclebin" }
     };
 
+    // To refresh the Breadcrumb control state when reset button clicked
+    private void ResetBtnClickHandler()
+    {
+        breadcrumbItems = new List<BreadcrumbItemModel>() {
+        new BreadcrumbItemModel { IconCss = "e-bicons e-picture" },
+        new BreadcrumbItemModel { Text = "This PC" },
+        new BreadcrumbItemModel { Text = "Local Disk (C:)" },
+        new BreadcrumbItemModel { Text = "Users" },
+        new BreadcrumbItemModel { Text = "Admin" },
+        new BreadcrumbItemModel { Text = "Pictures" }
+        };
+    }
+
     public class AddressBarItemModel
     {
         public string Text { get; set; }
@@ -326,10 +358,6 @@
 
     .e-custom-breadcrumb ol {
         background-color: transparent !important;
-    }
-
-    .e-custom-breadcrumb .e-breadcrumb-separator {
-        display: none;
     }
 
     .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-menu-icon {
@@ -432,6 +460,11 @@
         }
     }
 
+    .reset-btn {
+        float: right;
+        margin: 5px 2px 5px 0;
+    }
+
     .bootstrap .e-custom-breadcrumb ol,
     .bootstrap4 .e-custom-breadcrumb ol,
     .bootstrap-dark .e-custom-breadcrumb ol {
@@ -451,6 +484,47 @@
     .e-bigger.fabric .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon,
     .e-bigger.highcontrast .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
         padding-right: 22px !important;
+    }
+
+    .bootstrap4 .e-custom-breadcrumb {
+        background-color: transparent;
+    }
+
+    .e-custom-breadcrumb .e-menu-item.e-selected,
+    .e-custom-breadcrumb .e-menu-item.e-focused {
+        background-color: transparent !important;
+    }
+
+    .bootstrap5 .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #dee2e6 !important;
+    }
+
+    .bootstrap5-dark .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #495057 !important;
+    }
+
+    .tailwind .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #e5e7eb !important;
+    }
+
+    .tailwind-dark .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #4b5563 !important;
+    }
+
+    .material .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #e0e0e0 !important;
+    }
+
+    .fabric .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #dadada !important;
+    }
+
+    .fabric-dark .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #514f4f !important;
+    }
+
+    .highcontrast .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #685708 !important;
     }
 </style>
 @*End:Hidden*@

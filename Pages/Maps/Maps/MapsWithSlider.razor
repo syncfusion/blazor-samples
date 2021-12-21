@@ -12,12 +12,30 @@
     <p>This sample illustrates the average annual population growth of the countries of the North American continent.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The range color mapping is applied to the shapes based on the population growth of the countries in percentage. The tooltip is also enabled in this example.</p>
+    <p>The range color mapping is applied to the shapes based on the population growth of the countries in percentage. A slider is placed at the bottom, and by sliding it, the countries that fall within the population growth range are highlighted. The tooltip is also enabled in this example.</p>
     <p>More information about color mapping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/color-mapping/'>documentation section</a>.</p>
 </ActionDescription>
 
+<style>
+    #gradient_slider.e-control.e-slider .e-slider-track {
+        background: -webkit-linear-gradient(left, #E5E5E5 10%, #DCD57E 25%, #7EDCA2 50%, #6EB5D0 66%, #A6DC7E 70%, #DCA87E 90%);
+        background: linear-gradient(left, #E5E5E5 10%, #DCD57E 25%, #7EDCA2 50%, #6EB5D0 66%, #A6DC7E 70%, #DCA87E 90%);
+        background: -moz-linear-gradient(left, #E5E5E5 10%, #DCD57E 25%, #7EDCA2 50%, #6EB5D0 66%, #A6DC7E 70%, #DCA87E 90%);
+    }
+
+    #gradient_slider.e-control.e-slider .e-range {
+        background-color: transparent;
+    }
+
+    .e-control-wrapper.e-slider-container #gradient_slider.e-control.e-slider .e-handle {
+        background-color: #fff;
+        border: 2px solid #666;
+    }
+</style>
+
 <div class="control-section">
-    <SfMaps Height="400" Theme="@Theme">
+    <SfMaps Height="400" Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
         <MapsMargin Bottom="20" />
         <MapsZoomSettings Enable="false" />
         <MapsTitleSettings Text="Average annual population growth in North American countries">
@@ -28,8 +46,10 @@
                 <ContentTemplate>
                     <div style="height:70px;width:250px; margin-left:-50px">
                         <div style="width: 60%;">
-                            <div>
-                                <input type="range" value="@SliderPointerValue" min="-1.5" max="3.75" step="0.75" @onchange="RangeStartChange" style="width:250px;height:48px;" />
+                            <div style="width:250px;height:48px;">
+                                <SfSlider ID="gradient_slider" Type=SliderType.MinRange Min="-1.5" Max="3" Step="0.75" TValue="double" Value="@SliderPointerValue">
+                                    <SliderEvents TValue="double" OnChange="@RangeStartChange"></SliderEvents>
+                                </SfSlider>
                             </div>
                         </div>
                     </div>
@@ -37,7 +57,7 @@
             </MapsAnnotation>
         </MapsAnnotations>
         <MapsLayers>
-            <MapsLayer ShapeData='new {dataOptions ="data/maps/north-america.json"}' ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name" DataSource="@PopulationGrowth" TValue="Growth">
+            <MapsLayer ShapeData='new {dataOptions = "data/maps/north-america.json"}' ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name" DataSource="@PopulationGrowth" TValue="Growth">
                 <MapsShapeSettings ColorValuePath="Population">
                     <MapsShapeColorMappings>
                         <MapsShapeColorMapping StartRange="-1.5" EndRange="-0.75" Color='@ColorMappingColorOne' />
@@ -46,7 +66,6 @@
                         <MapsShapeColorMapping StartRange="0.76" EndRange="1.5" Color='@ColorMappingColorFour' />
                         <MapsShapeColorMapping StartRange="1.5" EndRange="2.25" Color='@ColorMappingColorFive' />
                         <MapsShapeColorMapping StartRange="2.25" EndRange="3" Color='@ColorMappingColorSix' />
-                        <MapsShapeColorMapping StartRange="3" EndRange="3.75" Color='@ColorMappingColorSeven' />
                     </MapsShapeColorMappings>
                 </MapsShapeSettings>
                 <MapsLayerTooltipSettings Visible="true" Format="${Name} : ${Population}%">
@@ -93,47 +112,44 @@
     public string[] ColorMappingColorFour = { "#6EB5D0" };
     public string[] ColorMappingColorFive = { "#A6DC7E" };
     public string[] ColorMappingColorSix = { "#DCA87E" };
-    public string[] ColorMappingColorSeven = { "#d075c6" };
     public double SliderPointerValue = 3;
     public bool OpacityChecked;
     public double MinRange;
-    private void RangeStartChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+
+    private void RangeStartChange(Syncfusion.Blazor.Inputs.SliderChangeEventArgs<double> args)
     {
+        SliderPointerValue = Convert.ToDouble(args.Value, CultureInfo.InvariantCulture);
         MinRange = Convert.ToDouble(args.Value, CultureInfo.InvariantCulture);
         if (MinRange >= -1.5 && MinRange <= -0.75)
         {
-            ColorSet("#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+            ColorSet("#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
         }
         if (MinRange >= -0.75 && MinRange <= 0)
         {
-            ColorSet("#7E9CDC", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+            ColorSet("#7E9CDC", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
         }
         if (MinRange >= 0 && MinRange <= 0.75)
         {
-            ColorSet("#7E9CDC", "#DCD57E", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+            ColorSet("#7E9CDC", "#DCD57E", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
         }
         if (MinRange >= 0.75 && MinRange <= 1.5)
         {
-            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#E5E5E5", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#E5E5E5", "#E5E5E5", "#E5E5E5");
         }
         if (MinRange >= 1.5 && MinRange <= 2.25)
         {
-            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#E5E5E5", "#E5E5E5", "#E5E5E5");
+            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#E5E5E5", "#E5E5E5");
         }
         if (MinRange >= 2.25 && MinRange <= 3)
         {
-            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#E5E5E5", "#E5E5E5");
+            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#E5E5E5");
         }
         if (MinRange >= 3 && MinRange <= 3.75)
         {
-            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#DCA87E", "#E5E5E5");
-        }
-        if (MinRange >= 3.75)
-        {
-            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#DCA87E", "#d075c6");
+            ColorSet("#7E9CDC", "#DCD57E", "#7EDCA2", "#6EB5D0", "#A6DC7E", "#DCA87E");
         }
     }
-    private void ColorSet(string Color1, string Color2, string Color3, string Color4, string Color5, string Color6, string Color7)
+    private void ColorSet(string Color1, string Color2, string Color3, string Color4, string Color5, string Color6)
     {
         ColorMappingColorOne = new string[] { Color1 };
         ColorMappingColorTwo = new string[] { Color2 };
@@ -141,7 +157,6 @@
         ColorMappingColorFour = new string[] { Color4 };
         ColorMappingColorFive = new string[] { Color5 };
         ColorMappingColorSix = new string[] { Color6 };
-        ColorMappingColorSeven = new string[] { Color7 };
     }
     public class Growth
     {
@@ -174,11 +189,11 @@
         new Growth { Name="Antigua and Barbuda", Population=1.14},
         new Growth { Name="Dominica", Population=0.1},
         new Growth { Name="Bermuda", Population=0.1},
-        new Growth { Name="Cayman Is.", Population=3.51},
+        new Growth { Name="Cayman Is.", Population=3.0},
         new Growth { Name="Greenland", Population=0.1},
         new Growth { Name="St. Kitts and Nevis", Population=0.1},
         new Growth { Name="Sint Maarten", Population=2.63},
-        new Growth { Name="British Virgin Is.", Population=3.33},
+        new Growth { Name="British Virgin Is.", Population=3.0},
         new Growth { Name="Anguilla", Population=0.1},
         new Growth { Name="St-Barthélemy", Population=0.1},
         new Growth { Name="St. Pierre and Miquelon", Population=0.1},

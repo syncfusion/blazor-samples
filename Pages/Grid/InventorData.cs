@@ -91,8 +91,8 @@ namespace blazor_inventordata
             inventor.Add(new InventorDetails("1860(b)-1929(d)", "USA", "Thomas E. Murray", "Electrical, HVAC, Wheels, Metal working, Light dimmer", 462, 449));
             inventor.Add(new InventorDetails("1980-2016", "Australia", "Akira Nakazawa", "Printing, Mechanical", 1340, 445));
             inventor.Add(new InventorDetails("1993-2016", "Japan", "Hongyong Zhang", "Thin film transistors, Liquid crystal displays", 858, 440));
-            inventor.Add(new InventorDetails("1986-2016", "USA", "Ronald S. Cok", "OLED displays; image processing", 747, 436));
-            inventor.Add(new InventorDetails("1983-2016", "USA", "fe", "Biotechnology, Drug delivery, Tissue engineering", 1759, 430));
+            inventor.Add(new InventorDetails("1986-2016", "USA", "Ronald S. John", "OLED displays; image processing", 747, 436));
+            inventor.Add(new InventorDetails("1983-2016", "USA", "Imad K. Stamper", "Biotechnology, Drug delivery, Tissue engineering", 1759, 430));
             inventor.Add(new InventorDetails("2001-2016", "USA", "Scott H. Wittkopp", "Motor vehicle transmission", 1010, 429));
             inventor.Add(new InventorDetails("1888(b)-1965(d)", "USA", "John Hays Hammond, Jr.", "Radio control, Radio communications, Torpedoes", 460, 417));
             inventor.Add(new InventorDetails("1976-2010", "Germany", "Wilhelm Brandes", "Fungicides", 2923, 411));
@@ -171,4 +171,3 @@ namespace blazor_inventordata
         public string Active { get; set; }
     }
 }
-

@@ -31,12 +31,12 @@ namespace ej2_blazor_templatedata
                 Address = "507 - 20th Ave. E.Apt. 2A, Seattle",
                 Contact = "(206) 555-9857",
                 Country = "USA",
-                DOB = new DateTime(1963, 2, 15),
+                DOB = new DateTime(1992, 2, 15),
                 ParentId = null
             });
             DataCollection.Add(new Employee
             {
-                Name = "David william",
+                Name = "David William",
                 FullName = "DavidWilliam",
                 Designation = "Vice President",
                 EmployeeID = 2,
@@ -44,7 +44,7 @@ namespace ej2_blazor_templatedata
                 Address = "722 Moss Bay Blvd., Kirkland",
                 Contact = "(206) 555-3412",
                 Country = "USA",
-                DOB = new DateTime(1971, 5, 20),
+                DOB = new DateTime(1990, 5, 20),
                 ParentId = 1
             });
             DataCollection.Add(new Employee
@@ -57,7 +57,7 @@ namespace ej2_blazor_templatedata
                 Address = "4110 Old Redmond Rd., Redmond",
                 Contact = "(206) 555-8122",
                 Country = "USA",
-                DOB = new DateTime(1966, 3, 19),
+                DOB = new DateTime(1988, 3, 19),
                 ParentId = 1
             });
             DataCollection.Add(new Employee
@@ -70,7 +70,7 @@ namespace ej2_blazor_templatedata
                 Address = "14 Garrett Hill, London",
                 Contact = "(71) 555-4848",
                 Country = "UK",
-                DOB = new DateTime(1980, 9, 20),
+                DOB = new DateTime(1993, 9, 20),
                 ParentId = 1
             });
             DataCollection.Add(new Employee
@@ -119,7 +119,7 @@ namespace ej2_blazor_templatedata
                 Address = "7 Houndstooth Rd., London",
                 Contact = "(71) 555-3690",
                 Country = "UK",
-                DOB = new DateTime(1980, 2, 2),
+                DOB = new DateTime(1994, 2, 2),
                 ParentId = null
             });
             DataCollection.Add(new Employee

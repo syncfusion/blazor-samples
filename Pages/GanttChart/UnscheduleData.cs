@@ -25,27 +25,27 @@ namespace ej2_blazor_unscheduledata
             new TaskData() {
                 TaskId = 1,
                 TaskName = "Project initiation",
-                StartDate = new DateTime(2019, 04, 02),
-                EndDate = new DateTime(2019, 04, 06),
+                StartDate = new DateTime(2021, 04, 02),
+                EndDate = new DateTime(2021, 04, 06)
             },
             new TaskData() {
                 TaskId = 2,
-                TaskName = "Task with duration only",
+                TaskName = "Task with Duration only",
                 Duration = "2",
                 Progress = 30,
-                ParentId = 1,
+                ParentId = 1
             },
             new TaskData() {
                 TaskId = 3,
-                TaskName = "Task with end date only",
-                EndDate = new DateTime(2019, 04, 03),
+                TaskName = "Task with End Date only",
+                EndDate = new DateTime(2021, 04, 03),
                 Progress = 40,
-                ParentId = 1,
+                ParentId = 1
             },
             new TaskData() {
                 TaskId = 4,
-                TaskName = "Task with start date only",
-                StartDate = new DateTime(2019, 04, 02),
+                TaskName = "Task with Start Date only",
+                StartDate = new DateTime(2021, 04, 02),
                 Progress = 30,
                 ParentId = 1
             },

@@ -31,7 +31,14 @@
     private void NavToSample(string path)
     {
         SampleService.Spinner.Show();
-        UriHelper.NavigateTo(path + "?theme=bootstrap5");
+#if NET6_0
+        var newUri = UriHelper.GetUriWithQueryParameters(path, new Dictionary<string, object>{
+            ["theme"] = "bootstrap5"
+        });
+        UriHelper.NavigateTo(newUri, true);
+#else
+        UriHelper.NavigateTo(path + "?theme=bootstrap5", true);
+#endif
     }
 
     protected override void OnInitialized()
