@@ -1,0 +1,41 @@
+﻿@page "/DateTime-Picker/Disabled-Dates"
+
+@using Syncfusion.Blazor.Calendars
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>In the following sample, all the weekends (Saturday and Sunday) of a month are <code>disabled</code>, and these dates are <code>restricted</code> to set or select in the DateTimePicker.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Disabled Dates sample demonstrates how to disable specific dates in the DateTimePicker by using <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DateTimePickerEvents-1.html#Syncfusion_Blazor_Calendars_DateTimePickerEvents_1_OnRenderDayCell' target='_blank'>OnRenderDayCell</a> event. This event gets triggered on each day cell element creation, that allows you to customize, or disable specific dates in the Calendar. Here the weekend dates are disabled by using OnRenderDayCell.
+    More information on the customize dates can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datetime-picker/events#onrenderdaycell'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div id="wrapper">
+        <SfDateTimePicker TValue="DateTime?" @ref="@DateTimePickerObj" Placeholder="Select a date and time" ShowClearButton="true">
+            <DateTimePickerEvents TValue="DateTime?" OnRenderDayCell="@DisableDate"></DateTimePickerEvents>
+        </SfDateTimePicker>
+    </div>
+</div>
+
+<style>
+    #wrapper {
+        max-width: 270px;
+        margin: 0px auto;
+        padding-top: 50px;
+    }
+</style>
+
+@code {
+    private SfDateTimePicker<DateTime?> DateTimePickerObj { get; set; }
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        var view = DateTimePickerObj.CurrentView();
+        if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+        {
+            args.IsDisabled = true;
+        }
+    }
+}

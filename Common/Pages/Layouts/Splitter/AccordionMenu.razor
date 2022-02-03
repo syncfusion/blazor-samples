@@ -1,0 +1,194 @@
+﻿@page "/splitter/accordion-menu"
+
+@using Syncfusion.Blazor.Layouts;
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Lists;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>
+        This example demonstrates the Accordion component that can be integrated within the split pane.
+        Select the product from the left pane to display the corresponding product details on the right pane.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The Splitter is the layout user interface (UI) component and allows integrating other Blazor components within its pane.
+        In this sample, the Splitter component is used to design navigation menu-like application using the Blazor Accordion component.
+        The Accordion component is integrated within left pane to display the product menu and selected product details on right pane.               
+    </p>
+</ActionDescription>
+<div id="target" class="control-section">
+    <SfSplitter Height="300px" Width="100%">
+        <SplitterPanes>
+            <SplitterPane Size="40%" Min="30%">
+                <div>
+                    <SfAccordion>
+                        <AccordionItems>
+                            <AccordionItem Header="ASP.NET" IconCss="e-athletics e-acrdn-icons" Expanded=true>
+                                <ContentTemplate>
+                                    <SfListView Enabled="true" CssClass="listview" DataSource="@Data1" TValue="DataModel">
+                                        <ListViewFieldSettings TValue="DataModel" Id="ID" Text="Text"></ListViewFieldSettings>
+                                        <ListViewEvents TValue="DataModel" Clicked="OnSelect"></ListViewEvents>
+                                    </SfListView>
+                                </ContentTemplate>
+                            </AccordionItem>
+                            <AccordionItem Header="ASP.NET MVC" IconCss="e-athletics e-acrdn-icons" Expanded=false>
+                                <ContentTemplate>
+                                    <SfListView CssClass="listview" DataSource="@Data2" TValue="DataModel">
+                                        <ListViewFieldSettings TValue="DataModel" Id="ID" Text="Text"></ListViewFieldSettings>
+                                        <ListViewEvents TValue="DataModel" Clicked="OnSelect"></ListViewEvents>
+                                    </SfListView>
+                                </ContentTemplate>
+                            </AccordionItem>
+                            <AccordionItem Header="JavaScript" IconCss="e-athletics e-acrdn-icons" Expanded=false>
+                                <ContentTemplate>
+                                    <SfListView CssClass="listview" DataSource="@Data3" TValue="DataModel">
+                                        <ListViewFieldSettings TValue="DataModel" Id="ID" Text="Text"></ListViewFieldSettings>
+                                        <ListViewEvents TValue="DataModel" Clicked="OnSelect"></ListViewEvents>
+                                    </SfListView>
+                                </ContentTemplate>
+                            </AccordionItem>
+                        </AccordionItems>
+                        <AccordionEvents Expanding="OnExpanding" Expanded="OnExpanded"></AccordionEvents>
+                    </SfAccordion>
+                </div>
+            </SplitterPane>
+            <SplitterPane Min="45%">
+                <div class="content">
+                    @((MarkupString)content)
+                </div>
+            </SplitterPane>
+        </SplitterPanes>
+    </SfSplitter>
+    </div>
+
+    @code {
+
+        int cuurentIndex { get; set; } = 0;
+
+        string content { get; set; } = "<h4>About ASP.NET</h4>Microsoft ASP.NET is a set of technologies in the Microsoft .NET Framework for building Web applications and XML Web services. ASP.NET pages execute on the server and generate markup such as HTML, WML, or XML that is sent to a desktop or mobile browser. ASP.NET pages use a compiled,event-driven programming model that improves performance and enables the separation of application logic and user interface.";
+
+        DataModel[] Data1 =
+    {
+            new DataModel { Text = "Grid", ID = "1" },
+            new DataModel { Text = "Schedule", ID = "2" },
+            new DataModel { Text = "Chart", ID = "7" }
+        };
+
+        DataModel[] Data2 =
+        {
+            new DataModel { Text = "Grid", ID = "3" },
+            new DataModel { Text = "Schedule", ID = "4" },
+            new DataModel { Text = "Chart", ID = "8" }
+        };
+
+        DataModel[] Data3 =
+    {
+            new DataModel { Text = "Grid", ID = "5" },
+            new DataModel { Text = "Schedule", ID = "6" },
+            new DataModel { Text = "Chart", ID = "9" }
+        };
+
+        class DataModel
+        {
+            public string Text { get; set; }
+            public string ID { get; set; }
+            public string Category { get; set; }
+        }
+
+        private void OnExpanding(ExpandEventArgs args)
+        {
+            int index = args.Index;
+            switch (index)
+            {
+                case 0:
+                    this.content = "<h4>About ASP.NET</h4>Microsoft ASP.NET is a set of technologies in the Microsoft .NET Framework for building Web applications and XML Web services. ASP.NET pages execute on the server and generate markup such as HTML, WML, or XML that is sent to a desktop or mobile browser. ASP.NET pages use a compiled,event-driven programming model that improves performance and enables the separation of application logic and user interface.";
+                    break;
+                case 1:
+                    this.content = "<h4>About ASP.NET MVC</h4>The Model-View-Controller (MVC) architectural pattern separates an application into three main components: the model, the view, and the controller. The ASP.NET MVC framework provides an alternative to the ASP.NET Web Forms pattern for creating Web applications. The ASP.NET MVC framework is a lightweight, highly testable presentation framework that (as with Web Forms-based applications) is integrated with existing ASP.NET features, such as master pages.";
+                    break;
+                case 2:
+                    this.content = "<h4>About JavaScript</h4>JavaScript (JS) is an interpreted computer programming language.It was originally implemented as part of web browsers so that client-side scripts could interact with the user, control the browser, communicate asynchronously, and alter the document content that was displayed.More recently, however, it has become common in both game development and the creation of desktop applications.";
+                    break;
+            }
+        }
+
+        private void OnExpanded(Syncfusion.Blazor.Navigations.ExpandedEventArgs args)
+        {
+            this.cuurentIndex = args.Index;
+        }
+
+        private void OnSelect(ClickEventArgs<DataModel> args)
+        {
+
+            switch (args.ItemData.ID)
+            {
+                case "1":
+                    this.content = "<h4>About ASP.NET Grid</h4><div>The ASP.NET DataGrid control, or DataTable is a feature - rich control used to display data in a tabular format.Its wide range of functionalities includes data binding, editing, filtering, grouping, paging, freezing rows and columns, aggregation of rows, and exporting to Excel, CSV, and PDF formats.</div>";
+                    break;
+                case "2":
+                    this.content = "<h4>About ASP.NET Schedule</h4><div>The ASP.NET Scheduler, a.k.a. event calendar, facilitates almost all calendar features, thus allowing users to manage their time efficiently. It features easy resource scheduling, rescheduling appointments through editor pop-ups, drag and drop, and a resizing action.</div>";
+                    break;
+                case "3":
+                    this.content = "<h4>About ASP.NET MVC Grid</h4><div>The ASP.NET MVC DataGrid control, or DataTable for is a feature - rich control used to display data in a tabular format.Its wide range of functionalities includes data binding, editing, filtering, grouping, paging, freezing rows and columns, aggregation of rows, and exporting to Excel, CSV, and PDF formats.</div></div>";
+                    break;
+                case "4":
+                    this.content = "<h4>About ASP.NET MVC Schedule</h4><div>The ASP.NET MVC Scheduler, a.k.a. event calendar, facilitates almost all calendar features, thus allowing users to manage their time efficiently. It features easy resource scheduling, rescheduling appointments through editor pop-ups, drag and drop, and a resizing action.</div>";
+                    break;
+                case "5":
+                    this.content = "<h4>About JavaScript Grid</h4><div>The JavaScript DataGrid, or DataTable, is a feature - rich control for displaying data in a tabular format.Its wide range of functionalities includes data binding, editing, filtering, grouping, paging, freezing rows and columns, aggregating rows, and exporting to Excel, CSV, and PDF formats.</div>";
+                    break;
+                case "6":
+                    this.content = "<h4>About JavaScript Schedule</h4><div>The HTML5 JavaScript Scheduler, a.k.a. event calendar, facilitates almost all calendar features, thus allowing users to manage their time efficiently. It features easy resource scheduling, rescheduling appointments through editor pop-ups, drag and drop, and a resizing action.</div>";
+                    break;
+                case "7":
+                    this.content = "<h4>About ASP.NET Charts</h4><div>ASP.NET charts, a well-crafted easy - to - use charting package, is used to add beautiful charts in web and mobile applications. It contains a rich gallery of 30 + charts and graphs, ranging from line to financial charts, that cater to all charting scenarios. Its high performing quality helps to render a large amount of data quickly.It also comes with a lot of features such as zooming, panning, tooltip, crosshair, trackball, drill - down, and events to make the charts more interactive.</div>";
+                    break;
+                case "8":
+                    this.content = "<h4>About ASP.NET MVC Charts</h4><div>ASP.NET MVC charts, a well - crafted easy - to - use charting package, is used to add beautiful charts in web and mobile applications. It contains a rich gallery of 30 + charts and graphs, ranging from line to financial charts, that cater to all charting scenarios. Its high performing quality helps to render a large amount of data quickly.It also comes with a lot of features such as zooming, panning, tooltip, crosshair, trackball, drill - down, and events to make the charts more interactive.</div>";
+                    break;
+                case "9":
+                    this.content = "<h4>About JavaScript Charts</h4><div>The HTML5 JavaScript charts, a well-crafted easy - to - use charting package, is used to add beautiful charts in web and mobile applications. It contains a rich gallery of 30 + charts and graphs, ranging from line to financial charts, that cater to all charting scenarios. Its high performing quality helps to render a large amount of data quickly.It also comes with a lot of features such as zooming, panning, tooltip, crosshair, trackball, drill - down, and events to make the charts more interactive.</div>";
+                    break;
+            }
+        }
+
+    }
+    <style>
+        .content {
+            padding: 18px;
+        }
+
+        .e-accordion .e-acrdn-item .e-acrdn-panel .e-acrdn-content {
+            padding: 0px;
+        }
+
+        .e-accordion, #splitter .e-accordion .e-acrdn-item.e-select, .e-accordion .e-acrdn-item.e-selected.e-select > .e-acrdn-header {
+            border: none;
+        }
+
+        .e-acrdn-header-content {
+            display: block;
+            text-decoration: none;
+        }
+
+        .bootstrap .e-list-parent.e-ul li:nth-child(3),
+        .bootstrap4 .e-list-parent.e-ul li:nth-child(3) {
+            border-bottom: none;
+        }
+
+        .bootstrap .e-listview {
+            border: none;
+        }
+
+        #target {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .control-section {
+            min-height: 370px;
+        }
+    </style>

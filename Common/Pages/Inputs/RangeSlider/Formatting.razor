@@ -1,0 +1,143 @@
+﻿@page "/range-slider/formatting"
+
+@using Syncfusion.Blazor.Inputs;
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the formatting of ticks and tooltip of Slider. Drag the thumb over the bar to select the formatted values between min and max.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+    <p>The format feature customizes the units of Slider values to the desired format. The formatted values will also be applied to the ARIA attributes of the Slider component.</p>
+    <p>In this demo, Slider with currency and kilometer formatting is demonstrated.</p>
+    <ul>
+        <li>
+            Currency Slider – In this sample, ticks and tooltip are formatted to currency by using the format API in both tooltip and ticks.
+        </li>
+        <li>
+            Kilometer Slider – In this sample, ticks and tooltip are formatted to kilometer by using format API in both tooltip and ticks.
+        </li>
+        <li>
+            Time Slider – In this sample, ticks and tooltip are formatted to time using change event in tooltip and renderingTicks event in ticks.
+        </li>
+    </ul>
+    <p>
+        For more information, refer to the format section from the documentation.
+    </p>
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class='sliderwrap'>
+            <label class="userselect"><b>Currency Slider</b></label>
+            <SfSlider id='currency' TValue="int[]" Min="0" Max="100" Type="SliderType.Range" @bind-Value="CurrencyValues">
+                <SliderTicks Placement="Placement.After" LargeStep="25" SmallStep="5" Format="c1"ShowSmallTicks="true"></SliderTicks>
+                <SliderTooltip Placement="TooltipPlacement.Before" IsVisible="true"  Format="c2"ShowOn="TooltipShowOn.Focus"></SliderTooltip>
+            </SfSlider>
+        </div>
+        <div class='sliderwrap'>
+            <label class="userselect"><b>Kilometer Slider</b></label>
+            <SfSlider id='kilometer' TValue="int[]" Min="900" Max="2100" Type="SliderType.Range" @bind-Value="KilometerValues">       
+                <SliderTicks Placement="Placement.After" LargeStep="400" SmallStep="100" ShowSmallTicks="true"Format="00##.## km"></SliderTicks>
+                <SliderTooltip Placement="TooltipPlacement.Before" IsVisible="true" Format="00##.## km" ShowOn="TooltipShowOn.Focus"></SliderTooltip>
+            </SfSlider>
+        </div>
+        <div class='sliderwrap'>
+            <label class="userselect"><b>Time Slider</b></label>
+            <SfSlider id='time' TValue="int[]" Min="MinValue()" Max="@MaxValue()" Type="SliderType.Range" @bind-Value="SliderValues">
+                <SliderEvents TValue="int[]" OnTooltipChange="@TooltipChange" TicksRendering="@TickesRendering"></SliderEvents>
+                <SliderTicks Placement="Placement.After" LargeStep="7200000" ShowSmallTicks="true" SmallStep="3600000"></SliderTicks>
+                <SliderTooltip Placement="TooltipPlacement.Before" IsVisible="true" ShowOn="TooltipShowOn.Focus"></SliderTooltip>
+            </SfSlider>
+
+        </div>
+    </div>
+</div>
+
+@code{
+
+    int[] CurrencyValues = new int[] { 20, 80 };
+    int[] KilometerValues = new int[] { 1100, 1850 };
+    int[] SliderValues = new int[] { 43200000, 64800000 };
+    double[] TimeValues = new double[] { new DateTime(2013, 6, 13, 12, 0, 0).TimeOfDay.TotalMilliseconds, new DateTime(2013, 6, 13, 18, 0, 0).TimeOfDay.TotalMilliseconds };
+    public void TickesRendering(SliderTickEventArgs args)
+    {
+        double time = args.Value / 3600000;
+        if (time > 11)
+        {
+            args.Text = time + ".00 PM";
+        }
+        else
+        {
+            args.Text = time + ".00 AM";
+        }
+    }
+    public double MinValue()
+    {
+        DateTime dt = new DateTime(2013, 6, 13, 11, 0, 0);
+        return dt.TimeOfDay.TotalMilliseconds;
+    }
+    public double MaxValue()
+    {
+        DateTime dt = new DateTime(2013, 6, 13, 23, 0, 0);
+        return dt.TimeOfDay.TotalMilliseconds;
+    }
+    public void TooltipChange(SliderTooltipEventArgs<int[]> args)
+    {
+
+        double FirstValue = args.Value[0] / 3600000;
+        double SecondValue = args.Value[1] / 3600000;
+        if (FirstValue <= 11 && SecondValue < 11)
+        {
+            args.Text = FirstValue + ".00 AM -" + SecondValue + ".00 AM";
+        }
+        else if (FirstValue <= 11 && SecondValue > 11)
+        {
+            args.Text = FirstValue + ".00 AM -" + SecondValue + ".00 PM";
+        }
+        else if (FirstValue > 11 && SecondValue > 11)
+        {
+            args.Text = FirstValue + ".00 PM -" + SecondValue + ".00 PM";
+        }
+    }
+}
+
+
+
+
+<style>
+    .content-wrapper {
+        width: 40%;
+        margin: 0 auto;
+        min-width: 185px;
+    }
+
+    .sliderwrap {
+        margin-top: 40px;
+    }
+
+    .e-bigger .content-wrapper {
+        width: 80%;
+    }
+
+    .sliderwrap label {
+        padding-bottom: 26px;
+        font-size: 13px;
+        font-weight: 500;
+        margin-top: 15px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .userselect {
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+        /* Standard syntax */
+    }
+</style>

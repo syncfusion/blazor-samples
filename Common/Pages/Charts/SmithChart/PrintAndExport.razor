@@ -1,0 +1,167 @@
+﻿@page "/smith-chart/print-and-export"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the print and export options in the smith chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to export and print the rendered smith chart. The smith chart can be saved as <b>JPEG, PNG, SVG </b> or <b>PDF</b>.</p>
+    <p>More information about the smith chart can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/smith-chart/getting-started'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfSmithChart @ref="@chart" Theme="@Theme">
+        <SmithChartHorizontalAxis>
+            <SmithChartHorizontalMinorGridLines Visible="true"></SmithChartHorizontalMinorGridLines>
+        </SmithChartHorizontalAxis>
+        <SmithChartRadialAxis>
+            <SmithChartRadialMinorGridLines Visible="true"></SmithChartRadialMinorGridLines>
+        </SmithChartRadialAxis>
+        <SmithChartSeriesCollection>
+            <SmithChartSeries Name="Transmission" EnableAnimation="true" DataSource="@SmithchartSeries" Resistance="resistance" Reactance="reactance">
+                <SmithChartSeriesTooltip Visible="true"></SmithChartSeriesTooltip>
+                <SmithChartSeriesMarker Shape="Shape.Circle" Visible="true">
+                    <SmithChartSeriesMarkerBorder Width="2"></SmithChartSeriesMarkerBorder>
+                </SmithChartSeriesMarker>
+            </SmithChartSeries>
+            <SmithChartLegendSettings Visible="true" Shape="Shape.Circle"></SmithChartLegendSettings>
+        </SmithChartSeriesCollection>
+    </SfSmithChart>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 45%">
+                            <div class="property-text">Export Type</div>
+                        </td>
+                        <td style="width: 70%;">
+                            <div>
+                                <SfDropDownList TValue="string" TItem="Typelist" DataSource="@FileTypes" @bind-Value="@fileType" Width="65%">
+                                    <DropDownListEvents TValue="string" TItem="Typelist" ValueChange="SmithValueChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 45%">
+                            <div class="property-text">File Name</div>
+                        </td>
+                        <td style="width: 70%;">
+                            <div class="e-float-input" style="margin-top: 5px;">
+                                <SfTextBox Value="@fileName" ValueChange="@NameChange" Placeholder="Smith chart"></SfTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            <div style="height: 45px; text-transform:none !important;width:100%;margin-left:40%">
+                <SfButton OnClick="ExportClick">Export</SfButton>
+            </div>
+            <div style="height: 45px; text-transform:none !important;width:100%;margin-left:40%">
+                <SfButton OnClick="PrintClick">Print</SfButton>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .property-text {
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+        font-size: 13px !important;
+        font-weight: 400 !important;
+    }
+</style>
+
+@code {
+    SfSmithChart chart { get; set; }
+    private Theme Theme { get; set; }
+    private String fileType { get; set; } = "JPEG";
+    private String fileName { get; set; } = "Smith chart";
+    public class SmithDataSource
+    {
+        public Double resistance { get; set; }
+        public Double reactance { get; set; }
+    };
+    private List<SmithDataSource> SmithchartSeries = new List<SmithDataSource> {
+    new SmithDataSource { resistance= 0.15, reactance= 0.01 },
+    new SmithDataSource { resistance= 0.15, reactance= 0.15 },
+    new SmithDataSource { resistance= 0.18, reactance= 0.3 },
+    new SmithDataSource { resistance= 0.2, reactance= 0.4 },
+    new SmithDataSource { resistance= 0.25, reactance= 0.6 },
+    new SmithDataSource { resistance= 0.38, reactance= 0.95 },
+    new SmithDataSource { resistance= 0.6, reactance= 1.25 },
+    new SmithDataSource { resistance= 1, reactance= 1.6 },
+    new SmithDataSource { resistance= 1.65, reactance= 1.9 },
+    new SmithDataSource { resistance= 2.75, reactance= 2 },
+    new SmithDataSource { resistance= 4.5, reactance= 0.01 },
+    new SmithDataSource { resistance= 3, reactance= -2 },
+    new SmithDataSource { resistance= 1.65, reactance= -1.95 },
+    new SmithDataSource { resistance= 1, reactance= -1.65 },
+    new SmithDataSource { resistance= 0.6, reactance= -1.25 },
+    new SmithDataSource { resistance= 0.35, reactance= -0.9 },
+    new SmithDataSource { resistance= 0.25, reactance= -0.6 },
+    new SmithDataSource { resistance= 0.25, reactance= -0.4 },
+    new SmithDataSource { resistance= 0.25, reactance= -0.3 },
+    new SmithDataSource { resistance= 0.25, reactance= -0.15 },
+    new SmithDataSource { resistance= 0.25, reactance= 0.01 },
+    };
+    public class Typelist
+    {
+        public String Name { get; set; }
+    }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    private List<Typelist> FileTypes = new List<Typelist> {
+        new Typelist { Name="JPEG" },
+        new Typelist { Name="PNG" },
+        new Typelist { Name="SVG" },
+        new Typelist { Name="PDF" }
+    };
+    private void SmithValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Typelist> args)
+    {
+        fileType = args.Value;
+    }
+    private void NameChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
+    {
+        fileName = args.Value;
+    }
+    private async Task ExportClick()
+    {
+        ExportType exportFileType = ExportType.JPEG;
+        switch (fileType)
+        {
+            case "JPEG":
+                exportFileType = ExportType.JPEG;
+                break;
+            case "PNG":
+                exportFileType = ExportType.PNG;
+                break;
+            case "SVG":
+                exportFileType = ExportType.SVG;
+                break;
+            case "PDF":
+                exportFileType = ExportType.PDF;
+                break;
+        }
+        await chart.ExportAsync(exportFileType, fileName);
+    }
+    private async Task PrintClick()
+    {
+        await chart.PrintAsync();
+    }
+}

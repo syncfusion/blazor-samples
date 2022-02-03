@@ -1,0 +1,168 @@
+﻿@page "/tooltip/api"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Popups
+@using  Syncfusion.Blazor.DropDowns
+@using SFTooltip = Syncfusion.Blazor.Popups
+@using Syncfusion
+
+<SampleDescription>
+    <p> This sample demonstrates how to customize the Tooltip component by using its Properties from the property pane. Select any combination of properties from the property pane to customize the Tooltip. </p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this demo, the Default Tooltip is rendered with minimal configuration. This sample can be customized further with the combination of Tooltip properties from the property pane. For example,
+      <ul><li>Any change made to a textbox in the property pane will be reflected in the Tooltip content.</li>
+          <li>StickyMode can be enabled by checking the sticky mode option in the property pane.</li>
+          <li>Height and Width can be changed from the property pane.</li>
+          <li>OpenMode can be changed from the property pane.</li>
+      </ul>
+   </p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section">
+    <!-- Tooltip element -->
+    <SfTooltip HtmlAttributes="HtmlAttribute" Height="@TooltipHeight" Width="@TooltipWidth" Content="@TooltipContent" OpensOn="@OpensOn"  IsSticky="@IsSticky">
+        <SfButton Content="Show Tooltip"></SfButton>
+    </SfTooltip>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property">Properties</div>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="select">Content:</div>
+                </td>
+                <td>
+                    <div>
+                        <SfTextBox Type="InputType.Text" Placeholder="Tooltip Content" @bind-Value="@TooltipContent">
+                        </SfTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="select">Height:</div>
+                </td>
+                <td>
+                    <div>
+                        <SfNumericTextBox TValue="int" Value="@HeightValue">
+                            <NumericTextBoxEvents TValue="int" ValueChange="@OnHeightChange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="select">Width:</div>
+                </td>
+                <td>
+                    <div>
+                        <SfNumericTextBox Value="@WidthValue" TValue="int" CssClass="e-input">
+                            <NumericTextBoxEvents TValue="int" ValueChange="@OnWidthChange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="select">Open Mode:</div>
+                </td>
+                <td>
+                    <div>
+                        <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@TooltipMode">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TItem="DropDownModel" TValue="string" ValueChange="@TooltipOpenMode"></DropDownListEvents>
+                        </SfDropDownList>
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="select">Sticky Mode:</div>
+                </td>
+                <td>
+                    <div>
+                        <SfCheckBox @bind-Checked="@IsSticky" Label="IsSticky"></SfCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+@code
+{    
+    int HeightValue = 50;
+    string TooltipHeight = "50px";
+    int WidthValue = 125;
+    string TooltipWidth = "120px";
+    bool IsSticky = false;
+    string OpensOn="Auto";
+    string TooltipContent = "Tooltip Content";
+
+    public void OnHeightChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        HeightValue = (int)args.Value;
+        TooltipHeight = HeightValue.ToString();
+
+    }
+    public void OnWidthChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        WidthValue = (int)args.Value;
+        TooltipWidth = WidthValue.ToString();
+    }
+    public void TooltipOpenMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownModel> args)
+    {
+        OpensOn = args.Value;
+    }
+
+    List<DropDownModel> TooltipMode = new List<DropDownModel>()
+    {
+        new DropDownModel { Text = "Auto", Value = "Auto" },
+        new DropDownModel { Text = "Click", Value = "Click" },
+        new DropDownModel { Text = "Hover", Value = "Hover" }
+    };
+
+    public class DropDownModel
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
+    Dictionary<string, object> HtmlAttribute = new Dictionary<string, object>()
+    {
+        {"class", "tooltip_style" }
+    };
+}
+
+<style>
+    .userselect {
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+        /* Standard syntax */
+    }
+    .property {
+        font-weight: 600;
+        font-size: 15px;
+        padding: 30px 0px 20px 10px;
+    }
+    .select {
+        margin: 10px;
+        width: 100px;
+    }
+    .tooltip_style {
+        position: absolute;
+        left: calc( 50% - 60px);
+        top: 35%;
+    }
+</style>

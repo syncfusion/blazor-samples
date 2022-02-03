@@ -1,0 +1,130 @@
+﻿@page "/stock-chart/intraday"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using Newtonsoft.Json
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+@using ThemeHelper
+
+@if (DataSource == null)
+{
+    <div class="stockchartloader"></div> }
+else
+{
+    <div class="@loadClass"></div>
+    <div class="@loadDiv">
+        <SfStockChart Title="AAPL Stock Price" Theme="@theme" SeriesType="@Nullseries" TrendlineType="@Nulltrendline" IndicatorType="@Nullindicator" ExportType="@Nullexport">
+            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis>
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryYAxis>
+            <StockChartTooltipSettings Enable="false"></StockChartTooltipSettings>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Spline" YName="high"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+            <StockChartPeriods>
+                <StockChartPeriod IntervalType="RangeIntervalType.Minutes" Interval="1" Text="1m"></StockChartPeriod>
+                <StockChartPeriod IntervalType="RangeIntervalType.Minutes" Interval="30" Text="30m"></StockChartPeriod>
+                <StockChartPeriod IntervalType="RangeIntervalType.Hours" Interval="1" Text="1H"></StockChartPeriod>
+                <StockChartPeriod IntervalType="RangeIntervalType.Hours" Interval="12" Text="12H" Selected="true"></StockChartPeriod>
+                <StockChartPeriod Text="1D"></StockChartPeriod>
+            </StockChartPeriods>
+        </SfStockChart>
+    </div>
+    <style>
+        .stockchartloader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchartdiv {
+            visibility: hidden;
+        }
+    </style>
+}
+
+@code{ 
+
+    Random random = new Random();
+    public int Value = 80;
+    public List<ChartSeriesType> Nullseries = new List<ChartSeriesType>() { };
+    public List<TrendlineTypes> Nulltrendline = new List<TrendlineTypes>() { };
+    public List<TechnicalIndicators> Nullindicator = new List<TechnicalIndicators>() { };
+    public List<ExportType> Nullexport = new List<ExportType>() { };
+    private List<ChartData> DataSource;
+
+    protected override async Task OnInitializedAsync()
+    {
+        BeforeRender();
+        await Task.Run(() =>
+        {
+            DataSource = this.GetData();
+        });
+    }
+
+    List<ChartData> GetData()
+    {
+        List<ChartData> data = new List<ChartData>();
+        for (int i = 1; i < 1440; i++)
+        {
+            if (random.Next(-10, 10) > .5)
+            {
+                this.Value += random.Next(5, 10);
+            }
+            else
+            {
+                this.Value -= random.Next(5, 10);
+            }
+            data.Add(new ChartData
+            {
+                date = new DateTime(2000, 1, 1).AddHours(0).AddMinutes(i),
+                high = this.Value
+            });
+        }
+        return data;
+    }
+
+    public class ChartData
+    {
+        public DateTime date { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+        public double value;
+    }
+
+    string loadClass = "stockchartloader";
+    string loadDiv = "stockchartdiv";
+    void ChartLoaded(StockChartEventArgs args)
+    {
+        loadClass = "";
+        loadDiv = "";
+        StateHasChanged();
+    }
+
+    Theme theme = Theme.Bootstrap4;
+    void BeforeRender()
+    {
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    } 
+}

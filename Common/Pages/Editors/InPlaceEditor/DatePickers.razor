@@ -1,0 +1,193 @@
+﻿@page "/in-place-editor/date-pickers"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.InPlaceEditor
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of picker components such as Date, Time, DateTime, and DateRange. Click on the dotted input element to switch to the editable state of the corresponding integrated component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> This sample explains the way to integrate picker components with the <code>In-place Editor</code> component. The applicable types of components are:</p>
+    <p>
+        <ul>
+            <li> <code>DatePicker</code></li>
+            <li> <code>TimePicker</code> </li>
+            <li><code>DateTimePicker</code> </li>
+            <li><code>DateRangePicker</code></li>
+        </ul>
+    </p>
+    <p> The above components and their features are editable in place and can be customized with the model properties of the specific component.</p>
+</ActionDescription>
+
+
+<div class="row">
+    <div class="col-lg-8 control-section inplace-control-section pickers-layout">
+        <div class="control_wrapper">
+            <table>
+                <tr>
+                    <td>
+                        <label class="control-label">
+                            DatePicker
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor Type="InputType.Date" TValue="DateTime?" @bind-Value="@DateValue1" Mode="@Mode">
+                            <EditorComponent>
+                                <SfDatePicker TValue="DateTime?" @bind-Value="@DateValue1" Placeholder="Select a date"></SfDatePicker>
+                            </EditorComponent>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="control-label">
+                            TimePicker
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor Mode="@Mode" Type="InputType.Time" TValue="DateTime?" @bind-Value="@DateValue2">
+                            <EditorComponent>
+                                <SfTimePicker TValue="DateTime?" @bind-Value="@DateValue2" Placeholder="Select a time"></SfTimePicker>
+                            </EditorComponent>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="control-label">
+                            DateTimePicker
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor Type="InputType.DateTime" Mode="@Mode" TValue="DateTime?" @bind-Value="@DateValue3">
+                            <EditorComponent>
+                                <SfDateTimePicker Placeholder="Select a date and time" TValue="DateTime?" @bind-Value="@DateValue3"></SfDateTimePicker>
+                            </EditorComponent>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="control-label">
+                            DateRangePicker
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor Type="InputType.DateRange" Mode="@Mode" TValue="DateTime[]" @bind-Value="@DateRangeValue">
+                            <EditorComponent>
+                                <SfDateRangePicker  StartDate="@DateValue2" EndDate="@DateValue3"></SfDateRangePicker>
+                            </EditorComponent>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4 property-section" id="pickerProperty">
+        <div class="property-panel-section">
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <table class="property-panel-table" title="Properties">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div> Mode</div>
+                            </td>
+                            <td>
+                                <div>
+                                     <SfDropDownList Width="90%" TItem="InplaceModes" TValue="string" DataSource="@ModeData" @bind-Value="@DropMode">
+                                        <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="@ChangeEditMode"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    private RenderMode Mode = RenderMode.Inline;
+    private DateTime? DateValue1 = new DateTime(2017, 05, 23);
+    private DateTime? DateValue2 = new DateTime(2017, 05, 23);
+    private DateTime? DateValue3 = new DateTime(2017, 05, 23);
+    private DateTime[] DateRangeValue = new DateTime[2] { new DateTime(2017, 05, 23), new DateTime(2017, 07, 05) };
+    private object DateData = new { placeholder = "Select a date" };
+    private object TimeData = new { placeholder = "Select a time" };
+    private object DateTimeData = new { placeholder = "Select a date and time" };
+    private object DateRangeData = new { placeholder = "Select a date range" };
+    public string DropMode { get; set; } = "Inline";
+    public class InplaceModes
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+    List<InplaceModes> ModeData = new List<InplaceModes>()
+{
+        new InplaceModes(){ value= "Inline", text= "Inline" },
+        new InplaceModes(){ value= "Popup", text= "Popup" }
+    };
+    private void ChangeEditMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, InplaceModes> args)
+    {
+        this.Mode = (args.Value.ToString() == "Popup" ? RenderMode.Popup : RenderMode.Inline);
+        this.StateHasChanged();
+    }
+}
+<style>
+    /* custom code start */
+    .inplace-control-section.pickers-layout .control_wrapper {
+        margin: auto;
+        max-width: 400px;
+    }
+
+        .inplace-control-section.pickers-layout .control_wrapper table {
+            margin: auto;
+        }
+
+            .inplace-control-section.pickers-layout .control_wrapper table td {
+                width: 200px;
+                height: 100px;
+            }
+
+                .inplace-control-section.pickers-layout .control_wrapper table td .control-label {
+                    margin-bottom: 0px;
+                    text-align: left;
+                    font-size: 14px;
+                    font-weight: 400
+                }
+    /* custom code end */
+    #pickerProperty table td {
+        width: 50%;
+    }
+
+    #pickerProperty table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+    .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide,
+    .inplace-control-section.pickers-layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide {
+        display: block;
+        visibility: hidden;
+    }
+
+    @@media (max-width: 768px) {
+        .inplace-control-section.pickers-layout {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .inplace-control-section .control_wrapper table tr td:nth-child(1) {
+            width: 130px;
+        }
+
+        .inplace-control-section .control_wrapper table tr td:nth-child(2) {
+            width: 200px;
+        }
+    }
+</style>

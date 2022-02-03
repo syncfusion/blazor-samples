@@ -1,0 +1,57 @@
+﻿@page "/TimePicker/Time-Duration"
+
+@using Syncfusion.Blazor.Calendars;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>The following sample demonstrates the popup list element in specific time duration. Click/Touch the TimePicker popup icon to select the desired value.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Time Duration sample illustrates, how to customize or disable the time values in time list popup by using <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.TimePickerEvents-1.html#Syncfusion_Blazor_Calendars_TimePickerEvents_1_OnItemRender' target='_blank'>OnItemRender</a> event. Here, all the time values has addition information on duration between them in sequence and some of the values are disabled through <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.TimePickerEvents-1.html#Syncfusion_Blazor_Calendars_TimePickerEvents_1_OnItemRender' target='_blank'>OnItemRender</a> event by adding the <code>e-disabled</code> class.By using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Calendars_SfTimePicker_1_ScrollTo' target='_blank'>ScrollTo</a> property can set the scroll position to the given value when no value is selected or the selected value is not availble in the timepicker popup list.</p>
+    <p>More information on the customize list items can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/timepicker/events#onitemrender'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div id="wrapper">
+        <SfTimePicker TValue="DateTime?" Placeholder="Select a time" ScrollTo="@ScrollValue" @ref="@TimePickerObj" ShowClearButton="true">
+            <TimePickerEvents TValue="DateTime?" OnItemRender="@ItemRenderHandler" OnOpen="@open"></TimePickerEvents>
+        </SfTimePicker>
+    </div>
+</div>
+
+
+<style>
+    #wrapper {
+        max-width: 300px;
+        margin: 0px auto;
+        padding-top: 50px;
+    }
+</style>
+
+@code {
+    SfTimePicker <DateTime?> TimePickerObj;
+    private DateTime? ScrollValue { get; set; }
+    private DateTime? StartTime;
+    private TimeSpan? Minutes;
+
+    private void open(PopupEventArgs args)
+    {
+        if (TimePickerObj.Value != null)
+        {
+            ScrollValue = TimePickerObj.Value;
+        }
+    }
+    private void ItemRenderHandler(ItemEventArgs<DateTime?> args)
+    {
+        if (args.Value.Value.Hour == 0 && args.Value.Value.Minute == 0 && args.Value.Value.Second == 0)
+        {
+            StartTime = args.Value;
+        }
+        Minutes = (args.Value - StartTime) / 60000;
+        if ((Minutes.Value.TotalMilliseconds / 60) % 3 == 0)
+        {
+            args.IsDisabled = true;
+        }
+    }
+}

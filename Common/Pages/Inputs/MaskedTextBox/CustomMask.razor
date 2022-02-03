@@ -1,0 +1,96 @@
+﻿@page "/Input-Mask/Custom-Mask"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the custom mask functionalities of the MaskedTextBox component. Enter time value in meridiem format, and enter IP value in numeric format.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The custom mask is achieved by the following ways:</p>
+   <p><b>Custom characters:</b></p>
+   <p>You can form the mask with any non-mask elements (literals), and you can configure the behavior of that non-mask element as mask element through the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SfMaskedTextBox.html#Syncfusion_Blazor_Inputs_SfMaskedTextBox_Custo' target='_blank'> CustomCharacters</a> property.</p>
+   <p>In this demo, the “Time” mask '99 : 99 >PM' contains the literals P and M, where it is configured to allow the inputs as 'P', 'A', 'p', 'a', and 'M', 'm'.</p>
+   <p><b>Regular expression:</b></p>
+   <p>Alternatively, you can use the regular expressions as mask element to validate the input of the particular input place.</p>
+   <p> Here, in the “IP Address” example, each character is masked by an regular expression to allow a particular range of values. </p>
+   <p>More information about the MaskedTextBox can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/input-mask/mask-configuration/#custom-mask-elements'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="col-lg-8">
+        <div class="content-wrapper">
+            <div class="control-label">Time (ex: 10:00 PM, 10:00 AM)</div>
+            <SfMaskedTextBox Mask="00:00 >PM" PromptChar="@PromptCharacter"></SfMaskedTextBox>
+            <div class="control-label">IP Address (ex: 212.212.111.222)</div>
+            <SfMaskedTextBox Mask="[0-2][0-9][0-9].[0-2][0-9][0-9].[0-2][0-9][0-9].[0-2][0-9][0-9]" PromptChar="@PromptCharacter"></SfMaskedTextBox>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="content property-section">
+            <div class="property">Properties</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="property-label">Prompt Character</div>
+                        </td>
+                        <td>
+                            <div >
+                                <SfDropDownList TValue="string" TItem="PromptCharTypes" DataSource="@Data" @bind-Index="@Index">
+                                    <DropDownListEvents TItem="PromptCharTypes" TValue="string" ValueChange="@OnPromptCharChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    public char PromptCharacter { get; set; } = '_';
+    public class PromptCharTypes
+    {
+        public string ID { get; set; }
+        public char Text { get; set; }
+    }
+    private int? Index { get; set; } = 0;
+    private List<PromptCharTypes> Data = new List<PromptCharTypes>() 
+    {
+        new PromptCharTypes(){ ID= "1", Text= '_' },
+        new PromptCharTypes(){ ID= "2", Text= '#' },
+        new PromptCharTypes(){ ID= "3", Text= '*' }
+    };
+    private void OnPromptCharChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, PromptCharTypes> args)
+    {
+        this.PromptCharacter = args.ItemData.Text;
+    }
+}
+
+<style>
+    .content-wrapper {
+        width: 30%;
+        margin: 0 auto;
+        min-width: 185px;
+    }
+
+    .control-label {
+        padding: 24px 0px 10px 0px;
+        font-size: 12px;
+    }
+    .property {
+        padding-left: 10px;
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .property-label {
+        margin: 10px;
+        width: 140px;
+    }
+</style>

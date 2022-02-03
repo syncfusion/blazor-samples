@@ -1,0 +1,119 @@
+﻿@page "/stock-chart/multiple-series"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using Newtonsoft.Json
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+@using ThemeHelper
+@using System.IO
+@using System.Net.Http.Json
+@inject HttpClient Http
+
+<SampleDescription>
+    <p>This sample visualizes the close value of multiple stock. Crosshair show the information about the data and period.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure stock chart to visualize the data for multiple stock. Stock Chart supports 6 major types of series namely <code>Line</code>, <code>Spline</code>, <code>Hilo</code>, <code>HiloOpenClose</code>, <code>Hollow Candle</code> and <code>Candle</code>. By using the series dropdown button in period selector you can navigate between the above listed series types.</p>
+    <p>
+        <code>Crosshair</code> is enabled in this example. To see the crosshair in action, hover the chart or tap on it in touch enabled devices.
+    </p>
+    <p>
+        More information about the series type can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/stock-chart/series-types">documentation section</a>.
+    </p>
+</ActionDescription>
+
+@if (DataSource == null)
+{
+    <div class="stockchartloader"></div> }
+else
+{
+    <div class="@loadClass"></div>
+    <div class="@loadDiv">
+        <SfStockChart Title="Multiple Series" IndicatorType="@Indicators" Theme="@theme" TrendlineType="@TrendLines">
+            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis Interval="40">
+                <StockChartAxisLineStyle Color="Transparent"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0" Color="Transparent"></StockChartAxisMajorTickLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryYAxis>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Line" XName="x" YName="close" Name="Apple"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource2" Type="ChartSeriesType.Line" XName="x" YName="close" Name="Google"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </SfStockChart>
+    </div>
+    <style>
+        .stockchartloader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchartdiv {
+            visibility: hidden;
+        }
+    </style>
+}
+@code{ 
+    
+    private ChartData[] DataSource;
+
+    private ChartData[] DataSource2;
+    protected override async Task OnInitializedAsync()
+    {
+        BeforeRender();
+        if(File.Exists("../Common/wwwroot/data/stock-chart/goog.json"))
+        {
+            DataSource = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("../Common/wwwroot/data/stock-chart/goog.json"));
+            DataSource2 = JsonConvert.DeserializeObject<ChartData[]>(System.IO.File.ReadAllText("../Common/wwwroot/data/stock-chart/googl.json"));
+        }
+        else
+        {
+            DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/goog.json");
+            DataSource2 = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/googl.json");
+        }
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    string loadClass = "stockchartloader";
+    string loadDiv = "stockchartdiv";
+    List<TechnicalIndicators> Indicators = new List<TechnicalIndicators>() { };
+    List<TrendlineTypes> TrendLines = new List<TrendlineTypes>() { };
+    void ChartLoaded(StockChartEventArgs args)
+    {
+        loadClass = "";
+        loadDiv = "";
+        StateHasChanged();
+    }
+
+    Theme theme = Theme.Bootstrap4;
+    void BeforeRender()
+    {
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    } 
+}

@@ -1,0 +1,170 @@
+﻿@page "/dialog/custom-dialogs"
+
+@using Syncfusion.Blazor.Popups
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates the different types of Dialog like alert, confirm, and prompt. The buttons 'Alert', 'Confirm', and 'Prompt' will be shown after closing the alert Dialog. These buttons are used to open the corresponding Dialogs.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The Dialog control is used to display messages such as supplementary content like images and text, and an interactive content like form components within a web page. The following are the three types of Dialogs:</p>
+    <ul><li>Alert - Used to show errors, warnings, and information that needs user awareness.</li>
+        <li>Prompt - Used to get input from the user. </li>
+        <li>Confirmation - Used to get approval from user that appears before any critical action.</li>
+    </ul>
+</ActionDescription>
+
+<div id="target" class=" col-lg-12 control-section">
+    <div>
+        @if (this.ShowButtons)
+        {
+            <button class="e-btn dlgbtn" @onclick="@AlertBtn">Alert</button>
+            <button class="e-btn dlgbtn" @onclick="@ConfirmBtn">Confirm</button>
+            <button class="e-btn dlgbtn" @onclick="@PromptBtn">Prompt</button>
+        }
+    </div>
+
+    <SfDialog @bind-Visible="@AlertVisibility" Target="#target" Width="250px">
+        <DialogTemplates>
+            <Header>
+                Low Battery
+            </Header>
+            <Content>
+                10% of battery remaining
+            </Content>
+        </DialogTemplates>
+        <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogButtons>
+            <DialogButton Content="Dismiss" IsPrimary="true" OnClick="@HideDialog" />
+        </DialogButtons>
+    </SfDialog>
+
+    <SfDialog @bind-Visible="@ConfirmDlgVisible" Width="400px" Target="#target" ShowCloseIcon="true">
+        <DialogTemplates>
+            <Header>
+                Delete Multiple Items
+            </Header>
+            <Content>
+                Are you sure you want to permanently delete these items ?
+            </Content>
+        </DialogTemplates>
+        <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogButtons>
+            <DialogButton Content="Yes" IsPrimary="true" OnClick="@HideDialog" />
+            <DialogButton Content="No" OnClick="@HideDialog" />
+        </DialogButtons>
+    </SfDialog>
+
+    <SfDialog ID="prompt_dialog" @bind-Visible="@PromptDlgVisible" Target="#target" Width="330px">
+        <DialogTemplates>
+            <Header>
+                Join Wi-Fi network
+            </Header>
+            <Content>
+                <table class="Table">
+                    <tbody>
+                        <tr>
+                            <td>SSID:</td>
+                        </tr>
+                        <tr>
+                            <td><b>AndroidAP</b></td>
+                        </tr>
+                        <tr>
+                            <td>Password:</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="e-input-group">
+                                    <input type="password" @bind-value="inputValue" id="password" name="Required" class="e-input">
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Content>
+        </DialogTemplates>
+        <DialogEvents OnOpen="@BeforeDialogOpen" Closed="@DialogClose"></DialogEvents>
+        <DialogButtons>
+            <DialogButton Content="Connect" IsPrimary="true" OnClick="@HideDialog" />
+            <DialogButton Content="Cancel" OnClick="@HideDialog" />
+        </DialogButtons>
+    </SfDialog>
+</div>
+
+<style>
+    .e-btn-hide {
+        display: none;
+    }
+
+    .Table {
+        border-collapse: separate;
+        border-spacing: 10px;
+        width: 85%;
+        margin: 0px -5px 0px;
+    }
+
+    .dlgbtn {
+        margin-right: 10px;
+    }
+
+    #target {
+        height: 460px;
+        min-height: 350px;
+    }
+
+    .dlgbtn {
+        margin-right: 10px;
+    }
+
+    .fabric #target #prompt_dialog.e-dialog {
+        height: 291px;
+    }
+
+    .material #target #prompt_dialog.e-dialog {
+        height: 270px;
+    }
+
+    #target #prompt_dialog.e-dialog {
+        height: 270px;
+    }
+
+    .bootstrap4 #target #prompt_dialog.e-dialog {
+        height: 285px;
+    }
+</style>
+
+@code {
+    private bool ShowButtons { get; set; } = true;
+    private bool AlertVisibility { get; set; } = false;
+    private bool ConfirmDlgVisible { get; set; } = false;
+    private bool PromptDlgVisible { get; set; } = false;
+    private string inputValue { get; set; }
+    private void AlertBtn()
+    {
+        this.AlertVisibility = true;
+    }
+    private void ConfirmBtn()
+    {
+        this.ConfirmDlgVisible = true;
+    }
+    private void PromptBtn()
+    {
+        this.PromptDlgVisible = true;
+    }
+    private void HideDialog(Object e)
+    {
+        this.AlertVisibility = false;
+        this.ConfirmDlgVisible = false;
+        this.PromptDlgVisible = false;
+        this.inputValue =  "";
+    }
+    private void BeforeDialogOpen(BeforeOpenEventArgs args)
+    {
+        this.ShowButtons = false;
+    }
+    private void DialogClose(CloseEventArgs args)
+    {
+        this.ShowButtons = true;
+    }
+}

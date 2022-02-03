@@ -1,0 +1,76 @@
+﻿@page "/xlsio/import-html-table"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment
+@using System.IO;
+
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates how to import HTML table to worksheet using Essential XlsIO.</p>
+</SampleDescription>
+<ActionDescription>
+  <p>Essential XlsIO supports importing HTML tables into Excel worksheets. The ImportHtmlTable method loads an HTML file and imports all the tables in the file to the worksheet.</p>
+<p style='display: block'><b>Features:</b></p>
+<p style='display: block'>This sample demonstrates following features:</p>
+<ul>
+<li>Imports HTML table</li>
+<li>Imports with table formatting</li>
+</ul> 
+</ActionDescription>
+
+<div class="control-section">
+     <p style="font-weight:normal">Click the “Input Template” button to view the input HTML document. </p>
+        <p style="font-weight:normal">Click the “Import” button to view the output Excel document. Please note that the Microsoft Excel viewer  or Microsoft Excel is required to view the Excel document</p>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="InputTemplate">Input Template</SfButton>&nbsp;
+                    <SfButton @onclick="Convert">Import</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .radio-control {
+        margin: 5% 0 2% 0;
+    }
+
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    string button = string.Empty;
+
+    /// <summary>
+    /// Convert the HTML document to Excel
+    /// </summary>
+    public async Task Convert()
+    {
+        ImportHTMLTableService service = new ImportHTMLTableService(hostingEnvironment);
+        button = "Convert";
+        excelStream = service.ImportHTMLTableXlsIO(button);
+        await JS.SaveAs("Import-HTML-Table.xlsx", excelStream.ToArray());
+    }
+    /// <summary>
+    /// Download the HTML document used for conversion
+    /// </summary>
+    public async Task InputTemplate()
+    {
+        ImportHTMLTableService service = new ImportHTMLTableService(hostingEnvironment);
+        button = "Input Template";
+        excelStream = service.ImportHTMLTableXlsIO(button);
+        await JS.SaveAs("Import-HTML-Table.html", excelStream.ToArray());
+    }
+}

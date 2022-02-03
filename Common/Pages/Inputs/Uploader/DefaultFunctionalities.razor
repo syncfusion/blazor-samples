@@ -1,0 +1,92 @@
+﻿@page "/File-Upload/Default-Functionalities"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-file-upload/'>Blazor File Upload</a> demonstrates the default functionalities of this component. Browse the files which you want to upload to the server. The selected files will be submitted to server on upload button click. If you click on the clear button, the selected/uploaded files will be cleared from list.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The Uploader component is useful to upload images, documents, and other files. By default, the component allows to upload multiple files to browse and upload it to server. The selected files append to the file list that contains file details such as name, type, and size.</p>
+   <p>You can manage the files in server after received the uploaded files. When the files are successfully uploaded to server, the remove button will be changed to bin button. The uploaded files can be removed by clicking on the bin button.</p>
+   <p>The progress bar displays for each file upload to denote its upload progress. Once the file upload gets success, the progress bar will disappear and the corresponding upload status message will be displayed in the same place.</p>
+   <p>More information on the Uploader instantiation can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/file-upload/getting-started/'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="col-lg-8">
+        <div class="control-wrapper">
+            <SfUploader @ref="UploadObj" AutoUpload="SetAutoUpload" SequentialUpload="SetSequentialUpload">
+                <UploaderEvents OnRemove="OnFileRemove"></UploaderEvents>
+                <UploaderAsyncSettings SaveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save" RemoveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove"></UploaderAsyncSettings>
+            </SfUploader>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="content property-section">
+            <div class="property">Properties</div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfCheckBox ValueChange="OnAutoChange" TChecked="bool"></SfCheckBox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-label">Auto Upload </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfCheckBox ValueChange="OnSequentialChange" TChecked="bool"></SfCheckBox>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="property-label">Sequential Upload</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        width: 350px;
+        margin: 0 auto;
+    }
+    .property {
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .property-label {
+        margin: 10px;
+        width: 140px;
+    }
+</style>
+
+@code {
+    SfUploader UploadObj;
+    private bool SetAutoUpload { get; set; } = false;
+    private bool SetSequentialUpload { get; set; } = false;
+    public void OnFileRemove(RemovingEventArgs args)
+    {
+        args.PostRawFile = false;
+    }
+    public void OnAutoChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.UploadObj.ClearAll();
+        this.SetAutoUpload = args.Checked;
+    }
+    public void OnSequentialChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.UploadObj.ClearAll();
+        this.SetSequentialUpload = args.Checked;
+    }
+}

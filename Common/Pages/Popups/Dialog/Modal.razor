@@ -1,0 +1,96 @@
+﻿@page "/dialog/modal"
+
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates the modal behavior of Dialog control. Choose "Close on overlay" option from the property panel to decide whether the Dialog will be closed on click on the overlay. Click on "Open" button to show the Dialog again if it is closed.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>A modal prevents access to the parent application, so that the user must interact with the Dialog before continuing with the parent application.</p>
+   <p>More information on the modal behavior of Dialog can be found in the <a target='_blank' href="https://blazor.syncfusion.com/documentation/dialog/getting-started/"> documentation section</a>.</p>
+</ActionDescription>
+
+<div class=" col-lg-8 control-section" id="target" style="height:350px;">
+    <div>
+        @if (this.ShowButton)
+        {
+            <button class="e-btn" @onclick="@OnBtnClick">Open</button>
+        }
+    </div>
+    <SfDialog Width="335px" Target="#target" IsModal="true" @bind-Visible="Visibility">
+        <DialogTemplates>
+            <Header> Software Update </Header>
+            <Content>
+                <p>Your current software version is up to date.</p>
+            </Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton Content="OK" IsPrimary="true" OnClick="@DlgButtonClick" />
+        </DialogButtons>
+        <DialogEvents OnOpen="@DialogOpen" Closed="@DialogClose" OnOverlayModalClick="@OverlayClick"></DialogEvents>
+        <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+    </SfDialog>
+</div>
+<div class="col-lg-4 property-section">
+    <table id="property" title="Properties">
+        <tbody>
+            <tr><td style="padding: 22px;font-weight: 600;font-size: 15px;"><b>Properties</b></td></tr>
+            <tr>
+                <td style="width:60%; padding: 27px;">
+                    <div style="font-size:13px;">Close on overlay click</div>
+                </td>
+                <td>
+                    <SfCheckBox @ref="CheckboxObj" Checked="false"></SfCheckBox>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<style>
+    #target {
+        max-height: 800px;
+        height: 100%;
+    }
+</style>
+
+@code {
+    SfCheckBox<bool> CheckboxObj;
+    private bool Visibility { get; set; } = true;
+    private bool ShowButton { get; set; } = false;
+
+    private void DialogOpen(Object args)
+    {
+        this.ShowButton = false;
+    }
+
+    private void DialogClose(Object args)
+    {
+        this.ShowButton = true;
+    }
+
+    private void OnBtnClick()
+    {
+        this.Visibility = true;
+    }
+
+    private void DlgButtonClick()
+    {
+        this.Visibility = false;
+    }
+
+    private void OverlayClick(OverlayModalClickEventArgs args)
+    {
+        if ((bool)this.CheckboxObj.Checked)
+        {
+            this.Visibility = false;
+        }
+        else
+        {
+            this.Visibility = true;
+        }
+    }
+}

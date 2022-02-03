@@ -1,0 +1,116 @@
+﻿@page "/file-manager/file-upload"
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.FileManager;
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Popups;
+
+@inject IJSRuntime JsRuntime;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+	<p>This sample demonstrates the real-time use case of File Manager in a web application. Dialog and Uploader components are integrated with the File Manager. Click the browse button in the Uploader element to open the File Manager inside the Dialog component. </p>
+</SampleDescription>
+<ActionDescription>
+	<p>The <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-file-manager'>Blazor File Manager component </a> is used to explore a file system through a web application, similar to the windows explorer for windows. It supports all the basic file operations such as create, rename, delete, refresh and so on.</p>
+	<p><b>Note: </b>File Manager's upload functionality is restricted in the online demo. If you need to test upload functionality, please install <a target='_blank' href='https://www.syncfusion.com/downloads'>Syncfusion Essential Studio </a>on your machine and run the demo.</p>
+</ActionDescription>
+
+<div class="control-section">
+	<div id='container' class="fileupload @(!IsVisible ? "hidden"  : string.Empty)">
+		<SfUploader @ref="Uploader" ID="UploadFiles"></SfUploader>
+		<SfButton id="openBtn" CssClass="dlgbtn" Content="File Browser" OnClick="BrowseClick"></SfButton>
+	</div>
+	<div id='target'>
+		<SfDialog ID="dialog" @ref="Dialog" Header="Select a File" ShowCloseIcon="true" CloseOnEscape="false" Target="#target" Visible="false" Width="850px">
+			<DialogAnimationSettings Effect="DialogEffect.None"></DialogAnimationSettings>
+			<DialogTemplates>
+				<Content>
+					<SfFileManager @ref="FileManager" TValue="FileManagerDirectoryContent" Path="@Path" AllowMultiSelection="false">
+						<FileManagerAjaxSettings Url="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Fileoperations"
+												 UploadUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload"
+												 DownloadUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download"
+												 GetImageUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage">
+						</FileManagerAjaxSettings>
+						<FileManagerToolbarSettings Items="@ToolbarItems"></FileManagerToolbarSettings>
+						<FileManagerContextMenuSettings File="@MenuItems" Folder="@MenuItems"></FileManagerContextMenuSettings>
+						<FileManagerEvents TValue="FileManagerDirectoryContent" OnFileOpen="OnOpen"></FileManagerEvents>
+					</SfFileManager>
+				</Content>
+			</DialogTemplates>
+			<DialogEvents Opened="DialogOpen" Closed="DialogClose"></DialogEvents>
+		</SfDialog>
+	</div>
+</div>
+
+@code {
+	SfUploader Uploader { get; set; }
+	SfFileManager<FileManagerDirectoryContent> FileManager { get; set; }
+	SfDialog Dialog { get; set; }
+	string Path { get; set; } = "/";
+	bool IsVisible { get; set; } = true;
+	string[] ToolbarItems = new string[] { "NewFolder", "Upload", "Delete", "Cut", "Copy", "Rename", "SortBy", "Refresh", "Selection", "View", "Details" };
+	string[] MenuItems = new string[] { "Open", "|", "Cut", "Copy", "Delete", "Rename", "|", "Details" };
+
+	private void DialogOpen()
+	{
+		IsVisible = false;
+	}
+
+	private void DialogClose()
+	{
+		IsVisible = true;
+	}
+
+	private async Task BrowseClick()
+	{
+		await Dialog.ShowAsync();
+		DialogOpen();
+		await FileManager?.ClearSelectionAsync();
+		Path = "/";
+		await FileManager?.RefreshLayoutAsync();
+	}
+
+	private async Task OnOpen(FileOpenEventArgs<FileManagerDirectoryContent> args)
+	{
+		FileManagerDirectoryContent file = args.FileDetails;
+		if (file.IsFile)
+		{
+			args.Cancel = true;
+			if (file.Size <= 0) { file.Size = 10000; }
+			FileInfo[] UploadFiles = new FileInfo[] { new FileInfo { Name = file.Name, Size = file.Size, Type = file.Type } };
+			await Uploader.UploadAsync(UploadFiles);
+			await Dialog.HideAsync();
+		}
+	}
+}
+
+<style>
+	.fileupload {
+		max-width: 500px;
+		margin: auto;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	#openBtn {
+		position: absolute;
+		top: 34px;
+		left: 43%;
+	}
+
+	#target {
+		height: 550px;
+	}
+
+	#dialog {
+		top: 20px !important;
+		max-height: 500px !important;
+	}
+
+	.fileupload .e-file-drop, .fileupload .e-css.e-btn {
+		display: none;
+	}
+</style>

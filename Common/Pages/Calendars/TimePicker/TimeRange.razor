@@ -1,0 +1,95 @@
+﻿@page "/TimePicker/Time-Range"
+
+@using Syncfusion.Blazor.Calendars;
+@using Syncfusion.Blazor.Buttons;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>Select a start time from the first TimePicker and then the second TimePicker will be enabled. Select an end time from the second TimePicker to get a <code>time range</code>. Click/Touch the Business Hours checkbox to change both the TimePickers to <code>read-only</code> state.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Time Range sample illustrates the appointment time selection scenario with the start and end time option. Here, two TimePicker components are used to select the start and end time.</p>
+    <p>Before the start time selection, the end time TimePicker is in disable state. When the start time is selected, then you will be able to select the end time or else, need to select the entire business hours 9:00 to 18:00 from the <code>Business Hours</code> option. Once the options are checked, both the TimePicker components goes to readonly state.</p>
+    <p>More information about the time range restriction can be found in the <a target='_blank' href='https://blazor.syncfusion.com/documentation/timepicker/time-range/'> documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section col-lg-12">
+    <div id="wrapper">
+        <div class="wrap">
+            <SfTimePicker @ref="@StartTime" TValue="DateTime?" @bind-Value="@BusinessStart" Enabled="@StartEnable" Readonly="@StartRead" Placeholder="Select a start time" ShowClearButton="true">
+                <TimePickerEvents TValue="DateTime?" ValueChange="@EnableComponent"></TimePickerEvents>
+            </SfTimePicker>
+        </div>
+        <div class="wrap">
+            <SfTimePicker TValue="DateTime?" @bind-Value="@BusinessEnd" Step="@Steps" Placeholder="Select a end time" Min="@EndMin" Enabled="@EndEnable" Readonly="@EndRead" ShowClearButton="true">
+                <TimePickerEvents TValue="DateTime?"></TimePickerEvents>
+            </SfTimePicker>
+        </div>
+        <div class="wrap">
+             <span>
+                <SfCheckBox @bind-Checked="@IsChecked" @onchange="@BusinessHour"></SfCheckBox>
+            </span>
+            <span class="selectionText">Business Hours</span>
+        </div>
+    </div>
+</div>
+
+<style>
+    #wrapper {
+        max-width: 300px;
+        margin: 0px auto;
+        padding-top: 50px;
+    }
+
+    .wrap {
+        padding: 10px;
+    }
+
+    .selectionText {
+        font-size: 13px;
+    }
+
+</style>
+
+@code {
+    private Boolean IsChecked;
+    private SfTimePicker<DateTime?> StartTime;
+    private DateTime? BusinessStart { get; set; }
+    private DateTime? BusinessEnd { get; set; }
+    private Boolean StartEnable = true;
+    private Boolean EndEnable = false;
+    private DateTime EndMin { get; set; }
+    private Boolean StartRead = false;
+    private Boolean EndRead = false;
+    private int Steps = 30;
+
+    private void EnableComponent()
+    {
+        if (BusinessStart != null)
+        {
+            EndEnable = true;
+            EndMin = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, StartTime.Value.Value.Hour, StartTime.Value.Value.Minute, StartTime.Value.Value.Second).AddMinutes(Steps);
+        }
+
+    }
+    private void BusinessHour()
+    {
+        if (IsChecked)
+        {
+            BusinessStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 09, 00, 00);
+            EndEnable = true;
+            BusinessEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 00, 00);
+            StartRead = true;
+            EndRead = true;
+        }
+        else
+        {
+            BusinessStart = null;
+            BusinessEnd = null;
+            StartRead = false;
+            EndRead = false;
+            EndEnable = false;
+        }
+    }
+}
