@@ -1,0 +1,212 @@
+﻿@page "/treemap/selection-highlight"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.TreeMap
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample depicts the specific details of goods imported by the United States. The selection and highlight options have been enabled for demonstration purposes.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see the modes available for performing selection and highlight in the TreeMap component. You can also enable and disable selection and highlight. The property panel gives you access to all of these options.</p>
+    <p>More information about selection and highlight can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/selection-and-highlight'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfTreeMap WeightValuePath="Sales" DataSource="@LeafDatasource" TValue="ImportExportData" Theme="@Theme">
+        <TreeMapTitleSettings Text="Import and Export Details of US">
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
+        </TreeMapTitleSettings>
+        <TreeMapLevels>
+            <TreeMapLevel GroupPath="DataType" Fill="#c5e2f7" GroupGap="5" HeaderAlignment="Alignment.Center">
+                <TreeMapHeaderStyle Size="16px" FontFamily="Segoe UI" />
+            </TreeMapLevel>
+            <TreeMapLevel GroupPath="Product" Fill="#a4d1f2" GroupGap="2" HeaderAlignment="Alignment.Center">
+                <TreeMapHeaderStyle FontFamily="Segoe UI"></TreeMapHeaderStyle>
+            </TreeMapLevel>
+        </TreeMapLevels>
+        <TreeMapLeafItemSettings LabelPath="Type" Fill="#8ebfe2" LabelPosition="@Syncfusion.Blazor.TreeMap.LabelPosition.Center" Gap="10">
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" />
+        </TreeMapLeafItemSettings>
+        <TreeMapSelectionSettings Enable="@SelectionCheckBox" Fill="#58a0d3" Opacity="1" Mode="@SelectionModeValue">
+            <TreeMapSelectionBorder Width="0.3" Color="#000000" />
+        </TreeMapSelectionSettings>
+        <TreeMapHighlightSettings Enable="@HighlightCheckBoxValue" Fill="#71b0dd" Opacity="1" Mode="@HighlightModeValue">
+            <TreeMapHighlightBorder Width="0.3" Color="#000000" />
+        </TreeMapHighlightSettings>
+    </SfTreeMap>
+    <div class="urllink">
+        Source:
+        <a href="https://www.indexmundi.com/united_states/imports_commodities.html" target="_blank">www.indexmundi.com</a>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="property-text"><b>Highlight</b></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 70%" class="property-text">
+                            Enable
+                        </td>
+                        <td>
+                            <SfCheckBox Checked="@HighlightCheckBoxValue" ValueChange="HighlightValue" TChecked="bool" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="property-text">
+                            Mode
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@HighlightMode" @bind-Value="@Highlight" Width="80px">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="HighlightModeValueChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="property-text"><b>Selection</b></div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td class="property-text">
+                            Enable
+                        </td>
+                        <td>
+                            <SfCheckBox Checked="@SelectionCheckBox" ValueChange="SelectionValueChange" TChecked="bool" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="property-text">
+                            Mode
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@HighlightMode" @bind-Value="@SelectionValue" Width="80px">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="SelectionModeValueChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    tr {
+        height: 40px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+@code{
+    public Theme Theme { get; set; }
+    public bool HighlightCheckBoxValue = true;
+    public HighLightMode HighlightModeValue = HighLightMode.Item;
+    public string Highlight = "Item";
+    public bool SelectionCheckBox = true;
+    public Syncfusion.Blazor.TreeMap.SelectionMode SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Item;
+    public string SelectionValue = "Item";
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    public void HighlightValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        HighlightCheckBoxValue = args.Checked;
+    }
+    public void SelectionValueChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        SelectionCheckBox = args.Checked;
+    }
+    public class DropdownList
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<DropdownList> HighlightMode = new List<DropdownList> {
+        new DropdownList { Value="Item", Name="Item" },
+        new DropdownList { Value="Child", Name="Child" },
+        new DropdownList { Value="Parent", Name="Parent" },
+        new DropdownList { Value="All", Name="All" }
+    };
+    public void HighlightModeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
+        Highlight = args.Value;
+        if (args.Value == "Item")
+        {
+            HighlightModeValue = HighLightMode.Item;
+        }
+        else if (args.Value == "Child")
+        {
+            HighlightModeValue = HighLightMode.Child;
+        }
+        else if (args.Value == "Parent")
+        {
+            HighlightModeValue = HighLightMode.Parent;
+        }
+        else
+        {
+            HighlightModeValue = HighLightMode.All;
+        }
+    }
+    public void SelectionModeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
+        SelectionValue = args.Value;
+        if (args.Value == "Item")
+        {
+            SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Item;
+        }
+        else if (args.Value == "Child")
+        {
+            SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Child;
+        }
+        else if (args.Value == "Parent")
+        {
+            SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.Parent;
+        }
+        else
+        {
+            SelectionModeValue = Syncfusion.Blazor.TreeMap.SelectionMode.All;
+        }
+    }
+    public class ImportExportData
+    {
+        public string DataType { get; set; }
+        public string Product { get; set; }
+        public long Sales { get; set; }
+        public string Type { get; set; }
+    }
+    public List<ImportExportData> LeafDatasource = new List<ImportExportData> {
+        new ImportExportData{ DataType="Import", Type="Animal products", Product="2010", Sales=20839332874 },
+        new ImportExportData{ DataType="Import", Type="Animal products", Product="2011", Sales=23098635589 },
+        new ImportExportData{ DataType="Import", Type="Chemical products", Product="2010", Sales=141637951510 },
+        new ImportExportData{ DataType="Import", Type="Chemical products", Product="2011", Sales=161550338209  },
+        new ImportExportData{ DataType="Import", Type="Base metals", Product="2010", Sales=86079439944 },
+        new ImportExportData{ DataType="Import", Type="Base metals", Product="2011", Sales=103821671535 },
+        new ImportExportData{ DataType="Import", Type="Textile articles", Product="2010", Sales=97126140830 },
+        new ImportExportData{ DataType="Import", Type="Textile articles", Product="2011", Sales=104980750811 },
+        new ImportExportData{ DataType="Export", Type="Animal products", Product="2010", Sales=15845503378 },
+        new ImportExportData{ DataType="Export", Type="Animal products", Product="2011", Sales=20650111620 },
+        new ImportExportData{ DataType="Export", Type="Chemical products", Product="2010", Sales=136100054087 },
+        new ImportExportData{ DataType="Export", Type="Chemical products", Product="2011", Sales=146341672411 },
+        new ImportExportData{ DataType="Export", Type="Base metals", Product="2010", Sales=59060592813 },
+        new ImportExportData{ DataType="Export", Type="Base metals", Product="2011", Sales=71785882641 },
+        new ImportExportData{ DataType="Export", Type="Textile articles", Product="2010", Sales=20982380561 },
+        new ImportExportData{ DataType="Export", Type="Textile articles", Product="2011", Sales=26016143783 },
+    };
+}

@@ -1,0 +1,84 @@
+﻿@page "/chart/inversed-spline"
+
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using ThemeHelper
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows the 2012 climate report in London and France with the spline series by inversing X and Y Axis. Data points are enhanced by a marker and tooltip.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the spline type charts. Spline chart connects each point in series through a curved line. <code>Marker</code> is used to represent individual data and its value.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Climate Graph - 2012" IsTransposed="true" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate90">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}°C">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="London" XName="Month" Width="2"
+                         Opacity="1" YName="LDN_Temperature" Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Width="10" Height="10">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="France" XName="Month" Width="2"
+                         Opacity="1" YName="FR_Temperature" Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Width="10" Height="10">
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "60%";
+    public List<InversedLineChartData> ChartPoints { get; set; } = new List<InversedLineChartData>
+    {
+        new InversedLineChartData { Month = "Jan", LDN_Temperature = -1, FR_Temperature = 7 },
+        new InversedLineChartData { Month = "Feb", LDN_Temperature = 12, FR_Temperature = 2 },
+        new InversedLineChartData { Month = "Mar", LDN_Temperature = 25, FR_Temperature = 13 },
+        new InversedLineChartData { Month = "Apr", LDN_Temperature = 31, FR_Temperature = 21 },
+        new InversedLineChartData { Month = "May", LDN_Temperature = 26, FR_Temperature = 26 },
+        new InversedLineChartData { Month = "Jun", LDN_Temperature = 14, FR_Temperature = 10 },
+        new InversedLineChartData { Month = "Jul", LDN_Temperature = 8, FR_Temperature = 0 }
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if(firstRender) {
+            if (SampleService.IsDevice)
+            {
+                 Width = "100%";
+                 StateHasChanged();
+            }
+        }
+    }
+
+    public class InversedLineChartData
+    {
+        public string Month { get; set; }
+        public double LDN_Temperature { get; set; }
+        public double FR_Temperature { get; set; }
+    }
+	
+}

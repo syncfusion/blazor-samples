@@ -1,0 +1,211 @@
+﻿@page "/chart/area-zone"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes the data on organic revenue from the US using a multi-colored area series in the chart. Data points are enhanced with segments and tooltips.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure points in a particular range by using <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/area#multicolored-area'>MultiColoredArea</a> series type. Points within the range can be configured with <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartSegment.html#Syncfusion_Blazor_Charts_ChartSegment_Color'>Color</a> property in <code>ChartSegment</code>.</p>
+    <p><a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/tool-tip'>Tooltip</a> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the multi-colored area series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/area#multicolored-area'>documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #winter stop {
+        stop-color: #4ca1af;
+    }
+
+    #winter stop[offset="0"] {
+        stop-color: #c4e0e5;
+    }
+
+    #winter stop[offset="1"] {
+        stop-color: #4ca1af;
+    }
+
+    #summer stop {
+        stop-color: #ffa751;
+    }
+
+    #summer stop[offset="0"] {
+        stop-color: #ffe259;
+    }
+
+    #summer stop[offset="1"] {
+        stop-color: #ffa751;
+    }
+
+    #spring stop {
+        stop-color: #1d976c;
+    }
+
+    #spring stop[offset="0"] {
+        stop-color: #93f9b9;
+    }
+
+    #spring stop[offset="1"] {
+        stop-color: #1d976c;
+    }
+    .winter {
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(#4ca1af, #c4e0e5);
+        border-radius: 15px;
+    }
+    .summer {
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(#ffa751, #ffe259);
+        border-radius: 15px;
+    }
+    .spring {
+        width: 10px;
+        height: 10px;
+        background: linear-gradient(#1d976c, #93f9b9);
+        border-radius: 15px;
+    }
+    .chartPadding {
+        padding-left: 5px;
+    }
+</style>
+
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="winter" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="summer" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="spring" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Organic Revenue in US - 2016" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="MMM" IntervalType="IntervalType.Months" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="${value}K" RangePadding="ChartRangePadding.None" Minimum="0" Maximum="200" Interval="50">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartAnnotations>
+            <ChartAnnotation Region="Regions.Series" X="@xPos" Y="2%">
+                <ContentTemplate>
+                    <div style="width:80px; padding: 5px;">
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <div class="winter"></div>
+                                </td>
+                                <td class="chartPadding">
+                                    Winter
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="summer"></div>
+                                </td>
+                                <td class="chartPadding">
+                                    Summer
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="spring"></div>
+                                </td>
+                                <td class="chartPadding">
+                                    Spring
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </ContentTemplate>
+            </ChartAnnotation>
+        </ChartAnnotations>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" SegmentAxis="Segment.X" Name="US" XName="Month" YName="US_OrganicRevenue" Type="ChartSeriesType.MultiColoredArea">
+                <ChartSegments>
+                    <ChartSegment Value="new DateTime(2016, 4, 1)" Color="url(#winter)"></ChartSegment>
+                    <ChartSegment Value="new DateTime(2016, 8, 1)" Color="url(#summer)"></ChartSegment>
+                    <ChartSegment Color="url(#spring)"></ChartSegment>
+                </ChartSegments>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+
+    private Random randomNum = new Random();
+    public string Width { get; set; } = "60%";
+    private double[] revenueAmount = { 150, 71.5, 106.4, 100.25, 70.0, 106.0, 85.6, 78.5, 76.4, 86.1, 155.6, 160.4 };
+    private string xPos = "90%";
+    private Theme Theme { get; set; }
+    public List<AreaChartData> ChartPoints { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ChartPoints = this.GetData();
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if(firstRender) {
+            if (SampleService.IsDevice)
+            {
+                 Width = "100%";
+                 StateHasChanged();
+            }
+        }
+    }
+
+    private List<AreaChartData> GetData()
+    {
+        List<AreaChartData> chartData = new List<AreaChartData>();
+        for (int i = 0; i < revenueAmount.Length; i++)
+        {
+            chartData.Add(new AreaChartData
+            {
+                Month = new DateTime(2016, 1, 1).AddMonths(i),
+                US_OrganicRevenue = revenueAmount[i]
+            });
+        }
+        return chartData;
+    }
+
+    public class AreaChartData
+    {
+        public DateTime Month { get; set; }
+        public double US_OrganicRevenue { get; set; }
+    }
+
+}
+

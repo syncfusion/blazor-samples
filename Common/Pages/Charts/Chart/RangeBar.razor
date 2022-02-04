@@ -1,0 +1,78 @@
+﻿@page "/chart/range-bar"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows the maximum and minimum temperatures for a number of months in different countries with the default range column series inverted. The tooltip shows the information for the data point.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the range column type chart in an inverted manner. You can use <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfChart.html#Syncfusion_Blazor_Charts_SfChart_IsTransposed'>IsTransposed</a> property to invert your chart.</p>
+    <p><code>Tooltip</code> is enabled in this example, to see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Temperature Variation" IsTransposed="true" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}˚F">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Month" High="CA_HighTemp" Low="CA_LowTemp" Name="California" ColumnSpacing="0.1" Type="ChartSeriesType.RangeColumn">
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Month" High="CO_HighTemp" Low="CO_LowTemp" Name="Colorado" ColumnSpacing="0.1" Type="ChartSeriesType.RangeColumn">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "60%";
+    public List<RangeBarChartData> ChartPoints = new List<RangeBarChartData>
+    {
+        new RangeBarChartData { Month = "Jul", CA_LowTemp = 28, CA_HighTemp = 72, CO_LowTemp = 38, CO_HighTemp = 78 },
+        new RangeBarChartData { Month = "Aug", CA_LowTemp = 18, CA_HighTemp = 65, CO_LowTemp = 27, CO_HighTemp = 78 },
+        new RangeBarChartData { Month = "Sep", CA_LowTemp = 56, CA_HighTemp = 87, CO_LowTemp = 28, CO_HighTemp = 79 },
+        new RangeBarChartData { Month = "Oct", CA_LowTemp = 40, CA_HighTemp = 78, CO_LowTemp = 37, CO_HighTemp = 66 },
+        new RangeBarChartData { Month = "Nov", CA_LowTemp = 43, CA_HighTemp = 64, CO_LowTemp = 25, CO_HighTemp = 52 },
+        new RangeBarChartData { Month = "Dec", CA_LowTemp = 28, CA_HighTemp = 54, CO_LowTemp = 20, CO_HighTemp = 60 }
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if(firstRender) {
+            if (SampleService.IsDevice)
+            {
+                 Width = "100%";
+                 StateHasChanged();
+            }
+        }
+    }
+
+    public class RangeBarChartData
+    {
+        public string Month { get; set; }
+        public double CA_LowTemp { get; set; }
+        public double CA_HighTemp { get; set; }
+        public double CO_LowTemp { get; set; }
+        public double CO_HighTemp { get; set; }
+    }
+
+}

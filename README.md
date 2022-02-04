@@ -23,8 +23,11 @@ The samples requires the below requirements to run.
 ## Using the demos
 
 * Clone this repository.
-* Open the command prompt from samples root directory.
-* Run the demo using `dotnet run` command.
+* Open the command prompt from Blazor Server Demos directory.
+* Run the demo using below command.
+   >`dotnet run --project BlazorServerDemos_NET5.csproj` for .NET 5.0 Project.
+   >
+   >`dotnet run --project BlazorServerDemos_NET6.csproj` for .NET 6.0 Project.
 
 ## Documentation
 
@@ -53,13 +56,13 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Grid">DataGrid</a>
+            <a href="Common/Pages/Grid">DataGrid</a>
         </td>
         <td>
-            <a href="Pages/PivotView">Pivot Table</a>
+            <a href="Common/Pages/PivotView">Pivot Table</a>
         </td>
         <td>
-            <a href="Pages/TreeGrid">Tree Grid</a>
+            <a href="Common/Pages/TreeGrid">Tree Grid</a>
         </td>
     </tr>
     <tr>
@@ -69,54 +72,54 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Charts">Charts</a>
+            <a href="Common/Pages/Charts">Charts</a>
         </td>
         <td>
-            <a href="Pages/CircularGauge">Circular Gauge</a>
+            <a href="Common/Pages/CircularGauge">Circular Gauge</a>
         </td>
         <td>
-            <a href="Pages/LinearGauge">Linear Gauge</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="Pages/Diagram">Diagram</a>
-        </td>
-        <td>
-            <a href="Pages/HeatMapChart">Heatmap chart</a>
-        </td>
-        <td>
-            <a href="Pages/Maps">Maps</a>
+            <a href="Common/Pages/LinearGauge">Linear Gauge</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Charts/RangeNavigator">Range Selector</a>
+            <a href="Common/Pages/Diagram">Diagram</a>
         </td>
         <td>
-            <a href="Pages/Charts/SmithChart">Smith Chart</a>
+            <a href="Common/Pages/HeatMapChart">Heatmap chart</a>
         </td>
         <td>
-            <a href="Pages/Charts/Sparkline">Sparkline Charts</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="Pages/TreeMap">TreeMap</a>
-        </td>
-        <td>
-            <a href="Pages/Barcodes">Barcodes</a>
-        </td>
-        <td>
-            <a href="Pages/Charts/StockChart">StockChart</a>
+            <a href="Common/Pages/Maps">Maps</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Charts/BulletChart">Bullet Chart</a>
+            <a href="Common/Pages/Charts/RangeNavigator">Range Selector</a>
         </td>
         <td>
-            <a href="Pages/Kanban">Kanban</a>
+            <a href="Common/Pages/Charts/SmithChart">Smith Chart</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Charts/Sparkline">Sparkline Charts</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Common/Pages/TreeMap">TreeMap</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Barcodes">Barcodes</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Charts/StockChart">StockChart</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Common/Pages/Charts/BulletChart">Bullet Chart</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Kanban">Kanban</a>
         </td>
         <td></td>
     </tr>
@@ -127,13 +130,13 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/RichTextEditor">Rich Text Editor</a>
+            <a href="Common/Pages/RichTextEditor">Rich Text Editor</a>
         </td>
         <td>
-            <a href="Pages/DocumentEditor">Word Processor</a>
+            <a href="Common/Pages/DocumentEditor">Word Processor</a>
         </td>
         <td>
-            <a href="Pages/Editors/InPlaceEditor">In-place Editor</a>
+            <a href="Common/Pages/Editors/InPlaceEditor">In-place Editor</a>
         </td>
     </tr>
     <tr>
@@ -143,29 +146,29 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Schedule">Scheduler</a>
+            <a href="Common/Pages/Schedule">Scheduler</a>
         </td>
         <td>
-            <a href="Pages/Calendars/Calendar">Calendar</a>
+            <a href="Common/Pages/Calendars/Calendar">Calendar</a>
         </td>
         <td>
-            <a href="Pages/Calendars/DatePicker">DatePicker</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="Pages/Calendars/DateRangePicker">Date Range Picker</a>
-        </td>
-        <td>
-            <a href="Pages/Calendars/DateTimePicker">DateTime Picker</a>
-        </td>
-        <td>
-            <a href="Pages/Calendars/TimePicker">Time Picker</a>
+            <a href="Common/Pages/Calendars/DatePicker">DatePicker</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/GanttChart">Gantt Chart</a>
+            <a href="Common/Pages/Calendars/DateRangePicker">Date Range Picker</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Calendars/DateTimePicker">DateTime Picker</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Calendars/TimePicker">Time Picker</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Common/Pages/GanttChart">Gantt Chart</a>
         </td>
         <td>
         </td>
@@ -179,21 +182,21 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Buttons/Button">Button</a>
+            <a href="Common/Pages/Buttons/Button">Button</a>
         </td>
         <td>
-            <a href="Pages/Buttons/Button/DropDownButton.razor">Dropdown Menu</a>
+            <a href="Common/Pages/Buttons/Button/DropDownButton.razor">Dropdown Menu</a>
         </td>
         <td>
-            <a href="Pages/Buttons/Button/ProgressButton.razor">Progress Button</a>
+            <a href="Common/Pages/Buttons/Button/ProgressButton.razor">Progress Button</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Buttons/Button/SplitButton.razor">Split Button</a>
+            <a href="Common/Pages/Buttons/Button/SplitButton.razor">Split Button</a>
         </td>
         <td>
-            <a href="Pages/Buttons/Chips">Chips</a>
+            <a href="Common/Pages/Buttons/Chips">Chips</a>
         </td>
         <td></td>
     </tr>
@@ -204,21 +207,21 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/DropDowns/AutoComplete">AutoComplete</a>
+            <a href="Common/Pages/DropDowns/AutoComplete">AutoComplete</a>
         </td>
         <td>
-            <a href="Pages/DropDowns/ComboBox">ComboBox</a>
+            <a href="Common/Pages/DropDowns/ComboBox">ComboBox</a>
         </td>
         <td>
-            <a href="Pages/DropDowns/DropDownList">Dropdown List</a>
+            <a href="Common/Pages/DropDowns/DropDownList">Dropdown List</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/DropDowns/MultiSelect">MultiSelect Dropdown</a>
+            <a href="Common/Pages/DropDowns/MultiSelect">MultiSelect Dropdown</a>
         </td>
         <td>
-            <a href="Pages/DropDowns/ListBox">ListBox</a>
+            <a href="Common/Pages/DropDowns/ListBox">ListBox</a>
         </td>
         <td></td>
     </tr>
@@ -229,32 +232,32 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Navigations/Accordion">Accordion</a>
+            <a href="Common/Pages/Navigations/Accordion">Accordion</a>
         </td>
         <td>
-            <a href="Pages/Navigations/ContextMenu">Context Menu</a>
+            <a href="Common/Pages/Navigations/ContextMenu">Context Menu</a>
         </td>
         <td>
-            <a href="Pages/Navigations/MenuBar">Menu Bar</a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="Pages/Navigations/Sidebar">Sidebar</a>
-        </td>
-        <td>
-            <a href="Pages/Navigations/Tabs">Tabs</a>
-        </td>
-        <td>
-            <a href="Pages/Navigations/Toolbar">Toolbar</a>
+            <a href="Common/Pages/Navigations/MenuBar">Menu Bar</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Navigations/TreeView">TreeView</a>
+            <a href="Common/Pages/Navigations/Sidebar">Sidebar</a>
         </td>
         <td>
-             <a href="Pages/Navigations/FileManager">File Manager</a>
+            <a href="Common/Pages/Navigations/Tabs">Tabs</a>
+        </td>
+        <td>
+            <a href="Common/Pages/Navigations/Toolbar">Toolbar</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="Common/Pages/Navigations/TreeView">TreeView</a>
+        </td>
+        <td>
+             <a href="Common/Pages/Navigations/FileManager">File Manager</a>
         </td>
         <td></td>
     </tr>
@@ -265,35 +268,35 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Inputs/TextBox">TextBox</a>
+            <a href="Common/Pages/Inputs/TextBox">TextBox</a>
         </td>
         <td>
-            <a href="Pages/Inputs/MaskedTextBox">Input Mask</a>
+            <a href="Common/Pages/Inputs/MaskedTextBox">Input Mask</a>
         </td>
          <td>
-            <a href="Pages/Inputs/NumericTextBox">Numeric Textbox</a>
+            <a href="Common/Pages/Inputs/NumericTextBox">Numeric Textbox</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Buttons/Button/RadioButton.razor">Radio Button</a>
+            <a href="Common/Pages/Buttons/Button/RadioButton.razor">Radio Button</a>
         </td>
         <td>
-            <a href="Pages/Buttons/Button/CheckBox.razor">Checkbox</a>
+            <a href="Common/Pages/Buttons/Button/CheckBox.razor">Checkbox</a>
         </td>
         <td>
-            <a href="Pages/Inputs/ColorPicker">Color Picker</a>
+            <a href="Common/Pages/Inputs/ColorPicker">Color Picker</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Inputs/Uploader">File Upload</a>
+            <a href="Common/Pages/Inputs/Uploader">File Upload</a>
         </td>
         <td>
-            <a href="Pages/Inputs/RangeSlider">Range Slider</a>
+            <a href="Common/Pages/Inputs/RangeSlider">Range Slider</a>
         </td>
         <td>
-            <a href="Pages/Buttons/Button/Switch.razor">Toggle Switch Button</a>
+            <a href="Common/Pages/Buttons/Button/Switch.razor">Toggle Switch Button</a>
         </td>
     </tr>
     <tr>
@@ -303,24 +306,24 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Popups/Dialog">Dialog</a>
+            <a href="Common/Pages/Popups/Dialog">Dialog</a>
         </td>
         <td>
-            <a href="Pages/Layouts/Listview">ListView</a>
+            <a href="Common/Pages/Layouts/Listview">ListView</a>
         </td>
         <td>
-            <a href="Pages/Popups/Tooltip">Tooltip</a>
+            <a href="Common/Pages/Popups/Tooltip">Tooltip</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/Layouts/Splitter">Splitter</a>
+            <a href="Common/Pages/Layouts/Splitter">Splitter</a>
         </td>
         <td>
-            <a href="Pages/Layouts/DashboardLayout">Dashboard Layout</a>
+            <a href="Common/Pages/Layouts/DashboardLayout">Dashboard Layout</a>
         </td>
         <td>
-            <a href="Pages/Cards/Card">Card</a>
+            <a href="Common/Pages/Cards/Card">Card</a>
         </td>
     </tr>
     <tr>
@@ -330,13 +333,13 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/ProgressBar/ProgressBar">ProgressBar</a>
+            <a href="Common/Pages/ProgressBar/ProgressBar">ProgressBar</a>
         </td>
         <td>
-            <a href="Pages/Notifications/Toast">Toast</a>
+            <a href="Common/Pages/Notifications/Toast">Toast</a>
         </td>
         <td>
-            <a href="Pages/Notifications/Spinner">Spinner</a>
+            <a href="Common/Pages/Notifications/Spinner">Spinner</a>
         </td>
     </tr>
      <tr>
@@ -346,18 +349,18 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/FileFormats/DocIO">DocIO</a>
+            <a href="Common/Pages/FileFormats/DocIO">DocIO</a>
         </td>
         <td>
-            <a href="Pages/FileFormats/PDF">PDF</a>
+            <a href="Common/Pages/FileFormats/PDF">PDF</a>
         </td>
         <td>
-            <a href="Pages/FileFormats/Presentation">Presentation</a>
+            <a href="Common/Pages/FileFormats/Presentation">Presentation</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="Pages/FileFormats/XlsIO">XlsIO</a>
+            <a href="Common/Pages/FileFormats/XlsIO">XlsIO</a>
         </td>
         <td></td>
         <td></td>
@@ -369,7 +372,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Forms/QueryBuilder">Query Builder</a>
+            <a href="Common/Pages/Forms/QueryBuilder">Query Builder</a>
         </td>
         <td></td>
         <td></td>
@@ -381,7 +384,7 @@ The Syncfusion license that contains the terms and conditions can be found at
     </tr>
     <tr>
         <td>
-            <a href="Pages/Viewer/PdfViewer">PDF Viewer</a>
+            <a href="Common/Pages/Viewer/PdfViewer">PDF Viewer</a>
         </td>
         <td></td>
         <td></td>
