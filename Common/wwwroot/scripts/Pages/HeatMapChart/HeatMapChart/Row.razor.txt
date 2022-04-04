@@ -1,0 +1,57 @@
+﻿@page "/heatmap-chart/row"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using sf_blazor_heatmapdata
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>This sample visualizes the GDP growth rate for the countries which are the world’s major economies over the years.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this example, you can see how to bind an array object as a <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.SfHeatMap-1.html#Syncfusion_Blazor_HeatMap_SfHeatMap_1_DataSource'> DataSource </a> for Heatmap and configure the Heatmap using the data adaptor support. You can directly bind the array object to the Heatmap <code>DataSource</code> with default property settings.</p>
+   <p>The Tooltip is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch-enabled devices.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row">
+        <div class="col-md-12">
+            <SfHeatMap DataSource="@DataSource" Theme="@theme">
+                <HeatMapEvents TooltipRendering="@OnRendering"></HeatMapEvents>
+                <HeatMapTitleSettings Text="GDP Growth Rate for Major Economies (in Percentage)">
+                    <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal"></HeatMapTitleTextStyle>
+                </HeatMapTitleSettings>
+                <HeatMapXAxis Labels="@XLabels" LabelRotation="45" LabelIntersectAction="LabelIntersectAction.None"></HeatMapXAxis>
+                <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+                <HeatMapPaletteSettings>
+                    <HeatMapPalettes>
+                        <HeatMapPalette Value=-1 Color="#F0D6AD"></HeatMapPalette>
+                        <HeatMapPalette Value=0 Color="#9da49a"></HeatMapPalette>
+                        <HeatMapPalette Value=3.5 Color="#d7c7a7"></HeatMapPalette>
+                        <HeatMapPalette Value=6.0 Color="#6e888f"></HeatMapPalette>
+                        <HeatMapPalette Value=7.5 Color="#466f86"></HeatMapPalette>
+                        <HeatMapPalette Value=10 Color="#19547B"></HeatMapPalette>
+                    </HeatMapPalettes>
+                </HeatMapPaletteSettings>
+                <HeatMapLegendSettings Visible="false"></HeatMapLegendSettings>
+            </SfHeatMap>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    private Theme theme { get; set; }
+    string[] XLabels = new string[] { "China", "India", "Australia", "Mexico", "Canada", "Brazil", "USA", "UK", "Germany", "Russia", "France", "Japan"};
+    string[] YLabels = new string[] { "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017" };
+    double[,] DataSource = HeatMapData.RowData();
+    public void OnRendering(TooltipEventArgs args)
+    {
+        args.Content = new string[] {args.YLabel + " | " + args.XLabel + " : " + args.Value + " % "};
+    }
+    protected override void OnInitialized()
+    {
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+    }
+}

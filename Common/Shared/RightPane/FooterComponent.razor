@@ -1,0 +1,65 @@
+﻿@using System.Globalization;
+
+@namespace BlazorDemos.Shared
+
+@inject SampleService SampleService;
+
+<div class="sb-footer">
+    <div class="sb-footer-left">
+        <div class="sb-footer-links">
+            <a href=@DocumentLink target="_blank" rel="noopener">
+                <div class="sb-footer-link">Documentation</div>
+            </a>
+            <a href="https://www.syncfusion.com/forums/blazor-components/" target="_blank" rel="noopener">
+                <div class="sb-footer-link">Forum</div>
+            </a>
+            <a href="https://www.syncfusion.com/blogs/" target="_blank" rel="noopener">
+                <div class="sb-footer-link">Blog</div>
+            </a>
+            <a href="https://www.syncfusion.com/kb" target="_blank" rel="noopener">
+                <div class="sb-footer-link">Knowledge Base</div>
+            </a>
+        </div>
+        <div class="sb-footer-copyright">@copyRight</div>
+    </div>
+    <div class="sb-footer-logo">
+        <a href="https://www.syncfusion.com/" target="_blank" rel="noopener">
+            <div class="sb-icons sb-footer-logo-icon"></div>
+        </a>
+    </div>
+</div>
+
+@code {
+    private string copyRight { get; set; }
+
+    private string DocumentLink { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Set copyright information.
+        GregorianCalendar calendar = new GregorianCalendar();
+        var year = DateTime.Now;
+        var currentyear = calendar.GetYear(year);
+        this.copyRight = "Copyright © 2001 - " + currentyear + " Syncfusion Inc.";
+    }
+
+    public void UpdateFooter(string currentUrl)
+    {
+        currentUrl = currentUrl.Split("&")[0].TrimEnd('/').Replace("//", "/");
+        var splittedUrl = currentUrl.Split("/");
+        var ComponentName = currentUrl.IndexOf("/?theme=") != -1 ? splittedUrl[splittedUrl.Length - 3] : splittedUrl[splittedUrl.Length - 2];
+        var ComponentInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(ComponentName.Replace("-", string.Empty)));
+        if (ComponentInfo.Category.Equals("File Formats"))
+        {
+            DocumentLink = "https://help.syncfusion.com/" + ComponentInfo.Category.ToLower().Replace(" ", "-") + "/" + ComponentName + "/overview";
+        }
+        else
+        {
+            var DocLink = string.IsNullOrEmpty(ComponentInfo.CustomDocLink) ? ComponentName + "/getting-started" : ComponentInfo.CustomDocLink;
+            DocumentLink = "https://blazor.syncfusion.com/documentation/" + DocLink;
+        }
+        StateHasChanged();
+    }
+} 

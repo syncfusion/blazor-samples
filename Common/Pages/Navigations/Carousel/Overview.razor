@@ -1,0 +1,409 @@
+﻿@page "/carousel/overview"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@inherits SampleBaseComponent
+
+<SampleDescription>
+    This sample demonstrates the overview of the <strong>Blazor Carousel</strong> component and customizing it with external navigators.
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The <code>Blazor Carousel</code> component is commonly used as a slideshow of images and contents. In
+        this demo, the external navigators and indicators are rendered outside the carousel by hiding the default
+        navigators and indicators using <code>showArrows</code> and <code>showIndicators</code> properties.
+        The slide items are rendered by iterating the <code>CarouselItem</code>.
+    </p>
+    <p>
+        The external navigation of slide items is handled using the <code>SelectedIndex</code> property.
+    </p>
+    <p>
+        More information about Blazor Carousel component can be found in this <a target='_blank' href="https://blazor.syncfusion.com/documentation/carousel/getting-started"> documentation section.</a>
+    </p>
+</ActionDescription>
+<div class="control-section overview-carousel-section">
+    <div class="col-lg-12 content-wrapper">
+        <div class="carousel-sample">
+            <div style="height:calc(100% - 4rem);">
+                <div class="carousel-content">
+                    <div class="carousel-navigations">
+                        <SfButton CssClass="e-flat e-round" IconCss="e-icons e-arrow-left" title="Previous" @onclick="@(()=>OnNavigationClick(CarouselSlideDirection.Previous))"></SfButton>
+                    </div>
+                    <SfCarousel @ref="CarouselRef" CssClass="overview-carousel" Width="calc(100% - 10rem)" @bind-SelectedIndex="@CurrentIndex" ButtonsVisibility="CarouselButtonVisibility.Hidden" ShowIndicators="false">
+                        @foreach (PhoneData phone in phoneDetails)
+                        {
+                            <CarouselItem>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-header">
+                                            <div class="card-title">@phone.Title</div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="card-left-content">
+                                                <div class="img-container">
+                                                    <img src="@(UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/" + phone.ImageName))" alt="@phone.Title" style="height:100%;width:100%;" />
+                                                </div>
+                                            </div>
+                                            <div class="card-right-content">
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <td class="card-text" colSpan="2">Product Details</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Model</td>
+                                                            <td>@phone.Model</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Brand</td>
+                                                            <td>@phone.Brand</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>RAM</td>
+                                                            <td>@phone.RAM</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>ROM</td>
+                                                            <td>@phone.ROM</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Platform</td>
+                                                            <td>@phone.Platform</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Version</td>
+                                                            <td>@phone.Version</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Launched on</td>
+                                                            <td>@phone.ReleaseDate</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </CarouselItem>
+                        }
+                    </SfCarousel>
+                    <div class="carousel-navigations">
+                        <SfButton CssClass="e-flat e-round" IconCss="e-icons e-arrow-right" title="Next" @onclick="@(()=>OnNavigationClick(CarouselSlideDirection.Next))"></SfButton>
+                    </div>
+                </div>
+            </div>
+            <div style="height:4rem;">
+                <div class="carousel-footer">
+                    <div class="indicator-container">
+                        @for (int indicatorIndex = 0; indicatorIndex < phoneDetails.Count; indicatorIndex++)
+                        {
+                            var activeIndex = indicatorIndex;
+                            <SfButton CssClass="@(CurrentIndex == indicatorIndex ? "active-indicator" : "")" @attributes="@customClass" @onclick="@(()=>OnIndicatorClick(activeIndex))"></SfButton>
+                        }
+
+                    </div>
+                    <div class="button-container">
+                        <SfButton CssClass="e-flat e-round" IconCss="@playPauseIcon" @onclick="@OnPlayClick" IsToggle="true"></SfButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="source_link">
+            Source: &nbsp;
+            <table>
+                <tr>
+                    <td>
+                        <a href="https://store.google.com/?hl=en-GB" target="_blank">https://store.google.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.apple.com/in/iphone-13-pro/" target="_blank">https://www.apple.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.nokia.com/phones/en_in/nokia-xr-20?sku=VMA750B9FI1CN0"
+                           target="_blank">https://www.nokia.com</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.oneplus.in/oneplus-9rt" target="_blank">https://www.oneplus.in</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="https://www.samsung.com/in/smartphones/galaxy-s21-5g/"
+                           target="_blank">https://www.samsung.com</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+@code {
+    SfCarousel CarouselRef;
+    private string playPauseIcon = "e-icons e-pause";
+    private int CurrentIndex;
+    Dictionary<string, object> customClass = new Dictionary<string, object>()
+{
+        { "class", "e-flat e-round indicator" }
+    };
+
+    private List<PhoneData> phoneDetails = new List<PhoneData>()
+{
+       new PhoneData  { ImageName = "google-pixel-6-pro.png", Title = "Google Pixel", Model = "Pixel 6 Pro", Brand = "Google", ReleaseDate = "Oct 28, 2021", RAM = "12GB", ROM = "128GB", Platform = "Android", Version = 12 },
+       new PhoneData { ImageName = "iphone-13-pro.png", Title = "iPhone", Model = "iPhone 13 Pro", Brand = "Apple", ReleaseDate = "Sept 14, 2021", RAM = "4GB", ROM = "128GB", Platform = "iOS", Version = 15 },
+       new PhoneData { ImageName = "nokia-xr-20.png", Title = "Nokia", Model = "XR-20", Brand = "Nokia", ReleaseDate = "Oct 30, 2021", RAM = "6GB", ROM = "128GB", Platform = "Android", Version = 11 },
+       new PhoneData { ImageName = "one-plus-9-pro.png", Title = "OnePlus", Model = "OP9 Pro", Brand = "OnePlus", ReleaseDate = "March 23, 2021", RAM = "8GB", ROM = "128GB", Platform = "OxygenOS based on Android", Version = 11 },
+       new PhoneData { ImageName = "samsung-s21-fe.png", Title = "Samsung", Model = "S21 FE", Brand = "Samsung", ReleaseDate = "Jan 27, 2021", RAM = "8GB", ROM = "128GB", Platform = "Samsung One UI 4.0 based on Android", Version = 12 }
+
+    };
+
+    private void OnPlayClick()
+    {
+        if (!CarouselRef.AutoPlay)
+        {
+            playPauseIcon = "e-icons e-pause";
+            CarouselRef.Play();
+        }
+        else
+        {
+            playPauseIcon = "e-icons e-play";
+            CarouselRef.Pause();
+        }
+    }
+    private async Task OnIndicatorClick(int index)
+    {
+        await CarouselRef.MoveToAsync(index);
+    }
+    private async Task OnNavigationClick(CarouselSlideDirection slideDirection)
+    {
+        if (slideDirection == CarouselSlideDirection.Previous)
+        {
+            await CarouselRef.PreviousAsync();
+        }
+        else
+        {
+            await CarouselRef.NextAsync();
+        }
+    }
+
+    public class PhoneData
+    {
+        public string Title { get; set; }
+        public string Model { get; set; }
+        public string Brand { get; set; }
+        public string ReleaseDate { get; set; }
+        public string RAM { get; set; }
+        public string ROM { get; set; }
+        public string Platform { get; set; }
+        public string ImageName { get; set; }
+        public int Version { get; set; }
+    }
+}
+<style>
+    .overview-carousel-section .carousel-sample {
+        border-radius: 1rem;
+        color: #6c757d;
+        height: 400px;
+        margin: 0 auto 2em;
+        width: 600px;
+    }
+
+    .overview-carousel .e-carousel-items .e-carousel-item .card {
+        height: 100%;
+    }
+
+    .overview-carousel .e-carousel-items .e-carousel-item .card-body {
+        height: 100%;
+        padding: 1rem;
+    }
+
+        .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-header {
+            align-items: center;
+            display: flex;
+            font-weight: 500;
+            height: 3rem;
+            justify-content: center;
+        }
+
+            .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-header .card-title {
+                font-size: 1.5rem;
+                text-transform: uppercase;
+            }
+
+        .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content {
+            display: flex;
+            height: calc(100% - 3rem);
+        }
+
+            .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-left-content,
+            .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-right-content {
+                padding: 2rem;
+                width: 50%;
+            }
+
+                .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-left-content .img-container {
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    height: 100%;
+                }
+
+                .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-right-content table {
+                    table-layout: fixed;
+                    width: 100%;
+                }
+
+                    .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-right-content table td.card-text {
+                        font-size: 1.4rem;
+                    }
+
+                    .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-right-content table td {
+                        padding-bottom: 1rem;
+                    }
+
+                    .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-right-content table tr td:first-child {
+                        font-weight: 500;
+                    }
+
+    .carousel-content {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+    }
+
+        .carousel-content .carousel-navigations {
+            align-items: center;
+            display: flex;
+            height: 5rem;
+            justify-content: center;
+            width: 5rem;
+        }
+
+    .carousel-footer {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+    }
+
+        .carousel-footer .indicator-container,
+        .carousel-footer .button-container {
+            align-items: center;
+            display: flex;
+            height: 2rem;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+            .carousel-footer .indicator-container .indicator {
+                border-color: inherit;
+                border-radius: 50%;
+                cursor: pointer;
+                height: 1.4rem;
+                margin: 0.5rem;
+                transition: all 0.5s ease-in-out;
+                width: 1.4rem;
+                padding: 4px;
+            }
+
+    .bootstrap5.e-bigger .carousel-footer .button-container .play-button span,
+    .bootstrap5-dark.e-bigger .carousel-footer .button-container .play-button span,
+    .fluent.e-bigger .carousel-footer .button-container .play-button span,
+    .fluent-dark.e-bigger .carousel-footer .button-container .play-button span,
+    .tailwind.e-bigger .carousel-footer .button-container .play-button span,
+    .tailwind-dark.e-bigger .carousel-footer .button-container .play-button span {
+        line-height: normal;
+    }
+
+    .carousel-footer .indicator-container .indicator.active-indicator {
+        background-color: #6c757d;
+    }
+
+    .carousel-footer .button-container {
+        padding-left: 2.4rem;
+    }
+
+    #source_link {
+        float: right;
+        margin-right: 10px;
+    }
+
+    .bootstrap-dark .overview-carousel-section .carousel-sample,
+    .bootstrap5-dark .overview-carousel-section .carousel-sample,
+    .material-dark .overview-carousel-section .carousel-sample,
+    .fabric-dark .overview-carousel-section .carousel-sample,
+    .highcontrast .overview-carousel-section .carousel-sample,
+    .tailwind-dark .overview-carousel-section .carousel-sample {
+        background-color: inherit;
+        color: inherit;
+    }
+
+    .bootstrap4 .carousel-footer .indicator-container .indicator:not(.active-indicator) {
+        background-color: transparent;
+        border-color: #6c757d;
+    }
+
+    .bootstrap-dark .carousel-footer .button-container .e-btn.e-active,
+    .bootstrap5-dark .carousel-footer .button-container .e-btn.e-active,
+    .material-dark .carousel-footer .button-container .e-btn.e-active,
+    .fabric-dark .carousel-footer .button-container .e-btn.e-active,
+    .highcontrast .carousel-footer .button-container .e-btn.e-active,
+    .tailwind-dark .carousel-footer .button-container .e-btn.e-active {
+        color: #fff;
+    }
+
+    @@media screen and (max-width: 480px) {
+        .overview-carousel-section .carousel-sample {
+            width: 100%;
+        }
+
+        .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-left-content {
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .overview-carousel .e-carousel-items .e-carousel-item .card-body .card-content .card-right-content {
+            display: none;
+        }
+
+        #source_link {
+            margin-top: -10px;
+            margin-right: 0px;
+        }
+    }
+
+    .bootstrap5 .overview-carousel-section .carousel-sample .carousel-navigations button span,
+    .bootstrap5-dark .overview-carousel-section .carousel-sample .carousel-navigations button span,
+    .fluent .overview-carousel-section .carousel-sample .carousel-navigations button span,
+    .fluent-dark .overview-carousel-section .carousel-sample .carousel-navigations button span,
+    .tailwind .overview-carousel-section .carousel-sample .carousel-navigations button span,
+    .tailwind-dark .overview-carousel-section .carousel-sample .carousel-navigations button span {
+        font-size: 20px !important;
+        line-height: normal;
+    }
+
+    .tailwind .overview-carousel-section .carousel-sample .carousel-footer .button-container span,
+    .tailwind-dark .overview-carousel-section .carousel-sample .carousel-footer .button-container span {
+        font-size: 20px;
+    }
+
+    .bootstrap .overview-carousel-section .e-icons.e-arrow-right:before,
+    .bootstrap-dark .overview-carousel-section .e-icons.e-arrow-right:before {
+        content: "\e84d";
+    }
+
+    .bootstrap .overview-carousel-section .carousel-navigations button span,
+    .bootstrap .overview-carousel-section .carousel-footer .button-container button span {
+        color: #6c757d !important;
+    }
+</style>

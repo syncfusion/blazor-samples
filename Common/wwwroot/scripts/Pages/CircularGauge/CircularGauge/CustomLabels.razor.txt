@@ -1,0 +1,71 @@
+@page "/circular-gauge/custom-labels"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.CircularGauge
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates how to introduce and position customer labels in a circular gauge. In addition, gradient colors are used on the circular gauge elements such as the pointer and range.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure custom labels in the circular gauge. The label text can be modified using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.CircularGauge.CircularGaugeEvents.html#Syncfusion_Blazor_CircularGauge_CircularGaugeEvents_AxisLabelRendering'>AxisLabelRendering</a> event which will be triggered everytime when a label is rendered.</p>
+    <p>More information on the labels can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/circular-gauge/axes#labels'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfCircularGauge Theme="@Theme" Background="transparent">
+        <CircularGaugeEvents AxisLabelRendering="AxisLabelChange" />
+        <CircularGaugeAxes>
+            <CircularGaugeAxis Radius="80%" StartAngle="210" EndAngle="150" Minimum="0" Maximum="8">
+                <CircularGaugeAxisLabelStyle Offset="10">
+                    <CircularGaugeAxisLabelFont FontFamily="inherit"></CircularGaugeAxisLabelFont>
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugeAxisLineStyle Width="0" />
+                <CircularGaugeAxisMajorTicks Width="0" Interval="1" />
+                <CircularGaugeAxisMinorTicks Width="0" />
+                <CircularGaugePointers>
+                    <CircularGaugePointer NeedleStartWidth="10" NeedleEndWidth="5" Value="6.2" Radius="85%" Color="#E63B86" PointerWidth="10">
+                        <LinearGradient StartValue="0%" EndValue="100%">
+                            <ColorStops>
+                                <ColorStop Opacity="0.2" Offset="0%" Color="#9e40dc" />
+                                <ColorStop Opacity="0.5" Offset="70%" Color="#9e40dc" />
+                            </ColorStops>
+                        </LinearGradient>
+                        <CircularGaugePointerAnimation Enable="false" />
+                        <CircularGaugeCap Radius="0">
+                            <CircularGaugeCapBorder Width="0" />
+                        </CircularGaugeCap>
+                        <CircularGaugeNeedleTail Length="0%" />
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Color="#E63B86" Start="0" End="6.2" StartWidth="22" EndWidth="22">
+                        <LinearGradient StartValue="0%" EndValue="100%">
+                            <ColorStops>
+                                <ColorStop Opacity="1" Offset="0%" Color="#9e40dc" />
+                                <ColorStop Opacity="1" Offset="70%" Color="#d93c95" />
+                            </ColorStops>
+                        </LinearGradient>
+                    </CircularGaugeRange>
+                    <CircularGaugeRange Color="#E0E0E0" Start="6.2" End="8" StartWidth="22" EndWidth="22" />
+                </CircularGaugeRanges>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+@code{
+    public Theme Theme { get; set; }
+    private string[] textValues = { "0", "2", "5", "10", "20", "50", "100", "150", "200" };
+
+    private void AxisLabelChange(Syncfusion.Blazor.CircularGauge.AxisLabelRenderEventArgs args)
+    {
+        args.Text = textValues[Convert.ToInt32(args.Value)];
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

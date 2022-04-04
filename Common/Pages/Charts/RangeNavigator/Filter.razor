@@ -1,0 +1,170 @@
+﻿@page "/range-selector/filter"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample filters the data by hire date using date-time axis.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to bind the value of the range navigator to the grid control using the <code>Changed</code> event.</p>
+     <p>More information about the range navigator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/getting-started'>documentation section</a>.</p>
+</ActionDescription>
+
+@if (FilterData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 align="center" style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;"> Filter from Hire Date</h4>
+        <div>
+            <SfRangeNavigator ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime"
+                              AllowSnapping="true" IntervalType="RangeIntervalType.Quarter"
+                              EnableGrouping="true" GroupBy="RangeIntervalType.Years" Theme="@RangeNavigatorTheme"
+                              @bind-Value="@RangeValue" DataSource="@FilterData"
+                              XName="HireDate" YName="yValue">
+                <RangeNavigatorEvents Changed="onRangeChanged" LabelRender="AxisLabelRendering"></RangeNavigatorEvents>
+            </SfRangeNavigator>
+        </div> <br>
+        <div>
+            <SfGrid Width="80%" @ref="GridObj" DataSource="@Data" TValue="ChartData" AllowPaging="true">
+                <GridColumns>
+                    <GridColumn Field="EmployeeID" HeaderText="Employee ID" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field="FirstName" HeaderText="Name" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field="Title" HeaderText="Title" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field="HireDate" HeaderText="Hire Date" TextAlign="TextAlign.Center" Format="d/M/yyyy"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+}
+@code{
+    public SfGrid<ChartData> GridObj { get; set; }
+    public ChartData[] FilterData { get; set; }
+    public ChartData[] Data { get; set; }
+    public Theme RangeNavigatorTheme { get; set; }
+    public object RangeValue { get; set; } = new object[] { new DateTime(1992, 06, 1), new DateTime(1993, 05, 1) };
+    private string currentUri;
+
+    protected override async Task OnInitializedAsync()
+    {
+	    FilterData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/employee-data.json");
+    }
+
+    public class ChartData
+    {
+        public double EmployeeID { get; set; }
+        public double yValue { get; set; }
+        public string FirstName { get; set; }
+        public string Title { get; set; }
+        public DateTime HireDate { get; set; }
+    }
+
+    protected void onRangeChanged(ChangedEventArgs args)
+    {
+        List<ChartData> FilterData1 = new List<ChartData>();
+        for (int i = 0; i < FilterData.Length; i++)
+        {
+            if (FilterData[i].HireDate >= Convert.ToDateTime(args.Start) && FilterData[i].HireDate <= Convert.ToDateTime(args.End))
+            {
+                FilterData1.Add(FilterData[i]);
+            }
+        }
+        Data = FilterData1.ToArray();
+        StateHasChanged();
+    }
+
+    public void AxisLabelRendering(RangeLabelRenderEventArgs args)
+    {
+        args.Text = args.Text.Contains("Quarter", StringComparison.InvariantCulture) ? args.Text.Replace("Quarter", "Quarter-") : args.Text;
+    }
+
+    protected override void OnInitialized()
+    {
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.MaterialDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Material;
+            }
+        }
+        else if (currentUri.IndexOf("fabric") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FabricDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fabric;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5;
+            }
+        }
+		else if (currentUri.IndexOf("fluent") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FluentDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fluent;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap4") > -1)
+        {
+            RangeNavigatorTheme = Theme.Bootstrap4;
+        }
+        else if (currentUri.IndexOf("bootstrap") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.BootstrapDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap;
+            }
+        }
+        else if (currentUri.IndexOf("highcontrast") > -1)
+        {
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.TailwindDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Tailwind;
+            }
+        }
+        else
+        {
+            RangeNavigatorTheme = Theme.Bootstrap4;
+        }
+    }
+}
