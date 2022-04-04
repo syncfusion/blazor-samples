@@ -1,0 +1,79 @@
+﻿@page "/gantt-chart/resource-allocation"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos
+@using ej2_blazor_defaultdata
+
+@using Syncfusion.Blazor.Buttons
+
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the options to allocate one or more resources to a task based on the task requirement such as work needed. The Work is the total labor hours necessary to complete a task. <a target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/work'>Work</a> can be mapped from the data source field using the property <code>Work</code> of <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html'>GanttTaskFields</a>. When the Work value is mapped from the data source, the end date and duration of the task will be calculated automatically based on the work and resource unit values from the data source. Work can be measured in hours, days and minutes. It is measured in <code>hours</code> scale by default and this can be changed by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_WorkUnit'>WorkUnit</a> property.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>  In this example, you can see how to allocate single or multiple resources for a task by editing. Based on the task complexity and the resource availability, you can plan and allocate the resources to task in the project. In this demo, there is a set of predefined resources and those IDs are assigned to the task. Resource information can be shown in Gantt chart by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttLabelSettings-1.html'>LabelSettings</a> property.</p>
+
+    <p>Resources can be mapped using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttResourceFields-1.html'>ResourceFields:</a> component with following properties</p>
+    <ul>
+        <li><code>Id</code> - To map resource ID</li>
+        <li> <code>Name</code> - To map resource name</li>
+        <li><code>Unit</code> - To map resource unit</li>
+    </ul>
+    The work, duration and resource unit fields of a task depends upon each other values and will change automatically on editing any one of these fields. But the field’s values can also be set as constant using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html#Syncfusion_Blazor_Gantt_GanttTaskFields_TaskType'>TaskType</a> property of <code>GanttTaskFields</code>. The following values can be set to the type property:
+    <ul>
+        <li><code> FixedDuration</code> - Duration task field will remain constant while updating resource unit or work field.</li>
+        <li><code> FixedWork</code> - Work field will remain constant while updating resource unit or duration fields.</li>
+        <li><code> FixedUnit</code> - Resource units will remain constant while updating duration or work field.</li>
+    </ul>
+    <p>
+        More information about resources in Gantt can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/resources'>documentation section</a>.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" WorkUnit="WorkUnit.Hour"
+                     Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 ParentID="ParentId" Work="Work" ResourceInfo="Resources" TaskType="TaskType">
+                </GanttTaskFields>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
+                                   ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="ID"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Event Name" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="Resources" HeaderText="Event Resources"></GanttColumn>
+                    <GanttColumn Field="Work" HeaderText="Work"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="TaskType" HeaderText="Task Type"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+
+                </GanttColumns>
+                <GanttResourceFields Resources="ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="ResourceData.ResourceAlloacteData"></GanttResourceFields>
+                <GanttLabelSettings RightLabel="Resources" TValue="ResourceData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="28%"> </GanttSplitterSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+@code{
+
+
+
+
+    private DateTime ProjectStart = new DateTime(2021, 3, 28);
+    private DateTime ProjectEnd = new DateTime(2021, 7, 28);
+    private List<ResourceData.TaskData> TaskCollection { get; set; }
+    private List<ResourceData.ResourceAlloacteData> ResourceCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = ResourceData.GetTaskCollection();
+        this.ResourceCollection = ResourceData.GetResources;
+    }
+}
+
+

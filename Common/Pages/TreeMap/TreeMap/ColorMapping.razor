@@ -1,0 +1,299 @@
+﻿@page "/treemap/color-mapping"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.TreeMap
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample represents the top 10 largest islands in the world in terms of area. The color mapping is used to distinguish items from one another.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a TreeMap with color mapping. The range color mapping and desaturation color mapping groups the shapes based on the area size, whereas the equal color mapping groups the shapes based on the continent information. The legend is enabled in this example to represent each color mapping.</p>
+    <p>More information about color mapping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treemap/color-mapping'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfTreeMap Format="N0" EnableGroupingSeparator="true" RangeColorValuePath="@ColorValuePath" EqualColorValuePath="@EqualColorValuePath" WeightValuePath="Area" DataSource="@ColorDataSource" Theme="@Theme">
+        <TreeMapTitleSettings Text="Top 10 Largest Islands in the World">
+            <TreeMapTitleTextStyle Size="15px" FontFamily="Segoe UI" />
+        </TreeMapTitleSettings>
+        <TreeMapLegendSettings Visible="true" Position="LegendPosition.Bottom" Mode="LegendMode.Interactive" Height="10">
+            <TreeMapLegendTitle Text="@LegendText" />
+            <TreeMapLegendTitleStyle FontFamily="Segoe UI"></TreeMapLegendTitleStyle>
+            <TreeMapLegendTextStyle FontFamily="Segoe UI"></TreeMapLegendTextStyle>
+        </TreeMapLegendSettings>
+        <TreeMapTooltipSettings Visible="true" Format="Name: ${Name}<br>Area: ${Area} per square kms<br>Continent: ${Location}" Opacity="0.8">
+            <TreeMapTooltipTextStyle FontFamily="Segoe UI"></TreeMapTooltipTextStyle>
+        </TreeMapTooltipSettings>
+        <TreeMapLeafItemSettings LabelPath="Name">
+            <TreeMapLeafColorMappings>
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromOne" MinOpacity="@MinOpacity" MaxOpacity="MaxOpacity" EndRange="@ColorMappingToOne" Color="@ColorMappingColorOne" Label="@ColorMappingLabelOne" LeafValue="@ColorMappingValueOne" />
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromTwo" EndRange="@ColorMappingToTwo" Color="@ColorMappingColorTwo" Label="@ColorMappingLabelTwo" LeafValue="@ColorMappingValueTwo" />
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromThree" EndRange="@ColorMappingToThree" Color="@ColorMappingColorThree" Label="@ColorMappingLabelThree" LeafValue="@ColorMappingValueThree" />
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromFour" EndRange="@ColorMappingToFour" Color="@ColorMappingColorFour" Label="@ColorMappingLabelFour" LeafValue="@ColorMappingValueFour" />
+                <TreeMapLeafColorMapping StartRange="@ColorMappingFromFive" EndRange="@ColorMappingToFive" Color="@ColorMappingColorFive" Label="@ColorMappingLabelFive" LeafValue="@ColorMappingValueFive" />
+            </TreeMapLeafColorMappings>
+            <TreeMapLeafBorder Color="#FFFFFF" Width="0.5" />
+            <TreeMapLeafLabelStyle FontFamily="Segoe UI" />
+        </TreeMapLeafItemSettings>
+    </SfTreeMap>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr>
+                        <td class="property-text">
+                            Color Mapping Type
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Select color mapping type" DataSource="@ColorMappingType" @bind-Value="@ColorMappingValueType" Width="120px">
+                                <DropDownListEvents TValue="string" TItem="ColorType" ValueChange="ColorMappingValueTypeChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="display:@Display">
+                        <td class="property-text">
+                            Change Opacity
+                        </td>
+                        <td>
+                            <SfCheckBox ValueChange="OpacityChange" Checked="@OpacityChecked" TChecked="bool" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display:@MinDisplay">Min Opacity </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input type="range" value="@MinRange" min="0" max="1" step="0.1" @onchange="MinRangeChange" style="display:@MinDisplay" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display:@MinDisplay">Max Opacity </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input type="range" value="@MaxRange" min="0" max="1" step="0.1" @onchange="MaxRangeChange" style="display:@MinDisplay" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+@code{
+    public Theme Theme { get; set; }
+    public string ColorMappingValueType = "Range";
+    public string EqualColorValuePath = null;
+    public string LegendText = "Area";
+    public string MinDisplay = "none";
+    public double MinOpacity = 1;
+    public double MaxOpacity = 1;
+    public double MinRange = 0.5;
+    public string Display = "none";
+    public double MaxRange = 1;
+    public bool OpacityChecked;
+    public string ColorValuePath = "Area";
+    public double? ColorMappingFromOne = 100000;
+    public double? ColorMappingToOne = 250000;
+    public string[] ColorMappingColorOne = { "#547C84" };
+    public string ColorMappingLabelOne = "0.1M - 0.25M";
+    public string ColorMappingValueOne = null;
+    public double? ColorMappingFromTwo = 250000;
+    public double? ColorMappingToTwo = 550000;
+    public string[] ColorMappingColorTwo = { "#37AFAB" };
+    public string ColorMappingLabelTwo = "0.25M - 0.55M";
+    public string ColorMappingValueTwo = null;
+    public double? ColorMappingFromThree = 550000;
+    public double? ColorMappingToThree = 750000;
+    public string[] ColorMappingColorThree = { "#A4D6AD" };
+    public string ColorMappingLabelThree = "0.55M - 0.75M";
+    public string ColorMappingValueThree = null;
+    public double? ColorMappingFromFour = 750000;
+    public double? ColorMappingToFour = 2250000;
+    public string[] ColorMappingColorFour = { "#DEEBAE" };
+    public string ColorMappingLabelFour = "0.75M - 2M";
+    public string ColorMappingValueFour = null;
+    public double? ColorMappingFromFive = 0;
+    public double? ColorMappingToFive = 0;
+    public string[] ColorMappingColorFive = { null };
+    public string ColorMappingLabelFive = null;
+    public string ColorMappingValueFive = null;
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    private void ColorMappingValueTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ColorType> args)
+    {
+        ColorMappingValueType = args.Value;
+        if (ColorMappingValueType == "Range")
+        {
+            MinDisplay = "none";
+            EqualColorValuePath = null;
+            Display = "none";
+            OpacityChecked = false;
+            LegendText = "Area";
+            ColorValuePath = "Area";
+            ColorMappingFromOne = 100000;
+            ColorMappingToOne = 250000;
+            ColorMappingColorOne = new string[] { "#547C84" };
+            ColorMappingLabelOne = "0.1M - 0.25M";
+            ColorMappingValueOne = null;
+            ColorMappingFromTwo = 250000;
+            ColorMappingToTwo = 550000;
+            ColorMappingColorTwo = new string[] { "#37afab" };
+            ColorMappingLabelTwo = "0.25M - 0.55M";
+            ColorMappingValueTwo = null;
+            ColorMappingFromThree = 550000;
+            ColorMappingToThree = 750000;
+            ColorMappingColorThree = new string[] { "#A4D6AD" };
+            ColorMappingLabelThree = "0.55M - 0.75M";
+            ColorMappingValueThree = null;
+            ColorMappingFromFour = 750000;
+            ColorMappingToFour = 2250000;
+            ColorMappingColorFour = new string[] { "#DEEBAE" };
+            ColorMappingLabelFour = "0.75M - 2M";
+            ColorMappingValueFour = null;
+            ColorMappingFromFive = null;
+            ColorMappingToFive = null;
+            ColorMappingColorFive = null;
+            ColorMappingLabelFive = null;
+            ColorMappingValueFive = null;
+        }
+        else if (ColorMappingValueType == "Equal")
+        {
+            MinDisplay = "none";
+            Display = "none";
+            OpacityChecked = false;
+            LegendText = "Continent";
+            EqualColorValuePath = "Location";
+            ColorValuePath = null;
+            ColorMappingFromOne = null;
+            ColorMappingToOne = null;
+            ColorMappingColorOne = null;
+            ColorMappingColorOne = new string[] { "#DEEBAE" };
+            ColorMappingLabelOne = null;
+            ColorMappingValueOne = "North America";
+            ColorMappingFromTwo = null;
+            ColorMappingToTwo = null;
+            ColorMappingColorTwo = null;
+            ColorMappingColorTwo = new string[] { "#A4D6AD" };
+            ColorMappingLabelTwo = null;
+            ColorMappingValueTwo = "Oceania";
+            ColorMappingFromThree = null;
+            ColorMappingToThree = null;
+            ColorMappingColorThree = null;
+            ColorMappingColorThree = new string[] { "#37AFAB" };
+            ColorMappingLabelThree = null;
+            ColorMappingValueThree = "Asia";
+            ColorMappingFromFour = null;
+            ColorMappingToFour = null;
+            ColorMappingColorFour = null;
+            ColorMappingColorFour = new string[] { "#547C84" };
+            ColorMappingLabelFour = null;
+            ColorMappingValueFour = "Africa";
+            ColorMappingFromFive = null;
+            ColorMappingToFive = null;
+            ColorMappingColorFive = null;
+            ColorMappingColorFive = new string[] { "#CEBF93" };
+            ColorMappingLabelFive = null;
+            ColorMappingValueFive = "Europe";
+        }
+        else
+        {
+            Display = "contents";
+            EqualColorValuePath = null;
+            LegendText = "Area";
+            ColorValuePath = "Area";
+            ColorMappingFromOne = 100000;
+            ColorMappingToOne = 2230800;
+            ColorMappingColorOne = new string[] { "#F0D6AD", "#19547B" };
+            ColorMappingLabelOne = "0.1M - 2M";
+            ColorMappingValueOne = null;
+            ColorMappingFromTwo = null;
+            ColorMappingToTwo = null;
+            ColorMappingColorTwo = null;
+            ColorMappingLabelTwo = null;
+            ColorMappingValueTwo = null;
+            ColorMappingFromThree = null;
+            ColorMappingToThree = null;
+            ColorMappingColorThree = null;
+            ColorMappingLabelThree = null;
+            ColorMappingValueThree = null;
+            ColorMappingFromFour = null;
+            ColorMappingToFour = null;
+            ColorMappingColorFour = null;
+            ColorMappingLabelFour = null;
+            ColorMappingValueFour = null;
+            ColorMappingFromFive = null;
+            ColorMappingToFive = null;
+            ColorMappingColorFive = null;
+            ColorMappingLabelFive = null;
+            ColorMappingValueFive = null;
+        }
+    }
+    private void OpacityChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        OpacityChecked = args.Checked;
+        MinDisplay = (OpacityChecked) ? "block" : "none";
+    }
+    private void MinRangeChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        MinRange = Convert.ToDouble(args.Value);
+        MinOpacity = MinRange;
+    }
+    private void MaxRangeChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        MaxRange = Convert.ToDouble(args.Value);
+        MaxOpacity = MaxRange;
+    }
+    public class ColorType
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<ColorType> ColorMappingType = new List<ColorType> {
+        new ColorType { Value="Range", Name="Range" },
+        new ColorType { Value="Equal", Name="Equal" },
+        new ColorType { Value="Desaturation", Name="Desaturation" }
+    };
+    public class LeafData
+    {
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public int Area { get; set; }
+        public int Population { get; set; }
+    };
+    public List<LeafData> ColorDataSource = new List<LeafData>{
+        new LeafData { Name="Greenland", Area=2130800, Population=56483, Location="North America" },
+        new LeafData { Name="New Guinea", Area=785753, Population=1306940, Location="Oceania"},
+        new LeafData { Name="Borneo", Area=743330, Population=19804064, Location="Asia" },
+        new LeafData { Name="Madagascar", Area=587713, Population=22005222, Location="Africa"},
+        new LeafData { Name="Baffin Island", Area=507451, Population=10745, Location="North America" },
+        new LeafData { Name="Sumatra", Area=443066, Population=50000000, Location="Asia" },
+        new LeafData { Name="Honshu", Area=225800, Population=103000000, Location="Asia" },
+        new LeafData { Name="Victoria Island", Area=217291, Population=1875, Location="North America"},
+        new LeafData { Name="Great Britain", Area=209331, Population=60800000, Location="Europe" },
+        new LeafData { Name="Ellesmere Island", Area=183965, Population=146, Location="North America" }
+    };
+}

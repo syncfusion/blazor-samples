@@ -1,0 +1,102 @@
+﻿@page "/TextBox/Multiline-TextBox"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates the multiline functionalities of the Textbox component. Enter or fill the textbox with multiple rows of text. Choose the corresponding option from the property panel to update the multiline textbox.</p>
+</SampleDescription>
+<ActionDescription>
+   <p> The Multiline Textbox is used to edit or display multiple lines of text that helps you to accept address, description, comments, feedbacks, and more in a form. The following options are available to customize it:</p>
+    <p><ul><li>Choose float label types either <b>Always</b>, or <b>Auto</b> to float the placeholder text.</li>
+            <li>To make a read-only multiline textbox, check the <b>Read only</b> option.</li>
+            <li>Disable the textbox by checking the <b>Disabled</b> option.</li>
+    </ul></p>
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href='https://blazor.syncfusion.com/documentation/textbox/multiline/' target='_blank'>Blazor TextBox - Multiline</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-12">
+    <div class="col-lg-8 control-section sb-property-border">
+        <div class="control-wrapper">
+            <SfTextBox Placeholder="Enter an address" Enabled="@CheckDisabled" Readonly="@CheckReadonly" FloatLabelType="@FloatLabel" Multiline="true"></SfTextBox>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class='property-panel-section'>
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <label class="example-label">Choose floating label type</label>
+                <SfDropDownList TValue="string" TItem="FloatTypes" DataSource="@Data" @bind-Index="@Index">
+                    <DropDownListEvents TItem="FloatTypes" TValue="string" ValueChange="OnChangeLabelType"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+            <div class="property-panel-content">
+                <SfCheckBox Label="Disabled" ValueChange="OnEnabledChange" TChecked="bool"></SfCheckBox>
+            </div>
+            <div class="property-panel-content">
+                <SfCheckBox Label="Read only" ValueChange="OnReadonlyChange" TChecked="bool"></SfCheckBox>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public FloatLabelType FloatLabel { get; set; } = FloatLabelType.Auto;
+    private bool CheckDisabled { get; set; } = true;
+    private bool CheckReadonly { get; set; } = false;
+
+    public class FloatTypes
+    {
+        public string ID { get; set; }
+
+        public string Text { get; set; }
+    }
+
+    private List<FloatTypes> Data = new List<FloatTypes>() {
+        new FloatTypes(){ ID= "Auto", Text= "Auto" },
+        new FloatTypes(){ ID= "Always", Text= "Always" }
+    };
+    private int? Index { get; set; } = 0;
+    public void OnChangeLabelType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, FloatTypes> args)
+    {
+        this.FloatLabel = (FloatLabelType)Enum.Parse(typeof(FloatLabelType), (args.Value));
+    }
+
+    public void OnEnabledChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.CheckDisabled = !args.Checked;
+    }
+    public void OnReadonlyChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.CheckReadonly = args.Checked;
+    }
+}
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 40px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .property-panel-content {
+        padding: 0px 0px 20px 0px;
+    }
+
+    .property-panel-content:last-child {
+        padding: 0px 0px 40px 0px;
+    }
+</style>

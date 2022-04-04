@@ -1,0 +1,100 @@
+﻿@page "/chart/candle-stick"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.Net.Http.Json
+
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes the AAPL historical data with default candle series in the chart. The tooltip and the crosshairs display the data and period information.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the candle type series. The candle type series chart shows financial data and trends at equal intervals. It can often be combined with line and column charts to show the close and volume of the data.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.
+    More information about the candle series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/candle'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="AAPL Historical" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Volume" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic" OpposedPosition="true" Interval="20" LabelFormat="n0">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartAxes>
+            <ChartAxis Name="secondary" OpposedPosition="true" RowIndex="1" LabelFormat="n0" Title="Price" RangePadding="ChartRangePadding.None" PlotOffset="30">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+            </ChartAxis>
+        </ChartAxes>
+        <ChartRows>
+            <ChartRow Height="30%"></ChartRow>
+            <ChartRow Height="70%"></ChartRow>
+        </ChartRows>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+            <ChartCrosshairLine Width="1"></ChartCrosshairLine>
+        </ChartCrosshairSettings>
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@ChartPoints" Name="Volume" XName="Period" YName="Volume">
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" YAxisName="secondary" Name="Apple Inc" XName="Period" High="High" Volume="Volume" Low="Low" Open="Open" Close="Close"
+                         BearFillColor="#2ecd71" BullFillColor="#e74c3d" Type="ChartSeriesType.Candle">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    private CandleData[] ChartPoints { get; set; } = new CandleData[] { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        ChartPoints = await Http.GetFromJsonAsync<CandleData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/chart/financial-data.json");
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if(firstRender) {
+            if (SampleService.IsDevice)
+            {
+                 Width = "100%";
+                 StateHasChanged();
+            }
+        }
+    }
+
+    public class CandleData
+    {
+        public DateTime Period { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Open { get; set; }
+        public double Close { get; set; }
+        public double Volume { get; set; }
+    }
+
+}
+
+
