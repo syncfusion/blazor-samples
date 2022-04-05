@@ -1,0 +1,58 @@
+﻿@page "/datagrid/clipboard"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+
+@using blazor_griddata
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>The DataGrid component's copy to clipboard functionality is demonstrated in this sample. To copy content, select rows and then click the Copy button in the toolbar. To copy with a header, use the toolbar's Copy with Header button.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Using the Keyboard shortcuts and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_CopyAsync_System_Nullable_System_Boolean__'>CopyAsync</a> method, you can copy selected row or cell data from the DataGrid to the clipboard.</p>
+   <p>In this demo, you can copy data from selected rows to the clipboard by using the keyboard shortcuts or toolbar interactions listed below</p>
+   <ul>
+       <li><strong>Ctrl + C</strong> - Selected rows or cells data without header.</li>
+       <li><strong>Ctrl + Shift + H</strong> - Displays data from selected rows or cells with a header.</li>
+    </ul>
+   <p>More information about the Clipboard feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/clipboard/'>documentation</a> section.</p>
+</ActionDescription>
+
+@{
+    List<ItemModel> Toolbar = new List<ItemModel>();
+    Toolbar.Add(new ItemModel { Text = "Copy", TooltipText = "Copy", PrefixIcon = "e-copy", Id = "copy" });
+    Toolbar.Add(new ItemModel { Text = "Copy with Header", TooltipText = "Copy with Header", PrefixIcon = "e-copy", Id = "copyheader" });
+}
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid @ref="@Grid" DataSource="@GridData" AllowSelection="true" Toolbar="Toolbar" AllowPaging="true">
+                <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Multiple"></GridSelectionSettings>
+                <GridEvents TValue="OrdersDetails"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfGrid<OrdersDetails> Grid;
+
+    public List<OrdersDetails> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetails.GetAllRecords();
+    }
+}

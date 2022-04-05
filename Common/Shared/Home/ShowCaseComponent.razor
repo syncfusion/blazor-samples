@@ -1,0 +1,206 @@
+﻿@using System.Threading;
+@using Syncfusion.Blazor.Buttons;
+
+@namespace BlazorDemos.Shared
+
+@implements IDisposable;
+@inject IJSRuntime JsRuntime;
+@inject SampleService SampleService;
+
+@if (isLazyLoad)
+{
+    <div class="sf-showcase-demo">
+        <h2>See how our components can be transformed into beautiful and efficient apps</h2>
+        <div class="sf-showcase-container sf-showcase-transition" style="transform:translateX(@viewPosition);">
+            @foreach (var data in dataSource)
+            {
+                var leftPosition = GetLeftPosition(data);
+                var showcaseBg = GetBgClass(data.Header);
+                <div class="sf-showcase-bg @showcaseBg" style="left:@leftPosition">
+                    <div class="sf-showcase-bg-container">
+                        <div class="sf-showcase-img"></div>
+                        <div class="sf-showcase-content">
+                            <h3>@data.Header</h3>
+                            <div class="sf-showcase-description">@data.Content</div>
+                            <div class="sf-showcase-buttons">
+                                <div class="showcase-demo-btn">
+                                    <a href=@data.DemoLink target="_blank" rel="noopener">
+                                        <SfButton CssClass="e-primary">View Demo</SfButton>
+                                    </a>
+                                </div>
+                                <div class="showcase-github-btn">
+                                    <a href=@data.GitHubLink target="_blank" rel="noopener">
+                                        <SfButton CssClass="e-outline" IconCss="sbicons sf-github-logo-icon" Content="Browse code in GitHub"></SfButton>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="sf-showcase-progress">
+                                <div class="sf-showcase-steps">
+                                    @for (var i = 1; i <= dataCount; i++)
+                                    {
+                                        var progressClass = progressIndex == i ? "sf-showcase-progress-selected" : string.Empty;
+                                        <span class="sf-showcase-step @progressClass"></span>
+                                    }
+                                </div>
+                                <SfButton IconCss="sb-icons sf-right-arrow-icon" CssClass="e-round" IsPrimary="true" @onclick="OnNextNavigation" aria-label="Navigate to next showcase apllication"></SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    @foreach (var data in dataSource)
+    {
+        var showcaseBg = GetBgClass(data.Header);
+        var deviceImage = data.ImagePath.Replace(".png", "-device.png");
+        <style>
+        .sf-showcase-bg.@showcaseBg .sf-showcase-img {
+            background-image: url( @data.ImagePath );
+        }
+        @@media (max-width: 1024px) {
+            .sf-showcase-bg.@showcaseBg .sf-showcase-img {
+                background-image: url( @deviceImage );
+            }
+        }
+        </style>
+    }
+}
+
+
+@code {
+    const int DURATION = 10000;
+
+    private int dataCount;
+    private bool isLazyLoad;
+    private bool isDisposed;
+    private int progressIndex;
+    private bool refreshInit;
+    private bool isFirstRender;
+    private string viewPosition;
+    private ShowCaseItem selectedItem;
+    private List<ShowCaseItem> dataSource;
+    private List<ShowCaseItem> visibleItems;
+    private CancellationTokenSource taskToken;
+    protected DotNetObjectReference<object> DotnetInstance;
+
+    private async Task Rotate()
+    {
+        if (!isDisposed && !taskToken.IsCancellationRequested)
+        {
+            await SwitchItem();
+        }
+    }
+
+    private async Task SwitchItem()
+    {
+        visibleItems.Clear();
+        visibleItems.Add(selectedItem);
+        ShowCaseItem currentItem;
+        if (EqualityComparer<ShowCaseItem>.Default.Equals(dataSource.Last(), selectedItem))
+        {
+            currentItem = dataSource.First();
+        }
+        else
+        {
+            var selectedIndex = dataSource.IndexOf(selectedItem) + 1;
+            currentItem = dataSource.ElementAt(selectedIndex);
+        }
+        selectedItem = currentItem;
+        visibleItems.Add(currentItem);
+        progressIndex = progressIndex == dataCount ? 1 : progressIndex + 1;
+        viewPosition = GetViewPosition(progressIndex);
+        StateHasChanged();
+        await Task.Delay(DURATION, taskToken.Token);
+        await Rotate();
+    }
+
+    private string GetBgClass(string header)
+    {
+        return header.ToLower().Replace(" ", "-");
+    }
+
+    private string GetViewPosition(int index)
+    {
+        var position = (index == 1 && !isFirstRender) ? 100 - ((dataCount + 1) * 100) : 100 - (index * 100);
+        return position.ToString() + "%";
+    }
+
+    private string GetLeftPosition(ShowCaseItem data)
+    {
+        var index = dataSource.IndexOf(data);
+        var selectedIndex = dataSource.IndexOf(selectedItem);
+        var position = index == 0 && (selectedIndex == (dataCount - 1) || (selectedIndex == 0 && !isFirstRender)) ? dataCount * 100 : index * 100;
+        refreshInit = selectedIndex == 0;
+        return position.ToString() + "%";
+    }
+
+    private async Task OnNextNavigation()
+    {
+        taskToken.Cancel();
+        taskToken = new CancellationTokenSource();
+        await Rotate();
+    }
+
+    /// <summary>
+    /// Load showcase content with lazy loading after page scroll.
+    /// </summary>
+    [JSInvokable]
+    public async Task RenderShowCase()
+    {
+        isLazyLoad = true;
+        isFirstRender = false;
+        taskToken = new CancellationTokenSource();
+        await Rotate();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        isFirstRender = true;
+        var imagePath = SampleService.ShowCaseImagePath;
+        var demoPath = "https://blazor.syncfusion.com/showcase/";
+        var gitHubPath = "https://github.com/syncfusion/blazor-showcase-";
+        dataSource = new List<ShowCaseItem>() {
+            new ShowCaseItem("Appointment Planner", "An appointment scheduling application for doctors in a clinic to manage their appointments with patients.", imagePath + "appointment-planner-app.png", demoPath + "wasm/appointment-planner/", gitHubPath + "appointment-planner"),
+            new ShowCaseItem("Expense Tracker", "Track and visualize your daily expenses with a great UI.", imagePath + "expense-tracker-app.png", demoPath + "wasm/expensetracker/", gitHubPath + "expense-tracker"),
+            new ShowCaseItem("Health Tracker", "Track and visualize data such as calories consumed and daily activities like steps taken, water consumption, and sleep duration.", imagePath + "health-tracker-app.png", demoPath + "wasm/health-tracker/", gitHubPath + "healthtracker"),
+            new ShowCaseItem("Document Explorer", "Manages the file system that allows users to access, edit, and sort files or folders and open Word, PowerPoint, and PDF documents", imagePath + "document-explorer-app.png", demoPath + "documentexplorer/", gitHubPath + "document-explorer"),
+            new ShowCaseItem("Diagram Builder", "Diagram Builder is a web application which is used to create the diagrams like Flow Chart, process diagrams and more.", imagePath + "diagram-builder-app.png", demoPath + "diagrambuilder/", gitHubPath + "diagram-builder")
+        };
+        progressIndex = 1;
+        viewPosition = GetViewPosition(progressIndex);
+        selectedItem = dataSource.First();
+        visibleItems = new List<ShowCaseItem>();
+        visibleItems.Add(dataSource.Last());
+        visibleItems.Add(selectedItem);
+        dataCount = dataSource.Count;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            DotnetInstance = DotNetObjectReference.Create<object>(this);
+            await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.updateShowCaseRef", DotnetInstance);
+        }
+        else if (refreshInit)
+        {
+            await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.refreshShowCase");
+        }
+    }
+
+    public void Dispose()
+    {
+        isDisposed = true;
+        visibleItems = null;
+        selectedItem = null;
+        dataSource = null;
+        taskToken?.Dispose();
+        DotnetInstance?.Dispose();
+    }
+}

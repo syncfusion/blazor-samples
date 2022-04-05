@@ -1,0 +1,107 @@
+@page  "/maps/heat-map"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample represents India's population by state in 2011. Each state's color will be determined by its value.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to apply desired colors for the shapes, if its value is within the specified range using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMapping.html'>MapsShapeColorMappings</a>. In addition, the legend has been added to the bottom of the map. In this case, the tooltip is also enabled.</p>
+    <p>More information about color mapping can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/color-mapping/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfMaps Format="N0" UseGroupingSeparator="true" Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsTitleSettings Text="State Wise India's Population - 2011">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Bottom" Height="10" Width="350" LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
+        <MapsZoomSettings Enable="false" />
+        <MapsLayers>
+            <MapsLayer ShapeData='new { dataOptions = SampleService.WebAssetsPath + "data/maps/india.json" }' ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name" DataSource="@StateWisePopulation" TValue="State">
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
+                <MapsShapeSettings ColorValuePath='@("Population")'>
+                    <MapsShapeBorder Color="white" Width="0.2" />
+                    <MapsShapeColorMappings>
+                        <MapsShapeColorMapping StartRange="60000" EndRange="400000" Color="@ColorMappingColorOne" Label="<0.4M" />
+                        <MapsShapeColorMapping StartRange="400000" EndRange="10000000" Color="@ColorMappingColorTwo" Label="0.4-10M" />
+                        <MapsShapeColorMapping StartRange="10000000" EndRange="20000000" Color="@ColorMappingColorThree" Label="10-20M" />
+                        <MapsShapeColorMapping StartRange="20000000" EndRange="70000000" Color="@ColorMappingColorFour" Label="20-70M" />
+                        <MapsShapeColorMapping StartRange="70000000" EndRange="100000000" Color="@ColorMappingColorFive" Label="70-100M" />
+                        <MapsShapeColorMapping StartRange="100000000" EndRange="200000000" Color="@ColorMappingColorSix" Label=">100M" />
+                    </MapsShapeColorMappings>
+                </MapsShapeSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/List_of_states_and_union_territories_of_India_by_population" target="_blank">en.wikipedia.org</a>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public string[] ShapePropertyPath = { "NAME_1" };
+    public string[] ColorMappingColorOne = { "#9fdfdf" };
+    public string[] ColorMappingColorTwo = { "#79d2d2" };
+    public string[] ColorMappingColorThree = { "#53C6C6" };
+    public string[] ColorMappingColorFour = { "#39acac" };
+    public string[] ColorMappingColorFive = { "#339999" };
+    public string[] ColorMappingColorSix = { "#2d8686" };
+    public class State
+    {
+        public string Name { get; set; }
+        public double Population { get; set; }
+    };
+    public List<State> StateWisePopulation = new List<State> {
+        new State { Name="Uttar Pradesh", Population=199581477 },
+        new State { Name="Maharashtra", Population=112372972 },
+        new State { Name="Bihar", Population=103804637 },
+        new State { Name="West Bengal", Population=91347736 },
+        new State { Name="Andhra Pradesh", Population=84665533 },
+        new State { Name="Madhya Pradesh", Population=72597565 },
+        new State { Name="Tamil Nadu", Population=72138958 },
+        new State { Name="Rajasthan", Population=68621012 },
+        new State { Name="Karnataka", Population=61130704 },
+        new State { Name="Gujarat", Population=60383628 },
+        new State { Name="Orissa", Population=41947358 },
+        new State { Name="Kerala", Population=33387677 },
+        new State { Name="Jharkhand", Population=32966238 },
+        new State { Name="Assam", Population=31169272 },
+        new State { Name="Punjab", Population=27704236 },
+        new State { Name="Haryana", Population=25353081 },
+        new State { Name="Chhattisgarh", Population=25540196 },
+        new State { Name="Jammu and Kashmir", Population=12548926 },
+        new State { Name="Uttaranchal", Population=10116752 },
+        new State { Name="Himachal Pradesh", Population=6856509 },
+        new State { Name="Tripura", Population=3671032 },
+        new State { Name="Meghalaya", Population=2964007 },
+        new State { Name="Manipur", Population=2721756 },
+        new State { Name="Nagaland", Population=1980602 },
+        new State { Name="Goa", Population=1457723 },
+        new State { Name="Arunachal Pradesh", Population=1382611 },
+        new State { Name="Mizoram", Population=1091014 },
+        new State { Name="Sikkim", Population=607688 },
+        new State { Name="Delhi", Population=16753235 },
+        new State { Name="Puducherry", Population=1244464 },
+        new State { Name="Chandigarh", Population=1054686 },
+        new State { Name="Andaman and Nicobar", Population=379944 },
+        new State { Name="Dadra and Nagar Haveli", Population=342853 },
+        new State { Name="Daman and Diu", Population=242911 },
+        new State { Name="Lakshadweep", Population=64429 }
+    };    
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}
