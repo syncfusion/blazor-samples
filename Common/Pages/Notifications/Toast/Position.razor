@@ -1,0 +1,268 @@
+﻿@page "/toast/position"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the different positioning of the Toast based on the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Notifications.SfToast.html#Syncfusion_Blazor_Notifications_SfToast_Target"><code>Target</code></a> given.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Toast can take the body element or a specific element as its target, depending on the use case. The Toast can be positioned based on the <code>Target</code> using custom inputs in this sample.</p>
+    <ul>
+        <li>Toast can be positioned in the 8 pre-defined places.</li>
+        <li>Using the custom option, you can specify X and Y values that will align the Toast based on your inputs.</li>
+    </ul>
+
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href="https://blazor.syncfusion.com/documentation/toast/position/" target="_blank">Blazor Toast position</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-12 control-section toast-pos-section">
+    <div class="control_wrapper" id="toast_pos_target">
+        <SfToast @ref="ToastObj" Content="@ToastContent" Width="@ToastWidth" Title="@ToastTitle" Target="@ToastTarget" Icon="e-laura">
+            <ToastPosition X="@Xvalue" Y="@Yvalue"></ToastPosition>
+        </SfToast>
+        <div id="toast_pos_property">
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="padding:25px 0 0 0;">
+                                <SfRadioButton Label="Position" Name="toastPos" Value="Position" @bind-Checked="@Checked2" ValueChange="@CheckboxChange" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="padding:25px 0 0 0;">
+                                <SfRadioButton Label="Custom" Name="toastPos" Value="Custom" @bind-Checked="@checkedCustom" ValueChange="@CheckboxChange1" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        @if (TextboxEnabled)
+                        {
+                            <td colspan="1" id="customChoose">
+                                <form id="formId" class="form-horizontal">
+                                    <label>X Position</label>
+                                    <div class="e-row">
+                                        <SfTextBox @ref="TextboxObj" @bind-Value="@Defaultvalue" Placeholder="Please enter digits only." ValueChange="@HideToast" Focus="@HideToast"></SfTextBox>
+                                    </div>
+                                    <label>Y Position</label>
+                                    <div class="e-row">
+                                        <SfTextBox @ref="TextboxObj2" @bind-Value="@Defaultvalue1" Placeholder="Please enter digits only." ValueChange="@HideToast" Focus="@HideToast"></SfTextBox>
+                                    </div>
+                                </form>
+                            </td> 
+                        }
+                        else {
+                            <td id="dropdownChoose" colspan="1">
+                                <div id="dropdown" style="padding:14px;">
+                                    <SfDropDownList @ref="DropdownObj" TItem="Positions" ID="position" TValue="string" Placeholder="Select a position" PopupHeight="200px" DataSource="@Positioning">
+                                        <DropDownListEvents TValue="string" TItem="Positions" ValueChange="@OnChangeHandler"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="padding:25px 0 0 0;">
+                                <SfRadioButton id="radio1" Label="Target" Name="toast" Value="Target" @bind-Checked="@targetChecked" ValueChange="@CheckboxChange2" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="padding:25px 0 0 0;">
+                                <SfRadioButton id="radio2" Label="Global" Name="toast" Value="Global" @bind-Checked="@Checked" ValueChange="@CheckboxChange3" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="toast_btn" style="padding-top: 25px; text-align: center;">
+                <button class="e-btn e-control" id="show_Toast" style="margin-right: 15px" @onclick="@OnBtnClicked"> Show Toasts </button>
+                <button class="e-btn e-control" id="hideTosat" @onclick="@HideToast"> Hide All </button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #toast_pos_property td {
+        width: 50%;
+        padding-top: 12px;
+    }
+
+    .e-toast-icon.e-laura.e-icons {
+        border-radius: 50%;
+        background-image: url("@(SampleService.WebAssetsPath + "images/toast/laura.png")");
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 50px !important;
+        width: 60px !important;
+        background-size: 50px 50px;
+        margin-right: 15px;
+    }
+
+    @@media (min-width: 740px) {
+        #toast_pos_property {
+            width: 570px;
+        }
+    }
+
+    .toast-pos-section #toast_pos_property {
+        height: 500px;
+        border: none;
+        margin: auto;
+    }
+
+    .material-dark .toast-pos-section #formId label {
+        color: #fff;
+    }
+
+    .bootstrap5 .e-toast-icon.e-laura.e-icons,
+    .bootstrap5-dark .e-toast-icon.e-laura.e-icons {
+        margin-top: 13px;
+        margin-right: 14px;
+    }
+
+    .bootstrap5 .e-toast-container .e-toast .e-toast-icon,
+    .bootstrap5-dark .e-toast-container .e-toast .e-toast-icon {
+        position: relative;
+    }
+
+    .bootstrap5 .e-toast-container .e-toast .e-toast-message,
+    .bootstrap5-dark .e-toast-container .e-toast .e-toast-message {
+        padding-left: 10px;
+    }
+
+    .bootstrap5 .e-toast-container .e-toast.e-toast-header-icon .e-toast-message .e-toast-title:first-child,
+    .bootstrap5-dark .e-toast-container .e-toast.e-toast-header-icon .e-toast-message .e-toast-title:first-child {
+        padding-left: 12px;
+    }
+</style>
+@code {
+    SfToast ToastObj;
+    SfTextBox TextboxObj;
+    SfTextBox TextboxObj2;
+    SfDropDownList<string, Positions> DropdownObj;
+    private string ToastTarget { get; set; }
+    private string Xvalue { get; set; } = "50";
+    private string Yvalue { get; set; } = "50";
+    private string Defaultvalue { get; set; } = "50";
+    private string Defaultvalue1 { get; set; } = "50";
+    private bool CustomFlag { get; set; } = true;
+    private bool TextboxEnabled { get; set; } = true;
+    private bool DropdownEnable { get; set; } = false;
+    private string ToastWidth { get; set; }
+    private string ToastContent { get; set; } = "You have a friend request yet to accept";
+    private string ToastTitle { get; set; } = "Matt sent you a friend request";
+    private string Checked { get; set; } = "Global";
+    private string Checked2 { get; set; } = "Position";
+    private string PositionX { get; set; } = "Left";
+    private string checkedCustom { get; set; } = "Custom";
+    private string targetChecked { get; set; } = "Target";
+    private string PositionY { get; set; } = "Top";
+    public class Positions
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+    private List<Positions> Positioning = new List<Positions>()
+{
+        new Positions(){ value= "topleft", text= "Top Left" },
+        new Positions(){ value= "topright", text= "Top Right" },
+        new Positions(){ value= "topcenter", text= "Top Center" },
+        new Positions(){ value= "topfullwidth", text= "Top Full Width" },
+        new Positions(){ value= "bottomleft", text= "Bottom Left" },
+        new Positions(){ value= "bottomright", text= "Bottom Right" },
+        new Positions(){ value= "bottomcenter", text= "Bottom Center" },
+        new Positions(){ value= "bottomfullwidth", text= "Bottom Full Width" }
+    };
+    private async Task HideToast()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+    private async Task OnChangeHandler(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Positions> arg)
+    {
+        await this.HideToast();
+        this.ToastWidth = "auto";
+        switch (arg.Value)
+        {
+            case "topleft":
+                this.Xvalue = "Left"; this.Yvalue = "Top"; break;
+            case "topright":
+                this.Xvalue = "Right"; this.Yvalue = "Top"; break;
+            case "topcenter":
+                this.Xvalue = "Center"; this.Yvalue = "Top"; break;
+            case "topfullwidth":
+                this.ToastWidth = "100%"; this.Xvalue = "Center"; this.Yvalue = "Top"; break;
+            case "bottomleft":
+                this.Xvalue = "Left"; this.Yvalue = "Bottom"; break;
+            case "bottomright":
+                this.Xvalue = "Right"; this.Yvalue = "Bottom"; break;
+            case "bottomcenter":
+                this.Xvalue = "Center"; this.Yvalue = "Bottom"; break;
+            case "bottomfullwidth":
+                this.ToastWidth = "100%"; this.Xvalue = "Center"; this.Yvalue = "Bottom"; break;
+        }
+        this.PositionX = this.Xvalue;
+        this.PositionY = this.Yvalue;
+        this.StateHasChanged();
+    }
+    private async Task OnBtnClicked()
+    {
+        if (this.CustomFlag)
+        {
+            await this.SetCustomPosValue();
+        }
+        else
+        {
+            await Task.Delay(200);
+            await this.ToastObj.ShowAsync();
+        }
+    }
+    private async Task CheckboxChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    {
+        await this.HideToast();
+        this.CustomFlag = false;
+        this.TextboxEnabled = false;
+        this.DropdownEnable = true;
+        this.Xvalue = this.PositionX;
+        this.Yvalue = this.PositionY;
+        this.StateHasChanged();
+    }
+    private async Task CheckboxChange1(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    {
+        await this.HideToast();
+        this.CustomFlag = true;
+        this.TextboxEnabled = true;
+        this.DropdownEnable = false;
+        this.StateHasChanged();
+    }
+    private async Task CheckboxChange2(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    {
+        await this.HideToast();
+        this.ToastTarget = "#toast_pos_target";
+        this.StateHasChanged();
+    }
+    private async Task CheckboxChange3(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    {
+        await this.HideToast();
+        this.ToastTarget = "body";
+        this.StateHasChanged();
+    }
+    private async Task SetCustomPosValue()
+    {
+        this.Xvalue = this.TextboxObj.Value;
+        this.Yvalue = this.TextboxObj2.Value;
+        this.StateHasChanged();
+        await Task.Delay(200);
+        await this.ToastObj.ShowAsync();
+    }
+}
