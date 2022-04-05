@@ -1,0 +1,354 @@
+﻿@page "/sidebar/sidebar-with-listview"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@inherits SampleBaseComponent
+
+
+<SampleDescription>
+    <p>The <a href='https://www.syncfusion.com/blazor-components/blazor-sidebar' target='_blank'>Blazor Sidebar</a> ListView sample demonstrates customizing the Sidebar with ListView. Click on the hamburger menu icon to expand/collapse the Sidebar. Click the ListView item to see the corresponding item details. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <code>Sidebar</code> can allow to render custom components like TreeView, ListView, Menu, etc.</p>
+    <p>In this sample, the <code>ListView</code> component is placed inside the Sidebar for navigation. Click the ListView item to see the corresponding item details.</p>
+</ActionDescription>
+
+
+<div id="wrapper">
+    <div>
+        @*Initialize the Toolbar component*@
+        <SfToolbar>
+            <ToolbarEvents Clicked="@Toggle"></ToolbarEvents>
+            <ToolbarItems>
+                <ToolbarItem PrefixIcon="e-tbar-menu-icon tb-icons" TooltipText="Menu"></ToolbarItem>
+                <ToolbarItem>
+                    <Template>
+                        <div class="e-folder">
+                            <div class="e-folder-name">Language</div>
+                        </div>
+                    </Template>
+                </ToolbarItem>
+            </ToolbarItems>
+        </SfToolbar>
+    </div>
+    <div class="maincontent">
+        <div class="content">@ContentText</div>
+    </div>
+</div>
+
+@*Initialize the Sidebar Component*@
+<SfSidebar Width="250px" Target=".maincontent" HtmlAttributes="@HtmlAttribute" @bind-IsOpen="SidebarToggle" Type="@SidebarType.Auto">
+    <ChildContent>
+        <div class="content-area">
+            @*Initialize the ListView Component*@
+            <SfListView DataSource="@List" TValue="listData" CssClass="e-template-list">
+                <ListViewFieldSettings TValue="listData" Id="Id" Text="Text"></ListViewFieldSettings>
+                <ListViewTemplates TValue="listData">
+                    <Template>
+                        <div class="list-wrapper">
+                            <span class="@((context as listData).Pic) e-avatar e-avatar-xsmall e-avatar-circle"></span>
+                            <span class="text e-text-content">@((context as listData).Text)</span>
+                        </div>
+                    </Template>
+                </ListViewTemplates>
+                <ListViewEvents TValue="listData" Clicked="OnSelect"></ListViewEvents>
+            </SfListView>
+        </div>
+    </ChildContent>
+</SfSidebar>
+
+@code {
+    // Specifies the content for Right side pane.
+    public string ContentText = "Before getting into any programming language, one should have basic knowledge about HTML, CSS, and JavaScript. These are the basic building blocks of web designing. HTML describes the structure of a web page whereas CSS describes the presentation of the web page";
+    // Specify the value of Sidebar component state. It indicates whether the sidebar component is in an open/close state.
+    public bool SidebarToggle = true;
+    // Specifies the value of Sidebar component HTMLAttribute property.
+    Dictionary<string, object> HtmlAttribute = new Dictionary<string, object>()
+    {
+        {"class", "sidebar-list" }
+    };
+    // Specifies the value of ListView component Datasource property.
+    public List<listData> List = new List<listData>
+    {
+        new listData {Id="1", Text = "JavaScript", Pic = "javascript", Description = "JavaScript (JS) is an interpreted computer programming language. It was originally implemented as part of web browsers so that client-side scripts could interact with the user, control the browser, communicate asynchronously, and alter the document content that was displayed. However, it has recently become common in both game development and the creation of desktop applications." },
+        new listData {Id="2",Text = "TypeScript", Pic = "typescript", Description = "It is a typed superset of JavaScript that compiles to plain JavaScript. TypeScript is an open-source, object-oriented programing language. It contains all elements of JavaScript. It is a language designed for large-scale JavaScript application development, which can be executed on any browser, any Host, and any Operating System. TypeScript is a language as well as a set of tools. TypeScript is the ES6 version of JavaScript with some additional features." },
+        new listData {Id="3",Text = "Angular", Pic = "angular", Description = "Angular is a platform and framework for building single-page client applications using HTML and TypeScript. Angular is written in TypeScript. It implements core and optional functionality as a set of TypeScript libraries that you import into your applications." },
+        new listData {Id="4", Text = "React", Pic = "react", Description = "React is a declarative, efficient, and flexible JavaScript library for building user interfaces. It lets you compose complex UIs from small and isolated pieces of code called “components”. It can also render on the server using Node." },
+        new listData {Id="5", Text = "Vue", Pic = "vue", Description = "A progressive framework for building user interfaces. It is incrementally adoptable. The core library is focused on the view layer only and is easy to pick up and integrate with other libraries or existing projects. On the other hand, Vue is also perfectly capable of powering sophisticated Single-Page Applications when used in combination with modern tooling and supporting libraries." }
+    };
+
+    public class listData
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+        public string Pic { get; set; }
+        public string Description { get; set; }
+    }
+    // Specifies the event handler for Clicked event in ListView component.
+    public void OnSelect(Syncfusion.Blazor.Lists.ClickEventArgs<listData> args)
+    {
+        ContentText = args.ItemData.Description;
+    }
+    // Specifies the event handler for Clicked event in Toolbar component.
+    public void Toggle(ClickEventArgs args)
+    {
+        if (args.Item.TooltipText == "Menu")
+        {
+            SidebarToggle = !SidebarToggle;
+        }
+    }
+}
+
+<style>
+    /* Sample specific styles*/
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #wrapper .content {
+        font-size: 14px;
+        padding: 15px;
+    }
+    .col-lg-12.col-sm-12.col-md-12,
+    .control-section {
+        padding: 0;
+    }
+    #wrapper  .maincontent {
+        height: 380px;
+    }
+    #wrapper #left {
+        float: left;
+        width: 30px;
+        height: 47px;
+    }
+    #wrapper .sidebar-list {
+        z-index: 20 !important;
+    }
+    /* Specifies the styles for Toolbar component*/
+    #wrapper .e-toolbar .e-icons {
+        font-size: 20px;
+    }
+    #wrapper .e-tbar-menu-icon:before {
+        content: "\e914";
+        font-family: 'sbicons';
+    }
+    /* Specifies the styles for ListView component*/
+    .bootstrap5 .e-template-list,
+    .bootstrap5-dark .e-template-list,
+    .tailwind .e-template-list,
+    .tailwind-dark .e-template-list,
+    .bootstrap4 .e-template-list {
+        border: 0;
+        border-radius: 0;
+    }
+    .e-template-list .e-list-item {
+        line-height: 1.5;
+        padding: 0 16px;
+    }
+    .list-wrapper {
+        display: inline-flex;
+        width: 100%;
+    }
+    .e-bigger .list-wrapper {
+        padding-left: 8px;
+    }
+    .list-wrapper .text,
+    .list-wrapper .description {
+        padding-left: 14px;
+    }
+    .e-bigger .list-wrapper .text {
+        padding-left: 20px;
+    }
+    .list-wrapper .description {
+        font-size: 12px;
+        font-weight: 500;
+    }
+    .e-listbox-wrapper .list-wrapper .text {
+        font-weight: bold;
+        font-size: 13px;
+    }
+    .list-wrapper .e-avatar {
+        background-color: transparent;
+        float: left;
+    }
+
+    .material .list-wrapper .e-avatar,
+    .material-dark .list-wrapper .e-avatar,
+    .highcontrast .list-wrapper .e-avatar {
+        margin-top: 3px;
+    }
+
+    .fabric .list-wrapper .e-avatar,
+    .fabric-dark .list-wrapper .e-avatar {
+          margin-top: 6px;
+    }
+    .material.e-bigger .list-wrapper .e-avatar,
+    .material-dark.e-bigger .list-wrapper .e-avatar,
+    .highcontrast.e-bigger .list-wrapper .e-avatar {
+        margin-top: 7px;
+    }
+    .fabric-dark.e-bigger .list-wrapper .e-avatar,
+    .fabric.e-bigger .list-wrapper .e-avatar,
+    .bootstrap-dark.e-bigger .list-wrapper .e-avatar,
+    .bootstrap.e-bigger .list-wrapper .e-avatar {
+        margin-top: 10px;
+    }
+    .bootstrap .list-wrapper .e-avatar,
+    .bootstrap-dark .list-wrapper .e-avatar {
+        margin-top: 5px;
+    }
+    .bootstrap5 .list-wrapper .e-avatar,
+    .bootstrap5-dark .list-wrapper .e-avatar {
+        margin-top: -3px;
+    }
+    .tailwind .list-wrapper .e-avatar,
+    .tailwind-dark .list-wrapper .e-avatar
+    {
+        margin-top: -1px;
+    }
+     .bootstrap5.e-bigger .list-wrapper .e-avatar,
+     .bootstrap5-dark.e-bigger .list-wrapper .e-avatar{
+           margin-top: 0px;
+     }
+    .material .sidebar-list .e-listview:not(.e-list-template) .e-list-item,
+    .material-dark .sidebar-list .e-listview:not(.e-list-template) .e-list-item,
+    .bootstrap .sidebar-list .e-listview:not(.e-list-template) .e-list-item,
+    .bootstrap-dark .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 0 5px;
+    }
+    .bootstrap-dark .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 0 20px;
+    }
+    .fabric-dark.e-bigger .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 0;
+    }
+    .fabric-dark .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 0 8px;
+    }
+    .highcontrast.e-bigger .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 0 8px;
+    }
+    .tailwind.e-bigger .sidebar-list .e-listview:not(.e-list-template) .e-list-item,
+    .tailwind-dark.e-bigger .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 12px 14px 12px 12px;
+    }
+    .material .sidebar-list .list-wrapper .text,
+    .material-dark .sidebar-list .list-wrapper .text,
+    .bootstrap .sidebar-list .list-wrapper .text,
+    .bootstrap-dark .sidebar-list .list-wrapper .text {
+        padding-left: 9px;
+    }
+    .fabric-dark .sidebar-list .list-wrapper {
+        padding-left: 4px;
+    }
+    .fabric-dark.e-bigger .sidebar-list .list-wrapper .text {
+        padding-left: 24px;
+    }
+    .material.e-bigger .sidebar-list .list-wrapper .text,
+    .material-dark.e-bigger .sidebar-list .list-wrapper .text,
+    .bootstrap4.e-bigger .sidebar-list .list-wrapper .text {
+        padding-left: 12px;
+    }
+    .fabric.e-bigger .sidebar-list .list-wrapper .text,
+    .bootstrap.e-bigger .sidebar-list .list-wrapper .text,
+    .bootstrap-dark.e-bigger .sidebar-list .list-wrapper .text,
+    .highcontrast.e-bigger .sidebar-list .list-wrapper .text {
+        padding-left: 16px;
+    }
+    .bootstrap4.e-bigger .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        padding: 12px 14px;
+    }
+    .javascript {
+        background-image: url('@(SampleService.WebAssetsPath + "images/listbox/javascript.svg")');
+    }
+    .typescript {
+        background-image: url('@(SampleService.WebAssetsPath + "images/listbox/typescript.svg")')
+    }
+    .angular {
+        background-image: url('@(SampleService.WebAssetsPath + "images/listbox/angular.svg")');
+    }
+    .vue {
+        background-image: url('@(SampleService.WebAssetsPath + "images/listbox/vue.svg")');
+    }
+    .react {
+        background-image: url('@(SampleService.WebAssetsPath + "images/listbox/react.svg")');
+    }
+    /* Specifies the styles for Toolbar component*/
+    .e-folder {
+        text-align: center;
+        font-weight: 500;
+        font-size: 16px
+    }
+    .e-bigger .e-folder {
+        font-size: 18px;
+    }
+    .material-dark #wrapper .content {
+        color: white;
+    }
+    .tailwind-dark #wrapper .e-toolbar {
+        border-bottom: 1px solid #4b5563;
+    }
+    .material #wrapper .e-toolbar {
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .tailwind #wrapper .e-toolbar {
+        border-bottom: 1px solid #e5e7eb;
+    }
+    .bootstrap5-dark #wrapper .e-toolbar {
+        border-bottom: 1px solid #444c54;
+    }
+    .bootstrap5 #wrapper .e-toolbar {
+        border-bottom: 1px solid #d2d6de;
+    }
+    /* Specifies the styles for ListView component*/
+    .material .sidebar-list {
+        border-right: 1px solid rgba(0,0,0,0.12) !important;
+    }
+
+    .fabric .sidebar-list {
+        border-right: 1px solid #eaeaea !important;
+    }
+
+    .tailwind .sidebar-list {
+        border-right: 1px solid #d7d7d7 !important;
+    }
+
+    .bootstrap5-dark .sidebar-list {
+        border-right: 1px solid #444c54 !important;
+    }
+
+    .bootstrap5 .sidebar-list {
+        border-right: 1px solid #dee2e6 !important;
+    }
+
+    .material-dark .sidebar-list {
+        border-right: 1px solid #616161 !important;
+    }
+
+    .fabric-dark .sidebar-list {
+        border-right: 1px solid #414040 !important;
+    }
+
+    .tailwind-dark .sidebar-list {
+        border-right: 1px solid #4b5563 !important;
+    }
+
+    .e-bigger.bootstrap5 .sidebar-list .e-listview:not(.e-list-template) .e-list-item,
+    .e-bigger.bootstrap5-dark .sidebar-list .e-listview:not(.e-list-template) .e-list-item {
+        height: 43px;
+    }
+    /* Specifies the styles for custom folder elements*/
+    .bootstrap5 .e-folder-name, .bootstrap5-dark .e-folder-name {
+        margin-top: -2px;
+    }
+
+    .tailwind .e-folder-name, .tailwind-dark .e-folder-name, .bootstrap4 .e-folder-name,
+    .bootstrap .e-folder-name, .bootstrap-dark .e-folder-name {
+        margin-top: 3px;
+    }
+
+    .material .e-folder-name, .material-dark .e-folder-name {
+        margin-top: 1px;
+    }
+</style>

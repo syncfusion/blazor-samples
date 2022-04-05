@@ -1,0 +1,164 @@
+﻿@page "/chart/pie"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Inputs
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/pie-chart'>Blazor Pie Chart</a> example demonstrates pie chart for mobile browser usage statistics. Datalabel shows the Information about the points. While hovering on the slice, border will be highlighted.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the pie chart. The pie chart is a circular graphic, which is ideal for displaying proportional values in different categories. The <b>Pie Angle</b>, <b>Outer Radius</b>, <b>Explode Radius</b> and <b>Explode Index</b> options in the property panel can be used to customize the pie chart.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the pie series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="control-section">
+        <SfAccumulationChart Title="Mobile Browser Statistics" EnableAnimation="true" Theme="@Theme">
+            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+            <AccumulationChartSeriesCollection>
+                <AccumulationChartSeries DataSource="@PieChartPoints" XName="Browser" YName="Users" Name="Browser" Radius="@OuterRadius" StartAngle="@StartAngle" EndAngle="@EndAngle"
+                                         InnerRadius="0%" ExplodeIndex="@ExplodeIndex" Explode="true" ExplodeOffset="@ExplodeRadius">
+                    <AccumulationDataLabelSettings Visible="true" Name="Browser" Position="AccumulationLabelPosition.Outside"></AccumulationDataLabelSettings>
+                </AccumulationChartSeries>
+            </AccumulationChartSeriesCollection>
+        </SfAccumulationChart>
+    </div>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Pie Angle:
+                        </div>
+                    </td>
+                    <td style="width: 70%;">
+                        <div class="">
+                            <SfNumericTextBox TValue="int?" Value="@angle" Max=360 Min=0 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="changeAngle" />
+                            </SfNumericTextBox>
+                        </div>
+                    </td>
+                    <td style="width: 30%">
+                        <p style="font-weight: normal;"><span>@angle</span></p>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Outer Radius:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <SfNumericTextBox TValue="int?" Value="@radius" Max=80 Min=10 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeOuterRadius" />
+                            </SfNumericTextBox>
+                        </div>
+                    </td>
+                    <td style="width: 30%">
+                        <p style="font-weight: normal;"><span>@radius</span></p>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Explode Radius:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <SfNumericTextBox TValue="int?" Value="@exploderadius" Max=40 Min=0 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeExplodeRadius" />
+                            </SfNumericTextBox>
+                        </div>
+                    </td>
+                    <td style="width: 30%">
+                        <p style="font-weight: normal;"><span>@exploderadius</span></p>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Explode Index:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div data-role="rangeslider">
+                            <SfNumericTextBox TValue="int?" Value="@ExplodeIndex" Max=5 Min=0 Step=1 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeExplodeIndex" />
+                            </SfNumericTextBox>
+                        </div>
+                    </td>
+                    <td style="width: 30%">
+                        <p style="font-weight: normal;"><span>@ExplodeIndex</span></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@code{
+
+    public Theme Theme { get; set; }
+    public int ExplodeIndex { get; set; } = 1;
+    public string OuterRadius = "70%", ExplodeRadius = "10%";
+    public int StartAngle = 0, EndAngle = 360;
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
+{
+        new PieData { Browser = "Chrome", Users = 37},
+        new PieData { Browser = "UC Browse", Users = 17},
+        new PieData { Browser = "iPhone",  Users = 19 },
+        new PieData { Browser = "Others", Users = 4 },
+        new PieData { Browser = "Opera", Users = 11 },
+        new PieData { Browser = "Android", Users = 12}
+    };
+    private int angle = 0, radius = 70, exploderadius = 10;
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    private void changeAngle(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        StartAngle = EndAngle = angle = Convert.ToInt32(args.Value);
+    }
+
+    private void ChangeOuterRadius(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        radius = Convert.ToInt32(args.Value);
+        OuterRadius = radius + "%";
+    }
+
+    private void ChangeExplodeRadius(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        exploderadius = Convert.ToInt32(args.Value);
+        ExplodeRadius = exploderadius + "%";
+    }
+
+    private void ChangeExplodeIndex(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        ExplodeIndex = Convert.ToInt32(args.Value);
+    }
+
+    public class PieData
+    {
+        public string Browser { get; set; }
+        public double Users { get; set; }
+    }
+
+}
