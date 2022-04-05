@@ -1,0 +1,90 @@
+﻿@page "/gantt-chart/virtual-scroll"
+@using Syncfusion.Blazor.Gantt
+@inherits SampleBaseComponent; 
+
+<SampleDescription>
+    <p>This sample demonstrates the virtual scroll support in Gantt Chart. It allows users to load a large amount of data effectively and reduces DOM element's weight by virtually updating DOM during the vertical scroll.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Virtualization support is used to render a large number of tasks in Gantt Chart with an Effective performance.</p>
+    <p>In this mode, all the tasks are fetched from the data source initially and only few records are rendered in DOM which is compact to the current viewport area. While scrolling, tasks are updated in the DOM as per the current viewport position. This mode can be enabled by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableVirtualization'>EnableVirtualization</a> property as true.</p>
+    <p>More information on the virtual scroll can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/virtualization/'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row">
+        <div class="col-md-12">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1" EnableVirtualization="true" ProjectStartDate="ProjectStartDate" ProjectEndDate="ProjectEndDate">
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskData"></GanttLabelSettings>
+                <GanttTaskFields ParentID="ParentId" Id="ID" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress">
+                </GanttTaskFields>
+                <GanttEditSettings AllowTaskbarEditing="true"></GanttEditSettings>
+                <GanttSplitterSettings Position="23%"></GanttSplitterSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    private SfGantt<TaskData> Obj { get; set; }
+    private DateTime ProjectStartDate = new DateTime(2021, 01, 03);
+    private DateTime ProjectEndDate = new DateTime(2021, 01, 30);
+    private List<TaskData> TaskCollection { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = VirtualData.GetTreeVirtualData();
+    }
+
+    public class VirtualData
+    {
+        public static List<TaskData> GetTreeVirtualData()
+        {
+            List<TaskData> DataCollection = new List<TaskData>();
+            Random rand = new Random();
+            var x = 0;
+            for (var i = 1; i <= 100; i++)
+            {
+                var name = rand.Next(0, 100);
+                TaskData Parent = new TaskData()
+                {
+                    ID = ++x,
+                    TaskName = "Task " + x,
+                    StartDate = new DateTime(2021, 1, 9),
+                    EndDate = new DateTime(2021, 1, 13),
+                    Duration = "5",
+                    Progress = rand.Next(100),
+                    ParentId = null,
+
+                };
+                DataCollection.Add(Parent);
+                for (var j = 1; j <= 4; j++)
+                {
+                    var childName = rand.Next(0, 100);
+                    DataCollection.Add(new TaskData()
+                    {
+                        ID = ++x,
+                        TaskName = "Task " + x,
+                        StartDate = new DateTime(2021, 1, 9),
+                        EndDate = new DateTime(2019, 1, 13),
+                        Duration = "5",
+                        Progress = rand.Next(100),
+                        ParentId = Parent.ID
+                    });
+                }
+            }
+            return DataCollection;
+        }
+    }
+
+    public class TaskData
+    {
+        public int ID { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int Progress { get; set; }
+        public int? ParentId { get; set; }
+    }
+}
