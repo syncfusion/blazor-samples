@@ -1,0 +1,133 @@
+@page "/range-selector/light-weight"
+@using  Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample represents the total number of business and weekend days in a selected period.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the Light weight range navigator. To personalise the thumb in the range navigator, use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Width'>Width</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Height'>Height</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Fill'>Fill</a>, and <code>Border</code> properties. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Type'>Type</a> property can also be used to modify the Thumb's type.</p>
+    <p>More information about the light weight range navigator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/light-weight'>documentation section</a>.</p>
+</ActionDescription>
+
+@if (LightWeightData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Calculate the Business and Weekend Days in a Period</h4>
+        <br /><div>
+            <SfRangeNavigator Value="@RangeValue" IntervalType="RangeIntervalType.Months" Theme="@RangeNavigatorTheme" AnimationDuration="500" LabelFormat="MMM" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@LightWeightData" XName="x" YName="y">
+                <RangeNavigatorMajorGridLines Width="0.000001"></RangeNavigatorMajorGridLines>
+            </SfRangeNavigator>
+        </div>
+    </div>
+
+}
+@code{
+
+    public Theme RangeNavigatorTheme { get; set; } = Theme.Bootstrap4;
+    public ChartData[] LightWeightData { get; set; }
+    public object[] RangeValue = new object[] { new DateTime(2017, 10, 01), new DateTime(2017, 11, 01) };
+    private string currentUri;
+
+    protected override async Task OnInitializedAsync()
+    {
+	    LightWeightData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/default-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.MaterialDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Material;
+            }
+        }
+        else if (currentUri.IndexOf("fabric") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FabricDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fabric;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5;
+            }
+        }
+        else if (currentUri.IndexOf("fluent") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FluentDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fluent;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap4") > -1)
+        {
+            RangeNavigatorTheme = Theme.Bootstrap4;
+        }
+        else if (currentUri.IndexOf("bootstrap") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.BootstrapDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap;
+            }
+        }
+        else if (currentUri.IndexOf("highcontrast") > -1)
+        {
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.TailwindDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Tailwind;
+            }
+        }
+        else
+        {
+            RangeNavigatorTheme = Theme.Bootstrap4;
+        }
+    }
+}

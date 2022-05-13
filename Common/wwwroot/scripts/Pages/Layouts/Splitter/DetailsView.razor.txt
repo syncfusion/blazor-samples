@@ -1,0 +1,167 @@
+﻿@page "/splitter/details-view"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Lists
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the Blazor Splitter component that is used to design the details view page. Select the employee from the left pane to display the corresponding employee details on the right pane.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The Splitter is the layout user interface (UI) component that integrates other UI components within its pane. In this sample, the <a href="https://www.syncfusion.com/blazor-components/blazor-listview">Blazor ListView</a> component is integrated within the left pane to display the employee list and the right pane to display the corresponding employee details.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control_wrapper">
+        <SfSplitter Height="292px" Width="100%">
+            <SplitterPanes>
+                <SplitterPane Size="35%" Min="25%">
+                    <ContentTemplate>
+                        <div>
+                            <SfListView ID="ui-list" DataSource="@dataSource" Height="289" CssClass="e-list-template">
+                                <ListViewEvents TValue="DataModel" Clicked="select"></ListViewEvents>
+                                <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Name"></ListViewFieldSettings>
+                                <ListViewTemplates TValue="DataModel">
+                                    <Template>
+                                        @{
+                                            <div class="e-list-wrapper e-list-avatar">
+                                                <span class="e-avatar e-avatar-circle @(context.ImgUrl != " " ? " hideUI" : "showUI" )">
+                                                </span> <img class="e-avatar e-avatar-circle @(context.ImgUrl != " " ? " showUI" : "hideUI" )"
+                                                                src="@(context.ImgUrl != " " ? context.ImgUrl : " /")" />
+                                                <span class="e-list-content">@context.Name</span>
+                                            </div> }
+                                    </Template>
+                                </ListViewTemplates>
+                            </SfListView>
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+                <SplitterPane Size="65%" Min="45%">
+                    <ContentTemplate>
+                        <div>
+                            @if (SelectedIndex == 0)
+                            {
+                                <div class="header-image"><div class="e-avatar e-avatar-circle e-avatar-xlarge"><img src="@(SampleService.WebAssetsPath + "images/splitter/margaret.png")" alt="margaret"></div></div><div class="profile-name">Margeret Peacock</div><table><tr><td class="e-bold">Title</td><td>Sales Representative</td></tr><tr><td class="e-bold">Hire Date</td><td>11/15/2019</td></tr><tr><td class="e-bold">Address</td><td>507 - 20th Ave. E. Apt. 2A</td></tr><tr><td class="e-bold">City</td><td>Seattle</td></tr><tr><td class="e-bold">Phone</td><td>(206) 555-9857</td></tr></table>}
+                            @if (SelectedIndex == 1)
+                            {
+                                <div class="header-image"><div class="e-avatar e-avatar-circle e-avatar-xlarge"><img src="@(SampleService.WebAssetsPath + "images/splitter/laura.png")" alt="laura"></div></div><div class="profile-name">Laura Callahan</div><table><tr><td class="e-bold">Title</td><td>Sales Representative</td></tr><tr><td class="e-bold">Hire Date</td><td>09/25/2019</td></tr><tr><td class="e-bold">Address</td><td>908 W. Capital Way</td></tr><tr><td class="e-bold">City</td><td>Tacoma</td></tr><tr><td class="e-bold">Phone</td><td>(206) 555-9482</td></tr></table>}
+                            @if (SelectedIndex == 2)
+                            {
+                                <div class="header-image"><div class="e-avatar e-avatar-circle e-avatar-xlarge"><img src="@(SampleService.WebAssetsPath + "images/splitter/robert.png")" alt="robert"></div></div><div class="profile-name">Robert King</div><table><tr><td class="e-bold">Title</td><td>Sales Manager</td></tr><tr><td class="e-bold">Hire Date</td><td>03/20/2018</td></tr><tr><td class="e-bold">Address</td><td>14 Garrett Hill</td></tr><tr><td class="e-bold">City</td><td>London</td></tr><tr><td class="e-bold">Phone</td><td>(71) 555-4848</td></tr></table>}
+                            @if (SelectedIndex == 3)
+                            {
+                                <div class="header-image"><div class="e-avatar e-avatar-circle e-avatar-xlarge"><img src="@(SampleService.WebAssetsPath + "images/splitter/albert.png")" alt="albert"></div></div><div class="profile-name">Albert Dodsworth</div><table><tr><td class="e-bold">Title</td><td>Sales Representative</td></tr><tr><td class="e-bold">Hire Date</td><td>10/5/2019</td></tr><tr><td class="e-bold">Address</td><td>7 Houndstooth Rd.</td></tr><tr><td class="e-bold">City</td><td>London</td></tr><tr><td class="e-bold">Phone</td><td>(71) 555-4444</td></tr></table>}
+                            @if (SelectedIndex == 4)
+                            {
+                                <div class="header-image"><div class="e-avatar e-avatar-circle e-avatar-xlarge"><img src="@(SampleService.WebAssetsPath + "images/splitter/michale.png")" alt="Michale Suyama"></div></div><div class="profile-name">Michale Suyama</div><table><tr><td class="e-bold">Title</td><td>Inside Sales Coordinator</td></tr><tr><td class="e-bold">Hire Date</td><td>06/10/2018</td></tr><tr><td class="e-bold">Address</td><td>4726 - 11th Ave. N.E.</td></tr><tr><td class="e-bold">City</td><td>Seattle</td></tr><tr><td class="e-bold">Phone</td><td>(206) 555-1189</td></tr></table>}
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+            </SplitterPanes>
+        </SfSplitter>
+    </div>
+</div>
+
+@code 
+{
+    public int SelectedIndex = 0;
+    private List<DataModel> dataSource;
+
+    public class DataModel
+    {
+        public string Name { get; set; }
+        public string ImgUrl { get; set; }
+        public string Id { get; set; }
+        public Dictionary<string, object> HtmlProperties { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        var imagepath = SampleService.AssetsPath + "images/splitter/";
+        dataSource = new List<DataModel>()
+        {
+            new DataModel { Name= "Margaret", ImgUrl = imagepath + "margaret.png", Id = "1", HtmlProperties = new Dictionary<string, object>() { { "class", "e-active" } }},
+            new DataModel { Name= "Laura", ImgUrl = imagepath + "laura.png", Id = "2" },
+            new DataModel { Name= "Robert", ImgUrl = imagepath + "robert.png", Id = "3" },
+            new DataModel { Name= "Albert", ImgUrl = imagepath + "albert.png", Id = "4" },
+            new DataModel { Name= "Michale", ImgUrl = imagepath + "michale.png", Id = "5" },
+        };
+        base.OnInitialized();
+    }
+
+    private void select(ClickEventArgs<DataModel> e)
+    {
+        SelectedIndex = e.Index;
+    } 
+}
+
+<style>
+    #splitter .e-avatar.e-avatar-xlarge {
+        font-size: 22px;
+    }
+
+    .header-image {
+        text-align: center;
+        margin-top: 7px;
+    }
+
+    .e-custom-card .e-avatar {
+        font-size: 40px;
+        position: absolute;
+        top: calc(0% - 1.5em);
+        left: calc(50% - 1.5em);
+        box-shadow: 0 16px 28px -8px rgba(0, 0, 0, .36), 0 4px 15px 0 rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
+    }
+    /* ListView template customization */
+    #ui-list.e-listview .showUI {
+        display: flex;
+    }
+
+    #ui-list.e-listview .hideUI {
+        display: none;
+    }
+
+    #ui-list.e-listview .e-list-item {
+        padding: 3px 0;
+    }
+
+    #ui-list.e-listview .R {
+        background: lightgrey;
+    }
+
+    #ui-list.e-listview .M {
+        background: lightblue;
+    }
+
+    .highcontrast #ui-list.e-listview .e-list-item.e-active {
+        background: #ffd939;
+        color: #000000;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: calc(100% - 20px);
+        margin: 10px;
+    }
+
+        table th,
+        table td {
+            font-weight: normal;
+            padding: 5px;
+            text-align: left;
+            border: 1px solid #ddd
+        }
+
+    .e-bold {
+        font-weight: 500;
+    }
+
+    .profile-name {
+        font-weight: 500;
+        font-size: 14px;
+        text-align: center;
+    }
+</style>
