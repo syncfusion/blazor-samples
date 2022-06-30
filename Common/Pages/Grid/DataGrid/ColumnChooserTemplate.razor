@@ -1,0 +1,108 @@
+﻿@page "/datagrid/column-chooser-template"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos
+@using blazor_griddata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>The DataGrid column chooser template feature is demonstrated in this sample.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The column chooser feature allows the Blazor DataGrid columns to be shown/hidden dynamically. Set the  <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ShowColumnChooser'>ShowColumnChooser</a> property as <b>true</b> to enable the column chooser.</p>
+    <p>In this demo, the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumnChooserSettings.html'>GridColumnChooserSettings</a> component's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumnChooserSettings.html#Syncfusion_Blazor_Grids_GridColumnChooserSettings_Template'>Template</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumnChooserSettings.html#Syncfusion_Blazor_Grids_GridColumnChooserSettings_FooterTemplate'>FooterTemplate</a> are used to customize the content and footer of the column chooser dialog.</p>
+    <p>More information about the Column chooser template feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/columns#column-chooser-template'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid @ref="grid" DataSource="@GridData" ShowColumnChooser="true" Toolbar="@( new List<string>() { "ColumnChooser"})" AllowPaging="true">
+                <GridColumnChooserSettings>
+                    <Template>
+                        @{
+                            var cxt = context as ColumnChooserTemplateContext;
+                        }
+                        @if (ShouldRenderGroup("Order Details", cxt.Columns))
+                        {
+                            <GridColumnChooserItemGroup Title="Order Details">
+                                @foreach (var column in GetGroupColumns("Order Details", cxt.Columns))
+                                {
+                                    <GridColumnChooserItem Column="column"></GridColumnChooserItem>
+                                }
+                            </GridColumnChooserItemGroup>
+                        }
+                        @if (ShouldRenderGroup("Ship Details", cxt.Columns))
+                        {
+                            <GridColumnChooserItemGroup Title="Ship Details">
+                                @foreach (var column in GetGroupColumns("Ship Details", cxt.Columns))
+                                {
+                                    <GridColumnChooserItem Column="column"></GridColumnChooserItem>
+                                }
+                            </GridColumnChooserItemGroup>
+                        }
+                    </Template>
+                    <FooterTemplate>
+                        @{
+                            var cxt = context as ColumnChooserFooterTemplateContext;
+                            var visibles = cxt.Columns.Where(x => x.Visible).Select(x => x.HeaderText).ToArray();
+                            var hiddens = cxt.Columns.Where(x => !x.Visible).Select(x => x.HeaderText).ToArray();
+                        }
+                        <SfButton IsPrimary="true" OnClick="@(async () => {
+                        await grid.ShowColumnsAsync(visibles);
+                        await grid.HideColumnsAsync(hiddens); })">OK</SfButton>
+                        <SfButton @onclick="@(async () => await cxt.CancelAsync())">Cancel</SfButton>
+                    </FooterTemplate>
+                </GridColumnChooserSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" IsPrimaryKey="true" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShippedDate) HeaderText="Shipped Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Visible="false" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCity) HeaderText="Ship City" Visible="false" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<OrdersDetails> GridData { get; set; }
+
+    SfGrid<OrdersDetails> grid { get; set; }
+
+    IDictionary<string, string[]> groups = new Dictionary<string, string[]>()
+    {
+        { "Order Details", new string[] { "OrderID", "OrderDate" } }, { "Ship Details", new string[]{ "Freight", "ShipCountry", "ShippedDate", "ShipCity" } }
+    };
+
+    private GridColumn GetColumn(string field, List<GridColumn> columns)
+    {
+        GridColumn column = null;
+
+        if (columns.Any(x => { column = x; return x.Field == field; }))
+        {
+            return column;
+        }
+
+        return null;
+    }
+
+    private bool ShouldRenderGroup(string title, List<GridColumn> columns)
+    {
+        return groups[title].Any(x => columns.Any(y => y.Field == x));
+    }
+    private List<GridColumn> GetGroupColumns(string title, List<GridColumn> columns)
+    {
+        return columns.Where(x => groups[title].Contains(x.Field)).ToList();
+    }
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetails.GetAllRecords();
+    }
+}

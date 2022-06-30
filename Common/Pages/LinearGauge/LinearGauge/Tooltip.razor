@@ -1,0 +1,96 @@
+﻿@page "/linear-gauge/tooltip"
+
+@using System;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.LinearGauge
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample depicts the linear gauge as a measuring scale and shows the tooltip in the linear gauge.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The tooltip is used to track the current value that is closest to the mouse position or touch contact. When using a touch-enabled device, the tooltip is displayed by hovering or tapping.</p>
+    <p>More information about tooltip can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/linear-gauge/user-interaction/?no-cache=1#tooltip'>documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    .annotationText {
+        font-size: 15px;
+        margin-top: -4px
+    }
+</style>
+
+<div class="control-section">
+    <SfLinearGauge Orientation="Orientation.Horizontal" Theme="@Theme" Background="transparent">
+        <LinearGaugeEvents AxisLabelRendering="AxisLabel" />
+        <LinearGaugeContainer Width="140">
+            <LinearGaugeContainerBorder Width="2" Color="#a6a6a6" />
+        </LinearGaugeContainer>
+        <LinearGaugeTooltipSettings Enable="true" ShowAtMousePosition="true">
+            <LinearGaugeTooltipTextStyle FontFamily="inherit"></LinearGaugeTooltipTextStyle>
+        </LinearGaugeTooltipSettings>
+        <LinearGaugeAnnotations>
+            <LinearGaugeAnnotation AxisIndex="0" AxisValue="5.4" X="10" Y="-58" ZIndex="1">
+                <ContentTemplate>
+                    <div><h1 class="annotationText" style="color:@AnnotationColor;">Inches</h1></div>
+                </ContentTemplate>
+            </LinearGaugeAnnotation>
+            <LinearGaugeAnnotation AxisIndex="1" AxisValue="16.5" X="10" Y="52" ZIndex="1">
+                <ContentTemplate>
+                    <div><h1 class="annotationText" style="color:@AnnotationColor;">Centimeters</h1></div>
+                </ContentTemplate>
+            </LinearGaugeAnnotation>
+        </LinearGaugeAnnotations>
+        <LinearGaugeAxes>
+            <LinearGaugeAxis Maximum="@LinearOneMaximum" Minimum="@LinearOneMinimum">
+                <LinearGaugeLine Offset="140" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10" />
+                <LinearGaugeAxisLabelStyle>
+                    <LinearGaugeAxisLabelFont FontFamily="inherit" />
+                </LinearGaugeAxisLabelStyle>
+                <LinearGaugePointers>
+                    <LinearGaugePointer PointerValue="5.4" Offset="15" Type="Point.Bar" Color="#ff66b3" />
+                </LinearGaugePointers>
+            </LinearGaugeAxis>
+            <LinearGaugeAxis OpposedPosition="true" Maximum="@LinearTwoMaximum" Minimum="@LinearTwoMinimum">
+                <LinearGaugeLine Offset="-140" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10" />
+                <LinearGaugeAxisLabelStyle>
+                    <LinearGaugeAxisLabelFont FontFamily="inherit" />
+                </LinearGaugeAxisLabelStyle>
+                <LinearGaugePointers>
+                    <LinearGaugePointer PointerValue="16.5" Offset="-15" Type="Point.Bar" Color="#4d94ff" />
+                </LinearGaugePointers>
+            </LinearGaugeAxis>
+        </LinearGaugeAxes>
+    </SfLinearGauge>
+</div>
+
+@code {
+    public static Theme Theme { get; set; }
+    public double LinearOneMinimum = 0;
+    public double LinearOneMaximum = 10;
+    public double LinearTwoMinimum = 0;
+    public double LinearTwoMaximum = 25;
+    public string AnnotationColor = "#686868";
+
+    public void AxisLabel(AxisLabelRenderEventArgs args)
+    {
+        if (this.LinearOneMinimum == args.AxisValue || this.LinearTwoMaximum == args.AxisValue ||
+            this.LinearOneMaximum == args.AxisValue || this.LinearTwoMinimum == args.AxisValue)
+        {
+            args.Text = "";
+        }
+        this.StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        AnnotationColor = (Theme == Theme.HighContrast || Theme.ToString().IndexOf("Dark") > -1) ? "#DADADA" : "#686868";
+    }
+}

@@ -1,0 +1,96 @@
+﻿@page "/tree-grid/show-or-hide"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using BlazorDemos
+@using ej2_blazor_selfdata
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates dynamic show/hide columns feature of Tree Grid. Click the toggle switch in this demo to change the visibility of columns.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Tree Grid column can be shown/hidden dynamically using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_ShowColumnAsync_System_String_System_String_'>ShowColumnsAsync</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_HideColumnAsync_System_String_System_String_'>HideColumnsAsync</a> methods of Tree Grid.</p>
+    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridColumn_Visible'>TreeGridColumn->Visible</a> property decides the visibility of a column. To hide a column at the initial rendering, set the <code>TreeGridColumn->Visible</code> property to false.</p>
+    <p>More information on the show hide column can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#showhide-columns-by-external-button'>documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-mastertext">Click the switch to toggle visibility</div>
+            <div class="e-switch-control">
+                <label class="showhide" style="padding: 10px 5px 10px 0"> Task ID </label>
+                <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("Task ID", args); })" @bind-Checked="@Check" TChecked="bool"></SfSwitch>
+                <label class="showhide" style="padding: 10px 5px 10px 40px"> Progress </label>
+                <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("Progress", args); })" @bind-Checked="@Check1" TChecked="bool"></SfSwitch>
+                <label class="showhide" style="padding: 10px 5px 10px 40px"> Duration </label>
+                <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("Duration", args); })" @bind-Checked="@Check2" TChecked="bool"></SfSwitch>
+            </div>
+            <SfTreeGrid DataSource="@TreeGridData" @ref="TreeGrid" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" Height="312">
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="145"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type=ColumnType.Date Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .showhide {
+        font-size: 15px;
+        font-weight: 400;
+        margin-bottom: 1px;
+    }
+    
+    .e-switch-control {
+        display: flex;
+        align-items: center;
+    }
+
+    .e-mastertext {
+        font-size: 15px;
+        font-family: Roboto;
+        opacity: 0.87;
+        padding: 0.7em;
+    }
+</style>
+
+
+
+@code{
+
+    SfTreeGrid<SelfReferenceData> TreeGrid;
+
+    public List<SelfReferenceData> TreeGridData { get; set; }
+    private Boolean Check = true, Check1 = true, Check2 = true;
+
+    public async void Change(string Name, Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        if (args.Checked)
+        {
+            await this.TreeGrid.ShowColumnAsync(Name);
+        }
+        else
+        {
+            await this.TreeGrid.HideColumnAsync(Name);
+        }
+    }
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = SelfReferenceData.GetTree().Take(50).ToList();
+    }
+}
