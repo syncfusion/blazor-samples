@@ -1,0 +1,101 @@
+﻿@page "/datagrid/foreign-key-column"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor
+@using BlazorDemos
+@using blazor_griddata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example shows how to use the DataGrid component with the foreign key column feature. For the foreign key column, you can also perform sorting, filtering, and editing operations.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Foreign key columns can be displayed in the Blazor DataGrid. It can be enabled by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridForeignColumn-1.html'>GridForeignColumn</a> directive's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridForeignColumn-1.html#Syncfusion_Blazor_Grids_GridForeignColumn_1_ForeignDataSource'>ForeignDataSource</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_ForeignKeyField'>ForeignKeyField</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_ForeignKeyValue'>ForeignKeyValue</a>  properties.</p>
+    <p><code>ForeignKeyValue</code> will sort foreign key columns in local data instead of <code>ForeignKeyField</code>.</p>
+    <p>To bind the foreign key column to remote collection of items, the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html'>SfDataManager</a> component was used and supplied the URL action instead of a static collection of items.</p> 
+    <p>Also, it is mandatory to define the properties of <code>ForeignKeyField</code> and <code>ForeignKeyValue</code> in the <code>GridForeignColumn</code> directive.</p>
+    <p>More information about the Foreign Key column feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/columns/#foreign-key-column'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class='e-mastertext'><b>Local Data</b></div>
+            <SfGrid DataSource="@GridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" Toolbar="@(new List<string>() {"Add", "Edit", "Delete", "Update","Cancel","Search" })" >
+                <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="5"></GridPageSettings>
+                <GridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" IsPrimaryKey="true" Width="100" ValidationRules="@(new ValidationRules{ Required=true, Number=true})"></GridColumn>
+                    <GridForeignColumn Field=@nameof(OrdersDetails.EmployeeID) HeaderText="First Name" ForeignKeyValue="FirstName" ValidationRules="@(new ValidationRules{ Required=true})" ForeignDataSource="@Employees" Width="150"></GridForeignColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" DefaultValue="DefaultShipCountry" Width="140" EditType="EditType.DropDownEdit"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+            <div class='e-mastertext'><b>Remote Data</b></div>
+            <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update","Cancel" })">
+                <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
+                <GridPageSettings PageSize="5"></GridPageSettings>
+                <GridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" IsPrimaryKey="true" Width="100" ValidationRules="@(new ValidationRules{ Required=true, Number=true})"></GridColumn>
+                    <GridForeignColumn TValue="EmployeeData" Field=@nameof(OrdersDetails.EmployeeID) HeaderText="First Name" ForeignKeyValue="FirstName" Width="150" ValidationRules="@(new ValidationRules{ Required=true})">
+                        <Syncfusion.Blazor.Data.SfDataManager Url="https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Employees" CrossDomain="true" Adaptor="Adaptors.ODataAdaptor">
+                        </Syncfusion.Blazor.Data.SfDataManager>
+                    </GridForeignColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140" DefaultValue="DefaultShipCountry" EditType="EditType.DropDownEdit"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@*Hidden:Lines*@
+<style>
+    .e-mastertext {
+        font-size: 15px;
+        font-family: Roboto;
+        opacity: 0.87;
+        padding: 1em;
+    }
+</style>
+@*End:Hidden*@
+
+@code{
+
+    public List<OrdersDetails> GridData { get; set; }
+    public List<EmployeeData> Employees { get; set; }
+    public string DefaultShipCountry { get; set; } = "French";
+    protected override void OnInitialized()
+    {
+        GridData = Enumerable.Range(1, 75).Select(x => new OrdersDetails()
+        {
+            OrderID = 1000 + x,
+            EmployeeID = new Random().Next(1, 9),
+            Freight = 2.1 * x,
+            OrderDate = DateTime.Now.AddDays(-x),
+            ShipCountry = (new string[] { "USA", "UK", "London", "French", "Germany" })[new Random().Next(5)],
+        }).ToList();
+
+        Employees = new List<EmployeeData> {
+            new EmployeeData { EmployeeID = 1, FirstName = "Nancy"},
+            new EmployeeData { EmployeeID = 2, FirstName = "Andrew"},
+            new EmployeeData { EmployeeID = 3, FirstName = "Janet"},
+            new EmployeeData { EmployeeID = 4, FirstName = "Margaret"},
+            new EmployeeData { EmployeeID = 5, FirstName = "Steven"},
+            new EmployeeData { EmployeeID = 6, FirstName = "Anne"},
+            new EmployeeData { EmployeeID = 7, FirstName = "Laura"},
+            new EmployeeData { EmployeeID = 8, FirstName = "Michael"},
+            new EmployeeData { EmployeeID = 9, FirstName = "Robert"},
+        };
+    }
+
+    public class EmployeeData
+    {
+        public int? EmployeeID { get; set; }
+        public string FirstName { get; set; }
+    }
+}

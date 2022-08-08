@@ -1,0 +1,251 @@
+﻿@page "/bullet-chart/bar-customization"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor
+@inject NavigationManager NavigationManager
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example shows a bullet chart with different customization options for feature bar and a comparative bar.</p>
+</SampleDescription>
+<ActionDescription>
+ <p>The Blazor Bullet Chart component allows you to configure the feature bar and comparative bar using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfBulletChart-1.html#Syncfusion_Blazor_Charts_SfBulletChart_1_ValueFill'>ValueFill</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfBulletChart-1.html#Syncfusion_Blazor_Charts_SfBulletChart_1_ValueHeight'>ValueHeight</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfBulletChart-1.html#Syncfusion_Blazor_Charts_SfBulletChart_1_TargetWidth'>TargetWidth</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfBulletChart-1.html#Syncfusion_Blazor_Charts_SfBulletChart_1_TargetColor'>TargetColor</a>.</p>
+    <p>Tooltip is enabled in this example. To see the tooltip in action, hover a feature bar or comparative bar on the bullet chart.</p>
+      <p>More information about the target bar can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/bullet-chart/target-bar'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="row">
+    <div class="control-section col-md-8">
+        <SfBulletChart DataSource="@BulletChartData" Type="@Type" ValueField="ActualValue" Theme="@theme" TargetField="Targetvalue" Minimum="0" Maximum="300" Interval="50"
+                       ValueFill="@valueFillColor" TargetColor="@targetFillColor" Title="New Customers" Subtitle="in Thousands" TitlePosition="TextPosition.Left">
+            <BulletChartTooltip TValue="ChartData" Enable="true"></BulletChartTooltip>
+            <BulletChartRangeCollection>
+                <BulletChartRange End="150"> </BulletChartRange>
+                <BulletChartRange End="250"></BulletChartRange>
+                <BulletChartRange End="300"></BulletChartRange>
+            </BulletChartRangeCollection>
+        </SfBulletChart>
+    </div>
+    <div class="col-md-4 property-section">
+        <table style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Actual Value:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div>
+                        <SfNumericTextBox TValue="int?" Value="@actualValue" Max=300 Min=0 Step=10>
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeActualValue" />
+                        </SfNumericTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Target Value:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div>
+                        <SfNumericTextBox TValue="int?" Value="@targetValue" Max=300 Min=0 Step=10>
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeTagetValue" />
+                        </SfNumericTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    Feature Bar Type:
+                </td>
+                <td style="width: 40%;">
+                    <SfDropDownList TValue="string" Placeholder="Rect" TItem="Data" DataSource="@DropDowmData" @bind-Value="@Value">
+                        <DropDownListFieldSettings Value="ID"></DropDownListFieldSettings>
+                        <DropDownListEvents TValue="string" TItem="Data" ValueChange="ChangeType"></DropDownListEvents>
+                    </SfDropDownList>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Feature Bar Color:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div>
+                        <SfColorPicker Value="@valueFillColor" Mode="ColorPickerMode.Palette" ShowButtons="false" ValueChange="FeatureBarColor"></SfColorPicker>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Target Color:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div>
+                        <SfColorPicker Value="@targetFillColor" Mode="ColorPickerMode.Palette" ShowButtons="false" ValueChange="TargetColor"></SfColorPicker>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@code{
+    private int targetValue { get; set; } = 250;
+    private int actualValue { get; set; } = 270;
+
+    FeatureType Type;
+
+    private string valueFillColor { get; set; } = "#000000";
+    private string targetFillColor { get; set; } = "#000000";
+    public GetCurrentValue ColorValue { get; set; }
+
+    string Value = "Rect";
+    public class GetCurrentValue
+    {
+        public string hex { get; set; }
+        public string rgba { get; set; }
+    }
+
+    public void FeatureBarColor(ColorPickerEventArgs args)
+    {
+        this.valueFillColor = args.CurrentValue.Hex;
+    }
+
+    public void TargetColor(ColorPickerEventArgs args)
+    {
+        this.targetFillColor = args.CurrentValue.Hex;
+    }
+
+
+    public void ChangeActualValue(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        actualValue = Convert.ToInt32(args.Value);
+        BulletChartData = new List<ChartData>
+        {
+            new ChartData { ActualValue = actualValue, Targetvalue = targetValue }
+        };
+    }
+
+    public void ChangeTagetValue(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        targetValue = Convert.ToInt32(args.Value);
+        BulletChartData = new List<ChartData>
+        {
+            new ChartData { ActualValue = actualValue, Targetvalue = targetValue }
+        };
+    }
+
+    public class Data
+    {
+        public string ID { get; set; }
+    }
+
+    private List<Data> DropDowmData = new List<Data>()
+    {
+        new Data(){ ID= "Rect"},
+        new Data(){ ID= "Dot"}
+    };
+
+    private void ChangeType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Data> args)
+    {
+        this.Type = (FeatureType)Enum.Parse(typeof(FeatureType), args.Value, true);
+        StateHasChanged();
+    }
+
+    public class ChartData
+    {
+        public int ActualValue { get; set; }
+        public int Targetvalue { get; set; }
+    }
+    public List<ChartData> BulletChartData = new List<ChartData>
+    {
+            new ChartData { ActualValue = 270, Targetvalue = 250 }
+    };
+
+    private string CurrentUri;
+    private Theme theme { get; set; }
+    protected override void OnInitialized()
+    {
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.MaterialDark;
+            }
+            else
+            {
+                theme = Theme.Material;
+            }
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FabricDark;
+            }
+            else
+            {
+                theme = Theme.Fabric;
+            }
+        }
+        else if (CurrentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                theme = Theme.Bootstrap5;
+            }
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            theme = Theme.Bootstrap4;
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.BootstrapDark;
+            }
+            else
+            {
+                theme = Theme.Bootstrap;
+            }
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            theme = Theme.HighContrast;
+        }
+        else if (CurrentUri.IndexOf("tailwind") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.TailwindDark;
+            }
+            else
+            {
+                theme = Theme.Tailwind;
+            }
+        }
+        else if (CurrentUri.IndexOf("fluent") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FluentDark;
+            }
+            else
+            {
+                theme = Theme.Fluent;
+            }
+        }
+        else
+        {
+            theme = Theme.Bootstrap4;
+        }
+    }
+}
