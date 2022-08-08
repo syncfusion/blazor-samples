@@ -1,0 +1,240 @@
+@page "/scheduler/header-bar"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Buttons
+@using System.Globalization
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>
+        This demo shows the way of adding custom toolbar as Scheduler header bar. Here, an employee image is added to the
+        header bar, clicking on which will open the popup showing that person's short profile information.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, a custom toolbar is rendered with schedule header bar items and a popup has been designed separately with a person's profile info and kept in a hidden state initially.
+    </p>
+    <p>
+        In this case, the header bar of Scheduler needs to be hidden by setting false to the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_ShowHeaderBar">ShowHeaderBar</a> property.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        @if (ShowHeader)
+        {
+            <SfToolbar>
+                <ToolbarItems>
+                    <ToolbarItem Align="ItemAlign.Left" PrefixIcon="e-icons e-chevron-left" TooltipText="Previous" Id="Previous" OnClick="@Clicked"></ToolbarItem>
+                    <ToolbarItem Align="ItemAlign.Left" PrefixIcon="e-icons e-chevron-right" TooltipText="Next" Id="Next" OnClick="@Clicked"></ToolbarItem>
+                    <ToolbarItem Align="ItemAlign.Left" SuffixIcon="e-icons e-chevron-down" Text="@CurrentDate.ToString("MMMM yyyy", CultureInfo.InvariantCulture)" OnClick="@DateRangeClick"></ToolbarItem>
+                    <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+                    <ToolbarItem Align="ItemAlign.Right" Type="ItemType.Button" Id="Today" Text="Today" OnClick="@Clicked"></ToolbarItem>
+                    <ToolbarItem Type="ItemType.Button" Align="ItemAlign.Right" OnClick="@ImageClick">
+                        <Template>
+                            <div class="image"><img src="https://ej2.syncfusion.com/demos/src/schedule/images/nancy.png" /></div>
+                        </Template>
+                    </ToolbarItem>
+                </ToolbarItems>
+            </SfToolbar>
+        }
+        <SfSchedule TValue="ScheduleData.AppointmentData" Height="650px" ShowHeaderBar="false" @bind-SelectedDate="@CurrentDate">
+            <ChildContent>
+                @if (ShowHeader)
+                {
+                    <div class="e-header-popup">
+                        @if (ShowCalendar)
+                        {
+                            <SfCalendar TValue="DateTime" @bind-Value="@CurrentDate" Start="CalendarView.Year" Depth="CalendarView.Year"></SfCalendar>
+                        }
+                    </div>
+                    <div class="profile-wrapper" style="display: @ImageContent">
+                        <div class="profile-container">
+                            <span class="profile-image"></span>
+                            <div class="content-wrap">
+                                <div class="name">Nancy</div>
+                                <div class="destination">Product Manager</div>
+                                <div class="status"><span class="status-icon"></span>Online</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <ScheduleViews>
+                    <ScheduleView Option="View.Month"></ScheduleView>
+                </ScheduleViews>
+                <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="@EventRendered"></ScheduleEvents>
+                <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+            </ChildContent>
+        </SfSchedule>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' class='property-panel-table' style="width: 100%;">
+            <tbody>
+                <tr style="height: 50%">
+                    <td style="width: 100%">
+                        <SfCheckBox TChecked="bool" @bind-Checked="@IsChecked" @onchange="@ShowToolbar" Label="Show/Hide Header bar"></SfCheckBox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
+    private bool ShowHeader { get; set; } = true;
+    private string ImageContent { get; set; } = "none";
+    private bool IsChecked { get; set; } = true;
+    private bool ShowCalendar { get; set; } = false;
+    List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetEmployeeEventData();
+    public void ShowToolbar()
+    {
+        ImageContent = "none";
+        ShowHeader = IsChecked;
+        ShowCalendar = false;
+    }
+    public void Clicked(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Id == "Previous")
+        {
+            CurrentDate = CurrentDate.AddMonths(-1);
+        }
+        if (args.Item.Id == "Next")
+        {
+            CurrentDate = CurrentDate.AddMonths(1);
+        }
+        if (args.Item.Id == "Today")
+        {
+            CurrentDate = DateTime.Now.Date;
+        }
+    }
+    public void EventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        if (args.Data.CategoryColor != null)
+        {
+            args.Attributes = new Dictionary<string, object>() { { "style", $"background-color:{args.Data.CategoryColor}" } };
+        }
+    }
+    public void DateRangeClick()
+    {
+        ShowCalendar = !ShowCalendar;
+    }
+    public void ImageClick()
+    {
+        ImageContent = (ImageContent == "none") ? "block" : "none";
+        ShowCalendar = false;
+    }
+}
+<style>
+    .e-header-popup .e-calendar {
+        position: absolute;
+        z-index: 100;
+        top: -1px;
+        left: 97px;
+    }
+
+    .image img {
+        width: 25px;
+    }
+
+    .profile-wrapper {
+        width: 185px;
+        height: 80px;
+        background-color: #fafafa;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        position: absolute;
+        z-index: 100;
+        top: 0px;
+        right: 0px;
+    }
+
+    .profile-wrapper .profile-container {
+        display: flex;
+        padding: 10px;
+    }
+
+    .profile-wrapper .profile-image {
+        background-image: url('https://ej2.syncfusion.com/demos/src/schedule/images/nancy.png');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-wrapper .content-wrap {
+        padding-left: 10px;
+    }
+
+    .profile-wrapper .name {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        margin-top: 2px;
+    }
+
+    .profile-wrapper .destination {
+        font-size: 12px;
+    }
+
+    .tailwind .profile-wrapper .destination,
+    .tailwind-dark .profile-wrapper .destination {
+        font-size: 11px;
+    }
+
+    .profile-wrapper .status-icon {
+        height: 6px;
+        width: 6px;
+        background: green;
+        border-radius: 100%;
+        float: left;
+        margin-right: 4px;
+        margin-top: 4px;
+    }
+
+    .profile-wrapper .status {
+        font-size: 11px;
+    }
+
+    .highcontrast .profile-wrapper {
+        border: 1px solid #969696
+    }
+
+    .highcontrast .profile-wrapper .profile-container {
+        background-color: #000;
+    }
+
+    .e-schedule.e-device .e-header-popup .e-calendar {
+        left: 0px;
+    }
+
+    .tailwind-dark .profile-wrapper {
+        background-color: #374151;
+        border: 0.5px solid #4b5563;
+    }
+
+    .bootstrap5-dark .profile-wrapper {
+        background-color: rgb(40, 45, 49);
+        border: 0.5px solid #4b5563;
+    }
+
+    .bootstrap-dark .profile-wrapper {
+        background-color: #1a1a1a;
+    }
+
+    .fluent-dark .profile-wrapper {
+        background-color: #201f1e;
+    }
+
+    .fabric-dark .profile-wrapper {
+        background-color: #333232;
+    }
+</style>

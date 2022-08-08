@@ -1,0 +1,218 @@
+﻿@page "/DropDown-List/Data-Binding"
+
+@using System.Collections.ObjectModel;
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Data
+@using System.Dynamic
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates the DropDownList's data binding support. Select an item from the suggestion list by clicking the DropDownList component. When you first click on the remote data DropDownList, the loader icon will appear until the remote request retrieves the data from the server and displays it.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The DropDownList loads the data either from local data sources or remote data services through the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.IDropDownBase-1.html#Syncfusion_Blazor_DropDowns_IDropDownBase_1_DataSource' target='_blank'> DataSource</a> property. 
+        It supports the data type of <code>Array</code>, <code>Observable Collection</code>, <code>ExpandoObject</code>, <code>DynamicObject</code> and <code>DataManager</code>.</p>
+
+    <p>The <a href="https://blazor.syncfusion.com/documentation/data/getting-started">DataManager</a>, that acts as an interface between the service endpoint and DropDownList will require the following minimal information to interact with the service endpoint properly.</p>
+    <ul>
+        <li><a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html#Syncfusion_Blazor_DataManager_Url' target='_blank'>DataManager.Url</a> - Defines the service endpoint to fetch data.</li>
+        <li><p><a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html#Syncfusion_Blazor_DataManager_Adaptor' target='_blank'>DataManager.Adaptor</a> - Defines the adaptor option. 
+            By default, <code>ODataAdaptor</code> is used for remote binding.
+            The adaptor is responsible for processing responses and requests from/to the service endpoint. 
+            <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Data/">Syncfusion.Blazor.Data</a> package provides some predefined adaptors that are designed to interact with particular service endpoints. 
+            They are:</p>
+            <ul>
+                <li><code>UrlAdaptor</code> - Use this to interact with any remote services.</li>
+                <li><code>ODataAdaptor</code> - Use this to interact with OData endpoints.</li>
+                <li><code>ODataV4Adaptor</code> - Use this to interact with OData V4 endpoints.</li>
+                <li><code>WebApiAdaptor</code> - Use this to interact with Web API created under OData standards.</li>
+                <li><code>WebMethodAdaptor</code> - Use this to interact with web methods.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>Below are the different types of data binding used in this sample.</p>
+    <ul><li>Local Data DropDownList is bound to a collection of sports data.</li>
+        <li>Remote Data DropDownList is bound to a collection of customer data using <code>DataManager</code>.</li>
+        <li>Observable Collection DropDownList is bound to a <code>ObservableCollection</code> of colors data.</li>
+        <li>ExpandObject DropDownList is bound to the collection of vehicles data of type <code>ExpandObject</code>.</li>
+        <li>DynamicObject DropDownList is bound to the collection of customers data of type <code>DynamicObject</code>.</li>
+    </ul>
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href='https://blazor.syncfusion.com/documentation/dropdown-list/data-binding/' target='_blank'>Blazor Dropdown List - Data Binding</a></li>
+       <li><a href='https://blazor.syncfusion.com/documentation/data/getting-started' target='_blank'>Blazor Data Manager</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section col-lg-12">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">Local Data</label>
+                <SfDropDownList TValue="string" TItem="GameFields" PopupHeight="230px" Placeholder="Select a game" DataSource="@Games" @bind-Value="@GameValue">
+                    <DropDownListFieldSettings Text="Text" Value="ID"/>
+                </SfDropDownList>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">Remote Data</label>
+                <SfDropDownList TValue="string" TItem="OrderDetails" PopupHeight="230px" Placeholder="Select a name" Query="@RemoteDataQuery" @bind-Value="@OrderValue">
+                    <SfDataManager Url="https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders" CrossDomain="true" Adaptor="Syncfusion.Blazor.Adaptors.ODataAdaptor"/>
+                    <DropDownListFieldSettings Text="CustomerID" Value="CustomerID"/>
+                </SfDropDownList>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">Observable Collection</label>
+                <SfDropDownList  TValue="string" TItem="Colors" PopupHeight="230px" Placeholder="Select a color" DataSource="@ColorsData" @bind-Value="@ColorValue">
+                    <DropDownListFieldSettings Text="Color" Value="Code"/>
+                </SfDropDownList>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">ExpandoObject</label>
+                <SfDropDownList TItem="ExpandoObject" TValue="string" PopupHeight="230px" Placeholder="Select a vehicle" DataSource="@VehicleData" @bind-Value="@VehicleValue">
+                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">DynamicObject</label>
+                <SfDropDownList TValue="string" TItem="DynamicDictionary" Placeholder="Select a name" DataSource="@Orders" @bind-Value="@DropValue">
+                    <DropDownListFieldSettings Text="CustomerName" Value="CustomerName"/>
+                </SfDropDownList>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    public string GameValue { get; set; } = "Game3";
+    public string OrderValue { get; set; } = "VICTE";
+    public string ColorValue { get; set; } = "#75523C";
+    public string VehicleValue { get; set; } = "1011";
+    public string DropValue { get; set; } = "Michael";
+
+    public class GameFields
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    public List<GameFields> Games = new List<GameFields>()
+    {
+        new GameFields(){ ID= "Game1", Text= "American Football" },
+        new GameFields(){ ID= "Game2", Text= "Badminton" },
+        new GameFields(){ ID= "Game3", Text= "Basketball" },
+        new GameFields(){ ID= "Game4", Text= "Cricket" },
+        new GameFields(){ ID= "Game5", Text= "Football" },
+        new GameFields(){ ID= "Game6", Text= "Golf" },
+        new GameFields(){ ID= "Game7", Text= "Hockey" },
+        new GameFields(){ ID= "Game8", Text= "Rugby"},
+        new GameFields(){ ID= "Game9", Text= "Snooker" },
+        new GameFields(){ ID= "Game10",Text= "Tennis"}
+    };
+
+    public Query RemoteDataQuery = new Query().Select(new List<string> { "CustomerID" }).Take(6).RequiresCount();
+    public class OrderDetails
+    {
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public int? EmployeeID { get; set; }
+        public double? Freight { get; set; }
+        public string ShipCity { get; set; }
+        public bool Verified { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public string ShipName { get; set; }
+        public string ShipCountry { get; set; }
+        public DateTime? ShippedDate { get; set; }
+        public string ShipAddress { get; set; }
+    }
+
+    public class Colors
+    {
+        public string Code { get; set; }
+        public string Color { get; set; }
+    }
+
+    private ObservableCollection<Colors> ColorsData = new ObservableCollection<Colors>() 
+    {
+        new Colors() { Color = "Chocolate", Code = "#75523C" }, 
+        new Colors() { Color = "Cadet Blue", Code = "#3B8289" },
+        new Colors() { Color = "Dark Orange", Code = "#FF843D" },
+        new Colors() { Color = "Dark Red", Code = "#CA3832"},
+        new Colors() { Color = "Fuchsia", Code = "#D44FA3" },
+        new Colors() { Color = "Hot Pink", Code = "#F23F82" },
+        new Colors() { Color = "Indigo", Code = "#2F5D81" },
+        new Colors() { Color = "Lime Green", Code = "#4CD242" },
+        new Colors() { Color = "Orange Red", Code = "#FE2A00" },
+        new Colors() { Color = "Tomato", Code = "#FF745C" },
+        new Colors() { Color = "Brown", Code = "#A52A2A" },
+        new Colors() { Color = "Maroon", Code = "#800000" },
+        new Colors() { Color = "Green", Code = "#008000" },
+        new Colors() { Color = "Pink", Code = "#FFC0CB" },
+        new Colors() { Color = "Purple", Code = "#800080" }
+    };
+
+    public List<ExpandoObject> VehicleData { get; set; } = new List<ExpandoObject>();
+    public List<DynamicDictionary> Orders = new List<DynamicDictionary>() { };
+    protected override void OnInitialized()
+    {
+        VehicleData = Enumerable.Range(1, 15).Select((x) =>
+        {
+            dynamic d = new ExpandoObject();
+            d.ID = (1000 + x).ToString();
+            d.Text = (new string[] { "Hennessey Venom", "Bugatti Chiron", "Bugatti Veyron Super Sport", "SSC Ultimate Aero", "Koenigsegg CCR", "McLaren F1", "Aston Martin One- 77", "Jaguar XJ220", "McLaren P1", "Ferrari LaFerrari", "Mahindra Jaguar", "Hyundai Toyota", "Jeep Volkswagen", "Tata Maruti Suzuki", "Audi Mercedes Benz"}[x-1]);
+            return d;
+        }).Cast<ExpandoObject>().ToList<ExpandoObject>();
+
+        Orders = Enumerable.Range(1, 15).Select((x) =>
+        {
+            dynamic d = new DynamicDictionary();
+            d.OrderID = 1000 + x;
+            d.CustomerName = (new string[] { "Nancy", "Andrew", "Janet", "Margaret", "Steven", "Michael", "Robert", "Anne", "Nige", "Fuller", "Dodsworth", "Leverling", "Callahan", "Suyama", "Davolio" }[x-1]);
+            return d;
+        }).Cast<DynamicDictionary>().ToList<DynamicDictionary>();
+    }
+
+    public class DynamicDictionary : System.Dynamic.DynamicObject
+    {
+        Dictionary<string, object> dictionary = new Dictionary<string, object>();
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            string name = binder.Name;
+            return dictionary.TryGetValue(name, out result);
+        }
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            dictionary[binder.Name] = value;
+            return true;
+        }
+        //The GetDynamicMemberNames method of DynamicObject class must be overridden and return the property names to perform data operation and editing while using DynamicObject.
+        public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
+        {
+            return this.dictionary?.Keys;
+        }
+    }
+}
+
+<style>
+    .control-wrapper {
+        margin: 30px 40px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>

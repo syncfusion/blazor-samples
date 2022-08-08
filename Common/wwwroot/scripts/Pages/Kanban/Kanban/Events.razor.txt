@@ -1,0 +1,184 @@
+﻿@page "/kanban/events"
+@inherits SampleBaseComponent;
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Kanban
+
+<SampleDescription>
+    <p>The sample showcases the events of the Blazor Kanban component. For every action in a Kanban board, the corresponding events will be displayed in the event tracer panel.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The demo is showcased to list-out the events of the Kanban component. The events are useful to customize the Kanban board from the application end.
+        The following events are bound in this demo.</p>
+    <ol>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_ActionBegin">ActionBegin</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_ActionComplete">ActionComplete</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_ActionFailure">ActionFailure</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_CardClick">CardClick</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_CardDoubleClick">CardDoubleClick</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_CardRendered">CardRendered</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_Created">Created</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_DataBinding">DataBinding</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_DialogClose">DialogClose</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_DialogOpen">DialogOpen</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_DragStart">DragStart</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_DragStop">DragStop</a></li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanEvents-1.html#Syncfusion_Blazor_Kanban_KanbanEvents_1_QueryCellInfo">QueryCellInfo</a></li>
+    </ol>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfKanban KeyField="Status" DataSource="@cardData">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"/>
+        <KanbanSwimlaneSettings KeyField="Assignee"/>
+        <KanbanEvents TValue="KanbanDataModel" ActionBegin="OnActionBegin" ActionComplete="OnActionComplete" ActionFailure="OnActionFailure"
+                      CardClick="OnCardClick" CardDoubleClick="OnCardDoubleClick" CardRendered="OnCardRendered" Created="OnCreated"
+                      DataBinding="OnDataBinding" DialogClose="OnDialogClose" DialogOpen="OnDialogOpen" DragStart="OnDragStart"
+                      DragStop="OnDragStop" QueryCellInfo="OnQueryCellInfo" />
+    </SfKanban>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Event Trace</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="eventarea">
+                                @{
+                                    foreach (string Log in EventLogs)
+                                    {
+                                        <span class="EventLog">@((MarkupString)Log)</span>
+                                    }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfButton ID="clear" Content="Clear" OnClick="@(()=> { EventLogs = new List<string>(); })"></SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .property-panel-section table {
+        width: 100%;
+    }
+
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+
+    .property-panel-section .eventarea {
+        height: 250px;
+        overflow: auto
+    }
+
+        .property-panel-section .eventarea .EventLog {
+            word-break: normal;
+        }
+
+            .property-panel-section .eventarea .EventLog b {
+                color: #388e3c;
+            }
+
+            .property-panel-section .eventarea .EventLog hr {
+                margin: 1px 10px 1px 0px;
+                border-top: 1px solid #eee;
+            }
+</style>
+
+@code{
+    private List<string> EventLogs = new List<string>();
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "In Progress"} },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing"} },
+        new ColumnModel(){ HeaderText= "Done", KeyField= new List<string>() { "Close" } }
+    };
+
+    private void OnActionBegin(ActionEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>ActionBegin</b> event called<hr>");
+    }
+
+    private void OnActionComplete(ActionEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>ActionComplete</b> event called<hr>");
+    }
+
+    private void OnActionFailure(ActionEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>ActionFailure</b> event called<hr>");
+    }
+
+    private void OnCardClick(CardClickEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban - " + args.Data.Id + " - <b>CardClick</b> event called<hr>");
+    }
+
+    private void OnCardDoubleClick(CardClickEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban - " + args.Data.Id + " - <b>CardDoubleClick</b> event called<hr>");
+    }
+
+    private void OnCardRendered(CardRenderedEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban - " + args.Data.Id + " - <b>CardRendered</b> event called<hr>");
+    }
+
+    private void OnCreated()
+    {
+        EventLogs.Insert(0, "Kanban <b>Load</b> event called");
+    }
+
+    private void OnDataBinding(DataBindingEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>DataBinding</b> event called<hr>");
+    }
+
+    private void OnDialogClose(DialogCloseEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>DialogClose</b> event called<hr>");
+    }
+
+    private void OnDialogOpen(DialogOpenEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>DialogOpen</b> event called<hr>");
+    }
+
+    private void OnDragStart(DragEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>DragStart</b> event called<hr>");
+    }
+
+    private void OnDragStop(DragEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>DragStop</b> event called<hr>");
+    }
+
+    private void OnQueryCellInfo(QueryCellInfoEventArgs<KanbanDataModel> args)
+    {
+        EventLogs.Insert(0, "Kanban <b>QueryCellInfo</b> event called for <b>" + args.Data[0].KeyField + " " + args.RequestType + "</b><hr>");
+    }
+
+}

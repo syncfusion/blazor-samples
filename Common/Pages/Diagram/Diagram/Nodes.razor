@@ -1,0 +1,511 @@
+﻿@page "/diagram/nodes"
+
+@using Syncfusion.Blazor.Diagrams
+@using Syncfusion.Blazor.Buttons
+@using System.Collections.ObjectModel
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+   <p>This sample visualizes the different stages of a software development life cycle using a circular flow diagram.</p> 
+   <p style="font-weight: bold;">A new blazor diagram component which provides better performance than the existing diagram control in Blazor WebAssembly App. Check the samples <a target='_blank' href='diagramcomponent/flowchart'>here</a>.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example shows how to add nodes to a diagram control and how to customize the appearance of the nodes using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramNode.html#Syncfusion_Blazor_Diagrams_DiagramNode_Style'>Style</a></code> property.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagram @ref="@Diagram" ID="diagram" Height="690px" Nodes="@NodeCollection" Connectors="@ConnectorCollection" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefault">
+            <DiagramEvents SelectionChanged="@SelectionChange"></DiagramEvents>
+            <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
+            <DiagramPageSettings>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
+            </DiagramPageSettings>
+        </SfDiagram>
+    </div>
+</div>
+
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <style>
+
+        .image-pattern-style {
+            background-color: white;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 75px;
+            width: calc((100% - 12px) / 3);
+            cursor: pointer;
+            border: 1px solid #D5D5D5;
+            background-position: center;
+            float: left;
+        }
+
+            .image-pattern-style:hover {
+                border-color: gray;
+                border-width: 2px;
+            }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            padding-top: 8px;
+        }
+
+        .e-radio + label .e-label {
+            display: inline-block;
+            font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif, "-apple-system", "BlinkMacSystemFont";
+            font-size: 12px;
+            font-weight: normal;
+            line-height: 1;
+            padding-left: 24px;
+            vertical-align: text-top;
+            white-space: normal;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .property-panel-header {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+
+        .row {
+            display: block;
+        }
+    </style>
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="row-property-panel-content" style="padding-top: 10px" id="appearance">
+        <div class="row row-header">
+            Apply To
+        </div>
+        <div class="row" style="padding-top: 8px">
+             <SfRadioButton Label="All shapes" Name="NodeSelection" Value=@Value1 @bind-Checked="@CheckValue" TChecked="string"></SfRadioButton>
+        </div>
+        <div class="row" style="padding-top: 8px">
+             <SfRadioButton Label="Selected Shapes" Name="NodeSelection" Value=@Value2 @bind-Checked="@CheckValue" TChecked="string"></SfRadioButton>
+        </div>
+        <div class="row row-header" style="padding-top: 10px;">
+            Appearance
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="@dict["preview0"]" @onclick="@preview0" id="preview0" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview0.png")); margin-right: 3px">
+            </div>
+            <div class="@dict["preview1"]" @onclick="@preview1" id="preview1" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview1.png")); margin-right: 3px">
+            </div>
+            <div class="@dict["preview2"]" @onclick="@preview2" id="preview2" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview2.png")); margin-right: 3px">
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="@dict["preview3"]" @onclick="@preview3" id="preview3" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview3.png")); margin:3px 3px 0px 0px">
+            </div>
+            <div class="@dict["preview4"]" @onclick="@preview4" id="preview4" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview4.png")); margin:3px 3px 0px 0px">
+            </div>
+        </div>
+    </div>
+
+    <div class="row property-panel-content" style="padding-top: 10px">
+        <div class="row row-header">
+            Behavior
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <SfCheckBox @ref="@AspectRatiocheckbox" ID="aspectRatio" Checked="@AspectRatioValue" Label="Aspect Ratio" ValueChange="@CheckBoxChanged" TChecked="bool">
+            </SfCheckBox>
+
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <SfCheckBox @ref="@LockRatiocheckbox" ID="lock" Checked="@LockValue" Label="Lock" ValueChange="@LockChanged" TChecked="bool">
+            </SfCheckBox>
+
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+
+@code{
+    SfDiagram Diagram;
+    bool AspectRatioValue = false;
+    bool LockValue = false;
+    private string CheckValue = "All shapes";
+    SfCheckBox<bool> AspectRatiocheckbox;
+    SfCheckBox<bool> LockRatiocheckbox;
+    static string seleceditem = "image-pattern-style e-selected-style";
+    static string unseleceditem = "image-pattern-style";
+    private string Value1 = "All shapes";
+     private string Value2 = "Selected Shapes";
+    Dictionary<string, string> dict = new Dictionary<string, string>() { { "preview0", unseleceditem }, { "preview1", unseleceditem }, { "preview2", unseleceditem }, { "preview3", unseleceditem }, { "preview4", unseleceditem } };
+    DiagramConnector ConnectorDefault = new DiagramConnector()
+    {
+        TargetDecorator = new ConnectorTargetDecorator() { Shape = DecoratorShapes.Arrow, Style = new DecoratorShapeStyle() { Fill = "#024249", StrokeColor = "#024249" } },
+        Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d", StrokeWidth = 2 }
+    };
+    DiagramNode NodeDefaults = new DiagramNode()
+    {
+        Width = 100,
+        Height = 100,
+        Shape = new DiagramShape() { Type = Syncfusion.Blazor.Diagrams.Shapes.Basic, BasicShape = BasicShapes.Ellipse },
+        Style = new NodeShapeStyle()
+        {
+            Fill = "#37909A",
+            StrokeColor = "#024249",
+        },
+        Constraints = NodeConstraints.Default,
+        Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+        {
+            new DiagramNodeAnnotation()
+            {
+                Margin = new NodeAnnotationMargin(){Left=0,Right=0 }, Style = new AnnotationStyle()
+                { Color = "white" }
+            },
+        },
+    };
+    public ObservableCollection<DiagramNode> NodeCollection = new ObservableCollection<DiagramNode>();
+
+    public ObservableCollection<DiagramConnector> ConnectorCollection = new ObservableCollection<DiagramConnector>();
+
+    protected override void OnInitialized()
+    {
+        dict = new Dictionary<string, string>()
+        {
+            { "preview0", unseleceditem },
+            { "preview1", unseleceditem },
+            { "preview2", unseleceditem },
+            { "preview3", unseleceditem },
+            { "preview4", unseleceditem },
+            { "preview5", unseleceditem },
+
+        };
+
+        DiagramNode node1 = CreateNode("sdlc", 300, 288, "SDLC");
+        DiagramNode node2 = CreateNode("support", 150, 250, "Support");
+        DiagramNode node3 = CreateNode("analysis", 300, 150, "Analysis");
+        DiagramNode node4 = CreateNode("design", 450, 250, "Design");
+        DiagramNode node5 = CreateNode("implement", 400, 400, "Implement");
+        DiagramNode node6 = CreateNode("deploy", 200, 400, "Deploy");
+        CreateConnector("connector1", "analysis", "design");
+        CreateConnector("connector2", "design", "implement");
+        CreateConnector("connector3", "implement", "deploy");
+        CreateConnector("connector4", "deploy", "support");
+        CreateConnector("connector5", "support", "analysis");
+
+    }
+    public DiagramConnector CreateConnector(string id, string sourceid, string targetid)
+    {
+        DiagramConnector connector = new DiagramConnector()
+        {
+            Id = id,
+            SourceID = sourceid,
+            TargetID = targetid,
+
+        };
+        ConnectorCollection.Add(connector);
+        return connector;
+    }
+    public DiagramNode CreateNode(string id, double offx, double offy, string content)
+    {
+        DiagramNode node = new DiagramNode()
+        {
+            Id = id,
+            OffsetX = offx,
+            OffsetY = offy,
+        };
+
+        DiagramNodeAnnotation annotation = new DiagramNodeAnnotation()
+        {
+            Content = content,
+        };
+        node.Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+        {
+            annotation
+        };
+        NodeCollection.Add(node);
+        return node;
+    }
+
+    private void ApplyPreview(string id, DiagramNode node)
+    {
+        switch (id)
+        {
+            case "preview0":
+                applyNodeStyle(node, 0, "", ~NodeConstraints.Shadow, GradientType.None, id);
+                break;
+            case "preview1":
+                applyNodeStyle(node, 2, "", ~NodeConstraints.Shadow, GradientType.None, id);
+                break;
+            case "preview2":
+                applyNodeStyle(node, 2, "5,5", ~NodeConstraints.Shadow, GradientType.None, id);
+                break;
+            case "preview3":
+                applyNodeStyle(node, 2, "5,5", ~NodeConstraints.Shadow, GradientType.Radial, id);
+                break;
+            case "preview4":
+                applyNodeStyle(node, 2, "5,5", NodeConstraints.Shadow, GradientType.None, id);
+                break;
+        }
+    }
+
+    private void AppearanceSelect(string id)
+    {
+        Diagram.BeginUpdate();
+        if (CheckValue == "All shapes")
+        {
+            for (var i = 0; i < Diagram.Nodes.Count; i++)
+            {
+                this.ApplyPreview(id, Diagram.Nodes[i]);
+            };
+
+        }
+        if (CheckValue == "Selected Shapes" && Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            for (var i = 0; i < Diagram.SelectedItems.Nodes.Count; i++)
+            {
+                this.ApplyPreview(id, Diagram.GetNode(Diagram.SelectedItems.Nodes[i].Id));
+            }
+        };
+        Diagram.EndUpdate();
+
+    }
+
+    private void preview0()
+    {
+        AppearanceSelect("preview0");
+    }
+    private void preview1()
+    {
+        AppearanceSelect("preview1");
+    }
+    private void preview2()
+    {
+        AppearanceSelect("preview2");
+    }
+    private void preview3()
+    {
+        AppearanceSelect("preview3");
+    }
+    private void preview4()
+    {
+        AppearanceSelect("preview4");
+    }
+    private void SelectionChange(IBlazorSelectionChangeEventArgs arg)
+    {
+        if (arg.State == EventState.Changed)
+        {
+            DiagramNode node = null;
+            if (arg.NewValue.Nodes != null && arg.NewValue.Nodes.Count > 0)
+            {
+                node = Diagram.GetNode(arg.NewValue.Nodes[0].Id);
+            }
+            if (node != null)
+            {
+                if ((node.Constraints.HasFlag(NodeConstraints.AspectRatio)))
+                {
+                    AspectRatioValue = true;
+                }
+                else
+                {
+                    AspectRatioValue = false;
+                }
+                StateHasChanged();
+                if (node.Constraints == (node.Constraints | NodeConstraints.Default & ~(NodeConstraints.ReadOnly)))
+                {
+                    LockValue = false;
+
+                }
+                else
+                {
+                    LockValue = true;
+                }
+                StateHasChanged();
+                if (node.Style.StrokeWidth == 0)
+                {
+                    updateSelection("preview0");
+                }
+                else if (node.Style.StrokeWidth == 2 && node.Style.StrokeDashArray == "")
+                {
+                    updateSelection("preview1");
+                }
+
+                else if (node.Style.StrokeWidth == 2 && node.Style.StrokeDashArray == "5,5" && node.Style.Gradient.Type == GradientType.Radial)
+                {
+                    updateSelection("preview3");
+                }
+                else if (node.Style.StrokeWidth == 2 && node.Style.StrokeDashArray == "5,5" && (node.Constraints.HasFlag(NodeConstraints.Shadow)))
+                {
+                    updateSelection("preview4");
+                }
+                else if (node.Style.StrokeWidth == 2 && node.Style.StrokeDashArray == "5,5" && !(node.Constraints.HasFlag(NodeConstraints.Shadow)))
+                {
+                    updateSelection("preview2");
+                }
+                else
+                {
+                    dict = new Dictionary<string, string>()
+                    {
+                        { "preview0", unseleceditem },
+                        { "preview1", unseleceditem },
+                        { "preview2", unseleceditem },
+                        { "preview3", unseleceditem },
+                        { "preview4", unseleceditem },
+                        { "preview5", unseleceditem },
+
+                    };
+                }
+            }
+        }
+    }
+
+    private void applyNodeStyle(DiagramNode node, float width, string array, NodeConstraints con, GradientType type, string Id)
+    {
+        node.Style = new NodeShapeStyle()
+        {
+            Fill = "#37909A",
+            StrokeWidth = width,
+            StrokeColor = "#024249",
+            StrokeDashArray = array
+        };
+
+        if (type == GradientType.None)
+        {
+            node.Style.Gradient.Type = GradientType.None;
+        }
+        else
+        {
+            DiagramGradient gradient = new DiagramGradient()
+            {
+                Cx = 50,
+                Cy = 50,
+                Fx = 50,
+                Fy = 50,
+                Stops = new ObservableCollection<DiagramsGradientStop>()
+                {
+                    new DiagramsGradientStop() { Color = "#00555b", Offset = 45 },
+                    new DiagramsGradientStop() { Color= "#37909A", Offset= 90 }
+                },
+                Type = GradientType.Radial
+            };
+
+            node.Style.Gradient = gradient;
+        }
+
+        if (!(con.HasFlag(NodeConstraints.Shadow)))
+        {
+            node.Shadow = new DiagramShadow() { Angle = 45, Distance = 15, Opacity = 0.3, Color = "grey" };
+            node.Constraints &= con;
+        }
+        else
+        {
+            node.Constraints |= con;
+        }
+
+        updateSelection(Id);
+
+    }
+
+    private void updateSelection(string id)
+    {
+        for (int i = 0; i < dict.Count; i++)
+        {
+            var value = dict.Values.ElementAt(i);
+            var key = dict.Keys.ElementAt(i);
+            if (dict.ContainsKey(id) && key == id)
+            {
+                value = seleceditem;
+            }
+            else
+            {
+                value = unseleceditem;
+            }
+            dict.Remove(key);
+            dict.Add(key, value);
+        }
+
+
+        StateHasChanged();
+    }
+
+    private void UpdateAspectRatioValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, DiagramNode node)
+    {
+        if (AspectRatioValue)
+        {
+            node.Constraints = node.Constraints | NodeConstraints.AspectRatio;
+        }
+        else
+        {
+            node.Constraints = node.Constraints & ~NodeConstraints.AspectRatio;
+        }
+    }
+
+    private void CheckBoxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        AspectRatioValue = args.Checked;
+        if (CheckValue == "All shapes")
+        {
+            for (int i = 0; i < Diagram.Nodes.Count; i++)
+            {
+                this.UpdateAspectRatioValue(args, Diagram.Nodes[i]);
+            }
+        }
+        if (CheckValue == "Selected Shapes" && Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            for (var i = 0; i < Diagram.SelectedItems.Nodes.Count; i++)
+            {
+                this.UpdateAspectRatioValue(args, Diagram.GetNode(Diagram.SelectedItems.Nodes[i].Id));
+            }
+        }
+        StateHasChanged();
+    }
+
+    private void updateLockValue(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args, DiagramNode node)
+    {
+        if (args.Checked)
+        {
+            node.Constraints = node.Constraints & ~(NodeConstraints.Resize | NodeConstraints.Drag | NodeConstraints.Rotate);
+            node.Constraints = node.Constraints | NodeConstraints.ReadOnly;
+        }
+        else
+        {
+            node.Constraints = node.Constraints | NodeConstraints.Default & ~(NodeConstraints.ReadOnly);
+        }
+    }
+
+    private void LockChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        LockValue = args.Checked;
+        if (CheckValue == "All shapes")
+        {
+            for (int i = 0; i < Diagram.Nodes.Count; i++)
+            {
+                this.updateLockValue(args, Diagram.Nodes[i]);
+            }
+        }
+        if (CheckValue == "Selected Shapes" && Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            for (var i = 0; i < Diagram.SelectedItems.Nodes.Count; i++)
+            {
+                this.updateLockValue(args, Diagram.GetNode(Diagram.SelectedItems.Nodes[i].Id));
+            }
+        }
+    }
+}
