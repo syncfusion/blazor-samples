@@ -1,0 +1,146 @@
+@page "/maps/print"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the map's print functionality. By clicking the <b>Print</b> button, you can print the map directly from the browser.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to configure the print functionality. The <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#methods'>PrintAsync</a> method is used to print when the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#Syncfusion_Blazor_Maps_SfMaps_AllowPrint'>AllowPrint</a> property is set to <b>true</b>.</p>
+    <p>More information about print functionality can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/print-and-export/#print'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfMaps @ref="@MapRef" Format="N0" UseGroupingSeparator="true" AllowPrint="true" Theme="@Theme">
+        <MapsTitleSettings Text="State-Wise US Population - 2010">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="LegendPosition.Bottom" Height="10" Width="350"
+                            LabelDisplayMode="LabelIntersectAction.Trim" Alignment="Alignment.Center">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/usa.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@PopulationReport" TValue="State">
+                <MapsShapeSettings ColorValuePath="Population">
+                    <MapsShapeBorder Width="0.5" Color="#808080" />
+                    <MapsShapeColorMappings>
+                        <MapsShapeColorMapping StartRange="580000" EndRange="2800000" Color="@ShapeColorOne" Label="<3M" />
+                        <MapsShapeColorMapping StartRange="2800000" EndRange="5280000" Color="@ShapeColorTwo" Label="3-6M" />
+                        <MapsShapeColorMapping StartRange="5280000" EndRange="8260000" Color="@ShapeColorThree" Label="6-9M" />
+                        <MapsShapeColorMapping StartRange="8260000" EndRange="11660000" Color="@ShapeColorFour" Label="9-12M" />
+                        <MapsShapeColorMapping StartRange="11660000" EndRange="19600000" Color="@ShapeColorFive" Label="12-20M" />
+                        <MapsShapeColorMapping StartRange="19600000" EndRange="26500000" Color="@ShapeColorSix" Label="20-25M" />
+                        <MapsShapeColorMapping StartRange="26500000" EndRange="38400000" Color="@ShapeColorSeven" Label=">25M" />
+                    </MapsShapeColorMappings>
+                </MapsShapeSettings>
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Population" Format="State: ${Name} <br> Population: ${Population}">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population" target="_blank">en.wikipedia.org</a>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td align="center">
+                            <SfButton @onclick="PrintButton" IsPrimary="true" IsToggle="true">Print</SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@code {
+    public SfMaps MapRef;
+    public string[] ShapePropertyPath = { "name" };
+    public string[] ShapeColorOne = { "#dae8f1" };
+    public string[] ShapeColorTwo = { "#b0cde1" };
+    public string[] ShapeColorThree = { "#90bad8" };
+    public string[] ShapeColorFour = { "#6ea7d2" };
+    public string[] ShapeColorFive = { "#4c96cb" };
+    public string[] ShapeColorSix = { "#3182bd" };
+    public string[] ShapeColorSeven = { "#004374" };
+    public class State
+    {
+        public string Name { get; set; }
+        public double Population { get; set; }
+    };
+    public List<State> PopulationReport = new List<State> {
+        new State { Name="California", Population=37252895 },
+        new State { Name="Texas", Population=25146105},
+        new State { Name="Florida", Population=18804623},
+        new State { Name="New York", Population=19378087},
+        new State { Name="Pennsylvania", Population=12702887},
+        new State { Name="Illinois", Population=12831549},
+        new State { Name="Ohio", Population=11536725},
+        new State { Name="Georgia", Population=9688681},
+        new State { Name="North Carolina", Population=9535692},
+        new State { Name="Michigan", Population=9884129},
+        new State { Name="New Jersey", Population=8791936},
+        new State { Name="Virginia", Population=8001045},
+        new State { Name="Washington", Population=6724543},
+        new State { Name="Arizona", Population=6392307},
+        new State { Name="Massachusetts", Population=6547817},
+        new State { Name="Tennessee", Population=6346275 },
+        new State { Name="Indiana", Population=6484229},
+        new State { Name="Missouri", Population=5988927},
+        new State { Name="Maryland", Population=5773785},
+        new State { Name="Wisconsin", Population=5687289 },
+        new State { Name="Colorado", Population=5029324},
+        new State { Name="Minnesota", Population=5303925 },
+        new State { Name="South Carolina", Population=4625401,  },
+        new State { Name="Alabama", Population=4780127 },
+        new State { Name="Louisiana", Population=4533479 },
+        new State { Name="Kentucky", Population=4339349},
+        new State { Name="Oregon", Population=3831073 },
+        new State { Name="Oklahoma", Population=3751616},
+        new State { Name="Connecticut", Population=3574118 },
+        new State { Name="Puerto Rico", Population=3726157},
+        new State { Name="Iowa", Population=3046869},
+        new State { Name="Utah", Population=2763888},
+        new State { Name="Arkansas", Population=2915958},
+        new State { Name="Nevada", Population=2700691 },
+        new State { Name="Mississippi", Population=2968103 },
+        new State { Name="Kansas", Population=2853132 },
+        new State { Name="New Mexico", Population=2059192},
+        new State { Name="Nebraska", Population=1826341},
+        new State { Name="West Virginia", Population=1853011 },
+        new State { Name="Idaho", Population=1567652},
+        new State { Name="Hawaii", Population=1360301 },
+        new State { Name="New Hampshire", Population=1316466},
+        new State { Name="Maine", Population=1328361},
+        new State { Name="Rhode Island", Population=1052931,  },
+        new State { Name="Montana", Population=989417, },
+        new State { Name="Delaware", Population=897936, },
+        new State { Name="South Dakota", Population=814191,  },
+        new State { Name="North Dakota", Population=672591,  },
+        new State { Name="Alaska", Population=710249,  },
+        new State { Name="District of Columbia", Population=601767},
+        new State { Name="Vermont", Population=625745},
+        new State { Name="Wyoming", Population=583767}
+    };
+    public async Task PrintButton()
+    {
+        await MapRef.PrintAsync();
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

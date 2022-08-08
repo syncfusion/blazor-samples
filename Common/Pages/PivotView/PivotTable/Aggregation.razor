@@ -1,0 +1,162 @@
+﻿@page "/pivot-table/aggregation"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+  <p> This sample demonstrates the aggregate types like sum, average, median, min, max, count, distinct count, and more in the
+     pivot table for quick business analysis. End users can also change the aggregation type of each field bound to the value axis in the field list at runtime.</p>  
+</SampleDescription>
+<ActionDescription>
+ <p> In this sample, you can change the aggregate types for value fields using the dropdown list separately. The
+    aggregate type can be set using the <code>Type</code> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewValue.html'>PivotViewValue</a>. The built-in aggregates are:</p>
+<p>
+   <code>Sum</code>, <code>Average</code>, <code>Median</code>, <code>Min</code>, <code>Max</code>, <code>Count</code>,
+   <code>Distinct Count</code>, <code>Product</code>,
+   <code>Index</code>, <code>Population StDev</code>, <code>Sample StDev</code>, <code>Population Var</code>,
+   <code>Sample Var</code>, <code>Running Totals</code>,
+   <code>Difference From</code>, <code>% of Difference From</code>, <code>% of Grand Total</code>,
+   <code>% of Column Total</code>, <code>% of Row Total</code>,
+   <code>% of Parent Total</code>, <code>% of Parent Column Total</code>, <code>% of Parent Row Total.</code>
+</p> 
+ <p> In this sample, you can also change the aggregate type for value fields at runtime using the dropdown icon via field list UI.</p>
+<p>More information on the aggregation feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/aggregation/'>documentation section</a>.</p>  
+</ActionDescription>
+
+    <div class="col-lg-9 control-section sb-property-border">
+        <div class="content-wrapper">
+            <SfPivotView TValue="PivotProductDetails" Height="300" ShowFieldList=true EnableValueSorting=true ShowTooltip=false>
+                <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Products"></PivotViewColumn>
+                        <PivotViewColumn Name="Country"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Year"></PivotViewRow>
+                        <PivotViewRow Name="Quarter"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="Sold" Caption="Units Sold" Type="@UnitSoldAggregateType"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount" Type=@SoldAmountAggregateType></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="@(SoldAmountAggregateType == SummaryTypes.Avg ? "C2" : "C0")" UseGrouping=true></PivotViewFormatSetting>
+                        <PivotViewFormatSetting Name="Sold" Format="@(UnitSoldAggregateType == SummaryTypes.Avg ? "N2" : "N0")" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                    <PivotViewDrilledMembers>
+                        <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France" })"></PivotViewDrilledMember>
+                    </PivotViewDrilledMembers>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            </SfPivotView>
+        </div>
+    </div>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-section">
+            <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+            <div class="property-panel-content">
+                <table id="property" style="width:100%" class="property-panel-table">
+                    <tbody>
+                        <tr style="height: 50px">
+                            <td>
+                                <div>
+                                    <SfDropDownList TValue="SummaryTypes" TItem="DropDownData" @bind-Value="UnitSoldAggregateType" DataSource="@UnitSoldAggregateTypes" FloatLabelType=FloatLabelType.Auto Placeholder="Units Sold" PopupWidth="auto">
+                                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height: 50px">
+                            <td>
+                                <div>
+                                    <SfDropDownList TValue="SummaryTypes" TItem="DropDownData" @bind-Value="SoldAmountAggregateType" DataSource="@SoldAmountAggregateTypes" FloatLabelType=FloatLabelType.Auto Placeholder="Sold Amount" PopupWidth="auto">
+                                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <style>
+        .e-pivotview {
+            min-height: 200px;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .property-panel-table td {
+            width: auto;
+        }
+
+        .property-panel-table div {
+            padding-left: unset;
+        }
+    </style>
+
+@code{
+    public Syncfusion.Blazor.PivotView.SummaryTypes UnitSoldAggregateType = Syncfusion.Blazor.PivotView.SummaryTypes.Sum;
+    public Syncfusion.Blazor.PivotView.SummaryTypes SoldAmountAggregateType = Syncfusion.Blazor.PivotView.SummaryTypes.Avg;
+
+    public List<PivotProductDetails> Data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.Data = PivotProductDetails.GetProductData();
+    }
+
+    List<DropDownData> UnitSoldAggregateTypes = new List<DropDownData>() {
+        new DropDownData { Name = "Sum", Value = SummaryTypes.Sum },
+        new DropDownData { Name = "Avg", Value = SummaryTypes.Avg },
+        new DropDownData { Name = "Median", Value = SummaryTypes.Median },
+        new DropDownData { Name = "Min", Value = SummaryTypes.Min },
+        new DropDownData { Name = "Max", Value = SummaryTypes.Max },
+        new DropDownData { Name = "Count", Value = SummaryTypes.Count },
+        new DropDownData { Name = "Distinct Count", Value = SummaryTypes.DistinctCount },
+        new DropDownData { Name = "Product", Value = SummaryTypes.Product },
+        new DropDownData { Name = "Index", Value = SummaryTypes.Index },
+        new DropDownData { Name = "Population StDev", Value = SummaryTypes.PopulationStDev },
+        new DropDownData { Name = "Sample StDev", Value = SummaryTypes.SampleStDev },
+        new DropDownData { Name = "Population Var", Value = SummaryTypes.PopulationVar },
+        new DropDownData { Name = "Sample Var", Value = SummaryTypes.SampleVar },
+        new DropDownData { Name = "Running Totals", Value = SummaryTypes.RunningTotals },
+        new DropDownData { Name = "% of Column Total", Value = SummaryTypes.PercentageOfColumnTotal },
+        new DropDownData { Name = "% of Row Total", Value = SummaryTypes.PercentageOfRowTotal },
+        new DropDownData { Name = "% of Parent Total", Value = SummaryTypes.PercentageOfParentTotal },
+        new DropDownData { Name = "% of Parent Column Total", Value = SummaryTypes.PercentageOfParentColumnTotal },
+        new DropDownData { Name = "% of Parent Row Total", Value = SummaryTypes.PercentageOfParentRowTotal }
+    };
+
+    List<DropDownData> SoldAmountAggregateTypes = new List<DropDownData>() {
+        new DropDownData { Name = "Sum", Value = SummaryTypes.Sum },
+        new DropDownData { Name = "Avg", Value = SummaryTypes.Avg },
+        new DropDownData { Name = "Median", Value = SummaryTypes.Median },
+        new DropDownData { Name = "Min", Value = SummaryTypes.Min },
+        new DropDownData { Name = "Max", Value = SummaryTypes.Max },
+        new DropDownData { Name = "Product", Value = SummaryTypes.Product },
+        new DropDownData { Name = "Index", Value = SummaryTypes.Index },
+        new DropDownData { Name = "Population StDev", Value = SummaryTypes.PopulationStDev },
+        new DropDownData { Name = "Sample StDev", Value = SummaryTypes.SampleStDev },
+        new DropDownData { Name = "Population Var", Value = SummaryTypes.PopulationVar },
+        new DropDownData { Name = "Sample Var", Value = SummaryTypes.SampleVar },
+        new DropDownData { Name = "Running Totals", Value = SummaryTypes.RunningTotals },
+        new DropDownData { Name = "% of Column Total", Value = SummaryTypes.PercentageOfColumnTotal },
+        new DropDownData { Name = "% of Row Total", Value = SummaryTypes.PercentageOfRowTotal },
+        new DropDownData { Name = "% of Parent Total", Value = SummaryTypes.PercentageOfParentTotal },
+        new DropDownData { Name = "% of Parent Column Total", Value = SummaryTypes.PercentageOfParentColumnTotal },
+        new DropDownData { Name = "% of Parent Row Total", Value = SummaryTypes.PercentageOfParentRowTotal }
+    };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public SummaryTypes Value { get; set; }
+    }
+}

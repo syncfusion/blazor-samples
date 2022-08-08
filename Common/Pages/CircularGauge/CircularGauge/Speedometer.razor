@@ -1,0 +1,242 @@
+@page "/circular-gauge/speedometer"
+
+@using System.Timers
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.CircularGauge
+@using Syncfusion.Blazor.Buttons
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample depicts the appearance of a speedometer rendered using the circular gauge. The pointer value is dynamically updated with random values in this case.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to make a circular gauge look like a speedometer. Using the options in the properties panel, a gap can be added between ranges or ranges can be combined to form a single range.</p>
+    <p>More information on the circular gauge can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/circular-gauge/getting-started'>documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    tr {
+        height: 40px;
+    }
+
+    td {
+        width: 50%
+    }
+</style>
+
+<svg style="height:0px;width:0px">
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#82b944;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+            <stop offset="100%" style="stop-color:red;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+</svg>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfCircularGauge Title="Speedometer" CenterY="75%" @ref="@Gauge" Theme="@Theme" Background="transparent">
+        <CircularGaugeTitleStyle Size="18px" FontFamily="inherit" />
+        <CircularGaugeAxes>
+            <CircularGaugeAxis EndAngle="90" StartAngle="270" Radius="120%" Minimum="0" Maximum="120" RangeGap="@RangeGap">
+                <CircularGaugeAxisLineStyle Width="0" />
+                <CircularGaugeAxisMajorTicks Width="0" />
+                <CircularGaugeAxisMinorTicks Width="0" />
+                <CircularGaugeAxisLabelStyle Position="Position.Outside" AutoAngle="true">
+                    <CircularGaugeAxisLabelFont Size="13px" FontFamily="inherit" />
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Start="@FirstRangeStart" End="@FirstRangeEnd" StartWidth="@FirstRangeStartWidth" EndWidth="@FirstRangeEndWidth" Radius="102%" Color="@FirstRangeColor" />
+                    <CircularGaugeRange Start="@SecondRangeStart" End="@SecondRangeEnd" StartWidth="@SecondRangeStartWidth" EndWidth="@SecondRangeEndWidth" Radius="102%" Color="@SecondRangeColor" />
+                    <CircularGaugeRange Start="@ThirdRangeStart" End="@ThirdRangeEnd" StartWidth="@ThirdRangeStartWidth" EndWidth="@ThirdRangeEndWidth" Radius="102%" Color="@ThirdRangeColor" />
+                    <CircularGaugeRange Start="@FourthRangeStart" End="@FourthRangeEnd" StartWidth="@FourthRangeStartWidth" EndWidth="@FourthRangeEndWidth" Radius="102%" Color="@FourthRangeColor" />
+                    <CircularGaugeRange Start="@FifthRangeStart" End="@FifthRangeEnd" StartWidth="@FifthRangeStartWidth" EndWidth="@FifthRangeEndWidth" Radius="102%" Color="@FifthRangeColor" />
+                    <CircularGaugeRange Start="@SixRangeStart" End="@SixRangeEnd" StartWidth="@SixRangeStartWidth" EndWidth="@SixRangeEndWidth" Radius="102%" Color="@SixRangeColor" />
+                </CircularGaugeRanges>
+                <CircularGaugePointers>
+                    <CircularGaugePointer Value="@PointerValue" Radius="80%" Color="#757575" PointerWidth="7">
+                        <CircularGaugePointerAnimation Enable="false" />
+                        <CircularGaugeCap Radius="8" Color="#757575">
+                            <CircularGaugeCapBorder Width="0" />
+                        </CircularGaugeCap>
+                        <CircularGaugeNeedleTail Length="15%" Color="#757575" />
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+                <CircularGaugeAnnotations>
+                    <CircularGaugeAnnotation Angle="0" Radius='30%' ZIndex='1' Content="40 km/h">
+                        <CircularGaugeAnnotationTextStyle Size="20px" FontFamily="inherit" />
+                    </CircularGaugeAnnotation>
+                </CircularGaugeAnnotations>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <colgroup>
+                    <col span="1" style="width: 60%;">
+                    <col span="1" style="width: 40%;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div> Combine Ranges</div>
+                        </td>
+                        <td>
+                            <SfCheckBox ValueChange="@CombineRangeChange" Checked="@CombineRangeChecked" TChecked="bool" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>Gap Between Ranges</div>
+                        </td>
+                        <td>
+                            <SfCheckBox Disabled="@GapDisable" ValueChange="@RangeGapChange" Checked="@RangeGapChecked" TChecked="bool" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public SfCircularGauge Gauge;
+    public double RangeGap = 0;
+    public double PointerValue = 40;
+    public double FirstRangeStart = 0;
+    public double FirstRangeEnd = 20;
+    public string FirstRangeStartWidth = "5";
+    public string FirstRangeEndWidth = "10";
+    public string FirstRangeColor = "#82b944";
+    public double SecondRangeStart = 20;
+    public double SecondRangeEnd = 40;
+    public string SecondRangeStartWidth = "10";
+    public string SecondRangeEndWidth = "15";
+    public string SecondRangeColor = "#a1cb43";
+    public double ThirdRangeStart = 40;
+    public double ThirdRangeEnd = 60;
+    public string ThirdRangeStartWidth = "15";
+    public string ThirdRangeEndWidth = "20";
+    public string ThirdRangeColor = "#ddec12";
+    public double FourthRangeStart = 60;
+    public double FourthRangeEnd = 80;
+    public string FourthRangeStartWidth = "20";
+    public string FourthRangeEndWidth = "25";
+    public string FourthRangeColor = "#ffbc00";
+    public double FifthRangeStart = 80;
+    public double FifthRangeEnd = 100;
+    public string FifthRangeStartWidth = "25";
+    public string FifthRangeEndWidth = "30";
+    public string FifthRangeColor = "#ff6000";
+    public double SixRangeStart = 100;
+    public double SixRangeEnd = 120;
+    public string SixRangeStartWidth = "30";
+    public string SixRangeEndWidth = "35";
+    public string SixRangeColor = "red";
+    public bool CombineRangeChecked;
+    public bool RangeGapChecked;
+    public bool GapDisable = false;
+    private Timer syncTimer = null;
+    private Random random = new Random();
+
+    private void PointerValueUpdate(Object source, ElapsedEventArgs e)
+    {
+        PointerValue = Math.Abs(PointerValue + ((random.NextDouble() * 20) - 10));
+        Gauge.SetPointerValueAsync(0, 0, PointerValue);
+        Gauge.SetAnnotationValueAsync(0, 0, ((Math.Round(PointerValue)).ToString() + "km/h"));
+    }
+
+    private void CombineRangeChange(ChangeEventArgs<bool> args)
+    {
+        CombineRangeChecked = args.Checked;
+        if (CombineRangeChecked)
+        {
+            FirstRangeStart = 0;
+            FirstRangeEnd = 120;
+            FirstRangeStartWidth = "5";
+            FirstRangeEndWidth = "35";
+            FirstRangeColor = "url(#grad1)";
+            SecondRangeStart = 0;
+            SecondRangeEnd = 0;
+            SecondRangeStartWidth = "";
+            SecondRangeEndWidth = "";
+            SecondRangeColor = "";
+            ThirdRangeStart = 0;
+            ThirdRangeEnd = 0;
+            ThirdRangeStartWidth = "";
+            ThirdRangeEndWidth = "";
+            ThirdRangeColor = "";
+            FourthRangeStart = 0;
+            FourthRangeEnd = 0;
+            FourthRangeStartWidth = "";
+            FourthRangeEndWidth = "";
+            FourthRangeColor = "";
+            FifthRangeStart = 0;
+            FifthRangeEnd = 0;
+            FifthRangeStartWidth = "";
+            FifthRangeEndWidth = "";
+            FifthRangeColor = "";
+            SixRangeStart = 0;
+            SixRangeEnd = 0;
+            SixRangeStartWidth = "";
+            SixRangeEndWidth = "";
+            SixRangeColor = "";
+        }
+        else
+        {
+            FirstRangeStart = 0;
+            FirstRangeEnd = 20;
+            FirstRangeStartWidth = "5";
+            FirstRangeEndWidth = "10";
+            FirstRangeColor = "#82b944";
+            SecondRangeStart = 20;
+            SecondRangeEnd = 40;
+            SecondRangeStartWidth = "10";
+            SecondRangeEndWidth = "15";
+            SecondRangeColor = "#a1cb43";
+            ThirdRangeStart = 40;
+            ThirdRangeEnd = 60;
+            ThirdRangeStartWidth = "15";
+            ThirdRangeEndWidth = "20";
+            ThirdRangeColor = "#ddec12";
+            FourthRangeStart = 60;
+            FourthRangeEnd = 80;
+            FourthRangeStartWidth = "20";
+            FourthRangeEndWidth = "25";
+            FourthRangeColor = "#ffbc00";
+            FifthRangeStart = 80;
+            FifthRangeEnd = 100;
+            FifthRangeStartWidth = "25";
+            FifthRangeEndWidth = "30";
+            FifthRangeColor = "#ff6000";
+            SixRangeStart = 100;
+            SixRangeEnd = 120;
+            SixRangeStartWidth = "30";
+            SixRangeEndWidth = "35";
+            SixRangeColor = "red";
+        }
+        GapDisable = args.Checked;
+    }
+
+    private void RangeGapChange(ChangeEventArgs<bool> args)
+    {
+        RangeGapChecked = args.Checked;
+        RangeGap = (RangeGapChecked) ? 5 : 0;
+    }
+
+    protected override void OnInitialized()
+    {
+        syncTimer = new Timer(1000);
+        syncTimer.Elapsed += this.PointerValueUpdate;
+        syncTimer.AutoReset = true;
+        syncTimer.Enabled = true;
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

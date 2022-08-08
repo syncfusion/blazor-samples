@@ -1,0 +1,122 @@
+@page "/maps/earth-quake-indication"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample indicates an earthquake that occurred in Sumatra, Indonesia in 2009.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a custom HTML element as marker and place it on a specific location. More information about marker template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/markers#adding-marker-template'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsCenterPosition Latitude="1.5053645409602877" Longitude="105.14038085937499" />
+        <MapsZoomSettings Enable="false" ZoomFactor="7" />
+        <MapsAreaSettings Background="#AEE2FA" />
+        <MapsTitleSettings Text="7.6 Magnitude Earthquake Strikes Sumatra - 2009">
+            <MapsTitleTextStyle Size="18px" FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/asia.json"}' ShapePropertyPath="@ShapePropertyPath" TValue="string">
+                <MapsShapeSettings Fill="#FFFDCF">
+                    <MapsShapeBorder Color="#3497C3" Width="0.5" />
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Fill="#FF0000" Height="20" Width="20" DataSource="@EarthQuakeIndication" TValue="MarkerDataSource">
+                        <MarkerTemplate>
+                            @{
+                                <div id="template" style="display:block">
+                                    <div class="pulse-container">
+                                        <div class="pulse-box">
+                                            <div class="pulse-css"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </MarkerTemplate>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/2009_Sumatra_earthquakes" target="_blank">en.wikipedia.org</a>
+    </div>
+</div>
+<style>
+    .pulse-css {
+        width: 20px;
+        height: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        background: #E94430;
+        position: relative;
+    }
+
+        .pulse-css:before, .pulse-css:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            -webkit-border-radius: 20px;
+            -moz-border-radius: 20px;
+            border-radius: 20px;
+            background-color: #E94430;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            transform: scale(0.5);
+            transform-origin: center center;
+            animation: pulse-me 3s linear infinite;
+        }
+
+        .pulse-css:after {
+            animation-delay: 2s;
+        }
+
+    @@keyframes pulse-me {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 0.3;
+        }
+
+        70% {
+            opacity: 0.1;
+        }
+
+        100% {
+            transform: scale(5);
+            opacity: 0;
+        }
+    }
+</style>
+@code {
+    public string[] ShapePropertyPath = { "name" };
+    public class MarkerDataSource
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    };
+    public List<MarkerDataSource> EarthQuakeIndication = new List<MarkerDataSource> {
+        new MarkerDataSource { Latitude=1.625758360412755, Longitude=98.5693359375 }
+    };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

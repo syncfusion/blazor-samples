@@ -1,0 +1,166 @@
+﻿@page "/linear-gauge/print-export"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.LinearGauge
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the print and export functionalities of the linear gauge.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to print and export the rendered linear gauge. You can add print functionality by using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.LinearGauge.SfLinearGauge.html#methods'>PrintAsync</a> method when <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.LinearGauge.SfLinearGauge.html#Syncfusion_Blazor_LinearGauge_SfLinearGauge_AllowPrint'>AllowPrint</a> is set as <b>true</b>. Also, you can add export functionality by using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.LinearGauge.SfLinearGauge.html#methods'>ExportAsync</a> method when <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.LinearGauge.SfLinearGauge.html#Syncfusion_Blazor_LinearGauge_SfLinearGauge_AllowImageExport'>AllowImageExport</a> and
+        <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.LinearGauge.SfLinearGauge.html#Syncfusion_Blazor_LinearGauge_SfLinearGauge_AllowPdfExport'>AllowPdfExport</a> are set as <b>true</b>. The linear gauge can be exported to JPEG, PNG, SVG, and PDF formats.
+    </p>
+    <p>More information about print and export can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/linear-gauge/print'>documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfLinearGauge @ref="@Gauge" Orientation="Orientation.Horizontal" Title="Speedometer" AllowPdfExport="true" AllowPrint="true" AllowImageExport="true" Theme="@Theme">
+        <LinearGaugeTitleStyle FontFamily="inherit"></LinearGaugeTitleStyle>
+        <LinearGaugeAxes>
+            <LinearGaugeAxis Minimum="0" Maximum="120">
+                <LinearGaugeLine Width="0" />
+                <LinearGaugeMajorTicks Height="0" Width="0" Interval="20" />
+                <LinearGaugeMinorTicks Height="7" Width="0" Interval="4" />
+                <LinearGaugeAxisLabelStyle Offset="4" Position="Position.Outside">
+                    <LinearGaugeAxisLabelFont FontFamily="inherit"></LinearGaugeAxisLabelFont>
+                </LinearGaugeAxisLabelStyle>
+                <LinearGaugeRanges>
+                    <LinearGaugeRange Start="0" End="20" StartWidth="15" EndWidth="25" Color="#82b944" />
+                    <LinearGaugeRange Start="20" End="40" StartWidth="25" EndWidth="35" Color="#a1cb43" />
+                    <LinearGaugeRange Start="40" End="60" StartWidth="35" EndWidth="45" Color="#ddec12" />
+                    <LinearGaugeRange Start="60" End="80" StartWidth="45" EndWidth="55" Color="#ffbc00" />
+                    <LinearGaugeRange Start="80" End="100" StartWidth="55" EndWidth="65" Color="#ff6000" />
+                    <LinearGaugeRange Start="100" End="120" StartWidth="65" EndWidth="75" Color="red" />
+                </LinearGaugeRanges>
+                <LinearGaugePointers>
+                    <LinearGaugePointer PointerValue="80" Height="23" Width="35" Offset="-55" MarkerType="MarkerType.Triangle">
+                        <LinearGaugePointerBorder Width="2" Color="white" />
+                    </LinearGaugePointer>
+                </LinearGaugePointers>
+            </LinearGaugeAxis>
+        </LinearGaugeAxes>
+    </SfLinearGauge>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="property-text">Export Type</div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="FileTypeList" DataSource="@FileTypes" @bind-Value="@FileType" Width="100%">
+                                    <DropDownListEvents TValue="string" TItem="FileTypeList" ValueChange="ValueChange" />
+                                    <DropDownListFieldSettings Text="Name" Value="Name" />
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="property-text" style="margin-top: 5%;">File Name</div>
+                        </td>
+                        <td>
+                            <div class="e-float-input" style="margin-top:5%;">
+                                <SfTextBox Value="@FileName" ValueChange="@nameChange" Placeholder="Linear Gauge" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" style="padding-right: 5%;">
+                            <div style="margin-top: 6%;">
+                                <SfButton OnClick="ExportClick" IsPrimary="true" IsToggle="true" >Export</SfButton>
+                            </div>
+                        </td>
+                        <td align="left" style="padding-left:5%;margin-bottom:12%;">
+                            <div style="margin-top: 6%;">
+                                <SfButton OnClick="PrintClick" IsPrimary="true" IsToggle="true">Print</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public SfLinearGauge Gauge;
+    public string FileType { get; set; } = "JPEG";
+    public string FileName { get; set; } = "Linear Gauge";
+
+    public List<FileTypeList> FileTypes = new List<FileTypeList> {
+        new FileTypeList { Name="JPEG" },
+        new FileTypeList { Name="PNG" },
+        new FileTypeList { Name="SVG" },
+        new FileTypeList { Name="PDF" }
+    };
+
+    private void ValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, FileTypeList> args)
+    {
+        FileType = args.Value;
+    }
+
+    private void nameChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
+    {
+        FileName = args.Value;
+    }
+
+    private async Task PrintClick()
+    {
+        await Gauge.PrintAsync();
+    }
+
+    private async Task ExportClick()
+    {
+        ExportType ExportFileType = ExportType.JPEG;
+        switch (FileType)
+        {
+            case "JPEG":
+                ExportFileType = ExportType.JPEG;
+                break;
+            case "PNG":
+                ExportFileType = ExportType.PNG;
+                break;
+            case "SVG":
+                ExportFileType = ExportType.SVG;
+                break;
+            case "PDF":
+                ExportFileType = ExportType.PDF;
+                break;
+        }
+        await Gauge.ExportAsync(ExportFileType, FileName);
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public class FileTypeList
+    {
+        public string Name { get; set; }
+    }
+}

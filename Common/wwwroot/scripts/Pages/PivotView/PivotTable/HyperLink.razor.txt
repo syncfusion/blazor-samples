@@ -1,0 +1,380 @@
+﻿@page "/pivot-table/hyperlink"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+@inject IJSRuntime JSRuntime;
+
+<SampleDescription>
+    <p>This sample demonstrates showing hyperlink options in row headers, column headers, value cells, and summary cells in the pivot table. Also, hyperlink options can be enabled for specific headers and value cells based on the applied condition.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this sample, hyperlinks are enabled in cells based on the options selected from the <b>Show Hyperlink</b> drop-down list. The following options are available for setting the hyperlinks:
+        <table>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;width:200px'><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_ShowHyperlink'>ShowHyperlink</a></td>
+                <td> : Allows to set the visibility of hyperlink to all cells.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'> <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_ShowColumnHeaderHyperlink'>ShowColumnHeaderHyperlink</a></td>
+                <td> : Allows to set the visibility of hyperlink to column headers.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_ShowRowHeaderHyperlink'>ShowRowHeaderHyprlink</a></td>
+                <td> : Allows to set the visibility of hyperlink to row headers.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'> <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_ShowSummaryCellHyperlink'>ShowSummaryCellHyperlink</a></td>
+                <td> : Allows to set the visibility of hyperlink to summary cells.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_ShowValueCellHyperlink'>ShowValueCellHyperlink</a></td>
+                <td> : Allows to set the visibility of hyperlink to value cells.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_ConditionalSettings'>ConditionalSettings</a></td>
+                <td> : Allows to set the visibility of hyperlink based on specific condition.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_HeaderText'>HeaderText</a></td>
+                <td> : Allows to set the visibility of hyperlink based on header text.</td>
+            </tr>
+            <tr>
+                <td style='vertical-align: top;padding: 4px 0;'><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewHyperlinkSettings.html#Syncfusion_Blazor_PivotView_PivotViewHyperlinkSettings_CssClass'>CssClass</a></td>
+                <td> : Allows you to add the CSS class name to the hyperlink options.</td>
+            </tr>
+        </table>
+    </p>
+    <p>In this sample, we have used the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_HyperlinkCellClicked'>HyperlinkCellClicked</a> event for further processing during cell click.</p>
+    <p>More information on the hyperlink can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/hyper-link/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="Pivot" Height="600" Width="100%" EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Country" Items="@(new string[] {"United Kingdom", "United States" })"></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+            </PivotViewDataSourceSettings>
+            <PivotViewHyperlinkSettings ShowValueCellHyperlink="@ShowValueCellHyperlink" ShowHyperlink="@ShowHyperlink" ShowColumnHeaderHyperlink="@ShowColumnHeaderHyperlink" ShowRowHeaderHyperlink="@ShowRowHeaderHyperlink" ShowSummaryCellHyperlink="@ShowSummaryCellHyperlink" HeaderText="@HyperHeaderText" CssClass="e-custom-class">
+                <PivotViewConditionalSettings>
+                    <PivotViewConditionalSetting Measure="@Measure" Conditions="HyperlinkCondition" Value1="ConditionalValue1" Value2="ConditionalValue2"></PivotViewConditionalSetting>
+                </PivotViewConditionalSettings>
+            </PivotViewHyperlinkSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            <PivotViewEvents TValue="PivotProductDetails" HyperlinkCellClicked="@HyperlinkClick"></PivotViewEvents>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section pivottable-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td colspan="2">
+                            <div style="white-space: nowrap;">
+                                Show Hyperlink:
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@HyperlinkData" @bind-Value="@HyperlinkMode" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="OnHyperlinkChange"></DropDownListEvents>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    @if (HyperlinkMode == "conditional")
+                    {
+                        <tr class="text1cls" style="height: 50px;">
+                            <td colspan="2">
+                                <div style="white-space: nowrap;">
+                                    <hr>
+                                    Condition based settings:
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="measurecls" style="height: 50px;">
+                            <td style="padding-right: 10px;">
+                                <div>
+                                    Measures:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfDropDownList @ref="Fields" TValue="string" TItem="DropDownData" DataSource="@FieldData" Value="@Measure" PopupWidth="auto">
+                                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                                        <tr class="conditioncls" style="height: 50px;">
+                                            <td style="padding-right: 10px;">
+                                                <div>
+                                                    Condition:
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="conditionscls">
+                                                    <SfDropDownList @ref="Conditions" TValue="string" TItem="DropDownData" DataSource="@ConditionalData" @bind-Value="@Condition" PopupWidth="auto">
+                                                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                                    </SfDropDownList>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                                        <tr class="input1cls" style="height: 50px;">
+                                                            <td style="padding-right: 10px;">
+                                                                <div style="white-space: nowrap;">
+                                                                    Value 1:
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="value1cls">
+                                                                    <SfNumericTextBox @ref="Value1" TValue="double" Value="@ConditionalValue1" Placeholder="Example: 400"></SfNumericTextBox>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                                        @if (Condition == "Between" || Condition == "NotBetween")
+                                                                        {
+                                                        <tr class="input2cls" style="height: 50px">
+                                                            <td style="padding-right: 10px;">
+                                                                <div style="white-space: nowrap;">
+                                                                    Value 2:
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="value2cls">
+                                        <SfNumericTextBox @ref="Value2" TValue="double" Value="ConditionalValue2" Placeholder="Example: 4000"></SfNumericTextBox>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @if (HyperlinkMode == "headertext")
+                    {
+                        <tr class="text2cls" style="height: 50px;">
+                            <td colspan="2">
+                                <div style="white-space: nowrap;">
+                                    <hr>
+                                    Header based settings:
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="textinputcls" style="height: 50px;">
+                            <td style="padding-right: 10px;">
+                                <div style="white-space: nowrap;">
+                                    Header Text:
+                                </div>
+                            </td>
+                            <td>
+                                <div class="textcls">
+                                    <SfTextBox @ref="HeaderText" Value="" Placeholder="Example: 'FY 2015.Units Sold'"></SfTextBox>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    @if (HyperlinkMode == "conditional" || HyperlinkMode == "headertext")
+                    {
+                        <tr class="updatecls" style="height: 50px;">
+                            <td colspan="2">
+                                <div style="float:right;margin-right: 4px">
+                                    <SfButton IsPrimary="true" OnClick="OnApply">Apply</SfButton>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .pivottable-property-section table tr td:first-child {
+        width: 25%;
+    }
+
+    .pivottable-property-section .text1cls,
+    .pivottable-property-section .text2cls {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .pivottable-property-section {
+        overflow: auto;
+    }
+
+    .EventLog b {
+        color: #388e3c;
+    }
+
+    .pivottable-property-section hr {
+        margin: 1px 10px 10px 0px;
+        border-top: 1px solid #eee;
+    }
+
+    .EventLog hr {
+        margin-bottom: 1px;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+
+@code{
+
+    SfPivotView<PivotProductDetails> Pivot;
+    SfDropDownList<string, DropDownData> Fields;
+    SfDropDownList<string, DropDownData> Conditions;
+    SfNumericTextBox<double> Value1;
+    SfNumericTextBox<double> Value2;
+    SfTextBox HeaderText;
+    public List<PivotProductDetails> Data { get; set; }
+
+    public string[] DrilledMembers = new string[] { "United States" };
+            public bool ShowHyperlink { get; set; } = false;
+            public bool ShowRowHeaderHyperlink { get; set; } = false;
+            public bool ShowColumnHeaderHyperlink { get; set; } = false;
+            public bool ShowValueCellHyperlink { get; set; } = true;
+            public bool ShowSummaryCellHyperlink { get; set; } = false;
+            public string HyperHeaderText { get; set; } = null;
+            public string Measure { get; set; } = "In_Stock";
+            public double ConditionalValue1 { get; set; } = 0;
+            public double ConditionalValue2 { get; set; } = 0;
+            public Condition HyperlinkCondition { get; set; } = Syncfusion.Blazor.PivotView.Condition.Equals;
+            public string HyperlinkMode { get; set; } = "valuecells";
+            public string Condition { get; set; } = "Equals";
+            protected override void OnInitialized()
+            {
+                this.Data = PivotProductDetails.GetProductData();
+            }
+
+            public async Task HyperlinkClick(HyperCellClickEventArgs args)
+            {
+                await JSRuntime.InvokeAsync<object>("open", "https://www.google.com/", "_blank");
+            }
+
+            public void OnHyperlinkChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+            {
+                if (args.Value == "allcells")
+                {
+                    this.ShowHyperlink = true;
+                    this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
+                }
+                else if (args.Value == "rowheader")
+                {
+                    this.ShowHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
+                    this.ShowRowHeaderHyperlink = true;
+                }
+                else if (args.Value == "columnheader")
+                {
+                    this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
+                    this.ShowColumnHeaderHyperlink = true;
+                }
+                else if (args.Value == "valuecells")
+                {
+                    this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowSummaryCellHyperlink = false;
+                    this.ShowValueCellHyperlink = true;
+                }
+                else if (args.Value == "summarycells")
+                {
+                    this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = false;
+                    this.ShowSummaryCellHyperlink = true;
+                }
+                this.HyperHeaderText = null;
+                this.Measure = HyperlinkMode == "conditional" ? "In_Stock" : null;
+                this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+                this.ConditionalValue1 = this.ConditionalValue2 = 0;
+            }
+
+            public void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+            {
+                this.ShowHyperlink = this.ShowRowHeaderHyperlink = this.ShowColumnHeaderHyperlink = this.ShowValueCellHyperlink = this.ShowSummaryCellHyperlink = false;
+                if (HyperlinkMode == "conditional")
+                {
+                    this.HyperHeaderText = null;
+                    this.Measure = this.Fields.Value;
+                    this.HyperlinkCondition = (Syncfusion.Blazor.PivotView.Condition)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.Condition), this.Conditions.Value, true);
+                    this.ConditionalValue1 = this.Value1.Value;
+                    this.ConditionalValue2 = this.Value2 != null ? this.Value2.Value : 0;
+                }
+                else if (HyperlinkMode == "headertext")
+                {
+                    this.HyperHeaderText = this.HeaderText.Value;
+                    this.Measure = null;
+                    this.HyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
+                    this.ConditionalValue1 = this.ConditionalValue2 = 0;
+                }
+            }
+
+            List<DropDownData> HyperlinkData = new List<DropDownData>() {
+        new DropDownData { Value = "allcells", Name = "All cells" },
+        new DropDownData { Value = "rowheader", Name = "Row headers" },
+        new DropDownData { Value = "columnheader", Name = "Column headers" },
+        new DropDownData { Value = "valuecells", Name = "Value cells" },
+        new DropDownData { Value = "summarycells", Name = "Summary cells" },
+        new DropDownData { Value = "conditional", Name = "Condition based option" },
+        new DropDownData { Value = "headertext", Name = "Header based option" },
+    };
+
+            List<DropDownData> FieldData = new List<DropDownData>() {
+        new DropDownData { Value = "In_Stock", Name = "In Stock" },
+        new DropDownData { Value = "Sold", Name = "Units Sold" },
+        new DropDownData { Value = "Amount", Name = "Sold Amount" }
+    };
+
+            List<DropDownData> ConditionalData = new List<DropDownData>() {
+        new DropDownData { Value = "Equals", Name = "Equals" },
+        new DropDownData { Value = "NotEquals", Name = "NotEquals" },
+        new DropDownData { Value = "GreaterThan", Name = "GreaterThan" },
+        new DropDownData { Value = "GreaterThanOrEqualTo", Name = "GreaterThanOrEqualTo" },
+        new DropDownData { Value = "LessThan", Name = "LessThan" },
+        new DropDownData { Value = "LessThanOrEqualTo", Name = "LessThanOrEqualTo" },
+        new DropDownData { Value = "Between", Name = "Between" },
+        new DropDownData { Value = "NotBetween", Name = "NotBetween" },
+    };
+
+            public class DropDownData
+            {
+                public string Name { get; set; }
+                public string Value { get; set; }
+    }
+
+}

@@ -1,0 +1,119 @@
+@page "/datagrid/hierarchy-grid"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor;
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows how to use the details template feature of DataGrid to display parent-child relation data in a hierarchy structure.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The Hierarchy DataGrid is used to display table data in hierarchical structure that can be expanded or collapsed by clicking the expand or collapse button. It can be achieved by defining <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridTemplates.html#Syncfusion_Blazor_Grids_GridTemplates_DetailTemplate'>DetailTemplate</a> within <code>GridTemplates</code>.</p>
+   <p>In this demo, three level hierarchy is demonstrated with hierarchical structure <strong>Employee -&gt; Orders -&gt; Customers</strong>.</p>
+   <p>More information about the Details Template feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/row/#detail-template'>documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@Employees">
+                    <GridTemplates>
+                        <DetailTemplate>
+                            @{
+                                var employee = (context as EmployeeData);
+                                <SfGrid TValue="Order" Query="@GetEmployeesQuery(employee)" AllowPaging="true">
+                                    <GridPageSettings PageSize="8"></GridPageSettings>
+                                    <SfDataManager Url="https://js.syncfusion.com/demos/ejservices/Wcf/Northwind.svc/Orders" CrossDomain="true"></SfDataManager>
+                                    <GridTemplates>
+                                        <DetailTemplate Context="CustomerContext">
+                                            @{
+                                                var orders = (CustomerContext as Order);
+                                                <SfGrid TValue="CustomerDetails" Query="@GetOrderQuery(orders)">
+                                                    <SfDataManager Url="https://js.syncfusion.com/demos/ejservices/Wcf/Northwind.svc/Customers" CrossDomain="true"></SfDataManager>
+                                                    <GridColumns>
+                                                        <GridColumn Field=@nameof(CustomerDetails.CustomerID) HeaderText="Customer ID" Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(CustomerDetails.ContactTitle) HeaderText="Title" Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(CustomerDetails.Address) Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(CustomerDetails.Country) Width="110"></GridColumn>
+                                                    </GridColumns>
+                                                </SfGrid>
+                                            }
+                                        </DetailTemplate>
+                                    </GridTemplates>
+                                    <GridColumns>
+                                        <GridColumn Field=@nameof(Order.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="110"> </GridColumn>
+                                        <GridColumn Field=@nameof(Order.Freight) Format="c2" TextAlign="TextAlign.Right" Width="110"></GridColumn>
+                                        <GridColumn Field=@nameof(Order.ShipName) HeaderText="Ship Name" Width="110"></GridColumn>
+                                        <GridColumn Field=@nameof(Order.ShipCity) HeaderText="Ship City" Width="110"></GridColumn>
+
+                                    </GridColumns>
+                                </SfGrid>
+                            }
+                        </DetailTemplate>
+                    </GridTemplates>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(EmployeeData.EmployeeID) HeaderText="Employee ID" TextAlign="TextAlign.Right" Width="110"> </GridColumn>
+                        <GridColumn Field=@nameof(EmployeeData.FirstName) HeaderText="First Name" Width="110"></GridColumn>
+                        <GridColumn Field=@nameof(EmployeeData.Title)  Width="110"></GridColumn>
+                        <GridColumn Field=@nameof(EmployeeData.City) Width="110"></GridColumn>
+                        <GridColumn Field=@nameof(EmployeeData.Country) Width="110"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+@code{
+    public Query GetOrderQuery(Order value)
+    {
+        return new Query().Where("CustomerID", "equal", value.CustomerID);
+    }
+    public Query GetEmployeesQuery(EmployeeData value)
+    {
+        return new Query().Where("EmployeeID", "equal", value.EmployeeID);
+    }
+    public List<EmployeeData> Employees { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Employees = new List<EmployeeData>
+        {
+            new EmployeeData() {EmployeeID = 1, FirstName="Nancy",  Title="Sales Representative",City="Texas", Country="USA"},
+            new EmployeeData() {EmployeeID = 2, FirstName="Andrew",  Title="Vice President",City="London", Country="UK"},
+            new EmployeeData() {EmployeeID = 3, FirstName="Janet",  Title="Sales",City="London", Country="UK"},
+            new EmployeeData() {EmployeeID = 4, FirstName="Margaret",  Title="Sales Manager",City="London", Country="UK"},
+            new EmployeeData() {EmployeeID = 5, FirstName="Steven",  Title="Inside Sales Coordinator",City="Vegas", Country="USA"},
+            new EmployeeData() {EmployeeID = 6, FirstName="Smith",  Title="HR Manager",City="Dubai", Country="UAE"},
+            new EmployeeData() {EmployeeID = 7, FirstName="Steven",  Title="Inside Sales Coordinator",City="Paris", Country="France"},
+            new EmployeeData() {EmployeeID = 8, FirstName="Smith",  Title="HR Manager",City="Mumbai", Country="India"},
+            new EmployeeData() {EmployeeID = 9, FirstName="Smith",  Title="HR Manager",City="Chennai", Country="India"},
+        };
+    }
+
+    public class EmployeeData
+    {
+        public int? EmployeeID { get; set; }
+        public string FirstName { get; set; }
+        public string Title { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+    }
+
+    public class Order
+    {
+        public int? EmployeeID { get; set; }
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public string ShipName { get; set; }
+        public string ShipCity { get; set; }
+        public double? Freight { get; set; }
+    }
+
+    public class CustomerDetails
+    {
+        public string CustomerID { get; set; }
+        public string ContactTitle { get; set; }
+        public string Country { get; set; }
+        public string Address { get; set; }
+    }
+}

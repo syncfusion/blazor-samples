@@ -1,0 +1,352 @@
+﻿@page "/diagram/complex-hierarchical-tree"
+
+@using Syncfusion.Blazor.Diagrams
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample illustrates a simple business management structure built from an external data source. A hierarchical tree layout algorithm is used to build organizational charts.</p>
+    <p style="font-weight: bold;">A new blazor diagram component which provides better performance than the existing diagram control in Blazor WebAssembly App. Check the samples <a target='_blank' href='diagramcomponent/flowchart'>here</a>.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to generate a complex hierarchical tree from external data sources. You can also customize spacing between the objects in the tree by using the <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#spacing'>HorizontalSpacing</a></code> and <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#spacing'>VerticalSpacing</a></code> properties of <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#complex-hierarchical-tree'>DiagramLayout</a></code>. You can use the <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#orientation'>Orientation</a></code> property of <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#complex-hierarchical-tree'>DiagramLayout</a></code> to change the orientation. To change the <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/layout/hierarchical-layout/#orientation'>Orientation</a></code> of the tree, click the templates in the property panel.</p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<style>
+    #diagram {
+        display: block;
+    }
+
+    .row {
+        display: block;
+    }
+
+    .image-pattern-style {
+        background-color: white;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 75px;
+        width: calc((100% - 18px) / 3);
+        cursor: pointer;
+        border: 1px solid #D5D5D5;
+        background-position: center;
+        float: left;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .row-header {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .e-checkbox-wrapper .e-label {
+        font-size: 12px;
+    }
+
+    .e-selected-style {
+        border-color: #006CE6;
+        border-width: 2px;
+    }
+
+    .image-pattern-style:hover {
+        border-color: gray;
+        border-width: 2px;
+    }
+
+    .property-panel-header {
+        margin-left: 0px;
+        font-weight: 600;
+        padding-top: 10px;
+        padding-bottom: 15px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .textboxstyle {
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        width: 110px;
+    }
+
+    .sb-property-border {
+        border-right: 1px solid #D7D7D7;
+    }
+</style>
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagram @ref="@Diagram" ID="diagram" Tool="@DiagramTools.ZoomPan" Height="580px" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults" Layout="@LayoutValue">
+            <DiagramDataSource Id="Name" ParentId="ReportingPerson" DataSource="@DataSource">
+                <DiagramDataMapSettings>
+                    <DiagramDataMapSetting Property="Style.fill" Field="FillColor"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Style.strokeColor" Field="Border"></DiagramDataMapSetting>
+                </DiagramDataMapSettings>
+            </DiagramDataSource>
+            <DiagramPageSettings>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
+            </DiagramPageSettings>
+            <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
+        </SfDiagram>
+
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">
+        Layout Settings
+    </div>
+    <div class="row property-panel-content" id="appearance" style="padding-top: 10px">
+        <div class="row row-header">
+            Appearance
+        </div>
+        <div class="row" style="padding-top: 8px ">
+            <div title="Top to bottom  Orientation" class="@dict["topToBottom"]" @onclick="ToptoBottomClick" id="topToBottom" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/top-to-bottom.png")); margin-right: 3px ">
+            </div>
+            <div title="Bottom to top Orientation" class="@dict["bottomToTop"]" @onclick="BottomtoTopClick" id="bottomToTop" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/bottom-to-top.png")); margin: 0px 3px">
+            </div>
+            <div title="Left to right Orientation" class="@dict["leftToRight"]" @onclick="LefttoRightClick" id="leftToRight" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/left-to-right.png")); margin-right: 3px">
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Right to left Orientation" class="@dict["rightToLeft"]" @onclick="RighttoLeftClick" id="rightToLeft" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/right-to-left.png")); margin: 0px 3px">
+            </div>
+        </div>
+    </div>
+    <div class="row property-panel-content" style="padding-top: 10px;">
+        <div class="row row-header">
+            Layout Spacing
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;padding-left: 0px" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Margin X</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="xmargin" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@xmargin">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="marginLeftChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;padding-left: 0px" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Margin Y</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="ymargin" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@ymargin">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="marginTopChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;padding-left: 0px" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Horizontal Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="hSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@HValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="hSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 35px;padding-left: 0px" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Vertical Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="vSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@VValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="vSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px">
+            <SfCheckBox ID="checked" @ref="@CheckBox" Checked="@checkboxvalue" Label="Prevent Connector Overlapping" ValueChange="@OnChangeData" TChecked="bool" />
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+@code{
+    static string selecteditem = "image-pattern-style e-selected-style";
+    static string unselecteditem = "image-pattern-style";
+    Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
+    SfDiagram Diagram;
+    SfCheckBox<bool> CheckBox;
+    bool checkboxvalue = true;
+    public int? HValue { get; set; } = 40;
+    public int? VValue { get; set; } = 40;
+    public int? xmargin { get; set; } = 20;
+    public int? ymargin { get; set; } = 20;
+    DiagramLayout LayoutValue = new DiagramLayout() { };
+
+    TreeInfo LayoutInfo = new TreeInfo()
+    {
+        CanEnableSubTree = true,
+        GetAssistantDetails = new AssistantsDetails() { Assistants = new string[] { "Assistant General Manager" }, Root = "General Manager" }
+    };
+
+
+    DiagramNode NodeDefaults = new DiagramNode
+    {
+        Height = 40,
+        Width = 40,
+        Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+    {
+            new DiagramNodeAnnotation() { Offset = new NodeAnnotationOffset(){ Y =0.5, X= 0.5}, Id = "label"}
+        },
+        Shape = new DiagramShape() { BasicShape = BasicShapes.Rectangle, CornerRadius = 7, Type = Syncfusion.Blazor.Diagrams.Shapes.Basic }
+    };
+
+    DiagramConnector ConnectorDefaults = new DiagramConnector
+    {
+        Type = Segments.Orthogonal,
+        CornerRadius = 7,
+        TargetDecorator = new ConnectorTargetDecorator() { Width = 7, Height = 7 },
+        Style = new ConnectorShapeStyle() { StrokeColor = "#6d6d6d" }
+    };
+
+    private void hSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        updateLayoutSettings("horizontalSpacing", double.Parse(args.Value.ToString()));
+    }
+    private void vSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        updateLayoutSettings("verticalSpacing", double.Parse(args.Value.ToString()));
+    }
+    private void marginTopChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        updateLayoutSettings("marginTop", double.Parse(args.Value.ToString()));
+    }
+    private void marginLeftChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        updateLayoutSettings("marginLeft", double.Parse(args.Value.ToString()));
+    }
+    private void ToptoBottomClick()
+    {
+        Diagram.Layout.Orientation = LayoutOrientation.TopToBottom;
+        updateSelection("topToBottom");
+    }
+    private void LefttoRightClick()
+    {
+        Diagram.Layout.Orientation = LayoutOrientation.LeftToRight;
+        updateSelection("leftToRight");
+    }
+    private void RighttoLeftClick()
+    {
+        Diagram.Layout.Orientation = LayoutOrientation.RightToLeft;
+        updateSelection("rightToLeft");
+    }
+    private void BottomtoTopClick()
+    {
+        Diagram.Layout.Orientation = LayoutOrientation.BottomToTop;
+        updateSelection("bottomToTop");
+    }
+
+    private void updateSelection(string id)
+    {
+        for (int i = 0; i < dict.Count; i++)
+        {
+            var value = dict.Values.ElementAt(i);
+            var key = dict.Keys.ElementAt(i);
+            if (dict.ContainsKey(id) && key == id)
+            {
+                value = selecteditem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dict.Remove(key);
+            dict.Add(key, value);
+        }
+
+        StateHasChanged();
+    }
+    private void updateLayoutSettings(string propertyName, double propertyValue)
+    {
+        switch (propertyName)
+        {
+            case "horizontalSpacing":
+                HValue = (int)propertyValue;
+                Diagram.Layout.HorizontalSpacing = propertyValue;
+                break;
+            case "verticalSpacing":
+                VValue = (int)propertyValue;
+                Diagram.Layout.VerticalSpacing = propertyValue;
+                break;
+            case "marginLeft":
+                xmargin = (int)propertyValue;
+                Diagram.Layout.Margin.Left = propertyValue;
+                break;
+            case "marginTop":
+                ymargin = (int)propertyValue;
+                Diagram.Layout.Margin.Top = propertyValue;
+                break;
+        }
+        StateHasChanged();
+    }
+    public class DataModel
+    {
+        public string Name;
+        public string FillColor;
+        public string Border;
+        public string[] ReportingPerson;
+    }
+    public object DataSource = new List<object>()
+{
+        new DataModel { Name = "node11", FillColor = "#e7704c", Border = "#c15433" },
+        new DataModel {  Name = "node12", ReportingPerson = new string[]{ "node114" }, FillColor = "#efd46e", Border = "#d6b123" },
+        new DataModel {  Name = "node13", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node14", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node15", ReportingPerson = new string[] { "node12" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node116", ReportingPerson = new string[] { "node22","node12" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node16", ReportingPerson = new string[] {}, FillColor = "#14ad85" },
+        new DataModel {  Name = "node17", ReportingPerson = new string[] { "node13", "node14", "node15" }, FillColor = "#659be5", Border = "#3a6eb5" },
+        new DataModel {  Name = "node18", ReportingPerson = new string[] {}, FillColor = "#14ad85" },
+        new DataModel {  Name = "node19", ReportingPerson = new string[] { "node16", "node17", "node18" }, FillColor = "#8dbe6c", Border = "#489911" },
+        new DataModel {  Name = "node110", ReportingPerson = new string[] { "node16", "node17", "node18" }, FillColor = "#8dbe6c", Border = "#489911" },
+        new DataModel {  Name = "node111", ReportingPerson = new string[] { "node16", "node17", "node18", "node116" }, FillColor = "#8dbe6c", Border = "#489911" },
+        new DataModel {  Name = "node21", FillColor = "#e7704c", Border = "#c15433" },
+        new DataModel {  Name = "node22", ReportingPerson = new string[] { "node114" }, FillColor = "#efd46e", Border = "#d6b123" },
+        new DataModel {  Name = "node23", ReportingPerson = new string[] { "node22" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node24", ReportingPerson = new string[] { "node22" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node25", ReportingPerson = new string[] { "node22" }, FillColor = "#58b087", Border = "#16955e" },
+        new DataModel {  Name = "node26", ReportingPerson = new string[] {}, FillColor = "#14ad85" },
+        new DataModel {  Name = "node27", ReportingPerson = new string[] { "node23", "node24", "node25" }, FillColor = "#659be5", Border = "#3a6eb5" },
+        new DataModel {  Name = "node28", ReportingPerson = new string[] {}, FillColor = "#14ad85" },
+        new DataModel {  Name = "node29", ReportingPerson = new string[] { "node26", "node27", "node28", "node116" }, FillColor = "#8dbe6c", Border = "#489911" },
+        new DataModel {  Name = "node210", ReportingPerson = new string[] { "node26", "node27", "node28" }, FillColor = "#8dbe6c", Border = "#489911" },
+        new DataModel {  Name = "node211", ReportingPerson = new string[] { "node26", "node27", "node28" }, FillColor = "#8dbe6c", Border = "#489911" },
+        new DataModel {  Name = "node31", FillColor = "#e7704c", Border = "#c15433" },
+        new DataModel {  Name = "node114", ReportingPerson = new string[] { "node11", "node21", "node31" }, FillColor = "#f3904a", Border = "#d3722e" }
+
+    };
+
+    protected override void OnInitialized()
+    {
+        LayoutValue = new DiagramLayout()
+        {
+            Type = LayoutType.ComplexHierarchicalTree,
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalSpacing = 40,
+            VerticalSpacing = 40,
+            Orientation = LayoutOrientation.TopToBottom,
+            Margin = new LayoutMargin() { Left = 20, Top = 20 },
+            ConnectionPointOrigin = ConnectionPointOrigin.DifferentPoint
+        };
+
+    }
+    public void OnChangeData(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        checkboxvalue = CheckBox.Checked;
+        Diagram.Layout.ConnectionPointOrigin = (CheckBox.Checked) ? ConnectionPointOrigin.DifferentPoint : ConnectionPointOrigin.SamePoint;
+    }
+}
