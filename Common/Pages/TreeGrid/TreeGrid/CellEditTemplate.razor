@@ -1,0 +1,54 @@
+﻿@page "/tree-grid/cell-edit-template"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using ej2_blazor_wrapdata
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This samples demonstrates the Tree Grid cell edit template feature. Using template, any custom component can be rendered in a column for editing.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this demo, <a target='_blank' href='https://blazor.syncfusion.com/documentation/autocomplete/getting-started'>AutoComplete</a> component is rendered for the “Task Name” column of Tree Grid using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridColumn_EditTemplate'>EditTemplate</a> component of <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html'>TreeGridColumn</a>.</p>
+   <p>More information on cell edit template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/edit/#cell-edit-template'>documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+             <SfTreeGrid AllowSorting="true" DataSource="@TreeData" IdMapping="TaskId" ParentIdMapping="ParentId" Height="312" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "Edit", "Delete", "Update", "Cancel" })">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="@Syncfusion.Blazor.TreeGrid.EditMode.Row" NewRowPosition="Syncfusion.Blazor.TreeGrid.RowPosition.Bottom"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" ValidationRules="@(new Syncfusion.Blazor.Grids.ValidationRules() { Required = true, Number = true })" Width="80" IsPrimaryKey="true" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" ValidationRules="@(new Syncfusion.Blazor.Grids.ValidationRules() { Required = true })" Width="240">
+                        <EditTemplate>
+                            <SfAutoComplete  TItem="WrapData" TValue="string" ID="TaskName" @bind-Value="@((context as WrapData).TaskName)" DataSource="@TreeData">
+                                <AutoCompleteFieldSettings Value="TaskName"></AutoCompleteFieldSettings>
+                            </SfAutoComplete>
+                        </EditTemplate>
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type="ColumnType.DateTime" Width="110" TextAlign="@TextAlign.Right" EditType="EditType.DatePickerEdit"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="100" ValidationRules="@(new Syncfusion.Blazor.Grids.ValidationRules() { Number = true, Min = 0 })" TextAlign="@TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="100" EditType="Syncfusion.Blazor.Grids.EditType.DefaultEdit"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="80" EditType="Syncfusion.Blazor.Grids.EditType.DropDownEdit"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private List<WrapData> TreeData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.TreeData = WrapData.GetWrapData().ToList();
+        
+    }
+}

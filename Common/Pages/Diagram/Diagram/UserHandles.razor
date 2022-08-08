@@ -1,0 +1,325 @@
+﻿@page "/diagram/user-handles"
+
+@using Syncfusion.Blazor.Diagrams
+@using System.Collections.ObjectModel
+@using DiagramShapes = Syncfusion.Blazor.Diagrams.Shapes
+@using DiagramSegments = Syncfusion.Blazor.Diagrams.Segments
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes a simple flow diagram along with options to execute frequently used commands using user handles.</p>
+    <p style="font-weight: bold;">A new blazor diagram component which provides better performance than the existing diagram control in Blazor WebAssembly App. Check the samples <a target='_blank' href='diagramcomponent/flowchart'>here</a>.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>User handles are represented as iconsplaced around the node to run frequently used commands. This example shows how to render and configure user handles and how to interact with the Diagram control using user handles. The <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/user-handle/'>UserHandles</a></code> property of the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.SfDiagram.html#Syncfusion_Blazor_Diagrams_SfDiagram_SelectedItems'>SelectedItems</a></code> can be used to add user handles to a diagram. Click the templates in the property panel to customize the size, position, and appearance of the user handles.</p><br>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
+    @*End:Hidden*@
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagram @ref="@Diagram" Height="640px"
+                   NodeDefaults="@NodeDefaults"
+                   Nodes="@NodeCollection"
+                   Connectors="@ConnectorCollection"
+                   SelectedItems="@SelectedModel">
+            <DiagramSnapSettings Constraints="@SnapConstraints.None" />
+            <DiagramEvents Created="@OnCreated" OnUserHandleMouseUp="@OnUserHandleMouseUp"></DiagramEvents>
+            <DiagramPageSettings>
+                <DiagramFitOptions CanFit="true" Mode="FitModes.Width"></DiagramFitOptions>
+            </DiagramPageSettings>
+        </SfDiagram>
+    </div>
+    @*Hidden:Lines*@
+</div>
+@*End:Hidden*@
+
+
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <style>
+        .row {
+            display: block;
+        }
+
+        #container {
+            display: block;
+        }
+
+        .image-pattern-style:hover {
+            border-color: gray;
+            border-width: 2px;
+        }
+
+        .image-pattern-style {
+            background-color: white;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 60px;
+            width: calc((100% - 18px) / 3);
+            cursor: pointer;
+            border: 1px solid #D5D5D5;
+            background-position: center;
+            float: left;
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .row-header {
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+        .property-panel-header {
+            padding-bottom: 10px;
+        }
+
+        .control-section {
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-right: 0px;
+            padding-left: 0px;
+        }
+
+        .container-fluid {
+            padding-left: 0px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 5px;
+        }
+    </style>
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="property-panel-content" id="appearance">
+        <div class="row" style="font-size: 14px; margin-bottom:10px;">
+            Alignment
+        </div>
+        <div class="row">
+            <div class="@CssClass["BottomLeft"]" id="BottomLeft" @onclick="@(() => SetHandlePosition("BottomLeft"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/user-handle/bottom-left.png")); margin-right: 4px">
+            </div>
+            <div class="@CssClass["BottomRight"]" id="BottomRight" @onclick="@(() => SetHandlePosition("BottomRight"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/user-handle/bottom-right.png"));
+        margin: 0px 4px">
+            </div>
+            <div class="@CssClass["TopRight"]" id="TopRight" @onclick="@(() => SetHandlePosition("TopRight"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/user-handle/top-right.png"));">
+            </div>
+        </div>
+    </div>
+    <div class="property-panel-content" id="pattern">
+        <div class="row" style="font-size: 14px; margin-bottom:10px;margin-top:10px;">
+            Appearance
+        </div>
+        <div class="row">
+            <div class="@CssClass["Pattern1"]" id="Pattern1" @onclick="@(() => SetPattern("Pattern1"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/user-handle/blue.png")); margin-right: 4px">
+            </div>
+            <div class="@CssClass["Pattern2"]" id="Pattern2" @onclick="@(() => SetPattern("Pattern2"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/user-handle/green.png"));
+        margin: 0px 4px">
+            </div>
+            <div class="@CssClass["Pattern3"]" id="Pattern3" @onclick="@(() => SetPattern("Pattern3"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/user-handle/orange.png"));">
+            </div>
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+
+@code
+{
+    const string defaultCssClass = "image-pattern-style";
+    const string selectedCssClass = "image-pattern-style e-selected-style";
+
+    int connectorCount;
+    string selectedSide = "BottomLeft";
+    string selectedPattern = "Default";
+
+    // Reference to diagram
+    SfDiagram Diagram;
+
+    public Dictionary<string, string> CssClass { get; set; }
+
+    // Defines diagram's nodes collection
+    public ObservableCollection<DiagramNode> NodeCollection { get; set; }
+
+    // Defines diagram's connector collection
+    public ObservableCollection<DiagramConnector> ConnectorCollection { get; set; }
+
+    // Defines default values for DiagramNode object
+    public DiagramNode NodeDefaults { get; set; }
+
+    // Defines diagram's SelectedItems
+    public Syncfusion.Blazor.Diagrams.DiagramSelectedItems SelectedModel { get; set; }
+
+    /// <summary>
+    /// Initializing the objects
+    ///</summary>
+    protected override void OnInitialized()
+    {
+        CssClass = new Dictionary<string, string>()
+        {
+            { "BottomLeft", selectedCssClass },
+            { "BottomRight", defaultCssClass },
+            { "TopRight", defaultCssClass },
+            { "Pattern1", defaultCssClass },
+            { "Pattern2", defaultCssClass },
+            { "Pattern3", defaultCssClass },
+            { "Default", defaultCssClass },
+        };
+
+        InitDiagramModel();
+    }
+
+    public async Task OnUserHandleMouseUp(UserHandleEventsArgs args)
+    {
+        if (Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            await Diagram.Copy();
+            await Task.Delay(100);
+            await Diagram.Paste();
+            await Task.Delay(100);
+            await Diagram.Select(new ObservableCollection<object>() { Diagram.Nodes.LastOrDefault() }, null);
+        }
+        else if (Diagram.SelectedItems.Connectors.Count > 0)
+        {
+            await Diagram.Copy();
+            await Diagram.Paste();
+
+            await Diagram.Select(new ObservableCollection<object>() { Diagram.Connectors.LastOrDefault() }, null);
+        }
+    }
+
+    public void SetHandlePosition(string sideSelected)
+    {
+        var handle = Diagram.SelectedItems.UserHandles[0];
+        if (sideSelected == "BottomRight")
+        {
+            handle.Offset = 1;
+            handle.Side = Side.Bottom;
+        }
+        else if (sideSelected == "BottomLeft")
+        {
+            handle.Offset = 0;
+            handle.Side = Side.Bottom;
+        }
+        else
+        {
+            handle.Offset = 0;
+            handle.Side = Side.Right;
+        }
+
+        CssClass[selectedSide] = defaultCssClass;
+        selectedSide = sideSelected;
+        CssClass[selectedSide] = selectedCssClass;
+    }
+
+    public void SetPattern(string patternSelected)
+    {
+        var handle = Diagram.SelectedItems.UserHandles[0];
+        handle.BackgroundColor = patternSelected == "Pattern1" ? "#1E90FF" : (patternSelected == "Pattern2" ? "#3CB371" : "#FF6347");
+        handle.PathColor = "white";
+        CssClass[selectedPattern] = defaultCssClass;
+        selectedPattern = patternSelected;
+        CssClass[selectedPattern] = selectedCssClass;
+    }
+
+    private void InitDiagramModel()
+    {
+        NodeDefaults = new DiagramNode()
+        {
+            Style = new NodeShapeStyle() { Fill = "#002C82", StrokeColor = "none" },
+        };
+
+        DiagramUserHandle cloneHandle = new DiagramUserHandle()
+        {
+            Name = "clone",
+            PathData = "M60.3,18H27.5c-3,0-5.5,2.4-5.5,5.5v38.2h5.5V23.5h32.7V18z M68.5,28.9h-30c-3,0-5.5,2.4-5.5,5.5v38.2c0,3,2.4,5.5,5.5,5.5h30c3,0,5.5-2.4,5.5-5.5V34.4C73.9,31.4,71.5,28.9,68.5,28.9z M68.5,72.5h-30V34.4h30V72.5z",
+            Visible = true,
+            Offset = 0,
+            Side = Side.Bottom,
+            Margin = new DiagramUserHandleMargin() { Top = 0, Bottom = 0, Left = 0, Right = 0 }
+        };
+
+        SelectedModel = new Syncfusion.Blazor.Diagrams.DiagramSelectedItems()
+        {
+            Constraints = SelectorConstraints.UserHandle,
+            UserHandles = new ObservableCollection<DiagramUserHandle>() { cloneHandle }
+        };
+
+        NodeCollection = new ObservableCollection<DiagramNode>();
+        ConnectorCollection = new ObservableCollection<DiagramConnector>();
+
+        CreateNode("node1", 300, 60, FlowShapes.Terminator, "New idea identified");
+        CreateNode("node2", 300, 155, FlowShapes.Process, "Meeting with board");
+        CreateNode("node3", 300, 280, FlowShapes.Decision, "Board decides \n whether to proceed", 150, 110);
+        CreateNode("node4", 300, 430, FlowShapes.Decision, "Find project \n manager");
+        CreateNode("node5", 300, 555, FlowShapes.Process, "Implement and deliver");
+        CreateNode("node6", 530, 60, FlowShapes.Card, "Decision process for new software ideas", 250, 60);
+        CreateNode("node7", 550, 280, FlowShapes.Process, "Reject");
+        CreateNode("node8", 550, 430, FlowShapes.Process, "Hire new resources");
+
+        DiagramConnectorSegment segment1 = new DiagramConnectorSegment()
+        {
+            Type = DiagramSegments.Orthogonal,
+            Length = 75,
+            Direction = Direction.Bottom
+        };
+
+        CreateConnector("node1", "node2");
+        CreateConnector("node2", "node3");
+        CreateConnector("node3", "node4");
+        CreateConnector("node4", "node5");
+        CreateConnector("node3", "node7");
+        CreateConnector("node4", "node8");
+    }
+
+    private void CreateNode(string id, double x, double y, FlowShapes shape, string label, double width = 150, double height = 60)
+    {
+        DiagramNodeAnnotation annotation = new DiagramNodeAnnotation() { Content = label, Style = new AnnotationStyle() { Color = "white" } };
+
+        DiagramNode diagramNode = new DiagramNode()
+        {
+            Id = id,
+            OffsetX = x,
+            OffsetY = y,
+            Width = width,
+            Height = height,
+            Shape = new DiagramShape() { Type = DiagramShapes.Flow, FlowShape = shape },
+            Annotations = new ObservableCollection<DiagramNodeAnnotation>() { annotation },
+        };
+
+        NodeCollection.Add(diagramNode);
+    }
+
+    private void CreateConnector(string sourceId, string targetId)
+    {
+        DiagramConnector diagramConnector = new DiagramConnector()
+        {
+            Id = string.Format("connector{0}", ++connectorCount),
+            SourceID = sourceId,
+            TargetID = targetId,
+        };
+
+        ConnectorCollection.Add(diagramConnector);
+    }
+    private async void OnCreated(object obj)
+    {
+        await Diagram.Select(new ObservableCollection<DiagramNode>() { Diagram.Nodes[0] }, null);
+    }
+}

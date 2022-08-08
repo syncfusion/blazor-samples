@@ -1,0 +1,69 @@
+﻿@page "/kanban/remote-data"
+@inherits SampleBaseComponent;
+
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Kanban
+
+<SampleDescription>
+    <p>This sample demonstrates the way of data binding to the Kanban component using the remote service. 
+    The data source of Kanban is fetched from remote service using the <a href="https://blazor.syncfusion.com/documentation/data/getting-started">DataManager</a> component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Kanban supports data binding using the <code>DataSource</code> property that can be assigned with the instance of DataManager to bind the remote data.</p>
+    <p>The <a href="https://blazor.syncfusion.com/documentation/data/getting-started">DataManager</a> that acts as an interface between the service endpoint and Kanban will require the following minimal information to interact with the service endpoint properly.</p>
+    <ul>
+        <li><a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html#Syncfusion_Blazor_DataManager_Url' target='_blank'>DataManager.Url</a> - Defines the service endpoint to fetch data.</li>
+        <li><p><a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html#Syncfusion_Blazor_DataManager_Adaptor' target='_blank'>DataManager.Adaptor</a> - Defines the adaptor option. 
+            By default, <code>ODataAdaptor</code> is used for remote binding.
+            The adaptor is responsible for processing responses and requests from/to the service endpoint. 
+            <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Data/">Syncfusion.Blazor.Data</a> package provides some predefined adaptors that are designed to interact with particular service endpoints. 
+            They are:</p>
+            <ul>
+                <li><code>UrlAdaptor</code> - Use this to interact with any remote services.</li>
+                <li><code>ODataAdaptor</code> - Use this to interact with OData endpoints.</li>
+                <li><code>ODataV4Adaptor</code> - Use this to interact with OData V4 endpoints.</li>
+                <li><code>WebApiAdaptor</code> - Use this to interact with Web API created under OData standards.</li>
+                <li><code>WebMethodAdaptor</code> - Use this to interact with web methods.</li>
+            </ul>
+        </li>
+    </ul>
+    <p> In this demo, remote data is bound by assigning service data as an instance of <code>SfDataManager</code> to the <code>DataSource</code> property.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfKanban TValue="KanbanDataModel" KeyField="Status" AllowDragAndDrop="false">
+        <SfDataManager Url="https://ej2services.syncfusion.com/production/web-services/api/Kanban" Adaptor="@Syncfusion.Blazor.Adaptors.WebApiAdaptor" CrossDomain="true"/>
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary"/>
+        <KanbanEvents TValue="KanbanDataModel" DialogOpen="@((args)=> { args.Cancel = true; })"/>
+    </SfKanban>
+</div>
+
+@code{
+    private List<ColumnModel> columnData = new List<ColumnModel>() 
+    {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" } },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "InProgress" } },
+        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" } },
+        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
+    };
+
+    public class KanbanDataModel
+    {
+        public int Id { get; set; }
+        public string Status { get; set; }
+        public string Summary { get; set; }
+        public string Type { get; set; }
+        public string Priority { get; set; }
+        public string Tags { get; set; }
+        public double Estimate { get; set; }
+        public string Assignee { get; set; }
+        public string ImgUrl { get; set; }
+        public int RankId { get; set; }
+    }
+}

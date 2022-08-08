@@ -1,0 +1,151 @@
+﻿@page "/diagram/rtl-tree"
+
+@using Syncfusion.Blazor.Diagrams
+@using System.Collections.ObjectModel
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes the concept of artificial intelligence using a hierarchical tree layout algorithm.</p>
+    <p style="font-weight: bold;">A new blazor diagram component which provides better performance than the existing diagram control in Blazor WebAssembly App. Check the samples <a target='_blank' href='diagramcomponent/flowchart'>here</a>.</p>
+</SampleDescription>
+<ActionDescription>
+  <p>This example shows how to generate an RTL (right to left) tree from an external data source. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html#Syncfusion_Blazor_Diagrams_DiagramLayout_Orientation'>Orientation</a></code> property of the layout can be used to generate an RTL tree.</p>
+</ActionDescription>
+
+<div id="diagram-space" class="content-wrapper">
+    <SfDiagram ID="diagram" Height="600px" Layout="@Layout" ModelType="@Model" Tool="DiagramTools.ZoomPan" ConnectorDefaults="@ConnectorDefaults" NodeDefaults="@NodeDefaults">
+        <DiagramDataSource Id="Name" ParentId="Category" DataSource="@Datasource">
+            <DiagramDataMapSettings>
+                <DiagramDataMapSetting Property="Annotations[0].Content" Field="Name"></DiagramDataMapSetting>
+            </DiagramDataMapSettings>
+        </DiagramDataSource>
+        <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
+        <DiagramTemplates>
+            <NodeTemplate>
+                @{
+                    if ((context as Node).Data.Name == "Artificial Intelligence")
+                    {
+                        <svg height="120" width="120">
+                            <circle cx="60" cy="60" r="58" stroke="black" stroke-width="1" fill="#034d6d" />
+                            <text x="7" y="65" stroke="white" stroke-width="0" stroke-dasharray="none" fill="white" style="font-style: normal; font-weight: normal; font-size: 12px; font-family: Arial;">Artificial Intelligence</text>
+                        </svg>
+                    }
+                    else
+                    {
+                        <svg width="120" height="61">
+                            <g>
+                                <line x1="0" x2="120" y1="60" y2="60" stroke-width="1" stroke="black"></line>
+                                <rect x="0" y="0" width="120" height="60" fill="transparent" stroke="none"></rect>
+                            </g>
+                        </svg>
+                    }
+                }
+            </NodeTemplate>
+        </DiagramTemplates>
+    </SfDiagram>
+</div>
+
+@code{
+    public class Node
+    {
+        public string Id { get; set; }
+        public ArtificialIntelligence Data { get; set; }
+    };
+    public Type Model = typeof(Node);
+    public class ArtificialIntelligence
+    {
+        public string Name { get; set; }
+        public string FillColor { get; set; }
+        public string Branch { get; set; }
+        public string Category { get; set; }
+    }
+
+    DiagramLayout Layout = new DiagramLayout()
+    {
+        Type = LayoutType.HierarchicalTree,
+        Orientation = LayoutOrientation.RightToLeft,
+        VerticalAlignment = VerticalAlignment.Center,
+        HorizontalAlignment = HorizontalAlignment.Center,
+        VerticalSpacing = 100,
+        HorizontalSpacing = -10
+    };
+
+    DiagramConnector ConnectorDefaults = new DiagramConnector()
+    {
+        Type = Segments.Bezier,
+        SourcePortID = "port1",
+        TargetPortID = "port2",
+        TargetDecorator = new ConnectorTargetDecorator()
+        {
+            Shape = DecoratorShapes.None
+        }
+    };
+
+    DiagramNode NodeDefaults = new DiagramNode()
+    {
+        Width = 120,
+        Height = 60,
+        Style = new NodeShapeStyle()
+        {
+            Fill = "#034d6d",
+            StrokeWidth = 0
+        },
+        Shape = new DiagramShape()
+        {
+            Type = Syncfusion.Blazor.Diagrams.Shapes.HTML,
+        },
+        Ports = new ObservableCollection<DiagramPort>()
+        {
+                    new DiagramPort()
+                    {
+                        Id = "port1",
+                        Shape = PortShapes.Circle,
+                        Offset = new NodePortOffset { X=0,Y=0.99 },
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        Margin = new PortMargin { Right=-2,Bottom=-5.5}
+                    },
+                    new DiagramPort()
+                    {
+                        Id = "port2",
+                        Shape = PortShapes.Circle,
+                        Offset = new NodePortOffset { X=1,Y=0.99 },
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        Margin = new PortMargin { Right=-2,Bottom=-5.5}
+                    },
+
+                },
+
+        Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+        {
+            new DiagramNodeAnnotation()
+            {
+             Offset = { Y=1 },
+             VerticalAlignment = VerticalAlignment.Bottom,
+             Margin = new NodeAnnotationMargin(){ Bottom = 10 },
+             Style = new AnnotationStyle() { Fill="white" }
+            }
+        }
+    };
+
+    public object Datasource = new List<object>()
+    {
+        new ArtificialIntelligence { Name="Artificial Intelligence",FillColor= "#916DAF",Branch="root" },
+        new ArtificialIntelligence { Name="Machine Learning",Category="Artificial Intelligence" },
+        new ArtificialIntelligence { Name="Natural Language Processing (NLP)",Category="Artificial Intelligence" },
+        new ArtificialIntelligence { Name="Speech",Category="Artificial Intelligence" },
+        new ArtificialIntelligence { Name="Planning, Scheduling, and Optimization",Category="Artificial Intelligence" },
+        new ArtificialIntelligence { Name="Robotics",Category="Artificial Intelligence" },
+        new ArtificialIntelligence { Name="Vision",Category="Artificial Intelligence" },
+        new ArtificialIntelligence { Name="Deep Learning",Category="Machine Learning" },
+        new ArtificialIntelligence { Name="Predictive Analytics",Category="Machine Learning" },
+        new ArtificialIntelligence { Name="Translation ",Category="Natural Language Processing (NLP)" },
+        new ArtificialIntelligence { Name="Classification",Category="Natural Language Processing (NLP)" },
+        new ArtificialIntelligence { Name="Information Extraction",Category="Natural Language Processing (NLP)" },
+        new ArtificialIntelligence { Name="Speech to Text",Category="Speech" },
+        new ArtificialIntelligence { Name="Text to Speech",Category="Speech" },
+        new ArtificialIntelligence { Name="Image Recognition",Category="Vision" },
+        new ArtificialIntelligence { Name="Machine Vision",Category="Vision" }
+    };
+}

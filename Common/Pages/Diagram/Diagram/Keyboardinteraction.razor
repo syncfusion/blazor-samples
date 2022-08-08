@@ -1,0 +1,359 @@
+﻿@page "/diagram/keyboard-interaction"
+
+@using Syncfusion.Blazor.Diagrams
+@using System.Collections.ObjectModel
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample illustrates interaction with the Diagram control using shortcut keys. Command manager support is used to manage keyboard interactions.</p>
+    <p style="font-weight: bold;">A new blazor diagram component which provides better performance than the existing diagram control in Blazor WebAssembly App. Check the samples <a target='_blank' href='diagramcomponent/flowchart'>here</a>.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>This example shows how to interact with the Diagram control using shortcut keys. The <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/commands/#command-manager'>CommandManager</a></code> property can be used to map the commands with key gestures. In this example, along with the built-in commands, a few custom commands have been added and a few built-in commands (nudge) are overridden. That is, when the arrow keys are pressed, selection will move to the next node instead of moving the selected objects. The different kinds of interactions and the corresponding key gestures are listed in the property panel.</p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<style>
+    #diagram {
+        display: block;
+    }
+
+    .row {
+        display: block;
+    }
+
+    .control-section {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .container-fluid {
+        padding-left: 0px;
+    }
+
+    .property-panel-header {
+        padding-bottom: 0px;
+    }
+
+    .property-panel-content {
+        padding-top: 0px !important;
+    }
+
+    @@media (max-width: 550px) {
+        .property-panel-content {
+            padding-top: 0px !important;
+        }
+    }
+
+    .sb-property-border {
+        border-right: 1px solid #D7D7D7;
+    }
+</style>
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagram @ref="@Diagram" Height="645px" NodeDefaults="@NodeDefaults" Layout="@Layout">
+            <DiagramCommandManager>
+                <DiagramCommands>
+                    <DiagramCommand Name="customGroup">
+                        <DiagramKeyGesture Key="Keys.G" KeyModifiers="KeyModifiers.Control"></DiagramKeyGesture>
+                    </DiagramCommand>
+                    <DiagramCommand Name="customUnGroup">
+                        <DiagramKeyGesture Key="Keys.U" KeyModifiers="KeyModifiers.Control"></DiagramKeyGesture>
+                    </DiagramCommand>
+                    <DiagramCommand Name="navigationDown">
+                        <DiagramKeyGesture Key="Keys.Down"></DiagramKeyGesture>
+                    </DiagramCommand>
+                    <DiagramCommand Name="navigationUp">
+                        <DiagramKeyGesture Key="Keys.Up"></DiagramKeyGesture>
+                    </DiagramCommand>
+                    <DiagramCommand Name="navigationLeft">
+                        <DiagramKeyGesture Key="Keys.Left"></DiagramKeyGesture>
+                    </DiagramCommand>
+                    <DiagramCommand Name="navigationRight">
+                        <DiagramKeyGesture Key="Keys.Right"></DiagramKeyGesture>
+                    </DiagramCommand>
+                </DiagramCommands>
+            </DiagramCommandManager>
+            <DiagramSnapSettings Constraints="SnapConstraints.None"></DiagramSnapSettings>
+            <DiagramDataSource Id="Id" ParentId="Ancestor" DataSource="@DataSource">
+                <DiagramDataMapSettings>
+                    <DiagramDataMapSetting Property="Annotations[0].Content" Field="Id"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Style.Fill" Field="Fill"></DiagramDataMapSetting>
+                </DiagramDataMapSettings>
+            </DiagramDataSource>
+            <DiagramEvents OnCommandExecuted="@CommandExecute"></DiagramEvents>
+        </SfDiagram>
+
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div>
+        <h4 class="property-panel-header">Built-In Commands</h4>
+        <div class="property-panel-content">
+            <table id="property1" style="font-size: 12px;">
+                <tbody>
+                    <tr>
+                        <td style="width: 60%;">
+                            <h5>Command</h5>
+                        </td>
+                        <td style="width:40%;">
+                            <h5>Gesture</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:61%;">Select All </td>
+                        <td style="width:39%;">Ctrl + A</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Cut</td>
+                        <td style="width:40%;">Ctrl + X</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Copy</td>
+                        <td style="width:40%;">Ctrl + C</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Paste</td>
+                        <td style="width:40%;">Ctrl + V</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Undo</td>
+                        <td style="width:40%;">Ctrl + Z</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Redo</td>
+                        <td style="width:40%;">Ctrl + Y</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Delete</td>
+                        <td style="width:40%;">Delete</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <h4 class="property-panel-header">Custom Commands</h4>
+        <div class="property-panel-content">
+            <table id="property2" style="font-size: 12px;">
+                <tbody>
+                    <tr>
+                        <td style="width:60%;">
+                            <h5>
+                                Command
+                            </h5>
+                        </td>
+                        <td style="width:40%;">
+                            <h5>Gesture</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Group</td>
+                        <td style="width:40%;">Ctrl + G</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Ungroup</td>
+                        <td style="width:40%;">Ctrl + U</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <h4 class="property-panel-header">Modified Commands</h4>
+        <div class="property-panel-content">
+            <table id="property3" style="font-size: 12px;">
+                <tbody>
+                    <tr>
+                        <td style="width:70%;">
+                            <h5>
+                                Command
+                            </h5>
+                        </td>
+                        <td style="width:30%;">
+                            <h5>Gesture</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Navigate to Parent Node </td>
+                        <td style="width:40%;">Up Arrow</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Navigate to Child Node </td>
+                        <td style="width:40%;">Down Arrow</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Navigate to Previous Child </td>
+                        <td style="width:40%;">Left Arrow</td>
+                    </tr>
+                    <tr>
+                        <td style="width:60%;">Navigate to Next Child </td>
+                        <td style="width:40%;">Right Arrow</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+
+@code
+{
+    SfDiagram Diagram;
+
+    DiagramLayout Layout = new DiagramLayout()
+    {
+        Type = LayoutType.HierarchicalTree
+    };
+
+
+    DiagramNode NodeDefaults = new DiagramNode
+    {
+        Width = 70,
+        Height = 70,
+        Shape = new DiagramShape() { BasicShape = BasicShapes.Ellipse, CornerRadius = 10, Type = Syncfusion.Blazor.Diagrams.Shapes.Basic },
+        Style = new NodeShapeStyle() { StrokeColor = "transparent" },
+        Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+        {
+            new DiagramNodeAnnotation() {
+                Style = new AnnotationStyle() { Color = "white"}
+            }
+        }
+    };
+
+
+    public class DataModel
+    {
+        public string Id;
+        public string Fill;
+        public string Ancestor;
+    }
+
+    public object DataSource = new List<object>()
+    {
+        new DataModel{ Id = "A", Fill = "#3498DB" },
+        new DataModel{ Id = "B", Ancestor = "A", Fill = "#E74C3C" },
+        new DataModel{ Id = "C", Ancestor = "A", Fill = "#E74C3C" },
+        new DataModel{ Id = "D", Ancestor = "A", Fill = "#E74C3C" },
+        new DataModel{ Id = "E", Ancestor = "B", Fill = "#F39C12" },
+        new DataModel{ Id = "F", Ancestor = "B", Fill = "#F39C12" },
+        new DataModel{ Id = "G", Ancestor = "F", Fill = "#8E44AD" },
+        new DataModel{ Id = "H", Ancestor = "F", Fill = "#8E44AD" },
+        new DataModel{ Id = "I", Ancestor = "G", Fill = "#1E8449" },
+        new DataModel{ Id = "J", Ancestor = "G", Fill = "#1E8449" }
+    };
+
+    public async Task CommandExecute(ICommandExecuteEventArgs args)
+    {
+        if (args.Gesture.KeyModifiers == KeyModifiers.Control && args.Gesture.Key == Keys.G)
+        {
+            await Diagram.Group();
+        }
+        if (args.Gesture.KeyModifiers == KeyModifiers.Control && args.Gesture.Key == Keys.U)
+        {
+            if (Diagram.SelectedItems.Nodes.Count > 0 && Diagram.SelectedItems.Nodes[0].Children != null && Diagram.SelectedItems.Nodes[0].Children.Length > 0)
+            {
+                await Diagram.UnGroup();
+            }
+        }
+        else if (args.Gesture.Key == Keys.Down)
+        {
+            await  this.navigateLevels(true);
+        }
+        else if (args.Gesture.Key == Keys.Up)
+        {
+            await this.navigateLevels(false);
+        }
+        else if (args.Gesture.Key == Keys.Right)
+        {
+            await this.navigateToSiblings(true);
+        }
+        else if (args.Gesture.Key == Keys.Left)
+        {
+            await this.navigateToSiblings(false);
+        }
+
+    }
+
+    //Get node elements
+    private List<DiagramNode> getNode(string name, bool isParent)
+    {
+        List<DiagramNode> nodes = new List<DiagramNode>();
+        DiagramNode node;
+        DiagramConnector connector = Diagram.GetConnector(name);
+        if (connector != null)
+        {
+            string Id = (isParent ? connector.SourceID : connector.TargetID);
+            node = Diagram.GetNode(Id);
+            nodes.Add(node);
+        }
+        return nodes;
+    }
+
+    private async Task SelectNode(List<DiagramNode> node)
+    {
+        if (node != null && node.Count > 0)
+        {
+            await Diagram.ClearSelection();
+            await Diagram.Select(node);
+        }
+    }
+
+    private async Task navigateLevels(Boolean isParent)
+    {
+        if (Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            DiagramNode node = Diagram.SelectedItems.Nodes[0] as DiagramNode;
+            if (node.Id != "")
+            {
+                string[] edges = isParent ? await Diagram.GetEdges(node.Id, true) : await Diagram.GetEdges(node.Id, false);
+                if (edges.Length > 0)
+                {
+                    string connectorId = edges[0];
+                    List<DiagramNode> altNode = this.getNode(connectorId, (isParent ? false : true)) as List<DiagramNode>;
+                    await this.SelectNode(altNode);
+                }
+            }
+        }
+    }
+
+
+    private async Task navigateToSiblings(bool isRightSibling)
+    {
+        if (Diagram.SelectedItems.Nodes.Count > 0)
+        {
+            DiagramNode child = Diagram.SelectedItems.Nodes[0] as DiagramNode;
+            if (child != null)
+            {
+                string[] edgeCol = await Diagram.GetEdges(child.Id, false);
+                if (edgeCol.Length > 0)
+                {
+                    string connectorId = edgeCol[0];
+                    string altConnectorId = "";
+                    List<DiagramNode> parent = this.getNode(connectorId, true);
+                    if (parent != null && parent.Count > 0)
+                    {
+                        string[] edges = await Diagram.GetEdges(parent[0].Id, true);
+                        for (int i = 0; i < edges.Length; i++)
+                        {
+                            if (edges[i] == connectorId)
+                            {
+                                if ((isRightSibling && edges.Length - 1 >= i + 1) || (!isRightSibling && i - 1 >= 0))
+                                {
+                                    altConnectorId = isRightSibling ? edges[i + 1] : edges[i - 1];
+                                }
+                            }
+                        }
+                        List<DiagramNode> sibling = this.getNode(altConnectorId, false);
+                        await this.SelectNode(sibling);
+                    }
+                }
+            }
+        }
+    }
+}
