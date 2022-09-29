@@ -1,0 +1,80 @@
+﻿@page "/maps/open-street-map"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample uses a marker to show the location of the United Nations Headquarters in OpenStreetMap.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to configure and render the OpenStreetMap. The OpenStreetMap is rendered by specifying the appropriate URL in the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html#Syncfusion_Blazor_Maps_MapsLayer_1_UrlTemplate'>UrlTemplate</a> of the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html'>MapsLayer</a>.</p>
+    <p>More information about OpenStreetMap can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsTitleSettings Text="Headquarters of the United Nations">
+            <MapsTitleTextStyle FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsCenterPosition Latitude="40.7209" Longitude="-73.9680" />
+        <MapsZoomSettings Enable="false" ZoomFactor="10" />
+        <MapsLayers>
+            <MapsLayer UrlTemplate="https://a.tile.openstreetmap.org/level/tileX/tileY.png" TValue="string">
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" DataSource="@MarkerDatas" TValue="MarkerData">
+                        <ChildContent>
+                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                                <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                            </MapsMarkerTooltipSettings>
+                        </ChildContent>
+                        <MarkerTemplate>
+                            @{
+                                <div style="pointer-events: none;">
+                                    <img class="markerTemplate" src="@(SampleService.WebAssetsPath + "images/maps/ballon.png")" />
+                                </div>
+                            }
+                        </MarkerTemplate>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>
+    </div>
+    <br />
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/Headquarters_of_the_United_Nations" target="_blank">en.wikipedia.org</a>
+    </div>
+</div>
+<style>
+    .markerTemplate {
+        height: 30px;
+        width: 20px;
+        display: block;
+        margin: auto;
+        font-size: 14px;
+        pointer-events: none;
+    }
+</style>
+@code {
+    public class MarkerData
+    {
+        public string Name { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+    public List<MarkerData> MarkerDatas = new List<MarkerData> {
+        new MarkerData { Name="Manhattan, New York, USA",  Latitude=40.7388758, Longitude=-73.9730091 }
+    };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

@@ -1,0 +1,126 @@
+﻿@page "/listview/virtualization"
+
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@using Syncfusion.Blazor.Lists
+@inherits SampleBaseComponent
+
+<SampleDescription>
+    <p>This sample demonstrates the default functionalities of UI virtualization. Scroll the list item to experience the UI virtualization.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <code>UI virtualization</code> is an optimization technique to avoid unnecessarily constructing and rendering objects for list items by loading only visible list items in a viewport. This helps improve the ListView's performance when loading a large number of items. The list items are updated dynamically while users scroll the list. The virtualization can be enabled by using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/cref_files/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Lists.SfListView%601~EnableVirtualization.html'>EnableVirtualization</a> property in the Listview. </p> 
+    <p>When EnableVirtualization is enabled, the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Lists.SfListView-1.html#Syncfusion_Blazor_Lists_SfListView_1_Height" target='_blank' class="code">Height</a> property must be defined. </p>
+    <p>In this demo, ListView component is rendered with 500 list items.</p> 
+    <p>More information about the virtualization feature can be found in this <a target='_blank' class='code' href='https://blazor.syncfusion.com/documentation/listview/virtualization'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section sb-property-border">
+    @* Initialization of ListView component with virtualization *@
+    <SfListView DataSource="@DataSource" TValue="DataModel" EnableVirtualization="true" CssClass="e-list-template ui-list" HeaderTitle="Contacts" Height="500px" ShowHeader="true">
+        <ListViewTemplates TValue="DataModel">
+            <Template>
+                <div class='e-list-wrapper e-list-avatar'>
+                    @if (context.ImgSrc != string.Empty)
+                    {
+                        <img id='showUI' class='e-avatar e-avatar-circle' src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/list-view/{context.ImgSrc}.png")" />
+                    }
+                    <span class='e-list-content'>@context.Name</span>
+                </div>
+            </Template>
+        </ListViewTemplates>
+        <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Name"></ListViewFieldSettings>
+    </SfListView>
+</div>
+@code {
+    List<DataModel> ListData = new List<DataModel>();
+    // Specifies the ListView datasource.
+    List<DataModel> DataSource = new List<DataModel>();
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // Updating the ListView datasource.
+        ListData.Add(new DataModel { Name = "Nancy", ImgSrc = "nancy" });
+        ListData.Add(new DataModel { Name = "Andrew", ImgSrc = "andrew" });
+        ListData.Add(new DataModel { Name = "Janet", ImgSrc = "janet" });
+        ListData.Add(new DataModel { Name = "Margaret", ImgSrc = "margaret" });
+        ListData.Add(new DataModel { Name = "Steven", ImgSrc = "steven" });
+        ListData.Add(new DataModel { Name = "Laura", ImgSrc = "laura" });
+        ListData.Add(new DataModel { Name = "Robert", ImgSrc = "robert" });
+        ListData.Add(new DataModel { Name = "Michael", ImgSrc = "michael" });
+        ListData.Add(new DataModel { Name = "Albert", ImgSrc = "albert" });
+        ListData.Add(new DataModel { Name = "Nolan", ImgSrc = "nolan" });
+        ListData.Add(new DataModel { Name = "Jennifer", ImgSrc = "jennifer" });
+        ListData.Add(new DataModel { Name = "Carter", ImgSrc = "carter" });
+        ListData.Add(new DataModel { Name = "Allison", ImgSrc = "allison" });
+        ListData.Add(new DataModel { Name = "John", ImgSrc = "john" });
+        ListData.Add(new DataModel { Name = "Susan", ImgSrc = "susan" });
+        ListData.Add(new DataModel { Name = "Lydia", ImgSrc = "lydia" });
+        ListData.Add(new DataModel { Name = "Kelsey", ImgSrc = "kelsey" });
+        ListData.Add(new DataModel { Name = "Jessica", ImgSrc = "jessica" });
+        ListData.Add(new DataModel { Name = "Shelley", ImgSrc = "shelley" });
+        ListData.Add(new DataModel { Name = "Vanjack", ImgSrc = "vanjack" });
+        DataSource = GenerateVirtualData();
+    }
+
+    // Generate the virtualization data for the list.
+    List<DataModel> GenerateVirtualData()
+    {
+        List<DataModel> VirtualData = new List<DataModel>();
+
+        var enumerableData = Enumerable.Range(0, 25).Select((x) => Enumerable.Range(0, ListData.Count()).Select((x) => new DataModel()
+        {
+            Name = ListData[x].Name,
+            ImgSrc = ListData[x].ImgSrc,
+            Id = System.Guid.NewGuid().ToString()
+
+        }));
+
+        foreach (var listData in enumerableData.SelectMany(x => x.ToList()))
+        {
+            VirtualData.Add(listData);
+        }
+        return VirtualData;
+    }
+    // Specifies the model class for ListView datasource.
+    class DataModel
+    {
+        public string Name { get; set; }
+        public string ImgSrc { get; set; }
+        public string Id { get; set; }
+    }
+}
+
+<style>
+
+    /* ListView template customization */
+
+    .ui-list.e-listview {
+        margin: auto;
+        max-width: 325px;
+        line-height: initial;
+        border: 1px solid lightgray;
+    }
+
+    .ui-list.e-listview .e-list-header {
+        height: 50px
+    }
+
+    .ui-list.e-listview .e-list-header .e-text {
+        line-height: 18px;
+        padding-left: 10px;
+    }
+
+    .ui-list.e-listview #showUI {
+        display: flex;
+    }
+
+    .ui-list.e-listview .e-list-item {
+        padding: 3px 0;
+    }
+
+    .highcontrast .ui-list.e-listview .e-list-item.e-active {
+        background: #ffd939;
+        color: #000000;
+    }
+</style>

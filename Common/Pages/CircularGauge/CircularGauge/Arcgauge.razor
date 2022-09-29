@@ -1,0 +1,122 @@
+﻿@page "/circular-gauge/arc-gauge"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.CircularGauge
+@using Syncfusion.Blazor.Inputs
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows the work progress using a circular gauge and a range bar pointer with rounded corners.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render the range and range bar pointer with rounded corners. A slider is placed at the bottom of the circular gauge using annotation to change the range bar pointer value. Based on the value, the color of the pointer can also be changed.</p>
+    <p>More information on the ranges can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/circular-gauge/ranges'>documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    .annotationText {
+        font-size: 35px;
+        width: 120px;
+        text-align: center;
+        margin-top: -30px;
+        margin-left: -55px
+    }
+
+    .sliderAlign {
+        height: 70px;
+        width: 250px;
+        margin-left: -120px;
+    }
+
+    #gradient_slider.e-control.e-slider .e-slider-track {
+        background: -webkit-linear-gradient(left, #ea501a 0, #f79c02 20%, #e5ce20 40%, #a1cb43 60%, #82b944 80%);
+        background: linear-gradient(left, #ea501a 0, #f79c02 20%, #e5ce20 40%, #a1cb43 60%, #82b944 80%);
+        background: -moz-linear-gradient(left, #ea501a 0, #f79c02 20%, #e5ce20 40%, #a1cb43 60%, #82b944 80%);
+    }
+
+    #gradient_slider.e-control.e-slider .e-range {
+        background-color: transparent;
+    }
+
+    .e-control-wrapper.e-slider-container #gradient_slider.e-control.e-slider .e-handle {
+        background-color: #fff;
+        border: 2px solid #666;
+    }
+</style>
+
+<div class="control-section">
+    <SfCircularGauge Title="Progress Tracker" Theme="@Theme" Background="transparent">
+        <CircularGaugeTitleStyle FontFamily="inherit"></CircularGaugeTitleStyle>
+        <CircularGaugeAxes>
+            <CircularGaugeAxis StartAngle="200" EndAngle="160" Minimum="1" Maximum="100" Radius="80%">
+                <CircularGaugeAxisLineStyle Width="0" />
+                <CircularGaugeAxisLabelStyle>
+                    <CircularGaugeAxisLabelFont Size="0px" FontFamily="inherit" />
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugeAxisMajorTicks Height="0" />
+                <CircularGaugeAxisMinorTicks Height="0" />
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Start="1" End="100" Radius="90%" StartWidth="30" EndWidth="30" Color="#E0E0E0" RoundedCornerRadius="20" />
+                </CircularGaugeRanges>
+                <CircularGaugePointers>
+                    <CircularGaugePointer Value="@PointerValue" RoundedCornerRadius="20" Type="PointerType.RangeBar" Radius="90%" Color="@PointerColor" PointerWidth="30">
+                        <CircularGaugePointerAnimation Enable="false" />
+                        <CircularGaugePointerBorder Width="0" />
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+                <CircularGaugeAnnotations>
+                    <CircularGaugeAnnotation Radius="0%" Angle="0" ZIndex="1">
+                        <ContentTemplate>
+                            <div class="annotationText">@SliderValueText</div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                    <CircularGaugeAnnotation Angle="0" ZIndex="1" Radius="-100%">
+                        <ContentTemplate>
+                            <div class="sliderAlign">
+                                <div style="width: 60%;">
+                                    <div>
+                                        <SfSlider TValue="double" ID="gradient_slider" Value="@SliderPointerValue" Type=SliderType.MinRange Min="0" Max="100" Width="250px">
+                                            <SliderEvents TValue="double" OnChange="RangeStartChange" />
+                                        </SfSlider>
+                                    </div>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                </CircularGaugeAnnotations>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public double SliderPointerValue = 60;
+    public string PointerColor = "#e5ce20";
+    public double PointerValue = 60;
+    public string SliderValueText = "60/100";
+
+    private void RangeStartChange(Syncfusion.Blazor.Inputs.SliderChangeEventArgs<double> args)
+    {
+        SliderPointerValue = Convert.ToDouble(args.Value);
+        PointerValue = SliderPointerValue;
+        if (SliderPointerValue >= 0 && SliderPointerValue < 20)
+            PointerColor = "#ea501a";
+        else if (SliderPointerValue >= 20 && SliderPointerValue < 40)
+            PointerColor = "#f79c02";
+        else if (SliderPointerValue >= 40 && SliderPointerValue < 60)
+            PointerColor = "#e5ce20";
+        else if (SliderPointerValue >= 60 && SliderPointerValue < 80)
+            PointerColor = "#a1cb43";
+        else if (SliderPointerValue >= 80 && SliderPointerValue < 100)
+            PointerColor = "#82b944";
+        SliderValueText = SliderPointerValue.ToString() + "/100";
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

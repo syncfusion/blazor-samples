@@ -1,0 +1,56 @@
+﻿@page "/datagrid/batch-editing"
+
+@using Syncfusion.Blazor.Grids
+@using BlazorDemos
+@using blazor_griddata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows how to use the batch editing mode in DataGrid to perform CRUD operations.</p>
+</SampleDescription>
+<ActionDescription>
+  <p>The Blazor DataGrid Batch editing features allows you to start editing by double clicking a cell and change the cell value. You can perform CRUD operations as follows:</p>
+  <ul>
+       <li><strong>Add</strong> -  To add new record, click Add toolbar button.</li>
+       <li><strong>Edit</strong> - To edit record, double click a row or click toolbar Edit button after selecting a row.</li>
+       <li><strong>Delete</strong> - To delete record, click toolbar Delete button after selecting a row.</li>
+       <li><strong>Update</strong> - To save the edited changes, click toolbar Update button.</li> 
+       <li><strong>Cancel</strong> - To discard the edited changes, click toolbar Cancel button.</li>
+   </ul>
+   <p>The CRUD operations can be configured in DataGrid using <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a> component. Any one of the columns should be defined as a primary key using the <code>GridColumn</code> component's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_IsPrimaryKey'>IsPrimaryKey</a> property. It also has different modes to manipulate the datasource.</p>
+   <p>The available modes are,</p>
+   <ul>
+       <li><strong>Inline</strong></li>
+       <li><strong>Dialog</strong></li>
+   </ul>
+   <p>By default, a new row will be added to the DataGrid's top. You can change it by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html#Syncfusion_Blazor_Grids_GridEditSettings_NewRowPosition'>NewRowPosition</a> to <strong>Batch</strong> in <code>GridEditSettings</code>.</p>
+   <p>Batch mode is enabled for editing in this demo by setting <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html#Syncfusion_Blazor_Grids_GridEditSettings_Mode'>Mode</a> to <strong>Batch</strong> in the <code>GridEditSettings</code> component. You can begin editing by double-clicking a cell and changing its value. While navigating to a new cell, the edited cell will be highlighted so you know which cells have been edited. The edited data can then be bulk saved to the datasource by clicking the <strong>Update</strong> button on the toolbar.</p>
+   <p>More information about the Batch editing feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/editing#batch'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Batch"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="TextAlign.Right"  Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" ValidationRules="@(new ValidationRules{ Required=true})" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" EditType="EditType.NumericEdit" Format="C2" TextAlign="TextAlign.Right"  Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right"  Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<OrdersDetails> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetails.GetAllRecords();
+    }
+}

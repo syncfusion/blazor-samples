@@ -1,0 +1,174 @@
+﻿@page "/pivot-table/default-filtering"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p>This sample demonstrates filtering row and column headers either by including or excluding them from the pivot table. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this sample, any field can be selected from <b>Fields</b> dropdown list along with its members from the subsequent <b>Members</b> dropdown list and finally select whether to include or exclude them from filtering. It can be achieved using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Name'>Name</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Items'>Items</a> options inside the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewFilterSetting.html'>PivotViewFilterSetting</a> property in the pivot table.</p>
+    <p>More information on the member filtering feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/filtering#member-filtering'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref=pivot Height="400" Width="100%" ShowGroupingBar=false EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-4 property-section pivottable-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Fields:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" Placeholder="Country" TItem="string" @bind-Value="selectedField" DataSource="@dropDownData">
+                                    <DropDownListEvents TValue="string" TItem="string" ValueChange="ChangeField"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Members:
+                            </div>
+                        </td>
+                        <td>
+                            <SfMultiSelect TValue="string[]" TItem="string" @bind-Value=@selectedItems AllowFiltering="false" ShowClearButton="false" Mode="@VisualMode.CheckBox" DataSource="@memberData" Placeholder="Select Members" ShowDropDownIcon="true">
+                                <MultiSelectEvents TValue="string[]" TItem="string" ValueChange="MembersChange">  </MultiSelectEvents>
+                            </SfMultiSelect>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Filter Type:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" Placeholder="Exclude" TItem="string" DataSource="@typeData" @bind-Value="@selectedType">
+                                    <DropDownListEvents TValue="string" TItem="string" ValueChange="ChangeOrder"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td></td>
+                        <td>
+                            <div style="float:right">
+                                <SfButton IsPrimary="true" Disabled="@disabled" OnClick="OnApply">Apply</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-pivottable .e-static {
+        width: 80% !important;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+        padding-top: unset;
+    }
+</style>
+@code {
+    private List<PivotProductDetails> data { get; set; }
+    private SfPivotView<PivotProductDetails> pivot;
+    private string[] selectedItems = new string[] { };
+    private string selectedField = "Country";
+    private string selectedType = "Exclude";
+    private int selectedIndex = 0;
+    private bool disabled = true;    
+    private List<string> dropDownData = new List<string>() { "Country", "Products", "Year" };
+    private List<string> typeData = new List<string>() { "Include", "Exclude" };
+    private List<string> memberData = new List<string>();
+    private List<string> countryData = new List<string>() { "France", "Germany", "Canada", "United Kingdom", "United States" };
+    private List<string> yearData = new List<string>() { "FY 2015", "FY 2016", "FY 2017", "FY 2018" };
+    private List<string> productData = new List<string>() { "Vests", "Shorts", "Jerseys", "Gloves", "Touring Bikes", "Road Bikes", "Mountain Bikes", "Tyres and Tubes", "Hydration Packs", "Helmets", "Fenders", "Cleaners", "Bottles and Cages" };
+    @*Hidden:Lines*@
+#pragma warning disable BL0005
+    @*End:Hidden*@
+    public List<PivotViewFilterSetting> FilterSettings = new List<PivotViewFilterSetting>()
+    {
+        new PivotViewFilterSetting() {Name = "Country",Type = Syncfusion.Blazor.PivotView.FilterType.Exclude, Items= new string [0] },
+        new PivotViewFilterSetting() {Name = "Products" , Type = Syncfusion.Blazor.PivotView.FilterType.Exclude, Items= new string [0]},
+        new PivotViewFilterSetting() {Name = "Year" ,Type = Syncfusion.Blazor.PivotView.FilterType.Exclude, Items= new string [0] }
+    };
+    protected override void OnInitialized()
+    {
+        data = PivotProductDetails.GetProductData();
+        memberData = countryData;
+    }
+    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        selectedIndex = args.Value == "Products" ? 1 : args.Value == "Year" ? 2 : 0;
+        memberData = args.Value == "Products" ? productData : args.Value == "Year" ? yearData : countryData;
+        selectedItems = FilterSettings[selectedIndex].Items;
+        FilterSettings[selectedIndex].Type = selectedType == "Include" ? Syncfusion.Blazor.PivotView.FilterType.Include : Syncfusion.Blazor.PivotView.FilterType.Exclude;
+    }
+    private void MembersChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    {
+        FilterSettings[selectedIndex].Items = args.Value;
+        disabled = FilterSettings[0].Items == null && FilterSettings[1].Items == null && FilterSettings[2].Items == null ? true : false;
+    }
+    private void ChangeOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        FilterSettings[selectedIndex].Type = selectedType == "Include" ? Syncfusion.Blazor.PivotView.FilterType.Include : Syncfusion.Blazor.PivotView.FilterType.Exclude;
+    }
+    @*Hidden:Lines*@
+#pragma warning restore BL0005
+    @*End:Hidden*@
+    private void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        pivot.DataSourceSettings.FilterSettings = FilterSettings;
+    }
+}

@@ -1,0 +1,346 @@
+﻿@page "/sidebar/api"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@inherits SampleBaseComponent
+@inject IJSRuntime JsRuntime;
+<SampleDescription>
+    <p>The <a href='https://www.syncfusion.com/blazor-components/blazor-sidebar' target='_blank'>Blazor Sidebar</a> API sample demonstrates how to customize the Sidebar component by using its properties from the property pane. Select any combination of properties from the property pane to customize the Sidebar. Click on the hamburger menu icon to expand/collapse the sidebar.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, the default <code>Sidebar</code> is rendered with minimal configuration. This sample can be customized further with the combination of Sidebar properties. For example,
+        <ul>
+            <li>The Sidebar can be opened or closed by clicking on the toggle button.</li>
+            <li>The Sidebar <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfSidebar.html#Syncfusion_Blazor_Navigations_SfSidebar_Position' target='_blank'>Position</a> can be changed by clicking on the position button.</li>
+            <li>The Sidebar <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfSidebar.html#Syncfusion_Blazor_Navigations_SfSidebar_Type' target='_blank'>Type</a> can be changed from the Dropdown List.</li>
+            <li>The Sidebar can be collapsed or closed on document click from the provided options.</li>
+            <li>The Sidebar overlay can be enabled or disabled by clicking on the Backdrop button.</li>
+        </ul>
+    </p>
+</ActionDescription>
+
+<div id="wrapper" class="maincontent">
+    <div>
+        <div class="list-group">
+            <div class="list-group-item">
+                <span id="hamburger" @onclick="@ToggleBtnClick" class="e-icons menu"></span>
+                <div class="title">Overview</div>
+                <br />
+                <p> The Sidebar component is a collapsible side content placed along with the main content either in left or right side of the page. </p>
+                <p> <br> </p>
+                <div class="title">Options</div>
+                <br />
+                <div class="inline-element responsive">
+                    <p class=" inline-element" style="width:70%">
+                        <b>Toggle</b> - Toggles the Sidebar to be open or closed state.
+                    </p>
+                    @*Initialize the Button Component*@
+                    <SfButton CssClass='e-primary inline-element right' IsToggle="true" @onclick="ToggleBtnClick">Toggle</SfButton>
+                    <br />
+                    <br />
+                    <p class=" inline-element" style="width:70%">
+                        <b>Position</b> - Allows to place the sidebar in right or left side of the page.
+                    </p>
+                    @*Initialize the Button Component*@
+                    <SfButton CssClass='e-primary inline-element right' IsToggle="true" @ref="PositionElement" @onclick="PositionBtnClick" Content="@Content"></SfButton>
+                    <br />
+                    <br />
+                    <p class="inline-element" style="width:70%"><b>Types </b> - Specifies the act of expanding or collapsing the sidebar with main content.</p>
+                    <div class="inline-element right">
+                        @*Initialize the DropdownList Component*@
+                        <SfDropDownList TValue="string" TItem="typeData" @bind-Index="@Index" PopupHeight="200px" CssClass="e-textbox right" DataSource="@Data">
+                            <DropDownListFieldSettings Text="text" Value="text"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="typeData" ValueChange="@OnChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                    <br />
+                    <br />
+                    <p class=" inline-element" style="width:70%"><b>Closing on document click</b> - Allows to collapse/close the sidebar on document click.</p>
+                    @*Initialize the Button Component*@
+                    <SfButton @ref="DocumentclickElement" CssClass='e-primary inline-element right' IsToggle="true" @onclick="DocBtnClick" Content="@DocContent"></SfButton>
+                    <br />
+                    <br />
+                    <p class=" inline-element" style="width:70%"><b>Backdrop</b> - Sets the backdrop over the main content area in an open/expanded state. </p>
+                    @*Initialize the Button Component*@
+                    <SfButton @ref="BackDropElement" CssClass='e-primary inline-element right' IsToggle="true" @onclick="BackBtnClick" Content="@Backcontent"></SfButton>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Initialize the Sidebar Component*@
+<SfSidebar HtmlAttributes="@HtmlAttribute" Width="220px" Target=".maincontent" CloseOnDocumentClick="@CloseOnDocumentClick" ShowBackdrop="@ShowBackdrop" Position="@Position" Type="@Type" @bind-IsOpen="SidebarToggle">
+    <ChildContent>
+        <div class="title-header">
+            <div style="display:inline-block"> Sidebar </div>
+            <span id="close" class="e-icons" @onclick="@Close"></span>
+        </div>
+        <div class="sub-title">
+            The Blazor Sidebar is an expandable and collapsible component that typically acts as a side container to place primary or secondary content alongside the main content. It provides flexible options that can be shown and hidden based on user interactions.
+        </div>
+    </ChildContent>
+</SfSidebar>
+@code {
+    // Sepcify the Index value of Dropdown List component. 
+    private int? Index { get; set; } = 0;
+    // Specify the reference of Position button element.
+    SfButton PositionElement;
+    // Specify the reference of Document Click button element.
+    SfButton DocumentclickElement;
+    // Specify the reference of BackDrop button element.
+    SfButton BackDropElement;
+    // Specify the value of Sidebar component CloseOnDocumentClick property.
+    public bool CloseOnDocumentClick = false;
+    // Specify the value of Sidebar component ShowBackdrop property.
+    public bool ShowBackdrop = false;
+    // Specify the value of Position Button component content property.
+    public string Content = "Left";
+    // Specify the value of BackDrop Button component content property.
+    public string Backcontent = "False";
+    // Specify the value of DocumentClick Button component content property.
+    public string DocContent = "False";
+    // Specify the value of Sidebar component position property.
+    public SidebarPosition Position { get; set; } = SidebarPosition.Left;
+    // Specify the value of Sidebar component type property.
+    public SidebarType Type { get; set; } = SidebarType.Auto;
+    // Specify the value of Sidebar component state. It indicates whether the sidebar component is in an open/close state.
+    public bool SidebarToggle = false;
+    // Specify the value of Sidebar component HTMLAttribute property.
+    Dictionary<string, object> HtmlAttribute = new Dictionary<string, object>()
+    {
+        {"class", "default-sidebar" }
+    };
+
+    public class typeData
+    {
+        public string text { get; set; }
+    }
+    //Specify the value of Dropdown List DataSource property.
+    private List<typeData> Data { get; set; } = new List<typeData>
+    {
+        new typeData { text = "Push" },
+        new typeData { text = "Over" },
+        new typeData { text = "Auto" }
+    };
+    // Specifies the event handler for Clicked event in Toolbar component. It's used to open/close the Sidebar component. 
+    private void ToggleBtnClick()
+    {
+        SidebarToggle = !SidebarToggle;
+    }
+    // Specifies the event handler for Clicked event in Position Button component. 
+    private void PositionBtnClick()
+    {
+        if (PositionElement.Content == "Right")
+        {
+            Content = "Left";
+            Position = SidebarPosition.Left;
+        }
+        else
+        {
+            Content = "Right";
+            Position = SidebarPosition.Right;
+        }
+        StateHasChanged();
+    }
+
+    // Specifies the event handler for Clicked event in DocumentOnClick Button component. 
+    private void DocBtnClick()
+    {
+        if (DocumentclickElement.Content == "False")
+        {
+            DocContent = "True";
+            CloseOnDocumentClick = true;
+        }
+        else
+        {
+            DocContent = "False";
+            CloseOnDocumentClick = false;
+        }
+        StateHasChanged();
+    }
+    // Specifies the event handler for Clicked event in BackDrop Button component. 
+    private void BackBtnClick()
+    {
+        if (this.BackDropElement.Content == "True")
+        {
+            Backcontent = "False";
+            ShowBackdrop = false;
+        }
+        else
+        {
+            Backcontent = "True";
+            ShowBackdrop = true;
+        }
+        StateHasChanged();
+    }
+    // Specifies the event handler for Clicked event in Close Icon Element.
+    public void Close()
+    {
+        SidebarToggle = false;
+    }
+    // Specifies the event handler for Change event in Dropdown List component.
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, typeData> args)
+    {
+        if (args.Value.ToString() == "Over")
+        {
+            Type = SidebarType.Over;
+        }
+        else if (args.Value.ToString() == "Push")
+        {
+            Type = SidebarType.Push;
+        }
+        else
+        {
+            Type = SidebarType.Auto;
+        }
+    }
+}
+
+<style>
+    /* specifies the custom code styles */
+    .inline-element {
+        display: inline-block;
+    }
+
+    .center-align {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .title {
+        font-weight: 500;
+        line-height: 24px;
+        font-size: 18px;
+        margin-top: 0;
+    }
+
+    .e-display-none {
+        display: none;
+    }
+
+    .inline-element.right.e-btn {
+        border: none;
+        width: 80px;
+    }
+
+    .inline-element.right {
+        width: 80px;
+    }
+
+    .e-bigger .inline-element.right {
+        width: 85px;
+    }
+
+    .e-content-animation .inline-element .e-input-group.e-control-wrapper.e-ddl .e-dropdownlist.e-input[readonly] {
+        padding-left: 12px;
+    }
+
+    .right {
+        float: right;
+    }
+
+    #wrapper .list-group-item {
+        border: none;
+        padding: 15px;
+        font-size: 14px;
+        background: transparent;
+    }
+
+    /* Specifies the styles for Sidebar component */
+
+    .content {
+        margin-bottom: 20px;
+        overflow-y: auto;
+    }
+
+
+    .title-header {
+        font-size: 18px;
+        padding-bottom: 15px;
+    }
+
+    .sub-title {
+        font-size: 16px;
+    }
+
+    .e-sidebar .title-header #close {
+        cursor: pointer;
+        line-height: 25px;
+        font-size: 14px;
+        float: right;
+    }
+
+    #wrapper .default-sidebar {
+        padding: 15px;
+    }
+
+    #wrapper .default-sidebar {
+        z-index: 20 !important;
+    }
+
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #hamburger.menu {
+        font-size: 24px;
+        cursor: pointer;
+        float: left;
+        margin-right: 10px
+    }
+    #hamburger.menu:before {
+        content: '\e914';
+        font-family: 'sbicons'
+    }
+
+    #wrapper #close:before {
+        content: "\e109";
+    }
+
+    /* Specifies the custom generated icons styles */
+    @@font-face {
+        font-family: 'e-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .material .default-sidebar {
+        border-right: 1px solid rgba(0,0,0,0.12) !important;
+    }
+
+    .fabric .default-sidebar {
+        border-right: 1px solid #eaeaea !important;
+    }
+
+    .tailwind .default-sidebar {
+        border-right: 1px solid #d7d7d7 !important;
+    }
+
+    .bootstrap5-dark .default-sidebar {
+        border-right: 1px solid #444c54 !important;
+    }
+
+    .bootstrap5 .default-sidebar {
+        border-right: 1px solid #dee2e6 !important;
+    }
+
+    .material-dark .default-sidebar {
+        border-right: 1px solid #616161 !important;
+    }
+
+    .fabric-dark .default-sidebar {
+        border-right: 1px solid #414040 !important;
+    }
+
+    .tailwind-dark .default-sidebar {
+        border-right: 1px solid #4b5563 !important;
+    }
+</style>
+
+

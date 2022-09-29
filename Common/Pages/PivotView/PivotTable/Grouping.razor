@@ -1,0 +1,213 @@
+@page "/Pivot-table/grouping"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p>This sample demonstrates grouping dates in year, quarter, month, etc., and number types in ranges like 1-4, 5-8,etc. in row and column headers of the pivot table.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this sample, the date type can be separated and showcased individually as year, quarter, month, or day by
+        selecting the appropriate option from the <b>Group Date by</b> drop-down list. Also, numbers can be grouped by
+        entering the appropriate value in the <b>Group Product ID by</b> giving a range number in the the numeric text box.
+    </p>
+    <p>Grouping can be applied through code-behind using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewGroupSetting.html'>PivotViewGroupSetting</a> in the pivot table along with the following properties:</p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 10px 0; width: 130px'><code>Name</code></td>
+            <td> : Specifies the normal field.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><code>Type</code></td>
+            <td>
+                :
+                Specifies the field type for applying the group settings. For example, date formatted fields should be
+                in Date type and number formatted fields should be in Number type.
+            </td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><code>GroupInterval</code></td>
+            <td> : Specifies the interval for date fields in years, quarters, months, etc.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><code>RangeInterval</code></td>
+            <td> : Specifies the interval value to group the number field.</td>
+        </tr>
+    </table>
+    <br />
+    <p>More information on the grouping feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/grouping/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView @ref="@Pivot" TValue="GroupData" Height="400" ShowGroupingBar="true" EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Id" Caption="Product ID"></PivotViewColumn>
+                    <PivotViewColumn Name="Sector" Caption="Product Sector"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="TimeLine" Caption="Date"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="PowUnits" Caption="Units (GWh)"></PivotViewValue>
+                    <PivotViewValue Name="ProCost" Caption="Cost (MM)"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="TimeLine" Type="FormatType.DateTime" Format="dd/MM/yyyy-hh:mm tt"></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="ProCost" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="PowUnits" Format="N0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewGroupSettings>
+                    <PivotViewGroupSetting Name="TimeLine" Type="GroupType.Date" GroupInterval="@GroupInterval"></PivotViewGroupSetting>
+                    <PivotViewGroupSetting Name="Id" Type="GroupType.Number" RangeInterval="4" StartingAt="1001" EndingAt="1020"></PivotViewGroupSetting>
+                </PivotViewGroupSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section pivot-table-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 30px">
+                        <td style="width: 100%">
+                            <div>
+                                Group <b>Date</b> by
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <div class="datecls">
+                                <SfMultiSelect Placeholder="Select group" Mode="@VisualMode.CheckBox" AllowFiltering="true" DataSource="@DateGroups" @bind-Value="@SelectedGroup" EnableSelectionOrder="false" ShowDropDownIcon="true" FilterBarPlaceholder="Search group" PopupWidth="100%">
+                                    <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="input2cls" style="height: 30px;">
+                        <td style="width: 100%">
+                            <div>
+                                Group <b>Product ID</b> by
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <div class="numbercls">
+                                <SfNumericTextBox @ref="NumberGroup" TValue="double?" Format="###" Value=4 Min="2" Max="10" Placeholder="Example: 4" Width="150"></SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td>
+                            <div style="float:right;">
+                                <SfButton IsPrimary="true" OnClick="OnGroupUpdate">Apply</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    @@media only screen and (max-width: 400px) {
+        #pivot-table-section {
+            overflow: auto;
+        }
+    }
+
+    .pivot-table-property-section {
+        overflow: auto;
+    }
+
+    .pivot-table-property-section .e-multiselect {
+        padding: 0;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+
+@code{
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+
+    SfPivotView<GroupData> Pivot;
+    SfNumericTextBox<double?> NumberGroup;
+
+    public string[] SelectedGroup { get; set; } = new string[] { "Years", "Months", "Days" };
+
+        public List<PivotViewGroupSetting> Groups = new List<PivotViewGroupSetting>();
+
+        public List<DateGroup> GroupInterval = new List<DateGroup> {
+        DateGroup.Years, DateGroup.Months, DateGroup.Days
+    };
+
+        public List<GroupData> Data { get; set; }
+
+        protected override void OnInitialized()
+        {
+            this.Data = GroupData.GetGroupData();
+        }
+
+        public void OnGroupUpdate(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+        {
+            List<PivotViewGroupSetting> groupSettings = new List<PivotViewGroupSetting>();
+            if (this.SelectedGroup?.Length > 0)
+            {
+                List<DateGroup> dateGroup = new List<DateGroup>();
+                foreach (string selectedValue in this.SelectedGroup)
+                {
+                    dateGroup.Add((DateGroup)Enum.Parse(typeof(DateGroup), selectedValue, true));
+                }
+                groupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
+            }
+            if (this.NumberGroup.Value > 1)
+            {
+                groupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
+            }
+            Pivot.DataSourceSettings.GroupSettings = groupSettings;
+    }
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+
+    List<DropDownData> DateGroups =
+                    new List<DropDownData>() {
+            new DropDownData { Name = "Years", Value = "Years" },
+            new DropDownData { Name = "Quarters", Value = "Quarters" },
+            new DropDownData { Name = "Months", Value = "Months" },
+            new DropDownData { Name = "Days", Value = "Days" }
+            };
+
+                public class DropDownData
+                {
+                    public string Name { get; set; }
+                    public string Value { get; set; }
+                }
+}

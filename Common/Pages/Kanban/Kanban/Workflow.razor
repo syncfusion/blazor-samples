@@ -1,0 +1,141 @@
+﻿@page "/kanban/workflow"
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inherits SampleBaseComponent;
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+
+<SampleDescription>
+    <p>This example demonstrates the workflow functionalities that define the flow of transition between the columns. You can drag and drop the cards between Kanban columns to see the workflow restriction.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this sample, you can drag the cards from the <code>Order</code> column and drop them into <code>Ready to Serve</code> and <code>Home Delivery</code> columns. 
+        Also, you couldn’t drag the cards from the <code>Delivered</code> column and drop the cards in the <code>Order</code> column.
+        The action is controlled using the following properties of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html">KanbanColumn</a>.
+    </p>
+    <ul>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_TransitionColumns">TransitionColumns</a> - Allows the card transition to only these specified columns.</li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_AllowDrag">AllowDrag</a> - Enable/disable the drag action of a column.</li>
+        <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_AllowDrop">AllowDrop</a> - Enable/disable the drop action on a column.</li>
+    </ul>
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href='https://blazor.syncfusion.com/documentation/kanban/workflow' target='_blank'>Blazor Kanban - Workflow</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Category" DataSource="@Pizza" EnableTooltip="@IsEnableTooltip">
+        <KanbanColumns>
+            <KanbanColumn HeaderText="Order" KeyField="@(new List<string>() {"Order"})" AllowToggle="true" AllowDrop="false" TransitionColumns="@(new List<string>() {"Ready to Serve", "Ready to Deliver"})"/>
+            <KanbanColumn HeaderText="Ready to Serve" KeyField="@(new List<string>() {"Ready to Serve"})" AllowToggle="true" TransitionColumns="@(new List<string>() {"Served"})"/>
+            <KanbanColumn HeaderText="Home Delivery" KeyField="@(new List<string>() {"Ready to Deliver"})" AllowToggle="true" TransitionColumns="@(new List<string>() {"Delivered"})"/>
+            <KanbanColumn HeaderText="Delivered" KeyField="@(new List<string>() {"Delivered", "Served"})" AllowToggle="true" AllowDrag="false"/>
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Description">
+            <Template>
+                @{
+                    var card = (KanbanDataModel)context;
+                    <div class="card-template">
+                        <div class="card-template-wrap">
+                            <div>
+                                <div class='e-card-header'>
+                                    <div class='e-card-header-caption'>
+                                        <div class='e-card-header-title e-tooltip-text'>@card.Title</div>
+                                    </div>
+                                </div>
+                                <div class='e-card-content e-tooltip-text'>
+                                    <div class='e-text'>@card.Description</div>
+                                    <div class='e-card-kanban-image'>
+                                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/kanban/" + card.ImageURL + ".png")" alt="logo" />
+                                    </div>
+                                </div>
+                                <div class='e-card-custom-footer'>
+                                    @{
+                                        @foreach (string tag in card.CardTags)
+                                        {
+                                            <div class="e-card-tag-field">@tag</div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+        <KanbanTemplates>
+            <TooltipTemplate>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class='e-kanbantooltiptemp'>
+                        <table>
+                            <tr>
+                                <td class="details">
+                                    <table>
+                                        <colgroup>
+                                            <col style="width:35%">
+                                            <col style="width:65%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td class="CardHeader">Title:</td>
+                                                <td>@card.Title</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            </TooltipTemplate>
+        </KanbanTemplates>
+    </SfKanban>
+</div>
+
+<style>
+    .e-kanban .e-card-kanban-image {
+        height: 45px;
+        width: 45px;
+        margin-left: 8px;
+    }
+
+    .e-kanban .e-card-kanban-image img {
+        height: inherit;
+        width: inherit;
+        border-radius: 50%;
+    }
+
+    .e-kanban .e-card .e-card-tag-field {
+        background: #ececec;
+        color: #6b6b6b;
+        margin-right: 5px;
+        line-height: 1.1;
+        font-size: 13px;
+        border-radius: 3px;
+        padding: 4px;
+    }
+
+    .e-kanban .e-card-custom-footer {
+        display: flex;
+        padding: 0px 14px 12px;
+        line-height: 1;
+        height: 35px;
+    }
+
+    .e-kanban .e-card td {
+        background-color: #fff;
+    }
+
+    .e-kanban .e-card .e-card-content {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+
+@code{
+    private bool IsEnableTooltip = true;
+    private List<KanbanDataModel> Pizza = new KanbanDataModel().GetPizzaData();
+}
