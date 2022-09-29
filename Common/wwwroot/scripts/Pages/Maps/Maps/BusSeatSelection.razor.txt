@@ -1,0 +1,177 @@
+@page "/maps/bus-seat-selection"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p> This sample visualizes a seating chart, in which the seats can be selected similarly to bus seat booking. Available, booked, and selected seats will be displayed in different colors.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this example, you can see how to render the normal geometry type shapes in the map. In this sample, selection is enabled, and the <code>Fill</code> and <code>Opacity</code> properties in the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerSelectionSettings.html'>MapsLayerSelectionSettings</a> can be used to customize the appearance of the shapes after selection.</p>
+</ActionDescription>
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #seat-parent {
+        text-align: center;
+        cursor: pointer
+    }
+
+    #selectedseats {
+        padding: 10px;
+        padding-top: 17px;
+        font-weight: bold;
+    }
+
+    #selectedseats, #seat-info {
+        font-size: 14px;
+    }
+
+    #clear-btn {
+        padding: 10px;
+        border: 2px solid rgb(241, 235, 247);
+        border-radius: 8px;
+        background: rgb(246, 245, 248);
+        color: black;
+        font-size: 14px;
+    }
+
+    .seats {
+        padding-top: 15px;
+        font-weight: bold;
+    }
+
+    #seat-text.property-panel-header {
+        padding-bottom: 10px;
+    }
+</style>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div style="width:205px;margin:auto;padding-bottom:20px;padding-left:10px">
+        <img src="@(SampleService.WebAssetsPath + "images/maps/bus-icon.png")" style="width:25px;height:25px;float:left">
+        <div style="padding-left:30px;font-size:20px;font-weight:400;">Bus Seat Selection</div>
+    </div>
+    <div style="border: 3px solid darkgray;width:200px;display:block;margin:auto;border-radius:5px">
+        <img src="@(SampleService.WebAssetsPath + "images/maps/wheel.png")" style="width:30px;height:30px;margin-left:18%;margin-top:10px">
+
+        <div class="control-section">
+            <SfMaps Height="400" Theme="@Theme" @ref="MapRef">
+                <MapsEvents OnItemSelect="OnItemSelect"></MapsEvents>
+                <MapsZoomSettings Enable="false"></MapsZoomSettings>
+                <MapsLayers>
+                    <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/seat-data.json"}' GeometryType="GeometryType.Normal" TValue="string">
+                        <MapsShapeSettings ColorValuePath="fill">
+                        </MapsShapeSettings>
+                        <MapsLayerSelectionSettings Enable="true" Opacity="1" EnableMultiSelect="true" Fill="green"></MapsLayerSelectionSettings>
+                    </MapsLayer>
+                </MapsLayers>
+            </SfMaps>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div id="seat-text" class="property-panel-header">Seat Selection</div>
+        <table id="property" title="Seat Selection" style="width: 100%;font-weight:400 !important">
+            <tbody>
+                <tr style="height: 30px">
+                    <td>
+                        <div style="height:0;width:15px;padding-bottom:14px;background-color:gray;border-radius:25%"></div>
+
+                        <div style="margin-top: -17.5px;margin-left: 24px">Available </div>
+                    </td>
+                </tr>
+                <tr style="height: 30px">
+                    <td>
+                        <div style="height:0;width:15px;padding-bottom:14px;background-color:Green;border-radius:25%"></div>
+
+                        <div style="margin-top: -17.5px;margin-left: 24px">Selected</div>
+                    </td>
+                </tr>
+                <tr style="height: 30px">
+                    <td>
+                        <div style="height:0;width:15px;padding-bottom:14px;background-color:Orange;border-radius:25%"></div>
+
+                        <div style="margin-top: -17.5px;margin-left: 24px">Booked</div>
+                    </td>
+                </tr>
+                <tr style="height:45px">
+                    <td align="center">
+                        <div style="padding-top: 10px;">
+                            @*<span id='clear-btn' @onclick="ClearSelection">Clear Selection</span><br />*@
+                            <SfButton @onclick="ClearSelection" IsPrimary="true" IsToggle="true">Clear Selection</SfButton>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="selectedseats">@SelectedSeats</div>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public string SelectedSeats { get; set; } = string.Empty;
+    public SfMaps MapRef;
+    private List<string> selectedItems = new List<string>();
+    private bool shapeSelectionCheck = true;
+
+    public void OnItemSelect(SelectionEventArgs args)
+    {
+        if (args.ShapeData["fill"] == "Orange")
+        {
+            args.Cancel = true;
+        }
+        else
+        {
+            shapeSelectionCheck = true;
+            if (selectedItems.Count > 0)
+            {
+                for (int j = 0; j < selectedItems.Count; j++)
+                {
+                    if (selectedItems[j] == args.ShapeData["seatno"])
+                    {
+                        selectedItems.RemoveAt(j);
+                        shapeSelectionCheck = false;
+                    }
+                }
+            }
+            if (shapeSelectionCheck)
+            {
+                selectedItems.Add(args.ShapeData["seatno"]);
+            }
+        }
+        SelectedSeats = string.Empty;
+        for (int i = 0; i < selectedItems.Count; i++)
+        {
+            if (i == 0)
+            {
+                SelectedSeats = "Seat Number: ";
+            }
+            SelectedSeats = i != selectedItems.Count - 1 ? SelectedSeats + selectedItems[i] + ", " : SelectedSeats + selectedItems[i];
+        }
+    }
+
+    public async Task ClearSelection()
+    {
+        for (int i = 0; i < selectedItems.Count; i++)
+        {
+            await MapRef.ShapeSelectionAsync(0, "seatno", selectedItems[i], false);
+        }
+        selectedItems.Clear();
+        SelectedSeats = string.Empty;
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

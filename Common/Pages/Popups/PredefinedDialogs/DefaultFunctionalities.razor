@@ -1,0 +1,86 @@
+﻿@page "/predefined-dialogs/default-functionalities"
+
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+
+@inject SfDialogService DialogService
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example demonstrates the usage of dialog services to display various forms of dialog, including<b> alert, confirm </b>and <b>prompt</b> dialog. Three buttons have been added to this example; click one of them to open the relevant dialog box.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The predefined dialogs are used to display messages and collect user input within a web page. The following are the three types of Dialogs:
+</p>
+    <ul>
+        <li><code>Alert</code>- Used to show errors, warnings, and information that need user awareness.</li>
+        <li><code>Confirm</code> - Used to get approval from user that appears before any critical action.</li>
+        <li><code>Prompt</code> - Used to get input from the user. </li>
+    </ul>
+    <p>
+        <b>See also</b>
+    </p>
+    <ul>
+        <li> <a target="_blank" 
+        href="https://blazor.syncfusion.com/documentation/predefined-dialogs/getting-started">
+      Getting started with predefined dialogs </a>    
+    </li>
+    </ul>
+</ActionDescription>
+<div id="predefinedDialogDefault">
+    <SfButton CssClass="e-warning" @onclick="@AlertBtn">Alert</SfButton>
+    <SfButton CssClass="e-success" @onclick="@ConfirmBtn">Confirm</SfButton>
+    <SfButton CssClass="e-primary" @onclick="@PromptBtn">Prompt</SfButton>
+    <span class="status">
+        @DialogStatus
+    </span>
+</div>
+
+@code {
+    private string DialogStatus { get; set; }
+    private async Task AlertBtn()
+    {
+        this.DialogStatus = " ";
+        await DialogService.AlertAsync("10% of battery remaining", "Low Battery");
+        this.DialogStatus = "The user closed the Alert dialog";
+    }
+
+    private async Task ConfirmBtn()
+    {
+        this.DialogStatus = " ";
+        bool isConfirm = await DialogService.ConfirmAsync("Are you sure you want to permanently delete these items?", "Delete Multiple Items");
+        string confirmMessage = isConfirm ? "confirmed" : "canceled";
+        this.DialogStatus = $"The user {confirmMessage} the dialog box."; 
+    }
+    private async Task PromptBtn()
+    {
+        this.DialogStatus = " ";
+        string promptText = await DialogService.PromptAsync("Enter your name:", "Join Chat Group");
+        if (promptText == null)
+        {
+            this.DialogStatus = "The user the canceled dialog box.";  
+        }
+        else
+        {
+            this.DialogStatus = $"The user's input is returned as \"{promptText}\"."; 
+        }
+         
+    }
+    
+}
+
+<style>
+    #predefinedDialogDefault {
+        margin: 25px 0 0 15px;
+    }
+    #predefinedDialogDefault .e-btn{
+        margin-right:5px;
+    }
+    #predefinedDialogDefault .status{
+        margin-top:20px;
+        font-size:16px;
+        display:block;
+    }
+
+</style>

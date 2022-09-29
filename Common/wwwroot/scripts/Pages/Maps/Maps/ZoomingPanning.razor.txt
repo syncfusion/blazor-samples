@@ -1,0 +1,205 @@
+@page "/maps/zooming-panning"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample illustrates the zooming and panning options in the map. Zooming, panning, mouse wheel zoom, pinch zoom, single-click zoom, and double-click zoom are among the available options.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to zoom and pan the map. Zooming allows you to focus on a specific region by widening the view. Zooming with the toolbar, rectangle zooming, pinch zooming, mouse wheel zooming, single-click and double-click zooming are all supported. You can move the zoomed map to the left, right, top, and bottom using the panning option.</p>
+    <p>More information about zooming and panning can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/user-interactions#zooming'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsZoomSettings Enable="@ZoomCheckedState" EnablePanning="@PanCheckedState" ZoomOnClick="SingleClickCheckedState" PinchZooming="@PinchZoomCheckedState"
+                          MouseWheelZoom="@MouseWheelCheckedState" DoubleClickZoom="@DoubleClickCheckedState">
+            <MapsZoomToolbarSettings>
+                <MapsZoomToolbarButton ToolbarItems="@ZoomToolbar"></MapsZoomToolbarButton>
+                <MapsZoomToolbarTooltipSettings FontFamily="Segoe UI"></MapsZoomToolbarTooltipSettings>
+            </MapsZoomToolbarSettings>
+        </MapsZoomSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/world-map.json"}' ShapeDataPath="Continent" TValue="ZoomData"
+                       ShapePropertyPath="@ShapePropertyPath" AnimationDuration="@AnimationDuration" DataSource="@ZoomingDataSource">
+                <MapsShapeSettings Autofill="true" ColorValuePath="Color" />
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+</div>
+<div class="col-lg-4 property-section" style="padding-right:0px">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <colgroup>
+                    <col span="1" style="width: 56%;">
+                    <col span="1" style="width: 44%;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            Zooming
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@ZoomCheckedState" ValueChange="@ZoomCheckBox" TChecked="bool" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Panning
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@PanCheckedState" ValueChange="@PanCheckBox" TChecked="bool" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Mouse Wheel Zoom
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@MouseWheelCheckedState" ValueChange="@MouseWheelCheckBox" TChecked="bool" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Pinch Zoom
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@PinchZoomCheckedState" ValueChange="@PinchZoomCheckBox" TChecked="bool" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Single Click Zoom
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@SingleClickCheckedState" ValueChange="@SingleClickCheckBox" TChecked="bool" Disabled="@SingleClickDisable" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Double Click Zoom
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@DoubleClickCheckedState" ValueChange="@DoubleClickCheckBox" TChecked="bool" Disabled="@DoubleClickDisable" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table style="width:100%">
+                <colgroup>
+                    <col span="1" style="width: 56%;">
+                    <col span="1" style="width: 20%;">
+                    <col span="1" style="width: 20%;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td style="padding-bottom:5px">
+                            Animation Duration
+                        </td>
+                        <td style="width:20%;padding-left:1px">
+                            <SfSlider TValue="double" Value="@AnimationDuration" Step="250" Min="0" Max="1000" Type=SliderType.MinRange>
+                                <SliderEvents TValue="double" ValueChange="AnimationSliderChange" />
+                            </SfSlider>
+                        </td>
+                        <td style="text-align:center;padding-bottom:6px">
+                            <div style="width:62px;padding-left:14px">@AnimationDuration ms</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    td {
+        width: 40%;
+    }
+
+    tr {
+        height: 40px;
+    }
+</style>
+
+@code {
+    public Theme Theme { get; set; }
+    public string[] ShapePropertyPath = { "continent" };
+    public bool DoubleClickDisable = false;
+    public bool SingleClickDisable = false;
+    public bool SingleClickCheckedState = false;
+    public List<ToolbarItem> ZoomToolbar = new List<ToolbarItem> { ToolbarItem.Zoom, ToolbarItem.ZoomIn, ToolbarItem.ZoomOut, ToolbarItem.Pan, ToolbarItem.Reset };
+    public bool ZoomCheckedState = true;
+    public bool PanCheckedState = true;
+    public bool MouseWheelCheckedState = true;
+    public bool PinchZoomCheckedState = true;
+    public bool DoubleClickCheckedState;
+    public double AnimationDuration = 500;
+    public class ZoomData
+    {
+        public string Continent { get; set; }
+        public string Color { get; set; }
+    };
+    public List<ZoomData> ZoomingDataSource = new List<ZoomData> {
+        new ZoomData { Continent= "Europe", Color= "#EC9B79" },
+        new ZoomData { Continent= "Asia", Color= "#7BC1E8" },
+        new ZoomData { Continent= "North America", Color= "#B5E485" },
+        new ZoomData { Continent= "South America", Color= "#78D0D3" },
+        new ZoomData { Continent= "Asia", Color= "#7BC1E8" },
+        new ZoomData { Continent= "Australia", Color= "#D6D572" },
+        new ZoomData { Continent= "Africa", Color= "#DF819C" }
+    };
+    private void ZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        ZoomCheckedState = args.Checked;
+    }
+    private void MouseWheelCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        MouseWheelCheckedState = args.Checked;
+    }
+    private void PanCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        PanCheckedState = args.Checked;
+    }
+    private void PinchZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        PinchZoomCheckedState = args.Checked;
+    }
+    private void SingleClickCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        SingleClickCheckedState = args.Checked;
+        DoubleClickDisable = (SingleClickCheckedState) ? true : false;
+    }
+    private void DoubleClickCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        DoubleClickCheckedState = args.Checked;
+        SingleClickDisable = (DoubleClickCheckedState) ? true : false;
+    }
+    private void AnimationSliderChange(SliderChangeEventArgs<double> args)
+    {
+        AnimationDuration = args.Value;
+    }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

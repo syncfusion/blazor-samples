@@ -1,0 +1,94 @@
+﻿@page "/datagrid/reactive-aggregate"
+
+@using blazor_griddata
+@using Syncfusion.Blazor.Grids
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+   <p>This sample demonstrates reactive aggregate that updates the grid aggregated data while editing in Batch <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.EditMode.html">EditMode</a>.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p> DataGrid supports the reactive aggregate feature that updates the aggregates from the footer, group footer, and group caption.</p>
+<p> In this demo, Batch editing is enabled and the corresponding aggregate values are refreshed when the Freight value cells are edited in the grid.</p>
+<p> By default, the reactive aggregate update is not supported by inline and dialog edit modes.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+          <SfGrid DataSource="@Orders" AllowPaging="true" AllowSorting="true" AllowGrouping=true Toolbar="@ToolbarItems">
+             <GridEditSettings  AllowDeleting="true" AllowEditing="true" Mode="EditMode.Batch"></GridEditSettings>
+             <GridGroupSettings ShowDropArea="false" Columns=@Units></GridGroupSettings>
+             <GridAggregates>
+                  <GridAggregate>
+                    <GridAggregateColumns>
+                        <GridAggregateColumn Field=@nameof(OrderData.Freight) Type="AggregateType.Sum" Format="C2">
+                            <GroupFooterTemplate>
+                                @{
+                                    var aggregate = (context as AggregateTemplateContext);
+                                    <div>
+                                        <p>Sum: @aggregate.Sum</p>
+                                    </div>
+                                }
+                            </GroupFooterTemplate>
+                        </GridAggregateColumn>
+                        <GridAggregateColumn Field=@nameof(OrderData.Freight) Type="AggregateType.Sum" Format="C2">
+                            <FooterTemplate>
+                                @{
+                                    var aggregate = (context as AggregateTemplateContext);
+                                    <div>
+                                        <p>Total: @aggregate.Sum</p>
+                                    </div>
+                                }
+                            </FooterTemplate>
+                        </GridAggregateColumn>
+               
+                        <GridAggregateColumn Field=@nameof(OrderData.Freight) Type="AggregateType.Average" Format="C2">
+                            <GroupCaptionTemplate>
+                                @{
+                                    var aggregate = (context as AggregateTemplateContext);
+                                    <div>
+                                        Average: @aggregate.Average
+                                    </div>
+                                }
+                            </GroupCaptionTemplate>
+                        </GridAggregateColumn>
+                        <GridAggregateColumn Field=@nameof(OrderData.Verified) Type="AggregateType.TrueCount">
+                            <GroupFooterTemplate>
+                                @{
+                                    var Count = (context as AggregateTemplateContext);
+                                    <div>
+                                        <p>Verified: @Count.TrueCount</p>
+                                    </div>
+                                }
+                            </GroupFooterTemplate>
+                        </GridAggregateColumn>
+                      </GridAggregateColumns>
+                    </GridAggregate>
+             </GridAggregates>
+    
+             <GridColumns>
+                 <GridColumn Field=@nameof(OrderData.OrderID) HeaderText="Order ID" IsPrimaryKey=true TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                 <GridColumn Field=@nameof(OrderData.CustomerID) HeaderText="Customer Name" Width="150"></GridColumn>
+                 <GridColumn Field=@nameof(OrderData.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                 <GridColumn Field=@nameof(OrderData.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                 <GridColumn Field=@nameof(OrderData.ShipCountry) HeaderText="Ship Country" Width="140"></GridColumn>
+                 <GridColumn Field=@nameof(OrderData.Verified)  DisplayAsCheckBox=@true HeaderText="Verified" Width="140" EditType="EditType.BooleanEdit" Type="ColumnType.Boolean"></GridColumn>
+           </GridColumns>
+        </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    private List<string> ToolbarItems = new List<string>(){ "Delete","Update","Cancel"};
+    public List<OrderData> Orders { get; set; }
+    private string[] Units = (new string[] { "CustomerID" });
+
+    protected override void OnInitialized()
+    {
+        Orders = OrderData.GetAllRecords();
+    }
+}

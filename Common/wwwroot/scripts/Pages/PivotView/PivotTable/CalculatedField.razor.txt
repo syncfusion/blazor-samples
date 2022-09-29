@@ -1,0 +1,126 @@
+﻿@page "/pivot-table/calculated-field"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p>In this sample, <b>Total Units</b> acts as the calculated field. Users can insert a new basic arithmetic expression based on the existing measure items either through a dialog at runtime or through code behind.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The calculated field feature allows users to create custom fields which are not present in the actual data source. Users
+        can create these fields using basic mathematical expression collaborating with existing fields. Calculated fields
+        can be created through UI dialog as well as code behind and it can be enabled by setting the <code>AllowCalculatedField</code> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html'>SfPivotView</a> to <b>true</b>. Use the
+        <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewCalculatedFieldSetting.html'>PivotViewCalculatedFieldSetting</a> to configure the calculated field in code behind along with the following properties.<br>
+    </p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><code>Name</code></td>
+            <td> : Specifies the given calculated field with unique name.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><code>Formula</code> </td>
+            <td> : Specifies to set the formula based on the given data source.</td>
+        </tr>
+    </table>
+    <br />
+    <p>More information on the calculated field feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/calculated-field/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView @ref="@Pivot" TValue="PivotProductDetails" Height="300" Width="100%" ShowFieldList=true AllowCalculatedField=true EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Total" Caption="Total Units" Type="SummaryTypes.CalculatedField"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewCalculatedFieldSettings>
+                    <PivotViewCalculatedFieldSetting Name="Total" Formula="@TotalUnits">
+                    </PivotViewCalculatedFieldSetting>
+                </PivotViewCalculatedFieldSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section pivot-table-calc-properties">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td align="center">
+                            <div>
+                                <SfButton CssClass="calc-button" IsPrimary="true" OnClick="@OnClick">Calculated Field</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+    .calc-button {
+        width: 70%;
+    }
+    @@media (max-width: 550px) {
+        .pivot-table-calc-properties {
+            display: none;
+        }
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .e-pivotfieldlist.e-device {
+        z-index: 1;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+
+@code{
+    SfPivotView<PivotProductDetails> Pivot;
+    public String TotalUnits = "\"" + "Sum(In_Stock)" + "\"" + "+" + "\"" + "Sum(Sold)" + "\"";
+
+    public List<PivotProductDetails> Data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.Data = PivotProductDetails.GetProductData();
+    }
+    public async Task OnClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        await this.Pivot.CreateCalculatedFieldDialogAsync();
+    }
+}
