@@ -1,0 +1,245 @@
+﻿@page "/pivot-table/show-hide-totals"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p>This sample demonstrates showing and hiding grand totals and sub-totals in rows, columns, or both at runtime. Also, end users can specify and hide sub-totals of specific fields.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this sample, you can hide grand totals in row, column, or both using radio buttons available under the
+        <b>Hide grand totals</b> category. To hide grand totals in both row and column, set the property<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_ShowGrandTotals'> PivotViewDataSourceSettings->ShowGrandTotals</a> as <b>false</b>. To hide the row and column grand totals separately,
+        set the property <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_ShowRowGrandTotals'>PivotViewDataSourceSettings->ShowRowGrandTotals</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_ShowColumnGrandTotals'>PivotViewDataSourceSettings->ShowColumnGrandTotals</a> as <b>false</b>.
+    </p>
+    <p>
+        You can also, display the grand totals either at top or bottom of the row and column axes using radio buttons available under the <b>Grand totals position</b> category.
+        To display the grand totals at top, set the property <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_GrandTotalsPosition'> PivotViewDataSourceSettings->GrandTotalsPosition</a> as <b>Top</b>. And, to display the grand totals at bottom, set the property <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_GrandTotalsPosition'> PivotViewDataSourceSettings->GrandTotalsPosition</a> as <b>Bottom</b>.
+    </p>
+    <p>
+        Also, in this sample, you can hide sub-totals for specific fields too. It can be achieved by selecting appropriate fields from the drop-down available under the <b>Hide sub-totals</b> category.
+        To hide sub-totals for a specific field, set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldOptions.html#Syncfusion_Blazor_PivotView_PivotFieldOptions_ShowSubTotals'>ShowSubTotals</a> property as <b>false</b> inside the field definition.
+    </p>
+    <p>More information on the hide totals feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/show-hide-totals/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" Height="500" Width="100%" EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@data" ExpandAll=true EnableSorting=true GrandTotalsPosition="@grandTotalPosition" ShowColumnGrandTotals="@columnGrandTotal" ShowRowGrandTotals="@rowGrandTotal" ShowGrandTotals="@grandTotal">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year" ShowSubTotals="@columnSubTotal"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country" ShowSubTotals="@rowSubTotal"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewFilterSettings>
+                    <PivotViewFilterSetting Name="Products" Items="@(new string[] { "Gloves", "Helmets", "Shorts", "Vests" })"></PivotViewFilterSetting>
+                </PivotViewFilterSettings>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Country" Items="@drilledMembers"></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section pivot-table-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600; font-size: 13px">
+                                Grand totals position
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Top" Name="GrandTotalPosition" Value=@("Top") Checked=@("Top") ValueChange="OnChangePosition" TChecked="string"> </SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Bottom" Name="GrandTotalPosition" Value=@("Bottom") Checked=@("Bottom") ValueChange="OnChangePosition" TChecked="string"> </SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600; font-size: 13px">
+                                Hide grand totals
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Row" Name="Total" Value=@("Row") Checked=@("Row") ValueChange="OnChange" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Column" Name="Total" Value=@("Column") Checked=@("Column") ValueChange="OnChange" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="Both" Name="Total" Value=@("Both") Checked=@("Both") ValueChange="OnChange" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfRadioButton Label="None" Name="Total" Value=@("None") Checked=@("None") ValueChange="OnChange" TChecked="string"></SfRadioButton>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600; font-size: 13px; padding-top: 20px;">
+                                Hide sub-totals
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="padding-top: 20px;">
+                                <SfMultiSelect TValue="string[]" TItem="DropDownData" Placeholder="Select fields to hide its sub-totals" Mode="@VisualMode.CheckBox" DataSource="@fields" ShowClearButton="false"
+                                               EnableSelectionOrder="false" ShowDropDownIcon="true" PopupWidth="100%" AllowFiltering="false" Value="selectedFields" ValueChanged="UpdateSubTotals">
+                                    <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .pivot-table-property-section {
+        overflow: auto;
+    }
+
+        .pivot-table-property-section .e-multiselect {
+            padding: 0;
+        }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+
+@code {
+    private string[] drilledMembers = new string[] { "France" };
+    private bool rowGrandTotal = true;
+    private bool columnGrandTotal = true;
+    private bool grandTotal = true;
+    private bool rowSubTotal = true;
+    private bool columnSubTotal = true;
+    private GrandTotalsPosition grandTotalPosition = GrandTotalsPosition.Bottom;
+    public List<PivotProductDetails> data { get; set; }
+    private string[] selectedFields { get; set; } = new string[0];
+    protected override void OnInitialized()
+    {
+        data = PivotProductDetails.GetProductData();
+    }
+    private void OnChange(ChangeArgs<string> args)
+    {
+        if (args.Value == "Row")
+        {
+            rowGrandTotal = false;
+            grandTotal = columnGrandTotal = true;
+        }
+        else if (args.Value == "Column")
+        {
+            columnGrandTotal = false;
+            grandTotal = rowGrandTotal = true;
+        }
+        else if (args.Value == "Both")
+        {
+            grandTotal = false;
+            columnGrandTotal = rowGrandTotal = true;
+        }
+        else
+        {
+            grandTotal = true;
+            columnGrandTotal = rowGrandTotal = true;
+        }
+    }
+    private void OnChangePosition(ChangeArgs<string> args)
+    {
+        if (args.Value == "Top")
+        {
+            grandTotalPosition = GrandTotalsPosition.Top;
+        }
+        else
+        {
+            grandTotalPosition = GrandTotalsPosition.Bottom;
+        }
+    }
+    private void UpdateSubTotals(string[] args)
+    {
+        selectedFields = args;
+        rowSubTotal = columnSubTotal = true;
+        if (selectedFields?.Length > 0)
+        {
+            foreach (string value in selectedFields)
+            {
+                if (value == "Country")
+                {
+                    rowSubTotal = false;
+                }
+                else if (value == "Year")
+                {
+                    columnSubTotal = false;
+                }
+            }
+        }
+    }
+    private List<DropDownData> fields = new List<DropDownData>() {
+        new DropDownData { Name = "Country", Value = "Country" },
+        new DropDownData { Name = "Year", Value = "Year" }
+    };
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+}

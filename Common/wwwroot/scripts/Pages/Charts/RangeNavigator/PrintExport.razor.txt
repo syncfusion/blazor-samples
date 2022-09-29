@@ -1,0 +1,310 @@
+﻿@page "/range-selector/print-export"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample represents the print and export options available in the range navigator.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample shows how to use the range navigator's export options to export to <code>PDF</code> and image formats like <code>JPEG</code>, <code>PNG</code>, and <code>SVG</code>.
+    </p>
+    <p>
+        By clicking on <code>Print</code>, you can print the range navigator directly from the browser by calling its public method <code>PrintAsync()</code>.
+     </p>
+    <p>
+        By clicking on <code>Export</code>, you can export the range navigator by calling its public method <code>ExportAsync()</code>. To be more precise, define parameters such as the export type and the file name while exporting. 
+    </p>
+     <p>More information about the print and export can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/export'>documentation section</a>.</p>
+</ActionDescription>
+
+@if (ExportData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section col-lg-9 sb-property-border" align="center">
+        <SfRangeNavigator @ref="RangeObj" @bind-Value="@RangeValue" LabelFormat="MMM" Theme="@RangeNavigatorTheme" EnableGrouping="true" IntervalType="RangeIntervalType.Months"
+                      DataSource="@ExportData" XName="xDate" YName="Close" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime">
+            <RangeNavigatorEvents LabelRender="AxisLabelRendering"></RangeNavigatorEvents>
+        </SfRangeNavigator>
+    </div>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-header">Properties</div>
+        <table style="width: 100%">
+            <tbody>
+                <tr style="height: 50px">
+                    <td style="width: 40%">
+                        <div style="margin-top:-3%">
+                            Export Type
+                        </div>
+                    </td>
+                    <td style="width: 100%;margin-top:4%;">
+                        <div style="width:100%;margin-left:5%">
+                            <SfDropDownList TValue="string" TItem="FileFormatType" DataSource="@ExportTypes" @bind-Value="@RangeNavigatorExportType">
+                                <DropDownListEvents TValue="string" TItem="FileFormatType" ValueChange="ChartFileValueChange" />
+                                <DropDownListFieldSettings Text="Text" Value="Text" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 40%">
+                        <div>File Name</div>
+                    </td>
+                    <td style="width: 70%;">
+                        <div class="e-float-input" style='margin-top:5%;margin-left:5%'>
+                            <SfTextBox Value="@FileName" ValueChange="@NameChange" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <div style="height: 45px; text-transform:none !important;width:100%;margin-left:40%">
+            <SfButton IsPrimary="true" OnClick="ExportChart" IsToggle="true">Export</SfButton>
+        </div>
+        <div style="height: 45px; text-transform:none !important;width:100%;margin-left:40%">
+             <SfButton IsPrimary="true" IsToggle="true" OnClick="PrintRangeNavigator">Print</SfButton>
+        </div>
+    </div>
+}
+
+<style>
+    #button-control {
+        width: 100%;
+        margin: 8% 0;
+        text-align: center;
+    }
+    #button-control .e-btn {
+        float: left;
+    }
+    @@media only screen and (max-width: 500px) {
+        #button-control {
+            margin-left: -3%;
+        }
+    }
+    .button-section {
+        width: 80%;
+        margin: auto;
+    }
+    #button-control .col-xs-12 {
+        margin: 15px 0;
+    }
+    @@font-face {
+        font-family: 'button-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1uSf8AAAEoAAAAVmNtYXDOXM6wAAABtAAAAFRnbHlmcV/SKgAAAiQAAAJAaGVhZBNt0QcAAADQAAAANmhoZWEIUQQOAAAArAAAACRobXR4NAAAAAAAAYAAAAA0bG9jYQNWA+AAAAIIAAAAHG1heHABGQAZAAABCAAAACBuYW1lASvfhQAABGQAAAJhcG9zdFAouWkAAAbIAAAA2AABAAAEAAAAAFwEAAAAAAAD9AABAAAAAAAAAAAAAAAAAAAADQABAAAAAQAAYD3WXF8PPPUACwQAAAAAANgtxgsAAAAA2C3GCwAAAAAD9AP0AAAACAACAAAAAAAAAAEAAAANAA0AAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wHnDQQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAAAAAIAAAADAAAAFAADAAEAAAAUAAQAQAAAAAYABAABAALnCOcN//8AAOcB5wr//wAAAAAAAQAGABQAAAABAAMABAAHAAIACgAJAAgABQAGAAsADAAAAAAADgAkAEQAWgByAIoApgDAAOAA+AEMASAAAQAAAAADYQP0AAIAADcJAZ4CxP08DAH0AfQAAAIAAAAAA9QD9AADAAcAACUhESEBIREhAm4BZv6a/b4BZv6aDAPo/BgD6AAAAgAAAAADpwP0AAMADAAANyE1ISUBBwkBJwERI1kDTvyyAYH+4y4BeQGANv7UTAxNlwEIPf6eAWI9/ukDEwAAAAIAAAAAA/QDngADAAcAADchNSETAyEBDAPo/Bj6+gPo/gxipgFy/t0CRwAAAQAAAAAD9AP0AAsAAAEhFSERMxEhNSERIwHC/koBtnwBtv5KfAI+fP5KAbZ8AbYAAQAAAAAD9AP0AAsAAAEhFSERMxEhNSERIwHh/isB1T4B1f4rPgIfPv4rAdU+AdUAAgAAAAAD9AOlAAMADAAANyE1ISUnBxc3JwcRIwwD6PwYAcWjLO7uLKI/Wj+hoSvs6iyhAm0AAAABAAAAAAP0A/QACwAAAREhFSERMxEhNSERAeH+KwHVPgHV/isD9P4rPv4rAdU+AdUAAAAAAgAAAAADdwP0AAMADAAANyE1ISUBBwkBJwERI4kC7v0SAVj+0SkBdgF4Kf7RPgw+rQEJL/64AUgv/vgC/AAAAAEAAAAAA/QD9AALAAABIRUhETMRITUhESMB2v4yAc5MAc7+MkwCJkz+MgHOTAHOAAIAAAAAA/QDzQADAAcAADchNSE1KQEBDAPo/BgB9AH0/gwzpZUCYAACAAAAAAP0A80AAwAHAAA3ITUhNSkBAQwD6PwYAfQB9P4MM6WVAmAAAAASAN4AAQAAAAAAAAABAAAAAQAAAAAAAQAMAAEAAQAAAAAAAgAHAA0AAQAAAAAAAwAMABQAAQAAAAAABAAMACAAAQAAAAAABQALACwAAQAAAAAABgAMADcAAQAAAAAACgAsAEMAAQAAAAAACwASAG8AAwABBAkAAAACAIEAAwABBAkAAQAYAIMAAwABBAkAAgAOAJsAAwABBAkAAwAYAKkAAwABBAkABAAYAMEAAwABBAkABQAWANkAAwABBAkABgAYAO8AAwABBAkACgBYAQcAAwABBAkACwAkAV8gYnV0dG9uLWljb25zUmVndWxhcmJ1dHRvbi1pY29uc2J1dHRvbi1pY29uc1ZlcnNpb24gMS4wYnV0dG9uLWljb25zRm9udCBnZW5lcmF0ZWQgdXNpbmcgU3luY2Z1c2lvbiBNZXRybyBTdHVkaW93d3cuc3luY2Z1c2lvbi5jb20AIABiAHUAdAB0AG8AbgAtAGkAYwBvAG4AcwBSAGUAZwB1AGwAYQByAGIAdQB0AHQAbwBuAC0AaQBjAG8AbgBzAGIAdQB0AHQAbwBuAC0AaQBjAG8AbgBzAFYAZQByAHMAaQBvAG4AIAAxAC4AMABiAHUAdAB0AG8AbgAtAGkAYwBvAG4AcwBGAG8AbgB0ACAAZwBlAG4AZQByAGEAdABlAGQAIAB1AHMAaQBuAGcAIABTAHkAbgBjAGYAdQBzAGkAbwBuACAATQBlAHQAcgBvACAAUwB0AHUAZABpAG8AdwB3AHcALgBzAHkAbgBjAGYAdQBzAGkAbwBuAC4AYwBvAG0AAAAAAgAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4ACm1lZGlhLXBsYXkLbWVkaWEtcGF1c2UQLWRvd25sb2FkLTAyLXdmLQltZWRpYS1lbmQHYWRkLW5ldwtuZXctbWFpbC13ZhB1c2VyLWRvd25sb2FkLXdmDGV4cGFuZC0wMy13Zg5kb3dubG9hZC0wMi13ZgphZGQtbmV3XzAxC21lZGlhLWVqZWN0Dm1lZGlhLWVqZWN0LTAxAAA=) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    .e-btn-sb-icons {
+        font-family: 'button-icons';
+        line-height: 1;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    .e-play-icon::before {
+        content: '\e701';
+    }
+    .e-pause-icon::before {
+        content: '\e705';
+    }
+    .e-open-icon::before {
+        content: '\e70d';
+    }
+    .e-add-icon::before {
+        content: '\e70a';
+    }
+</style>
+
+
+@code {
+    public ChartData[] ExportData { get; set; }
+    public SfRangeNavigator RangeObj { get; set; }
+    public Theme RangeNavigatorTheme { get; set; }
+    public object RangeValue { get; set; } = new object[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
+    private string currentUri;
+    public string RangeNavigatorExportType { get; set; } = "JPEG";
+    public string FileName { get; set; } = "RangeNavigator";
+    protected override async Task OnInitializedAsync()
+    {
+        ExportData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/export-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime xDate { get; set; }
+        public double Open { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Close { get; set; }
+    }
+
+    public async Task PrintRangeNavigator(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        await RangeObj.PrintAsync();
+    }
+
+    public class FileFormatType
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
+    private List<FileFormatType> ExportTypes = new List<FileFormatType>() {
+        new FileFormatType(){ Id= "JPEG", Text= "JPEG" },
+        new FileFormatType(){ Id= "PNG", Text= "PNG" },
+        new FileFormatType(){ Id= "SVG", Text= "SVG" },
+        new FileFormatType(){ Id= "PDF", Text= "PDF" },
+    };
+
+    public void AxisLabelRendering(RangeLabelRenderEventArgs args)
+    {
+        args.Text = args.Text.Contains("Quarter", StringComparison.InvariantCulture) ? args.Text.Replace("Quarter", "Quarter-") : args.Text;
+    }
+
+    private void NameChange(Syncfusion.Blazor.Inputs.ChangedEventArgs args)
+    {
+        FileName = args.Value;
+    }
+    private void ChartFileValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, FileFormatType> args)
+    {
+        RangeNavigatorExportType = args.Value;
+    }
+    public async Task ExportChart(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        ExportType ExportFileType = ExportType.JPEG;
+        switch (RangeNavigatorExportType) {
+            case "JPEG":
+                ExportFileType = ExportType.JPEG;
+                break;
+            case "PNG":
+                ExportFileType = ExportType.PNG;
+                break;
+            case "SVG":
+                ExportFileType = ExportType.SVG;
+                break;
+            case "PDF":
+                ExportFileType = ExportType.PDF;
+                break;
+        }
+        await RangeObj.ExportAsync(ExportFileType, FileName);
+    }
+    protected override void OnInitialized()
+    {
+        currentUri = NavigationManager.Uri;
+        if (currentUri.IndexOf("material") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.MaterialDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Material;
+            }
+        }
+        else if (currentUri.IndexOf("fabric") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FabricDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fabric;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5Dark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap5;
+            }
+        }
+        else if (currentUri.IndexOf("fluent") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.FluentDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Fluent;
+            }
+        }
+        else if (currentUri.IndexOf("bootstrap4") > -1)
+        {
+            RangeNavigatorTheme = Theme.Bootstrap4;
+        }
+        else if (currentUri.IndexOf("bootstrap") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.BootstrapDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Bootstrap;
+            }
+        }
+        else if (currentUri.IndexOf("highcontrast") > -1)
+        {
+            RangeNavigatorTheme = Theme.HighContrast;
+        }
+        else if (currentUri.IndexOf("tailwind") > -1)
+        {
+            if (currentUri.IndexOf("dark") > -1)
+            {
+                RangeNavigatorTheme = Theme.TailwindDark;
+            }
+            else
+            {
+                RangeNavigatorTheme = Theme.Tailwind;
+            }
+        }
+        else
+        {
+            RangeNavigatorTheme = Theme.Bootstrap4;
+        }
+    }
+}
+
+<style>
+    #button-control {
+        width: 100%;
+        text-align: center;
+    }
+
+    #control-container {
+        padding: 0px !important;
+    }
+
+    .e-export-icon::before {
+        content: '\e728';
+    }
+
+    .e-print-icon::before {
+        content: '\e813';
+    }
+
+    .btn-style {
+        margin: 5px;
+        width: 75px;
+    }
+</style>

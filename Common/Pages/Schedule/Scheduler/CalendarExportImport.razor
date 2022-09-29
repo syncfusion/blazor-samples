@@ -1,0 +1,77 @@
+﻿@page "/scheduler/export-and-import-ics"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using System.IO
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example showcases how to export the Scheduler events to a calendar (.ics) file, as well as how to import events from an .ics file (downloaded from any of the calendars like Google or Outlook) into our Scheduler. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the Scheduler events can be exported to a calendar (.ics) file by using the
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_ExportToICalendarAsync_System_String_System_Collections_Generic_List__0__">ExportToICalendarAsync</a> public method. By default, the calendar is exported with a file name <code>Calendar.ics</code>.
+        To change this file name on export, pass the custom string value as <code>FileName</code> to get the file
+        downloaded with this provided name. The events from external calendars can also be imported into Scheduler by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_ImportICalendarAsync_System_String_">ImportICalendar</a> method.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12" style="padding-top:15px">
+        <div class="col-md-3">
+            <SfButton Content="Export to iCalendar" title="Export to iCalendar file" OnClick="ExportToIcs"></SfButton>
+        </div>
+        <div class="col-md-3">
+            <SfUploader AllowedExtensions=".ics" CssClass="calendar-import" AllowMultiple="false" title="Choose iCalendar file to import events">
+                <UploaderButtons Browse="Choose iCalendar file"></UploaderButtons>
+                <UploaderEvents ValueChange="OnChange"></UploaderEvents>
+            </SfUploader>
+        </div>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
+    SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetExportingData();
+    public async void ExportToIcs()
+    {
+        await ScheduleRef.ExportToICalendarAsync();
+    }
+    public async Task OnChange(UploadChangeEventArgs args)
+    {
+        foreach (UploadFiles file in args.Files)
+        {
+            file.Stream.Position = 0;
+            StreamReader reader = new StreamReader(file.Stream);
+            await ScheduleRef.ImportICalendarAsync(reader.ReadToEnd());
+        }
+    }
+}
+
+<style>
+    .calendar-import.e-upload {
+        border: 0;
+        padding-left: 0 !important;
+    }
+
+    .calendar-import.e-upload .e-file-select-wrap {
+        padding: 0
+    }
+
+    .calendar-import.e-upload .e-file-select-wrap .e-file-drop, .calendar-import .e-upload-files {
+        display: none;
+    }
+</style>
