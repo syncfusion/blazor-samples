@@ -1,0 +1,166 @@
+﻿@page "/pivot-table/pivot-chart"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor
+@using ThemeHelper
+
+@inject NavigationManager NavigationManager
+
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p>
+        This sample demonstrates rendering a pivot chart using pivot data. User can explore the data through drill-up
+        and drill-down operations by clicking the grouping labels. The field list can also be used to change the report at runtime.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this sample, the Pivot component plots a chart based on the pivot report bound to it. This can be
+        achieved by setting the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDisplayOption.html#Syncfusion_Blazor_PivotView_PivotViewDisplayOption_View'>View</a> property to <code>View.Chart</code> in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDisplayOption.html'>PivotViewDisplayOption</a>. The built-in options are:<br />
+        <ul>
+            <li><code>Table</code> - Renders pivot table only, which is the default type.</li>
+            <li><code>Chart</code> - Renders pivot chart only.</li>
+            <li><code>Both</code> - Renders both pivot table and pivot chart.</li>
+        </ul>
+    </p>
+    <p>
+        You can change the chart types using the <b>Chart Types</b> dropdown list separately.
+        The chart types can be set using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotChartSeries.html#Syncfusion_Blazor_PivotView_PivotChartSeries_Type'>Type</a> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotChartSeries.html'>PivotChartSeries</a>. The built-in chart types are:<br />
+        <code>Column</code>, <code>Line</code>, <code>Spline</code>, <code>Bar</code>, <code>Area</code>, <code>StepArea</code>,
+        <code>SplineArea</code>, <code>StackingColumn</code>, <code>StackingArea</code>, <code>StackingBar</code>, <code>StepLine</code><br />
+        <code>Pareto</code>, <code>Bubble</code>, <code>Scatter</code>, <code>StackingColumn100</code>, <code>StackingBar100</code>, <code>StackingArea100</code>, <code>Polar</code>,
+        <code>Radar</code>, <code>Pie</code>, <code>Doughnut</code>, <code>Funnel</code> and <code>Pyramid</code>.
+    </p>
+    <p>
+        In the sample, the field list option is also enabled, through which you can see the result in the chart by modifying the report dynamically. <br />
+    </p>
+    <p>In accumulation charts such as pie, doughnut, funnel, and pyramid, the drill down/up operation can be performed by right-clicking on the appropriate series and selecting an option from the context menu.<br /></p>
+    <p>More information on the pivot chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/pivot-chart/'>documentation section</a>. You can refer to our <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-pivot-chart'>Blazor Pivot Chart</a> page to know more about pivot chart and its features.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" Height="100%" ShowFieldList=true MinWidth="200px">
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Country"></PivotViewColumn>
+                    <PivotViewColumn Name="Products"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Year"></PivotViewRow>
+                    <PivotViewRow Name="Order_Source" Caption="Order Source"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="Amount" Caption="Sales Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Year" Items="@DrilledMembers"></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewDisplayOption View=View.Chart></PivotViewDisplayOption>
+            <PivotChartSettings Title="Sales Analysis" Theme="@Theme">
+                <PivotChartSeries Type="@ChartType"></PivotChartSeries>
+                <PivotChartPrimaryYAxis>
+                    <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
+                </PivotChartPrimaryYAxis>
+            </PivotChartSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div style="white-space: nowrap;">Chart Types: </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="ChartSeriesType" TItem="DropDownData" DataSource="@ChartTypes" @bind-Value="@ChartType" PopupWidth="auto">
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-pivotfieldlist.e-device {
+        z-index: 1;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+
+@code{
+    public ChartSeriesType ChartType = ChartSeriesType.Column;
+    public string[] DrilledMembers = new string[] { "FY 2015" };
+
+    public List<PivotProductDetails> Data { get; set; }
+    private Theme Theme { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.Data = PivotProductDetails.GetProductData();
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    List<DropDownData> ChartTypes = new List<DropDownData>() {
+        new DropDownData { Name = "Column", Value = ChartSeriesType.Column },
+        new DropDownData { Name = "Bar", Value = ChartSeriesType.Bar },
+        new DropDownData { Name = "Line", Value = ChartSeriesType.Line },
+        new DropDownData { Name = "Spline", Value = ChartSeriesType.Spline },
+        new DropDownData { Name = "Area", Value = ChartSeriesType.Area },
+        new DropDownData { Name = "SplineArea", Value = ChartSeriesType.SplineArea },
+        new DropDownData { Name = "StepLine", Value = ChartSeriesType.StepLine },
+        new DropDownData { Name = "StepArea", Value = ChartSeriesType.StepArea },
+        new DropDownData { Name = "StackingColumn", Value = ChartSeriesType.StackingColumn },
+        new DropDownData { Name = "StackingBar", Value = ChartSeriesType.StackingBar },
+        new DropDownData { Name = "StackingArea", Value = ChartSeriesType.StackingArea },
+        new DropDownData { Name = "StackingColumn100", Value = ChartSeriesType.StackingColumn100 },
+        new DropDownData { Name = "StackingBar100", Value = ChartSeriesType.StackingBar100 },
+        new DropDownData { Name = "StackingArea100", Value = ChartSeriesType.StackingArea100 },
+        new DropDownData { Name = "Scatter", Value = ChartSeriesType.Scatter },
+        new DropDownData { Name = "Bubble", Value = ChartSeriesType.Bubble },
+        new DropDownData { Name = "Polar", Value = ChartSeriesType.Polar },
+        new DropDownData { Name = "Radar", Value = ChartSeriesType.Radar },
+        new DropDownData { Name = "Pareto", Value = ChartSeriesType.Pareto },
+        new DropDownData { Name = "Pie", Value = ChartSeriesType.Pie },
+        new DropDownData { Name = "Doughnut", Value = ChartSeriesType.Doughnut },
+        new DropDownData { Name = "Funnel", Value = ChartSeriesType.Funnel },
+        new DropDownData { Name = "Pyramid", Value = ChartSeriesType.Pyramid }
+    };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public ChartSeriesType Value { get; set; }
+    }
+}

@@ -1,0 +1,275 @@
+﻿@page "/datagrid/pager-template"
+
+@using System.Globalization;
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using BlazorDemos;
+@using blazor_productdata;
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example shows how to use the DataGrid with pager template feature.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor DataGrid provides a way to customize the pager UI using the pager template feature. Users can customize the pager template by using the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/templates/'>Templates</a> property of the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridPageSettings.html'>GridPageSettings</a> component.</p>
+    <p>The user in this demo can use the textbox to jump to a specific page and the icons to navigate between previous and next pages.</p>
+    <p>More information about the Pager template feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/paging#pager-template'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid @ref="defaultGrid" DataSource="students" AllowPaging="true">
+                <GridEvents OnActionBegin="UpdatePageNumber" TValue="Order"></GridEvents>
+                <GridPageSettings PageSize="10">
+                    <Template>
+                        <div class="PagerTemplate">                            
+                            <div class="@($"e-first e-icons e-icon-first {ValidateFirst()} align-icons e-firstpage")" @onclick="ShowFirstPage" title="Go to first page">
+                            </div>
+                            <div class="@($"e-prev e-icons e-icon-prev {ValidateBack()} align-icons")" @onclick="ShowPreviousPage" title="Go to previous page"></div>
+                            <div>
+                                <SfNumericTextBox Width="4%" CssClass="textAlign" ShowSpinButton="false" Min="1" Max="@totalPages" TValue="int" @bind-Value="@pageNo" @oninput="LaunchEnteredPage">
+                                    <NumericTextBoxEvents TValue="int" ValueChange="@OnValueChange"></NumericTextBoxEvents>
+                                </SfNumericTextBox>
+                                <div id="totalpages" class="textbox"> of @totalPages pages </div>
+                            </div>
+                            <div class="@($"e-next e-icons e-icon-next   {ValidateForward()} align-icons e-next")" @onclick="ShowNextPage" title="Go to next page"></div>
+                            <div class="@($"e-last e-icons e-icon-last {ValidateLast()} align-icons")" @onclick="ShowLastPage" title="Go to last page"></div>
+                        </div>
+
+                        <style>
+                            .PagerTemplate {
+                                width: 1000px;
+                                height: 64px;
+                                left: 183px;
+                                top: 615px;
+                                border-radius: 0px;
+                            }
+
+                            .textbox {
+                                margin-top: 9px;
+                                margin-bottom: 9px;
+                                margin-right: 2px;
+                                text-align: center;                                                 
+                            }
+
+                            .textboxfontcolor{
+                                color: #000000;
+                            }
+
+                            .add-border {
+                                border: #ddd 1px solid;
+                            }
+
+                            .textAlign .e-numerictextbox{
+                                text-align: center;
+                            }
+
+                            .align-icons {
+                                margin-top: 9px;
+                                margin-bottom: 9px;
+                                margin-right: 16px;
+                                cursor:pointer;
+                            }
+
+                            .e-firstpage {
+                                margin-left: 6px;                                
+                            }
+
+                            .e-next {
+                                margin-left: 16px;
+                            }
+
+                            .disableFirst, .disableLast, .disableFront, .disableBack {
+                                pointer-events: none;
+                                opacity: 0.3;
+                            }
+                           
+                        </style>
+                    </Template>
+                </GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field="@nameof(Order.OrderID)" HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field="@nameof(Order.CustomerID)" HeaderText="Customer ID"  Width="150"></GridColumn>
+                    <GridColumn Field="@nameof(Order.OrderDate)" HeaderText="Order Date" TextAlign="TextAlign.Center" Width="130" Format="d" Type="ColumnType.Date"></GridColumn>
+                    <GridColumn Field="@nameof(Order.Freight)" Format="c2" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field="@nameof(Order.ShipCountry)" HeaderText="Ship Country" Width="140"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    public SfGrid<Order> defaultGrid;
+    public List<Order> students { get; set; }
+    public int pageNo { get; set; }
+    public int totalPages { get; set; }
+    public bool DisableBackIcon = false;
+    public int previouspageNo { get; set; }
+    public bool DisableForwardIcon = false;
+    public bool DisableFirstIcon = false;
+    public bool DisableLastIcon = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        students = Enumerable.Range(1, 100).Select((x) => new Order()
+        {
+            OrderID = x,
+            CustomerID = (new string[] { "ALFKI", "ANATR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
+            Freight = 2.1 * x,
+            ShipCountry = new string[] { "Denmark", "Germany", "Austria", "Brazil", "Switzerland" }[new Random().Next(5)],
+            OrderDate = new DateTime[] { new DateTime(2010, 12, 19), new DateTime(2005, 08, 20), new DateTime(1991, 01, 10), new DateTime(1992, 10, 11), new DateTime(1999, 12, 14) }[new Random().Next(5)]
+
+        }).ToList();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            totalPages = defaultGrid.TotalItemCount / defaultGrid.PageSettings.PageSize;
+        }
+        pageNo = defaultGrid.PageSettings.CurrentPage;
+
+        if (defaultGrid.PageSettings.CurrentPage == totalPages)
+        {
+            DisableForwardIcon = true;
+            DisableLastIcon = true;
+        }
+        else
+        {
+            DisableForwardIcon = false;
+            DisableLastIcon = false;
+        }
+
+        if (defaultGrid.PageSettings.CurrentPage == 1)
+        {
+            DisableBackIcon = true;
+            DisableFirstIcon = true;
+        }
+        else
+        {
+            DisableBackIcon = false;
+            DisableFirstIcon = false;
+        }
+
+        if (pageNo != previouspageNo)
+        {
+            StateHasChanged();
+            previouspageNo = defaultGrid.PageSettings.CurrentPage;
+        }
+    }
+
+    public void UpdatePageNumber(ActionEventArgs<Order> args)
+    {
+        pageNo = (int)args.CurrentPage;
+    }
+
+
+    public class Order
+    {
+        public int OrderID { get; set; }
+
+        public string CustomerID { get; set; }
+
+        public double Freight { get; set; }
+
+        public string ShipCountry { get; set; }
+
+        public DateTime OrderDate { get; set; }
+
+    }
+
+    public string ValidateFirst()
+    {
+        if (DisableFirstIcon)
+        {
+            return "disableFirst";
+        }
+        return "";
+    }
+
+    public string ValidateLast()
+    {
+        if (DisableLastIcon)
+        {
+            return "disableLast";
+        }
+        return "";
+    }
+
+    public string ValidateForward()
+    {
+        if (DisableForwardIcon)
+        {
+            return "disableFront";
+        }
+        return "";
+    }
+
+    public string ValidateBack()
+    {
+        if (DisableBackIcon)
+        {
+            return "disableBack";
+        }
+        return "";
+    }
+
+    public async Task ShowNextPage()
+    {
+        await defaultGrid.GoToPageAsync((defaultGrid.PageSettings.CurrentPage) + 1);
+    }
+
+    public async Task ShowPreviousPage()
+    {
+        await defaultGrid.GoToPageAsync((defaultGrid.PageSettings.CurrentPage) - 1);
+    }
+
+    public async Task ShowFirstPage()
+    {
+        await defaultGrid.GoToPageAsync(1);
+    }
+
+    public async Task ShowLastPage()
+    {
+        await defaultGrid.GoToPageAsync(totalPages);
+    }
+
+    public async Task LaunchEnteredPage(ChangeEventArgs page)
+    {
+        await ChangePage(page.Value.ToString());
+    }
+    private async Task OnValueChange(ChangeEventArgs<int> page)
+    {
+        await ChangePage(page.Value.ToString(), page.Name);
+    }
+    public async Task ChangePage(string page = null, string name = null)
+    {
+        if (string.IsNullOrEmpty(page))
+        {
+            return;
+        }
+        else
+        {
+            double enteredPage;
+            if (double.TryParse(page, System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out enteredPage))
+            {
+                if (enteredPage < 1 && string.IsNullOrEmpty(name))
+                {
+                    await defaultGrid.GoToPageAsync(1);
+                    pageNo = 1;
+                }
+                if (enteredPage > totalPages && string.IsNullOrEmpty(name))
+                    await defaultGrid.GoToPageAsync(totalPages);
+                if (enteredPage <= totalPages)
+                    await defaultGrid.GoToPageAsync((int)enteredPage);
+            }
+        }
+    }
+}
+

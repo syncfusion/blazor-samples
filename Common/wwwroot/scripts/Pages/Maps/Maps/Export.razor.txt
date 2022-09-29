@@ -1,0 +1,215 @@
+@page "/maps/export"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the map's export functionality. You can change the map type to geometric or OSM, and export the map in PNG, JPEG, SVG, or PDF format by clicking the <b>Export</b> button.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to configure the export functionality. The rendered map can be exported in JPEG, PNG, SVG, or PDF format. The <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#methods'>ExportAsync</a> method is used to export when the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#Syncfusion_Blazor_Maps_SfMaps_AllowImageExport'>AllowImageExport</a> and <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.SfMaps.html#Syncfusion_Blazor_Maps_SfMaps_AllowPdfExport'>AllowPdfExport</a> properties are set to <b>true</b>.</p>
+    <p>More information about export functionality can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/print-and-export/?no-cache=1#export'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfMaps @ref="@MapRef" AllowPdfExport="true" AllowImageExport="true" Theme="@Theme">
+        <MapsTitleSettings Text="Location of the Wonders in the World">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='@shapeData' UrlTemplate="@urlTemplate" TValue="string">
+                <MapsShapeSettings Fill="#D3D3D3">
+                    <MapsShapeBorder Color="#000000" Width="0.1" />
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker TValue="MarkerData" Visible="true" Shape="MarkerType.Balloon" Fill="#E13E40" Height="18" Width="18" DataSource="@MarkerDataSource" AnimationDuration="0">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                            <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <table title="Properties" style="width: 100%">
+            <tbody>
+                <tr>
+                    <td>
+                        <div>Map Type</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList TValue="string" TItem="MapType" DataSource="@MapLayerTypes" @bind-Value="@MapValue" Width="100%">
+                                <DropDownListEvents TValue="string" TItem="MapType" ValueChange="MapLayerTypeValueChange" />
+                                <DropDownListFieldSettings Text="Text" Value="Text" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Export Type</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList TValue="string" TItem="FileFormatType" DataSource="@FileFormats" @bind-Value="@FileType" Width="100%">
+                                <DropDownListEvents TValue="string" TItem="FileFormatType" ValueChange="MapFileValueChange" />
+                                <DropDownListFieldSettings Text="Text" Value="Text" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>File Name</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfTextBox Value="@FileName" ValueChange="@NameChange" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width:100%">
+            <tbody>
+                <tr>
+                    <td align="center" style="padding-top:4px;">
+                        <SfButton Content="Export" OnClick="ExportClick" IsToggle="true" IsPrimary="true" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+@code {
+    public SfMaps MapRef;
+    public object shapeData;
+    public string urlTemplate = string.Empty;
+    public string GeoDisplay = "block";
+    public string OsmDisplay = "none";
+    public string FileType { get; set; } = "JPEG";
+    public string MapValue { get; set; } = "Geometry";
+    public string FileName { get; set; } = "Maps";
+    public List<FileFormatType> FileFormats = new List<FileFormatType>();
+    public class MarkerData
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Name { get; set; }
+    };
+    public List<MarkerData> MarkerDataSource = new List<MarkerData> {
+        new MarkerData { Longitude=116.5703749, Latitude=40.4319077, Name="The Great Wall of China, China" },
+        new MarkerData { Longitude=35.4443622, Latitude=30.3284544, Name="Petra, Jorden" },
+        new MarkerData { Longitude=78.0421552, Latitude=27.1750151, Name="Taj Mahal, Agra, India" },
+        new MarkerData { Longitude=12.4922309, Latitude=41.8902102, Name="The Roman Colosseum, Rome, Italy" },
+        new MarkerData { Longitude=-88.5677826, Latitude=20.6842849, Name="The Chichen Itza, Mexico" },
+        new MarkerData { Longitude=-72.5449629, Latitude=-13.1631412, Name="Machu Picchu, Peru" },
+        new MarkerData { Longitude=-53.2104872, Latitude=-22.951916, Name="Christ Redeemer, Rio de janeiro, Brazil" }
+    };
+    public class MapType
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
+    private List<MapType> MapLayerTypes = new List<MapType>() {
+        new MapType(){ Id= "Geometry", Text= "Geometry" },
+        new MapType(){ Id= "OSM", Text= "OSM" },
+    };
+    public class FileFormatType
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
+    private List<FileFormatType> GeometryFileTypes = new List<FileFormatType>() {
+        new FileFormatType(){ Id= "JPEG", Text= "JPEG" },
+        new FileFormatType(){ Id= "PNG", Text= "PNG" },
+        new FileFormatType(){ Id= "SVG", Text= "SVG" },
+        new FileFormatType(){ Id= "PDF", Text= "PDF" },
+    };
+    private List<FileFormatType> OsmFileTypes = new List<FileFormatType>() {
+        new FileFormatType(){ Id= "JPEG", Text= "JPEG" },
+        new FileFormatType(){ Id= "PNG", Text= "PNG" },
+        new FileFormatType(){ Id= "PDF", Text= "PDF" },
+    };
+    private void NameChange(ChangedEventArgs args)
+    {
+        FileName = args.Value;
+    }
+    private void MapFileValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, FileFormatType> args)
+    {
+        if (args.Value != null)
+            FileType = args.Value;
+    }
+    public void MapLayerTypeValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, MapType> args)
+    {
+        MapValue = args.Value;
+        if (MapValue == "Geometry")
+        {
+            shapeData = new { dataOptions = SampleService.WebAssetsPath + "data/maps/world-map.json" };
+            urlTemplate = string.Empty;
+            GeoDisplay = "block";
+            OsmDisplay = "none";
+            FileFormats = GeometryFileTypes;
+        }
+        else
+        {
+            shapeData = null;
+            urlTemplate = "https://a.tile.openstreetmap.org/level/tileX/tileY.png";
+            GeoDisplay = "none";
+            OsmDisplay = "block";
+            FileFormats = OsmFileTypes;
+            if (FileType == "SVG")
+            {
+                FileType = "JPEG";
+            }
+        }
+    }
+    private async Task ExportClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        ExportType ExportFileType = ExportType.JPEG;
+        switch (FileType)
+        {
+            case "JPEG":
+                ExportFileType = ExportType.JPEG;
+                break;
+            case "PNG":
+                ExportFileType = ExportType.PNG;
+                break;
+            case "SVG":
+                ExportFileType = ExportType.SVG;
+                break;
+            case "PDF":
+                ExportFileType = ExportType.PDF;
+                break;
+        }
+        await MapRef.ExportAsync(ExportFileType, FileName);
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        shapeData = new { dataOptions = SampleService.WebAssetsPath + "data/maps/world-map.json" };
+        FileFormats = GeometryFileTypes;
+    }
+}

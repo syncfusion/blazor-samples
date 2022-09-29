@@ -1,0 +1,334 @@
+﻿@page "/pivot-table/drill-down"
+
+@using System.Linq;
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p>This sample demonstrates how to drill down on all headers, column headers only, row headers only, specific field(s), and specific member(s) within the specific field(s). </p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this sample, drill down can be performed based on the option selected from the <b>Drill Down</b> dropdown list. The available options are described in detail below.</p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;white-space:nowrap'><code>All headers :</code></td>
+            <td> Allows to expand all headers of row and column axes in the pivot table. It can be achieved by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_ExpandAll'>ExpandAll</a> property to <b>true</b> in the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a>.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;white-space:nowrap'> <code>Row headers :</code></td>
+            <td> Allows to expand all row headers in the pivot table. It can be achieved by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldOptions.html#Syncfusion_Blazor_PivotView_PivotFieldOptions_ExpandAll'>ExpandAll</a> property to <b>true</b> for row fields only.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;white-space:nowrap'> <code>Column headers :</code> </td>
+            <td> Allows to expand all column headers in the pivot table. It can be achieved by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldOptions.html#Syncfusion_Blazor_PivotView_PivotFieldOptions_ExpandAll'>ExpandAll</a> property to <b>true</b> for column fields only. </td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;white-space:nowrap'> <code>Specific fields :</code> </td>
+            <td> Allows to expand specific field(s) in the pivot table's row or column axes. It can be achieved by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldOptions.html#Syncfusion_Blazor_PivotView_PivotFieldOptions_ExpandAll'>ExpandAll</a> property for the relevant field(s) in the row and column axes to <b>true</b>. </td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;white-space:nowrap'> <code>Specific headers :</code> </td>
+            <td> Allows to expand specific header(s) within the respective field available in the pivot table's row or column axes. It can be achieved by specifying the respective field name and its member(s), aka header name(s), inside the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_DrilledMembers'>DrilledMembers</a> property in the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html'>PivotViewDataSourceSettings</a>. </td>
+        </tr>
+    </table><br />
+    <p>More information on the drill down feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/drill-down'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref=pivot Height="400" Width="100%" ShowTooltip=true>
+            <PivotViewDataSourceSettings DataSource="@data" ExpandAll="expandAll" DrilledMembers="drilledMembers">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year" ExpandAll="@(expandAllColumnFields || fields[1].ExpandAll)"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country" ExpandAll="@(expandAllRowFields || fields[0].ExpandAll)"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-4 property-section pivottable-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Drill Down:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" Placeholder="Row headers" TItem="string" @bind-Value="@selectedDrillDown" DataSource="@dropDownData">
+                                    <DropDownListEvents TValue="string" TItem="string" ValueChange="@ChangeType"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    @if (@specificFieldsDrill)
+                    {
+                        <tr style="height: 50px">
+                            <td style="padding-right: 10px;">
+                                <div>
+                                    Fields:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfMultiSelect TValue="string[]" TItem="string" Mode="@VisualMode.CheckBox" DataSource="@fieldData" ShowClearButton="false" Value="selectedFields"
+                                    ShowSelectAll="false" EnableSelectionOrder="true" ShowDropDownIcon="true" Placeholder="Select Fields" ValueChanged="UpdateSelectedFields">
+                                    </SfMultiSelect>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    @if (@specificHeadersDrill)
+                    {
+                        <tr style="height: 50px">
+                            <td style="padding-right: 10px;">
+                                <div>
+                                    Fields :
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfDropDownList TValue="string" Placeholder="Country" TItem="string" DataSource="@fieldData" @bind-Value="selectedField">
+                                        <DropDownListEvents TValue="string" TItem="string" ValueChange="@ChangeField"></DropDownListEvents>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr style="height: 50px">
+                            <td style="padding-right: 10px;">
+                                <div>
+                                    Headers:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfMultiSelect TValue="string[]" TItem="string" Mode="@VisualMode.CheckBox" DataSource="@headerData" Placeholder="Select Headers"
+                                    ShowClearButton="false" ShowSelectAll="false" EnableSelectionOrder="true" ShowDropDownIcon="true" @bind-Value="selectedHeaders">
+                                        <MultiSelectEvents TValue="string[]" TItem="string" ValueChange="@UpdateSelectedHeaders"></MultiSelectEvents>
+                                    </SfMultiSelect>
+                                </div>
+                            </td>
+                        </tr> 
+                         <td></td>
+                         <td>
+                            <div style="float:right">
+                                <SfButton IsPrimary="true" OnClick="OnApply">Apply</SfButton>
+                            </div>  
+                        </td>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-pivottable .e-static {
+        width: 80% !important;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+        padding-top:unset;
+    }
+</style>
+@code {
+    private SfPivotView<PivotProductDetails> pivot;
+    private List<PivotProductDetails> data { get; set; }
+    private bool expandAll { get; set; } = false;
+    private bool expandAllRowFields { get; set; } = true;
+    private bool expandAllColumnFields { get; set; } = false;
+    private bool specificFieldsDrill { get; set; } = false;
+    private bool specificHeadersDrill { get; set; } = false;
+    private string selectedDrillDown { get; set; } = "Row headers";
+    private string selectedField = "Country";
+    private string[] selectedHeaders = new string[0];
+    private string[] selectedFields { get; set; } = new string[0];
+    private List<FieldInfo> fields { get; set; } = new List<FieldInfo>
+    {
+        new FieldInfo { Field = "Country",  Members = new string[0] },
+        new FieldInfo { Field = "Year", Members = new string[0] }
+    };
+    private List<FieldInfo> headersInfo { get; set; } = new List<FieldInfo>();
+    private List<string> headerData = new List<string>();
+    private List<string> dropDownData = new List<string>() { "All headers", "Row headers", "Column headers", "Specific fields", "Specific headers" };
+    private List<string> fieldData = new List<string>() { "Country", "Year", };
+    private List<string> countryData = new List<string>() { "France", "Germany", "Canada", "United Kingdom", "United States" };
+    private List<string> yearData = new List<string>() { "FY 2015", "FY 2016", "FY 2017", "FY 2018" };
+    private List<PivotViewDrilledMember> drilledMembers { get; set; } = new List<PivotViewDrilledMember>();
+    protected override void OnInitialized()
+    {
+        this.data = PivotProductDetails.GetProductData();
+    }
+    private void ChangeType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        specificFieldsDrill = specificHeadersDrill = false;
+        if (args.Value == "Row headers")
+        {
+            ClearDrilledItems();
+            expandAll = expandAllColumnFields = false;
+            expandAllRowFields = true;
+        }
+        else if (args.Value == "Column headers")
+        {
+            ClearDrilledItems();
+            expandAll = expandAllRowFields  =  false;
+            expandAllColumnFields = true;
+        }
+        else if (args.Value == "All headers")
+        {
+            ClearDrilledItems();
+            expandAllColumnFields = expandAllRowFields = false;
+            expandAll = true;
+        }
+        else if (args.Value == "Specific fields")
+        {
+            specificFieldsDrill = true;
+            drilledMembers = pivot.DataSourceSettings.DrilledMembers;
+        }
+        else
+        {
+            specificHeadersDrill = true;
+            selectedField = "Country";
+            headerData = countryData;
+            headersInfo = new List<FieldInfo>()
+            {
+                new FieldInfo { Field = "Country", Members = (string[])(fields[0].Members.Clone()) },
+                new FieldInfo { Field = "Year", Members = (string[])(fields[1].Members.Clone()) }
+            };
+            selectedHeaders = headersInfo[0].Members;
+        }
+    }
+    private void ClearDrilledItems()
+    {
+        drilledMembers = new List<PivotViewDrilledMember>();
+        fields = new List<FieldInfo>
+        {
+            new FieldInfo { Field = "Country",  Members = new string[0] },
+            new FieldInfo { Field = "Year", Members = new string[0] }
+        };
+    }
+    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        if (args.Value == "Year")
+        {
+            headerData = yearData;
+            selectedHeaders = headersInfo[1].Members;
+        }
+        else
+        {
+            headerData = countryData;
+            selectedHeaders = headersInfo[0].Members;
+        }
+    }
+    private void UpdateSelectedFields(string[] selectedFields)
+    {
+        ClearDrilledItems();
+        expandAll = expandAllColumnFields = expandAllRowFields = false;
+        this.selectedFields = selectedFields;
+        if (selectedFields != null)
+        {
+            foreach (string field in selectedFields)
+            {
+                if (field == "Country")
+                {
+                    fields[0].ExpandAll = true;
+                }
+                else
+                {
+                    fields[1].ExpandAll = true;
+                }
+            }
+        }
+    }
+    private void UpdateSelectedHeaders(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<string[]> args)
+    {
+        if (selectedField == "Country")
+        {
+            headersInfo[0].Members = args.Value;
+        }
+        else
+        {
+            headersInfo[1].Members = args.Value;
+        }
+    }
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+    private void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        expandAll = expandAllColumnFields = expandAllRowFields = false;
+        fields = headersInfo;
+        selectedFields = new string[0];
+        drilledMembers = new List<PivotViewDrilledMember>();
+        foreach (FieldInfo field in fields) {
+            drilledMembers.Add(new PivotViewDrilledMember { Name = field.Field, Items = field.Members });
+        }
+    }
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+    private void SelectField(SelectEventArgs<string> args)
+    {
+        if (args.ItemData == "Country")
+        {
+            expandAll = expandAllColumnFields = expandAllRowFields = false;
+            fields[0] = new FieldInfo { Field = "Country", ExpandAll = true, Members = new string[0] };
+        }
+        else
+        {
+            expandAll = expandAllColumnFields = expandAllRowFields = false;
+            fields[1] = new FieldInfo { Field = "Year", ExpandAll = true, Members = new string[0] };
+        }
+    }
+    private void RemoveField(RemoveEventArgs<string> args)
+    {
+        if (args.ItemData == "Country")
+        {
+            fields[0] = new FieldInfo { Field = "Country", ExpandAll = false, Members = new string[0] };
+        }
+        else
+        {
+            fields[1] = new FieldInfo { Field = "Year", ExpandAll = false, Members = new string[0] };
+        }
+    }
+    private class FieldInfo
+    {
+        public string Field { get; set; }
+        public string[] Members { get; set; }
+        public bool ExpandAll { get; set; }
+    };
+}

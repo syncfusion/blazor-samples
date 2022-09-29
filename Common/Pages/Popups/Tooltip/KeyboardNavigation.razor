@@ -1,0 +1,148 @@
+﻿@page "/tooltip/keyboard-navigation"
+@inherits SampleBaseComponent;
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@inject IJSRuntime JS
+
+<SampleDescription>
+    <p>
+        The <a href='https://www.syncfusion.com/blazor-components/blazor-tooltip' target='_blank'>Blazor Tooltip</a>
+        can be accessed through keyboard shortcuts. In the following sample, various key combinations have been used to access the Tooltip functionalities interactively.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <code>Blazor Tooltip</code> has built-in keyboard support and allows you to access its functionalities using a keyboard alone. The supported keys are as follows.</p>
+    <ul>
+        <li>
+            <b>Focus</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Alt</kbd> + <kbd>J</kbd></span>
+                    <span> - Focuses on the first component of the sample.</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>Tooltip</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Tab</kbd></span>
+                    <span>
+                        - When a form control receives focus (say through the tab key), it opens the Tooltip and closes it in focus out mode.
+                    </span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Esc</kbd></span>
+                    <span> - Closes or dismisses the Tooltip.</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="control_wrapper">
+        @*Form Elements Initialization*@
+        <form id="details" role="form">
+            <table class="demotable">
+                <tr>
+                    <th colspan="2" class="custom-align">
+                        <h3><b>Sign in to continue</b></h3>
+                    </th>
+                </tr>
+                <tr>
+                    <td class="info">User Name</td>
+                    <td>
+                        @*Initialize user name Textbox component*@
+                        <SfTextBox ID="@InputId" Type="InputType.Text" @bind-Value="@UserName"
+                                   title="Please enter your name"></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="info">Password</td>
+                    <td>
+                        @*Initialize password Textbox component*@
+                        <SfTextBox ID=@PassId Type="InputType.Password" @bind-Value="@Password"
+                                   title="Password must contain at least 8 or more characters"></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="custom-align">
+                        @*Initialize submit Button component*@
+                        <SfButton Content="Submit" type="button" OnClick="@OnClick"></SfButton>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        @*Initialize Tooltip component*@
+        <SfTooltip Target="#details [title]" OpensOn="Focus" Created="OnCreated"></SfTooltip>
+    </div>
+</div>
+
+@code {
+    //Specifies the Id of the user name Textbox.
+    string InputId = "userName";
+    //Specifies the Id of the password Textbox.
+    string PassId = "passwordId";
+    //Specifies the value of user name Textbox.
+    string UserName = "";
+    //Specifies the value of password Textbox.
+    string Password = "";
+    // Specifies the event handler for creating the Tooltip component.
+    public async Task OnCreated()
+    {
+        await JS.InvokeAsync<string>("focusInput", InputId);
+    }
+    // Specifies the click event handler for the submit button to showcase the Tooltip.
+    public async Task OnClick()
+    {
+        if (UserName == "")
+        {
+            await JS.InvokeAsync<string>("focusInput", InputId);
+        }
+        else if (Password.Length < 8)
+        {
+            await JS.InvokeAsync<string>("focusInput", PassId);
+        }
+    }
+}
+
+<style>
+    /* Sample specific styles */
+    .control_wrapper {
+        max-width: 500px;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+    }
+
+    .demotable,
+    .control_wrapper {
+        margin: auto;
+    }
+
+    #details table th,
+    #details table td {
+        padding: 20px 10px;
+    }
+
+    #details .info {
+        font-size: 14px;
+        text-align: left;
+        font-weight: 500;
+    }
+
+    .custom-align .e-btn {
+        float: right;
+    }
+
+    #details .custom-align {
+        text-align: center;
+    }
+
+    .key-class {
+        display: inline-block;
+        width: 70px;
+    }
+</style>

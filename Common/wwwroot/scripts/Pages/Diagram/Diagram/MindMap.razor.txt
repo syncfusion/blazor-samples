@@ -1,0 +1,179 @@
+﻿@page "/diagram/mind-map"
+
+@using Syncfusion.Blazor.Diagrams
+@using System.Collections.ObjectModel
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the concept of creatively using a mind map layout algorithm.</p>
+    <p style="font-weight: bold;">A new blazor diagram component which provides better performance than the existing diagram control in Blazor WebAssembly App. Check the samples <a target='_blank' href='diagramcomponent/flowchart'>here</a>.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example shows how to generate a mind map from an external data source. The spacing between the objects in the layout can be customized by using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html#Syncfusion_Blazor_Diagrams_DiagramLayout_HorizontalSpacing'>HorizontalSpacing</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html#Syncfusion_Blazor_Diagrams_DiagramLayout_VerticalSpacing'>VerticalSpacing</a></code> properties of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html'>DiagramLayout</a></code>. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html#Syncfusion_Blazor_Diagrams_DiagramLayout_Orientation'>LayoutOrientation</a></code> property of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html'>DiagramLayout</a></code> can be used to change the orientation of the chart. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html#Syncfusion_Blazor_Diagrams_DiagramLayout_LayoutInfo'>GetLayoutInfo</a></code> property of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagrams.DiagramLayout.html'>DiagramLayout</a></code> can be used to customize the tree structure.</p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<style>
+    .sb-mobile-diagram {
+        width: 100%;
+        height: 100%;
+        float: left;
+    }
+</style>
+@*End:Hidden*@
+
+<div class="control-section">
+    <div id="diagram-space" class="sb-mobile-diagram">
+        <SfDiagram ID="diagram" Height="600px" NodeDefaults="@NodeDefaults" ConnectorDefaults="@ConnectorDefaults" Layout="@DiagramLayout" Tool="DiagramTools.ZoomPan">
+            <DiagramSnapSettings Constraints="@SnapConstraints.None"></DiagramSnapSettings>
+            <DiagramDataSource Id="Id" ParentId="ParentId" DataSource="@DataSource">
+                <DiagramDataMapSettings>
+                    <DiagramDataMapSetting Property="Annotations[0].Content" Field="Label"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Annotations[0].style.color" Field="LabelColor"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Width" Field="Width"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Height" Field="Height"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Shape.BasicShape" Field="Shape"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Style.fill" Field="Fill"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Annotations[0].Offset.X" Field="OffsetX"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Annotations[0].Offset.Y" Field="OffsetY"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Branch" Field="Branch"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Ports[0].Offset.X" Field="PoffsetX"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Ports[0].Offset.Y" Field="PoffsetY"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Ports[1].Offset.X" Field="P2offsetX"></DiagramDataMapSetting>
+                    <DiagramDataMapSetting Property="Ports[1].Offset.Y" Field="P2offsetY"></DiagramDataMapSetting>
+                </DiagramDataMapSettings>
+            </DiagramDataSource>
+        </SfDiagram>
+    </div>
+</div>
+
+@code{
+    public DiagramLayout DiagramLayout = new DiagramLayout()
+    {
+        Type = LayoutType.MindMap,
+        FixedNode = "1",
+        VerticalSpacing = 30,
+        HorizontalSpacing = 50,
+        LayoutInfo = new TreeInfo() { IsRootInverse = true }
+    };
+
+    public DiagramNode NodeDefaults { get; set; } = new DiagramNode()
+    {
+        Constraints = NodeConstraints.Default & ~NodeConstraints.Drag,
+        Annotations = new ObservableCollection<DiagramNodeAnnotation>()
+        {
+            new DiagramNodeAnnotation()
+            {
+                 Offset = new NodeAnnotationOffset() {},
+
+            },
+        },
+        Shape = new DiagramShape() { Type = Syncfusion.Blazor.Diagrams.Shapes.Basic },
+        Style = new NodeShapeStyle()
+        {
+            StrokeColor = "white",
+
+            Gradient = new DiagramGradient() { Type = GradientType.None },
+
+        },
+
+        Ports = new ObservableCollection<DiagramPort>()
+        {
+            new DiagramPort(){Id="port1", Offset =new NodePortOffset(){}, Visibility = PortVisibility.Hidden,
+            Style = new PortShapeStyle(){ Fill="Black"} },
+            new DiagramPort(){Id="port2", Offset =new NodePortOffset(){}, Visibility = PortVisibility.Hidden,
+            Style = new PortShapeStyle(){ Fill="Black"} },
+        }
+
+    };
+
+    public DiagramConnector ConnectorDefaults { get; set; } = new DiagramConnector()
+    {
+        Constraints = ConnectorConstraints.Default & ~ConnectorConstraints.Select,
+        Type = Segments.Bezier,
+        Style = new ConnectorShapeStyle() { StrokeColor = "#8E44AD", StrokeWidth = 2 },
+        TargetDecorator = new ConnectorTargetDecorator() { Shape = DecoratorShapes.None },
+        SourcePortID = "port1",
+        TargetPortID = "port2"
+    };
+
+
+
+    public class MindMapDetails
+    {
+        public string Id { get; set; }
+        public string Label { get; set; }
+        public string LabelColor { get; set; }
+        public string ParentId { get; set; }
+        public string Branch { get; set; }
+        public string Fill { get; set; }
+        public string Shape { get; set; }
+        public string Type { get; set; }
+        public string StrokeWidth { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public double OffsetX { get; set; }
+        public double OffsetY { get; set; }
+        public double PoffsetX { get; set; }
+        public double PoffsetY { get; set; }
+        public double P2offsetX { get; set; }
+        public double P2offsetY { get; set; }
+
+        public MindMapDetails(string id, string label, string parent, string branch, string fill, string shape, string type, string strokeWidth, double height, double width, double offsetX, double offsetY, double poffsetX, double poffsetY, double p2offsetX, double p2offsetY, string LabelColor)
+        {
+            this.Id = id;
+            this.Label = label;
+            this.ParentId = parent;
+            this.Branch = branch;
+            this.Fill = fill;
+            this.Shape = shape;
+            this.Type = type;
+            this.StrokeWidth = strokeWidth;
+            this.Height = height;
+            this.Width = width;
+            this.OffsetX = offsetX;
+            this.OffsetY = offsetY;
+            this.PoffsetX = poffsetX;
+            this.PoffsetY = poffsetY;
+            this.P2offsetX = p2offsetX;
+            this.P2offsetY = p2offsetY;
+            this.LabelColor = LabelColor;
+
+        }
+
+        public static List<MindMapDetails> GetData()
+        {
+            List<MindMapDetails> mindmapDetails = new List<MindMapDetails>();
+            mindmapDetails.Add(new MindMapDetails("1", "Creativity", "", "Root", "#E74C3C", "Ellipse", "Basic", "2", 50, 100, 0.5, 0.5, 0, 0.5, 1, 0.5, "white"));
+            mindmapDetails.Add(new MindMapDetails("3", "Brainstorming", "1", "Right", "#F39C12", "Ellipse", "Basic", "2", 50, 100, 0.5, 0.5, 0, 0.5, 1, 0.5, "white"));
+            mindmapDetails.Add(new MindMapDetails("4", "Complementing", "1", "Left", "#F39C12", "Ellipse", "Basic", "2", 50, 100, 0.5, 0.5, 1, 0.5, 0, 0.5, "white"));
+            mindmapDetails.Add(new MindMapDetails("22", "Sessions", "3", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("23", "Complementing", "3", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("25", "Local", "22", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("26", "Remote", "22", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("27", "Individual", "22", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("28", "Teams", "22", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("29", "Ideas", "23", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("30", "Engagement", "23", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("31", "Product", "29", "subRight", "#8E44AD", "Rectangle", "Basic", "2", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("32", "Service", "29", "subRight", "#8E44AD", "Rectangle", "Basic", "2", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("33", "Business", "29", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("34", "Empowering", "30", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("35", "Ownership", "30", "subRight", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 0, 0.5, 1, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("50", "Information", "4", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("51", "Expectations", "4", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("53", "Competitors", "50", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("54", "Products", "50", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("55", "Features", "50", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("56", "Other data", "50", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("59", "Organization", "51", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("60", "Customer", "51", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("61", "Staff", "51", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            mindmapDetails.Add(new MindMapDetails("62", "Stakeholders", "51", "subLeft", "#8E44AD", "Rectangle", "Basic", "0", 4, 100, 0.5, -1, 1, 0.5, 0, 0.5, "black"));
+            return mindmapDetails;
+        }
+    }
+    public object DataSource = MindMapDetails.GetData();
+}
+

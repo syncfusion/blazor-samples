@@ -1,0 +1,143 @@
+﻿@page "/datagrid/lazyload-virtualization"
+
+@using Syncfusion.Blazor.Grids
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@using BlazorDemos
+@using blazor_griddata
+@using Syncfusion.Blazor.Data
+@inherits SampleBaseComponent;
+
+
+<SampleDescription>
+   <p>This sample demonstrates lazy loading grouping with virtual scrolling feature of the DataGrid component. In this sample, the DataGrid data is grouped against <b>Product Name</b> and <b>Customer ID</b> columns.</p>
+</SampleDescription>
+
+<ActionDescription>
+   <p>The Blazor Data Grid is rendered by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridGroupSettings.html#Syncfusion_Blazor_Grids_GridGroupSettings_EnableLazyLoading'>EnableLazyLoading</a> property to <b>true</b> in <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridGroupSettings.html'>GridGroupSettings</a> and setting <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_EnableVirtualization'>EnableVirtualization</a> property to <b>true</b>. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridPageSettings.html#Syncfusion_Blazor_Grids_GridPageSettings_PageSize'>PageSize</a> property from <code>GridPageSettings</code> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_RowHeight'>RowHeight</a> property must also be defined. In this demo, initially <b>Product Name</b> and <b>Customer ID</b> columns are grouped, so the grid renders only the caption rows in collapsed state.</p>
+   <p>When you expand a caption row, the corresponding grouped data, it only loaded in an on-demand basis. This means, instead of buffering the entire grouped data, it only loads relevant data in the view port. This feature allows users to load large amounts of grouped data to the grid without any performance degradation. </p>
+   <p>More information about the lazy loading grouping feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/lazy-load-grouping#lazy-load-grouping-with-row-virtualization'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+             @{
+                if (Data)
+                {
+                    <div class="loading">
+                        <span id="spancontrol" class="visible">Generating Data </span>
+                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/data-grid/spinner.gif")" />
+                    </div>
+                }
+             }
+            <SfGrid TValue="Customer" DataSource="customers" ID="Grid" RowHeight="36" AllowGrouping="true" EnableVirtualization="true" Height="400">
+                <GridGroupSettings ShowGroupedColumn=true EnableLazyLoading="true" Columns="@GroupedColumns">
+				    <CaptionTemplate>
+                        @{
+                            var customer = (context as CaptionTemplateContext);
+                            <div>@customer.Field - @customer.Key</div>
+                        }
+                    </CaptionTemplate>
+				</GridGroupSettings>
+                <GridPageSettings PageSize=40></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Customer.OrderID) HeaderText="Order ID" IsPrimaryKey=true AllowGrouping="false" TextAlign="@TextAlign.Center" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Customer.ProductID) HeaderText="ProductID" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Customer.ProductName) HeaderText="Product Name" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(Customer.CustomerID) HeaderText="Customer ID" Width="170"></GridColumn>
+                    <GridColumn Field=@nameof(Customer.UnitsInStock) HeaderText="Units In Stock" Width="120"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@*Hidden:Lines*@
+<style>
+    .visible {
+        display: inline-block;
+        font-size: 18px;
+        color: rgba(0,0,0,1);
+    }
+
+    .loading {
+        position: absolute;
+        height: 92%;
+        width: 100%;
+        background-color: rgba(1,1,1,0.2);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        padding-left: 44%;
+    }
+</style>
+@*End:Hidden*@
+
+@code{
+    public string[] GroupedColumns = new string[] {"ProductName","CustomerID"};
+
+    public List<Customer> customers { get; set; } = new List<Customer>();
+
+    public Boolean Data = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        customers = await GetAllRecords();
+        Data = false;
+    }
+
+
+    public async Task<List<Customer>> GetAllRecords()
+    {
+        await Task.Delay(10); 
+        List<Customer> customers = new List<Customer>();
+        string[] CustomerId ={"VINET", "TOMSP", "HANAR", "VICTE", "SUPRD", "HANAR", "CHOPS", "RICSU", "WELLI", "HILAA", "ERNSH", "CENTC",
+            "OTTIK", "QUEDE", "RATTC", "ERNSH", "FOLKO", "BLONP", "WARTH", "FRANK", "GROSR", "WHITC", "WARTH", "SPLIR", "RATTC", "QUICK", "VINET",
+            "MAGAA", "TORTU", "MORGK", "BERGS", "LEHMS", "BERGS", "ROMEY", "ROMEY", "LILAS", "LEHMS", "QUICK", "QUICK", "RICAR", "REGGC", "BSBEV",
+            "COMMI", "QUEDE", "TRADH", "TORTU", "RATTC", "VINET", "LILAS", "BLONP", "HUNGO", "RICAR", "MAGAA", "WANDK", "SUPRD", "GODOS", "TORTU",
+            "OLDWO", "ROMEY", "LONEP", "ANATR", "HUNGO", "THEBI", "DUMON", "WANDK", "QUICK", "RATTC", "ISLAT", "RATTC", "LONEP", "ISLAT", "TORTU",
+            "WARTH", "ISLAT", "PERIC", "KOENE", "SAVEA", "KOENE", "BOLID", "FOLKO", "FURIB", "SPLIR", "LILAS", "BONAP", "MEREP", "WARTH", "VICTE",
+            "HUNGO", "PRINI", "FRANK", "OLDWO", "MEREP", "BONAP", "SIMOB", "FRANK", "LEHMS", "WHITC", "QUICK", "RATTC", "FAMIA" };          
+        string[] Product = { "Chai", "Chang", "Syrup", "Corn Snacks", "Gumbo Mix", "Seeds",
+            "Dried Pears", "Sauce", "Mishi Kobe Niku", "Ikura", "Queso Cabrales", "Queso Manchego Pastora", "Konbu",
+            "Tofu", "Genen Shouyu", "Pavlova", "Alice Mutton", "Biscuits", "Teatime Chocolate Biscuits", "Sir Rodney\"s Marmalade", "Sir Rodney\"s Scones",
+            "Gustaf\"s Knäckebröd", "Tunnbröd", "Guaraná Fantástica", "Nougat-Creme", "Gumbär Gummibärchen", "Schoggi Schokolade", "Rössle Sauerkraut",
+            "Thüringer Rostbratwurst", "Nord-Ost Matjeshering", "Gorgonzola Telino", "Mascarpone Fabioli", "Geitost", "Sasquatch Ale", "Steeleye Stout", "Inlagd Sill",
+            "Gravad lax", "Nuts", "Chips", "Crab Meat", "Jack\"s Clam Chowder", "Singaporean Fried Mee", "Ipoh Coffee",
+            "Gula Malacca", "Rogede sild", "Spegesild", "Zaanse koeken", "Chocolade", "Maxilaku", "Valkoinen suklaa", "Manjimup Dried Apples", "Filo Mix", "Perth Pasties",
+            "Tourtičre", "Pâté chinois", "Ipoh Coffee", "Ravioli Angelo", "Escargots Bourgogne", "Raclette Courdavault", "Cake", "Sirop d\"érable",
+            "Tarte au sucre", "Vegie-spread", "Lakkalikri", "Louisiana Pepper Sauce", "Louisiana Hot Spiced Okra", "Lumberjack Lager", "Scottish Longbreads",
+            "Gudbrandsdalsost", "Outback Lager", "Flotemysost", "Mozzarella di Giovanni", "Röd Kaviar", "Longlife Tofu", "Rhönbräu Klosterbier", "Lakkalikööri", "Original Frankfurter" };
+        int OrderID = 1001;
+        int i = 0; int j = 0; int k = 0; int l = 0; int m = 0;
+        for (int x = 0; x < 500000; x++)
+        {
+            i = i >= CustomerId.Length ? 0 : i; 
+            l = l >= Product.Length ? 0 : l; 
+            customers.Add(new Customer() 
+            { 
+                OrderID = OrderID + x, 
+                ProductID = x % 1000,
+                CustomerID = CustomerId[i],                  
+                ProductName = Product[l],  
+                UnitsInStock = new Random().Next(1, 10000) 
+            });
+            i++; j++; k++; l++; m++;
+        }
+        return customers;
+    }
+
+    public class Customer
+    {
+        public int OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerAddress { get; set; }
+        public string ProductName { get; set; }
+        public int ProductID { get; set; }
+        public string Quantity { get; set; }
+        public int UnitsInStock { get; set; }
+        
+    }
+}
