@@ -1,0 +1,74 @@
+﻿@page "/scheduler/dynamicobject"
+
+@using Syncfusion.Blazor.Schedule
+@using System.Dynamic
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the usage of DynamicObject data binding with CRUD operations in the Scheduler component.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        DynamicObject can be bound to the Scheduler by assigning to the <code>DataSource</code> of the <code>ScheduleEventSettings</code> property.
+    </p>
+
+    <p>
+        The <a target='_blank' class='code' href='https://docs.microsoft.com/en-us/dotnet/api/system.dynamic.dynamicobject.getdynamicmembernames?view=netcore-3.1'>GetDynamicMemberNames</a> method of DynamicObject class must be overridden and return the property names to perform data operation and editing while using DynamicObject.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="DynamicDictionary" @bind-SelectedDate="@CurrentDate" Width="100%" Height="550px">
+        <ScheduleEventSettings DataSource="@eventsCollection"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code {
+    private DateTime CurrentDate { get; set; }
+    private List<DynamicDictionary> eventsCollection = new List<DynamicDictionary>() { };
+    protected override void OnInitialized()
+    {
+        CurrentDate = new DateTime(DateTime.Today.Year, 8, 10);
+        DateTime scheduleStart = new DateTime(DateTime.Today.Year, 8, 8, 10, 0, 0);
+        eventsCollection = Enumerable.Range(1, 5).Select((x) =>
+        {
+            scheduleStart = scheduleStart.AddDays(1);
+            dynamic d = new DynamicDictionary();
+            d.Id = 1000 + x;
+            d.Subject = (new string[] { "Project Discussion", "Work Flow Analysis", "Report", "Meeting", "Project Demo" })[new Random().Next(5)];
+            d.StartTime = scheduleStart;
+            d.EndTime = scheduleStart.AddHours(1);
+            d.RecurrenceRule = null;
+            d.RecurrenceException = null;
+            d.RecurrenceID = null;
+            return d;
+        }).Cast<DynamicDictionary>().ToList<DynamicDictionary>();
+    }
+    public class DynamicDictionary : System.Dynamic.DynamicObject
+    {
+        Dictionary<string, object> dictionary = new Dictionary<string, object>();
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            string name = binder.Name;
+            return dictionary.TryGetValue(name, out result);
+        }
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            dictionary[binder.Name] = value;
+            return true;
+        }
+        public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
+        {
+            return this.dictionary?.Keys;
+        }
+    }
+}
