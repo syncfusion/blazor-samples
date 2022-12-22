@@ -1,0 +1,355 @@
+﻿@page "/chart/keyboard"
+
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+<p>Keyboard shortcuts can be used to interact with chart functionality. In the example, various key combinations can be used to interact with a chart.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <i>The key combinations listed can be used in a chart to initiate various actions:</i>
+    <ul>
+         <li>
+            <b>FOCUS ELEMENTS</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Alt</kbd> + <kbd>J</kbd></span>
+                    <span> - Moves the focus to the chart element.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>Tab</kbd></span>
+                    <span> - Moves the focus to the next element in the chart.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>Shift</kbd> + <kbd>Tab</kbd></span>
+                    <span> - Moves the focus to the previous element in the chart.</span>
+                </li>
+            </ul>
+        </li>
+		<li>
+		   <b>SERIES</b>
+		    <ul>
+                <li>
+                    <span class="key-class"><kbd>Down arrow</kbd></span>
+                    <span> - Moves the focus to the data point on the left side of the selected point.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Up arrow</kbd></span>
+                    <span> - Moves the focus to the data point on the right side of the selected point.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Left arrow</kbd></span>
+                    <span> - Moves the focus to the next series in our Charts component.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Right arrow</kbd></span>
+                    <span> - Moves the focus to the previous series in our Charts component.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>ESC</kbd></span>
+                    <span> - Cancels the tooltip for the data point.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>Enter</kbd>/<kbd>Space</kbd></span>
+                    <span> - Selects the data point in the series</span>
+                </li>
+			</ul>
+		</li>
+		<li>
+		   <b>Legend </b>
+		    <ul>
+                <li>
+                    <span class="key-class"><kbd>Down</kbd>/<kbd>Left arrow</kbd></span>
+                    <span> - Moves the focus to the legend left of the selected legend item.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Up</kbd>/<kbd>Right arrow</kbd></span>
+                    <span> - Moves the focus to the legend right of the selected legend item.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Enter</kbd>/<kbd>Space</kbd></span>
+                    <span> - Toggles the visibility of the corresponding series.</span>
+                </li>
+			</ul>
+		</li>
+		<li>
+            <b>ZOOMING AND PANNING</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Ctrl</kbd> + <kbd>+</kbd></span>
+                    <span> - Zoom in to chart.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>Ctrl</kbd> + <kbd>-</kbd></span>
+                    <span> - Zoom out of the chart.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>Down</kbd>/<kbd>Up arrow</kbd></span>
+                    <span> - Pans the chart vertically.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Left</kbd>/<kbd>Right arrow</kbd></span>
+                    <span> - Pans the chart horizontally.</span>
+                </li>
+				<li>
+                    <span class="key-class"><kbd>R</kbd></span>
+                    <span> - Reset the zoomed chart.</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>PRINT</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Ctrl</kbd> + <kbd>P</kbd></span>
+                    <span> - Prints the Charts component.</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Quarterly Sales Chart" EnableAnimation="false" SelectionMode="SelectionMode.Point" SelectionPattern="SelectionPattern.DiagonalForward" Theme="@Theme" Width="@Width" EnableSideBySidePlacement="false">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+		<ChartEvents OnLegendClick="legendClick" OnSeriesRender="OnSeriesRender"></ChartEvents>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+			<ChartAxisLabelStyle Size="0px"></ChartAxisLabelStyle>
+			<ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartZoomSettings EnableSelectionZooming="true"></ChartZoomSettings>
+        <ChartPrimaryYAxis Title="Sales in Percentage" LabelFormat="{value}%" Maximum=120>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+			<ChartStriplines>
+            <ChartStripline IsSegmented="true" Start="33" End="35.5" Visible="@First_QuarterVisible" SegmentStart="@First_SegmentStart" SegmentEnd="@First_SegmentEnd" Color="@First_QuarterFill"/>
+            <ChartStripline IsSegmented="true" Start="39" End="39.2" Visible="@First_QuarterVisible" Text="Jan - Mar" SegmentStart="@First_SegmentStart" SegmentEnd="@First_SegmentEnd" Color="transparent"/>
+
+            <ChartStripline IsSegmented="true" Start="65" End="67.5" Visible="@Second_QuarterVisible" SegmentStart="@Second_SegmentStart" SegmentEnd="@Second_SegmentEnd" Color="@Second_QuarterFill"/>
+            <ChartStripline IsSegmented="true" Start="70" End="70.2" Visible="@Second_QuarterVisible" Text="Apr - Jun" SegmentStart="@Second_SegmentStart" SegmentEnd="@Second_SegmentEnd" Color="transparent"/>
+
+             <ChartStripline IsSegmented="true" Start="65" End="67.5" Visible="@Third_QuarterVisible" SegmentStart="@Third_SegmentStart" SegmentEnd="@Third_SegmentEnd" Color="@Third_QuarterFill"/>
+            <ChartStripline IsSegmented="true" Start="70" End="70.2" Visible="@Third_QuarterVisible" Text="Jul - Sep" SegmentStart="@Third_SegmentStart" SegmentEnd="@Third_SegmentEnd" Color="transparent"/>
+
+             <ChartStripline IsSegmented="true" Start="104" End="106.5" Visible="@Fourth_QuarterVisible" SegmentStart="@Fourth_SegmentStart" SegmentEnd="@Fourth_SegmentEnd" Color="@Fourth_QuarterFill"/>
+            <ChartStripline IsSegmented="true" Start="109" End="109.2" Visible="@Fourth_QuarterVisible" Text="Oct - Dec" SegmentStart="@Fourth_SegmentStart" SegmentEnd="@Fourth_SegmentEnd" Color="transparent"/>
+        </ChartStriplines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Quarter1" Name="Quarter 1" XName="Month" Width="2" Opacity="1" YName="Sales" Type="@ChartSeriesType.Column">  
+            <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+			</ChartSeries>
+            <ChartSeries DataSource="@Quarter2" Name="Quarter 2" XName="Month" Width="2" Opacity="1" YName="Sales" Type="@ChartSeriesType.Column">  
+            <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+			</ChartSeries>
+            <ChartSeries DataSource="@Quarter3" Name="Quarter 3" XName="Month" Width="2" Opacity="1" YName="Sales" Type="@ChartSeriesType.Column">  
+            <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+			</ChartSeries>
+            <ChartSeries DataSource="@Quarter4" Name="Quarter 4" XName="Month" Width="2" Opacity="1" YName="Sales" Type="@ChartSeriesType.Column">  
+            <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+			</ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+<style>
+    rect[id*=_stripline_Behind_rect_PrimaryYAxis_] {
+        rx: 3;
+        ry: 3;
+    }
+	text[id*=_stripline_Behind_text_PrimaryYAxis_] {
+	 fill:@FontColor
+	}
+</style>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+	public string FontColor {get;set;} = "#353535";
+	 public string First_QuarterFill { get; set; }
+    public string Second_QuarterFill { get; set; }
+    public string Third_QuarterFill { get; set; }
+    public string Fourth_QuarterFill { get; set; }
+    public bool First_QuarterVisible { get; set; } = true;
+    public bool Second_QuarterVisible { get; set; } = true;
+    public bool Third_QuarterVisible { get; set; } = true;
+    public bool Fourth_QuarterVisible { get; set; } = true;
+    public int seriesIndex { get; set; } = 0;
+    public int[,] Segments = new int[,] { { 0, 5 }, { 7, 12 }, { 14, 19 }, { 21, 26 } };
+    public int First_SegmentStart { get; set; } = 0;
+    public int First_SegmentEnd { get; set; } = 5;
+    public int Second_SegmentStart { get; set; } = 7;
+    public int Second_SegmentEnd { get; set; } = 12;
+    public int Third_SegmentStart { get; set; } = 14;
+    public int Third_SegmentEnd { get; set; } = 19;
+    public int Fourth_SegmentStart { get; set; } = 21;
+    public int Fourth_SegmentEnd { get; set; } = 26;
+	public bool IsLegendClick { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+		FontColor = NavigationManager.Uri.IndexOf("dark") > -1 || NavigationManager.Uri.IndexOf("highcontrast") > -1 ? "#F3F2F1" : "#353535";
+		List<string> FillColors = new List<string>();
+		if (Theme == Theme.MaterialDark)
+        {
+		     FillColors = PointColor.MaterialDarkColors;
+		}
+		else if (Theme == Theme.Material) {
+		     FillColors = PointColor.MaterialColors;
+		}
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+             FillColors = PointColor.FabricColors;
+        }
+        else if (Theme == Theme.Bootstrap5Dark)
+        {
+			FillColors = PointColor.Bootstrap5DarkColors;
+		}
+		else if (Theme == Theme.Bootstrap5)
+        {
+            FillColors = PointColor.Bootstrap5Colors;
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            FillColors = PointColor.BootstrapColors;
+        }
+        else if (Theme == Theme.TailwindDark)
+        {
+		   FillColors = PointColor.TailwindDarkColors;
+        }
+		else if (Theme == Theme.Tailwind)
+        {
+            FillColors = PointColor.TailwindColors;
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            FillColors = PointColor.HighContrastColors;
+        }
+        else if (Theme == Theme.FluentDark)
+        {
+            FillColors = PointColor.FluentDarkColors;
+        }
+		else {
+			FillColors = PointColor.FluentColors;
+		}
+		First_QuarterFill = FillColors[0 % 10];
+		Second_QuarterFill = FillColors[1 % 10];
+		Third_QuarterFill = FillColors[2 % 10];
+		Fourth_QuarterFill = FillColors[3 % 10];
+		
+    }
+    private void legendClick(LegendClickEventArgs args) 
+    {
+        seriesIndex = 0;
+		IsLegendClick = true;
+    }
+    private void OnSeriesRender(SeriesRenderEventArgs args)
+    {
+      if (IsLegendClick) {
+	    if(seriesIndex > 3)
+        {
+           seriesIndex = 0;
+        }
+        if(args.Series.Name == "Quarter 1")
+        {
+            First_QuarterVisible = args.Series.Visible;
+            if (First_QuarterVisible)
+            {
+                First_SegmentStart = Segments[seriesIndex, 0];
+                First_SegmentEnd = Segments[seriesIndex, 1];
+                seriesIndex++;
+            }
+        }
+        else if (args.Series.Name == "Quarter 2")
+        {
+             Second_QuarterVisible = args.Series.Visible;
+             if (Second_QuarterVisible)
+            {
+                Second_SegmentStart = Segments[seriesIndex, 0];
+                Second_SegmentEnd = Segments[seriesIndex, 1];
+                seriesIndex++;
+            }
+        }
+        else if (args.Series.Name == "Quarter 3")
+        {
+             Third_QuarterVisible = args.Series.Visible;
+             if (Third_QuarterVisible)
+            {
+                Third_SegmentStart = Segments[seriesIndex, 0];
+                Third_SegmentEnd = Segments[seriesIndex, 1];
+                seriesIndex++;
+            }
+        }
+        else
+        {
+             Fourth_QuarterVisible = args.Series.Visible;
+             if (Fourth_QuarterVisible)
+            {
+                Fourth_SegmentStart = Segments[seriesIndex, 0];
+                Fourth_SegmentEnd = Segments[seriesIndex, 1];
+                seriesIndex++;
+            }
+             StateHasChanged();
+        }
+		}
+		}
+   
+    public List<CategoryData> Quarter1 { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Month = "Jan 15", Sales = 10 },
+        new CategoryData { Month = "Jan 31", Sales = 15 },
+        new CategoryData { Month = "Feb 15", Sales = 15 },
+        new CategoryData { Month = "Feb 28", Sales = 20 },
+        new CategoryData { Month = "March 15", Sales = 20 },
+        new CategoryData { Month = "March 31", Sales = 25 },
+		new CategoryData { Month = "March", Sales = null },
+    };
+    public List<CategoryData> Quarter2 { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Month = "Apr 15", Sales = 36 },
+        new CategoryData { Month = "Apr 30", Sales = 48 },
+        new CategoryData { Month = "May 15", Sales = 43 },
+        new CategoryData { Month = "May 31", Sales = 59 },
+        new CategoryData { Month = "Jun 15", Sales = 35 },
+        new CategoryData { Month = "Jun 30", Sales = 50 },
+		new CategoryData { Month = "Jun", Sales = null },
+    };
+    public List<CategoryData> Quarter3 { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Month = "Jul 15", Sales = 30 },
+        new CategoryData { Month = "Jul 31", Sales = 45 },
+        new CategoryData { Month = "Aug 15", Sales = 30 },
+        new CategoryData { Month = "Aug 31", Sales = 55 },
+        new CategoryData { Month = "Sep 15", Sales = 57 },
+        new CategoryData { Month = "Sep 30", Sales = 60 },
+		new CategoryData { Month = "Sep", Sales = null },
+    };
+    public List<CategoryData> Quarter4 { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Month = "Oct 15", Sales = 60 },
+        new CategoryData { Month = "Oct 31", Sales = 70 },
+        new CategoryData { Month = "Nov 15", Sales = 70 },
+        new CategoryData { Month = "Nov 30", Sales = 70 },
+        new CategoryData { Month = "Dec 15", Sales = 90 },
+        new CategoryData { Month = "Dec 31", Sales = 100 },
+    };
+    public class CategoryData
+    {
+        public string Month { get; set; }
+        public Nullable<double> Sales { get; set; }
+    }
+}

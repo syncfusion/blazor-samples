@@ -1,0 +1,436 @@
+﻿@page "/datagrid/overview"
+@inherits SampleBaseComponent;
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Spinner
+@using blazor_griddata
+@using Syncfusion.Blazor.DropDowns
+@using System;
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+<style>
+    .visible {
+        display: inline-block;
+        font-size: 18px;
+        color: rgba(0,0,0,1);
+    }
+
+    .loading {
+        position: absolute;
+        height: 92%;
+        width: 100%;
+        background-color: rgba(1,1,1,0.2);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        padding-left: 44%;
+    }
+
+    .material .e-grid .empimg {
+        background-color: #e3165b;
+    }
+
+
+    .highcontrast .e-grid .empimg {
+        background-color: #ffd939;
+    }
+
+    _:-ms-fullscreen, :root .highcontrast .e-userimg.sf-icon-Male::before,
+    _:-ms-fullscreen, :root .highcontrast .e-userimg.sf-icon-FeMale::before,
+    .highcontrast .e-userimg.sf-icon-Male::before,
+    .highcontrast .e-userimg.sf-icon-FeMale::before {
+        color: black;
+    }
+    
+    .bootstrap .e-grid .empimg,
+    .bootstrap4 .e-grid .empimg,
+    .bootstrap5 .e-grid .empimg,
+    .fluent .e-grid .empimg,
+    .fabric .e-grid .empimg {
+        background-color: #0078d6;
+    }
+
+    .tailwind .e-grid .empimg {
+         background-color: #4f46e5;
+    }
+    
+    #Emptext {
+        top: -12px;
+        left: 41px;
+        position: relative;
+    }
+
+    .empimg {
+        height: 27px;
+        width: 29px;
+        border-radius: 14px;
+    }
+
+    .e-grid.e-rtl #Emptext {
+        top: -12px;
+        left: -41px;
+        position: relative;
+    }
+
+    .e-userimg.sf-icon-Male::before,
+    .e-userimg.sf-icon-FeMale::before {
+        font-size: 13px;
+    }
+
+    .e-userimg.sf-icon-Male, .e-userimg.sf-icon-FeMale {
+        margin: 0px 8px;
+        line-height: 26px;
+        color: white;
+        font-size: 13px;
+    }
+
+        .e-userimg.sf-icon-Male::before {
+            content: '\e700';
+        }
+
+        .e-userimg.sf-icon-FeMale::before {
+            content: '\e701';
+        }
+
+    .highcontrast .e-grid td.e-rowcell.e-selectionbackground.e-active {
+        background-color: transparent;
+        color: white;
+    }
+
+    .e-bigger .e-grid .statustxt {
+        position: relative;
+        top: -2px;
+    }
+
+    .rating .star {
+        font-size: 132%;
+        color: lightgrey;
+    }
+
+        .rating .star.checked {
+            color: #ffa600;
+        }
+
+        .rating .star:before {
+            content: '★';
+        }
+
+    td.e-rowcell.e-selectionbackground.e-active {
+        background-color: transparent;
+    }
+
+    .e-image {
+        height: 13px;
+        width: 14px;
+    }
+
+    td.e-rowcell .statustxt.e-activecolor {
+        color: #007d00;
+        position: relative;
+        top: 9px;
+    }
+
+    td.e-rowcell .statustxt.e-inactivecolor {
+        color: #c40000;
+        position: relative;
+        top: 9px;
+    }
+
+    .statustemp.e-inactivecolor {
+        background-color: #ffd7cc;
+        width: 64px;
+    }
+
+    .statustemp.e-activecolor {
+        background-color: #ccffcc;
+        width: 57px;
+    }
+
+    .statustxt.e-activecolor {
+        color: #00cc00;
+    }
+
+    .statustxt.e-inactivecolor {
+        color: #e60000;
+    }
+
+    .statustemp {
+        position: relative;
+        height: 19px;
+        border-radius: 5px;
+        text-align: center
+    }
+
+    .highcontrast #msg {
+        color: #FFFFFF
+    }
+
+    #msg {
+        font-family: "Segoe UI", "GeezaPro", "DejaVu Serif", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        opacity: 0.95;
+        color: #333;
+        float: right;
+        margin-top: 3px;
+    }
+
+    @@media only screen and (max-width: 370px) {
+        #msg {
+            float: left;
+            margin-top: 3px;
+        }
+
+        #Grid {
+            margin-top: 36px;
+        }
+    }
+
+    #samplecontainer {
+        padding-top: 5px;
+    }
+
+    #myProgress {
+        position: relative;
+        height: 18px;
+        width: 10em;
+        text-align: left;
+        background-color: white;
+    }
+
+    .highcontrast .e-grid #myProgress {
+        background-color: black;
+    }
+
+    .e-dddata {
+        padding-bottom: 10px;
+    }
+
+    #myBar {
+        position: absolute;
+        width: 10%;
+        height: 100%;
+        background-color: #00b300;
+    }
+
+        #myBar.progressdisable {
+            background-color: #df2222;
+        }
+
+    #label {
+        position: relative;
+        left: 10px;
+        line-height: 18px;
+        font-size: 10px;
+        color: white;
+    }
+
+    @@font-face {
+        font-family: 'grid-control-font';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfQAAAEoAAAAVmNtYXDnE+ddAAABkAAAADpnbHlmWm7FjgAAAdgAAAPkaGVhZBFF/fMAAADQAAAANmhoZWEIHwQFAAAArAAAACRobXR4EAAAAAAAAYAAAAAQbG9jYQKaAUgAAAHMAAAACm1heHABEACgAAABCAAAACBuYW1lmuAR1QAABbwAAAKdcG9zdHgFC7MAAAhcAAAAQgABAAAEAAAAAFwEAAAAAAADwgABAAAAAAAAAAAAAAAAAAAABAABAAAAAQAAJ9BcPl8PPPUACwQAAAAAANcy3IEAAAAA1zLcgQAAAAADwgP0AAAACAACAAAAAAAAAAEAAAAEAJQAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAgQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAEAAAABAAAAAAAAAIAAAADAAAAFAADAAEAAAAUAAQAJgAAAAQABAABAADnAv//AADnAP//AAAAAQAEAAAAAQACAAMAAAAAAAAAqAFIAfIAAAABAAAAAAPBA/MAkwAAASMPDRUfBQ8FHw4VDxYhLxY1Pw8vAz8DLxcjDwUBhQEIEQoKCwoEBQMEAwIBAQEBAwQFBggGAwIBAQICBQcKDAUEBwUFBgYICAYHCQkUFxcXPRUUFBAODAoMCQQEAgIBA4QBBAQEBQsKCw0PEhQUFh0sFxcUCQkHBgoMCAgDAwIBDAsGBQUDAgECBAcKDgYDAgEBAQMDBAUGBwkJCwsODxAOEQoLDA0ODwwNDg8PDxAD2gQLCQwOEgoLDA0NDxAREhMUFhYYGgoMBwgICQoKCgoKCiEUFgoLCQkIBncICAcHDgwLCRUKCw0NDg0OFBIMCwoQDxYTCwwMEw4ODQ4NDAoJChALDA4HBwgIdwwTERULDQ0OCQsHCAkJCgsMDA0NNiMaGxsODQ0NDAsLCgkJBwYEBA4ICQMEAwIBAQECAwMFBQABAAAAAAPCA/QAjQAAAQ8VFRcVDwcVHwwPFCEvFTM/Cy8INy8aAegOGhgVExAODAoMCwcKCAUFBAcGAgUDAQEDBgkHBAMBAQICBAcTCgsMDBkjMgUGBwgJCQsligkJCQ8OCwoJCgUFBgOEBgoGCAkLDQ4RCQkKC3UlCgoJCAcGBSITEhEPGRUPDwYDAgEBAQEJAgUCAQEBAQECAwYGCgsLDAwMDA0RCwoRDwQDCA8QEBERA/MCBQcJCQoKCwsPERAOEA0ODh8hEC8vEycZGRggJQoICAcGBQUFBAYKBQMDAwQCAQ4LCgkIBwYQRgYGBw8PEBEQGA8THR0iEBAQERAPDgYGBgU7EAYHCAkKCw4BAgICBwYHCAYHBwcGBgYVCBYLCrUUFBMTER8bHRkRDwwLCAcIBAIDAQYDBggFBQIBAAIAAAAAA14D9AA/AJIAAAEPDy8PPw8fDgUVHwcJAT8HNS8dKwEPHQJ9AQIDBAUGCAgJCQoLDAwMDQ0MDAwLCgkJCAgGBQQDAgEBAgMEBQYICAkJCgsMDAwNDQwMDAsKCQkICAYFBAMC/iYBAwQHCAkLDAEnAScMCwkIBwQDAQICAwQFBQcHBwkJCgoLDAwMDg0PDg8QEBAREBIREhISEhESEBEQEBAPDg8NDgwMDAsKCgkJBwcHBQUEAwICApYNDAwMCwoJCQgIBgUEAwIBAQIDBAUGCAgJCQoLDAwMDQ0MDAwLCgkJCAgGBQQDAgEBAgMEBQYICAkJCgsMDAwiDg4bGhkZGBcW/lMBrRYXGBkZGhscExMSEhISEREREA8PDw4NDQ0LCwsJCQgIBgYFBAQCAgICBAQFBgYICAkJCwsLDQ0NDg8PDxARERESEhISEwAAAAAAABIA3gABAAAAAAAAAAEAAAABAAAAAAABABEAAQABAAAAAAACAAcAEgABAAAAAAADABEAGQABAAAAAAAEABEAKgABAAAAAAAFAAsAOwABAAAAAAAGABEARgABAAAAAAAKACwAVwABAAAAAAALABIAgwADAAEECQAAAAIAlQADAAEECQABACIAlwADAAEECQACAA4AuQADAAEECQADACIAxwADAAEECQAEACIA6QADAAEECQAFABYBCwADAAEECQAGACIBIQADAAEECQAKAFgBQwADAAEECQALACQBmyBHcmlkIGNvbnRyb2wgRm9udFJlZ3VsYXJHcmlkIGNvbnRyb2wgRm9udEdyaWQgY29udHJvbCBGb250VmVyc2lvbiAxLjBHcmlkIGNvbnRyb2wgRm9udEZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAARwByAGkAZAAgAGMAbwBuAHQAcgBvAGwAIABGAG8AbgB0AFIAZQBnAHUAbABhAHIARwByAGkAZAAgAGMAbwBuAHQAcgBvAGwAIABGAG8AbgB0AEcAcgBpAGQAIABjAG8AbgB0AHIAbwBsACAARgBvAG4AdABWAGUAcgBzAGkAbwBuACAAMQAuADAARwByAGkAZAAgAGMAbwBuAHQAcgBvAGwAIABGAG8AbgB0AEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQBAgEDAQQBBQAETWFsZQZGZW1hbGUITG9jYXRpb24AAAAA) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="sf-icon-"], [class*=" sf-icon-"] {
+        font-family: 'grid-control-font' !important;
+        speak: none;
+        font-size: 55px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+</style>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows an overview of <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid'>Blazor DataGrid</a> features as well as large data <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid/performance'>performance</a> metrics. To change the number of rows and columns in a datasource, use the dropdown menus.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor DataGrid is used to display and manipulate tabular data, and it includes configuration options for controlling how the data is presented and manipulated. It can read data from data sources such as IEnumerable, OData web services, or <code>SfDataManager</code> Component and assign data fields to columns. It also shows a column header to identify the field and supports grouped records.</p>
+    <p>Blazor DataGrid features such as <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/virtual/'>Virtual Scrolling</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/filtering/'>Filtering</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/sorting/'>Sorting</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/columns/#column-template'>Column Template</a>, and so on are used in this demo, along with a large data source.</p>
+    <p>More information on the Blazor DataGrid Virtual scrolling can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/virtualization'>Virtualization</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            
+            <div class="e-dddata">
+                <SfDropDownList TItem="DDData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@index" DataSource="@DLData">
+                    <DropDownListEvents TItem="DDData" TValue="string" ValueChange="Changedata" Closed="DropdownClose"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+            <div id="container">
+                <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableHover="false" Height="600" RowHeight="38">
+                    <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                    <GridPageSettings PageSize="40"></GridPageSettings>
+                    <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Multiple"></GridSelectionSettings>
+                    <GridColumns>
+                        <GridColumn Type="ColumnType.CheckBox" AllowFiltering="false" AllowSorting="false" Width="60"></GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.EmployeeID) HeaderText="Employee ID" Visible="false" IsPrimaryKey="true" Width="130"></GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Employees) HeaderText="Employee Name" Width="200" ClipMode="ClipMode.EllipsisWithTooltip">
+                            <Template>
+                                @{
+                                    var employee = (context as OverviewData);
+                                    <div>
+                                        <div class="empimg">
+                                            @if (employee.EmployeeImg == "usermale")
+                                            {
+                                                <span class="e-userimg sf-icon-Male"></span>
+                                            }
+                                            @if (employee.EmployeeImg == "userfemale")
+                                            {
+                                                <span class="e-userimg sf-icon-FeMale"></span>
+                                            }
+                                        </div>
+                                        <span id="Emptext">@employee.Employees</span>
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Designation) Width="170" FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.CheckBox })" ClipMode="ClipMode.EllipsisWithTooltip"></GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Mail) Width="230" FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.Menu })"></GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Location) FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.CheckBox })" Width="140">
+                            <Template>
+                                @{
+                                    var location = (context as OverviewData);
+                                    <div class="loc">
+                                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/data-grid/map.png")" class="e-image" alt=@location.Location />
+                                        <span id="locationtext">@location.Location</span>
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Status) FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.CheckBox })" Width="150">
+                            <Template>
+                                @{
+                                    var employee = (context as OverviewData);
+
+                                    if (employee.Status == "Active")
+                                    {
+                                        <div class="statustemp e-activecolor">
+                                            <span class="statustxt e-activecolor">@employee.Status</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="statustemp e-inactivecolor">
+                                            <span class="statustxt e-inactivecolor">@employee.Status</span>
+                                        </div>
+                                    }
+
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Trustworthiness) FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.CheckBox })" Width="160">
+                            <Template>
+                                @{
+                                    var trust = (context as OverviewData);
+                                    <div class="trust">
+                                        <img style="width: 31px; height: 24px" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/data-grid/{trust.Trustworthiness?.ToLowerInvariant()}.png")" alt=@trust.Trustworthiness />
+                                        <span id="Trusttext">@trust.Trustworthiness</span>
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Rating) FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.CheckBox })" AllowFiltering="false" AllowSorting="false" Width="180">
+                            <Template>
+                                @{
+                                    var rate = (context as OverviewData);
+                                    <div class="rate">
+                                        <div class="rating">
+                                            @for (var i = 0; i < 5; i++)
+                                            {
+                                                if (i < rate.Rating)
+                                                {
+                                                    <span class="star checked"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="star"></span>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Software) HeaderText="Software Proficiency" AllowFiltering="false" AllowSorting="false" Width="180">
+                            <Template>
+                                @{
+                                    var employee = (context as OverviewData);
+
+                                    @if (employee.Status == "Inactive")
+                                    {
+                                        <div id="myProgress" class="pbar">
+                                            <div id="myBar" style="width:@employee.Software%" class="bar progressdisable">
+                                                <div id="label" class="barlabel">@employee.Software%</div>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (employee.Status == "Active")
+                                    {
+                                        <div id="myProgress" class="pbar">
+                                            <div id="myBar" style="width:@employee.Software%" class="bar">
+                                                <div id="label" class="barlabel">@employee.Software%</div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.CurrentSalary) HeaderText="Current Salary" FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.Menu })" Format="C2" TextAlign="TextAlign.Right" Width="160"></GridColumn>
+                        <GridColumn Field=@nameof(OverviewData.Address) HeaderText="Address" FilterSettings="@(new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.Menu })" Width="240" ClipMode="ClipMode.EllipsisWithTooltip"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+                <SfSpinner @ref="@SpinnerObj"></SfSpinner>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<OverviewData> GridData { get; set; }
+    public int Value { get; set; } = 1000;
+    SfSpinner SpinnerObj;
+    public class DDData
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+    public List<DDData> DLData = new List<DDData>() {
+        new DDData(){ Text= "1,000 Rows and 11 Columns", Value= "1000" },
+        new DDData(){ Text= "10,000 Rows and 11 Columns", Value= "10000" },
+        new DDData(){ Text= "1,00,000 Rows and 11 Columns", Value= "100000" },
+    };
+    private int? index { get; set; } = 0;
+    private int? PreviousIndex { get; set; } = 0;
+    private async Task DropdownClose(@Syncfusion.Blazor.DropDowns.ClosedEventArgs args)
+    {
+        if (PreviousIndex != index)
+        {
+            GridData = OverviewData.GetAllRecords(Value);
+            await SpinnerObj.HideAsync();
+            PreviousIndex = index;
+        }
+    }
+    public async Task Changedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DDData> args)
+    {
+        if (PreviousIndex != index)
+        {
+            await SpinnerObj.ShowAsync();
+        }
+        Value = Int32.Parse(args.Value);
+    }
+
+    protected override void OnInitialized()
+    {
+        GridData = OverviewData.GetAllRecords(Value);
+    }
+}

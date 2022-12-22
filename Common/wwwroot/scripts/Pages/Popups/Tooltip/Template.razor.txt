@@ -1,0 +1,123 @@
+﻿@page "/tooltip/template"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+@using MSComponents = Microsoft.AspNetCore.Components
+@inherits SampleBaseComponent;
+@using Syncfusion
+
+<SampleDescription>
+    <p>This sample demonstrates the template functionalities of the <a href='https://www.syncfusion.com/blazor-components/blazor-tooltip' target='_blank'>Blazor Tooltip</a> component. It will open by hovering or touch-hold action on the Toolbar items.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample illustrates the way to display the template content on the tooltip. With the usage of <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Popups.SfTooltip.html#Syncfusion_Blazor_Popups_SfTooltip_Content' target='_blank'>Content</a> property, the user
+        can format and structure the HTML content to be displayed on the tooltip as per their application needs.
+    </p>
+    <p>
+        In this sample, the <code>Tooltip</code> is integrated with the <a href='https://www.syncfusion.com/blazor-components/blazor-toolbar' target='_blank'>Toolbar</a> component to display the respective icon’s information. Here, the
+        HTML template design is compiled and then the resultant output display is directly assigned to the <code>Content</code> property
+        of the <code>Tooltip</code>. The template compilation process needs to be done in the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Popups.SfTooltip.html#Syncfusion_Blazor_Popups_SfTooltip_OnRender' target='_blank'>OnRender</a> event of the Tooltip.
+    </p>
+    <p>
+        More information about setting template content on the <code>Tooltip</code> can be found in the
+        <a href="https://blazor.syncfusion.com/documentation/tooltip/template/" target="_blank"> documentation</a> section.
+    </p>
+</ActionDescription>
+
+<div id="targetContainer" class="col-lg-12 control-section">
+    @* Initializes the Tooltip component *@
+    <SfTooltip Width="170px" ID="Tooltip" OffsetX="70" Content="@TooltipContent" ShowTipPointer="false" Target="#Toolbar [title]" OnRender="OnTooltipRender">
+        <div class="toolbarContainer">
+            @* Initializes the Toolbar component *@
+            <SfToolbar ID="Toolbar">
+                <ToolbarItems>
+                    <ToolbarItem Id="Cut" TooltipText="Cut" PrefixIcon="e-icons e-cut"></ToolbarItem>
+                    <ToolbarItem Id="Copy" TooltipText="Copy" PrefixIcon="e-icons e-copy"></ToolbarItem>
+                    <ToolbarItem Id="Paste" TooltipText="Paste" PrefixIcon="e-icons e-paste"></ToolbarItem>
+                    <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+                    <ToolbarItem Id="Bold" TooltipText="Bold" PrefixIcon="e-icons e-bold"></ToolbarItem>
+                    <ToolbarItem Id="Underline" TooltipText="Underline" PrefixIcon="e-icons e-underline"></ToolbarItem>
+                    <ToolbarItem Id="Italic" TooltipText="Italic" PrefixIcon="e-icons e-italic"></ToolbarItem>
+                </ToolbarItems>
+            </SfToolbar>
+        </div>
+    </SfTooltip>
+</div>
+
+@code {
+    // Specifies the tooltip content.
+    string TooltipContent = "Tooltip Content";
+    // Specifies the tooltip template content class.
+    public class DataModel
+    {
+        public string Title { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+    }
+    // Specifies the tooltip template content list.
+    List<DataModel> ContentList = new List<DataModel>() {
+         new DataModel { Title = "Bold", Name = "Bold (Ctrl+B)", Description = "Makes your text bold." },
+         new DataModel { Title = "Underline", Name = "Underline (Ctrl+U)", Description = "Underline your text." },
+         new DataModel { Title = "Italic", Name = "Italic (Ctrl+I)", Description = "Italicize your text." },
+         new DataModel { Title = "Cut", Name = "Cut (Ctrl+X)", Description = "Remove the selection and put it on the Clipboard so you can paste it somewhere else." },
+         new DataModel { Title = "Copy", Name = "Copy (Ctrl+C)", Description = "Put a copy of a selection on the Clipboard so you can paste it somewhere else." },
+         new DataModel { Title = "Paste", Name = "Paste (Ctrl+V)", Description = "Add content on the Clipboard to your document." }
+    };
+    // Dynamically updating the content of the tooltip based on the hovered Toolbar item.
+    public void OnTooltipRender(TooltipEventArgs args)
+    {
+        foreach (DataModel Content in ContentList)
+        {
+            if (Content.Title == args.Target.ID)
+            {
+                TooltipContent = "<h6>" + Content.Name + "</h6><p>" + Content.Description + "</p>";
+            }
+        }
+    }
+}
+
+<style type="text/css">
+    /* Sample specific styles */
+    #Toolbar {
+        margin: 10px auto;
+    }
+
+    .toolbarContainer {
+        margin: 0 auto;
+        display: inline-block;
+        padding-top: 110px;
+    }
+
+    #Tooltip {
+        display: flex;
+    }
+
+    .e-tooltip-wrap p {
+        margin: 0;
+    }
+
+    .e-tooltip-wrap h6 {
+        color: inherit;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.1;
+        margin-bottom: 6px;
+        margin-top: 3px;
+    }
+
+    .e-bigger .e-tooltip-wrap p {
+        font-size: 13px;
+    }
+
+    .e-bigger .e-tooltip-wrap h6 {
+        font-size: 14px;
+    }
+
+    @@media screen and (max-width: 420px) {
+        .e-bigger .toolbarContainer {
+            width: 75%;
+        }
+    }
+</style>

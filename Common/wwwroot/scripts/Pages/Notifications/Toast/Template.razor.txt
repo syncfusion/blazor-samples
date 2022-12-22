@@ -1,0 +1,416 @@
+﻿@page "/toast/template"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the template rendering of the Toast. Static HTML Toast will display an alarm notification that can be snoozed or dismissed. In the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Notifications.SfToast.html#Syncfusion_Blazor_Notifications_SfToast_ShowAsync_Syncfusion_Blazor_Notifications_ToastModel_"><code>ShowAsync</code></a> method, the template is assigned to the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Notifications.ToastModel.html#Syncfusion_Blazor_Notifications_ToastModel_Content"><code>Content</code></a> to display mail remainders.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This sample illustrates the way to display the template content on the Toast. The template allows you to format and structure HTML content to be displayed on the Toast based on their application requirements.</p>
+    <p>
+        <ul>
+            <li>Alarm Toast is integrated with a button and drop-down list that allows setting <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Notifications.SfToast.html#Syncfusion_Blazor_Notifications_SfToast_Timeout"><code>Timeout</code></a> for Toast and close it.</li>
+            <li>While adding mail reminder notifications, the Dynamic Toast will open based on the data source provided, and it could be hidden using the close button.</li>
+        </ul>
+    </p>
+
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href="https://blazor.syncfusion.com/documentation//toast/template/" target="_blank">Blazor Toast template</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control_wrapper">
+        <div class="row">
+            <div id="reminder" style="margin: auto;text-align: center">
+                <SfButton id="toast_mail_remainder" @onclick="@MailBtnclick"> Mail Reminder</SfButton>
+                @if (this.ShowButton)
+                {
+                    <SfButton id="Alarm_turn_on" @onclick="@AlarmBtnclick"> Turn on Alarm</SfButton>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                <SfToast ID="toast_custom" @ref="@AlarmToastObj" Width="400px" ExtendedTimeout=0 Timeout="@AlarmTimeout">
+                    <ToastEvents Closed="@OnToastClose" Opened="@OnToastOpen"></ToastEvents>
+                    <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+                    <ToastTemplates>
+                        <Template>
+                            <div id='template_toast'>
+                                <div class="horizontal-align">
+                                    <div class='e-icons toast-icons e-alarm'></div>
+                                    <div class='toast-content'>
+                                        <div class='toast-title'>
+                                            Weekend Alarm
+                                        </div>
+                                        <div class='toast-message'>
+                                            With traffic, its likely to take 45 minutes to get to jenny's 24th Birthday Bash at Hillside Bar, 454 E.
+                                            Olive Way by 10:00 PM
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="@(SampleService.WebAssetsPath + "images/toast/map.png")" style="width:100%;height:50%;">
+                                <div class="snooze"> Snooze for </div>
+                                <div id='snoozedropDown'>
+                                    <SfDropDownList TItem="DropDownValues" @bind-Index="@index" TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" Placeholder="Select a snooze time">
+                                        <DropDownListEvents TValue="string" TItem="DropDownValues" ValueChange="@ListChange"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                                <div class="snoozeBtn">
+                                    <SfButton ID="snooze" CssClass="e-btn e-flat e-info" @onclick="@SnoozeBtnclick"> Snooze </SfButton>
+                                    <SfButton ID="dismiss" CssClass="e-btn e-flat e-info" @onclick="@DismissBtnclick"> Dismiss </SfButton>
+                                </div>
+                            </div>
+                        </Template>
+                    </ToastTemplates>
+                </SfToast>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+                <SfToast ID="toast_template" @ref="MailToastObj" Width="300px" NewestOnTop="true" ShowCloseButton="true">
+                    <ToastPosition X="Right"></ToastPosition>
+                </SfToast>
+                <div id="toast_template_target">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{ 
+    private int? index { get; set; } = 0;
+    SfToast MailToastObj;
+    SfToast AlarmToastObj;
+    SfDropDownList<string, DropDownValues> DropDownObj;
+
+    private int ToastFlag { get; set; } = 0;
+    private string ToastFieldData { get; set; }
+    private string ToastImageData { get; set; }
+    private string ToastSubjectData { get; set; }
+    private bool SnoozeFlag { get; set; } = false;
+    private string DropValue { get; set; } = "2";
+    private int AlarmTimeout { get; set; } = 120000;
+    private bool ShowButton { get; set; } = true;
+
+    public class ToastFields
+    {
+        public string from { get; set; }
+        public string subject { get; set; }
+        public string image { get; set; }
+    }
+
+    public class DropDownValues
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    private List<ToastFields> ToastData = new List<ToastFields>() 
+    {
+        new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = SampleService.AssetsPath + "images/toast/laura.png" },
+        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = SampleService.AssetsPath + "images/toast/janat.png" },
+        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = SampleService.AssetsPath + "images/toast/camden.png" },
+        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = SampleService.AssetsPath + "images/toast/chase.png" },
+        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = SampleService.AssetsPath + "images/toast/michael.png" }
+    };
+
+    private List<DropDownValues> DropData = new List<DropDownValues>()
+    {
+        new DropDownValues(){ value= "2", text= "2 minutes" },
+        new DropDownValues(){ value= "5", text= "5 minutes" },
+        new DropDownValues(){ value= "10", text= "10 minutes" }
+    };
+
+    private async Task MailBtnclick()
+    {
+        string template = "<div id='toastEmail_template'><div class='e-toast-template'><img class='e-toast-icon e-toast-image' src='" + this.ToastData[ToastFlag].image + "' /><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
+        await this.MailToastObj.ShowAsync(new ToastModel { Content = template, ShowCloseButton = true });
+        ToastFlag++;
+        if (ToastFlag == ToastData.Count)
+        {
+            ToastFlag = 0;
+        }
+    }
+
+    private async Task AlarmBtnclick()
+    {
+        await this.AlarmToastObj.ShowAsync();
+    }
+
+    private async Task SnoozeBtnclick()
+    {
+        await this.AlarmToastObj.HideAsync();
+        this.SnoozeFlag = true;
+    }
+
+    private async Task DismissBtnclick()
+    {
+        await this.AlarmToastObj.HideAsync();
+    }
+
+    private async Task OnToastClose()
+    {
+        if (this.SnoozeFlag)
+        {
+            this.AlarmTimeout = Int32.Parse(this.DropDownObj.Value) * 60000;
+            this.StateHasChanged();
+            await this.AlarmToastObj.ShowAsync();
+            this.SnoozeFlag = false;
+        }
+        else
+        {
+            this.ShowButton = true;
+        }
+    }
+
+    private void OnToastOpen()
+    {
+        this.ShowButton = false;
+    }
+
+    private async Task ListChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownValues> args)
+    {
+        this.SnoozeFlag = true;
+        await this.AlarmToastObj.HideAsync();
+    }
+}
+
+<style>
+    #snooze {
+        margin-right: 15px;
+    }
+
+    @@font-face {
+        font-family: 'Toast_icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj0gSRkAAAEoAAAAVmNtYXDnM+eRAAABsAAAAEpnbHlmzVnmlwAAAhgAAAZAaGVhZBEYIl8AAADQAAAANmhoZWEHlgN3AAAArAAAACRobXR4LvgAAAAAAYAAAAAwbG9jYQnUCGIAAAH8AAAAGm1heHABHQBcAAABCAAAACBuYW1lfUUTYwAACFgAAAKpcG9zdAxfTDgAAAsEAAAAggABAAADUv9qAFoEAAAAAAAD6AABAAAAAAAAAAAAAAAAAAAADAABAAAAAQAACcU5MF8PPPUACwPoAAAAANcI7skAAAAA1wjuyQAAAAAD6APoAAAACAACAAAAAAAAAAEAAAAMAFAABwAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQPqAZAABQAAAnoCvAAAAIwCegK8AAAB4AAxAQIAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnCgNS/2oAWgPoAJYAAAABAAAAAAAABAAAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAAAAAAgAAAAMAAAAUAAMAAQAAABQABAA2AAAABAAEAAEAAOcK//8AAOcA//8AAAABAAQAAAABAAIAAwAEAAUABgAHAAgACQAKAAsAAAAAAAAAQgB8AMIA4gEcAZQCBgJwAo4DAAMgAAAAAwAAAAADlAOUAAsAFwAjAAABFwcXNxc3JzcnBycFDgEHLgEnPgE3HgEFHgEXPgE3LgEnDgEBTXh4L3h4L3h4L3h4AbwDt4qKtwMDt4qKt/0eBeuxsesFBeuxsesCbHh4L3h4L3h4L3h4p4q3AwO3ioq3AwO3irHrBQXrsbHrBQXrAAAAAwAAAAADlAOUAAUAEQAdAAABJwcXAScXDgEHLgEnPgE3HgEFHgEXPgE3LgEnDgEBr2UylwEbMqADt4qKtwMDt4qKt/0eBeuxsesFBeuxsesBrGQylgEcMqKKtwMDt4qKtwMDt4qx6wUF67Gx6wUF6wAAAAAFAAAAAAOUA5cABQARAB0AIQAlAAABFzcnNSMFDgEHLgEnPgE3HgEFHgEXPgE3LgEnDgElFzcnBRc3JwHKxiCnPwFOA6V8fKUDA6V8fKX9aATToJ/UBATUn5/UAh7ANsD9fja/NQGedzNj29F8pAMDpHx8pQMDpXyf1AQE1J+g0wQE0/GhQKGhQKFAAAQAAAAAA74DfgADAAcACgANAAAlMzUjNTM1IwEhCQEhAQHLUlJSUgFj/YwBOv42A5T+NuZUUqf+igIc/ZADFgAEAAAAAAOUA5QAAwAHABMAHwAAATM1IzUzNSMFDgEHLgEnPgE3HgEFHgEXPgE3LgEnDgEBylRUVFQBbgO3ioq3AwO3ioq3/R4F67Gx6wUF67Gx6wEk+lNT0Iq3AwO3ioq3AwO3irHrBQXrsbHrBQXrAAAAAAcAAAAAA+gDMQALABUAJQAuADcAQQBLAAABFhcVITUmJz4BMxYFFhcVITU+ATcWJQYHFSE1LgEjIgYHLgEjIgEWFAYiJjQ2MgUWFAYiJjQ2MiUGFBYXPgE0JiIFBhQWFz4BNCYiA1xEBP6sAxUeRiRX/qxEBP45BIlXV/7xZQsD6AvKUypvMzNvKlMCKxozTTMzTP6CGTNMNDRMAQItWUREWlqI/jstWkREWVmIAWMbFjc3IBgKDwQcGxY3NxY3BAQjJUt7e0tKFxgYFwEMGU01NU0zGhlNNTVNMxYthloCAlqGWy4thloCAlqGWwAAAAQAAAAAA5wCxwAIABQANABFAAABFBYyNjQmIgYXDgEHLgEnPgE3HgEfAQcOAQ8BNz4BNS4BJw4BBxQWHwEnLgEvATc+ATc2FiUOAQ8BFx4BNz4BPwEnJiciAb8fLR4eLR+wAkU0NEUBAUU0NEX8BgEemG0FBB8kAlZBQFcBKyUCCkeVTAYBH76RVMP+3bDPBwcKZclcu/AGCwrM2AoBxxYfHy0eHhc0RQEBRTQ1RQEBRSgEARpWGAECFUIoQVcCAldBLEYUAQEIQkAGASJsBwFCoRbFFAoJW0sBCo8LCgztAQAAAAIAAAAAA4ADbAA4AEEAAAEEJCcmDgEWFx4BHwEVFAYHDgEnJg4BFhcWNjc2Fx4BBx4BFzc+ASc2JicmJzUzPgE3PgEnJicjIiUUFjI2NCYiBgNM/tz+pwwMGxEDDAaMfAcSETKEQw8WBg8Og80hNSg4JwICEw0FDhECAjFJEBICPYhKDQgGChQCB/5dMUgxMUgxAuB/ZRcIAxgbCQdHEQGTGi8TOVgKAw8dFwMNuDUFHTGDCA0QAQECFQ8Mnz8LCasJKiUHGg0SATMkMDBJMDAAAAAAAgAAAAAC/QMkAAMADQAAAQchJxMeATMhMjY3EyEC2x3+bB0kBCQZAQQZJARH/ewDBuDg/fcZICAZAicAAwAAAAACzwPoACwAQwBPAAABERQfARYfAzMVHgE7ATI2NRE0JisBNTEWOwEyNjQmJyMiJi8BLgErAQ4BAxUzNTQ2NzMeARcVMzUuAScjIgcjESM1HgEXPgE3LgEnDgEBVQEBAwQCCAjXARENOg0REQ2zDROVExoaE2UQGAQfAxAKYg0RPR8RDZcNEQEeASIalxANAR8CTTo6TQEBTTo6TQJ8/nYEBQIGBAIFArYNERENARENEUoNGicZARMPfQoNARH98Hl5DREBARENeXkaIgEIAe3FOk0CAk06Ok0BAU0AAAAAAgAAAAAC5gMyAAkAEQAAJRQWMyEyNjURITcjFSE1IycjASApHgEaHin+WFBuAeR+JLD8HigoHgGfeT09HgAAAAAAEgDeAAEAAAAAAAAAAQAAAAEAAAAAAAEAEgABAAEAAAAAAAIABwATAAEAAAAAAAMAEgAaAAEAAAAAAAQAEgAsAAEAAAAAAAUACwA+AAEAAAAAAAYAEgBJAAEAAAAAAAoALABbAAEAAAAAAAsAEgCHAAMAAQQJAAAAAgCZAAMAAQQJAAEAJACbAAMAAQQJAAIADgC/AAMAAQQJAAMAJADNAAMAAQQJAAQAJADxAAMAAQQJAAUAFgEVAAMAAQQJAAYAJAErAAMAAQQJAAoAWAFPAAMAAQQJAAsAJAGnIEZpbmFsIFRvYXN0IE1ldHJvcFJlZ3VsYXJGaW5hbCBUb2FzdCBNZXRyb3BGaW5hbCBUb2FzdCBNZXRyb3BWZXJzaW9uIDEuMEZpbmFsIFRvYXN0IE1ldHJvcEZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAARgBpAG4AYQBsACAAVABvAGEAcwB0ACAATQBlAHQAcgBvAHAAUgBlAGcAdQBsAGEAcgBGAGkAbgBhAGwAIABUAG8AYQBzAHQAIABNAGUAdAByAG8AcABGAGkAbgBhAGwAIABUAG8AYQBzAHQAIABNAGUAdAByAG8AcABWAGUAcgBzAGkAbwBuACAAMQAuADAARgBpAG4AYQBsACAAVABvAGEAcwB0ACAATQBlAHQAcgBvAHAARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAdQBzAGkAbgBnACAAUwB5AG4AYwBmAHUAcwBpAG8AbgAgAE0AZQB0AHIAbwAgAFMAdAB1AGQAaQBvAHcAdwB3AC4AcwB5AG4AYwBmAHUAcwBpAG8AbgAuAGMAbwBtAAAAAAIAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAECAQMBBAEFAQYBBwEIAQkBCgELAQwBDQAFRXJyb3IHU3VjY2VzcwVBbGFybQdXYXJuaW5nBEluZm8HTWVldGluZwVCbGluawdTdHJldGNoA1NpcANTaXQFVHJhc2gAAAAA) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .toast-icons {
+        font-family: 'Toast_icons' !important;
+        speak: none;
+        font-size: 55px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+
+    .bootstrap4 #toast_template .e-toast,
+    .bootstrap5 #toast_template .e-toast,
+    .bootstrap5-dark #toast_template .e-toast {
+        width: 350px !important;
+    }
+
+    .bootstrap5 #toast_template .e-toast img,
+    .bootstrap5-dark #toast_template .e-toast img {
+        height: 50%;
+        width:15% !important;
+    }
+
+    #toast_template .e-toast {
+        width: 400px !important;
+    }
+
+    #toast_template .e-toast img {
+        height: 50%;
+    }
+
+
+    #toast_custom .e-toast .e-toast-title,
+    #toast_custom .e-toast .e-toast-message,
+    #toast_custom .e-toast .e-toast-message .e-toast-content,
+    #toast_custom .e-toast .e-toast-close-icon {
+        color: #fff;
+    }
+
+    #toast_custom .e-toast-container .e-toast .e-toast-message .e-toast-content {
+        padding: 14px 0 0 0;
+    }
+
+   .e-toast-template {
+        display: inline-flex;
+    }
+
+    #toast_custom .e-toast-icon.e-toast-image {
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 50px !important;
+        width: 50px !important;
+        background-size: 50px 50px;
+        align-self: center;
+    }
+
+    #toast_custom .camden .e-toast-icon.e-toast-image,
+    #toast_custom .chase .e-toast-icon.e-toast-image {
+        width: 65px !important;
+    }
+
+    @@media (max-width: 1052px) {
+        .toast-template-section .row .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
+            width: 100%;
+        }
+    }
+
+    #snooze,
+    #template_toast .snooze,
+    #dismiss {
+        color: #fff;
+    }
+
+    #toast_template .e-toast .e-toast-title,
+    #toast_template .e-toast .e-toast-message,
+    #toast_template .e-toast .e-toast-message .e-toast-content,
+    #toast_template .e-toast .e-toast-close-icon {
+        color: #fff;
+    }
+
+    #template_toast .horizontal-align .toast-content .toast-title {
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .material #snooze, .material #dismiss, .fabric #snooze, .fabric #dismiss, .highcontrast #snooze, .highcontrast #dismiss {
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    #snooze, #template_toast .snooze, #dismiss {
+        color: #fff;
+    }
+
+    #template_toast .horizontal-align .toast-content .toast-message {
+        opacity: 0.75;
+        color: #fff;
+    }
+
+    .material #snooze,
+    .material #dismiss,
+    .fabric #snooze,
+    .fabric #dismiss,
+    .highcontrast #snooze,
+    .highcontrast #dismiss {
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    .toast-template-section .e-toast-container {
+        top: 0;
+    }
+
+    .toast-template-section #toast_template_target {
+        width: 70%;
+        height: 700px;
+        border: none;
+        margin: auto;
+    }
+
+    @@media (max-width: 540px) {
+        .toast-template-section #toast_template_target {
+            width: 100%;
+        }
+    }
+
+    #toast_template.e-toast-container .e-toast,
+    #toast_custom .e-toast {
+        background-color: #3277b2;
+    }
+
+    @@media (min-width: 740px) {
+        .toast-template-section #toast_template_target {
+            width: 400px;
+        }
+    }
+
+    .toast-template-section #toast_template_target .e-toast-container .e-toast {
+        width: inherit !important;
+        display: inline-block;
+    }
+
+    #template_toast .toast-icons {
+        font-size: 35px;
+        height: auto;
+        margin: auto;
+    }
+
+        #template_toast .toast-icons.e-alarm::before {
+            content: "\e702";
+            color: #fff;
+        }
+
+    #template_toast .horizontal-align {
+        display: inline-flex;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    #template_toast .horizontal-align,
+    #template_toast #snoozedropDown,
+    #template_toast .snooze,
+    #template_toast .snoozeBtn {
+        margin: 10px 0;
+    }
+
+        #template_toast .horizontal-align .toast-content {
+            display: inline-flex;
+            flex: 1;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+    .material #template_toast .e-input,
+    .material #template_toast .e-ddl-icon {
+        color: white !important;
+    }
+
+    .toast-template-section #reminder {
+        text-align: center;
+        margin: 15px;
+    }
+
+    @@media (min-width: 320px) and (max-width: 480px) {
+        body > #toast_template .e-toast {
+            width: 300px !important;
+        }
+    }
+
+    .bootstrap5 .e-toast-container .e-toast .e-toast-message,
+    .bootstrap5-dark .e-toast-container .e-toast .e-toast-message {
+        margin-left: 40px;
+    }
+
+    .bootstrap5 #template_toast,
+    .bootstrap5-dark #template_toast {
+        padding: 10px;
+    }
+
+    #Alarm_turn_on {
+        margin-left: 10px;
+    }
+    
+    .material-dark #snoozedropDown .e-input-group.e-control-wrapper,
+    .bootstrap-dark #snoozedropDown .e-input-group.e-control-wrapper,
+    .bootstrap5-dark #snoozedropDown .e-input-group.e-control-wrapper,
+    .fabric-dark #snoozedropDown .e-input-group.e-control-wrapper,
+    .tailwind-dark #snoozedropDown .e-input-group.e-control-wrapper,
+    .fluent-dark #snoozedropDown .e-input-group.e-control-wrapper {
+        background: transparent;
+    }
+
+    div#toast_custom + .e-popup-open {
+        margin-left: 16.8px;
+    }
+</style>

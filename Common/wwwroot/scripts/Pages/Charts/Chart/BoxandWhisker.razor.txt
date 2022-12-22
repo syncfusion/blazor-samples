@@ -1,0 +1,207 @@
+﻿@page "/chart/box-and-whisker"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/box-and-whisker-chart'>Blazor Box and Whisker Chart</a> example visualizes the employee’s age group in various departments of a company with box and whisker chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render and configure a box and whisker chart or box plot. This chart is used to visualize a group of numerical data through their data quartiles. Box plots may also have lines extending vertically from the boxes (whiskers) indicating variability outside the upper and lower quartiles. <code>Marker</code> and <code>DataLabel</code> are used to represent individual data and its values.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch enabled devices. 
+    More information about the box and whisker series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/box-whisker'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Employees Age Group in Various Departments" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis LabelIntersectAction="LabelIntersectAction.Rotate45" ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="10" Maximum="60" Interval="10" Title="Age">
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Department" YName="Age" Name="Department" BoxPlotMode="@BoxPlotMode" ShowMean="@Mean" Type="ChartSeriesType.BoxAndWhisker">
+                <ChartMarker Visible="true" Height="7" Width="7"></ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Header=""></ChartTooltipSettings>
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
+    </SfChart>
+</div>
+
+
+@code{
+
+    private Theme Theme { get; set; }
+    private bool Mean { get; set; } = true;
+    private BoxPlotMode BoxPlotMode { get; set; } = BoxPlotMode.Normal;
+    public List<BoxandWhiskerData> ChartPoints { get; set; } = new List<BoxandWhiskerData>
+    {
+        new BoxandWhiskerData { Department = "Development", Age = new double[]{ 22, 22, 23, 25, 25, 25, 26, 27, 27, 28, 28, 29, 30, 32, 34, 32, 34, 36, 35, 38 }},
+        new BoxandWhiskerData { Department = "Testing", Age = new double[] { 22, 33, 23, 25, 26, 28, 29, 30, 34, 33, 32, 31, 50 }},
+        new BoxandWhiskerData { Department = "Finance", Age = new double[] { 26, 27, 28, 30, 32, 34, 35, 37, 35, 37, 45 } },
+        new BoxandWhiskerData { Department = "R&D", Age = new double[] { 26, 27, 29, 32, 34, 35, 36, 37, 38, 39, 41, 43, 58 }},
+        new BoxandWhiskerData { Department = "Sales", Age = new double[] { 27, 26, 28, 29, 29, 29, 32, 35, 32, 38, 53 }},
+        new BoxandWhiskerData { Department = "Inventory", Age = new double[] { 21, 23, 24, 25, 26, 27, 28, 30, 34, 36, 38 }},
+        new BoxandWhiskerData { Department = "Graphics", Age = new double[] { 26, 28, 29, 30, 32, 33, 35, 36, 52 }},
+        new BoxandWhiskerData { Department = "Training", Age = new double[] { 28, 29, 30, 31, 32, 34, 35, 36 }},
+        new BoxandWhiskerData { Department = "HR", Age = new double[] { 22, 24, 25, 30, 32, 34, 36, 38, 39, 41, 35, 36, 40, 56 } }
+    };
+
+    protected override void OnInitialized()
+    {
+        SetTheme(null);
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.MaterialDark;
+                else
+                    args.Fill = PointColor.MaterialDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Material;
+                else
+                    args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FabricDark;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fabric;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap5") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5Dark;
+                else
+                    args.Fill = PointColor.Bootstrap5DarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5;
+                else
+                    args.Fill = PointColor.Bootstrap5Colors[args.Point.Index % 10];
+            }
+        }
+		else if (NavigationManager.Uri.IndexOf("fluent") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FluentDark;
+                else
+                    args.Fill = PointColor.FluentDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fluent;
+                else
+                    args.Fill = PointColor.FluentColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap4") > -1)
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.BootstrapDark;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("tailwind") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.TailwindDark;
+                else
+                    args.Fill = PointColor.TailwindDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Tailwind;
+                else
+                    args.Fill = PointColor.TailwindColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        else
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+    }
+
+    public class BoxandWhiskerData
+    {
+        public string Department { get; set; }
+        public double[] Age { get; set; }
+    }
+
+}

@@ -1,0 +1,339 @@
+﻿@page "/chart/performance"
+
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Spinner
+@using Syncfusion.Blazor
+@using ThemeHelper
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>  This sample demonstrates the performance of Blazor Charts rendering 100K data points. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>Charts includes several data-rendering optimizations to achieve the best possible performance when plotting large volumes of data and handling high-frequency, real-time data. In this demo, an area series is rendered with 100K points.</p>
+</ActionDescription>
+
+<style>
+    #button {
+        margin-left: 3.5%;
+    }
+
+    #information {
+        margin-top: 1.5%;
+        float: right;
+        font-size: initial;
+        margin-right: 1%;
+    }
+
+    #performance {
+        margin-top: 0.5%;
+    }
+
+</style>
+
+<div class="control-section">
+    <SfChart ID="performance" @ref="chartInstance" Title="Chart with 100k points" Width="@Width" Theme="@theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis IntervalType="IntervalType.Years" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift"  LabelIntersectAction="LabelIntersectAction.Trim" Title="Years">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Interval="@interval" Minimum="0" Maximum="12000" Title="Values">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartZoomSettings EnableSelectionZooming="true" Mode="ZoomMode.X"></ChartZoomSettings>
+        <ChartSeriesCollection>
+            <ChartSeries Name="Series" XName="@nameof(LineChartData.XValue)" YName="@nameof(LineChartData.YValue)" DataSource="@chartPoints" Type="ChartSeriesType.Area" Fill="@FillColor">
+            <ChartSeriesBorder Width="2" Color="@BorderColor"></ChartSeriesBorder>
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+
+    private DateTime start = DateTime.Now;
+    string BorderColor;
+    string FillColor;
+    public string Width { get; set; } = "90%";
+    string valueUrl = "url";
+    private double value = 0;
+    private double interval = 2000;
+    private bool isPointsLoaded;
+    private SfChart chartInstance { get; set; }
+    private Random randomNum { get; set; } = new Random();
+    private List<LineChartData> chartPoints { get; set; } = null;
+    private Syncfusion.Blazor.Theme theme { get; set; }
+    private bool VisibleProperty { get; set; }
+    string CurrentUri;
+    protected override void OnInitialized()
+    {
+        LoadPoints();
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.MaterialDark;
+                BorderColor = "#9ECB08";
+                FillColor = String.Concat(valueUrl, "(#materialdark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Material;
+                BorderColor = "#00bdae";
+                FillColor = String.Concat(valueUrl, "(#material-gradient-chart)");
+            }
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FabricDark;
+            }
+            else
+            {
+                theme = Theme.Fabric;
+            }
+            BorderColor = "#4472c4";
+            FillColor = String.Concat(valueUrl, "(#fabric-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.Bootstrap5Dark;
+                BorderColor = "#5ECB9B";
+                FillColor = String.Concat(valueUrl, "(#bootstrap5dark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Bootstrap5;
+                BorderColor = "#262E0B";
+                FillColor = String.Concat(valueUrl, "(#bootstrap5-gradient-chart)");
+            }
+        }
+        else if (CurrentUri.IndexOf("fluent") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FluentDark;
+                BorderColor = "#8AB113";
+                FillColor = String.Concat(valueUrl, "(#fluentdark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Fluent;
+                BorderColor = "#87CEFA";
+                FillColor = String.Concat(valueUrl, "(#fluent-gradient-chart)");
+            }
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            theme = Theme.Bootstrap4;
+            BorderColor = "#a16ee5";
+            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.BootstrapDark;
+            }
+            else
+            {
+                theme = Theme.Bootstrap;
+            }
+            BorderColor = "#a16ee5";
+            FillColor = String.Concat(valueUrl, "(#bootstrap-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            theme = Theme.HighContrast;
+            BorderColor = "#79ECE4";
+            FillColor = String.Concat(valueUrl, "(#highcontrast-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("tailwind") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.TailwindDark;
+                BorderColor = "#8B5CF6";
+                FillColor = String.Concat(valueUrl, "(#tailwinddark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Tailwind;
+                BorderColor = "#5A61F6";
+                FillColor = String.Concat(valueUrl, "(#tailwind-gradient-chart)");
+            }
+
+        }
+        else
+        {
+            theme = Theme.Bootstrap4;
+            BorderColor = "#a16ee5";
+            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+        }
+    }
+    private void LoadPoints()
+    {
+        chartPoints = new List<LineChartData>();
+        isPointsLoaded = true;
+        this.VisibleProperty = true;
+        for (int pts = 0; pts < 100000; pts++)
+        {
+            if (pts % 3 == 0)
+            {
+                this.value -= (randomNum.Next(0, 100) / 3) * 4;
+            }
+            else if (pts % 2 == 0)
+            {
+                this.value += (randomNum.Next(0, 100) / 3) * 4;
+            }
+            if(this.value < 0)
+            {
+                this.value = this.value * -1;
+            }
+            if(this.value >= 12000)
+            {
+                this.value = randomNum.Next(1000, 11000);
+            }
+            chartPoints.Add(new LineChartData() { XValue = new DateTime(2005, 1, 1).AddHours(pts), YValue = this.value });
+        }
+        StateHasChanged();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (isPointsLoaded)
+        {
+            isPointsLoaded = false;
+            this.VisibleProperty = false;
+        }
+       
+    }
+
+    public class LineChartData
+    {
+        public DateTime XValue { get; set; }
+        public double YValue { get; set; }
+    }
+}
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #material-gradient-chart stop {
+        stop-color: #00bdae;
+    }
+    
+    #materialdark-gradient-chart stop {
+        stop-color: #9ECB08;
+    }
+
+    #fabric-gradient-chart stop {
+        stop-color: #4472c4;
+    }
+
+    #bootstrap-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #bootstrap4-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+    
+    #bootstrap5-gradient-chart stop {
+        stop-color: #262E0B;
+    }
+    #bootstrap5dark-gradient-chart stop {
+        stop-color: #5ECB9B;
+    }
+	
+	#fluent-gradient-chart stop {
+        stop-color: #87CEFA;
+    }
+        
+    #fluentdark-gradient-chart stop {
+        stop-color: #8AB113;
+    }
+
+    #highcontrast-gradient-chart stop {
+        stop-color: #79ECE4;
+    }
+
+    .chart-gradient stop[offset="0"] {
+        stop-opacity: 0.9;
+    }
+
+    .chart-gradient stop[offset="1"] {
+        stop-opacity: 0.3;
+    }
+
+    #tailwind-gradient-chart stop {
+        stop-color: #5A61F6;
+    }
+    
+    #tailwinddark-gradient-chart stop {
+        stop-color: #8B5CF6;
+    }
+</style>
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="material-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="materialdark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fabric-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap4-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap5-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap5dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluent-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluentdark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="highcontrast-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwinddark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>

@@ -1,0 +1,214 @@
+﻿@page "/chart/error-bar"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows the errors in the quality of the different items with an error bar in the chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+       In this example, you can see how to render and configure the error bar chart. This chart is used to indicate the error or uncertainty in the reported measurement.
+    </p>
+    <p> The chart supports the following error bar types.</p>
+    <ul>
+        <li> <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ErrorBarType.html#Syncfusion_Blazor_Charts_ErrorBarType_Fixed'>Fixed</a> -Renders a fixed error bar. </li>
+        <li> <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ErrorBarType.html#Syncfusion_Blazor_Charts_ErrorBarType_Percentage'>Percentage</a> - Renders a percentage error bar. </li>
+        <li> <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ErrorBarType.html#Syncfusion_Blazor_Charts_ErrorBarType_StandardDeviation'>StandardDeviation</a> - Renders a standard deviation error bar. </li>
+        <li> <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ErrorBarType.html#Syncfusion_Blazor_Charts_ErrorBarType_StandardError'>StandardError</a> - Renders a standard error error bar.  </li>
+        <li> <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ErrorBarType.html#Syncfusion_Blazor_Charts_ErrorBarType_Custom'>Custom</a> - Renders a custom error bar. </li>
+    </ul>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the error bar can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/error-bar'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Quality vs Items" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="@LabelIntersect" LabelRotation="@Rotation">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+       <ChartPrimaryYAxis Title="Quality" Minimum="0" Maximum="1250" Interval="250">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+             <ChartSeries DataSource="@ChartPoints" XName="Items" YName="Quality" Type="ChartSeriesType.Column">
+                <ChartMarker Height="7" Width="7">
+                </ChartMarker>
+                <ChartErrorBarSettings Visible="true" HorizontalError="60" VerticalError="60"></ChartErrorBarSettings>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public double Rotation { get; set; } = 0;
+    public LabelIntersectAction LabelIntersect = LabelIntersectAction.Rotate45;
+    public List<ErrorBarData> ChartPoints { get; set; } = new List<ErrorBarData>
+    {
+        new ErrorBarData { Items = "Printers", Quality = 750 },
+        new ErrorBarData { Items = "Desktop", Quality = 500 },
+        new ErrorBarData { Items = "Chargers", Quality = 550 },
+        new ErrorBarData { Items = "Mobile", Quality = 575 },
+        new ErrorBarData { Items = "Keyboards", Quality = 400 },
+        new ErrorBarData { Items = "Power Bank",  Quality = 450 },
+        new ErrorBarData { Items = "Laptops", Quality = 650 },
+        new ErrorBarData { Items = "Batteries", Quality = 525 }
+    };
+
+    protected override void OnInitialized()
+    {
+        this.SetTheme(null);
+        if (SampleService.IsDevice)
+        {
+            LabelIntersect = LabelIntersectAction.None;
+            Width = "100%";
+            Rotation = -45;
+        }
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.MaterialDark;
+                else
+                    args.Fill = PointColor.MaterialDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Material;
+                else
+                    args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FabricDark;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fabric;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap5") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5Dark;
+                else
+                    args.Fill = PointColor.Bootstrap5DarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5;
+                else
+                    args.Fill = PointColor.Bootstrap5Colors[args.Point.Index % 10];
+            }
+        }
+		else if (NavigationManager.Uri.IndexOf("fluent") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FluentDark;
+                else
+                    args.Fill = PointColor.FluentDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fluent;
+                else
+                    args.Fill = PointColor.FluentColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap4") > -1)
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.BootstrapDark;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("tailwind") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.TailwindDark;
+                else
+                    args.Fill = PointColor.TailwindDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Tailwind;
+                else
+                    args.Fill = PointColor.TailwindColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        else
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+    }
+
+    public class ErrorBarData
+    {
+        public string Items { get; set; }
+        public double Quality { get; set; }
+    
+    }
+}

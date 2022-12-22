@@ -1,0 +1,56 @@
+﻿@page "/datagrid/grouping"
+
+@using Syncfusion.Blazor.Grids
+@using BlazorDemos
+@using blazor_inventordata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+  <p>This sample demonstrates grouping feature of the DataGrid component. In this sample, the DataGrid data is grouped against <b>Customer ID</b> column. To group any other column, simply drag and drop the column header onto the group drop area.</p>  
+</SampleDescription>
+
+<ActionDescription>
+   <p>The Blazor DataGrid control provides the ability to group records based on the required column. When grouping is used, grouped records are organised into a hierarchical structure to allow for easier record expansion and collapsing. Set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowGrouping'>AllowGrouping</a> property to <b>true</b> to enable grouping.</p>
+   <p>The DataGrid in this demo is rendered with grouping enabled and is initially grouped by the <b>Customer ID</b> column. Columns can be grouped by dragging and dropping the column header onto the group drop area.</p>
+   <p>More information about the Grouping feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/grouping/'>documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <SfGrid DataSource="@Orders" Height="400" AllowGrouping="true" AllowSorting="true" AllowPaging="true">
+                    <GridGroupSettings Columns="@GroupedColumns"></GridGroupSettings>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(Order.OrderID) IsPrimaryKey="true" HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                        <GridColumn Field=@nameof(Order.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
+                        <GridColumn Field=@nameof(Order.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                        <GridColumn Field=@nameof(Order.Freight) Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+
+@code{
+    public string[] GroupedColumns = new string[] { "CustomerID" };
+
+    public List<Order> Orders { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Orders = Enumerable.Range(1, 75).Select(x => new Order()
+        {
+            OrderID = 1000 + x,
+            CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)],
+            Freight = 2.1 * x,
+            OrderDate = DateTime.Now.AddDays(-x),
+        }).ToList();
+    }
+
+    public class Order {
+        public int? OrderID { get; set; }
+        public string CustomerID { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public double? Freight { get; set; }
+    }
+}

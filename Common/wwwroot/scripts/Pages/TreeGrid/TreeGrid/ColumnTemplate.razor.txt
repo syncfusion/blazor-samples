@@ -1,0 +1,54 @@
+﻿@page "/tree-grid/column-template"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using ej2_blazor_templatedata
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of template columns in Tree Grid. This demo displays images in one of the tree grid columns.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Tree Grid provides a way to use a custom layout for each cell using the column template feature. By using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridColumn_Template'>Template</a> component of <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html'>TreeGridColumn</a> component, custom content can be placed. Inside the Template, you can access the data using the implicit named parameter <code>Context</code></p>.
+    <p>In this demo, using column template, Employee Image column is displayed with employee photo.</p>
+    <p>More information on the column template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/#column-template'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid Height="300" DataSource="@TreeData" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="0">
+                <TreeGridColumns>
+                    <TreeGridColumn Field="Name" HeaderText="Name" Width="160"></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Employee Image" Width="140">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                <div class="image">
+                                    <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/tree-grid/{employee.FullName.ToLower()}.png")" alt="@employee.EmployeeID" />
+                                </div>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="DOB" HeaderText="DOB" Width="90" TextAlign=" Syncfusion.Blazor.Grids.TextAlign.Right" Type=ColumnType.Date Format="d"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" HeaderText="Designation" Width="170"></TreeGridColumn>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" Width="120"></TreeGridColumn>
+                    <TreeGridColumn Field="Country" HeaderText="Priority" Width="100"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+
+@code{
+
+    private IEnumerable<Employee> TreeData { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TreeData = Employee.GetTemplateData();
+    }
+}

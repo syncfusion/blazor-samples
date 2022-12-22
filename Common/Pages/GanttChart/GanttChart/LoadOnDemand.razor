@@ -1,0 +1,49 @@
+@page "/gantt-chart/load-on-demand"
+
+@using BlazorDemos.Pages.GanttChart
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Data
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the load on-demand data binding support in Gantt Chart. It allows users to load parent records alone on load time. Child records render on demand during expansion action.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Load on demand and virtualization support is used to render a large number of tasks in the Gantt Chart with an effective performance. And so, in this demo, row virtualization is enabled with remote data binding which has 50,000 records.</p>
+    <p>With the virtualization feature enabled in remote data binding, only the root level records are fetched from the remote server at the initial load time. So, need to set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html#Syncfusion_Blazor_Gantt_GanttTaskFields_HasChildMapping'>HasChildMapping</a> property of <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html'>GanttTaskFields</a> that denotes whichever records have child records.</p>
+    <p>On expanding the root parent node, the child records will be fetched from the remote server. While vertical scrolling, tasks are fetched dynamically from the remote server and are updated in the DOM as per the current viewport position.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt TValue="TaskData" Height="450px" Width="100%" LoadChildOnDemand="false" EnableVirtualization="true"
+                     ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
+
+                <SfDataManager Url="https://ej2services.syncfusion.com/development/web-services/api/GanttVirtualData" Adaptor="Adaptors.WebApiAdaptor"></SfDataManager>
+                <GanttTaskFields Id="ID" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+                                 Duration="Duration" Dependency="Predecessor" ParentID="ParentId" HasChildMapping="isParent">
+                </GanttTaskFields>
+
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DateTime ProjectStartDate = new DateTime(2000, 1, 1);
+    private DateTime ProjectEndDate = new DateTime(2500, 12, 31);
+    public class TaskData
+    {
+        public int ID { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int? ParentId { get; set; }
+        public string Predecessor { get; set; }
+        public bool? isParent { get; set; }
+    }
+}

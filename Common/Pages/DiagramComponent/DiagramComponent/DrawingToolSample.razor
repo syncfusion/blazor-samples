@@ -1,0 +1,499 @@
+﻿@page "/diagramcomponent/drawingtool"
+@inherits SampleBaseComponent;
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using ButtonEventArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This sample visualizes how to draw nodes and connectors during runtime by clicking and dragging on the Diagram page interactively using the drawingtools.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> This example shows how to draw shapes and connections interactively. In addition to that, rulers, gridlines, and snapping options are enabled to assist drawing. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_InteractionController'>interaction controller</a></code> property is used to enable drawing. Add <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.InteractionController.html#Syncfusion_Blazor_Diagram_InteractionController_DrawOnce'>draw once</a></code> or <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.InteractionController.html#Syncfusion_Blazor_Diagram_InteractionController_ContinuousDraw'>continuous draw</a></code> options to the interaction controller property. The <code><a target='_blank'href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_DrawingObject'>drawing bbject</a></code> property is used to define a shape or connector to be drawn. </p><p> A few shape and connector templates are in the palette. To draw basic shapes and connectors, click the templates. A corner or point will be added to thepolygon with each mouse left-click to reshape them. Drawings will be completed either on mouse right-click or double-click.</p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="col-lg-9 control-section sb-property-border">
+    @*Hidden:Lines*@
+    <style>
+        .image-pattern-style {
+            background-color: white;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 60px;
+            width: calc((100% - 18px) / 3);
+            cursor: pointer;
+            border: 1px solid #D5D5D5;
+            background-position: center;
+            float: left;
+        }
+
+        .sb-property-border {
+            border-right: 1px solid #D7D7D7;
+        }
+
+        .property-panel-header {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .image-pattern-style:hover {
+            border-color: gray;
+            border-width: 2px;
+        }
+
+        .e-remove-selection .property-section-content {
+            pointer-events: none;
+        }
+
+        .column-style {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: calc((100% - 12px) / 3);
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 5px;
+        }
+
+        .buttonstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 117px;
+            float: left;
+        }
+
+        .column-style custom {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 70px;
+        }
+
+        .e-btn .e-btn-icon, .e-css.e-btn .e-btn-icon {
+            display: inline-block;
+            font-size: 14px;
+            margin-top: -2px;
+            vertical-align: middle;
+            width: 1em;
+        }
+
+        @@font-face {
+            font-family: 'e-bg-icons';
+            src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #bold, #italic, #underline {
+            width: 100%;
+        }
+
+        .bg-icons {
+            font-family: 'e-bg-icons' !important;
+            speak: none;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .e-btngrp-bold::before {
+            content: '\e71a'
+        }
+
+        .e-btngrp-italic::before {
+            content: '\e708';
+        }
+
+        .e-btngrp-underline::before {
+            content: '\e703';
+        }
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 15px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .drawingtool-image {
+             width: 62px;
+             height: 65px;
+             float: left;
+             background-size: cover;
+             background-image: url(@(SampleService.WebAssetsPath + "images/diagram/overview/himage1.png"));
+             border: 1px solid #E0E0E0;
+             box-sizing: border-box;
+             border-radius: 80px;
+             margin-top: 5px;
+             margin-bottom: 5px;
+             margin-left: 5px;
+        }
+        .drawingtool-header1 {
+            width: 165px;
+            height: 14px;
+            left: 664px;
+            top: 152px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 14px;
+            background-size: cover;
+            letter-spacing: 0.1px;
+            color: white;
+        }
+        .drawingtool-maindiv {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #2E95D8;
+            padding-top: 5px;
+        }
+        .drawingtool-header2 {
+            /* width: 121px; */
+            /* height: 14px; */
+            left: 660px;
+            top: 170px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 11px;
+            line-height: 14px;
+            letter-spacing: 0.1px;
+            color: white;
+            background-size: cover;
+        }
+      
+    </style>
+    @*End:Hidden*@
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagramComponent Height="640px" @bind-DrawingObject="@drawingObject" InteractionController="Tools" @ref="@diagram" Nodes="@nodes" Connectors="@connectors">
+            <DiagramTemplates>
+                <NodeTemplate>
+                    @{
+                        <div class="drawingtool-maindiv">
+                            <div id="image" class="drawingtool-image">
+                            </div>
+                            <div style="Padding-left: 80px;padding-top: 5px;">
+                                <div id="header1" style="font-weight:bold;padding-bottom: 5px;" class="drawingtool-header2">
+                                    Daniel Tonini
+                                </div>
+                                <div id="header2" class="drawingtool-header2">
+                                    Project Lead
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+                </NodeTemplate>
+            </DiagramTemplates>
+        </SfDiagramComponent>
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div>
+        <div class="row property-panel-content" id="appearance">
+            <div class="row row-header" style="padding-top: 10px">
+                Shapes
+            </div>
+            <div class="row">
+
+                <div class="row" style="padding-top: 8px">
+                    <div style="stroke-width:20px">
+                        <div title="Rectangle" class="@dictionary["rectangle"]" id="bottomr" @onclick="@(() => UpdateTools("rectangle"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/rectangle.png")); margin-left: 4px">
+                        </div>                                             
+                    </div>
+                    <div>
+                        <div title="Ellipse" class="@dictionary["ellipse"]" id="bottome" @onclick="@(() => UpdateTools("ellipse"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/ellipse.png")); margin-left: 4px">
+                        </div>                        
+                    </div>
+                    <div>
+                        <div title="Hexagon" class="@dictionary["hexagon"]" id="right" @onclick="@(() => UpdateTools("hexagon"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/hexagon.png")); margin: 0px 4px">
+                        </div>                                               
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="Pentagon" class="@dictionary["pentagon"]" id="bottoml" @onclick="@(() => UpdateTools("pentagon"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/pentagon.png"));margin-left: 4px">
+                        </div>                                              
+                    </div>
+                    <div>
+                        <div title="Triangle" class="@dictionary["triangle"]" id="bottomcenter_top" @onclick="@(() => UpdateTools("triangle"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/polygon.png"));margin-left: 4px">
+                        </div>                                              
+                    </div>
+                    <div>
+                        <div title="Star" class="@dictionary["star"]" id="center" @onclick="@(() => UpdateTools("star"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/path.png")); margin: 0px 4px">
+                        </div>                                             
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="User" class="@dictionary["user"]" id="bottom_User" @onclick="@(() => UpdateTools("user"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/user.png"));margin-left: 4px">
+                        </div>
+                    </div>
+                    <div >
+                        <div title="Custom Node" class="@dictionary["customnode"]" id="Custom_Node" @onclick="@(() => UpdateTools("customnode"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/customnode.png"));margin-left: 4px">
+                        </div>
+
+                    </div>
+                    <div>
+                        <div title="Text Node" class="@dictionary["textnode"]" id="Custom_Node" @onclick="@(() => UpdateTools("textnode"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/text1.png"));margin-left: 4px">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row row-header" style="padding-top: 10px">
+                    Connectors
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="Straight" class="@dictionary["straight"]" id="center_Straight" @onclick="@(() => UpdateTools("straight"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/connectors-1.png")); margin: 0px 4px">
+                        </div>                       
+                    </div>
+                    <div>
+                        <div title="Orthogonal" class="@dictionary["orthogonal"]" id="bottom_Orthogonal" @onclick="@(() => UpdateTools("orthogonal"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/connectors-2.png")); margin-left: 4px">
+                        </div>                                              
+                    </div>
+                    <div>
+                        <div title="Bezier" class="@dictionary["bezier"]" id="bottombezier" @onclick="@(() => UpdateTools("bezier"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/Connectors-3.png")); margin-left: 4px">
+                        </div>                       
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="Polyline" class="@dictionary["polyline"]" id="bottompoly" @onclick="@(() => UpdateTools("polyline"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/polyline1.png")); margin-right: 4px">
+                        </div>                                               
+                    </div>
+                </div>
+            </div>
+        </div>
+        <SfCheckBox Label="Continuous Drawing" @bind-Checked="@checkbox" ValueChange="@UpdateDrawingTool" TChecked="bool" />
+
+    </div>
+</div>
+
+@*End:Hidden*@
+@code{
+    @*Hidden:Lines*@
+    bool checkbox = true;
+    const string unselecteditem = "image-pattern-style";
+    const string selectedItem = "image-pattern-style e-selected-style";
+    Dictionary<string, string> dictionary = new Dictionary<string, string>() { { "textnode", unselecteditem }, { "polyline", unselecteditem }, { "user", unselecteditem }, { "customnode", unselecteditem }, { "bezier", unselecteditem }, { "orthogonal", unselecteditem }, { "straight", unselecteditem }, { "star", unselecteditem }, { "ellipse", unselecteditem }, { "pentagon", unselecteditem }, { "hexagon", unselecteditem }, { "rectangle", selectedItem }, { "triangle", unselecteditem } };
+    @*End:Hidden*@
+    DiagramInteractions Tools = DiagramInteractions.ContinuousDraw;
+
+    //Define drawing object
+    IDiagramObject drawingObject { get; set; }
+
+    //Refer to diagram
+    SfDiagramComponent diagram;
+
+    //Defines diagram's nodes collection
+    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    //Defines diagram's connectors collection
+    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    protected override void OnInitialized()
+    {
+        Node node = new Node()
+        {
+            Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
+        };
+        drawingObject = node;
+    }
+
+    private void UpdateDrawingTool(ButtonEventArgs args)
+    {
+        if (args.Checked)
+        {
+            Tools |= DiagramInteractions.ContinuousDraw;
+            Tools &= ~DiagramInteractions.DrawOnce;
+            for (int i = 0; i < dictionary.Count; i++)
+            {
+                if (dictionary.ElementAt(i).Value == selectedItem)
+                {
+                    string id = dictionary.ElementAt(i).Key;
+                    UpdateTools(id);
+                }
+            }
+        }
+        else
+        {
+            Tools |= DiagramInteractions.DrawOnce;
+            Tools &= ~DiagramInteractions.ContinuousDraw;
+        }
+    }
+
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dictionary.Count; i++)
+        {
+            var value = dictionary.Values.ElementAt(i);
+            var key = dictionary.Keys.ElementAt(i);
+            if (dictionary.ContainsKey(id) && key == id)
+            {
+                value = selectedItem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dictionary.Remove(key);
+            dictionary.Add(key, value);
+        }
+    }
+
+    private void UpdateTools(string id)
+    {
+        switch (id)
+        {
+            case "rectangle":
+                Node node = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
+                };
+                drawingObject = node;
+                break;
+            case "user":
+                Node imageNode = new Node()
+                {
+                    Shape = new ImageShape() { Type = shapes.Image, Source = SampleService.WebAssetsPath + "/images/diagram/drawing-tool/image.png" }
+                };
+                drawingObject = imageNode;
+                break;
+            case "customnode":
+                Node customNode = new Node()
+                {
+                    ID = "node",
+                    Height = 200,
+                    Width = 200,
+                    Shape = new Shape() { Type = shapes.HTML },
+                };
+                drawingObject = customNode;
+                break;
+            case "ellipse":
+                Node ellipseNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Ellipse }
+                };
+                drawingObject = ellipseNode;
+                break;
+            case "star":
+                Node starNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Star }
+                };
+                drawingObject = starNode;
+                break;
+            case "hexagon":
+                Node hexagonNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Hexagon }
+                };
+                drawingObject = hexagonNode;
+                break;
+            case "pentagon":
+                Node pentagonNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Pentagon }
+                };
+                drawingObject = pentagonNode;
+                break;
+            case "triangle":
+                Node triangleNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Triangle }
+                };
+                drawingObject = triangleNode;
+                break;
+            case "straight":
+                Connector straightConnector = new Connector() { ID = "straightConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Straight };
+                drawingObject = straightConnector;
+                break;
+            case "orthogonal":
+                Connector orthogonalConnector = new Connector() { ID = "orthogonalConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Orthogonal };
+                drawingObject = orthogonalConnector;
+                break;
+            case "bezier":
+                Connector bezierConnector = new Connector() { ID = "bezierConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Bezier };
+                drawingObject = bezierConnector;
+                break;
+            case "polyline":
+                Connector polylineConnector = new Connector() { ID = "polylineConnector", Type = ConnectorSegmentType.Polyline };
+                drawingObject = polylineConnector;
+                break;
+               case "textnode":
+                 Node textNode = new Node()
+                {
+                    ID = "textnode",
+                    Shape = new TextShape() { Type = shapes.Text }
+                };
+                drawingObject = textNode;
+                break;
+        }
+        UpdateSelection(id);
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}

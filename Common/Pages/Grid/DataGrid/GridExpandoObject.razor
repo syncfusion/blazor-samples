@@ -1,0 +1,102 @@
+@page "/datagrid/expandoobject"
+
+@using System.Dynamic
+@using Syncfusion.Blazor.Grids
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows how to use ExpandoObject data binding with CRUD operations, grouping, sorting, filtering, and aggregation in the DataGrid component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor DataGrid supports ExpandoObject data binding. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_DataSource'>DataSource</a> property can be assigned as list of ExpandoObject.</p>
+    <p>More information about the ExpandoObject data binding feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-binding#expandoobject-binding'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@Orders" Height="400" AllowPaging="true" AllowGrouping="true" AllowFiltering="true" AllowSorting="true"  Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+                <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Normal"></GridEditSettings>
+                <GridAggregates>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field="Freight" Type="AggregateType.Sum" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Sum: @aggregate.Sum</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                            <GridAggregateColumn Field="Verified" Type="AggregateType.TrueCount">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>True Count: @aggregate.TrueCount</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field="Freight" Type="AggregateType.Average" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Average: @aggregate.Average</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                            <GridAggregateColumn Field="Verified" Type="AggregateType.FalseCount">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>False Count: @aggregate.FalseCount</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                </GridAggregates>
+                <GridColumns>
+                    <GridColumn Field="OrderID" HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field="CustomerID" HeaderText="Customer ID" Width="120" ValidationRules="@(new ValidationRules { Required=true})"></GridColumn>
+                    <GridColumn Field="Freight" Format="C2" TextAlign="TextAlign.Right" AllowGrouping=false ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" Width="120"></GridColumn>
+                    <GridColumn Field="OrderDate" HeaderText=" Order Date" ValidationRules="@(new ValidationRules{ Required=true})" Format="d" TextAlign="TextAlign.Right" Width="130" Type="ColumnType.Date"></GridColumn>
+                    <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                    <GridColumn Field="Verified" HeaderText="Active" TextAlign="TextAlign.Center" DisplayAsCheckBox="true" DefaultValue="false" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    public List<ExpandoObject> Orders { get; set; } = new List<ExpandoObject>();
+
+    protected override void OnInitialized()
+    {
+        Orders = Enumerable.Range(1, 75).Select((x) =>
+        {
+            dynamic d = new ExpandoObject();
+            d.OrderID = 1000 + x;
+            d.CustomerID = (new string[] { "ALFKI", "ANANTR", "ANTON", "BLONP", "BOLID" })[new Random().Next(5)];
+            d.Freight = (new double[] { 2, 1, 4, 5, 3 })[new Random().Next(5)] * x;
+            d.OrderDate = (new DateTime[] { new DateTime(2010, 11, 5), new DateTime(2018, 10, 3), new DateTime(1995, 9, 9), new DateTime(2012, 8, 2), new DateTime(2015, 4, 11) })[new Random().Next(5)];
+            d.ShipCountry = (new string[] { "USA", "UK" })[new Random().Next(2)];
+            d.Verified = (new bool[] { true, false })[new Random().Next(2)];
+
+            return d;
+        }).Cast<ExpandoObject>().ToList<ExpandoObject>();
+    }
+}

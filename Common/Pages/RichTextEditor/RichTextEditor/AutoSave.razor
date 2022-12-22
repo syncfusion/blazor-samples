@@ -1,0 +1,184 @@
+﻿@page "/rich-text-editor/auto-save"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.RichTextEditor
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how to save the Rich Text Editor’s content automatically at regular intervals. The following demo saves the content after 5 seconds of idle time from last typed time.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Rich Text Editor saves its content automatically when you focus out the editor, and you can save its content automatically at regular intervals based on the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_SaveInterval">SaveInterval</a> and <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_AutoSaveOnIdle">AutoSaveOnIdle</a> properties while editing.
+        <ul>
+            <li>If <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_AutoSaveOnIdle">AutoSaveOnIdle</a> is set to true, the content is saved if the editor is idle for the number of milliseconds specified in the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_SaveInterval">SaveInterval</a> property.</li>
+            <li>If <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_AutoSaveOnIdle">AutoSaveOnIdle</a> is set to false, the editor saves the content at the regular interval of milliseconds specified in the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_SaveInterval">SaveInterval</a> property.</li>
+        </ul>
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_AutoSaveOnIdle">AutoSaveOnIdle</a> is set to <code>true</code> in this demo, and the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_SaveInterval">SaveInterval</a> is set to 5 seconds.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section">
+    <div class="control-wrapper">
+        <div class="sample-container">
+            <div class="default-section">
+                <SfRichTextEditor ID="AutoSave" SaveInterval="saveInterval" AutoSaveOnIdle="true" Placeholder="Start to type a content to save">
+                    <p>Type or edit the content to be saved automatically in the editor </p>
+                    <RichTextEditorToolbarSettings Items="@Items" />
+                    <RichTextEditorEvents ValueChange="UpdateStatus" />
+                </SfRichTextEditor>
+                <div id='statusEle' class='current-status'>
+                    <div id='saving' class="@savingClass">
+                        <div class="e-icons e-icon-refresh"> </div>
+                        <p class='status-text'> Saving changes</p>
+                    </div>
+                    <div id='saved' class="@savedClass">
+                        <span class="e-icons e-icon-tick"> </span>
+                        <p class='status-text'>Changes saved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <div id="property" title="Properties" class="property-panel-table">
+                <SfCheckBox Label="Auto Save" @bind-Checked="switchChecked" ValueChange="OnChange" TChecked=bool/>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    private bool switchChecked { get; set; } = true;
+    private int saveInterval { get; set; } = 5000;
+    private string savedClass { get; set; } = "hide";
+    private string savingClass { get; set; } = "hide";
+
+    private List<ToolbarItemModel> Items = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+
+    private async Task OnChange(ChangeEventArgs<bool> args)
+    {
+        this.saveInterval = args.Checked ? 5000 : 0;
+        await Task.Delay(500);
+        this.savedClass = this.savedClass = "hide";
+    }
+
+    private async Task UpdateStatus(Syncfusion.Blazor.RichTextEditor.ChangeEventArgs args)
+    {
+        if (this.switchChecked)
+        {
+            this.savingClass = "show";
+            this.savedClass = "hide";
+            // Place the codes here, which save the Rich Text Editor value into database.
+            await Task.Delay(500);
+            this.savingClass = "hide";
+            this.savedClass = "show";   
+        }
+    }
+}
+
+<style>
+    .current-status {
+        float: right;
+        padding: 11px;
+        margin-right: 22px;
+        font-size: 12px;
+        display: inline-block;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .e-icons.e-icon-refresh::before {
+        content: "\e606";
+    }
+
+    .e-icons.e-icon-tick::before {
+        content: "\e614";
+    }
+
+    .bootstrap4 .e-icons.e-icon-refresh::before {
+        content: "\e710";
+    }
+    
+    .bootstrap4 .e-icons.e-icon-tick::before {
+        content: "\e718";
+    }
+
+    .tailwind .e-icons.e-icon-refresh::before,
+    .tailwind-dark .e-icons.e-icon-refresh::before {
+        content: "\e711";
+    }
+
+    .tailwind .e-icons.e-icon-tick::before,
+    .tailwind-dark .e-icons.e-icon-tick::before {
+        content: "\e75d";
+    }
+
+    .bootstrap5 .e-icons.e-icon-refresh::before,
+    .bootstrap5-dark .e-icons.e-icon-refresh::before,
+    .fluent .e-icons.e-icon-refresh::before,
+    .fluent-dark .e-icons.e-icon-refresh::before {
+        content: "\e706";
+    }
+
+    .bootstrap5 .e-icons.e-icon-tick::before,
+    .bootstrap5-dark .e-icons.e-icon-tick::before,
+    .fluent .e-icons.e-icon-tick::before,
+    .fluent-dark .e-icons.e-icon-tick::before {
+        content: "\e774";
+    }
+
+    .status-text {
+        padding: 4px;
+    }
+
+    .e-icon-refresh {
+        width: 10px;
+        display: inline-block;
+        animation: spin 2s linear infinite;
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .status-text {
+        font-size: 14px;
+        display: inline-block;
+    }
+</style>

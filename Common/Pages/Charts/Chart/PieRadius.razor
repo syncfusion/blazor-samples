@@ -1,0 +1,72 @@
+﻿@page "/chart/pie-radius"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample compares countries by population density and total area using various radius in a pie series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a doughnut chart with different radius. You can use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_Radius'>Radius</a> mapping property to achieve this feature. <code>DataLabel</code> are used to represent individual data and its values. In addition, the sample shows how to change the order of legends for the doughnut chart by using the <code>Reverse</code> property.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the pie series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfAccumulationChart  EnableBorderOnMouseMove="false" Title="Pie with different Radius" EnableAnimation="true" EnableSmartLabels="true" Theme="@Theme">
+        <AccumulationChartEvents TooltipRender="PieTooltipRender"></AccumulationChartEvents>
+        <AccumulationChartTooltipSettings Header="" Format="<b>${point.x}</b><br>Area in square km: <b>${point.y}</b><br>Population density per square km: <b>${point.tooltip}" Enable="true"></AccumulationChartTooltipSettings>
+        <AccumulationChartLegendSettings Visible="true" Reverse="true"></AccumulationChartLegendSettings>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="Country" YName="Population" Radius="Radius" TooltipMappingName="Radius" InnerRadius="20%">
+                <AccumulationDataLabelSettings TextWrap="@Wrap" MaxWidth="@Width" Name="Country" Visible="true" Position="DataLabelPosition">
+                      <AccumulationChartConnector Length="20px" Type="ConnectorType.Curve"></AccumulationChartConnector>
+                        <AccumulationChartDataLabelFont FontWeight="600"></AccumulationChartDataLabelFont>
+                </AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+    </SfAccumulationChart>
+</div>
+
+@code{
+    private Theme Theme { get; set; }
+    public TextWrap Wrap { get; set; } = TextWrap.Normal;
+    public double Width { get; set; } = double.NaN;
+    public AccumulationLabelPosition DataLabelPosition = AccumulationLabelPosition.Outside;
+    public List<PieData> PieChartPoints = new List<PieData>
+    {
+        new PieData { Country = "Argentina", Population = 505370, Radius = "100"},
+        new PieData { Country = "Cuba",  Population = 312685 , Radius = "124.6"},
+        new PieData { Country = "Belgium",    Population = 551500, Radius = "118.7"},
+        new PieData { Country = "Dominican Republic", Population = 350000 , Radius = "137.5"},
+        new PieData { Country = "Egypt", Population = 301000 , Radius = "150.8"},
+        new PieData { Country = "Kazakhstan", Population = 300000, Radius = "155.5"},
+        new PieData { Country = "Somalia",  Population = 357022, Radius = "160.6"},
+    };
+
+    public void PieTooltipRender(TooltipRenderEventArgs args)
+    {
+        args.Text = args.Text.Replace(args.Data.PointY.ToString(), Convert.ToDouble(args.Data.PointY).ToString("#,#"));
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if(SampleService.IsDevice)
+        {
+            DataLabelPosition = AccumulationLabelPosition.Inside;
+            Wrap = TextWrap.Wrap;
+            Width = 60;
+        }
+    }
+
+    public class PieData
+    {
+        public string Country { get; set; }
+        public double Population { get; set; }
+        public string Radius { get; set; }
+    }
+}

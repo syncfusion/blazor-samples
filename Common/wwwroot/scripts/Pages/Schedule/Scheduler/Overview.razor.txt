@@ -1,0 +1,1826 @@
+﻿@page "/scheduler/overview"
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inherits SampleBaseComponent;
+
+@using System.Globalization
+@using System.IO
+@using System.Timers
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.SplitButtons
+
+<SampleDescription>
+    <p>This sample demonstrates the overview of Blazor Scheduler with its overall features. Use the toolbar buttons to play with Scheduler functionalities.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor Scheduler is a fully-featured calendar component for managing appointments with multiple resources.</p>
+    <p>In this demo, all the available views in Blazor Scheduler are showcased with the major features like resource grouping, tooltip, row auto height, timescale, templates for quick info popups and date header. </p>
+    <p>Also, you can change the first day of the week, working days and hours, start and end hour, slot interval and durations, time format of the Scheduler, and show or hide the week numbers with the <b>Settings</b> options available in the toolbar.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="schedule-overview">
+        <div class="overview-header">
+            <div class="overview-titlebar">
+                <div class="left-panel">
+                    <div class="schedule-overview-title" style="border: 1px solid transparent;">Scheduler Overview Functionalities</div>
+                </div>
+                <div class="center-panel">
+                    <SfButton IconCss="e-icons e-time-zone" Disabled="true" CssClass="title-bar-btn">@TimezoneData.Name</SfButton>
+                    <SfButton IconCss="e-icons  e-clock" Disabled="true" CssClass="title-bar-btn">@SystemTime.ToString("hh:mm:ss tt")</SfButton>
+                </div>
+                <div class="right-panel">
+                    <div class="control-panel calendar-export">
+                        <SfButton IconCss="e-icons e-print" CssClass="title-bar-btn" OnClick="OnPrintClick">Print</SfButton>
+                    </div>
+                    <div class="control-panel">
+                        <SfUploader AllowedExtensions=".ics" CssClass="calendar-import" AllowMultiple="false">
+                            <UploaderButtons Browse="Import"></UploaderButtons>
+                            <UploaderEvents ValueChange="OnFileUploadChange"></UploaderEvents>
+                        </SfUploader>
+                    </div>
+                    <div class="control-panel calendar-export">
+                        <SfDropDownButton Content="Export" class="title-bar-btn">
+                            <DropDownMenuItems>
+                                <DropDownMenuItem Text="iCalendar" IconCss="e-icons e-export"></DropDownMenuItem>
+                                <DropDownMenuItem Text="Excel" IconCss="e-icons e-export-excel"></DropDownMenuItem>
+                            </DropDownMenuItems>
+                            <DropDownButtonEvents ItemSelected="OnExportClick"></DropDownButtonEvents>
+                        </SfDropDownButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overview-toolbar">
+            <div style="height: 70px;width: calc(100% - 90px);">
+                <SfToolbar Width="auto" Height="70px" OverflowMode="OverflowMode.Scrollable" ScrollStep="100">
+                    <ToolbarItems>
+                        <ToolbarItem PrefixIcon="e-icons e-plus" TooltipText="New Event" Text="New Event" OnClick="OnNewEventAdd"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-repeat" TooltipText="New Recurring Event" Text="New Recurring Event" OnClick="OnNewRecurringEventAdd"></ToolbarItem>
+                        <ToolbarItem Type="@ItemType.Separator"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-day" TooltipText="Day" Text="Day" OnClick="OnDayView"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-week" TooltipText="Week" Text="Week" OnClick="OnWeekView"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-week" TooltipText="WorkWeek" Text="WorkWeek" OnClick="OnWorkWeekView"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-month" TooltipText="Month" Text="Month" OnClick="OnMonthView"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-month" TooltipText="Year" Text="Year" OnClick="OnYearView"></ToolbarItem>
+                        <ToolbarItem PrefixIcon="e-icons e-agenda-date-range" TooltipText="Agenda" Text="Agenda" OnClick="OnAgendaView"></ToolbarItem>
+                        <ToolbarItem TooltipText="Timeline Views">
+                            <Template>
+                                <div style="height: 46px; line-height: 23px;">
+                                    <div class="icon-child" style="text-align: center;">
+                                        <SfSwitch @ref="ViewRef" HtmlAttributes="@htmlAttribute" TChecked="bool" ValueChange="OnViewChange"></SfSwitch>
+                                    </div>
+                                    <div class="text-child" style="font-size: 14px;">Timeline Views</div>
+                                </div>
+                            </Template>
+                        </ToolbarItem>
+                        <ToolbarItem Type="@ItemType.Separator"></ToolbarItem>
+                        <ToolbarItem TooltipText="Time slots">
+                            <Template>
+                                <div style="display: grid;">
+                                    <SfCheckBox Checked="@EnableGroup" Label="Grouping" TChecked="bool" ValueChange="OnGroupChange" title="Grouping Resource">></SfCheckBox>
+                                    <SfCheckBox Checked="@isRowAutoHeight" title="Auto fit rows in month and timeline views" Disabled="@(this.CurrentView == View.Day || this.CurrentView == View.Week || this.CurrentView == View.WorkWeek || this.CurrentView == View.Year || CurrentView == View.Agenda)" Label="Auto Fit Rows" TChecked="bool" ValueChange="OnRowAutoHeightChange">></SfCheckBox>
+                                </div>
+                            </Template>
+                        </ToolbarItem>
+                        <ToolbarItem TooltipText="Tooltip">
+                            <Template>
+                                <div style="display: grid;">
+                                    <SfCheckBox Checked="@EnableTimeScale" title="Time Slots" Label="Time Slots" Disabled="@(CurrentView == View.Agenda || CurrentView == View.Month || CurrentView == View.Year || CurrentView == View.TimelineMonth || CurrentView == View.TimelineYear)" TChecked="bool" ValueChange="OnTimeScaleChange">></SfCheckBox>
+                                    <SfCheckBox Checked="@TooltipEnable" title="Show tooltip on appointments" Label="Tooltip" TChecked="bool" ValueChange="OnTooltipChange">></SfCheckBox>
+                                </div>
+                            </Template>
+                        </ToolbarItem>
+                    </ToolbarItems>
+                    <ToolbarEvents Created="OnToolbarCreated"></ToolbarEvents>
+                </SfToolbar>
+            </div>
+            <div style="height:70px;width:90px;">
+                <SfButton IconCss="e-icons e-settings" CssClass="overview-toolbar-settings" IconPosition="IconPosition.Top" OnClick="OnSettingsClick">Settings</SfButton>
+            </div>
+        </div>
+        <div class="overview-content">
+            <div class="left-panel">
+                <div class="overview-scheduler">
+                    <SfSchedule @ref="ScheduleRef" TValue="AppointmentData" CssClass="schedule-overview" Width="100%" Height="100%" @bind-SelectedDate="@SelectedDate" @bind-CurrentView="@CurrentView" Timezone="@TimezoneData.Value" FirstDayOfWeek="@FirstDayOfWeek" ShowWeekNumber="@ShowWeekNumber" WeekRule="@WeekRule" WorkDays="@WorkDays" StartHour="@DayStartHour" EndHour="@DayEndHour" EnableAutoRowHeight="@isRowAutoHeight" TimeFormat="@TimeFormat">
+                        <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+                        <ScheduleResources>
+                            <ScheduleResource TValue="int[]" TItem="CalendarData" DataSource="@Calendars" Query="@ResourceQuery" Field="CalendarId" Title="Calendars" Name="Calendars" TextField="CalendarName" IdField="CalendarId" ColorField="CalendarColor" AllowMultiple="true"></ScheduleResource>
+                        </ScheduleResources>
+                        <ScheduleViews>
+                            <ScheduleView Option="View.Day"></ScheduleView>
+                            <ScheduleView Option="View.Week"></ScheduleView>
+                            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                            <ScheduleView Option="View.Month"></ScheduleView>
+                            <ScheduleView Option="View.Year"></ScheduleView>
+                            <ScheduleView Option="View.Agenda"></ScheduleView>
+                            <ScheduleView Option="View.TimelineDay"></ScheduleView>
+                            <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+                            <ScheduleView Option="View.TimelineWorkWeek"></ScheduleView>
+                            <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+                            <ScheduleView Option="View.TimelineYear"></ScheduleView>
+                        </ScheduleViews>
+                        <ScheduleTemplates>
+                            <DateHeaderTemplate>
+                                <div class="date-text">@(((context as TemplateContext).Date).ToString("dd ddd", CultureInfo.InvariantCulture))</div>
+                                @{
+                                    @switch ((int)(context as TemplateContext).Date.DayOfWeek)
+                                    {
+                                        case 0:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-clear.svg")" /><div class="weather-text">25&deg;C</div>
+                                            break;
+                                        case 1:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-clouds.svg")" /><div class="weather-text">18&deg;C</div>
+                                            break;
+                                        case 2:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-rain.svg")" /><div class="weather-text">10&deg;C</div>
+                                            break;
+                                        case 3:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-clouds.svg")" /><div class="weather-text">16&deg;C</div>
+                                            break;
+                                        case 4:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-rain.svg")" /><div class="weather-text">8&deg;C</div>
+                                            break;
+                                        case 5:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-clear.svg")" /><div class="weather-text">27&deg;C</div>
+                                            break;
+                                        case 6:
+                                            <img class="weather-image" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/weather-clouds.svg")" /><div class="weather-text">17&deg;C</div>
+                                            break;
+                                    }
+                                }
+                            </DateHeaderTemplate>
+                        </ScheduleTemplates>
+                        <ScheduleQuickInfoTemplates>
+                            <HeaderTemplate>
+                                <div class="quick-info-header">
+                                    <div class="quick-info-header-content" style="@(GetHeaderStyles((context as AppointmentData)))">
+                                        <div class="quick-info-title">@((context as AppointmentData).Id == default(int)  ? "Add Appointment" : "Appointment Details")</div>
+                                        <div class="duration-text">@(GetEventDetails((context as AppointmentData)))</div>
+                                    </div>
+                                </div>
+                            </HeaderTemplate>
+                            <ContentTemplate>
+                                @if ((context as AppointmentData).Id == default(int) )
+                                {
+                                    <div class="e-cell-content">
+                                        <div class="content-area">
+                                            <SfTextBox @ref="SubjectRef" CssClass="e-subject" @bind-Value="@((context as AppointmentData).Subject)" Created="OnQuickInfoSubjectCreated" Placeholder="Meeting Title"></SfTextBox>
+                                        </div>
+                                        <div class="content-area">
+                                            <SfDropDownList @ref="CalendarRef" TValue="int" TItem="CalendarData" @bind-Value="@((context as AppointmentData).CalendarId)" DataSource="@Calendars" Placeholder="Choose Calendar">
+                                                <DropDownListFieldSettings Text="CalendarName" Value="CalendarId"></DropDownListFieldSettings>
+                                            </SfDropDownList>
+                                        </div>
+                                        <div class="content-area">
+                                            <SfTextBox @ref="DescriptionRef" @bind-Value="@((context as AppointmentData).Description)" Placeholder="Meeting Notes"></SfTextBox>
+                                        </div>
+                                    </div>
+                                    @if (isQuickInfoCreated)
+                                    {
+                                        Task.Run(async () => await SetFocus());
+                                    }
+                                }
+                                else
+                                {
+                                    AppointmentData Data = context as AppointmentData;
+                                    CalendarData resData = GetResourceData(Data);
+                                    <div class="event-content">
+                                        <div class="meeting-type-wrap">
+                                            <label>Subject</label>:
+                                            <span>@(Data.Subject)</span>
+                                        </div>
+                                        <div class="meeting-subject-wrap">
+                                            <label>Type</label>:
+                                            <span>@((resData != null) ? resData.CalendarName : string.Empty)</span>
+                                        </div>
+                                        <div class="notes-wrap">
+                                            <label>Notes</label>:
+                                            <span>@(Data.Description)</span>
+                                        </div>
+                                    </div>
+                                }
+                            </ContentTemplate>
+                            <FooterTemplate>
+                                @if ((context as AppointmentData).Id == default(int) )
+                                {
+                                    <div class="cell-footer">
+                                        <SfButton Content="More Details" OnClick="@(e => OnMoreDetailsClick(e, (context as AppointmentData), false))"></SfButton>
+                                        <SfButton Content="Add" IsPrimary="true" OnClick="@(e => OnAdd(e, (context as AppointmentData)))"></SfButton>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="event-footer">
+                                        <SfButton CssClass="e-event-delete" Content="Delete" OnClick="@(e => OnDelete(context as AppointmentData))"></SfButton>
+                                        <SfButton IsPrimary="true" CssClass="e-event-edit" Content="More Details" OnClick="@(e => OnMoreDetailsClick(e, (context as AppointmentData), true))"></SfButton>
+                                    </div>
+                                }
+                            </FooterTemplate>
+                        </ScheduleQuickInfoTemplates>
+                        <ScheduleTimeScale Enable="@EnableTimeScale" Interval="@SlotInterval" SlotCount="@SlotCount"></ScheduleTimeScale>
+                        <ScheduleWorkHours Start="@WorkStartHour" End="@WorkEndHour"></ScheduleWorkHours>
+                        <ScheduleEventSettings TValue="@AppointmentData" DataSource="@DataSource" EnableTooltip="@TooltipEnable"></ScheduleEventSettings>
+                    </SfSchedule>
+                    <SfContextMenu TValue="MenuItem" CssClass="schedule-context-menu" Target=".e-schedule">
+                        <MenuItems>
+                            <MenuItem Text="New Event" IconCss="e-icons e-plus" Id="Add" Hidden="@isCell"></MenuItem>
+                            <MenuItem Text="New Recurring Event" IconCss="e-icons e-repeat" Hidden="@isCell" Id="AddRecurrence"></MenuItem>
+                            <MenuItem Text="Today" IconCss="e-icons e-timeline-today" Id="Today" Hidden="@isCell"></MenuItem>
+                            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="Save" Hidden="@isEvent"></MenuItem>
+                            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="EditRecurrenceEvent" Hidden="@isRecurrence">
+                                <MenuItems>
+                                    <MenuItem Text="Edit Occurrence" Id="EditOccurrence"></MenuItem>
+                                    <MenuItem Text="Edit Series" Id="EditSeries"></MenuItem>
+                                </MenuItems>
+                            </MenuItem>
+                            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="Delete" Hidden="@isEvent"></MenuItem>
+                            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="DeleteRecurrenceEvent" Hidden="@isRecurrence">
+                                <MenuItems>
+                                    <MenuItem Text="Delete Occurrence" Id="DeleteOccurrence"></MenuItem>
+                                    <MenuItem Text="Delete Series" Id="DeleteSeries"></MenuItem>
+                                </MenuItems>
+                            </MenuItem>
+                        </MenuItems>
+                        <MenuEvents TValue="MenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></MenuEvents>
+                    </SfContextMenu>
+                </div>
+            </div>
+            <div class="right-panel @((this.IsSettingsVisible ? "" : "hide"))">
+                <div class="control-panel e-css">
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">First Day of Week</label>
+                        </div>
+                        <div class="col-right">
+                            <SfDropDownList TItem="WeekDays" TValue="int" PopupHeight="150px" @bind-Value="@FirstDayOfWeek" DataSource="@WeekCollection">
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                <DropDownListEvents TValue="int" ValueChange="OnWeekDaysChange" TItem="WeekDays"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Work week</label>
+                        </div>
+                        <div class="col-right">
+                            <SfMultiSelect TValue="int[]" TItem="WeekDays" CssClass="schedule-workweek" Mode="@VisualMode.CheckBox" DataSource="@WeekCollection" EnableSelectionOrder="false" ShowDropDownIcon="true" @bind-Value="@WorkDays" PopupHeight="250px">
+                                <MultiSelectFieldSettings Text="Name" Value="Value"></MultiSelectFieldSettings>
+                                <MultiSelectEvents TValue="int[]" TItem="WeekDays" ValueChange="OnWorkDaysChange"></MultiSelectEvents>
+                            </SfMultiSelect>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Resources</label>
+                        </div>
+                        <div class="col-right">
+                            <SfMultiSelect @ref="ResourceRef" TValue="int[]" TItem="CalendarData" CssClass="schedule-resource" Mode="@VisualMode.CheckBox" DataSource="@Calendars" EnableSelectionOrder="false" ShowDropDownIcon="true" @bind-Value="@SelectedResource" PopupHeight="150px">
+                                <MultiSelectFieldSettings Text="CalendarName" Value="CalendarId"></MultiSelectFieldSettings>
+                                <MultiSelectEvents TValue="int[]" TItem="CalendarData" ValueChange="OnResourceChange"></MultiSelectEvents>
+                            </SfMultiSelect>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Day Start Hour</label>
+                        </div>
+                        <div class="col-right">
+                            <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@ScheduleStartHour" ShowClearButton="false">
+                                <TimePickerEvents TValue="DateTime?" ValueChange="OnDayStartHourChange"></TimePickerEvents>
+                            </SfTimePicker>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Day End Hour</label>
+                        </div>
+                        <div class="col-right">
+                            <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@ScheduleEndHour" ShowClearButton="false">
+                                <TimePickerEvents TValue="DateTime?" ValueChange="OnDayEndHourChange"></TimePickerEvents>
+                            </SfTimePicker>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Work Start Hour</label>
+                        </div>
+                        <div class="col-right">
+                            <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@StartWorkHour" ShowClearButton="false">
+                                <TimePickerEvents TValue="DateTime?" ValueChange="OnWorkStartHourChange"></TimePickerEvents>
+                            </SfTimePicker>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Work End Hour</label>
+                        </div>
+                        <div class="col-right">
+                            <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@EndWorkHour" ShowClearButton="false">
+                                <TimePickerEvents TValue="DateTime?" ValueChange="OnWorkEndHourChange"></TimePickerEvents>
+                            </SfTimePicker>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Slot Duration</label>
+                        </div>
+                        <div class="col-right">
+                            <SfDropDownList TItem="SlotData" TValue="int" PopupHeight="150px" DataSource="@SlotIntervalDataSource" @bind-Value="@SlotInterval">
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                <DropDownListEvents TItem="SlotData" TValue="int" ValueChange="OnSlotIntervalChange"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Slot Interval</label>
+                        </div>
+                        <div class="col-right">
+                            <SfDropDownList TItem="SlotData" TValue="int" PopupHeight="150px" DataSource="@SlotCountDataSource" @bind-Value="@SlotCount">
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Time Format</label>
+                        </div>
+                        <div class="col-right">
+                            <SfDropDownList TItem="TimeFormatData" TValue="string" PopupHeight="150px" DataSource="@TimeFormatDataSource" @bind-Value="@TimeFormat">
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                    <div class="col-row">
+                        <div class="col-left">
+                            <label style="line-height: 34px; margin: 0;">Week Numbers</label>
+                        </div>
+                        <div class="col-right">
+                            <SfDropDownList TItem="WeekNumbers" TValue="string" PopupHeight="150px" DataSource="@WeekNumbersData" @bind-Value="@WeeklyRule">
+                                <DropDownListEvents TItem="WeekNumbers" TValue="string" ValueChange="OnWeekNumberChange"></DropDownListEvents>
+                                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    SfTextBox SubjectRef;
+    SfSwitch<bool> ViewRef;
+    SfTextBox DescriptionRef;
+    SfMultiSelect<int[], CalendarData> ResourceRef;
+    SfSchedule<AppointmentData> ScheduleRef;
+    SfDropDownList<int, CalendarData> CalendarRef;
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public bool IsAllDay { get; set; }
+        public bool IsReadonly { get; set; }
+        public int CalendarId { get; set; }
+        public int? RecurrenceID { get; set; }
+        public string RecurrenceRule { get; set; }
+        public string RecurrenceException { get; set; }
+
+        public AppointmentData() { }
+
+        public AppointmentData(int Id, string Subject, DateTime StartTime, DateTime EndTime, string Location, string Description, bool IsAllDay, bool IsReadonly, int CalendarId, int RecurrenceID, string RecurrenceRule, string RecurrenceException)
+        {
+            this.Id = Id;
+            this.Subject = Subject;
+            this.StartTime = StartTime;
+            this.EndTime = EndTime;
+            this.Location = Location;
+            this.Description = Description;
+            this.IsAllDay = IsAllDay;
+            this.IsReadonly = IsReadonly;
+            this.CalendarId = CalendarId;
+            this.RecurrenceID = RecurrenceID;
+            this.RecurrenceRule = RecurrenceRule;
+            this.RecurrenceException = RecurrenceException;
+        }
+
+        public List<AppointmentData> GetEvents()
+        {
+            List<AppointmentData> EventData = new List<AppointmentData>();
+            DateTime YearStart = new DateTime(DateTime.Now.Year, 1, 1);
+            DateTime YearEnd = new DateTime(DateTime.Now.Year, 12, 31);
+            string[] EventSubjects = new string[] {
+                "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration",
+                "Wedding Anniversary", "Alaska: The Last Frontier", "Deadliest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell",
+                "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico",
+                "Opening ceremony", "Final presentation"
+            };
+            DateTime CurrentDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Sunday);
+            DateTime Start = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, 10, 0, 0);
+            DateTime End = new DateTime(CurrentDate.Year, CurrentDate.Month, CurrentDate.Day, 11, 30, 0);
+            EventData.Add(new AppointmentData()
+            {
+                Id = 1,
+                Subject = EventSubjects[new Random().Next(1, 25)],
+                StartTime = Start.ToLocalTime(),
+                EndTime = End.ToLocalTime(),
+                Location = "",
+                Description = "Event Scheduled",
+                RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1;COUNT=10;",
+                IsAllDay = false,
+                IsReadonly = false,
+                CalendarId = 1
+            });
+            for (int a = 0, id = 2; a < 500; a++)
+            {
+                Random random = new Random();
+                int Month = random.Next(1, 12);
+                int Date = random.Next(1, 28);
+                int Hour = random.Next(1, 24);
+                int Minutes = random.Next(1, 60);
+                DateTime start = new DateTime(YearStart.Year, Month, Date, Hour, Minutes, 0);
+                DateTime end = new DateTime(start.Ticks).AddHours(2);
+                DateTime StartDate = new DateTime(start.Ticks);
+                DateTime EndDate = new DateTime(end.Ticks);
+                AppointmentData eventDatas = new AppointmentData()
+                {
+                    Id = id,
+                    Subject = EventSubjects[random.Next(1, 25)],
+                    StartTime = StartDate,
+                    EndTime = EndDate,
+                    Location = "",
+                    Description = "Event Scheduled",
+                    IsAllDay = id % 10 == 0,
+                    IsReadonly = EndDate < DateTime.Now,
+                    CalendarId = (a % 4) + 1
+                };
+                EventData.Add(eventDatas);
+                id++;
+            }
+            return EventData;
+        }
+    }
+    public class CalendarData
+    {
+        public string CalendarName { get; set; }
+        public string CalendarColor { get; set; }
+        public int CalendarId { get; set; }
+    }
+    public class WeekDays
+    {
+        public string Name { get; set; }
+        public int Value { get; set; }
+    }
+    public class SlotData : WeekDays { }
+    public class TimeFormatData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    public class WeekNumbers
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+    public class Timezone
+    {
+        public string Name { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
+    }
+
+    List<AppointmentData> DataSource = new AppointmentData().GetEvents();
+    public AppointmentData EventData { get; set; }
+    public CellClickEventArgs CellData { get; set; }
+    private bool isCell { get; set; }
+    private bool isEvent { get; set; }
+    private bool isRecurrence { get; set; }
+    private int SlotCount { get; set; } = 2;
+    private int SlotInterval { get; set; } = 60;
+    private int FirstDayOfWeek { get; set; } = 0;
+    private bool EnableGroup { get; set; } = true;
+    private bool TooltipEnable { get; set; } = false;
+    private bool isRowAutoHeight { get; set; } = false;
+    private bool EnableTimeScale { get; set; } = true;
+    private bool ShowWeekNumber { get; set; } = false;
+    private bool isQuickInfoCreated { get; set; } = false;
+    private CalendarWeekRule WeekRule { get; set; } = CalendarWeekRule.FirstDay;
+    private string WeeklyRule { get; set; } = "Off";
+    private View CurrentView { get; set; } = View.Week;
+    private string SelectedView { get; set; } = "Week";
+    private string DayStartHour { get; set; } = "00:00";
+    private string DayEndHour { get; set; } = "24:00";
+    private string WorkStartHour { get; set; } = "09:00";
+    private string WorkEndHour { get; set; } = "18:00";
+    private string TimeFormat { get; set; } = "hh:mm tt";
+    private bool IsSettingsVisible { get; set; } = false;
+    public string[] GroupData = new string[] { "Calendars" };
+    private DateTime SystemTime { get; set; } = DateTime.UtcNow;
+    private DateTime SelectedDate { get; set; } = DateTime.UtcNow;
+    private DateTime? StartWorkHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
+    private DateTime? EndWorkHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
+    private DateTime? ScheduleStartHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+    private DateTime? ScheduleEndHour { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
+    private int[] SelectedResource { get; set; } = new int[] { 1 };
+    private int[] WorkDays { get; set; } = new int[] { 1, 2, 3, 4, 5 };
+    private Timezone TimezoneData { get; set; } = new Timezone() { Name = "UTC+00:00", Key = "UTC", Value = "UTC" };
+    private Query ResourceQuery { get; set; } = new Query().Where(new WhereFilter() { Field = "CalendarId", Operator = "equal", value = 1 });
+
+    public List<CalendarData> Calendars { get; set; } = new List<CalendarData> {
+        new CalendarData { CalendarName = "My Calendar", CalendarId = 1, CalendarColor = "#c43081" },
+        new CalendarData { CalendarName= "Company", CalendarId= 2, CalendarColor= "#ff7f50" },
+        new CalendarData { CalendarName= "Birthday", CalendarId= 3, CalendarColor= "#AF27CD" },
+        new CalendarData { CalendarName= "Holiday", CalendarId= 4, CalendarColor= "#808000" }
+    };
+    private List<SlotData> SlotIntervalDataSource = new List<SlotData>() {
+        new SlotData() { Name = "1 hour", Value = 60 },
+        new SlotData() { Name = "1.5 hours", Value = 90 },
+        new SlotData() { Name = "2 hours", Value = 120 },
+        new SlotData() { Name = "2.5 hours", Value = 150 },
+        new SlotData() { Name = "3 hours", Value = 180 },
+        new SlotData() { Name = "3.5 hours", Value = 210 },
+        new SlotData() { Name = "4 hours", Value = 240 },
+        new SlotData() { Name = "4.5 hours", Value = 270 },
+        new SlotData() { Name = "5 hours", Value = 300 },
+        new SlotData() { Name = "5.5 hours", Value = 330 },
+        new SlotData() { Name = "6 hours", Value = 360 },
+        new SlotData() { Name = "6.5 hours", Value = 390 },
+        new SlotData() { Name = "7 hours", Value = 420 },
+        new SlotData() { Name = "7.5 hours", Value = 450 },
+        new SlotData() { Name = "8 hours", Value = 480 },
+        new SlotData() { Name = "8.5 hours", Value = 510 },
+        new SlotData() { Name = "9 hours", Value = 540 },
+        new SlotData() { Name = "9.5 hours", Value = 570 },
+        new SlotData() { Name = "10 hours", Value = 600 },
+        new SlotData() { Name = "10.5 hours", Value = 630 },
+        new SlotData() { Name = "11 hours", Value = 660 },
+        new SlotData() { Name = "11.5 hours", Value = 690 },
+        new SlotData() { Name = "12 hours", Value = 720 }
+    };
+    private List<SlotData> SlotCountDataSource = new List<SlotData>() {
+        new SlotData() { Name = "1", Value = 1 },
+        new SlotData() { Name = "2", Value = 2 },
+        new SlotData() { Name = "3", Value = 3 },
+        new SlotData() { Name = "4", Value = 4 },
+        new SlotData() { Name = "5", Value = 5 },
+        new SlotData() { Name = "6", Value = 6 },
+        new SlotData() { Name = "7", Value = 7 },
+        new SlotData() { Name = "8", Value = 8 },
+        new SlotData() { Name = "9", Value = 9 },
+        new SlotData() { Name = "10", Value = 10 }
+    };
+    private List<TimeFormatData> TimeFormatDataSource = new List<TimeFormatData>()
+{
+        new TimeFormatData() { Name = "12 hours", Value = "hh:mm tt" },
+        new TimeFormatData() { Name = "24 hours", Value = "HH:mm" }
+    };
+    private List<WeekNumbers> WeekNumbersData = new List<WeekNumbers>()
+{
+        new WeekNumbers() { Name = "Off", Value = "Off" },
+        new WeekNumbers() { Name = "First Day Of Year", Value = "FirstDay" },
+        new WeekNumbers() { Name = "First Full Week", Value = "FirstFullWeek" },
+        new WeekNumbers() { Name = "First Four-Day Week", Value = "FirstFourDayWeek" }
+    };
+    private List<string> ScheduleViews { get; set; } = new List<string>() { "Day", "Week", "WorkWeek", "Month", "Year", "Agenda", "TimelineDay", "TimelineWeek", "TimelineWorkWeek", "TimelineMonth", "TimelineYear" };
+    private List<WeekDays> WeekCollection { get; set; } = new List<WeekDays>() {
+        new WeekDays () { Name = "Sunday", Value = 0 },
+        new WeekDays () { Name = "Monday", Value = 1 },
+        new WeekDays () { Name = "Tuesday", Value = 2 },
+        new WeekDays () { Name = "Wednesday", Value = 3 },
+        new WeekDays () { Name = "Thursday", Value = 4 },
+        new WeekDays () { Name = "Friday", Value = 5 },
+        new WeekDays () { Name = "Saturday", Value = 6 }
+    };
+    private List<Timezone> TimezoneCollection { get; set; } = new List<Timezone>() {
+        new Timezone () { Name = "UTC-08:00", Key = "Pacific Standard Time", Value = "America/Los_Angeles" },
+        new Timezone () { Name = "UTC-07:00", Key = "Mountain Standard Time", Value = "America/Denver" },
+        new Timezone () { Name = "UTC-06:00", Key = "Central Standard Time", Value = "America/Chicago" },
+        new Timezone () { Name = "UTC-05:00", Key = "Eastern Standard Time", Value = "America/New_York" },
+        new Timezone () { Name = "UTC-04:00", Key = "Atlantic Standard Time", Value = "Atlantic/Bermuda" },
+        new Timezone () { Name = "UTC-03:00", Key = "Greenland Standard Time", Value = "Atlantic/Stanley" },
+        new Timezone () { Name = "UTC-02:00", Key = "Mid-Atlantic Standard Time", Value = "America/Sao_Paulo" },
+        new Timezone () { Name = "UTC-01:00", Key = "Cape Verde Standard Time", Value = "Atlantic/Cape_Verde" },
+        new Timezone () { Name = "UTC+00:00", Key = "UTC", Value = "UTC" },
+        new Timezone () { Name = "UTC+01:00", Key = "Romance Standard Time", Value = "Europe/Paris" },
+        new Timezone () { Name = "UTC+03:00", Key = "Russian Standard Time", Value = "Europe/Moscow" },
+        new Timezone () { Name = "UTC+05:30", Key = "India Standard Time", Value = "Asia/Kolkata" },
+        new Timezone () { Name = "UTC+08:00", Key = "W. Australia Standard Time", Value = "Australia/Perth" },
+        new Timezone () { Name = "UTC+10:00", Key = "E. Australia Standard Time", Value = "Australia/Brisbane" },
+        new Timezone () { Name = "UTC+10:30", Key = "Lord Howe Standard Time", Value = "Australia/Adelaide" },
+        new Timezone () { Name = "UTC+13:00", Key = "New Zealand Standard Time", Value = "Pacific/Auckland" }
+    };
+    private Dictionary<string, object> htmlAttribute = new Dictionary<string, object>() {
+        {"tabindex", "-1" }
+    };
+
+    private void OnViewChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        switch (this.CurrentView)
+        {
+            case View.Day:
+            case View.TimelineDay:
+                this.CurrentView = args.Checked ? View.TimelineDay : View.Day;
+                break;
+            case View.Week:
+            case View.TimelineWeek:
+                this.CurrentView = args.Checked ? View.TimelineWeek : View.Week;
+                break;
+            case View.WorkWeek:
+            case View.TimelineWorkWeek:
+                this.CurrentView = args.Checked ? View.TimelineWorkWeek : View.WorkWeek;
+                break;
+            case View.Month:
+            case View.TimelineMonth:
+                this.CurrentView = args.Checked ? View.TimelineMonth : View.Month;
+                break;
+            case View.Year:
+            case View.TimelineYear:
+                this.CurrentView = args.Checked ? View.TimelineYear : View.Year;
+                break;
+            case View.Agenda:
+                this.CurrentView = View.Agenda;
+                break;
+        }
+    }
+
+    private async void OnNewEventAdd()
+    {
+        DateTime Date = this.ScheduleRef.SelectedDate;
+        DateTime Start = new DateTime(Date.Year, Date.Month, Date.Day, DateTime.Now.Hour, 0, 0);
+        AppointmentData eventData = new AppointmentData
+        {
+            Id = await ScheduleRef.GetMaxEventIdAsync<int>(),
+            Subject = "",
+            StartTime = Start,
+            EndTime = Start.AddHours(1),
+            Location = "",
+            Description = "",
+            IsAllDay = false,
+            CalendarId = this.ResourceRef.Value[0]
+        };
+        await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
+    }
+
+    private async void OnNewRecurringEventAdd()
+    {
+        DateTime Date = this.ScheduleRef.SelectedDate;
+        DateTime Start = new DateTime(Date.Year, Date.Month, Date.Day, DateTime.Now.Hour, 0, 0);
+        AppointmentData eventData = new AppointmentData
+        {
+            Id = await ScheduleRef.GetMaxEventIdAsync<int>(),
+            Subject = "",
+            StartTime = Start,
+            EndTime = Start.AddHours(1),
+            Location = "",
+            Description = "",
+            IsAllDay = false,
+            CalendarId = this.ResourceRef.Value[0],
+            RecurrenceRule = "FREQ=DAILY;INTERVAL=1;"
+        };
+        await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
+    }
+
+    private void OnDayView()
+    {
+        this.CurrentView = this.ViewRef.Checked ? View.TimelineDay : View.Day;
+    }
+
+    private void OnWeekView()
+    {
+        this.CurrentView = this.ViewRef.Checked ? View.TimelineWeek : View.Week;
+    }
+
+    private void OnWorkWeekView()
+    {
+        this.CurrentView = this.ViewRef.Checked ? View.TimelineWorkWeek : View.WorkWeek;
+    }
+
+    private void OnMonthView()
+    {
+        this.CurrentView = this.ViewRef.Checked ? View.TimelineMonth : View.Month;
+    }
+
+    private void OnYearView()
+    {
+        this.CurrentView = this.ViewRef.Checked ? View.TimelineYear : View.Year;
+    }
+
+    private void OnAgendaView()
+    {
+        this.CurrentView = View.Agenda;
+    }
+
+    private async void OnSettingsClick()
+    {
+        this.IsSettingsVisible = !this.IsSettingsVisible;
+        StateHasChanged();
+        await this.ScheduleRef.RefreshEventsAsync();
+    }
+
+    private string GetEventDetails(AppointmentData data)
+    {
+        return data.StartTime.ToString("dddd dd, MMMM yyyy", CultureInfo.InvariantCulture) + " (" + data.StartTime.ToString(TimeFormat, CultureInfo.InvariantCulture) + "-" + data.EndTime.ToString(TimeFormat, CultureInfo.InvariantCulture) + ")";
+    }
+
+    private string GetHeaderStyles(AppointmentData data)
+    {
+        if (data.Id == default(int) )
+        {
+            return "align-items: center ; color: #919191;";
+        }
+        else
+        {
+            CalendarData resData = GetResourceData(data);
+            return "background:" + (resData == null ? "#007bff" : resData.CalendarColor) + "; color: #FFFFFF;";
+        }
+    }
+
+    private async Task SetFocus()
+    {
+        if (isQuickInfoCreated)
+        {
+            await Task.Delay(20);
+            await SubjectRef.FocusAsync();
+        }
+    }
+    private async Task OnQuickInfoSubjectCreated()
+    {
+        await Task.Yield();
+        await SubjectRef.FocusAsync();
+        isQuickInfoCreated = true;
+    }
+
+    public void OnToolbarCreated()
+    {
+        Timer timer = new Timer(1000);
+        timer.Elapsed += new ElapsedEventHandler((object sender, ElapsedEventArgs e) =>
+        {
+            string key = this.TimezoneData.Key ?? "UTC";
+            SystemTime = this.TimeConvertor(key);
+            ScheduleRef?.PreventRender();
+            InvokeAsync(() => { StateHasChanged(); });
+        });
+        timer.Enabled = true;
+    }
+
+    private CalendarData GetResourceData(AppointmentData data)
+    {
+        if (data.CalendarId != 0)
+        {
+            int resourceId = SelectedResource.Where(item => item == data.CalendarId).FirstOrDefault();
+            CalendarData resourceData = this.Calendars.Where(item => item.CalendarId == resourceId).FirstOrDefault();
+            return resourceData;
+        }
+        return null;
+    }
+
+    private DateTime TimeConvertor(string TimeZoneId)
+    {
+        return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneId));
+    }
+
+    private async void OnMoreDetailsClick(MouseEventArgs args, AppointmentData data, bool isEventData)
+    {
+        await ScheduleRef.CloseQuickInfoPopupAsync();
+        if (isEventData == false)
+        {
+            AppointmentData eventData = new AppointmentData
+            {
+                Id = await ScheduleRef.GetMaxEventIdAsync<int>(),
+                Subject = SubjectRef.Value ?? "",
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                Location = data.Location,
+                Description = DescriptionRef.Value ?? "",
+                IsAllDay = data.IsAllDay,
+                CalendarId = CalendarRef.Value,
+                RecurrenceException = data.RecurrenceException,
+                RecurrenceID = data.RecurrenceID,
+                RecurrenceRule = data.RecurrenceRule
+            };
+            await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
+        }
+        else
+        {
+            AppointmentData eventData = new AppointmentData
+            {
+                Id = data.Id,
+                Subject = data.Subject,
+                Location = data.Location,
+                Description = data.Description,
+                StartTime = data.StartTime,
+                EndTime = data.EndTime,
+                IsAllDay = data.IsAllDay,
+                CalendarId = data.CalendarId,
+                RecurrenceException = data.RecurrenceException,
+                RecurrenceID = data.RecurrenceID,
+                RecurrenceRule = data.RecurrenceRule
+            };
+            if (!string.IsNullOrEmpty(eventData.RecurrenceRule))
+            {
+                await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.EditOccurrence);
+            }
+            else
+            {
+                await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Save);
+            }
+        }
+    }
+
+    private async Task OnDelete(AppointmentData data)
+    {
+        await ScheduleRef.CloseQuickInfoPopupAsync();
+        await ScheduleRef.DeleteEventAsync(data, !string.IsNullOrEmpty(data.RecurrenceRule) ? CurrentAction.DeleteOccurrence : CurrentAction.Delete);
+    }
+
+    private async Task OnAdd(MouseEventArgs args, AppointmentData data)
+    {
+        await ScheduleRef.CloseQuickInfoPopupAsync();
+        AppointmentData cloneData = new AppointmentData
+        {
+            Id = await ScheduleRef.GetMaxEventIdAsync<int>(),
+            Subject = SubjectRef.Value ?? "Add title",
+            Description = DescriptionRef.Value ?? "Add notes",
+            StartTime = data.StartTime,
+            EndTime = data.EndTime,
+            CalendarId = CalendarRef.Value,
+            Location = data.Location,
+            IsAllDay = data.IsAllDay,
+            RecurrenceException = data.RecurrenceException,
+            RecurrenceID = data.RecurrenceID,
+            RecurrenceRule = data.RecurrenceRule
+        };
+        await ScheduleRef.AddEventAsync(cloneData);
+    }
+
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string> args)
+    {
+        View currentView = new View();
+        switch (args.Value)
+        {
+            case "Day":
+                currentView = View.Day;
+                break;
+            case "Week":
+                currentView = View.Week;
+                break;
+            case "WorkWeek":
+                currentView = View.WorkWeek;
+                break;
+            case "Month":
+                currentView = View.Month;
+                break;
+            case "Year":
+                currentView = View.Year;
+                break;
+            case "Agenda":
+                currentView = View.Agenda;
+                break;
+            case "TimelineDay":
+                currentView = View.TimelineDay;
+                break;
+            case "TimelineWeek":
+                currentView = View.TimelineWeek;
+                break;
+            case "TimelineWorkWeek":
+                currentView = View.TimelineWorkWeek;
+                break;
+            case "TimelineMonth":
+                currentView = View.TimelineMonth;
+                break;
+            case "TimelineYear":
+                currentView = View.TimelineYear;
+                break;
+        }
+        this.CurrentView = currentView;
+    }
+
+    public void OnWeekNumberChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, WeekNumbers> args)
+    {
+        switch (args.Value)
+        {
+            case "Off":
+                this.ShowWeekNumber = false;
+                break;
+            case "FirstDay":
+                this.ShowWeekNumber = true;
+                this.WeekRule = CalendarWeekRule.FirstDay;
+                break;
+            case "FirstFullWeek":
+                this.ShowWeekNumber = true;
+                this.WeekRule = CalendarWeekRule.FirstFullWeek;
+                break;
+            case "FirstFourDayWeek":
+                this.ShowWeekNumber = true;
+                this.WeekRule = CalendarWeekRule.FirstFourDayWeek;
+                break;
+        }
+    }
+
+    public void OnWeekDaysChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<int, WeekDays> args)
+    {
+        this.FirstDayOfWeek = args.Value;
+    }
+
+    public void OnWorkDaysChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<int[]> args)
+    {
+        this.WorkDays = args.Value;
+    }
+
+    public void OnDayStartHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.DayStartHour = args.Text;
+    }
+
+    public void OnDayEndHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.DayEndHour = args.Text;
+    }
+
+    public void OnWorkStartHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.WorkStartHour = args.Text;
+    }
+
+    public void OnWorkEndHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.WorkEndHour = args.Text;
+    }
+
+    public void OnTimezoneChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Timezone> args)
+    {
+        this.TimezoneData = args.ItemData;
+        var zones = TimeZoneInfo.GetSystemTimeZones();
+        SystemTime = this.TimeConvertor(this.TimezoneData.Key);
+    }
+
+    public void OnResourceChange(Syncfusion.Blazor.DropDowns.MultiSelectChangeEventArgs<int[]> args)
+    {
+        WhereFilter predicate = new WhereFilter();
+        if (args.Value != null)
+        {
+            predicate = new WhereFilter() { Field = "CalendarId", Operator = "equal", value = args.Value.Count() > 0 ? args.Value[0] : 0 }.
+                Or(new WhereFilter() { Field = "CalendarId", Operator = "equal", value = args.Value.Count() > 1 ? args.Value[1] : 0 }).
+                Or(new WhereFilter() { Field = "CalendarId", Operator = "equal", value = args.Value.Count() > 2 ? args.Value[2] : 0 }).
+                Or(new WhereFilter() { Field = "CalendarId", Operator = "equal", value = args.Value.Count() > 3 ? args.Value[3] : 0 });
+        }
+        else
+        {
+            predicate = new WhereFilter() { Field = "CalendarId", Operator = "equal", value = 1 };
+        }
+        this.ResourceQuery = new Query().Where(predicate);
+    }
+
+    public void OnGroupChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.EnableGroup = args.Checked;
+        this.GroupData = args.Checked ? new string[] { "Calendars" } : null;
+    }
+
+    public void OnTimeScaleChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.EnableTimeScale = args.Checked;
+    }
+
+    public void OnRowAutoHeightChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.isRowAutoHeight = args.Checked;
+    }
+
+    public void OnTooltipChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        this.TooltipEnable = args.Checked;
+    }
+
+    public void OnSlotIntervalChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<int, SlotData> args)
+    {
+        this.SlotInterval = args.Value;
+    }
+
+    public void OnSlotCountChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<int, SlotData> args)
+    {
+        this.SlotCount = args.Value;
+    }
+
+    public async Task OnFileUploadChange(UploadChangeEventArgs args)
+    {
+        foreach (Syncfusion.Blazor.Inputs.UploadFiles file in args.Files)
+        {
+            file.Stream.Position = 0;
+            StreamReader reader = new StreamReader(file.Stream);
+            await ScheduleRef.ImportICalendarAsync(reader.ReadToEnd());
+        }
+    }
+
+    public async void OnPrintClick()
+    {
+        await ScheduleRef.PrintAsync();
+    }
+
+    public async void OnExportClick(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
+    {
+        if (args.Item.Text == "Excel")
+        {
+            List<AppointmentData> ExportDatas = new List<AppointmentData>();
+            List<AppointmentData> EventCollection = await ScheduleRef.GetEventsAsync();
+            List<Syncfusion.Blazor.Schedule.Resource> ResourceCollection = ScheduleRef.GetResourceCollections();
+            List<CalendarData> ResourceData = ResourceCollection[0].DataSource as List<CalendarData>;
+            for (int a = 0, count = ResourceData.Count(); a < count; a++)
+            {
+                List<AppointmentData> datas = EventCollection.Where(e => e.CalendarId == ResourceData[a].CalendarId).ToList();
+                foreach (AppointmentData data in datas)
+                {
+                    ExportDatas.Add(data);
+                }
+            }
+            ExportOptions Options = new ExportOptions()
+            {
+                ExportType = ExcelFormat.Xlsx,
+                CustomData = ExportDatas,
+                Fields = new string[] { "Id", "Subject", "StartTime", "EndTime", "CalendarId" }
+            };
+            await ScheduleRef.ExportToExcelAsync(Options);
+        }
+        else
+        {
+            await ScheduleRef.ExportToICalendarAsync();
+        }
+    }
+
+    public async Task OnOpen(BeforeOpenCloseMenuEventArgs<MenuItem> args)
+    {
+        if (args.ParentItem == null)
+        {
+            CellData = await ScheduleRef.GetTargetCellAsync((int)args.Left, (int)args.Top);
+            await ScheduleRef.CloseQuickInfoPopupAsync();
+            if (CellData == null)
+            {
+                EventData = await ScheduleRef.GetTargetEventAsync((int)args.Left, (int)args.Top);
+                if (EventData.Id == 0)
+                {
+                    args.Cancel = true;
+                }
+                if (EventData.RecurrenceRule != null)
+                {
+                    isCell = isEvent = true;
+                    isRecurrence = false;
+                }
+                else
+                {
+                    isCell = isRecurrence = true;
+                    isEvent = false;
+                }
+            }
+            else
+            {
+                isCell = false;
+                isEvent = isRecurrence = true;
+            }
+        }
+    }
+
+    public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
+    {
+        var SelectedMenuItem = args.Item.Id;
+        var ActiveCellsData = await ScheduleRef.GetSelectedCellsAsync();
+        if (ActiveCellsData == null)
+        {
+            ActiveCellsData = CellData;
+        }
+        switch (SelectedMenuItem)
+        {
+            case "Today":
+                string key = this.TimezoneData.Key ?? "UTC";
+                SelectedDate = this.TimeConvertor(key);
+                break;
+            case "Add":
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add);
+                break;
+            case "AddRecurrence":
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
+                break;
+            case "Save":
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.Save);
+                break;
+            case "EditOccurrence":
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditOccurrence);
+                break;
+            case "EditSeries":
+                List<AppointmentData> Events = await ScheduleRef.GetEventsAsync();
+                EventData = (AppointmentData)Events.Where(data => data.Id == EventData.RecurrenceID).FirstOrDefault();
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditSeries);
+                break;
+            case "Delete":
+                await ScheduleRef.DeleteEventAsync(EventData);
+                break;
+            case "DeleteOccurrence":
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteOccurrence);
+                break;
+            case "DeleteSeries":
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteSeries);
+                break;
+        }
+    }
+}
+
+<style>
+    .tailwind .e-settings::before,
+    .tailwind-dark .e-settings::before {
+        font-size: 14px;
+    }
+
+    .tailwind.e-bigger .e-settings,
+    .tailwind-dark.e-bigger .e-settings {
+        font-size: 16px !important;
+    }
+
+    .material .schedule-overview .overview-toolbar .e-toolbar {
+        border-style: solid;
+    }
+
+    .material .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import .e-upload-browse-btn {
+        text-transform: capitalize;
+        box-shadow: none;
+    }
+
+    .highcontrast .schedule-overview .overview-header .overview-titlebar {
+        background-color: #ffd939;
+        color: black;
+    }
+
+    .highcontrast .schedule-overview .overview-content {
+        border: 1px solid #969696;
+    }
+
+    .tailwind-dark .schedule-overview .overview-content {
+        border: 1px solid #4b5563;
+        border-top: 0;
+    }
+
+    .highcontrast .schedule-overview .overview-content {
+        border-top: 0;
+    }
+
+    .fabric-dark .schedule-overview .overview-content {
+        border: 1px solid #414040;
+    }
+
+    .fluent-dark .schedule-overview .overview-content {
+        border: 1px solid #c1c1c1;
+    }
+
+    .fluent-dark .schedule-overview .overview-toolbar .e-toolbar {
+        border: 1px solid #c1c1c1;
+        border-top-color: transparent;
+    }
+
+    .fabric-dark .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        border-color: #414040;
+    }
+
+    .fluent-dark .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        border-color: #c1c1c1;
+    }
+
+    .tailwind .schedule-overview .overview-toolbar .e-toolbar {
+        border: 1px solid #e5e7eb;
+    }
+
+    .tailwind-dark .schedule-overview .overview-toolbar .e-toolbar {
+        border: 1px solid #4b5563;
+    }
+
+    .tailwind .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .tailwind .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #f3f4f6;
+        border-color: #e5e7eb;
+        box-shadow: none;
+    }
+
+    .tailwind-dark .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .tailwind-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #374151;
+        border-color: #4b5563;
+        box-shadow: none;
+    }
+
+    .highcontrast .schedule-overview .overview-toolbar .e-toolbar,
+    .highcontrast .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-items .e-toolbar-item.e-separator,
+    .highcontrast .schedule-overview .overview-toolbar .e-toolbar .e-hscroll .e-scroll-nav.e-scroll-left-nav,
+    .highcontrast .schedule-overview .overview-toolbar .e-toolbar .e-hscroll .e-scroll-nav.e-scroll-right-nav {
+        border-color: #969696;
+    }
+
+    .material .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        background-color: #fafafa;
+        box-shadow: none;
+    }
+
+    .material .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #fafafa;
+    }
+
+    .material-dark .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .material-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #2a2a2a;
+        color: #ffff;
+    }
+
+    .fabric .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .fabric .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #ffffff;
+    }
+
+    .fabric-dark .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .fabric-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #333232;
+        color: #fff;
+    }
+
+    .bootstrap5 .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .bootstrap5 .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #f8f9fa;
+        color: #212529;
+        font-weight: 400;
+    }
+
+    .bootstrap5-dark .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .bootstrap5-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #343a40;
+        color: #fff;
+        font-weight: 400;
+    }
+
+    .fluent .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .fluent .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #f3f2f1;
+    }
+
+    .bootstrap .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .bootstrap .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #f8f8f8;
+    }
+
+    .fluent-dark .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .fluent-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #252423;
+        border-color: #c1c1c1;
+        color: #fff;
+    }
+
+    .bootstrap-dark .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .bootstrap-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #2a2a2a;
+        color: #fff;
+    }
+
+    .highcontrast .schedule-overview .overview-toolbar .overview-toolbar-settings,
+    .highcontrast .schedule-overview .overview-content .right-panel .control-panel {
+        background-color: #000000;
+        border-color: #969696;
+        color: #ffffff;
+    }
+
+
+    .schedule-overview .overview-header .overview-titlebar {
+        background-color: #007bff;
+        color: #ffffff;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        font-size: 12px;
+        padding: 0 10px;
+        font-family: inherit;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .schedule-overview .overview-header .overview-titlebar .right-panel {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import {
+        line-height: 40px;
+    }
+
+    .bootstrap5 .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import,
+    .bootstrap5-dark .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import,
+    .fabric .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import,
+    .fabric-dark .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import,
+    .highcontrast .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import {
+        line-height: 1.5em;
+    }
+
+    .bootstrap5 .schedule-overview .overview-header .overview-titlebar .calendar-export,
+    .bootstrap5-dark .schedule-overview .overview-header .overview-titlebar .calendar-export,
+    .fabric .schedule-overview .overview-header .overview-titlebar .calendar-export,
+    .fabric-dark .schedule-overview .overview-header .overview-titlebar .calendar-export,
+    .highcontrast .schedule-overview .overview-header .overview-titlebar .calendar-export {
+        line-height: 3em;
+    }
+
+    .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import button,
+    .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import button:focus,
+    .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import button:hover {
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: inherit;
+        font-size: 12px;
+        height: 40px;
+        text-transform: capitalize;
+    }
+
+    .fabric .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import button,
+    .fabric-dark .schedule-overview .overview-header .overview-titlebar .e-upload.calendar-import button {
+        padding-left: 10px !important;
+    }
+
+    .highcontrast .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .highcontrast .schedule-overview .overview-header .overview-titlebar .calendar-import .e-file-select-wrap .e-css.e-btn,
+    .highcontrast .schedule-overview .overview-header .overview-titlebar .e-dropdown-btn.e-btn {
+        color: black;
+    }
+
+    .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .schedule-overview .overview-header .overview-titlebar .e-dropdown-btn {
+        background: transparent;
+        font-family: inherit;
+        border-color: transparent;
+        border-radius: 2px;
+        color: inherit;
+        font-size: 12px;
+        height: 40px;
+        text-transform: capitalize;
+        font-weight: 400;
+    }
+
+    .schedule-overview .overview-header .overview-titlebar .e-btn:not([disabled]):focus {
+        background-color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .schedule-overview .overview-toolbar {
+        display: flex;
+        height: 70px;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar {
+        border-radius: 0;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt {
+        display: inline-grid;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item.e-template {
+        margin: 0 5px;
+    }
+
+    .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        border-radius: 0;
+        background-color: #f8f9fa;
+        border-color: #00000026;
+        border-left-width: 0;
+        border-top-width: 0;
+        color: #495057;
+        height: 72px;
+        line-height: 1.6;
+        outline: none;
+        text-transform: capitalize;
+        width: 100%;
+    }
+
+    .tailwind-dark .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        background-color: #374151;
+        color: #fff;
+    }
+
+    .material .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #0000001f;
+    }
+
+   .fabric .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #f4f4f4;
+    }
+
+    .bootstrap .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: rgb(230, 230, 230);
+    }
+
+    .bootstrap4 .schedule-overview .overview-toolbar .overview-toolbar-settings:focus,
+    .bootstrap5 .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #5c636a;
+        color: #fff;
+        box-shadow: none;
+    }
+
+    .tailwind .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #e5e7eb;
+    }
+
+    .highcontrast .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: rgb(104, 87, 8);
+    }
+
+    .material-dark .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #ffffff1a;
+    }
+
+    .fabric-dark .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: rgb(65, 64, 64);
+    }
+
+    .bootstrap-dark .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: rgb(49, 49, 49);
+    }
+
+    .tailwind-dark .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #4b5563;
+    }
+
+    .bootstrap5-dark .schedule-overview .overview-toolbar .overview-toolbar-settings:focus {
+        background-color: #5c636a;
+        box-shadow: none;
+    }
+
+    .bootstrap5 .schedule-overview .overview-toolbar .e-toolbar {
+        border: 1px solid #dee2e6;
+    }
+
+    .bootstrap5-dark .schedule-overview .overview-toolbar .e-toolbar {
+        border: 1px solid #444c54;
+    }
+
+    .schedule-overview .overview-content {
+        border: 1px solid #00000026;
+        border-top: 0;
+        display: flex;
+    }
+
+    .schedule-overview .overview-content .left-panel {
+        height: 600px;
+        width: 100%;
+    }
+
+    .schedule-overview .overview-content .right-panel {
+        display: block;
+        height: 600px;
+        transform: translateX(0%);
+        transition: transform .5s ease, width 500ms;
+        width: 500px;
+    }
+
+    .schedule-overview .overview-content .right-panel.hide {
+        display: none;
+        transform: translateX(100%);
+        transition: transform .5s ease, width 500ms;
+        width: 0;
+    }
+
+    .schedule-overview .overview-content .right-panel .control-panel {
+        background: #f8f9fa;
+        border-left: 1px solid #00000026;
+        font-size: 14px;
+        height: 100%;
+        overflow: auto;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .tailwind-dark .schedule-overview .overview-content .right-panel .control-panel {
+        background: #374151;
+    }
+
+    .schedule-overview .overview-content .right-panel .control-panel .col-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .schedule-overview .overview-content .right-panel .control-panel label {
+        font-weight: 500;
+    }
+
+    .schedule-overview .overview-content .right-panel .control-panel .col-left {
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+        margin-bottom: 1rem;
+    }
+
+    .schedule-overview .overview-content .right-panel .control-panel .col-right {
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
+        margin-bottom: 1rem;
+    }
+
+    .schedule-overview .overview-scheduler {
+        height: 100%;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .schedule-overview .e-schedule .e-vertical-view .e-header-cells {
+        padding: 0;
+        text-align: center !important;
+    }
+
+    .schedule-overview .e-schedule .date-text {
+        font-size: 14px;
+    }
+
+    .schedule-overview .e-schedule.e-device .date-text {
+        font-size: 12px;
+    }
+
+    .schedule-overview .e-schedule .weather-image {
+        width: 20px;
+        height: 20px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .schedule-overview .e-schedule .weather-text {
+        font-size: 11px;
+    }
+
+    .schedule-overview .e-schedule-toolbar .e-views,
+    .schedule-overview .e-schedule-toolbar .e-schedule-seperator,
+    .schedule-workweek.e-multi-select-list-wrapper.e-checkbox .e-filter-parent,
+    .schedule-resource.e-multi-select-list-wrapper.e-checkbox .e-filter-parent {
+        display: none;
+    }
+
+    .schedule-overview .e-timeline-view .e-resource-left-td,
+    .schedule-overview .e-timeline-month-view .e-resource-left-td {
+        width: 120px;
+    }
+
+    .schedule-resource.e-multi-select-list-wrapper.e-checkbox .e-list-parent:first-child li:first-child {
+        background-image: none;
+        opacity: .5;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    .schedule-overview .quick-info-header {
+        background-color: white;
+        padding: 8px 18px;
+    }
+
+    .tailwind-dark .schedule-overview .quick-info-header {
+        background-color: #374151;
+    }
+
+    .bootstrap5-dark .schedule-overview .quick-info-header {
+        background-color: transparent;
+    }
+
+    .material-dark .schedule-overview .quick-info-header {
+        background-color: #424242;
+    }
+
+    .bootstrap-dark .schedule-overview .quick-info-header {
+        background-color: #1a1a1a;
+    }
+
+    .fabric-dark .schedule-overview .quick-info-header {
+        background-color: #201f1f;
+    }
+
+    .highcontrast .schedule-overview .quick-info-header {
+        background-color: #000000;
+    }
+
+    .fluent-dark .schedule-overview .quick-info-header {
+        background-color: #252423;
+    }
+
+    .schedule-overview .quick-info-header-content {
+        justify-content: flex-end;
+        display: flex;
+        flex-direction: column;
+        padding: 5px 10px 5px;
+    }
+
+    .tailwind-dark .schedule-overview .quick-info-header-content,
+    .bootstrap-dark .schedule-overview .quick-info-header-content,
+    .bootstrap5-dark .schedule-overview .quick-info-header-content,
+    .fabric-dark .schedule-overview .quick-info-header-content,
+    .highcontrast .schedule-overview .quick-info-header-content {
+        color: #fff !important;
+    }
+
+    .schedule-overview .quick-info-title {
+        font-weight: 500;
+        font-size: 16px;
+        letter-spacing: 0.48px;
+        height: 22px;
+    }
+
+    .schedule-overview .duration-text {
+        font-size: 11px;
+        letter-spacing: 0.33px;
+        height: 14px;
+    }
+
+    .schedule-overview .content-area {
+        padding: 10px;
+        width: auto;
+    }
+
+    .schedule-overview .event-content {
+        height: 90px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 15px;
+    }
+
+    .schedule-overview .meeting-type-wrap,
+    .schedule-overview .meeting-subject-wrap,
+    .schedule-overview .notes-wrap {
+        font-size: 11px;
+        color: #666;
+        letter-spacing: 0.33px;
+        height: 24px;
+        padding: 5px;
+    }
+
+    .schedule-overview .event-content div label {
+        display: inline-block;
+        min-width: 45px;
+        color: #666;
+    }
+
+    .schedule-overview .event-content div span {
+        font-size: 11px;
+        color: #151515;
+        letter-spacing: 0.33px;
+        line-height: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 8px;
+        position: absolute;
+        width: 200px;
+    }
+
+    .tailwind-dark .schedule-overview .event-content div label,
+    .bootstrap-dark .schedule-overview .event-content div label,
+    .bootstrap5-dark .schedule-overview .event-content div label,
+    .fluent-dark .schedule-overview .event-content div label,
+    .fabric-dark .schedule-overview .event-content div label,
+    .material-dark .schedule-overview .event-content div label,
+    .highcontrast .schedule-overview .event-content div label,
+    .tailwind-dark .schedule-overview .event-content div span,
+    .bootstrap-dark .schedule-overview .event-content div span,
+    .bootstrap5-dark .schedule-overview .event-content div span,
+    .fluent-dark .schedule-overview .event-content div span,
+    .fabric-dark .schedule-overview .event-content div span,
+    .material-dark .schedule-overview .event-content div span,
+    .highcontrast .schedule-overview .event-content div span {
+        color: #fff;
+    }
+
+    .schedule-overview .cell-footer.e-btn {
+        background-color: #ffffff;
+        border-color: #878787;
+        color: #878787;
+    }
+
+    .schedule-overview .cell-footer {
+        padding-top: 10px;
+    }
+
+    .schedule-overview .e-quick-popup-wrapper .e-cell-popup .e-popup-content {
+        padding: 0 14px;
+    }
+
+    .schedule-overview .e-quick-popup-wrapper .e-event-popup .e-popup-footer {
+        display: block;
+    }
+
+    .schedule-overview .e-quick-popup-wrapper .e-popup-footer button:first-child {
+        margin-right: 5px;
+    }
+
+    .schedule-overview .calendar-import.e-upload {
+        border: 0;
+        padding-left: 0 !important;
+    }
+
+    .schedule-overview .calendar-import.e-upload .e-file-select-wrap {
+        padding: 0
+    }
+
+    .schedule-overview .calendar-import.e-upload .e-file-select-wrap .e-file-drop, .calendar-import .e-upload-files {
+        display: none;
+    }
+
+    .bootstrap4 .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item:not(.e-separator),
+    .material .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item:not(.e-separator) {
+        padding: 4px 2.5px;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn {
+        height: 50px !important;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item:not(.e-separator) {
+        padding: 3.5px;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn {
+        padding: 1.5px !important;
+    }
+
+    .e-bigger .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item:not(.e-separator) {
+        padding: 5px;
+    }
+
+    .e-bigger .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn {
+        padding: 6px;
+    }
+
+    .bootstrap:not(.e-bigger) .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn:hover,
+    .bootstrap-dark:not(.e-bigger) .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn:hover,
+    .bootstrap4:not(.e-bigger) .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn:hover {
+        border-width: 1.5px;
+        padding: unset !important;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-btn.e-tbar-btn .e-icons.e-btn-icon,
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item .e-btn.e-tbar-btn .e-tbar-btn-text {
+        line-height: 23px !important;
+        min-height: 23px !important;
+        padding: 0px !important;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item.e-template .icon-child {
+        height: 23px !important;
+    }
+
+    .schedule-overview .overview-toolbar .e-toolbar .e-toolbar-item.e-template .text-child {
+        line-height: 23px !important;
+    }
+
+    .tailwind .schedule-overview.e-schedule .e-left-indent .e-header-cells,
+    .tailwind-dark .schedule-overview.e-schedule .e-left-indent .e-header-cells {
+        height: 66px;
+    }
+
+    .tailwind .e-more-popup-wrapper .e-more-event-close .e-btn-icon,
+    .tailwind-dark .e-more-popup-wrapper .e-more-event-close .e-btn-icon {
+        margin-top: 0px;
+    }
+
+    .bootstrap-dark .schedule-overview .overview-content {
+        border: 1px solid #505050;
+    }
+
+    .bootstrap5-dark .schedule-overview .overview-content {
+        border: 1px solid #444c54;
+    }
+
+    .bootstrap5 .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        border-color: #dee2e6;
+    }
+
+    .bootstrap5-dark .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        border-color: #444c54;
+    }
+
+    .bootstrap-dark .schedule-overview .overview-toolbar .overview-toolbar-settings {
+        border-color: #505050;
+    }
+
+    .bootstrap-dark .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .bootstrap5-dark .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .bootstrap5 .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .tailwind .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .tailwind-dark .schedule-overview .overview-header .overview-titlebar .title-bar-btn,
+    .material .schedule-overview .overview-header .overview-titlebar .title-bar-btn {
+        box-shadow: none;
+    }
+
+    @@media (max-width: 481px) {
+        .schedule-overview .overview-content .right-panel {
+            position: absolute;
+            width: auto;
+        }
+        .schedule-overview .overview-header .overview-titlebar {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    }
+</style>

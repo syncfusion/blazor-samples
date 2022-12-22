@@ -1,0 +1,172 @@
+﻿@page "/chart/multiple-level"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using PointRender
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example shows multilevel labels in the chart axis. We can add layers of labels to the axis using start and end range values.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this example, you can see how to group axis labels based on ranges by using <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartMultiLevelLabels.html">ChartMultiLevelLabels</a>. You can customize the text in each level by using <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxisMultiLevelLabelBorder.html">ChartAxisMultiLevelLabelBorder</a>, and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxisMultiLevelLabelTextStyle.html">ChartAxisMultiLevelLabelTextStyle</a>.</p>
+   <p>Axis labels in each level can be arranged smartly using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartMultiLevelLabel.html#Syncfusion_Blazor_Charts_ChartMultiLevelLabel_Overflow">Overflow</a> property. Its values and their behaviors are:</p>
+    <ul>
+        <li><b><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.LabelIntersectAction.html#Syncfusion_Blazor_Charts_LabelIntersectAction_Trim">Trim</a></b> - Trim the label when it intersect.</li>
+        <li><b><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.LabelIntersectAction.html#Syncfusion_Blazor_Charts_LabelIntersectAction_Wrap">Wrap</a></b> - Wrap the label when it intersect.</li>
+        <li><b><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.LabelIntersectAction.html#Syncfusion_Blazor_Charts_LabelIntersectAction_None">None</a></b> - Shows all the labels.</li>
+    </ul>
+    <p>More information about the multiple level labels can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/chart/axis-labels#multilevel-labels">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align="center">
+    <SfChart Title="Fruits and Vegetables - Season" Width="@Width" Theme="@Theme">
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis IsIndexed="true" Interval="1" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelRotation="90">
+            <ChartAxisLabelBorder Width="1" Type="BorderType.Rectangle"></ChartAxisLabelBorder>
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartMultiLevelLabels>
+                <ChartMultiLevelLabel>
+                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartCategories>
+                        <ChartCategory Start="-0.5" End="0.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="0.5" End="2.5" Text="Seeded"></ChartCategory>
+                        <ChartCategory Start="2.5" End="3.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="3.5" End="5.5" Text="Seeded"></ChartCategory>
+                        <ChartCategory Start="5.5" End="6.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="6.5" End="7.5" Text="Seeded"></ChartCategory>
+                        <ChartCategory Start="7.5" End="8.5" Text="Seedless"></ChartCategory>
+                        <ChartCategory Start="8.5" End="9.5" Text="Seeded"></ChartCategory>
+                    </ChartCategories>
+                </ChartMultiLevelLabel>
+                <ChartMultiLevelLabel>
+                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartCategories>
+                        <ChartCategory Start="-0.5" End="2.5" Text="In Season"></ChartCategory>
+                        <ChartCategory Start="2.5" End="5.5" Text="Out of Season"></ChartCategory>
+                        <ChartCategory Start="5.5" End="7.5" Text="In Season"></ChartCategory>
+                        <ChartCategory Start="7.5" End="9.5" Text="Out of Season"></ChartCategory>
+                    </ChartCategories>
+                </ChartMultiLevelLabel>
+                <ChartMultiLevelLabel>
+                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartAxisMultiLevelLabelTextStyle FontWeight="Bold"></ChartAxisMultiLevelLabelTextStyle>
+                    <ChartCategories>
+                        <ChartCategory Start="-0.5" End="5.5" Text="Fruits"></ChartCategory>
+                        <ChartCategory Start="5.5" End="9.5" Text="Vegetables"></ChartCategory>
+                    </ChartCategories>
+                </ChartMultiLevelLabel>
+            </ChartMultiLevelLabels>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="120" Interval="30">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Fruits" YName="Sales" Type="ChartSeriesType.Column">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Outer"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>        
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Fruits = "Grapes", Sales = 28 },
+        new CategoryData { Fruits = "Apples", Sales = 87 },
+        new CategoryData { Fruits = "Pears", Sales = 42 },
+        new CategoryData { Fruits = "Grapes", Sales = 13 },
+        new CategoryData { Fruits = "Apples", Sales = 13 },
+        new CategoryData { Fruits = "Pears", Sales = 10 },
+        new CategoryData { Fruits = "Tomato", Sales = 31 },
+        new CategoryData { Fruits = "Potato", Sales = 96 },
+        new CategoryData { Fruits = "Cucumber", Sales = 41 },
+        new CategoryData { Fruits = "Onion", Sales = 59 }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        await Task.Delay(1000);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        this.SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (Theme == Theme.Fabric || Theme == Theme.FabricDark)
+        {
+            args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.Bootstrap5)
+        {
+            args.Fill = PointColor.Bootstrap5Colors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.Bootstrap5Dark)
+        {
+            args.Fill = PointColor.Bootstrap5DarkColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.Fluent)
+        {
+            args.Fill = PointColor.FluentColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.FluentDark)
+        {
+            args.Fill = PointColor.FluentDarkColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.Bootstrap4)
+        {
+            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.Tailwind)
+        {
+            args.Fill = PointColor.TailwindColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.TailwindDark)
+        {
+            args.Fill = PointColor.TailwindDarkColors[args.Point.Index % 10];
+        }
+        else if (Theme == Theme.Material)
+        {
+            args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+        }
+        else if(Theme == Theme.MaterialDark)
+        {
+            args.Fill = PointColor.MaterialDarkColors[args.Point.Index % 10];
+
+        }
+        else if (Theme == Theme.HighContrast)
+        {
+            args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        else
+        {
+            args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+    }
+
+    public class CategoryData
+    {
+        public string Fruits { get; set; }
+        public double Sales { get; set; }
+    }
+}

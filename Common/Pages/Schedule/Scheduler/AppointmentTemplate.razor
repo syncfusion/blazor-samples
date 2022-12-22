@@ -1,0 +1,122 @@
+@page "/scheduler/event-template"
+
+@using Syncfusion.Blazor.Schedule
+@using System.Globalization
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This demo showcases the way of customizing the look of events that are displayed on Schedule. Any kind of text, images and links can be added to customize the look of the events. Here, the webinar sessions on specific topic that are scheduled on respective week days have been displayed on Scheduler across its respective time duration. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>With the usage of template, the user can format and change the default appearance of the events by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#Syncfusion_Blazor_Schedule_ScheduleView_EventTemplate">EventTemplate</a> option which is available within the <code>ScheduleView</code>. Here, the HTML template design is compiled and then the resultant output will be displayed directly on the events.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfSchedule TValue="ScheduleData.WebinarData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleViews>
+            <ScheduleView Option="View.Week">
+                <EventTemplate>
+                    @{
+                        ScheduleData.WebinarData webinarData = (context as ScheduleData.WebinarData);
+                        <div class='template-wrap' style='background:@(webinarData.SecondaryColor)'>
+                            <div class="subject" style='background:@(webinarData.PrimaryColor)'>@(webinarData.Subject)</div>
+                            <div class="time" style='background:@(webinarData.PrimaryColor)'>Time: @(webinarData.StartTime.ToString("HH:mm", CultureInfo.InvariantCulture)) - @((webinarData.EndTime).ToString("HH:mm", CultureInfo.InvariantCulture))</div>
+                            <div class="image">
+                                @if (webinarData.ImageName != null)
+                                {
+                                    <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/{webinarData.ImageName}.svg")" alt="@webinarData.ImageName" />
+                                }
+                            </div>
+                            <div class="description">@(webinarData.Description)</div>
+                            <div class="footer" style='background:@(webinarData.PrimaryColor)'></div>
+                        </div>
+                    }
+                </EventTemplate>
+            </ScheduleView>
+            <ScheduleView Option="View.TimelineWeek">
+                <EventTemplate>
+                    @{
+                        ScheduleData.WebinarData webinarData = (context as ScheduleData.WebinarData);
+                        <div class='template-wrap' style='background:@(webinarData.PrimaryColor ?? "transparent")'>
+                            <div class="subject" style='background:@(webinarData.SecondaryColor ?? "transparent"); border-left: @("15px solid" + (webinarData.PrimaryColor ?? " transparent"));border-right: @("15px solid" + (webinarData.PrimaryColor ?? " transparent"));'>@(webinarData.Subject)</div>
+                        </div>
+                    }
+                </EventTemplate>
+            </ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings TValue="ScheduleData.WebinarData" DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 10);
+    private List<ScheduleData.WebinarData> dataSource = new ScheduleData().GetWebinarData();
+}
+<style>
+    .e-schedule .e-vertical-view .e-content-wrap .e-appointment,
+    .e-schedule .e-timeline-view .e-content-wrap .e-appointment {
+        border-radius: 8px;
+    }
+
+    .e-schedule .e-vertical-view .e-content-wrap .e-appointment .e-appointment-details {
+        padding: 0;
+        height: 100%;
+    }
+
+    .e-schedule .template-wrap {
+        height: 100%;
+        white-space: normal;
+    }
+
+    .e-schedule .template-wrap .image {
+        padding: 8px 0 4px;
+    }
+
+    .e-schedule .template-wrap .image img {
+        width: 100%;
+        padding: 10px 25%;
+    }
+
+    .e-schedule .template-wrap .subject {
+        font-weight: 600;
+        font-size: 15px;
+        padding: 4px 4px 4px;
+        height: 25px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .e-schedule .template-wrap .time {
+        height: 50px;
+    }
+
+    .e-schedule .template-wrap .time,
+    .e-schedule .template-wrap .description {
+        padding: 4px 6px 4px;
+    }
+
+    .e-schedule .template-wrap .footer {
+        position: absolute;
+        bottom: 0;
+        height: 50px;
+        width: 100%;
+    }
+
+    .e-schedule .e-timeline-view .e-appointment .e-appointment-details {
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .e-schedule .e-timeline-view .template-wrap {
+        width: 100%;
+    }
+
+    .e-schedule .e-timeline-view .template-wrap .subject {
+        font-size: 16px;
+        height: 36px;
+        text-align: center;
+    }
+</style>
