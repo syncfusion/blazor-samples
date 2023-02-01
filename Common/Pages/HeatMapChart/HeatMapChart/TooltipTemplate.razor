@@ -1,0 +1,73 @@
+@page "/heatmap-chart/tooltip-template"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using sf_blazor_heatmapdata
+@using SFHeatMap = Syncfusion.Blazor.HeatMap
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>This sample visualizes the crude oil production of the Non-OPEC countries over the years. The data point values displayed are in million barrels per day units.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this example, you can see how to customize the tooltip content in Heatmap. You can customize the tooltip content by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.HeatMapEvents.html#Syncfusion_Blazor_HeatMap_HeatMapEvents_TooltipRendering'>TooltipRendering</a> event. </p>
+   <p>The Tooltip is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch-enabled devices.</p><br />
+</ActionDescription>
+
+<div class="control-section">
+	<SfHeatMap DataSource="@DataSource" Theme="@theme">
+		<HeatMapEvents TooltipRendering="@TooltipRendering"></HeatMapEvents>
+		<HeatMapTitleSettings Text="Crude Oil Production of Non-OPEC Countries (in Million barrels per day)"></HeatMapTitleSettings>
+		<HeatMapXAxis Labels="@XLabels"
+					  LabelRotation="45"
+					  LabelIntersectAction="@SFHeatMap.LabelIntersectAction.None">
+		</HeatMapXAxis>
+		<HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+
+		<HeatMapPaletteSettings>
+			<HeatMapPalettes>
+				<HeatMapPalette Value="0" Color="#C2E7EC"></HeatMapPalette>
+				<HeatMapPalette Value="0.6" Color="#AEDFE6"></HeatMapPalette>
+				<HeatMapPalette Value="0.75" Color="#9AD7E0"></HeatMapPalette>
+				<HeatMapPalette Value="1" Color="#86CFDA"></HeatMapPalette>
+				<HeatMapPalette Value="1.5" Color="#72C7D4"></HeatMapPalette>
+				<HeatMapPalette Value="2" Color="#5EBFCE"></HeatMapPalette>
+				<HeatMapPalette Value="2.5" Color="#4AB7C8"></HeatMapPalette>
+				<HeatMapPalette Value="3" Color="#36AFC2"></HeatMapPalette>
+				<HeatMapPalette Value="3.5" Color="#309DAE"></HeatMapPalette>
+				<HeatMapPalette Value="5" Color="#2B8C9B"></HeatMapPalette>
+				<HeatMapPalette Value="5.5" Color="#257A87"></HeatMapPalette>
+				<HeatMapPalette Value="6" Color="#206974"></HeatMapPalette>
+				<HeatMapPalette Value="8" Color="#1B5761"></HeatMapPalette>
+				<HeatMapPalette Value="9" Color="#15464D"></HeatMapPalette>
+				<HeatMapPalette Value="9.5" Color="#000000"></HeatMapPalette>
+			</HeatMapPalettes>
+		</HeatMapPaletteSettings>
+		<HeatMapCellSettings Format="{value}M">
+			<HeatMapCellBorder Width="0" Color="#98BABF"></HeatMapCellBorder>
+		</HeatMapCellSettings>
+		<HeatMapTooltipSettings Fill="#265259">
+			<HeatMapTooltipBorder Width="1"></HeatMapTooltipBorder>
+			<HeatMapFont Size="12px" Color="#FFFFFF"></HeatMapFont>
+		</HeatMapTooltipSettings>
+		<HeatMapLegendSettings Visible="false">
+		</HeatMapLegendSettings>
+	</SfHeatMap>
+</div>
+
+@code{
+    private Theme theme { get; set; }
+    string[] XLabels = new string[] { "Canada", "China", "Egypt", "Mexico", "Norway", "Russia", "UK", "USA" };
+    string[] YLabels = new string[] { "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010" };
+    double[,] DataSource = HeatMapData.GetTooltipData();
+    public void TooltipRendering(TooltipEventArgs args)
+    {
+        args.Content = new string[] { "In " + args.YLabel + ", the " + args.XLabel + " produced " + args.Value + " million barrels per day" };
+    }
+    protected override void OnInitialized()
+    {
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+    }
+
+}

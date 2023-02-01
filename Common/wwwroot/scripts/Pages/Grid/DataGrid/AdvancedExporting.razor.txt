@@ -1,0 +1,158 @@
+﻿@page "/datagrid/advanced-exporting"
+@using Syncfusion.Blazor.Grids
+@using BlazorDemos
+@using blazor_productdata
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the DataGrid's advanced exporting, which allows you to export its data to Excel and PDF file formats with a custom header and footer.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor DataGrid supports advanced exporting, allowing you to save data to Excel and PDF file formats with custom content and styles.</p>
+    <p>The ExcelExport and PdfExport toolbar items are defined in this demo. You defined actions in the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEvents%601~OnToolbarClick.html'>OnToolbarClick</a> event for these toolbar items to export the data grid data with header and footer using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ExportToExcelAsync_Syncfusion_Blazor_Grids_ExcelExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__'>ExportToExcelAsync</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ExportToPdfAsync_Syncfusion_Blazor_Grids_PdfExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__'>ExportToPdfAsync</a> methods.</p>
+    <p>More information about the Exporting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/excel-exporting/'>documentation</a> section.</p>
+</ActionDescription>
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid ID="Grid" @ref="Grid" DataSource="@GridData" AllowPaging="true" Toolbar="@(new List<string>() { "ExcelExport", "PdfExport" })" AllowExcelExport="true" AllowPdfExport="true">
+                <GridEvents OnToolbarClick="ToolbarClick" TValue="Product"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Product.ProductID) HeaderText="Product ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Product.ProductName) HeaderText="Product Name" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(Product.QuantityPerUnit) HeaderText="Quantity per Unit" Width="145"></GridColumn>
+                    <GridColumn Field=@nameof(Product.UnitsInStock) HeaderText="Units in Stock" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(Product.UnitPrice) HeaderText="Unit Price" TextAlign="TextAlign.Right" Format="C2" Width="140"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+    SfGrid<Product> Grid;
+
+    public List<Product> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = Product.GetAllRecords();
+    }
+    public async Task ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Id == "Grid_pdfexport")
+        {
+            PdfExportProperties Props = new PdfExportProperties();
+            Props.PageOrientation = PageOrientation.Portrait;
+            List<PdfHeaderFooterContent> HeaderContent = new List<PdfHeaderFooterContent>
+            {
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="INVOICE", Position = new PdfPosition() { X = 280, Y = 0 }, Style = new PdfContentStyle() { TextBrushColor = "#C25050", FontSize = 20} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="INVOICE NUMBER", Position = new PdfPosition() { X = 500, Y = 30 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="Date", Position = new PdfPosition() { X = 630, Y = 30 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="223344", Position = new PdfPosition() { X = 500, Y = 50 }, Style = new PdfContentStyle() { TextBrushColor = "#000000"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value= DateTime.Now.ToString("d"), Position = new PdfPosition() { X = 630, Y = 50 }, Style = new PdfContentStyle() { TextBrushColor = "#000000"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="CUSTOMER ID", Position = new PdfPosition() { X = 500, Y = 70 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="Terms", Position = new PdfPosition() { X = 630, Y = 70 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="223", Position = new PdfPosition() { X = 500, Y = 90 }, Style = new PdfContentStyle() { TextBrushColor = "#000000"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="Net 30 Days", Position = new PdfPosition() { X = 630, Y = 90 }, Style = new PdfContentStyle() { TextBrushColor = "#000000"} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="Adventure Traders", Position = new PdfPosition() { X = 20, Y = 30 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878", FontSize = 15} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="2501 Aerial Center Parkway", Position = new PdfPosition() { X = 20, Y = 65 }, Style = new PdfContentStyle() { TextBrushColor = "#000000", FontSize = 10} },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value="Tel +1 888.936.8638 Fax +1 919.573.0306", Position = new PdfPosition() { X = 20, Y = 80 }, Style = new PdfContentStyle() { TextBrushColor = "#000000", FontSize = 10} },
+            };
+
+            List<PdfHeaderFooterContent> FooterContent = new List<PdfHeaderFooterContent>
+            {
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value ="Thank you for your business !",  Position = new PdfPosition() { X = 250, Y = 20 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878", FontSize = 14 } },
+                new PdfHeaderFooterContent() { Type = ContentType.Text, Value ="! Visit Again !",  Position = new PdfPosition() { X = 300, Y = 45 }, Style = new PdfContentStyle() { TextBrushColor = "#C67878", FontSize = 14 } }
+                };
+
+            PdfHeader Header = new PdfHeader()
+            {
+                FromTop = 0,
+                Height = 130,
+                Contents = HeaderContent
+            };
+            PdfFooter Footer = new PdfFooter()
+            {
+                FromBottom = 160,
+                Height = 150,
+                Contents = FooterContent
+            };
+            Props.Header = Header;
+            Props.Footer = Footer;
+            await this.Grid.ExportToPdfAsync(Props);
+        }
+
+        if (args.Item.Id == "Grid_excelexport")
+        {
+            ExcelExportProperties Props = new ExcelExportProperties();
+            List<ExcelCell> ExcelCells1 = new List<ExcelCell> { new ExcelCell() { Index = 1, ColSpan = 5, Value = "INVOICE", Style = new ExcelStyle() { FontColor = "#C25050", FontSize = 19, HAlign = ExcelHorizontalAlign.Center, Bold = true } } };
+            List<ExcelCell> ExcelCells2 = new List<ExcelCell>
+            {
+                new ExcelCell() { Index = 1, ColSpan = 2, Value = "Adventure Traders", Style = new ExcelStyle() { FontColor = "#C67878", FontSize = 12, Bold = true } },
+                new ExcelCell() {Index = 2, Value = "" },
+                new ExcelCell() {Index = 3, Value = "" },
+                new ExcelCell() { Index = 4,  Value = "INVOICE NUMBER", Style = new ExcelStyle() { FontColor = "#C67878", Bold = true } },
+                new ExcelCell() { Index = 5,  Value = "DATE",  Style = new ExcelStyle() { FontColor = "#C67878", Bold = true} },
+
+            };
+            List<ExcelCell> ExcelCells3 = new List<ExcelCell>
+            {               
+                new ExcelCell() { Index = 1,  ColSpan = 2, Value = "2501 Aerial Center Parkway" },
+                new ExcelCell() {Index = 2, Value = "" },
+                new ExcelCell() {Index = 3, Value = "" },
+                new ExcelCell() { Index = 4,   Value = 2034 },
+                new ExcelCell() { Index = 5,   Value = DateTime.Now.ToString("d") },
+            };
+            List<ExcelCell> ExcelCells4 = new List<ExcelCell>
+            {
+                new ExcelCell() { Index = 1, ColSpan = 2, Value = "Tel +1 888.936.8638 Fax +1 919.573.0306"},
+                new ExcelCell() {Index = 2, Value = "" },
+                new ExcelCell() {Index = 3, Value = "" },
+                new ExcelCell() { Index = 4,  Value = "CUSTOMER ID", Style = new ExcelStyle() { FontColor = "#C67878", Bold = true}},
+                new ExcelCell() { Index = 5,  Value = "Terms" , Style = new ExcelStyle() { FontColor = "#C67878", Bold = true}}
+            };
+            List<ExcelCell> ExcelCells5 = new List<ExcelCell>
+            {
+                new ExcelCell() {Index = 1, Value = "" },
+                new ExcelCell() {Index = 2, Value = "" },
+                new ExcelCell() {Index = 3, Value = "" },
+                new ExcelCell() { Index = 4, Value = 564 },
+                new ExcelCell() { Index = 5, Value = "Net 30 Days" }
+            };
+            List<ExcelRow> ExcelRows = new List<ExcelRow>
+            {
+                new ExcelRow() { Index = 1,  Cells = ExcelCells1 },
+                new ExcelRow() { Index = 2},
+                new ExcelRow() { Index = 3,  Cells = ExcelCells2 },
+                new ExcelRow() { Index = 4,  Cells = ExcelCells3 },
+                new ExcelRow() { Index = 5,  Cells = ExcelCells4 },
+                new ExcelRow() { Index = 6,  Cells = ExcelCells5 },
+                new ExcelRow() { Index = 7 }
+            };
+            List<ExcelCell> FooterCells1 = new List<ExcelCell> { new ExcelCell() { ColSpan = 6, Value = "Thank you for your business!", Style = new ExcelStyle() { FontColor = "#C67878", HAlign = ExcelHorizontalAlign.Center, Bold = true } } };
+            List<ExcelCell> FooterCells2 = new List<ExcelCell> { new ExcelCell() { ColSpan = 6, Value = "! Visit Again !", Style = new ExcelStyle() { FontColor = "#C67878", HAlign = ExcelHorizontalAlign.Center, Bold = true } } };
+            List<ExcelRow> FooterRows = new List<ExcelRow>
+            {
+                new ExcelRow() { Cells = FooterCells1 },
+                new ExcelRow() { Cells = FooterCells2 }
+            };
+            ExcelHeader Header = new ExcelHeader()
+            {
+                HeaderRows = 7,
+                Rows = ExcelRows
+            };
+
+            ExcelFooter Footer = new ExcelFooter()
+            {
+                FooterRows = 5,
+                Rows = FooterRows
+            };
+
+            Props.Header = Header;
+            Props.Footer = Footer;
+            await this.Grid.ExportToExcelAsync(Props);
+        }
+    }
+}

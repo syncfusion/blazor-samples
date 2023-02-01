@@ -1,0 +1,323 @@
+﻿@page "/treeview/drag-and-drop"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@inject IJSRuntime JSRuntime
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p> The <a href='https://www.syncfusion.com/blazor-components/blazor-treeview' target='_blank'>Blazor TreeView</a> sample demonstrates the drag and drop functionality of the <code>TreeView</code>. To drag and drop the node, select and drag the desired node and drop it on the target node.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <code>TreeView</code> component has a built-in drag and drop functionality support. The <code>TreeView</code> component allows users to drag any node and drop it on any other node in the same or different tree using the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfTreeView-1.html#Syncfusion_Blazor_Navigations_SfTreeView_1_AllowDragAndDrop' target='_blank'>AllowDragAndDrop</a> property.</p>
+    <p>For more information, you can refer to the <a href='https://blazor.syncfusion.com/documentation/treeview/drag-and-drop/' target='_blank'>drag and drop</a> section from the documentation.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section custom-tree">
+    <div class="control-wrapper">
+        <div class="col-lg-4 tree-data">
+            <h4>Front End Teams</h4>
+            <div class="content">
+                <div class="tree-list">
+                    @*Initialize the TreeView component*@
+                    <SfTreeView ID="tree2" TValue="TeamDetails" AllowDragAndDrop="true">
+                        <TreeViewFieldsSettings TValue="TeamDetails" Id="Id" Text="Name" Child="Children" DataSource="@JSTeam" Expanded="Expanded"></TreeViewFieldsSettings>
+                        <TreeViewEvents TValue="TeamDetails" OnNodeDragStop="OnDragStop"></TreeViewEvents>
+                    </SfTreeView>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 tree-data">
+            <h4>Back End Teams</h4>
+            <div class="content">
+                <div class="tree-list">
+                    @*Initialize the TreeView component*@
+                    <SfTreeView ID="tree1" TValue="TeamDetails" AllowDragAndDrop="true">
+                        <TreeViewFieldsSettings TValue="TeamDetails" Id="Id" Text="Name" Child="Children" DataSource="@ASPTeam" Expanded="Expanded"></TreeViewFieldsSettings>
+                        <TreeViewEvents TValue="TeamDetails" OnNodeDragStop="OnDragStop"></TreeViewEvents>
+                    </SfTreeView>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 tree-data">
+            <h4>Consulting Team</h4>
+            <div class="content">
+                <div class="tree-list">
+                    @*Initialize the ListView component*@
+                    <SfListView ID="list" @ref="listview" CssClass="e-droppable custom-list" DataSource="@Listdata" TValue="TeamDetails">
+                        <ListViewFieldSettings TValue="TeamDetails" Id="Id" Text="Text"></ListViewFieldSettings>
+                        <ListViewTemplates TValue="TeamDetails">
+                            <Template>
+                                <div><span>@context.Text</span><span class="custom-delete" @onclick="() => OnListClick(context.Id)"></span></div>
+                            </Template>
+                        </ListViewTemplates>
+                    </SfListView>
+                </div>
+            </div>
+        </div>
+        <div id="overlay" @onmousedown="OnOverlayClick" class="@(ShowOverlay? "e-hidden" : string.Empty)">
+        </div>
+    </div>
+</div>
+
+@code{
+    public class TeamDetails
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Text { get; set; }
+        public bool Expanded { get; set; }
+        public bool Selected { get; set; }
+        public List<TeamDetails> Children;
+    }
+    // Specifies the DataSource value for Front End Teams TreeView component.
+    List<TeamDetails> ASPTeam = new List<TeamDetails>();
+    // Specifies the DataSource value for Back End Teams TreeView component.
+    List<TeamDetails> JSTeam = new List<TeamDetails>();
+    // Specifies the DataSource value for Consulting Teams ListView component.
+    List<TeamDetails> Listdata = new List<TeamDetails>();
+    // Specify the value of overlay element display state.
+    private bool ShowOverlay { get; set; } = false;
+    // Specify the reference of ListView element.
+    private SfListView<TeamDetails> listview;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        List<TeamDetails> ASP_EmployeeDetails1 = new List<TeamDetails>();
+        List<TeamDetails> ASP_EmployeeDetails2 = new List<TeamDetails>();
+        List<TeamDetails> JS_EmployeeDetails1 = new List<TeamDetails>();
+        List<TeamDetails> JS_EmployeeDetails2 = new List<TeamDetails>();
+        ASPTeam.Add(new TeamDetails
+        {
+            Id = "01",
+            Name = "ASP.NET MVC Team",
+            Expanded = true,
+            Children = ASP_EmployeeDetails1,
+        });
+        ASP_EmployeeDetails1.Add(new TeamDetails
+        {
+            Id = "01-01",
+            Name = "Smith"
+        });
+        ASP_EmployeeDetails1.Add(new TeamDetails
+        {
+            Id = "01-02",
+            Name = "Johnson"
+        });
+        ASP_EmployeeDetails1.Add(new TeamDetails
+        {
+            Id = "01-03",
+            Name = "Anderson"
+        });
+        ASPTeam.Add(new TeamDetails
+        {
+            Id = "02",
+            Name = "ASP.NET Core Team",
+            Children = ASP_EmployeeDetails2,
+            Expanded = true
+        });
+        ASP_EmployeeDetails2.Add(new TeamDetails
+        {
+            Id = "02-01",
+            Name = "Joshua"
+        });
+        ASP_EmployeeDetails2.Add(new TeamDetails
+        {
+            Id = "02-02",
+            Name = "Mathew"
+        });
+        ASP_EmployeeDetails2.Add(new TeamDetails
+        {
+            Id = "02-03",
+            Name = "Clark"
+        });
+        JSTeam.Add(new TeamDetails
+        {
+            Id = "011",
+            Name = "Angular Team",
+            Children = JS_EmployeeDetails1,
+            Expanded = true
+        });
+        JS_EmployeeDetails1.Add(new TeamDetails
+        {
+            Id = "011-01",
+            Name = "Robert"
+        });
+        JS_EmployeeDetails1.Add(new TeamDetails
+        {
+            Id = "011-02",
+            Name = "William"
+        });
+        JS_EmployeeDetails1.Add(new TeamDetails
+        {
+            Id = "011-03",
+            Name = "David"
+        });
+        JSTeam.Add(new TeamDetails
+        {
+            Id = "022",
+            Name = "React Team",
+            Children = JS_EmployeeDetails2,
+            Expanded = true
+        });
+        JS_EmployeeDetails2.Add(new TeamDetails
+        {
+            Id = "022-01",
+            Name = "Stuart"
+        });
+        JS_EmployeeDetails2.Add(new TeamDetails
+        {
+            Id = "022-02",
+            Name = "Murphy"
+        });
+        JS_EmployeeDetails2.Add(new TeamDetails
+        {
+            Id = "022-03",
+            Name = "Robert"
+        });
+    }
+    // Specifies the event handler for Clicked event in Overlay Element.
+    public void OnOverlayClick(MouseEventArgs args)
+    {
+        ShowOverlay = true;
+        StateHasChanged();
+    }
+    // Specifies the event handler for Drag Stop event in the TreeView component.
+    public async void OnDragStop(DragAndDropEventArgs args)
+    {
+        NodeData listData = await JSRuntime.InvokeAsync<NodeData>("OnDragStopCall", args);
+        if (listData != null)
+        {
+            args.Cancel = true;
+            Listdata.Add(new TeamDetails() { Id = listData.Id, Text = listData.Text });
+            StateHasChanged();
+        }
+    }
+    // Specifies the event handler for Clicked event in ListView custom element.
+    public void OnListClick(string id)
+    {
+        for (int i = 0; i < Listdata.Count; i++)
+        {
+            if(Listdata[i].Id == id)
+            {
+                Listdata.RemoveAt(i);
+                break;
+            }
+        }
+        StateHasChanged();
+    }
+}
+
+<style>
+    /* Sample specific styles */
+    .custom-tree {
+        overflow: auto;
+    }
+    .custom-tree .control-wrapper {
+        position: relative;
+        min-width: 700px;
+        min-height: 400px;
+        overflow: auto;
+    }
+    #list {
+        min-height: 288px;
+        border: 0;
+    }
+    .e-bigger #list, .e-bigger #tree1, .e-bigger #tree2 {
+        height: 354px;
+        overflow: auto;
+        border: 0;
+    }
+
+    .tree1-data, .tree2-data, .tree3-data {
+        padding: 15px;
+        margin-bottom: 25px;
+    }
+
+    #tree1, #tree2, #list {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .tree-list {
+        margin: 0 auto;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        min-height: 288px;
+    }
+    /* Specifies the styles for custom elements in the ListView component */
+    .material-dark .custom-delete::before, .fabric-dark .custom-delete::before, 
+    .bootstrap-dark .custom-delete::before, .tailwind-dark .custom-delete::before,
+    .bootstrap5-dark .custom-delete::before, .fluent-dark .custom-delete::before {
+        color: rgba(255, 255, 255, 0.54);
+    }
+    .custom-delete::before {
+        content: "\e700";
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 15px;
+        vertical-align: sub;
+        float: right;
+    }
+    .material .custom-delete::before {
+        vertical-align: top;
+    }
+    .custom-delete {
+        float: right;
+        font-family: 'cross-circle';
+    }
+    .bootstrap5 .custom-delete,
+    .bootstrap5-dark .custom-delete {
+        margin-top: 3px;
+    }
+    .highcontrast .custom-delete::before {
+        color: #fff;
+    }
+    .highcontrast .e-active.e-list-item .custom-delete::before {
+        color: #000;
+    }
+    .bootstrap4.e-bigger #list, .bootstrap4.e-bigger #tree1, .bootstrap4.e-bigger #tree2 {
+        height: 384px;
+        overflow: auto;
+    }
+    .bootstrap4 #list, .bootstrap4 #tree1, .bootstrap4 #tree2 {
+        height: 320px;
+        overflow: auto;
+        border: 0;
+    }
+    .bootstrap4.e-bigger .e-drag-item.e-treeview .e-list-text {
+        margin-left: 12px;
+    }
+    @@media (max-width: 1200px) {
+        .tree-data {
+            width: 50%;
+            float: left;
+        }
+        .custom-tree .control-wrapper {
+            min-width:100%;
+        }
+    }
+    @@font-face {
+        font-family: 'cross-circle';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj0gSRsAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmKuKzFgAAAcgAAABkaGVhZBRzllcAAADQAAAANmhoZWEHmQNrAAAArAAAACRobXR4B+gAAAAAAYAAAAAIbG9jYQAyAAAAAAHAAAAABm1heHABDgAkAAABCAAAACBuYW1lyFBwKAAAAiwAAAJhcG9zdJx8QW4AAASQAAAAOwABAAADUv9qAFoEAAAA//4D6gABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAA8246G18PPPUACwPoAAAAANi1qMQAAAAA2LWoxAAAAAAD6gPqAAAACAACAAAAAAAAAAEAAAACABgAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQP0AZAABQAAAnoCvAAAAIwCegK8AAAB4AAxAQIAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAANS/2oAWgPqAJYAAAABAAAAAAAABAAAAAPoAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAMgAAAAIAAAAAA+oD6gALABcAAAEHFwcnByc3JzcXNwUWABc2ADcmACcGAALkg4NqhINqg4Nqg4T9iAYBG9PUARsFBf7l1NP+5QJ6hIZqg4Nqg4RqgIPu0/7lBgYBG9PUARsFBf7lAAAAABIA3gABAAAAAAAAAAEAAAABAAAAAAABAAwAAQABAAAAAAACAAcADQABAAAAAAADAAwAFAABAAAAAAAEAAwAIAABAAAAAAAFAAsALAABAAAAAAAGAAwANwABAAAAAAAKACwAQwABAAAAAAALABIAbwADAAEECQAAAAIAgQADAAEECQABABgAgwADAAEECQACAA4AmwADAAEECQADABgAqQADAAEECQAEABgAwQADAAEECQAFABYA2QADAAEECQAGABgA7wADAAEECQAKAFgBBwADAAEECQALACQBXyBjcm9zcy1jaXJjbGVSZWd1bGFyY3Jvc3MtY2lyY2xlY3Jvc3MtY2lyY2xlVmVyc2lvbiAxLjBjcm9zcy1jaXJjbGVGb250IGdlbmVyYXRlZCB1c2luZyBTeW5jZnVzaW9uIE1ldHJvIFN0dWRpb3d3dy5zeW5jZnVzaW9uLmNvbQAgAGMAcgBvAHMAcwAtAGMAaQByAGMAbABlAFIAZQBnAHUAbABhAHIAYwByAG8AcwBzAC0AYwBpAHIAYwBsAGUAYwByAG8AcwBzAC0AYwBpAHIAYwBsAGUAVgBlAHIAcwBpAG8AbgAgADEALgAwAGMAcgBvAHMAcwAtAGMAaQByAGMAbABlAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAgEDABFjaXJjbGUtY2xvc2UtLS0wMgAAAA==) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    /* Specifies the styles for overlay element */
+    #overlay {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        cursor: pointer;
+        background-image: url(data:image/png;base64,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);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 70%;
+    }
+    #overlay.e-hidden {
+        display: none;
+    }
+</style>

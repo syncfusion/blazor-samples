@@ -1,0 +1,260 @@
+﻿@page "/powerpoint/powerpoint-viewer"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.PdfViewer
+@using Syncfusion.Blazor.PdfViewerServer
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Data.DocumentProcessing.PowerPoint
+@using System.Net.Http
+@using System.IO
+@using Syncfusion.Blazor.Inputs
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnvironment
+@inject IJSRuntime JS
+
+@inherits BlazorDemos.Shared.SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates how to view the PowerPoint presentation through PdfViewer by converting it as PDF using Syncfusion Presentation library.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+            In this PowerPoint Viewer sample we are converting the input PowerPoint presentation (.PPTX) as PDF using Syncfusion Presentation library and loaded the converted PDF file in PdfViewer control. This sample allows you to perform below functionalities,
+    </p>
+    <ul>
+            <li>View the PowerPoint presentation (.PPTX) by converting it as PDF.</li>
+            <li>Print the entire document or a specific page directly from the browser.</li>
+            <li>Download the converted PDF document.</li>
+    </ul>
+    <p>
+        More information about Presentation library can be found in this
+        <a target="_blank"
+           href="https://help.syncfusion.com/file-formats/presentation/overview">
+            documentation section
+        </a>.
+    </p>
+    <p>
+        More information on the PDF Viewer instantiation can be found in this
+        <a target="_blank"
+           href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features">
+            documentation section
+        </a>.
+    </p>
+</ActionDescription>
+
+<div id='waiting-popup' style="display: block;">
+        <svg class="circular" height="40" width="40">
+            <circle class="circle-path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10" />
+        </svg>
+</div>
+
+<div class="control-section">
+    <style>
+        #waiting-popup {
+        width: 56px;
+        height: 56px;
+        position: absolute;
+        top: calc(50% - 28px);
+        left: calc(50% - 28px);
+        border-radius: 50%;
+        padding: 3px;
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+        background-color: white;
+        z-index: 20;
+        display: none;
+    }
+
+    .circular {
+        animation: rotate 2s linear infinite;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
+
+    .circle-path {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+        stroke-linecap: round;
+        stroke: #2B3481;
+    }
+
+    @@keyframes rotate {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes dash {
+        0% {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+        }
+
+        50% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -35;
+        }
+
+        100% {
+            stroke-dasharray: 89, 200;
+            stroke-dashoffset: -124;
+        }
+    }
+
+    #topToolbar {
+        top: 0px;
+        z-index: 1001;
+    }
+
+        .e-pv-download-document-icon::before {
+            content: '\e914';
+        }
+
+        .e-pv-print-document-icon::before {
+            content: '\e917';
+        }
+
+        .e-icons {
+            font-family: "e-icons";
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            line-height: 1;
+            text-transform: none;
+        }
+
+        .e-pv-open-document-icon::before {
+            content: '\e91c';
+        }
+
+        .e-upload.e-control-wrapper, .e-bigger.e-small .e-upload.e-control-wrapper {
+        display:block;
+        visibility: hidden;
+        width:0;
+        height:0;
+        }
+
+        @@font-face {
+            font-family: "e-icons";
+            font-style: normal;
+            font-weight: normal;
+            src: url(data:application/x-font-ttf;charset=utf-8;base64,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ZWd1bGFyY3VzdG9tLXRvb2xiYXJbMTkwOF1jdXN0b20tdG9vbGJhclsxOTA4XVZlcnNpb24gMS4wY3VzdG9tLXRvb2xiYXJbMTkwOF1Gb250IGdlbmVyYXRlZCB1c2luZyBTeW5jZnVzaW9uIE1ldHJvIFN0dWRpb3d3dy5zeW5jZnVzaW9uLmNvbQAgAGMAdQBzAHQAbwBtAC0AdABvAG8AbABiAGEAcgBbADEAOQAwADgAXQBSAGUAZwB1AGwAYQByAGMAdQBzAHQAbwBtAC0AdABvAG8AbABiAGEAcgBbADEAOQAwADgAXQBjAHUAcwB0AG8AbQAtAHQAbwBvAGwAYgBhAHIAWwAxADkAMAA4AF0AVgBlAHIAcwBpAG8AbgAgADEALgAwAGMAdQBzAHQAbwBtAC0AdABvAG8AbABiAGEAcgBbADEAOQAwADgAXQBGAG8AbgB0ACAAZwBlAG4AZQByAGEAdABlAGQAIAB1AHMAaQBuAGcAIABTAHkAbgBjAGYAdQBzAGkAbwBuACAATQBlAHQAcgBvACAAUwB0AHUAZABpAG8AdwB3AHcALgBzAHkAbgBjAGYAdQBzAGkAbwBuAC4AYwBvAG0AAAAAAgAAAAAAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwAIVG9wLWljb24LZG93bi1hcnJvdzIKUFZfWm9vbW91dAlQVl9ab29taW4LUFZfRG93bmxvYWQLUFZfQm9va21hcmsJUFZfU2VhcmNoCFBWX1ByaW50C1BWX1ByZXZpb3VzB1BWX05leHQIUFZfQ2xvc2UMUFZfRml0VG9QYWdlB1BWX09wZW4AAA==) format('truetype');
+        }
+    </style>
+        
+    <SfUploader ID="UploadFiles" AllowMultiple="false" ShowFileList="false" AllowedExtensions=".pptx,.PPTX" >
+        <UploaderEvents ValueChange="OnChange" FileSelected="OnSelect" ></UploaderEvents>
+    </SfUploader>
+    <SfToolbar ID="topToolbar" Height="56px">
+        <ToolbarItems>
+            <ToolbarItem PrefixIcon="e-pv-open-document-icon" TooltipText="Open" Align="ItemAlign.Left" OnClick="Open"></ToolbarItem>
+            <ToolbarItem PrefixIcon="e-pv-print-document-icon" TooltipText="Print" Align="ItemAlign.Right" OnClick="Print"></ToolbarItem>
+            <ToolbarItem PrefixIcon="e-pv-download-document-icon" TooltipText="Download" Align="ItemAlign.Right" OnClick="Download"></ToolbarItem>
+        </ToolbarItems>
+    </SfToolbar>
+    <SfPdfViewerServer @ref="Viewer" EnableToolbar="false" DownloadFileName="Sample.pdf" ZoomMode="ZoomMode.FitToPage" Height="500px">
+        <PdfViewerEvents DocumentLoaded="@OnDocumentLoaded">
+        </PdfViewerEvents>
+    </SfPdfViewerServer>
+</div>
+
+@code {
+    private SfPdfViewerServer Viewer;
+
+    /// <summary>
+    /// Load a default document by converting it as PDF.
+    /// </summary>
+    /// <param name="firstRender"></param>
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //Invoke a enable spinner function using JS from _Host.cshtml
+            await JS.InvokeAsync<string>("enableSpinner");
+            string base64String = ConvertToPdf(null);
+            await Viewer.LoadAsync(base64String, null);
+        }
+    }
+
+    /// <summary>
+    /// Unload a exisitng PDF document and enable a loading indicator (spinner).
+    /// </summary>
+    /// <param name="args"></param>
+    private async void OnSelect(SelectedEventArgs args)
+    {
+        if (!args.IsCanceled)
+        {
+            await Viewer.UnloadAsync();
+            //Invoke a enable spinner function using JS from _Host.cshtml
+            await JS.InvokeAsync<string>("enableSpinner");
+        }
+    }
+
+    /// <summary>
+    /// Load a uploaded document by converting it as PDF.
+    /// </summary>
+    /// <param name="args"></param>
+    private async void OnChange(UploadChangeEventArgs args)
+    {
+        if (args.Files.Count > 0)
+        {
+            MemoryStream inputStream = args.Files[0].Stream;
+            string base64String = ConvertToPdf(inputStream);
+            await Viewer.LoadAsync(base64String, null);
+        }
+    }
+
+    /// <summary>
+    /// Convert a PowerPoint Presentation document as PDF.
+    /// </summary>
+    /// <param name="inputStream">Represents the input stream of PowerPoint document.</param>
+    /// <returns>Returns the converted PDF document stream as Base64String.</returns>
+    private string ConvertToPdf(Stream inputStream)
+    {
+        PowerPointViewerService service = new PowerPointViewerService(hostingEnvironment);
+        MemoryStream outputStream = service.PDFConversion(inputStream);
+        byte[] byteArray = outputStream.ToArray();        
+        string base64String = "data:application/pdf;base64," + Convert.ToBase64String(byteArray);
+        return base64String;
+    }
+
+    /// <summary>
+    /// Open a file uploader control.
+    /// </summary>
+    private async void Open()
+    {        
+        //Invoke a file uploader using JS from _Host.cshtml
+        await JS.InvokeAsync<string>("openUploader");
+    }
+
+    /// <summary>
+    /// Print a current document.
+    /// </summary>
+    private async void Print()
+    {
+        await Viewer.PrintAsync();
+    }
+
+    /// <summary>
+    /// Download a current document.
+    /// </summary>
+    private async void Download()
+    {
+        await Viewer.DownloadAsync();
+    }
+
+    /// <summary>
+    /// Open a thumbnail panel and disable a spinner after loaded the document.
+    /// </summary>
+    /// <param name="args"></param>
+    protected async void OnDocumentLoaded(LoadEventArgs args)
+    {
+        await JS.InvokeAsync<string>("openThumbnailPane", Viewer.ID);
+        await Viewer.FitToPageAsync();
+        //Invoke a disable spinner function using JS from _Host.cshtml
+        await JS.InvokeAsync<string>("disableSpinner");
+    }
+}

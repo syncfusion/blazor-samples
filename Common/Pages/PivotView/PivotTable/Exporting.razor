@@ -1,0 +1,141 @@
+@page "/pivot-table/export"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@inherits SampleBaseComponent;
+@using BlazorDemos
+
+<SampleDescription>
+    <p> This sample demonstrates client-side exporting of the pivot table to Excel, CSV and PDF formats.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The pivot table supports client-side exporting and exports its data to the Excel, CSV, and PDF formats using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_ExportToExcelAsync_Syncfusion_Blazor_Grids_ExcelExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__'>ExportToExcelAsync</a>, <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_ExportToCsvAsync_Syncfusion_Blazor_Grids_ExcelExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__'>ExportToCsvAsync</a>, and <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_ExportToPdfAsync_Syncfusion_Blazor_Grids_PdfExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__'>ExportToPdfAsync</a> methods. Additionally, the <code>AllowExcelExport</code> (for both Excel and CSV) and <code>AllowPdfExport</code> properties in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html'>SfPivotView</a> must also be set to <b>true</b> for Excel, CSV, and PDF exporting.</p>
+    <p>Choose the export document type in the dropdown list available inside the property panel and click the export button to export the pivot table to the selected document format.</p>
+    <p>More information on the Excel and CSV exporting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/excel-export/'>documentation section</a>. Likewise, the PDF exporting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/pdf-export/'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="Pivot" AllowPdfExport="true" Height="300" Width="100%" AllowExcelExport="true" ShowFieldList="true" EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:10px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div style="white-space: nowrap;">
+                                Export Type:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" @bind-Value="@SelectedMode" DataSource="@ExportMode" Width="160">
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td></td>
+                        <td>
+                            <div style="float: right">
+                                <SfButton IsPrimary="true" OnClick="OnExport">Export</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-pivotfieldlist.e-device {
+        z-index: 1;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+
+@code{
+
+    SfPivotView<PivotProductDetails> Pivot;
+
+    public string SelectedMode { get; set; } = "excel";
+    public List<PivotProductDetails> Data { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.Data = PivotProductDetails.GetProductData();
+    }
+
+    public async Task OnExport(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        if (SelectedMode == "excel")
+        {
+            await this.Pivot.ExportToExcelAsync();
+        }
+        else if (SelectedMode == "csv")
+        {
+            await this.Pivot.ExportToCsvAsync();
+        }
+        else
+        {
+            await this.Pivot.ExportToPdfAsync();
+        }
+    }
+
+    List<DropDownData> ExportMode = new List<DropDownData>() {
+        new DropDownData { Name = "Excel", Value = "excel" },
+        new DropDownData { Name = "CSV", Value = "csv" },
+        new DropDownData { Name = "PDF", Value = "pdf" }
+    };
+
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
+}

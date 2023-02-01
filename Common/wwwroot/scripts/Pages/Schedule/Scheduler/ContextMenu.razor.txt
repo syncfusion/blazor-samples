@@ -1,0 +1,144 @@
+@page "/scheduler/context-menu"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Navigations
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example illustrates how to enable the context menu on Scheduler and perform its related actions based on the selected menu options.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, we have integrated the ContextMenu component separately from application end and set its target
+        to Scheduler control. Also, we have used the public methods <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_OpenEditorAsync__0_Syncfusion_Blazor_Schedule_CurrentAction_">OpenEditorAsync</a> through which the default event editor
+        is set to open for saving or updating the appointments, <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_DeleteEventAsync__0_System_Nullable_Syncfusion_Blazor_Schedule_CurrentAction__">DeleteEventAsync</a> to delete the selected appointment, and
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_SelectedDate">SelectedDate</a> to navigate to today's date. In mobile devices, the context menu will open when you tap hold on
+        the cells or events.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.ContextEventsData" @ref="ScheduleRef" Height="650px" @bind-SelectedDate="@SelectedDate">
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+    <SfContextMenu TValue="MenuItem" Target=".e-schedule">
+        <MenuItems>
+            <MenuItem Text="New Event" IconCss="e-icons e-plus" Id="Add" Hidden="@isCell"></MenuItem>
+            <MenuItem Text="New Recurring Event" IconCss="e-icons e-repeat" Hidden="@isCell" Id="AddRecurrence"></MenuItem>
+            <MenuItem Text="Today" IconCss="e-icons e-timeline-today" Id="Today" Hidden="@isCell"></MenuItem>
+            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="Save" Hidden="@isEvent"></MenuItem>
+            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="EditRecurrenceEvent" Hidden="@isRecurrence">
+                <MenuItems>
+                    <MenuItem Text="Edit Occurrence" Id="EditOccurrence" Hidden="@isRecurrence"></MenuItem>
+                    <MenuItem Text="Edit Series" Id="EditSeries" Hidden="@isRecurrence"></MenuItem>
+                </MenuItems>
+            </MenuItem>
+            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="Delete" Hidden="@isEvent"></MenuItem>
+            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="DeleteRecurrenceEvent" Hidden="@isRecurrence">
+                <MenuItems>
+                    <MenuItem Text="Delete Occurrence" Id="DeleteOccurrence" Hidden="@isRecurrence"></MenuItem>
+                    <MenuItem Text="Delete Series" Id="DeleteSeries" Hidden="@isRecurrence"></MenuItem>
+                </MenuItems>
+            </MenuItem>
+        </MenuItems>
+        <MenuEvents TValue="MenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></MenuEvents>
+    </SfContextMenu>
+</div>
+
+@code{
+    private DateTime SelectedDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 8);
+    private bool isCell;
+    private bool isEvent;
+    private bool isRecurrence;
+    SfSchedule<ScheduleData.ContextEventsData> ScheduleRef;
+    private ScheduleData.ContextEventsData EventData { get; set; }
+    private CellClickEventArgs CellData { get; set; }
+    private List<ScheduleData.ContextEventsData> dataSource = new ScheduleData().GetContextEventData();
+    public async Task OnOpen(BeforeOpenCloseMenuEventArgs<MenuItem> args)
+    {
+        if (args.ParentItem == null)
+        {
+            CellData = await ScheduleRef.GetTargetCellAsync((int)args.Left, (int)args.Top);
+            await ScheduleRef.CloseQuickInfoPopupAsync();
+            if (CellData == null)
+            {
+                EventData = await ScheduleRef.GetTargetEventAsync((int)args.Left, (int)args.Top);
+                if (EventData.Id == 0)
+                {
+                    args.Cancel = true;
+                }
+                if (EventData.RecurrenceRule != null)
+                {
+                    isCell = isEvent = true;
+                    isRecurrence = false;
+                }
+                else
+                {
+                    isCell = isRecurrence = true;
+                    isEvent = false;
+                }
+            }
+            else
+            {
+                isCell = false;
+                isEvent = isRecurrence = true;
+            }
+        }
+    }
+    public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
+    {
+        var SelectedMenuItem = args.Item.Id;
+        var ActiveCellsData = await ScheduleRef.GetSelectedCellsAsync();
+        if (ActiveCellsData == null)
+        {
+            ActiveCellsData = CellData;
+        }
+        switch (SelectedMenuItem)
+        {
+            case "Today":
+                SelectedDate = DateTime.Now;
+                break;
+
+            case "Add":
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add);
+                break;
+
+            case "AddRecurrence":
+                await ScheduleRef.OpenEditorAsync(ActiveCellsData, CurrentAction.Add, RepeatType.Daily);
+                break;
+
+            case "Save":
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.Save);
+                break;
+
+            case "EditOccurrence":
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditOccurrence);
+                break;
+
+            case "EditSeries":
+                List<ScheduleData.ContextEventsData> Events = await ScheduleRef.GetEventsAsync();
+                EventData = (ScheduleData.ContextEventsData)Events.Where(data => data.Id == EventData.RecurrenceID).FirstOrDefault();
+                await ScheduleRef.OpenEditorAsync(EventData, CurrentAction.EditSeries);
+                break;
+
+            case "Delete":
+                await ScheduleRef.DeleteEventAsync(EventData);
+                break;
+
+            case "DeleteOccurrence":
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteOccurrence);
+                break;
+
+            case "DeleteSeries":
+                await ScheduleRef.DeleteEventAsync(EventData, CurrentAction.DeleteSeries);
+                break;
+        }
+    }
+}

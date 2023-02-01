@@ -1,0 +1,129 @@
+﻿@page "/stock-chart/candlestick-volume"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+@using ThemeHelper
+@using System.Net.Http.Json
+@inject HttpClient Http
+
+
+<SampleDescription>
+    <p>This <a target="_blank" href="https://www.syncfusion.com/blazor-components/blazor-stock-chart">Blazor Stock Chart</a> example visualizes the AAPL stock price with Candle chart. Tooltip and crosshair show the information about the data and period.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a stock chart for AAPL data, as well as how to use column charts to display data volume. The <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.PeriodSelector.html">Period Selector</a> and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorPeriodSelectorSettings.html">Range Selector</a> can be used to select a range with specified periods.</p>
+    <p>
+        The legend is enabled, and you can use it to toggle the visibility of series in the stock chart. To customize the legend in the stock chart, use the <code>StockChartLegendSettings</code> property.
+    </p>
+</ActionDescription>
+
+@if (DataSource == null)
+{
+    <div class="stockchartloader"></div> 
+}
+else
+{
+    <div class="@loadClass"></div>
+    <div class="@loadDiv">
+        <SfStockChart Title="AAPL Historical" Height="@Height" Theme="@theme">
+            <StockChartEvents OnLoaded="@ChartLoaded" AxisLabelRendering="AxisLabelEvent"></StockChartEvents>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis>
+                 <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+            </StockChartPrimaryYAxis>
+            <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartAxes>
+               <StockChartAxis RowIndex=1 Name="yAxis1" LabelPosition="AxisPosition.Inside" EdgeLabelPlacement="EdgeLabelPlacement.Hide">                    
+                    <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                    <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+                </StockChartAxis>
+            </StockChartAxes>
+            <StockChartRows>
+                <StockChartRow Height="30%"></StockChartRow>
+                <StockChartRow Height="70%"></StockChartRow>
+            </StockChartRows>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Candle" XName="date" YName="high" YAxisName="yAxis1" High="high" Low="low" Name="Apple Inc" Fill="#2ecd71"></StockChartSeries>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Column" XName="date" YName="volume" High="high" Low="low" Name="Volume">
+                    <StockChartPrimaryYAxis LabelFormat= "{value}M">   
+                            <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                            <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+                    </StockChartPrimaryYAxis>
+                </StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartLegendSettings Visible="true" Padding="3"></StockChartLegendSettings>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </SfStockChart>
+    </div>
+    <style>
+        .stockchartloader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchartdiv {
+            visibility: hidden;
+        }
+    </style>
+}
+@code{ 
+    
+    private ChartData[] DataSource;
+    private string Height = "500";
+    protected override async Task OnInitializedAsync()
+    {
+        BeforeRender();
+        DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/chart-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime date { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    string loadClass = "stockchartloader";
+    string loadDiv = "stockchartdiv";
+    void ChartLoaded(StockChartEventArgs args)
+    {
+        loadClass = "";
+        loadDiv = "";
+        StateHasChanged();
+    }
+
+    public void AxisLabelEvent(StockChartAxisLabelRenderEventArgs args)
+    {
+        if(args.Text.Contains("M"))
+        {
+            args.Text = args.Text.Replace("0000000M", "M", StringComparison.InvariantCulture);
+        }
+    }
+
+    Theme theme = Theme.Bootstrap4;
+    void BeforeRender()
+    {
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    } 
+}

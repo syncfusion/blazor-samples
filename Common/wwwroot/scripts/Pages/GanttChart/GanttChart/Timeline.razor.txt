@@ -1,0 +1,380 @@
+﻿@page "/gantt-chart/timeline"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.DropDowns;
+@using BlazorDemos
+@using ej2_blazor_timelinedata
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p> This sample illustrates the different phases from planning to delivery, involved in a software development lifecycle. It demonstrates the different timeline modes available in the Gantt Chart. Options are available to change the unit, format, and count of the header texts for both top and bottom timeline headers</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to change the timeline settings in Gantt Chart. The top and bottom timeline header texts can be customized by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTimelineSettings.html#Syncfusion_Blazor_Gantt_GanttTimelineSettings_TopTier'>TimelineSettings.TopTier</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTimelineSettings.html#Syncfusion_Blazor_Gantt_GanttTimelineSettings_BottomTier'>TimelineSettings.BottomTier</a> properties. Using these properties, you can change the format, count, and units of the timeline header texts.</p>
+    <p>Using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTimelineSettings.html#Syncfusion_Blazor_Gantt_GanttTimelineSettings_TimelineViewMode'>GanttTimelineSettings.TimelineViewMode</a> Gantt Chart can visualize many timeline modes such as minutes, hour, day, week, month and year.</p>
+    <p><a target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/tooltip'>Tooltip</a> is enabled by default for the timeline headers. To see the tooltip in action, hover a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about timeline in gantt chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/time-line'>documentation  section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt @ref="GanttObject" DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1"
+                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 Dependency="Predecessor" ParentID="ParentId" Notes="Notes">
+                    <GanttColumns>
+                        <GanttColumn Field="TaskId" Width="100"></GanttColumn>
+                        <GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                        <GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
+                        <GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
+                        <GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
+                        <GanttColumn Field="Progress" HeaderText="Progress" MinWidth="120"></GanttColumn>
+                        <GanttColumn Field="Predecessor" HeaderText="Dependency" MinWidth="200"></GanttColumn>
+                        <GanttColumn Field="Notes" Width="100"></GanttColumn>
+                    </GanttColumns>
+                </GanttTaskFields>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TimelineData.TaskData">
+                </GanttLabelSettings>
+                <GanttSplitterSettings Position="42%"></GanttSplitterSettings>
+                <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
+                    <GanttTopTierSettings Unit="@TopTierUnit" Count="@TopTierCount" Format="@TopTierFormat"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Count="@BottomTierCount" Unit="@BottomTierUnit" Format="@BottomTierFormat"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div><div class="property-panel-content">
+            <table id="property" title="Properties" class="property-panel-table">
+                <tbody>
+                    <tr>
+                        <td style="width: 50%">
+                            <div class="userselect">Unit width</div>
+                        </td>
+                        <td style="width: 50%;padding-right: 10px">
+                            <div>
+                                <SfNumericTextBox TValue="int?" Format="n0" Value="@DefaultUnitWidth" Min="10">
+                                    <NumericTextBoxEvents TValue="int?" ValueChange="@(e => { DefaultUnitWidth = (int)e.Value; })"></NumericTextBoxEvents>
+                                </SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div><b>Top tier</b></div></td>
+
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div>Count</div></td>
+                        <td style="width: 70%">
+                            <div>
+                                <SfNumericTextBox Enabled="@EnableTopNumericBox" TValue="int?" Format="n0" Value="@TopTierCount" Min="1" Max="50">
+                                    <NumericTextBoxEvents TValue="int?" ValueChange="@(e => { TopTierCount = (int)e.Value; })"></NumericTextBoxEvents>
+                                </SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div>Unit</div></td>
+                        <td style="width: 70%">
+                            <div>
+                                <SfDropDownList Enabled="@EnableTopUnitDropDown" TValue="string" TItem="TimelineUnit" Placeholder="Week" DataSource="@TimelineUnits">
+                                    <DropDownListFieldSettings Text="Unit" Value="Id"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="TimelineUnit" ValueChange="@TopUnitChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div>Format</div></td>
+                        <td style="width: 70%">
+                            <div>
+                                <SfDropDownList Enabled="@EnableTopFormatDropDown" TValue="string" TItem="DayFormat" DataSource="@WeekFormatValue" Value="@TopTierFormat" Placeholder="Jan 01,2021">
+                                    <DropDownListFieldSettings Text="Format" Value="Id"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="DayFormat" ValueChange="@TopFormatChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div><b>Bottom tier</b></div></td>
+
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div>Count</div></td>
+                        <td style="width: 70%">
+                            <div>
+                                <SfNumericTextBox Enabled="@EnableBottomNumericBox" TValue="int?" Format="n0" Value="@BottomTierCount" Min="1" Max="50">
+                                    <NumericTextBoxEvents TValue="int?" ValueChange="@(e => { BottomTierCount = (int)e.Value; })"></NumericTextBoxEvents>
+                                </SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div>Unit</div></td>
+                        <td style="width: 70%">
+                            <div>
+                                <SfDropDownList Enabled="@EnableBottomUnitDropDown" TValue="string" TItem="TimelineUnit" Placeholder="Day" DataSource="@TimelineUnits">
+                                    <DropDownListFieldSettings Text="Unit" Value="Id"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="TimelineUnit" ValueChange="@BottomUnitChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:30%;"><div>Format</div></td>
+                        <td style="width: 70%">
+                            <div>
+                                <SfDropDownList Enabled="@EnableBottomFormatDropDown" TValue="string" TItem="DayFormat" DataSource="@DayFormatValue" @bind-Value="@BottomTierFormat" Placeholder="M">
+                                    <DropDownListFieldSettings Text="Format" Value="Id"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="DayFormat" ValueChange="@BottomFormatChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    private DateTime ProjectStart = new DateTime(2021, 04, 02);
+    private DateTime ProjectEnd = new DateTime(2021, 08, 21);
+    private List<TimelineData.TaskData> TaskCollection { get; set; }
+
+    private int DefaultUnitWidth = 33;
+    private int TopTierCount = 1;
+    private int BottomTierCount = 1;
+
+    private bool EnableTopNumericBox = true;
+    private bool EnableTopUnitDropDown = true;
+    private bool EnableTopFormatDropDown = true;
+    private bool EnableBottomNumericBox = true;
+    private bool EnableBottomUnitDropDown = true;
+    private bool EnableBottomFormatDropDown = true;
+    private string TopTierFormat = "MMM dd, yyyy";
+    private string BottomTierFormat = "";
+    private TimelineViewMode TopTierUnit = TimelineViewMode.Week;
+    private TimelineViewMode BottomTierUnit = TimelineViewMode.Day;
+    private SfGantt<TimelineData.TaskData> GanttObject;
+    private List<DayFormat> YearFormats = new List<DayFormat>()
+{
+        new DayFormat { Id ="MMM ''yy", Format = "Jan '18" },
+        new DayFormat {  Id = "yyyy", Format = "2018"   },
+        new DayFormat { Id = "MMMM, y", Format = "January, 18" },
+    };
+    private List<DayFormat> MonthFormats = new List<DayFormat>()
+{
+        new DayFormat { Id = "MMM dd, yyyy", Format = "Jan 01, 2018" },
+        new DayFormat { Id = "MMMM", Format = "January" },
+        new DayFormat { Id = "MMM", Format = "Jan" },
+    };
+    private List<DayFormat> WeekFormats = new List<DayFormat>()
+{
+        new DayFormat  { Id = "MMM dd, yyyy", Format = "Jan 01, 2021" },
+        new DayFormat  { Id = "ddd MMM dd, ''yy", Format = "Mon Jan 01, '19" },
+        new DayFormat  { Id = "ddd MMM dd", Format = "Mon Jan 01" },
+    };
+    private List<DayFormat> DayFormats = new List<DayFormat>()
+{
+        new DayFormat  { Id = "", Format = "M" },
+        new DayFormat  { Id = "ddd", Format = "Mon" },
+        new DayFormat  { Id = "dd", Format = "01" },
+    };
+    private List<DayFormat> HourFormats = new List<DayFormat>()
+{
+        new DayFormat  { Id = "hh", Format = "00" },
+        new DayFormat  { Id = "hh : mm a", Format = "00 : 00 AM" },
+        new DayFormat  { Id = "h : mm a", Format = "0 : 00 AM" },
+    };
+    private List<TimelineUnit> TimelineUnits = new List<TimelineUnit>()
+{
+        new TimelineUnit { Id = "Year", Unit = "Year"  },
+        new TimelineUnit { Id = "Month", Unit = "Month" },
+        new TimelineUnit { Id = "Week", Unit = "Week" },
+        new TimelineUnit { Id = "Day", Unit = "Day" },
+        new TimelineUnit { Id = "Hour", Unit = "Hour" }
+    };
+    private List<DayFormat> WeekFormatValue = new List<DayFormat>()
+{
+        new DayFormat { Id = "MMM dd, yyyy", Format = "Jan 01, 2021"   },
+        new DayFormat {  Id = "ddd MMM dd, ''yy", Format = "Mon Jan 01, '19"  },
+        new DayFormat { Id = "ddd MMM dd", Format = "Mon Jan 01" },
+    };
+    private List<DayFormat> DayFormatValue = new List<DayFormat>()
+{
+        new DayFormat { Id = "", Format = "M" },
+        new DayFormat { Id = "ddd", Format = "Mon" },
+        new DayFormat { Id = "dd", Format = "01" }
+    };
+    public class TimelineUnit
+    {
+        public string Id { get; set; }
+        public string Unit { get; set; }
+    }
+    public class DayFormat
+    {
+        public string Id { get; set; }
+        public string Format { get; set; }
+    }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = TimelineData.TimelineRecord();
+
+    }
+    public void TopUnitChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, TimelineUnit> args)
+    {
+        TimelineViewMode changedTopUnit;
+        switch (args.Value)
+        {
+            case "Year":
+                changedTopUnit = TimelineViewMode.Year;
+                WeekFormatValue = YearFormats;
+                TopTierFormat = "MMM ''yy";
+                break;
+            case "Month":
+                changedTopUnit = TimelineViewMode.Month;
+                WeekFormatValue = MonthFormats;
+                TopTierFormat = "MMM dd, yyyy";
+                break;
+            case "Week":
+                changedTopUnit = TimelineViewMode.Week;
+                WeekFormatValue = WeekFormats;
+                TopTierFormat = "MMM dd,yyyy";
+                break;
+            case "Day":
+                changedTopUnit = TimelineViewMode.Day;
+                WeekFormatValue = DayFormats;
+                TopTierFormat = "ddd";
+                break;
+            case "Hour":
+                changedTopUnit = TimelineViewMode.Hour;
+                WeekFormatValue = HourFormats;
+                TopTierFormat = "hh : mm a";
+                break;
+            default:
+                changedTopUnit = TimelineViewMode.Week;
+                WeekFormatValue = WeekFormats;
+                TopTierFormat = "MMM dd, yyyy";
+                break;
+        }
+        this.UpdateUnitWidth(args.Value, "top");
+        TopTierUnit = changedTopUnit;
+    }
+    public void BottomUnitChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, TimelineUnit> args)
+    {
+        TimelineViewMode changedBottomUnit;
+        switch (args.Value)
+        {
+            case "Year":
+                changedBottomUnit = TimelineViewMode.Year;
+                DayFormatValue = YearFormats;
+                BottomTierFormat = "yyyy";
+                break;
+            case "Month":
+                changedBottomUnit = TimelineViewMode.Month;
+                DayFormatValue = MonthFormats;
+                BottomTierFormat = "MMM";
+                break;
+            case "Week":
+                changedBottomUnit = TimelineViewMode.Week;
+                DayFormatValue = WeekFormats;
+                BottomTierFormat = "MMM dd, yyyy";
+                break;
+            case "Day":
+                changedBottomUnit = TimelineViewMode.Day;
+                DayFormatValue = DayFormats;
+                BottomTierFormat = "dd";
+                break;
+            case "Hour":
+                changedBottomUnit = TimelineViewMode.Hour;
+                DayFormatValue = HourFormats;
+                BottomTierFormat = "hh";
+                break;
+            default:
+                changedBottomUnit = TimelineViewMode.Day;
+                DayFormatValue = DayFormats;
+                BottomTierFormat = "dd";
+                break;
+        }
+        this.UpdateUnitWidth(args.Value, "bottom");
+        BottomTierUnit = changedBottomUnit;
+    }
+    public void TopFormatChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DayFormat> args)
+    {
+        TopTierFormat = TopTierFormat != null ? args.Value != null ? args.Value : "MMM dd" : "MMM dd, yyyy";
+    }
+    public void BottomFormatChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DayFormat> args)
+    {
+        BottomTierFormat = BottomTierFormat != null ? args.Value != null ? args.Value : "ddd MMM dd" : "MMM dd";
+    }
+    void UpdateUnitWidth(string unit, string tier)
+    {
+        int unitWidth;
+        string topUnit = tier == "top" ? unit : TopTierUnit.ToString();
+        string bottomUnit = tier == "bottom" ? unit : BottomTierUnit.ToString();
+        string[] units = new string[6] { "None", "Hour", "Day", "Week", "Month", "Year" };
+        string bootomCellUnit;
+        if (Array.IndexOf(units, topUnit) == 0 && Array.IndexOf(units, bottomUnit) == 0)
+        {
+            bootomCellUnit = "Day";
+        }
+        else if (Array.IndexOf(units, topUnit) == 0 && Array.IndexOf(units, bottomUnit) > 0)
+        {
+            bootomCellUnit = bottomUnit;
+        }
+        else if (Array.IndexOf(units, topUnit) > 0 && Array.IndexOf(units, bottomUnit) == 0)
+        {
+            bootomCellUnit = topUnit;
+        }
+        else if (Array.IndexOf(units, topUnit) <= Array.IndexOf(units, bottomUnit))
+        {
+            bootomCellUnit = topUnit;
+        }
+        else
+        {
+            bootomCellUnit = bottomUnit;
+        }
+        switch (bootomCellUnit)
+        {
+            case "Year":
+                unitWidth = 2000;
+                break;
+            case "Month":
+                unitWidth = 300;
+                break;
+            case "Week":
+                unitWidth = 150;
+                break;
+            case "Day":
+                unitWidth = 33;
+                break;
+            case "Hour":
+                unitWidth = 25;
+                break;
+            default:
+                unitWidth = 33;
+                break;
+        }
+        DefaultUnitWidth = unitWidth;
+    }
+}
+<style>
+    .userselect {
+        -webkit-user-select: none;
+        /* Safari 3.1+ */
+        -moz-user-select: none;
+        /* Firefox 2+ */
+        -ms-user-select: none;
+        /* IE 10+ */
+        user-select: none;
+        /* Standard syntax */
+    }
+</style>

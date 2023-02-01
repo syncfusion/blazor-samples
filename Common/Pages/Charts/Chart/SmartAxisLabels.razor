@@ -1,0 +1,374 @@
+﻿@page "/chart/smart-axis-labels"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This example shows the smart label placement for the chart axis labels.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how the axis labels are smartly arranged when they overlap with each other using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_LabelIntersectAction'>LabelIntersectAction</a> property in the axis.</p>
+    <p>The following are the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_LabelIntersectAction"></a>LabelIntersectAction</code> property values and their behaviors:</p>
+    <ul>
+        <li><b>Hide</b> - Hide the label when it intersects.</li>
+        <li><b>Trim</b> - Trim the label when it intersects.</li>
+        <li><b>Wrap</b> - Wrap the label when it intersects.</li>
+        <li><b>MultipleRows</b> - Arrange the label in multiple row when it intersect.</li>
+        <li><b>Rotate45</b> - Rotate the label to 45 degree when it intersects.</li>
+        <li><b>Rotate90</b> - Rotate the label to 90 degree when it intersects.</li>
+        <li><b>None</b> - Shows all the labels.</li>
+    </ul>
+    <p>Chart handles edge labels placement using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_EdgeLabelPlacement'>EdgeLabelPlacement</a> property. Its values and their behaviors are:</p>
+    <ul>
+        <li><code>None</code> - No action is performed.</li>
+        <li><code>Hide</code> - Edge label is hidden .</li>
+        <li><code>Shift</code> - Shifts the edge labels.</li>
+    </ul>
+    <p>More information on the smart axis labels can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/axis-labels/#smart-axis-labels'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-md-7 control-section sb-property-border">
+    <SfChart Title="Internet Users in Millons" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis EdgeLabelPlacement="@LabelPlacement" LabelPosition="@LabelPosition" MaximumLabelWidth="@LabelWidth" EnableTrim="@EnableTrim" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="@IntersectAction">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLabelStyle Color="@AxisLabelColor"></ChartAxisLabelStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLabelStyle Size="0px"></ChartAxisLabelStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" Header="" Format="<b>${point.x}</b> <br> Internet Users : <b>${point.y}M</b>"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="User" Name="Users" Opacity="1" Width="2" Type="ChartSeriesType.Column">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" EnableRotation="@Rotation" Angle="@AngleRotate" Name="DataLabelMappingName" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                        <ChartDataLabelFont Color="#ffffff" FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
+    </SfChart>
+</div>
+
+<div class="col-lg-5 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 40%">
+                        <div>Intersect Action:</div>
+                    </td>
+                    <td style="width: 60%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Hide" DataSource="@InterSectAction">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeIntersectAction"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Edge Label Placement:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="None" DataSource="@EdgePlacement">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeLabelPlacement"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Label Position:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Outside" DataSource="@PositionLabel">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeLabelPosition"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Enable Trim:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div>
+                            <SfCheckBox Checked="@IsTrim" ValueChange="@ChangeSelection" TChecked="bool"></SfCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 60%">
+                        <div>Maximum Label Width:</div>
+                    </td>
+                    <td style="width: 40%;">
+                        <div style='margin-top: 0px;'>
+                            <SfNumericTextBox TValue="int?" Value="@Width" Max=120 Min=1 Step=1>
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeValue" />
+                            </SfNumericTextBox>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    text[id*=_AxisLabel_] {
+        @CSSStyle
+    }
+</style>
+
+@code {
+
+    private Boolean EnableTrim = false, IsTrim = false;
+    private int LabelWidth = 34, Width = 34;
+    private LabelIntersectAction IntersectAction = LabelIntersectAction.Hide;
+    private EdgeLabelPlacement LabelPlacement = EdgeLabelPlacement.Shift;
+    private AxisPosition LabelPosition = AxisPosition.Outside;
+    public bool Rotation { get; set; } = false;
+    public double AngleRotate { get; set; } = 0;
+    private Theme Theme { get; set; }
+    public string AxisLabelColor {  get;  set; }
+    public string CSSStyle { get; set; } = "text-shadow: 0 0 3px white !important;";
+    public List<DropDownData> InterSectAction { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Hide" },
+        new DropDownData() { Type = "Trim" },
+        new DropDownData() { Type = "Wrap" },
+        new DropDownData() { Type = "MultipleRows" },
+        new DropDownData() { Type = "Rotate45" },
+        new DropDownData() { Type = "Rotate90" },
+        new DropDownData() { Type = "None" },
+    };
+    public List<DropDownData> EdgePlacement { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "None" },
+        new DropDownData() { Type = "Shift" },
+        new DropDownData() { Type = "Hide" },
+    };
+    public List<DropDownData> PositionLabel { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Outside" },
+        new DropDownData() { Type = "Inside" },
+    };
+    public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
+    {
+        new CategoryData { Country = "South Korea", User = 39, DataLabelMappingName="39M"},
+        new CategoryData { Country = "India", User = 61, DataLabelMappingName="61M"},
+        new CategoryData { Country = "Pakistan", User = 20, DataLabelMappingName="20M"},
+        new CategoryData { Country = "Germany", User = 65, DataLabelMappingName="65M"},
+        new CategoryData { Country = "Australia", User = 16, DataLabelMappingName="16M"},
+        new CategoryData { Country = "Italy", User = 29, DataLabelMappingName="29M"},
+        new CategoryData { Country = "France", User = 45, DataLabelMappingName="45M"},
+        new CategoryData { Country = "United Arab Emirates", User = 10, DataLabelMappingName="10M"},
+        new CategoryData { Country = "Russia", User = 41, DataLabelMappingName="41M"},
+        new CategoryData { Country = "Mexico", User = 31, DataLabelMappingName="31M"},
+        new CategoryData { Country = "Brazil", User = 76, DataLabelMappingName="76M"},
+        new CategoryData { Country = "China", User = 51, DataLabelMappingName="51M"},
+     };
+
+    protected override void OnInitialized()
+    {
+        if(SampleService.IsDevice)
+        {
+            Rotation = true;
+            AngleRotate = -90;
+        }
+        this.SetTheme(null);
+        if (NavigationManager.Uri.IndexOf("dark") > -1) 
+        {
+            AxisLabelColor = null;
+            CSSStyle = "text-shadow: 0 0 3px black !important;";
+        }
+        else
+        {
+            AxisLabelColor = "black";
+            CSSStyle = "text-shadow: 0 0 3px white !important;";
+        }
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        this.SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.MaterialDark;
+                else
+                    args.Fill = PointColor.MaterialDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Material;
+                else
+                    args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FabricDark;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fabric;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap5") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5Dark;
+                else
+                    args.Fill = PointColor.Bootstrap5DarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5;
+                else
+                    args.Fill = PointColor.Bootstrap5Colors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fluent") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FluentDark;
+                else
+                    args.Fill = PointColor.FluentDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fluent;
+                else
+                    args.Fill = PointColor.FluentColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap4") > -1)
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.BootstrapDark;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("tailwind") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.TailwindDark;
+                else
+                    args.Fill = PointColor.TailwindDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Tailwind;
+                else
+                    args.Fill = PointColor.TailwindColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        else
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+    }
+
+    public void ChangeSelection(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        EnableTrim = IsTrim = args.Checked;
+    }
+
+    public void ChangeValue(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        LabelWidth = Width = Convert.ToInt32(args.Value);
+    }
+
+    public void ChangeIntersectAction(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        IntersectAction = (LabelIntersectAction)Enum.Parse(typeof(LabelIntersectAction), args.Value.ToString(), true);
+    }
+
+    public void ChangeLabelPlacement(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        LabelPlacement = (EdgeLabelPlacement)Enum.Parse(typeof(EdgeLabelPlacement), args.Value.ToString(), true);
+    }
+
+    public void ChangeLabelPosition(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        LabelPosition = (AxisPosition)Enum.Parse(typeof(AxisPosition), args.Value.ToString(), true);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class CategoryData
+    {
+        public string Country { get; set; }
+        public double User { get; set; }
+        public string DataLabelMappingName{ get; set; }
+    }
+
+}

@@ -1,0 +1,162 @@
+﻿@page "/gantt-chart/selection"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos
+@using ej2_blazor_filterdata
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+
+@using Syncfusion.Blazor.Grids
+<SampleDescription>
+    <p> The selection feature enables you to highlight row or cell. It can be enabled by setting <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_AllowSelection'>AllowSelection</a> to <b>true</b>.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Gantt component supports two types of selection that can be set by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_Type'>SelectionSettings.Type</a> property. They are:</p>
+    <ul>
+        <li><code>Single</code> - Allows to select only one row or cell at a time.</li>
+        <li><code>Multiple</code> - Allows to select multiple rows or cells. To perform the multi-selection, press and hold the Ctrl or Shift key and click the desired rows or cells.</li>
+    </ul>
+    <p>Also supports three types of selection modes that can be set by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_Mode'>SelectionSettings.Mode</a> property. They are:</p>
+    <ul>
+        <li><code>Row</code> - Allows to select only rows, and it is the default mode of selection in Gantt.</li>
+        <li><code>Cell</code> - Allows to select only cells.</li>
+        <li><code>Both</code> - Allows to select both rows and cells at the same time.</li>
+    </ul>
+    <p>Toggle selection can be enabled by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_EnableToggle'>SelectionSettings.EnableToggle</a> property.</p>
+    <p>The Taskbar which is not visible in the viewport can be auto scrolled to make it viewable by selecting the row and setting the <code>ScrollToTaskbarOnClick</code> property to true.</p>
+    <p>More information about the Selection feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/selection'>documentation</a> section.</p>
+</ActionDescription>
+
+@inherits SampleBaseComponent;
+<div class="col-lg-12 control-section ">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-mastertext">Properites</div>
+            <div class="e-switch-control">
+                <label class="showhide" style="padding: 10px 15px 10px 10px"> Mode </label>
+                <SfDropDownList Width="15%" @ref="@DropdownMode" TValue="string" TItem="DropDownData" DataSource="@SelectionModes" @bind-Value="@Mode" Placeholder="e.g. Cell">
+                    <DropDownListEvents TValue="string" ValueChange="ModeChange" TItem="DropDownData"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                </SfDropDownList>
+                <label class="showhide" style="padding: 10px 15px 10px 25px"> Type </label>
+                <SfDropDownList Width="15%" @ref="@DropdownType" TValue="string" TItem="DropDownData" DataSource="@SelectionTypes" @bind-Value="@Type" Placeholder="e.g. Multiple">
+                    <DropDownListEvents TValue="string" ValueChange="TypeChange" TItem="DropDownData"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                </SfDropDownList>
+                <label class="showhide" style="padding: 10px 10px 10px 25px"> Toggle </label>
+                <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("Toggle", args); })" @bind-Checked="@Check" TChecked="bool"></SfSwitch>
+                <label class="showhide" style="padding: 10px 10px 10px 25px"> Autoscroll to taskbar </label>
+                <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("AutoScroll", args); })" @bind-Checked="@AutoScrollToTaskbar" TChecked="bool"></SfSwitch>
+            </div>
+            <SfGantt @ref="Gantt" DataSource="@TaskCollection" TreeColumnIndex="1" Height="450px" Width="100%" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" AllowSelection="@SelectionValue" SelectedRowIndex="@SelectedValue" ScrollToTaskbarOnClick="@AutoScrollToTaskbar">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+                </GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" Width="100"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+                </GanttColumns>
+                <GanttSelectionSettings Mode="@GanttSelectMode" Type="@GanttSelectType" EnableToggle="@Toggle"></GanttSelectionSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="FilterData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="58%"></GanttSplitterSettings>
+            </SfGantt>
+
+        </div>
+    </div>
+</div>
+<style>
+    .showhide {
+        font-size: 15px;
+        font-weight: 400;
+        margin-bottom: 1px;
+    }
+    .e-switch-control {
+        display: flex;
+        align-items: center;
+    }
+    .e-mastertext {
+        font-size: 15px;
+        font-family: Roboto;
+        font-weight: bolder;
+        opacity: 0.87;
+        padding: 0.7em;
+    }
+</style>
+                    
+@code{
+    private SfGantt<FilterData.TaskData> Gantt;
+    private Boolean Check = false;
+    private SfDropDownList<string, DropDownData> DropdownMode { get; set; }
+    private SfDropDownList<string, DropDownData> DropdownType { get; set; } 
+    private DateTime ProjectStart = new DateTime(2021, 3, 27);
+    private DateTime ProjectEnd = new DateTime(2021, 7, 6);
+    private bool AutoScrollToTaskbar { get; set; }
+    private List<DropDownData> SelectionModes { get; set; } = new List<DropDownData>();
+    private string Mode { get; set; }       
+    private List<DropDownData> SelectionTypes { get; set; } = new List<DropDownData>();
+    private string Type { get; set; }
+    private Syncfusion.Blazor.Grids.SelectionMode GanttSelectMode { get; set; } = Syncfusion.Blazor.Grids.SelectionMode.Row;
+    private Syncfusion.Blazor.Grids.SelectionType GanttSelectType { get; set; } = Syncfusion.Blazor.Grids.SelectionType.Single;
+    private Boolean SelectionValue = true;
+    private Boolean Toggle = false;
+    private int SelectedValue = -1;
+    private List<double> SelectedRowIndexes { get; set; }
+    private List<FilterData.TaskData> TaskCollection { get; set; }
+    public class DropDownData
+    {
+        public string ID { get; set; }
+        public string Mode { get; set; }
+    }
+    public void Change(string Name, Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        if (args.Checked)
+        {
+            if(Name == "Toggle")
+                Toggle = true;
+        }
+        else
+        {
+            if(Name == "Toggle")
+                Toggle = false;
+        }
+    }
+    public void ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "Cell")
+        {
+            GanttSelectMode = Syncfusion.Blazor.Grids.SelectionMode.Cell;
+        }
+        if (args.Value == "Row")
+        {
+            GanttSelectMode = Syncfusion.Blazor.Grids.SelectionMode.Row;
+        }
+    }
+
+    public void TypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "Single")
+        {
+            GanttSelectType = Syncfusion.Blazor.Grids.SelectionType.Single;
+        }
+        if (args.Value == "Multiple")
+        {
+            GanttSelectType = Syncfusion.Blazor.Grids.SelectionType.Multiple;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = FilterData.GetTaskCollection();
+        this.SelectionModes.Add(new DropDownData() { ID = "Row", Mode = "Row" });
+        this.SelectionModes.Add(new DropDownData() { ID = "Cell", Mode = "Cell" });
+        this.SelectionTypes.Add(new DropDownData() { ID = "Single", Mode = "Single" });
+        this.SelectionTypes.Add(new DropDownData() { ID = "Multiple", Mode = "Multiple" });
+        this.Mode = (this.GanttSelectMode).ToString();
+        this.Type = (this.GanttSelectType).ToString();
+    }
+}
+

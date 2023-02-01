@@ -1,0 +1,177 @@
+@page "/maps/data-labels"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample uses data labels to visualize the names of all the states in the United States. There are also options to change the intersect action and smart labels mode of the data labels.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render the data labels for each shape in a map. Data labels provide necessary information to users about the shapes of the Maps component. You can use the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeSettings.html#Syncfusion_Blazor_Maps_MapsShapeSettings_Autofill'>AutoFill</a> property in the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeSettings.html'>MapsShapeSettings</a> to apply the default palette colors to the shapes. The tooltip is also enabled in this example.</p>
+    <p>More information about data labels can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/data-labels'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsZoomSettings Enable="false" />
+        <MapsEvents DataLabelRendering="@DataLabelRendering"></MapsEvents>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/usa.json"}' ShapePropertyPath='new string[] { "name"}' TValue="string">
+                <MapsDataLabelSettings Visible="@DatalabelVisible" LabelPath="name" SmartLabelMode="@DatalabelSmartLabelMode" IntersectionAction="@DatalabelInterSectAction">
+                    <MapsLayerDataLabelTextStyle FontFamily="Segoe UI" Color="@LabelColor"></MapsLayerDataLabelTextStyle>
+                </MapsDataLabelSettings>
+                <MapsShapeSettings Autofill="true" />
+                <MapsLayerTooltipSettings Visible="true" ValuePath="name">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                Show Labels
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@CheckBoxvalue" ValueChange="Showlabel" TChecked="bool" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="width:95%">
+                                Smart Label Mode
+                            </div>
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Select smartlabel mode" DataSource="@SmartLabelModeData" @bind-Value="@SmartLabelModeValue" Width="100%">
+                                <DropDownListEvents TValue="string" TItem="SmartLabelValues" ValueChange="SmartLabelValueChange"/>
+                                <DropDownListFieldSettings Text="Name" Value="Value"/>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                Intersect Action
+                            </div>
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Select intersect action" DataSource="@IntersectactionData" @bind-Value="@IntersectActionDataValue" Width="100%">
+                                <DropDownListEvents TValue="string" TItem="LabelIntersectValues" ValueChange="IntersectActionValueChange"/>
+                                <DropDownListFieldSettings Text="Name" value="Value"/>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+
+@code {
+    public Theme Theme { get; set; }
+    public bool DatalabelVisible = true;
+    public bool CheckBoxvalue = true;
+    public SmartLabelMode DatalabelSmartLabelMode = SmartLabelMode.Trim;
+    public IntersectAction DatalabelInterSectAction = IntersectAction.None;
+    public string SmartLabelModeValue = "Trim";
+    public string IntersectActionDataValue = "None";
+    public string LabelColor = string.Empty;
+    public class LabelIntersectValues
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<LabelIntersectValues> IntersectactionData = new List<LabelIntersectValues> {
+        new LabelIntersectValues { Value="None", Name="None" },
+        new LabelIntersectValues { Value="Trim", Name="Trim" },
+        new LabelIntersectValues { Value="Hide", Name="Hide" }
+    };
+    public class SmartLabelValues
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<SmartLabelValues> SmartLabelModeData = new List<SmartLabelValues> {
+        new SmartLabelValues { Value="Trim", Name="Trim" },
+        new SmartLabelValues { Value="None", Name="None" },
+        new SmartLabelValues { Value="Hide", Name="Hide" }
+    };
+    public void Showlabel(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        CheckBoxvalue = args.Checked;
+        DatalabelVisible = args.Checked;
+    }
+    public void SmartLabelValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SmartLabelValues> args)
+    {
+        SmartLabelModeValue = args.Value;
+        if (args.Value == "None")
+        {
+            DatalabelSmartLabelMode = SmartLabelMode.None;
+        }
+        else if (args.Value == "Hide")
+        {
+            DatalabelSmartLabelMode = SmartLabelMode.Hide;
+        }
+        else
+        {
+            DatalabelSmartLabelMode = SmartLabelMode.Trim;
+        }
+    }
+    public void IntersectActionValueChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, LabelIntersectValues> args)
+    {
+        IntersectActionDataValue = args.Value;
+        if (args.Value == "Trim")
+        {
+            DatalabelInterSectAction = IntersectAction.Trim;
+        }
+        else if (args.Value == "Hide")
+        {
+            DatalabelInterSectAction = IntersectAction.Hide;
+        }
+        else
+        {
+            DatalabelInterSectAction = IntersectAction.None;
+        }
+    }
+    public void DataLabelRendering(LabelRenderingEventArgs args)
+    {
+        if(args.Text == "Florida")
+        {
+            args.OffsetY = -14;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (Theme == Theme.Fluent || Theme == Theme.Bootstrap5 || Theme == Theme.Tailwind)
+        {
+            LabelColor = "#FFFFFF";
+        }
+    }
+}

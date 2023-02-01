@@ -1,0 +1,75 @@
+﻿@page "/pdf-viewer/handwritten-signature"
+
+
+@using Syncfusion.Blazor.PdfViewerServer
+@using Syncfusion.Blazor.PdfViewer
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample demonstrates the Handwritten signature support of PDF Viewer. The Handwritten signature reduces the paperwork of reviewing the contents and it’s verified it’s digitally.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In the PDF Viewer component, we can explicitly open the Handwritten signature dialog using the method <code>SetAnnotationMode</code>.</p>
+@*WASM:Block*@
+@{ #if WASM }
+    <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/web-assembly-application/'> documentation section</a>.</p>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !WASM }
+    <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/server-side-application/'> documentation section</a>.</p>
+@{ #endif }
+@*End:Server*@
+</ActionDescription>
+
+<div class="control-section">
+@*WASM:Block*@
+@{ #if WASM }
+     <SfPdfViewer @ref="viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%" ServiceUrl="/PdfViewer">
+         <PdfViewerEvents DocumentLoaded="DocumentLoad"></PdfViewerEvents>
+     </SfPdfViewer>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !WASM }     
+     <SfPdfViewerServer @ref="viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%">
+        <PdfViewerEvents DocumentLoaded="DocumentLoad"></PdfViewerEvents>
+    </SfPdfViewerServer>
+@{ #endif }
+@*End:Server*@
+</div>
+
+@code {
+@*Server:Block*@
+#if !WASM
+    SfPdfViewerServer viewer;
+#endif
+@*End:Server*@
+
+@*WASM:Block*@
+#if WASM
+SfPdfViewer viewer;
+#endif
+@*End:WASM*@
+
+    public async void DocumentLoad(LoadEventArgs args)
+    {
+        await viewer.SetAnnotationModeAsync(AnnotationType.HandWrittenSignature);
+    }
+    
+
+@*Server:Block*@
+ #if !WASM 
+    private string DocumentPath { get; set; } = "wwwroot/data/pdfviewer/hand-written-signature.pdf";
+ #endif
+@*End:Server*@
+
+@*WASM:Block*@
+ #if WASM
+    private string DocumentPath { get; set; } = "hand-written-signature.pdf";
+#endif
+@*End:WASM*@
+}

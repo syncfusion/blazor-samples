@@ -1,0 +1,288 @@
+@page "/"
+
+@using BlazorDemos.Shared; 
+@using Syncfusion.Blazor.Buttons;
+
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+
+<div class="sf-blazor-home">
+    <!-- Header -->
+    <div class="sf-header">
+        <div class="sf-header-left">
+            <div class="@headerLogo">
+                <a href="https://www.syncfusion.com/blazor-components" target="_blank" rel="noopener" role="link" aria-label="Syncfusion blazor components">
+                    <div class="syncfusion-logo"></div>
+                    <span> | Blazor Components - Demos</span>
+                </a>
+            </div>
+        </div>
+        <div class="sf-header-right">
+            @if (IsDevice)
+            {
+                <span class="@searchIcon" role="button" aria-label="Search Samples" @onclick="OnRenderSearch"></span>
+                <div class="@searchContainer">
+                    <SearchComponent @ref="@searchRef"></SearchComponent>
+                </div>
+            }
+            else
+            {
+                <div class="desktop-search-container sf-table-cell">
+                    <SearchComponent></SearchComponent>
+                </div>
+            }
+            <div class='sf-header-items sf-table-cell sf-download-container'>
+                <a href='https://www.syncfusion.com/downloads/blazor/' target="_blank" rel="noopener" role="link" aria-label="Free trial">
+                    <SfButton CssClass="e-primary">Free Trial</SfButton>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Banner -->
+    <div class="sf-banner-image" @onclick="OnAppClick">
+        <div class="sf-container">
+            <div class="sf-banner-content">
+                <h1>Blazor Components Examples, <span @onclick="@NavToDemos">Demos</span> and Showcase Web Apps</h1>
+            </div>
+            <div class="sf-banner-buttons">
+                <div class="demo-btn">
+                    <SfButton CssClass="e-primary e-outline" @onclick="@NavToDemos">View Demos</SfButton>
+                </div>
+            </div>
+            <div class="trusted-companies">
+                <span>Trusted by 20,000 of the world’s leading companies</span>
+                <div class="sf-trusted-companies"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="sf-home-content sf-container">
+        <PopularComponent></PopularComponent>
+        <div class="sf-components-list">
+            <h2>Blazor UI & Data Visualization Components</h2>
+            <div class="sf-components-description">The Syncfusion Blazor components library is the only suite that you will ever need to build an application. It contains 70+ high-performance, light-weight, and responsive UI controls in a single package</div>
+            <div class="sf-components">
+                @foreach (var orders in categoryOrders)
+                {
+                    <div class="sf-component-col">
+                        @foreach (var category in orders)
+                        {
+                            <div class="sf-catagory">@category</div>
+                            var components = SampleBrowser.SampleList.Where(comp => comp.Category == category).ToList();
+                            @if (isWasmSample && category == "Document Processing Libraries")
+                            {
+                                var fileFormat = new List<string> { "Word", "PDF", "Powerpoint", "Excel" };
+                                <ul>
+                                    @foreach (var component in fileFormat)
+                                    {
+                                        <li>
+                                            <span class="sf-home-icon sf-icon-@string.Join("", component.ToLower().Split(" "))" style="color:#747474"></span>
+                                            <span class="sf-component-name" style="color:#747474">@component</span>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul>
+                                    @foreach (var component in components)
+                                    {
+                                        @if (!component.IsHideFromHomePageList)
+                                        {
+                                            <li>
+                                                <a href=@component.DemoPath @onclick="@(() => NavToSample(component.DemoPath))" @onclick:preventDefault
+                                                   rel="noopener noreferrer">
+                                                    <span class="sf-home-icon sf-icon-@string.Join("", (component.ComponentIconName != null ? component.ComponentIconName : component.Name).ToLower().Split(" "))"></span>
+                                                    <span class="sf-component-name">@component.Name</span>
+                                                    @if (component.IsPreview)
+                                                    {
+                                                        <span class="sf-preview">PREVIEW</span>
+                                                    }
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- ShowCase demos -->
+    <div class="sf-showcase">
+        <ShowCaseComponent></ShowCaseComponent>
+    </div>
+    <!-- Syncfusion G2 reviews -->
+    <div class="sf-g2-container">
+        <div class="sf-g2-review sf-container">
+            <div class="sf-g2-left">
+                <div class="sf-g2-img"></div>
+            </div>
+            <div class="sf-g2-right">
+                <h3>Read independent, authenticated reviews on G2</h3>
+                <a href='https://www.g2.com/products/syncfusion-essential-studio-enterprise-edition/reviews' target="_blank" rel="noopener" aria-label="G2 review of Syncfusion components">
+                    <SfButton CssClass="e-primary">READ MORE</SfButton>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- AdStrip -->
+    <div class="sf-ad-strip">
+        <div class="sf-container">
+            <div class="sf-ad-strip-img"></div>
+            <div class="sf-ad-strip-content">
+                <h3>Transform your web apps today with Syncfusion Blazor components</h3>
+                <ul>
+                    <li>
+                        <span class="sbicons sf-ad-strip-tick"></span>
+                        <span>70+ high-performance and responsive UI components</span>
+                    </li>
+                    <li>
+                        <span class="sbicons sf-ad-strip-tick"></span>
+                        <span>Dedicated support</span>
+                    </li>
+                    <li>
+                        <span class="sbicons sf-ad-strip-tick"></span>
+                        <span>Hassle-free licensing</span>
+                    </li>
+                </ul>
+                <div class="sf-ad-strip-button">
+                    <a href="https://www.syncfusion.com/downloads/blazor/" target="_blank" rel="noopener">
+                        <SfButton CssClass="e-primary" IconCss="sbicons sf-gt-icon" IconPosition=@IconPosition.Right>Try It for Free</SfButton>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="sf-home-footer">
+        <HomeFooterComponent></HomeFooterComponent>
+    </div>
+</div>
+
+<style>
+    .sf-blazor-home .syncfusion-logo {
+        background: url( @(SampleService.ImagePath + "syncfusion-logo.svg") );
+        background-size: contain;
+        transform-box: view-box;
+    }
+    .sf-blazor-home .sf-ad-strip-img {
+        background: url( @(SampleService.ImagePath + "home-ad-strip.png") ) no-repeat center top;
+    }
+    .sf-blazor-home .sf-g2-img {
+        background: url( @(SampleService.ImagePath + "syncfusion-g2-review.png") ) no-repeat center top;
+    }
+    .sf-blazor-home .sf-banner-image {
+        background: url( @(SampleService.ImagePath + "home-banner.png") ) no-repeat center top;
+        background-size: 100% 100%;
+    }
+    .sf-blazor-home .sf-trusted-companies {
+        background: url( @(SampleService.ImagePath + "home-trusted-companies.png") ) no-repeat center top;
+    }
+    @@media (max-width: 1024px) {
+        .sf-blazor-home .sf-banner-image {
+            background: url( @(SampleService.ImagePath + "home-banner-tab.png") ) no-repeat center top;
+            background-size: 100% 100%;
+        }
+        .sf-blazor-home .sf-trusted-companies {
+            background: url( @(SampleService.ImagePath + "home-trusted-companies-tab.png") ) no-repeat center top;
+        }
+    }
+    @@media (max-width: 450px) {
+        .sf-blazor-home .sf-banner-image {
+            background: url( @(SampleService.ImagePath + "home-banner-mobile.png") ) no-repeat center top;
+            background-size: 100% 100%;
+        }
+        .sf-blazor-home .sf-trusted-companies {
+            background: url( @(SampleService.ImagePath + "home-trusted-companies-mobile.png") ) no-repeat center top;
+        }
+    }
+</style>
+@code {
+    private string headerLogo { get; set; }
+    private string searchIcon { get; set; }
+    private bool isPrerendering { get; set; }
+    private string searchContainer { get; set; }
+    private SearchComponent searchRef { get; set; }
+    private List<List<string>> categoryOrders { get; set; } = new List<List<string>>();
+    private bool isWasmSample { get; set; }
+
+    [CascadingParameter(Name = "IsDevice")]
+    protected bool IsDevice { get; set; }
+
+    // Search icon click event handler method.
+    private async Task OnRenderSearch()
+    {
+        await this.ShowSearchContainer();
+    }
+
+    // App click event handler method.
+    private async Task OnAppClick()
+    {
+        await this.ShowSearchContainer(false);
+    }
+
+    private void NavToDemos()
+    {
+        this.NavToSample("datagrid/overview");
+    }
+
+    // Sample click event handler method.
+    private void NavToSample(string path)
+    {
+        SampleService.Spinner.Show();
+#if NET6_0 || NET7_0
+        var newUri = UriHelper.GetUriWithQueryParameters(path, new Dictionary<string, object>{
+            ["theme"] = "fluent"
+        });
+        UriHelper.NavigateTo(newUri, true);
+#else
+        UriHelper.NavigateTo(path + "?theme=fluent", true);
+#endif
+    }
+
+    // Show or hide the search container in device mode.
+    private async Task ShowSearchContainer(bool isFocus = true)
+    {
+        if (isFocus)
+        {
+            headerLogo = SampleUtils.AddClass(headerLogo, SampleUtils.DISPLAY_NONE);
+            searchIcon = SampleUtils.AddClass(searchIcon, SampleUtils.DISPLAY_NONE);
+            searchContainer = SampleUtils.RemoveClass(searchContainer, SampleUtils.DISPLAY_NONE);
+            await this.searchRef.InputFocus();
+        }
+        else
+        {
+            headerLogo = SampleUtils.RemoveClass(headerLogo, SampleUtils.DISPLAY_NONE);
+            searchIcon = SampleUtils.RemoveClass(searchIcon, SampleUtils.DISPLAY_NONE);
+            searchContainer = SampleUtils.AddClass(searchContainer, SampleUtils.DISPLAY_NONE);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        headerLogo = SampleUtils.HEADER_LOGO;
+        searchIcon = SampleUtils.SEARCH_ICON;
+        searchContainer = SampleUtils.MOBILE_SEARCH_CONTAINER + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+
+        this.categoryOrders.Add(new List<string> { "Grids", "File Viewers & Editors", "Document Processing Libraries", "Layout" });
+        this.categoryOrders.Add(new List<string> { "Data Visualization", "Buttons" });
+        this.categoryOrders.Add(new List<string> { "Calendars", "Inputs", "Forms" });
+        this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Notifications" });
+#if WASM
+        isWasmSample = true;
+#endif
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        // await for mobile or desktop rendering.
+        await Task.Delay(500);
+        SampleService.Spinner.Hide();
+    }
+}
+
