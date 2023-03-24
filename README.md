@@ -19,7 +19,7 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 ## How to run the demo
 
-Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET 3.1 and .NET 6 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
+Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET Core 3.1 and .NET 6 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
 * Blazor Server Demos folder has solution and project files to run Blazor server demos.
 * Blazor WASM Demos folder has solution and project files to run Blazor WebAssembly demos.
 * The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for both Blazor server demos and Blazor WebAssembly demos.
@@ -29,14 +29,17 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
 * Open the command prompt from the demo's directory where the project and solution file are present.
 * Run the demo using the following command.
    
-   To run .NET 3.1 Blazor Server Demos project
-   > `dotnet run --project BlazorServerDemos_NETCORE3_1.csproj`
-
    To run .NET 6 Blazor Server Demos project
    > `dotnet run --project BlazorServerDemos_NET6.csproj`
 
+   To run .NET 7 Blazor Server Demos project
+   > `dotnet run --project BlazorServerDemos_NET7.csproj`
+
    To run .NET 6 Blazor WASM Demos project
    > `dotnet run --project BlazorWasmDemos_NET6.Server.csproj`
+
+    To run .NET 7 Blazor WASM Demos project
+   > `dotnet run --project BlazorWasmDemos_NET7.Server.csproj`
 
 ### Run the demo using Visual Studio
 
@@ -63,7 +66,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
         </colgroup>
     </tbody>
     <tr>
-        <td>
+        <td> 
             <div><p class="controlcategory">GRIDS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/datagrid/getting-started">DataGrid</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pivot-table/getting-started">Pivot Table</a></div>
