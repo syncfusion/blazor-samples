@@ -1,0 +1,105 @@
+﻿@page "/file-manager/directory-upload"
+
+@using Syncfusion.Blazor.FileManager;
+@using Syncfusion.Blazor.SplitButtons;
+
+@inject IJSRuntime JSRuntime
+
+@inherits SampleBaseComponent;
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor File Manager Directory Upload Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Directory Upload in Blazor File Manager Component. Explore here for more details." />
+	<link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the folder (directory) upload feature of FileManager component. Select 'Folder' from toolbar item to select and upload a folder.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, a folder upload enabled by setting <code>DirectoryUpload</code> as true. It allows to select or drop a folder to upload all its contents including hierarchy folders and files.</p><p>The folder (directory) upload is supported for the following file system providers,
+    </p>
+    <li> Physical provider</li>
+    <li> NodeJS provider</li>
+    <li> Azure provider</li>
+    <li> Amazon S3 provider</li>
+    <p></p>
+  </ActionDescription>
+
+<div class="control-section">
+    @* Initialization of File Manager component with Directory upload functionality *@
+ <SfFileManager TValue="FileManagerDirectoryContent">
+        <FileManagerAjaxSettings Url="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations"
+                                 UploadUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload"
+                                 DownloadUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download"
+                                 GetImageUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage">
+        </FileManagerAjaxSettings>
+        <FileManagerUploadSettings DirectoryUpload="@IsDirectoryUpload" ></FileManagerUploadSettings>
+        <FileManagerEvents TValue="FileManagerDirectoryContent"  ToolbarCreated="Created" ToolbarItemClicked="ItemClicked"></FileManagerEvents>
+    </SfFileManager>
+</div>
+
+@code{
+    @*Hidden:Lines*@
+    private string canonicalURL { get; set; }
+    protected override void OnInitialized()
+    {
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+    }
+    @*End:Hidden*@
+    public bool IsDirectoryUpload = true;
+    public void ItemClicked(ToolbarClickEventArgs<FileManagerDirectoryContent> args)
+    {
+        if (args.Item.Text == "Upload")
+        {
+            args.Cancel = true;
+        }
+    }
+    public async void ItemSelected(MenuEventArgs args)
+    {
+        if (args.Item.Id == "Folder")
+        {
+            IsDirectoryUpload = true;
+        }
+        else
+        {
+            IsDirectoryUpload = false;
+        }
+        await Task.Delay(100);
+        await JSRuntime.InvokeVoidAsync("uploadClick");
+    }
+    public void Created(ToolbarCreateEventArgs args)
+    {
+        foreach(var item in args.Items.ToArray())
+        {
+            if(item.Text == "Upload")
+            {
+                item.Template = RenderDropdown();
+                break;
+            }
+        }
+    }
+    public RenderFragment RenderDropdown()
+    {
+        return
+        @<div class="directory-upload">
+            <SfDropDownButton IconCss="e-icons e-fe-upload" CssClass=" e-tbar-btn e-tbtn-txt  e-fe-popup" @attributes="@(new Dictionary<string, object> { {"tabindex", -1 } })" >
+            <span class="e-tbar-btn-text e-tbar-ddb-text">Upload</span>
+            <DropDownButtonEvents ItemSelected="@ItemSelected"></DropDownButtonEvents>
+            <DropDownMenuItems>
+                    <DropDownMenuItem Id="Folder" Text="Folder"></DropDownMenuItem>
+                    <DropDownMenuItem Id="Files" Text="Files"></DropDownMenuItem>
+            </DropDownMenuItems>
+            </SfDropDownButton>
+            </div>;
+    }
+}
+
+<style>
+    .fluent  .directory-upload,
+    .fluent-dark .directory-upload {
+        padding-right: 5px;
+    }
+</style>

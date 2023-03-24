@@ -1,0 +1,113 @@
+﻿@page "/pdf-viewer/handwritten-signature"
+
+@*WebAssembly:Block*@
+@{ #if (WASM || WASM_HOSTED) }
+@using Syncfusion.Blazor.PdfViewer
+@{ #endif }
+@*End:WebAssembly*@
+
+@*Server:Block*@
+@{ #if !(WASM || WASM_HOSTED) }
+@using Syncfusion.Blazor.PdfViewerServer
+@{ #endif }
+@*End:Server*@
+
+@inherits SampleBaseComponent;
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor PDF Viewer Handwritten Signature Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Handwritten Signature in Blazor PDF Viewer Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Handwritten signature support of PDF Viewer. The Handwritten signature reduces the paperwork of reviewing the contents and it’s verified it’s digitally.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In the PDF Viewer component, we can explicitly open the Handwritten signature dialog using the method <code>SetAnnotationMode</code>.</p>
+@*WASM:Block*@
+@{ #if (WASM || WASM_HOSTED) }
+    <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/web-assembly-application/'> documentation section</a>.</p>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !(WASM || WASM_HOSTED) }
+    <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/server-side-application/'> documentation section</a>.</p>
+@{ #endif }
+@*End:Server*@
+</ActionDescription>
+
+<div class="control-section">
+@*WASM:Block*@
+@{ #if WASM }
+     <SfPdfViewer @ref="viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%" ServiceUrl="https://blazor.syncfusion.com/services/production/api/pdfviewer">
+         <PdfViewerEvents DocumentLoaded="DocumentLoad"></PdfViewerEvents>
+     </SfPdfViewer>
+@{ #endif }
+@*End:WASM*@
+
+@*WASM_HOSTED:Block*@
+@{ #if WASM_HOSTED }
+     <SfPdfViewer @ref="viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%" ServiceUrl="./PdfViewer">
+         <PdfViewerEvents DocumentLoaded="DocumentLoad"></PdfViewerEvents>
+     </SfPdfViewer>
+@{ #endif }
+@*End:WASM_HOSTED*@
+
+@*Server:Block*@
+@{ #if !(WASM || WASM_HOSTED) }     
+     <SfPdfViewerServer @ref="viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%">
+        <PdfViewerEvents DocumentLoaded="DocumentLoad"></PdfViewerEvents>
+    </SfPdfViewerServer>
+@{ #endif }
+@*End:Server*@
+</div>
+
+@code {
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+
+    protected override void OnInitialized()
+    {
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+    }
+    //End:Hidden
+@*Server:Block*@
+#if !(WASM || WASM_HOSTED)
+    SfPdfViewerServer viewer;
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@
+#if (WASM || WASM_HOSTED)
+SfPdfViewer viewer;
+#endif
+@*End:WebAssembly*@
+
+    public async void DocumentLoad(LoadEventArgs args)
+    {
+        await viewer.SetAnnotationModeAsync(AnnotationType.HandWrittenSignature);
+    }
+    
+
+@*Server:Block*@
+ #if !(WASM || WASM_HOSTED) 
+    private string DocumentPath { get; set; } = "wwwroot/data/pdfviewer/hand-written-signature.pdf";
+ #endif
+@*End:Server*@
+
+@*WASM:Block*@
+ #if (WASM)
+    private string DocumentPath { get; set; } = "HandwrittenSignature.pdf";
+#endif
+@*End:WASM*@
+
+@*WASM_HOSTED:Block*@
+ #if (WASM_HOSTED)
+    private string DocumentPath { get; set; } = "hand-written-signature.pdf";
+#endif
+@*End:WASM_HOSTED*@
+}
