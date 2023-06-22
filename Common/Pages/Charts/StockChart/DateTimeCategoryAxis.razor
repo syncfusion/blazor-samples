@@ -1,0 +1,124 @@
+﻿@page "/stock-chart/date-time-category-axis"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@using System.Net.Http.Json
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+<PageTitle>Blazor Stock Chart with DateTimeCategory axis Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the DateTimeCategory axis type in Blazor Stock Chart Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the AAPL stock price using the <code>DateTimeCategory</code> axis type in the stock chart to display the minimum number of labels without any overlap on various business days.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a stock chart to visualize stock data using the <code>DateTimeCategory</code> axis type. To render a line series, use a <code>Line</code> series type.</p>
+    <p>Meanwhile, crosshair is enabled in this example. Hover over the chart or tap it on touch-enabled devices to see the crosshair in action.</p>
+    <p>More information about axis types can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/stock-chart/axis-types'>documentation section</a>.</p>
+</ActionDescription>
+
+@if (DataSource == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="@loadClass"></div>
+    <div class="@loadDiv">
+        <SfStockChart Title="AAPL Stock Price" Theme="@theme">
+            <StockChartEvents OnLoaded="@ChartLoaded" SharedTooltipRendering="@TooltipText"></StockChartEvents>
+            <StockChartPrimaryXAxis ValueType="@Syncfusion.Blazor.Charts.ValueType.DateTimeCategory">
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis>
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+            </StockChartPrimaryYAxis>
+            <StockChartTooltipSettings Enable="true" Header="AAPL Stock Price"></StockChartTooltipSettings>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Line"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </SfStockChart>
+    </div>
+    <style>
+        .stockchartloader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchartdiv {
+            visibility: hidden;
+        }
+    </style>
+}
+
+@code {
+    public List<ChartSeriesType> nulldata = new List<ChartSeriesType>();
+    private ChartData[] DataSource;
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+
+    protected override void OnInitialized()
+    {
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+    }
+    //End:Hidden
+
+    protected override async Task OnInitializedAsync()
+    {
+        BeforeRender();
+        DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/financial-stock-chart-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime date { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    string loadClass = "stockchartloader";
+    string loadDiv = "stockchartdiv";
+    void ChartLoaded(StockChartEventArgs args)
+    {
+        loadClass = "";
+        loadDiv = "";
+        StateHasChanged();
+    }
+
+    public void TooltipText(SharedTooltipRenderEventArgs args)
+    {
+        if (args.Text[0] != null)
+        {
+            args.Text[0] = args.Text[0].Replace("00:00:00 AM", " ", StringComparison.InvariantCulture);
+        }
+    }
+
+    Theme theme = Theme.Bootstrap4;
+    void BeforeRender()
+    {
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}
