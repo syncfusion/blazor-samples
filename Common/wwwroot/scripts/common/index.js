@@ -14,9 +14,9 @@ window.sfBlazorSB = {
   isDeviceMode: function () {
     //return sf.base.Browser.isDevice && document.body.offsetWidth <= 1024;
     return document.body.offsetWidth <= 1024;
-    },
+  },
   isTablet: function () {
-      return document.body.offsetWidth > 767 && document.body.offsetWidth <= 1024;
+    return document.body.offsetWidth > 767 && document.body.offsetWidth <= 1024;
   },
   // set focus to the SB input components
   inputFocus: function (inputElement) {
@@ -36,17 +36,24 @@ window.sfBlazorSB = {
   },
   // set e-bigger class to the body based on mouse/touch selection
   setBiggerSize: function (isTouch, isTouchReload) {
-      if (isTouch) {
+    var isMouseMode = document.body.classList.contains('e-bigger');
+    if (isTouch) {
+      if (!isMouseMode) {
         document.body.classList.add('e-bigger');
-          localStorage.setItem("sfPreferenceMode", "touch");
-          if (isTouchReload) {
-              isTouchEnabled = true;
-              window.location.reload();
-          }
-      } else {
-          document.body.classList.remove('e-bigger');
-        localStorage.setItem("sfPreferenceMode", "mouse");
+        localStorage.setItem("sfPreferenceMode", "touch");
+        if (isTouchReload) {
+          isTouchEnabled = true;
+          window.location.reload();
+        }
       }
+    } else {
+      if (isMouseMode) {
+        document.body.classList.remove('e-bigger');
+        localStorage.setItem("sfPreferenceMode", "mouse");
+        window.location.reload();
+      }
+
+    }
   },
   // returns the preferences mode.
   getPreferenceMode: function () {
@@ -199,9 +206,9 @@ function OnDragStopCall(dragEventArgs) {
   var targetElement = document.elementFromPoint(dragEventArgs.left, dragEventArgs.top);
   var listEle = targetElement.closest(".e-droppable");
   if (listEle && listEle.classList.contains("custom-list")) {
-      var id = dragEventArgs.draggedNodeData.id;
-      var text = dragEventArgs.draggedNodeData.text;
-      return { Id: id, Text: text };
+    var id = dragEventArgs.draggedNodeData.id;
+    var text = dragEventArgs.draggedNodeData.text;
+    return { Id: id, Text: text };
   }
 }
 
@@ -224,125 +231,125 @@ function setThemeSelection(themeName) {
 window.preventSpaceKey = () => {
   var element = document.getElementsByClassName("control-section chip-container")[0];
   if (element != null) {
-      element.addEventListener("keydown", function (e) {
-          if (e.target && e.target.classList.contains("e-chip") && e.keyCode == 32) {
-              e.preventDefault();
-          }
-      });
+    element.addEventListener("keydown", function (e) {
+      if (e.target && e.target.classList.contains("e-chip") && e.keyCode == 32) {
+        e.preventDefault();
+      }
+    });
   }
 };
 function changeSelector() {
-    var element = document.getElementsByClassName("e-diagram-resize-handle");
-    for (var i = 0; i < element.length; i++) {
-        element[i].classList.remove('e-default-resize-style');
-        element[i].classList.remove('e-resize-style');
-        element[i].classList.remove('e-empty');
-        element[i].classList.add('e-diagram-resize-handle', 'e-custom-resize-style');
-    }
-    var element2 = document.getElementsByTagName("Circle");
-    element2.length = 1;
-    var element1 = document.getElementsByClassName("e-diagram-border");
-    for (var i = 0; i < element1.length; i++) {
-        element1[i].classList.remove('e-default-border-style');
-        element1[i].classList.remove('e-border-style');
-        element1[i].classList.add('e-diagram-border', 'e-custom-border-style');
-    }
-    var element2 = document.getElementsByClassName("e-diagram-rotate-handle");
-    element2[0].classList.add('e-diagram-rotate-handle', 'e-rotate');
-    var element3 = document.getElementsByClassName("e-diagram-pivot-line");
-    element3[0].classList.add('e-diagram-pivot-line', 'e-rotate');
+  var element = document.getElementsByClassName("e-diagram-resize-handle");
+  for (var i = 0; i < element.length; i++) {
+    element[i].classList.remove('e-default-resize-style');
+    element[i].classList.remove('e-resize-style');
+    element[i].classList.remove('e-empty');
+    element[i].classList.add('e-diagram-resize-handle', 'e-custom-resize-style');
+  }
+  var element2 = document.getElementsByTagName("Circle");
+  element2.length = 1;
+  var element1 = document.getElementsByClassName("e-diagram-border");
+  for (var i = 0; i < element1.length; i++) {
+    element1[i].classList.remove('e-default-border-style');
+    element1[i].classList.remove('e-border-style');
+    element1[i].classList.add('e-diagram-border', 'e-custom-border-style');
+  }
+  var element2 = document.getElementsByClassName("e-diagram-rotate-handle");
+  element2[0].classList.add('e-diagram-rotate-handle', 'e-rotate');
+  var element3 = document.getElementsByClassName("e-diagram-pivot-line");
+  element3[0].classList.add('e-diagram-pivot-line', 'e-rotate');
 }
 function changeSelectorVisio() {
-    var element = document.getElementsByClassName("e-diagram-resize-handle");
-    for (var i = 0; i < element.length; i++) {
-        element[i].classList.remove('e-custom-resize-style');
-        element[i].classList.remove('e-resize-style');
-        element[i].classList.remove('e-empty');
-        element[i].classList.add('e-diagram-resize-handle', 'e-default-resize-style');
-    }
-    var element1 = document.getElementsByClassName("e-diagram-border");
-    for (var i = 0; i < element1.length; i++) {
-        element1[i].classList.remove('e-custom-border-style');
-        element1[i].classList.remove('e-border-style');
-        element1[i].classList.add('e-diagram-border', 'e-default-border-style');
-    }
-    var element2 = document.getElementsByClassName("e-diagram-rotate-handle");
-    element2[0].classList.remove('e-rotate');
-    var element3 = document.getElementsByClassName("e-diagram-pivot-line");
-    element3[0].classList.remove('e-rotate');
+  var element = document.getElementsByClassName("e-diagram-resize-handle");
+  for (var i = 0; i < element.length; i++) {
+    element[i].classList.remove('e-custom-resize-style');
+    element[i].classList.remove('e-resize-style');
+    element[i].classList.remove('e-empty');
+    element[i].classList.add('e-diagram-resize-handle', 'e-default-resize-style');
+  }
+  var element1 = document.getElementsByClassName("e-diagram-border");
+  for (var i = 0; i < element1.length; i++) {
+    element1[i].classList.remove('e-custom-border-style');
+    element1[i].classList.remove('e-border-style');
+    element1[i].classList.add('e-diagram-border', 'e-default-border-style');
+  }
+  var element2 = document.getElementsByClassName("e-diagram-rotate-handle");
+  element2[0].classList.remove('e-rotate');
+  var element3 = document.getElementsByClassName("e-diagram-pivot-line");
+  element3[0].classList.remove('e-rotate');
 
 }
 function changeSelectorDefault() {
-    var element = document.getElementsByClassName("e-diagram-resize-handle");
-    for (var i = 0; i < element.length; i++) {
-        element[i].classList.remove('e-custom-resize-style');
-        element[i].classList.remove('e-default-resize-style');
-        element[i].classList.add('e-diagram-resize-handle', 'e-resize-style');
-    }
+  var element = document.getElementsByClassName("e-diagram-resize-handle");
+  for (var i = 0; i < element.length; i++) {
+    element[i].classList.remove('e-custom-resize-style');
+    element[i].classList.remove('e-default-resize-style');
+    element[i].classList.add('e-diagram-resize-handle', 'e-resize-style');
+  }
 
-    var element1 = document.getElementsByClassName("e-diagram-border");
-    for (var i = 0; i < element1.length; i++) {
-        element1[i].classList.remove('e-custom-border-style');
-        element1[i].classList.remove('e-default-border-style');
-        element1[i].classList.add('e-diagram-border', 'e-border-style');
-    }
-    var element2 = document.getElementsByClassName("e-diagram-rotate-handle");
-    element2[0].classList.add('e-diagram-rotate-handle', 'e-rotate');
-    var element3 = document.getElementsByClassName("e-diagram-pivot-line");
-    element3[0].classList.add('e-diagram-pivot-line', 'e-rotate');
+  var element1 = document.getElementsByClassName("e-diagram-border");
+  for (var i = 0; i < element1.length; i++) {
+    element1[i].classList.remove('e-custom-border-style');
+    element1[i].classList.remove('e-default-border-style');
+    element1[i].classList.add('e-diagram-border', 'e-border-style');
+  }
+  var element2 = document.getElementsByClassName("e-diagram-rotate-handle");
+  element2[0].classList.add('e-diagram-rotate-handle', 'e-rotate');
+  var element3 = document.getElementsByClassName("e-diagram-pivot-line");
+  element3[0].classList.add('e-diagram-pivot-line', 'e-rotate');
 }
 function focusElement(ele) {
-    if (ele) {
-        ele.focus();
-    }
+  if (ele) {
+    ele.focus();
+  }
 }
 
 //tooltip keyboard navigation sample function for focuing input
 function focusInput(id) {
-    setTimeout(function () {
-        document.getElementById(id).focus();
-    }, 500);
+  setTimeout(function () {
+    document.getElementById(id).focus();
+  }, 500);
 }
 
 function uploadClick() {
-    document.querySelector('.e-file-select-wrap button').click();
+  document.querySelector('.e-file-select-wrap button').click();
 }
 
 document.addEventListener("keydown", function (e) {
-    if (e.altKey === true && e.keyCode === 74) {
-        var ele = document.querySelector('.sb-demo-section .e-control');
-        if (ele) {
-            if (ele.classList.contains('e-tab')) {
-                ele = ele.querySelector('.e-toolbar-item .e-tab-wrap');
-                ele.tabIndex = 0;
-            }
-            else if (ele.classList.contains('e-accordion')) {
-                ele = ele.querySelector('.e-acrdn-header');
-            }
-            else if (ele.classList.contains('e-dropdownlist')) {
-                ele = ele.parentElement;
-            }
-            else if (ele.classList.contains('e-chip-list')) {
-                ele = ele.querySelector('.e-chip');
-            }
-            else if (ele.classList.contains('e-colorpicker')) {
-              ele = ele.parentElement.querySelector('.e-split-btn');
-            }
-            else if (ele.classList.contains('e-listbox')) {
-                ele = ele.parentElement;
-            }
-            else if (ele.classList.contains('e-filemanager')) {
-                ele = ele.querySelector('.e-toolbar-item:not(.e-hidden)').children[0];
-            }
-            else if (ele.classList.contains('e-uploader')) {
-              ele = ele.parentElement.parentElement.firstChild;
-            }
-            else if (ele.classList.contains('e-treeview')) {
-                ele = ele.querySelector("li");
-            }
-        }
-        focusElement(ele);
+  if (e.altKey === true && e.keyCode === 74) {
+    var ele = document.querySelector('.sb-demo-section .e-control');
+    if (ele) {
+      if (ele.classList.contains('e-tab')) {
+        ele = ele.querySelector('.e-toolbar-item .e-tab-wrap');
+        ele.tabIndex = 0;
+      }
+      else if (ele.classList.contains('e-accordion')) {
+        ele = ele.querySelector('.e-acrdn-header');
+      }
+      else if (ele.classList.contains('e-dropdownlist')) {
+        ele = ele.parentElement;
+      }
+      else if (ele.classList.contains('e-chip-list')) {
+        ele = ele.querySelector('.e-chip');
+      }
+      else if (ele.classList.contains('e-colorpicker')) {
+        ele = ele.parentElement.querySelector('.e-split-btn');
+      }
+      else if (ele.classList.contains('e-listbox')) {
+        ele = ele.parentElement;
+      }
+      else if (ele.classList.contains('e-filemanager')) {
+        ele = ele.querySelector('.e-toolbar-item:not(.e-hidden)').children[0];
+      }
+      else if (ele.classList.contains('e-uploader')) {
+        ele = ele.parentElement.parentElement.firstChild;
+      }
+      else if (ele.classList.contains('e-treeview')) {
+        ele = ele.querySelector("li");
+      }
     }
+    focusElement(ele);
+  }
 });
 
 window.addEventListener('load', function () {
@@ -362,8 +369,8 @@ window.addEventListener('load', function () {
 window.onresize = function () {
   var isDevice = sfBlazorSB.isDeviceMode();
   if ((isDevice && !isUpdatedDevice) || (!isDevice && isUpdatedDevice)) {
-      isUpdatedDevice = !isUpdatedDevice;
-      sfBlazorSB.dotnetRef.invokeMethodAsync("UpdateDeviceMode", isDevice, sfBlazorSB.isTablet());
+    isUpdatedDevice = !isUpdatedDevice;
+    sfBlazorSB.dotnetRef.invokeMethodAsync("UpdateDeviceMode", isDevice, sfBlazorSB.isTablet());
   }
 };
 
@@ -377,9 +384,9 @@ window.onscroll = function () {
 };
 
 window.onbeforeunload = function () {
-    if (!isTouchEnabled) {
-        localStorage.removeItem("sfPreferenceMode");
-    }
+  if (!isTouchEnabled) {
+    localStorage.removeItem("sfPreferenceMode");
+  }
 };
 
 (function () {
@@ -389,189 +396,187 @@ window.onbeforeunload = function () {
 
 // PowerPoint Viewer Demo Scripts
 window.openUploader = function () {
-    document.getElementById('UploadFiles').click();
+  document.getElementById('UploadFiles').click();
 };
 window.enableSpinner = function () {
-    var waitingPopUp = document.getElementById('waiting-popup')
-    waitingPopUp.style.display = 'block';
+  var waitingPopUp = document.getElementById('waiting-popup')
+  waitingPopUp.style.display = 'block';
 };
 window.disableSpinner = function () {
-    var waitingPopUp = document.getElementById('waiting-popup')
-    waitingPopUp.style.display = 'none';
+  var waitingPopUp = document.getElementById('waiting-popup')
+  waitingPopUp.style.display = 'none';
 };
 window.openThumbnailPane = (viewerId) => {
-    var viewer = window.sfBlazor.getCompInstance(viewerId);
-    viewer.viewerBase.navigationPane.isThumbnail = false;
-    viewer.thumbnailView.openThumbnailPane();
+  var viewer = window.sfBlazor.getCompInstance(viewerId);
+  viewer.viewerBase.navigationPane.isThumbnail = false;
+  viewer.thumbnailView.openThumbnailPane();
 };
 
 function beforeApplyFormat(id, isBlocked) {
-      var range1 = sfBlazor.instances["mentionFormatIntegration"].getRange();
-      var node = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getNodeCollection(range1)[0];
-      var blockNewLine = !(node.parentElement.innerHTML.replace(/&nbsp;|<br>/g, '').trim() == '/' || node.textContent.trim().indexOf('/')==0);
-      var blockNode;
-      var startNode = node;
-      if (blockNewLine && isBlocked) {
-          while (startNode != sfBlazor.instances[id].inputElement) {
-              blockNode = startNode;
-              startNode = startNode.parentElement;
-          }
-      }
-      var startPoint = range1.startOffset;
-      while (sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getRange(document).toString().indexOf("/") == -1)
-      {
-          sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, startPoint, range1.endOffset)
-          startPoint--;
-      }
-     // sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, range1.startOffset - 1, range1.endOffset);
-      var range2 = sfBlazor.instances["mentionFormatIntegration"].getRange();
-      var node2 = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeCutter.GetSpliceNode(range2, node);
-      var previouNode = node2.previousSibling;
-      node2.parentNode.removeChild(node2);
-      var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(range2, document);
-      if (blockNewLine && isBlocked) {
-          var defaultTag = document.createElement('p');
-          defaultTag.innerHTML = '</br>';
-          blockNode.parentNode.insertBefore(defaultTag, blockNode.nextSibling);
-          selection.setCursorPoint(document, blockNode.nextSibling, 0);
-      }
-      else if (previouNode) {
-          selection.setCursorPoint(document, previouNode, previouNode.textContent.length);
-      }
+  var range1 = sfBlazor.instances["mentionFormatIntegration"].getRange();
+  var node = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getNodeCollection(range1)[0];
+  var blockNewLine = !(node.parentElement.innerHTML.replace(/&nbsp;|<br>/g, '').trim() == '/' || node.textContent.trim().indexOf('/') == 0);
+  var blockNode;
+  var startNode = node;
+  if (blockNewLine && isBlocked) {
+    while (startNode != sfBlazor.instances[id].inputElement) {
+      blockNode = startNode;
+      startNode = startNode.parentElement;
+    }
   }
+  var startPoint = range1.startOffset;
+  while (sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getRange(document).toString().indexOf("/") == -1) {
+    sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, startPoint, range1.endOffset)
+    startPoint--;
+  }
+  // sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, range1.startOffset - 1, range1.endOffset);
+  var range2 = sfBlazor.instances["mentionFormatIntegration"].getRange();
+  var node2 = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeCutter.GetSpliceNode(range2, node);
+  var previouNode = node2.previousSibling;
+  node2.parentNode.removeChild(node2);
+  var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(range2, document);
+  if (blockNewLine && isBlocked) {
+    var defaultTag = document.createElement('p');
+    defaultTag.innerHTML = '</br>';
+    blockNode.parentNode.insertBefore(defaultTag, blockNode.nextSibling);
+    selection.setCursorPoint(document, blockNode.nextSibling, 0);
+  }
+  else if (previouNode) {
+    selection.setCursorPoint(document, previouNode, previouNode.textContent.length);
+  }
+}
 
 function onInsertEmotSlashRemove() {
-    beforeApplyFormat(null, false);
+  beforeApplyFormat(null, false);
 }
 
 function loadPdfScript() {
-    return new Promise(function () {
-        var script = document.createElement('script');
-        script.src = "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js";
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
-    });
+  return new Promise(function () {
+    var script = document.createElement('script');
+    script.src = "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js";
+    document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
+  });
 }
 
 function loadPdf2Script() {
-    return new Promise(function () {
-        var script = document.createElement('script');
-        script.src = "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js";
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
-    });
+  return new Promise(function () {
+    var script = document.createElement('script');
+    script.src = "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js";
+    document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
+  });
 }
 
 function loadWordScript() {
-    return new Promise(function () {
-        var script = document.createElement('script');
-        script.src = "_content/Syncfusion.Blazor.WordProcessor/scripts/syncfusion-blazor-documenteditor.min.js";
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
-    });
+  return new Promise(function () {
+    var script = document.createElement('script');
+    script.src = "_content/Syncfusion.Blazor.WordProcessor/scripts/syncfusion-blazor-documenteditor.min.js";
+    document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
+  });
 }
 
 function created() {
   document.getElementById('pdfviewer_open').addEventListener('click', function () {
-      document.querySelector('.e-upload-browse-btn').click()
+    document.querySelector('.e-upload-browse-btn').click()
   })
 }
 
 //For diagram component
 function CommonKeyboardCommands_newDiagram() {
-    var origin = window.location.origin;
-    if (!origin) {
-        origin = window.location.protocol + '//'
-            + window.location.hostname
-            + (window.location.port ? ':' + window.location.port : '');
-    }
-    window.open(origin + window.location.pathname);
+  var origin = window.location.origin;
+  if (!origin) {
+    origin = window.location.protocol + '//'
+      + window.location.hostname
+      + (window.location.port ? ':' + window.location.port : '');
+  }
+  window.open(origin + window.location.pathname);
 };
 function getDiagramFileName(dialogName) {
-    if (dialogName === 'export')
-        return document.getElementById('diagramName').innerHTML.toString();
-    if (dialogName === 'save')
-        return document.getElementById('diagramName').value.toString();
-    else
-        return document.getElementById('diagramName').innerHTML.toString();
+  if (dialogName === 'export')
+    return document.getElementById('diagramName').innerHTML.toString();
+  if (dialogName === 'save')
+    return document.getElementById('diagramName').value.toString();
+  else
+    return document.getElementById('diagramName').innerHTML.toString();
 }
 
 function downloadPdf(base64String, fileName) {
-    var sliceSize = 512;
-    var byteCharacters = atob(base64String);
-    var byteArrays = []; for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-        var slice = byteCharacters.slice(offset, offset + sliceSize);
-        var byteNumbers = new Array(slice.length); for (var i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        } var byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    } var blob = new Blob(byteArrays, {
-        type: 'application/pdf'
-    });
-    var blobUrl = window.URL.createObjectURL(blob);
-    this.triggerDownload("PDF", fileName, blobUrl);
+  var sliceSize = 512;
+  var byteCharacters = atob(base64String);
+  var byteArrays = []; for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+    var byteNumbers = new Array(slice.length); for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    } var byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  } var blob = new Blob(byteArrays, {
+    type: 'application/pdf'
+  });
+  var blobUrl = window.URL.createObjectURL(blob);
+  this.triggerDownload("PDF", fileName, blobUrl);
 }
 triggerDownload: function triggerDownload(type, fileName, url) {
-    var anchorElement = document.createElement('a');
-    anchorElement.download = fileName + '.' + type.toLocaleLowerCase();
-    anchorElement.href = url;
-    anchorElement.click();
+  var anchorElement = document.createElement('a');
+  anchorElement.download = fileName + '.' + type.toLocaleLowerCase();
+  anchorElement.href = url;
+  anchorElement.click();
 }
 
 function saveDiagram(data, filename) {
-    if (window.navigator.msSaveBlob) {
-        let blob = new Blob([data], { type: 'data:text/json;charset=utf-8,' });
-        window.navigator.msSaveOrOpenBlob(blob, filename + '.json');
-    } else {
-        let dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(data);
-        let a = document.createElement('a');
-        a.href = dataStr;
-        a.download = filename + '.json';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    }
+  if (window.navigator.msSaveBlob) {
+    let blob = new Blob([data], { type: 'data:text/json;charset=utf-8,' });
+    window.navigator.msSaveOrOpenBlob(blob, filename + '.json');
+  } else {
+    let dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(data);
+    let a = document.createElement('a');
+    a.href = dataStr;
+    a.download = filename + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
 }
 UtilityMethods_hideElements = function (elementType, diagramType) {
-    var diagramContainer = document.getElementsByClassName('diagrambuilder-container')[0];
-    if (diagramContainer.classList.contains(elementType)) {
-        if (!(diagramType === 'mindmap-diagram' || diagramType === 'orgchart-diagram')) {
-            diagramContainer.classList.remove(elementType);
-        }
+  var diagramContainer = document.getElementsByClassName('diagrambuilder-container')[0];
+  if (diagramContainer.classList.contains(elementType)) {
+    if (!(diagramType === 'mindmap-diagram' || diagramType === 'orgchart-diagram')) {
+      diagramContainer.classList.remove(elementType);
     }
-    else {
-        diagramContainer.classList.add(elementType);
-    }
+  }
+  else {
+    diagramContainer.classList.add(elementType);
+  }
 };
 function hideMenubar() {
-    UtilityMethods_hideElements('hide-menubar');
+  UtilityMethods_hideElements('hide-menubar');
 }
 function getHyperLinkValueFromDocument(id, attribute) {
-    return document.getElementById(id).value;
+  return document.getElementById(id).value;
 }
 function click() {
-    document.getElementById('UploadFiles').click();
+  document.getElementById('UploadFiles').click();
 }
 function hideElements(elementType) {
-    var diagramContainer = document.getElementsByClassName('diagrambuilder-container')[0];
-    if (diagramContainer.classList.contains(elementType)) {
-        diagramContainer.classList.remove(elementType);
-    } else {
-        diagramContainer.classList.add(elementType);
-    }
+  var diagramContainer = document.getElementsByClassName('diagrambuilder-container')[0];
+  if (diagramContainer.classList.contains(elementType)) {
+    diagramContainer.classList.remove(elementType);
+  } else {
+    diagramContainer.classList.add(elementType);
+  }
 }
 //function click() {
 //    document.getElementById('defaultfileupload').click();
 //}
 function loadFile(file) {
-    var base64 = file.rawFile.replace("data:application/json;base64,", "");
-    var json = atob(base64)
-    return json;
+  var base64 = file.rawFile.replace("data:application/json;base64,", "");
+  var json = atob(base64)
+  return json;
 }
 function loadDiagram(event) {
-    return event.target.result.toString();
+  return event.target.result.toString();
 }
 function ScrollToSelected() {
-  const selectedDiv = document.querySelector('.sf-list-li-active');
-  const listDiv = document.querySelector('.sf-list');
+  const selectedDiv = document.querySelector('.sf-list .sf-list-li-active');
   if (selectedDiv) {
-      listDiv.scrollTop = selectedDiv.offsetTop;
+    selectedDiv.scrollIntoView({ block: 'nearest' });
   }
 }
