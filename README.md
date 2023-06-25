@@ -132,9 +132,10 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/progress-button/getting-started">Progress Button</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/split-button/getting-started">SplitButton</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/appearance/icons">Icons</a></div>
+            <div><p>&nbsp;</p></div>
+            <div><p>&nbsp;</p></div>
         </td>
         <td>
-            <p></p>
             <div><p class="controlcategory">CALENDARS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/scheduler/getting-started">Scheduler</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/gantt-chart/getting-started">Gantt Chart</a></div>
@@ -160,9 +161,10 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <p></p>
             <div><p class="controlcategory">FORMS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started">Query Builder</a></div>
+            <div><p>&nbsp;</p></div>
+            <div><p>&nbsp;</p></div>
         </td>
         <td>
-            <p></p>
             <div><p class="controlcategory">DROPDOWNS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/autocomplete/getting-started">AutoComplete</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/combobox/getting-started">ComboBox</a></div>
