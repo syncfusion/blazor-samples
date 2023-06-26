@@ -89,7 +89,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features">PDF Viewer</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen)</a></div>     
             <p>&nbsp;</p>
-            <div><p class="controlcategory">Document Processing Libraries</p></div>
+            <div><p class="controlcategory">DOCUMENT PROCESSING LIBRARIES</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/docio/create-word-document-in-blazor">Word (DocIO)</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/pdf/create-pdf-document-in-blazor">PDF</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/presentation/create-read-edit-powerpoint-files-in-blazor">PowerPoint (Presentation)</a></div>
