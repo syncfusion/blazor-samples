@@ -115,7 +115,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/bullet-chart/getting-started">Bullet Chart</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started">Circular Gauge</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started">Arc Gauge</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/diagram-component/getting-started">Diagram Component</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/diagram-component/getting-started">Diagram</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/heatmap-chart/getting-started">HeatMap Chart</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/kanban/getting-started">Kanban</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/linear-gauge/getting-started">Linear Gauge</a></div>
