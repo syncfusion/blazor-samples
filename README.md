@@ -6,10 +6,10 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
 * [How to run the demo](#how-to-run-the-demo)
-* [Blazor documentation](https://blazor.syncfusion.com/documentation/)
+* [Blazor Documentation](https://blazor.syncfusion.com/documentation/)
 * [Blazor Components Catalog](#blazor-components-catalog)
 * [License](#license)
-* [Support and feedback](#support-and-feedback)
+* [Support and Feedback](#support-and-feedback)
 
 ## Requirements to run the demo
 
@@ -232,7 +232,8 @@ The Syncfusion license that contains the terms and conditions can be found at
 
 ## See also
 
-* [Blazor documentation](https://blazor.syncfusion.com/documentation/introduction)
-* [Blazor components](https://www.syncfusion.com/blazor-components)
-* [Blazor live demos](https://blazor.syncfusion.com/demos/)
+* [Blazor Documentation](https://blazor.syncfusion.com/documentation/introduction)
+* [Blazor Components](https://www.syncfusion.com/blazor-components)
+* [Blazor Live Demos - Server](https://blazor.syncfusion.com/demos/)
+* [Blazor Live Demos - WebAssembly](https://blazor.syncfusion.com/wasm/demos/)
 * [Blazor Playground](https://blazorplayground.syncfusion.com/)
