@@ -57,6 +57,7 @@ namespace BlazorDemos
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public SampleType Type { get; set; }
         public string[] NotificationDescription { get; set; }
+        public bool IsHideInMobile { get; set; }
     }
 
     public class SourceCollection

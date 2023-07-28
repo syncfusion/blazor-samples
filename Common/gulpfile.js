@@ -1,6 +1,8 @@
 'use strict';
 
 var gulp = require('gulp');
+var fs = require('fs');
+var path = require('path');
 var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
 var uglify = require('gulp-uglify');
@@ -14,7 +16,8 @@ const REGEX = {
 
 gulp.task('min:js', async function () {
     merge(getBundles(REGEX.js).map(bundle => {
-        return gulp.src(bundle.inputFiles, { base: '.' })
+        var resolvedInputFiles = bundle.inputFiles.map(inputFile => path.resolve(inputFile));
+        return gulp.src(resolvedInputFiles)
             .pipe(concat(bundle.outputFileName))
             .pipe(uglify())
             .pipe(gulp.dest('.'));
@@ -38,3 +41,10 @@ const getBundles = (regexPattern) => {
 
 gulp.task('minify', gulp.parallel('min:js', 'min:css'));
 
+//To refer minified importResources file in production environment
+gulp.task('update-refs', function (done) {
+    var indexFile = fs.readFileSync('../Blazor-WASM-Demos/wwwroot/index.html', 'utf8');
+    var MinReferedIndex = indexFile.replace('importResources.js', 'importResources.min.js');
+    fs.writeFileSync('../Blazor-WASM-Demos/wwwroot/index.html', MinReferedIndex, 'utf8');
+    done();
+})

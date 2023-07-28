@@ -85,7 +85,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Blazor Dropdown List virtual scrolling feature now has keyboard support, which provides an improved user experience when the Dropdown List contains a large number of items. This feature enables users to navigate through the list using their keyboard, making it faster and more efficient to find and select items." },
             },
             new Sample
             {
@@ -187,7 +188,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Blazor ComboBox virtual scrolling feature now has keyboard support, which provides an improved user experience when the ComboBox contains a large number of items. This feature enables users to navigate through the list using their keyboard, making it faster and more efficient to find and select items." },
             },
              new Sample
             {
@@ -262,7 +264,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Blazor AutoComplete virtual scrolling feature now has keyboard support, which provides an improved user experience when the AutoComplete contains a large number of items. This feature allows users to navigate through the list using their keyboard, making it faster and more efficient to find and select items." },
             },
              new Sample
             {

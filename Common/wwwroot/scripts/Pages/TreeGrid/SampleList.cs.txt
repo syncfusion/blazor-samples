@@ -472,6 +472,7 @@ namespace BlazorDemos
                 Url = "tree-grid/row-hover",
                 Type = SampleType.None,
                 FileName="RowHover.razor",
+                IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

@@ -148,9 +148,7 @@ namespace BlazorDemos
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/drawingtool",
                 FileName = "DrawingToolSample.razor",
-                Type=SampleType.Updated,
-                HeaderText="Example of DrawingTools in Blazor Diagram Component",
-                NotificationDescription = new string[]{ @"Updated the demo to showcase freehand drawing in the diagram area. Now, users can utilize the drawing tools to create freeform shapes, lines, and illustrations directly within the diagram." },
+                HeaderText="Example of DrawingTools in Blazor Diagram Component"
             },
              new Sample
             {
@@ -186,9 +184,7 @@ namespace BlazorDemos
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/scrollsettings",
                 FileName = "Scrolling.razor",
-                Type=SampleType.Updated,
                 HeaderText="Example of Scrolling in Blazor Diagram Component",
-                NotificationDescription = new string[]{ @"Updated the autoscroll support for connectors. This demo showcases how to perform autoscroll with connectors." },
             },
             new Sample
             {

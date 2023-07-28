@@ -133,6 +133,10 @@
     // Left sidebar click handler
     private async Task OnToggleClick()
     {
+        if(headerRef.isNotifyClicked)
+        {
+            headerRef.NotifyClicked();
+        }
         // Update left sidebar expand and collapse status
         this.LeftPaneRef.UpdateExpandedState();
         // Collapse right sidebar if it is expanded
@@ -141,6 +145,7 @@
             rightSidebarExpanded = !rightSidebarExpanded;
         }
         await JsRuntime.InvokeAsync<string>("callResizeEvent");
+        await ShowSearchLayout();
     }
 
     // Right sidebar click handler
@@ -154,6 +159,10 @@
             LeftPaneRef.UpdateExpandedState();
         }
         await ShowSearchLayout();
+        if(headerRef.isNotifyClicked)
+        {
+            headerRef.NotifyClicked();
+        }
     }
 
     // Home icon click handler.
@@ -213,6 +222,10 @@
     {
         if (isIconClick && searchContainer.Contains(SampleUtils.DISPLAY_NONE))
         {
+            if(headerRef.isNotifyClicked)
+            {
+                headerRef.NotifyClicked();
+            }
             isSearchIconClick = isIconClick;
             searchContainer = SampleUtils.RemoveClass(searchContainer, SampleUtils.DISPLAY_NONE);
             await searchRef.InputFocus();
@@ -308,6 +321,13 @@
             {
                 SampleService.MetaData?.Refresh();
             }
+        }
+        if(!firstRender && LeftPaneRef !=null && LeftPaneRef.NavMenuRef.isNavigate)
+        {
+            headerRef.HidePreferences();
+            headerRef.dropdownRef.popupClass = SampleUtils.AddClass(headerRef.dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
+            StateHasChanged();
+            LeftPaneRef.NavMenuRef.isNavigate = false;
         }
         if (!this.SampleService.IsDevice || this.isTablet)
         {

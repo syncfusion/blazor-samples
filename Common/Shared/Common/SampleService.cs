@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System;
+using Microsoft.JSInterop;
 
 namespace BlazorDemos.Shared
 {
@@ -45,6 +46,10 @@ namespace BlazorDemos.Shared
         /// Specifies the last sample url.
         /// </summary>
         public string LastSampleUrl { get; set; }
+        /// <summary>
+        /// Specifies the current sample url.
+        /// </summary>
+        public string CurrentSampleUrl { get; set; }
 
         /// <summary>
         /// Specifies the documentation link.
@@ -71,6 +76,10 @@ namespace BlazorDemos.Shared
         /// Specifies the demo page js loaded or not.
         /// </summary>
         public bool SampleJSLoaded { get; set; }
+        /// <summary>
+        /// Specifies the Demos Type whether its WASM or Server.
+        /// </summary>
+        public string DemoType { get; set; }
         /// <summary>
         /// Specifies the Common base script path..
         /// </summary>
@@ -152,6 +161,11 @@ namespace BlazorDemos.Shared
 #endif
         public SampleService()
         {
+#if WASM || WASM_HOSTED
+            DemoType = "Blazor WebAssembly Demos";
+#else
+            DemoType = "Blazor Server Demos";
+#endif
             WebAssetsPath = AssetsPath;
 #if DEBUG || STAGING
             ImagePath = WebAssetsPath + "images/common/";
@@ -173,6 +187,58 @@ namespace BlazorDemos.Shared
             DiagramScriptPath = WebAssetsPath + "scripts/diagram/interop.min.js";
             SBScriptPath = WebAssetsPath + "scripts/common/demos.min.js";
             ViewerScriptPath = WebAssetsPath + "scripts/pdfviewer/interop.min.js";
+#endif
+        }
+
+        public async void SwicthToDemo(string id, string url, IJSRuntime JsRuntime, NavigationManager UriHelper)
+        {
+            if (!UriHelper.BaseUri.Contains("localhost")){
+                #if WASM || WASM_HOSTED
+                    #if DEBUG || STAGING
+                        #if NET7_0
+                                url  = id == "wasm" ? url : url.Replace("/wasm/net7/","/net7/");
+                        #else
+                                url  = id == "wasm" ? url : url.Replace("/wasm/net6/","/net6/");
+                        #endif
+                    #else
+                        url  = id == "wasm" ? url : url.Replace("/wasm/demos/","/demos/");
+                    #endif
+                #else
+                    #if DEBUG || STAGING
+                        #if NET7_0
+                            url  = id == "server" ? url : url.Replace("/net7/","/wasm/net7/");
+                        #else
+                            url  = id == "server" ? url : url.Replace("/net6/","/wasm/net6/");
+                        #endif
+                    #else
+                        url  = id == "server" ? url : url.Replace("/demos/","/wasm/demos/");
+                    #endif
+                #endif
+            }
+
+#if WASM || WASM_HOSTED
+            if(id != "wasm")
+            {
+                if (!UriHelper.BaseUri.Contains("localhost"))
+                {
+                    await JsRuntime.InvokeVoidAsync("open", url, "_blank");
+                }
+            }
+            else{
+                UriHelper.NavigateTo(url, true);
+            }
+#else
+            if (id != "server")
+            {
+                if (!UriHelper.BaseUri.Contains("localhost"))
+                {
+                    await JsRuntime.InvokeVoidAsync("open", url, "_blank");
+                }
+            }
+            else
+            {
+                    UriHelper.NavigateTo(url, true);
+            }
 #endif
         }
 
@@ -219,6 +285,7 @@ namespace BlazorDemos.Shared
                             sampleName = sampleName.Replace("-", string.Empty);
                             this.SampleInfo = controlInfo.Samples.Where(control => control.FileName.ToLower() == (sampleName + ".razor")).First();
                         }
+                        this.CurrentSampleUrl = this.SampleInfo.Url;
                     }
                     catch
                     {
@@ -236,6 +303,7 @@ namespace BlazorDemos.Shared
                         this.SampleInfo = controlInfo.Samples.First();
                     }
                     this.ComponentName = controlInfo.Name;
+                    this.CurrentSampleUrl = this.SampleInfo.Url;
 #if NET6_0 || NET7_0
                     var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                     {

@@ -98,7 +98,6 @@ namespace BlazorDemos
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "DiagramComponent",
-		Type = SampleType.Updated,
                 Samples = DiagramComponent,
                 ControllerName = "DiagramComponent",
                 DemoPath = "diagramcomponent/flowchart",
