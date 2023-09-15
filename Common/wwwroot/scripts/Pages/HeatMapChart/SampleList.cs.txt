@@ -116,10 +116,8 @@ namespace BlazorDemos
                 Name = "Selection",
                 Category = "Features",
                 Directory = "HeatMapChart/HeatMapChart",
-                Type = SampleType.New,
                 Url = "heatmap-chart/cell-selection",
                 FileName = "Selection.razor",
-                NotificationDescription = new string[]{ @"The sample has been added to demonstrate the cell selection of the Blazor HeatMap component." },
             },
             new Sample
             {

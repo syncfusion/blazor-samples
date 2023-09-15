@@ -8,11 +8,8 @@
 @inherits SampleBaseComponent
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram BPMN Editor Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the BPMN Editor in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 <SampleDescription>
     <p>This Blazor Diagram example visualizes the processing requests for book lending in a library.</p>
 </SampleDescription>
@@ -108,7 +105,7 @@
                 position: absolute;
                 display: none;
                 transition: transform 300ms linear, visibility 0s linear 300ms;
-                width: 39%;
+                width: 30%;
                 height: 100%;
             }
 
@@ -116,9 +113,9 @@
                 display: block;
                 width: 100%;
                 background: #fafafa;
-                padding: 10px 10px;
+                padding: 14px 10px;
                 border: 0.5px solid #e0e0e0;
-                min-height: 40px;
+                min-height: 54px;
             }
 
             .sb-mobile-diagram {
@@ -150,7 +147,7 @@
     @*End:Hidden*@
     <div style="width: 100%">
         <div class="sb-mobile-palette-bar">
-            <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
+            <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
         </div>
         <div id="palette-space" class="sb-mobile-palette">
             <SfSymbolPaletteComponent @ref="@PaletteInstance" Height="700px" Palettes="@palettes" SymbolHeight="60" SymbolWidth="60" SymbolMargin="@SymbolMargin">
@@ -179,9 +176,7 @@
 
 
 @code{
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
     FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.PageSettings };
     public DiagramSize SymbolPreview;
@@ -200,7 +195,8 @@
 
     // Defines palette's flow-shape collection
     private DiagramObjectCollection<NodeBase> BPMNShapeSymbols = new DiagramObjectCollection<NodeBase>();
-
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
     List<ContextMenuItem> Items;
 
     List<string> Event = new List<string>() { "EventType", "Trigger" };
@@ -328,9 +324,7 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         GridLineIntervals = new double[] {
             1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75
     };
@@ -611,6 +605,20 @@
                     IconCss = "e-icons e-uncheck", },
                     }
 
+                },
+                new ContextMenuItem()
+                {
+                    Text = "Collection",
+                    ID = "bpmn_Collection",
+                    IconCss = "e-icons e-uncheck",
+                    Items = new List<ContextMenuItem>(){
+                        new ContextMenuItem (){ Text = "None",
+                    ID = "Collection",
+                    IconCss = "e-icons e-uncheck", },
+                        new ContextMenuItem (){ Text = "Collection",
+                    ID = "Collection",
+                    IconCss = "e-icons e-uncheck", },
+                    }
                 },
                 new ContextMenuItem()
                 {
@@ -1765,6 +1773,25 @@
                     }
                 }
             }
+            else if (args.Item.ID == "Collection")
+            {
+                if (node.Shape is BpmnDataObject bpmnDataObject)
+                {
+                    switch (args.Item.Text)
+                    {
+                        case "None":
+                            {
+                                bpmnDataObject.IsCollectiveData = false;
+                            }
+                            break;
+                        case "Collection":
+                            {
+                                bpmnDataObject.IsCollectiveData = true;
+                            }
+                            break;
+                    }
+                }
+            }
             else if (args.Item.ID == "DataObjectType")
             {
                 if (node.Shape is BpmnDataObject bpmnDataObject)
@@ -2400,7 +2427,7 @@
                             {
                                 foreach (var subItem in item.Items)
                                 {
-                                    if (bpmnDataObject.IsCollectiveData)
+                                    if ((subItem.Text == "Collection" && bpmnDataObject.IsCollectiveData) || (subItem.Text == "None" && !bpmnDataObject.IsCollectiveData))
                                     {
                                         subItem.IconCss = "e-icons e-check";
                                     }
@@ -3247,6 +3274,11 @@
     private async Task Load()
     {
         await Diagram.LoadDiagram(data);
+    }
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
+
     }
     public void Dispose()
     {

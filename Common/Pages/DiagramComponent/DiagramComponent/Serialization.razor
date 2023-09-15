@@ -13,11 +13,8 @@
 @inject IJSRuntime jsRuntime
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Serialization Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Serialization in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 <SampleDescription>
     <p>This sample demonstrates building diagrams interactively and editing saved diagrams. The symbol palette is used to build diagrams easily.</p>
 </SampleDescription>
@@ -29,15 +26,16 @@
 
 <div class="control-section">
     <link href="https://ej2.syncfusion.com/javascript/demos/src/diagram/styles/diagram-common.css" rel="stylesheet">
-
-    <div class="sb-mobile-palette-bar">
-        <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
-    </div>
     @*Hidden:Lines*@
+    <div class="sb-mobile-palette-bar">
+        <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
+    </div>
+    @*End:Hidden*@
+      @*Hidden:Lines*@
     <div style="width: 100%;height: 10%; padding-top: 20px">
         <SfToolbar Width="100%">
             <ToolbarItems>
-                <ToolbarItem Id="palette-icon" Align="@ItemAlign.Right"></ToolbarItem>
+               @* <ToolbarItem Id="palette-icon" Align="@ItemAlign.Right"></ToolbarItem>*@
                 <ToolbarItem Text="New" ToolTipText="New" PrefixIcon="e-ddb-icons e-new .e-tbar-btn .tb-icons" OnClick="ClearDiagram"></ToolbarItem>
                 <ToolbarItem Type="@ItemType.Separator" />
                 <ToolbarItem Text="Save" ToolTipText="Save" PrefixIcon="e-ddb-icons e-save .e-tbar-btn .tb-icons e-icons e-btn-icon e-icon-left" OnClick="SaveDiagram"></ToolbarItem>
@@ -50,6 +48,7 @@
 
     @*End:Hidden*@
     <div style="width: 100%;height: 90%">
+       
         <div id="palette-space" class="sb-mobile-palette">
             <SfSymbolPaletteComponent Height="700px"
                                       SymbolHeight="60"
@@ -127,7 +126,7 @@
     }
 
     .e-ddb-icons1 {
-        font-family: 'e-ddb-icons';
+        font-family: 'e-ddb-icons1';
         speak: none;
         font-size: 16px;
         font-style: normal;
@@ -225,7 +224,7 @@
             position: absolute;
             display: none;
             transition: transform 300ms linear, visibility 0s linear 300ms;
-            width: 39%;
+            width: 45%;
             height: 100%;
         }
 
@@ -233,9 +232,9 @@
             display: block;
             width: 100%;
             background: #fafafa;
-            padding: 10px 10px;
+            padding: 14px 10px;
             border: 0.5px solid #e0e0e0;
-            min-height: 40px;
+            min-height: 54px;
         }
 
         .sb-mobile-diagram {
@@ -327,15 +326,11 @@
 
     // Defines Symbol info
     public SymbolInfo SymbolInfo { get; set; }
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         InitDiagramModel();
         InitPaletteModel();
     }
@@ -385,8 +380,17 @@
     }
 
     private void OnCreated()
-    {
-        diagram.FitToPage();
+    {       
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }else
+        {
+            diagram.FitToPage();
+        }
+       
     }
 
     //Method to define upload success
@@ -634,6 +638,11 @@
         }
 
         ConnectorList.Add(diagramConnector);
+    }
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
+
     }
     @*Hidden:Lines*@
     public void Dispose()

@@ -167,8 +167,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Range Step Area Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Range Step Area Chart Example",
                 MetaDescription = "This example demonstrates the Blazor Range Step Area Chart component. Explore here for more details.",
-                Type = SampleType.New,
-                NotificationDescription= new string[] { @"Added a demo to showcase the range step area chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1174,8 +1173,7 @@ namespace BlazorDemos
                 Url = "chart/zooming",
                 FileName = "ZoomingandPanning.razor",
                 HeaderText = "Blazor Chart with Zooming and Panning Example.",
-                Type = SampleType.Updated,
-                NotificationDescription= new string[] { @"Updated the demo to showcase the zooming and panning in spline area series chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1397,7 +1395,8 @@ namespace BlazorDemos
                 Url = "stock-chart/ohlc",
                 FileName = "OHLC.razor",
                 HeaderText = "Blazor Stock Chart with OHLC Example.",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription= new string[] { @"Updated a demo to display a tooltip along with the mouse in the stock chart." }
             },
            new Sample
             {
@@ -1407,8 +1406,7 @@ namespace BlazorDemos
                 Url = "stock-chart/candlestick-volume",
                 FileName = "Candlestick and Volume.razor",
                 HeaderText = "Blazor Stock Chart with Candlestick and Volume Example.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Updated a demo for displaying interactive legends in stock chart." }
+                Type = SampleType.None
             },
            new Sample
             {
@@ -1498,8 +1496,7 @@ namespace BlazorDemos
                 Url = "stock-chart/date-time-category-axis",
                 FileName = "DateTimeCategoryAxis.razor",
                 HeaderText = "Blazor Stock Chart with DateTime Category Axis Example.",
-                Type = SampleType.New,
-                NotificationDescription= new string[] { @"Added a demo to showcase the datetime category axis type stock chart." }
+                Type = SampleType.None
             }
 		};
 		public List<Sample> BulletChart { get; set; } = new List<Sample>{

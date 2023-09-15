@@ -20,14 +20,10 @@ namespace BlazorDemos
             {
                 Name = "Default Functionalities",
                 Category = "DocumentEditor",
-                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with alternate text for image."
-                }
+                FileName = "DefaultFunctionalities.razor"
+
             },
             new Sample
             {
@@ -35,12 +31,7 @@ namespace BlazorDemos
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/character-format",
-                FileName = "CharacterFormat.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with character spacing and scaling."
-                }
+                FileName = "CharacterFormat.razor"
             },
             new Sample
             {
@@ -54,14 +45,9 @@ namespace BlazorDemos
             {
                 Name = "Styles",
                 Category = "Editing Features",
-                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/styles",
-                FileName = "Styles.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with character and linked styles in drop-down."
-                }
+                FileName = "Styles.razor"
             },
             new Sample
             {
@@ -83,9 +69,14 @@ namespace BlazorDemos
             {
                 Name = "Table Formatting",
                 Category = "Editing Features",
+                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/table-format",
-                FileName = "TableFormat.razor"
+                FileName = "TableFormat.razor",
+                NotificationDescription = new string[]
+                {
+                    @"Updated the demo with table title and description. Table titles and descriptions are essential for accessibility."
+                }
             },
             new Sample
             {
@@ -99,14 +90,9 @@ namespace BlazorDemos
             {
                 Name = "Headers and Footers",
                 Category = "Editing Features",
-                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/headers-and-footers",
-                FileName = "HeadersAndFooters.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with a link to the previous header/footer."
-                }
+                FileName = "HeadersAndFooters.razor"
             },
             new Sample
             {
@@ -152,14 +138,9 @@ namespace BlazorDemos
             {
                 Name = "Document Protection",
                 Category = "Security",
-                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/document-protection",
-                FileName = "DocumentProtection.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo to show square bracket for restricted edit range."
-                }
+                FileName = "DocumentProtection.razor"
             },
             new Sample
             {
@@ -173,14 +154,9 @@ namespace BlazorDemos
             {
                 Name = "Comments",
                 Category = "Review",
-                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/comments",
-                FileName = "Comments.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with multiple comment navigation in the same line."
-                }
+                FileName = "Comments.razor"
             },
             new Sample
             {

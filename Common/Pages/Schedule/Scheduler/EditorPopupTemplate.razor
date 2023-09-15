@@ -7,11 +7,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Scheduler Editor Template Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Editor Template in Blazor Scheduler Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -19,6 +16,7 @@
 </SampleDescription>
 <ActionDescription>
     <p> In this demo, the event window is customized based on the doctor's required appointment related fields which can be achieved by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTemplates.html#Syncfusion_Blazor_Schedule_ScheduleTemplates_EditorTemplate">EditorTemplate</a>. Here, the custom design is built with the required field. </p>
+    <p> In this demo, the editor window header is customized based on the appointment subject field which can be achieved by the <b>EditorHeaderTemplate</b>. </p>
     <p> In this demo, two-way binding of Value property for Syncfusion components such as DropDownList and DateTimePicker is used to update the values to the respective fields in the appointment. </p>
 </ActionDescription>
 
@@ -26,6 +24,16 @@
     <SfSchedule TValue="ScheduleData.DoctorsEventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
         <ScheduleEvents TValue="ScheduleData.DoctorsEventData" EventRendered="OnEventRendered"></ScheduleEvents>
         <ScheduleTemplates>
+            <EditorHeaderTemplate>
+                @if (((context as ScheduleData.DoctorsEventData).Subject) == null)
+                {
+                    <div>Create New Event</div>
+                }
+                else
+                {
+                    <div>@((context as ScheduleData.DoctorsEventData).Subject)</div>
+                }
+            </EditorHeaderTemplate>
             <EditorTemplate>
                 <input type="hidden" name="Id" class="e-field" value="@((context as ScheduleData.DoctorsEventData).Id)" />
                 <table class="custom-event-editor" width="100%" cellpadding="5">
@@ -79,14 +87,7 @@
 </div>
 @code{
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 10);
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    
     List<EventFields> statusData = new List<EventFields>() {
         new EventFields(){ Id= "New", Text= "New" },
         new EventFields(){ Id= "Requested", Text= "Requested" },

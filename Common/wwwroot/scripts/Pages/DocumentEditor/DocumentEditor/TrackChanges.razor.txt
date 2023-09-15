@@ -6,11 +6,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Word Processor Track Changes Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Track Changes in Blazor Word Processor Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -40,7 +37,7 @@
             </div>
         </div>
         <div>
-            <SfDocumentEditorContainer @ref="container" CurrentUser="@currentUser" UserColor="@userColor" ShowPropertiesPane="@showPropertiesPane" EnableTrackChanges="@enableTrackChanges" Height="590px">
+            <SfDocumentEditorContainer @ref="container" CurrentUser="@currentUser" UserColor="@userColor" ShowPropertiesPane="@showPropertiesPane" EnableTrackChanges="@enableTrackChanges" Height="590px" RestrictEditing="@ReadOnly">
                 <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
             </SfDocumentEditorContainer>
         </div>
@@ -51,7 +48,8 @@
 @code {
 
     internal string DocumentName { get; set; }
-
+    internal bool ReadOnly { get; set;  }
+    internal bool ShowProperties { get; set; } = true;
     string currentUser = "Nancy Davolio";
 
     string userColor = "#b70f34";
@@ -61,14 +59,7 @@
     bool enableTrackChanges = true;
 
     SfDocumentEditorContainer container;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    
 
     public void OnExport(object args)
     {
@@ -82,11 +73,16 @@
         documentEditor.PrintAsync();
     }
 
-    public void OnCreated(object args)
+    public async void OnCreated(object args)
     {
         SfDocumentEditor documentEditor = container.DocumentEditor;
-        documentEditor.OpenAsync(Data.TrackChanges);
+        await documentEditor.OpenAsync(Data.TrackChanges);
         DocumentName = "Track Changes";
+        if (SampleService.IsDevice)
+        {
+            ReadOnly = true;
+            await documentEditor.FitPageAsync(PageFitType.FitPageWidth);
+        }
     }
 
     public void OnDocumentChange()

@@ -379,6 +379,7 @@ namespace BlazorDemos.Shared
         public string Name { get; set; }
         public string DefaultSamplePath { get; set; }
         public List<NotificationData> SampleList { get; set; }
+        public string[] NotificationContent { get; set; }
         public List<NotificationList> GetNotificationData()
         {
             var notificationlist = new List<NotificationList>();
@@ -405,6 +406,22 @@ namespace BlazorDemos.Shared
             }
             return notificationlist;
         }
+
+        public List<NotificationList> GetComponentNotificationData()
+        {
+            var listcomponentnotification = new List<NotificationList>();
+            var notificationResultData = new List<NotificationData>();
+            var sampleList = SampleBrowser.SampleList;
+            for (int i = 0; i < sampleList.Count; i++)
+            {
+                if (sampleList[i].NotificationDescription != null)
+                {
+                    listcomponentnotification.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, NotificationContent = sampleList[i].NotificationDescription });
+                }
+            }
+            return listcomponentnotification;
+        }
+
     }
 
     public class NotificationData
@@ -515,7 +532,7 @@ namespace BlazorDemos.Shared
                 components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
                 components.Add(new PopularComponents("Diagram", "diagram", "diagramcomponent/flowchart"));
                 components.Add(new PopularComponents("Document Editor", "document-editor", "document-editor/default-functionalities"));
-                components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer/default-functionalities"));
+                components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer-2/default-functionalities"));
             }
             return components;
         }

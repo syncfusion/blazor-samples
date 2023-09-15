@@ -8,11 +8,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Word Processor Document Protection Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Document Protection in Blazor Word Processor Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -44,7 +41,7 @@
                 </div>
             </div>
             <div>
-                <SfDocumentEditorContainer @ref="container" CurrentUser="@currentUser" UserColor="@userColor" ShowPropertiesPane="@showPropertiesPane" Height="590px">
+                <SfDocumentEditorContainer @ref="container" CurrentUser="@currentUser" UserColor="@userColor" ShowPropertiesPane="@showPropertiesPane" Height="590px" RestrictEditing="@ReadOnly">
                     <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
                 </SfDocumentEditorContainer>
             </div>
@@ -76,6 +73,7 @@
 
     private int? index { get; set; } =0;
     internal string DocumentName { get; set; }
+    internal bool ReadOnly { get; set;  }
 
     string currentUser = "engineer@mycompany.com";
 
@@ -86,14 +84,7 @@
     SfDocumentEditorContainer container;
 
     SfDropDownList<string, UserFields> dropDown;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    
 
     public class UserFields
     {
@@ -118,11 +109,16 @@
         documentEditor.PrintAsync();
     }
 
-    public void OnCreated(object args)
+    public async void OnCreated(object args)
     {
         SfDocumentEditor documentEditor = container.DocumentEditor;
-        documentEditor.OpenAsync(Data.DocumentProtection);
+        await documentEditor.OpenAsync(Data.DocumentProtection);
         DocumentName = "Document Protection";
+        if (SampleService.IsDevice)
+        {
+            ReadOnly = true;
+            await documentEditor.FitPageAsync(PageFitType.FitPageWidth);
+        }
     }
 
     public void OnDocumentChange()

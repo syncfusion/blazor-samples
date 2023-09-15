@@ -7,11 +7,8 @@
 @inject HttpClient Http
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-<PageTitle>Blazor Stock Chart with DateTimeCategory axis Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the DateTimeCategory axis type in Blazor Stock Chart Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -32,7 +29,7 @@ else
     <div class="@loadClass"></div>
     <div class="@loadDiv">
         <SfStockChart Title="AAPL Stock Price" Theme="@theme">
-            <StockChartEvents OnLoaded="@ChartLoaded" SharedTooltipRendering="@TooltipText"></StockChartEvents>
+            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
             <StockChartPrimaryXAxis ValueType="@Syncfusion.Blazor.Charts.ValueType.DateTimeCategory">
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -68,25 +65,33 @@ else
         .stockchartdiv {
             visibility: hidden;
         }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @translateY) !important;
+        }
     </style>
 }
 
 @code {
     public List<ChartSeriesType> nulldata = new List<ChartSeriesType>();
     private ChartData[] DataSource;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    string translateY = "-5px";
+    
 
     protected override async Task OnInitializedAsync()
     {
         BeforeRender();
         DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/financial-stock-chart-data.json");
+        //Hidden:Lines
+        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
+        {
+            translateY = "-7px";
+        }
+        //End:Hidden
     }
 
     public class ChartData
@@ -106,14 +111,6 @@ else
         loadClass = "";
         loadDiv = "";
         StateHasChanged();
-    }
-
-    public void TooltipText(SharedTooltipRenderEventArgs args)
-    {
-        if (args.Text[0] != null)
-        {
-            args.Text[0] = args.Text[0].Replace("00:00:00 AM", " ", StringComparison.InvariantCulture);
-        }
     }
 
     Theme theme = Theme.Bootstrap4;

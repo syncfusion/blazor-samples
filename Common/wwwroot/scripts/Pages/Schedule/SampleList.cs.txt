@@ -159,7 +159,7 @@ namespace BlazorDemos
                 Url = "scheduler/virtual-scrolling",
                 FileName = "VirtualScrolling.razor"
             },
-             new Sample
+            new Sample
             {
                 Name = "Virtual Mask",
                 Category = "Scrolling",
@@ -167,7 +167,16 @@ namespace BlazorDemos
                 Url = "scheduler/virtual-mask",
                 FileName = "VirtualMask.razor"
             },
-
+            new Sample
+            {
+                Name = "Data Virtualization",
+                Category = "Scrolling",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/data-virtualization",
+                FileName = "DataVirtualization.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to showcase the data virtualization on virtual scrolling." }
+            },
             new Sample
             {
                 Name = "Basic Views",
@@ -326,7 +335,8 @@ namespace BlazorDemos
                Category = "Resource Grouping",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/adaptive-grouping",
-               FileName = "AdaptiveGrouping.razor"
+               FileName = "AdaptiveGrouping.razor",
+               IsHideInMobile = true
             },
             new Sample
             {
@@ -382,7 +392,9 @@ namespace BlazorDemos
                 Category = "Editor Window",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/editor-template",
-                FileName = "EditorPopupTemplate.razor"
+                Type = SampleType.Updated,
+                FileName = "EditorPopupTemplate.razor",
+                NotificationDescription = new string[]{ @"Updated the demo to showcase the header customization of the editor window." }
             },
             new Sample
             {
@@ -486,7 +498,8 @@ namespace BlazorDemos
                Category = "Exporting",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/print",
-               FileName = "Print.razor"
+               FileName = "Print.razor",
+               IsHideInMobile = true
             },
             new Sample
             {
@@ -510,7 +523,8 @@ namespace BlazorDemos
                 Category = "Miscellaneous",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/keyboard-interaction",
-                FileName = "KeyboardInteraction.razor"
+                FileName = "KeyboardInteraction.razor",
+                IsHideInMobile = true
             },
             new Sample
             {

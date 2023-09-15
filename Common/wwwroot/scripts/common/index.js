@@ -1,4 +1,4 @@
-var isScrolled = false;
+var isScrolled = false; 
 var isUpdatedDevice = false;
 var isTouchEnabled = false;
 const DEFAULT_THEME = 'fluent';
@@ -35,23 +35,24 @@ window.sfBlazorSB = {
     }
   },
   // set e-bigger class to the body based on mouse/touch selection
-  setBiggerSize: function (isTouch, isTouchReload) {
+    setBiggerSize: function (isTouch, isTouchReload) {
       var isMouseMode = document.body.classList.contains('e-bigger');
       if (isTouch) {
-        if (!isMouseMode){ 
-            document.body.classList.add('e-bigger');
-            localStorage.setItem("sfPreferenceMode", "touch");
-            if (isTouchReload) {
-                isTouchEnabled = true;
-                window.location.reload();
-            }
-         }
+          if (!isMouseMode){ 
+              document.body.classList.add('e-bigger');
+              localStorage.setItem("sfPreferenceMode", "touch");
+              if (isTouchReload) {
+                  isTouchEnabled = true;
+                  window.location.reload();
+              }
+          }   
       } else {
           if (isMouseMode) {
-            document.body.classList.remove('e-bigger');
-            localStorage.setItem("sfPreferenceMode", "mouse");
-            window.location.reload();
+              document.body.classList.remove('e-bigger');
+              localStorage.setItem("sfPreferenceMode", "mouse");
+              window.location.reload();
           }
+          
       }
   },
   // returns the preferences mode.
@@ -64,7 +65,15 @@ window.sfBlazorSB = {
     }
     mode = !mode ? "mouse" : mode;
     return mode;
-  },
+    },
+    // To get and set value in local storage for localization
+    getValue: function (key) {
+        return localStorage[key]
+    },
+
+    setValue: function (key, value) {
+        localStorage[key] = value;
+    },
   // Load resources dynamically 
   loadResources: function (resources) {
     for (var i = 0; i < resources.length; i++) {
@@ -322,6 +331,10 @@ document.addEventListener("keydown", function (e) {
                 ele = ele.querySelector('.e-toolbar-item .e-tab-wrap');
                 ele.tabIndex = 0;
             }
+            else if (ele.classList.contains('e-toolbar')) {
+              ele = ele.querySelector('.e-toolbar-items .e-toolbar-item .e-tbar-btn');
+              ele.tabIndex = 0;
+            }
             else if (ele.classList.contains('e-accordion')) {
                 ele = ele.querySelector('.e-acrdn-header');
             }
@@ -352,10 +365,21 @@ document.addEventListener("keydown", function (e) {
 });
 
 window.addEventListener('load', function () {
+
+  //To replace theme in Link Tag for WASM and MAUI
+    let ThemeEle = document.getElementById('theme');
+    let url = window.location.href.split("?theme=");
+    if (ThemeEle) {
+        let url = window.location.href.split("?theme=");
+        if (url.length > 1) {
+            ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + url[1] + '.css';
+        }
+    }
+
   // Add mobile class to the body element for device rendering.
   if (sfBlazorSB.isDeviceMode()) {
     document.body.classList.add("mobile");
-  }
+    }
 
   // Add current theme name to the body element.
   var themeName = DEFAULT_THEME;
@@ -435,13 +459,7 @@ function beforeApplyFormat(id, isBlocked) {
       var previouNode = node2.previousSibling;
       node2.parentNode.removeChild(node2);
       var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(range2, document);
-      if (blockNewLine && isBlocked) {
-          var defaultTag = document.createElement('p');
-          defaultTag.innerHTML = '</br>';
-          blockNode.parentNode.insertBefore(defaultTag, blockNode.nextSibling);
-          selection.setCursorPoint(document, blockNode.nextSibling, 0);
-      }
-      else if (previouNode) {
+      if (previouNode) {
           selection.setCursorPoint(document, previouNode, previouNode.textContent.length);
       }
   }
@@ -535,6 +553,26 @@ function saveDiagram(data, filename) {
         a.remove();
     }
 }
+function openPalette() {
+    var paletteSpace = document.getElementById("palette-space");
+    if (!paletteSpace.classList.contains("sb-mobile-palette-open")) {
+        paletteSpace.classList.add("sb-mobile-palette-open");
+    } else {
+        paletteSpace.classList.remove("sb-mobile-palette-open");
+    }
+}
+
+window.addEventListener("resize", detectLayoutChange);
+function detectLayoutChange() {
+    var isMobileLayout = window.matchMedia("(max-width:550px)").matches;
+    var paletteSpace = document.getElementById("palette-space");
+    if (!isMobileLayout) {
+        if (paletteSpace && paletteSpace.classList.contains("sb-mobile-palette-open")) {
+            paletteSpace.classList.remove("sb-mobile-palette-open");
+        }
+    }
+
+}
 UtilityMethods_hideElements = function (elementType, diagramType) {
     var diagramContainer = document.getElementsByClassName('diagrambuilder-container')[0];
     if (diagramContainer.classList.contains(elementType)) {
@@ -575,8 +613,9 @@ function loadDiagram(event) {
     return event.target.result.toString();
 }
 function ScrollToSelected() {
-  const selectedDiv = document.querySelector('.sf-list-li-active');
+  const selectedDiv = document.querySelector('.sf-list .sf-list-li-active');
     if (selectedDiv) {
         selectedDiv.scrollIntoView({ block: 'nearest' });
   }
 }
+

@@ -7,11 +7,8 @@
 @implements IDisposable
 @*Hidden:Lines*@
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Venn Diagram Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Venn Diagram in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -23,7 +20,7 @@
 <div class="col-lg-12 control-section">
     <div style="text-align:center">
         @*End:Hidden*@
-        <SfDiagramComponent Height="700px" Nodes="@NodeCollection" Connectors="@ConnectorCollection" InteractionController="@DiagramInteractions.ZoomPan">
+        <SfDiagramComponent Height="700px" @ref="@diagram" Nodes="@NodeCollection" Connectors="@ConnectorCollection" InteractionController="@DiagramInteractions.ZoomPan" Created= "OnCreated">
             <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
         </SfDiagramComponent>
         @*Hidden:Lines*@
@@ -46,6 +43,7 @@
     public DiagramObjectCollection<Node> NodeCollection { get; set; }
     //Defines diagrams's connectors collection
     public DiagramObjectCollection<Connector> ConnectorCollection { get; set; }
+    SfDiagramComponent diagram;
     @*Hidden:Lines*@
     string AssemblyPath = "M24.3267 27.4281H1.99727C0.894207 27.4281 0 26.551 0 25.469V2.93873C0 1.31571 1.34131 0 2.9959 0H8.10891C8.78495 0.0022957 9.44005 0.230314 9.96637 0.646519L13.9609 3.70279C14.1374 3.83974 14.3551 3.91551 14.5801 3.9183H23.0485C24.7031 3.9183 26.0444 5.23401 26.0444 6.85703V9.79575H29.0003C30.0366 9.80121 30.9975 10.3282 31.5449 11.1913C32.0923 12.0545 32.1496 13.1328 31.6966 14.0471L26.1642 26.331C25.8219 27.0166 25.1048 27.4448 24.3267 27.4281ZM2.61621 25.469H24.3265L29.819 13.2243C30.0052 12.9162 30.0052 12.5331 29.819 12.2251C29.6396 11.9284 29.3118 11.7489 28.9602 11.7549H10.2458C9.86524 11.7587 9.51861 11.9703 9.347 12.3035L2.61621 25.469ZM2.99668 1.95911C2.44515 1.95911 1.99805 2.39768 1.99805 2.93868V22.4126L7.55045 11.5198C8.05333 10.5213 9.0915 9.89056 10.2268 9.89366H23.988V6.95494C23.9773 6.41831 23.5364 5.98579 22.9893 5.97536H14.5209C13.8475 5.97709 13.1932 5.75624 12.6635 5.34844L8.66892 2.27257C8.49247 2.13563 8.27475 2.05985 8.04977 2.05706L2.99668 1.95911Z";
     string MiddlewarePath = "M28 12.56V32H8V26H0V0H13.44L19.44 6H21.44L28 12.56ZM8 6H16.58L12.58 2H2V24H8V6ZM26.001 14H20.001V8H10.001V30H26.001V14ZM21.999 12H24.579L21.999 9.41998V12Z";
@@ -61,13 +59,11 @@
     string ProgrammingContent = "Programming is the process \nused to write code that\n instructs how a computer, application,\n or Software program, performs.";
     Syncfusion.Blazor.Diagram.NodeShapes BasicShape = Syncfusion.Blazor.Diagram.NodeShapes.Basic;
     Syncfusion.Blazor.Diagram.NodeShapes PathShape = Syncfusion.Blazor.Diagram.NodeShapes.Path;
-    private string canonicalURL { get; set; }
+    
     @*End:Hidden*@
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         NodeCollection = new DiagramObjectCollection<Node>();
         PointPort programmingPort1 = CreatePort("port1", 0.82, 0.35);
         PointPort programmingPort2 = CreatePort("port2", 0.50, 0.8);
@@ -94,6 +90,16 @@
         CreateConnector("equipellise", "", "middlewareNode", "programming", "#494949", 1, "port1", "port2");
         CreateConnector("connect12", "", "assemblyNode", "programming", "#494949", 1, "port1", "port1");
         CreateConnector("connect13", "", "thesisNode", "trigonometry", "#494949", 1, "port1", "port1");
+    }
+
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
     }
     // Method is used to create a Connector for the diagram.
     private void CreateConnector(string id, string lineDashArray, string source, string target, string lineColor, int lineWidth, string portIdSource, string portIdTarget)

@@ -40,6 +40,7 @@ namespace BlazorDemos
         public bool IsHide { get; set; }
         public string InfoTooltip { get; set; }
         public string ComponentIconName { get; set; }
+        public string[] NotificationDescription { get; set; }
     }
 
     public class Sample

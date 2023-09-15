@@ -261,7 +261,8 @@ namespace BlazorDemos
                 Category = "Accordion",
                 Directory = "Navigations/Accordion",
                 FileName = "KeyboardInteraction.razor",
-                Url = "accordion/keyboard-interaction"
+                Url = "accordion/keyboard-interaction",
+                IsHideInMobile = true
             }
         };
 
@@ -304,7 +305,8 @@ namespace BlazorDemos
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
                 FileName = "KeyboardInteraction.razor",
-                Url = "toolbar/keyboard-interaction"
+                Url = "toolbar/keyboard-interaction",
+                IsHideInMobile = true
             }
         };
 
@@ -379,7 +381,8 @@ namespace BlazorDemos
                 Category = "Tabs",
                 Directory = "Navigations/Tabs",
                 FileName = "KeyboardInteraction.razor",
-                Url = "tabs/keyboard-interaction"
+                Url = "tabs/keyboard-interaction",
+                IsHideInMobile = true
             }
         };
         public List<Sample> TreeView { get; set; } = new List<Sample>{
@@ -527,7 +530,7 @@ namespace BlazorDemos
                 Name = "Virtualization",
                 Category = "File Manager",
                 Directory = "Navigations/FileManager",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 Url = "file-manager/virtualization",
                 FileName = "Virtualization.razor",
                 NotificationDescription = new string[]{ @"Added a demo to showcase the virtualization feature in File Manager." }
@@ -712,6 +715,7 @@ namespace BlazorDemos
                 Url = "carousel/keyboard-interactions",
                 FileName = "KeyboardInteractions.razor",
                 MappingSampleName = "With Keyboard Interactions",
+                IsHideInMobile = true
             },
             new Sample
             {
@@ -729,7 +733,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Carousel",
                 Url = "carousel/indicator-type",
                 FileName = "IndicatorType.razor",
-                Type = SampleType.New,
                 MappingSampleName = "With Indicator Types",
                 NotificationDescription = new string[]{ @"Added a demo to showcase the indicator types feature in Carousel." }
             },

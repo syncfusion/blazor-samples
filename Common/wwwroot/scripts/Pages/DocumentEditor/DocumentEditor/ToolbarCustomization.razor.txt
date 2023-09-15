@@ -7,11 +7,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Word Processor Toolbar Customization Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Toolbar Customization in Blazor Word Processor Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -38,7 +35,7 @@
                 </div>
             </div>
             <div>
-                <SfDocumentEditorContainer @ref="container" ToolbarItems="@Items" Height="590px">
+                <SfDocumentEditorContainer @ref="container" ToolbarItems="@Items" Height="590px" RestrictEditing="@ReadOnly" ShowPropertiesPane="@ShowProperties">
                     <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
                 </SfDocumentEditorContainer>
             </div>
@@ -65,16 +62,11 @@
 @code {
 
     internal string DocumentName { get; set; }
+    internal bool ReadOnly { get; set;  }
+    internal bool ShowProperties { get; set; } = true;
     SfDocumentEditorContainer container;
     SfMultiSelect<String[], string> multiSelect;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    
 
 
     string[] Items = new string[18] { "New", "Open", "Undo", "Redo", "Comments", "Image", "Table", "Hyperlink", "Bookmark", "TableOfContents", "Header", "Footer", "PageSetup", "PageNumber", "Break", "Find", "LocalClipboard", "RestrictEditing" };
@@ -91,11 +83,17 @@
         documentEditor.PrintAsync();
     }
 
-    public void OnCreated(object args)
+    public async void OnCreated(object args)
     {
         SfDocumentEditor documentEditor = container.DocumentEditor;
-        documentEditor.OpenAsync(Data.DefaultDocument);
+        await documentEditor.OpenAsync(Data.DefaultDocument);
         DocumentName = "Toolbar Customization";
+        if (SampleService.IsDevice)
+        {
+            ReadOnly = true;
+            ShowProperties = false;
+            await documentEditor.FitPageAsync(PageFitType.FitPageWidth);
+        }
     }
 
     public void Customize()

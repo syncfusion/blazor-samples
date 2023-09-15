@@ -147,6 +147,7 @@ namespace BlazorDemos
                 FileName = "TreeGridDynamicObject.razor",
                 Type = SampleType.None
             },
+#if !(WASM || WASM_HOSTED)
             new Sample
             {
                 Name = "List Binding",
@@ -168,7 +169,19 @@ namespace BlazorDemos
                     }
                 },
             },
-         
+#endif
+
+#if (WASM || WASM_HOSTED)
+            new Sample
+            {
+                Name = "Virtual Scrolling",
+                Category = "Virtual Scrolling",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/remote-data-with-virtualization",
+                FileName = "RemoteDataWithVirtualization.razor",
+            },
+#endif
+#if !(WASM || WASM_HOSTED)
             new Sample
             {
                 Name = "Remote Data Binding",
@@ -177,7 +190,8 @@ namespace BlazorDemos
                 Url = "tree-grid/remote-data-with-virtualization",
                 FileName = "RemoteDataWithVirtualization.razor",
             },
-      
+#endif
+
             new Sample
             {
                 Name = "Column Template",
@@ -516,8 +530,6 @@ namespace BlazorDemos
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/inline-editing",
                 FileName="InlineEditing.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"Updated the inline editing demo to include columns with DateOnly and TimeOnly data types. This demo showcases how to easily edit date and time values using inline editing." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -692,8 +704,6 @@ namespace BlazorDemos
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/menu-filter",
                 FileName="MenuFilter.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"Updated the menu filtering demo to include columns with DateOnly and TimeOnly data types. This demo showcases how to easily filter date and time values using the menu filter." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -958,7 +968,4 @@ namespace BlazorDemos
             }
         };
     }
-
 }
-
-

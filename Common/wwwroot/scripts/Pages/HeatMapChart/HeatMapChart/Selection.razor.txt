@@ -9,11 +9,8 @@
 @inherits SampleBaseComponent;
 @*Hidden:Lines*@
 
-<PageTitle>Blazor HeatMap Chart Selection Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Selection in Blazor HeatMap Chart Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -21,7 +18,7 @@
 </SampleDescription>
 <ActionDescription>
     <p>In this example, you can see how to select a cell in a HeatMap and display a column chart based on the data you've selected.</p>
-    <p>The tooltip is enabled in this example. Hover the mouse over an item or tap an item on touch-enabled devices to see the tooltip in action.</p>
+    <p>The tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item on touch-enabled devices.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
@@ -29,10 +26,14 @@
         <SfHeatMap @ref="Heatmap" Height="300px" DataSource="@DataSource" Theme="@Theme" AllowSelection=true>
             <HeatMapEvents CellSelected="@CellSelected"></HeatMapEvents>
             <HeatMapTitleSettings Text="Top export products 2014-2018, Value in USD million">
-                <HeatMapTitleTextStyle TextOverflow="Syncfusion.Blazor.HeatMap.TextOverflow.Trim"></HeatMapTitleTextStyle>
+                <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal" FontFamily="inherit" TextOverflow="Syncfusion.Blazor.HeatMap.TextOverflow.Trim"></HeatMapTitleTextStyle>
             </HeatMapTitleSettings>
-            <HeatMapXAxis Labels="@XLabels"></HeatMapXAxis>
-            <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+            <HeatMapXAxis Labels="@XLabels">
+                <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit" />
+            </HeatMapXAxis>
+            <HeatMapYAxis Labels="@YLabels">
+                <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit" />
+            </HeatMapYAxis>
             <HeatMapPaletteSettings>
                 <HeatMapPalettes>
                     <HeatMapPalette Color="#3C5E62"></HeatMapPalette>
@@ -74,7 +75,7 @@
     </div>
 </div>
 <div class="col-lg-3 property-section">
-    <div><h5>Properties</h5></div>
+    <div class="property-panel-header">Properties</div>
     <table id="property" title="Properties" style="width: 100%">
         <tbody>
             <tr style="height: 50px">
@@ -92,9 +93,8 @@
 
 @code {
     public Theme Theme { get; set; }
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    public string AxisLabelColor = "Black";
+    
     public SfHeatMap<double[,]> Heatmap;
     public int YIndex = 0;
     public string[] XLabels = new string[] { "Cereals", "Meat", "Spices", "Tea", "Edible Oil", "Dairy Products", "Wheat" };
@@ -201,10 +201,16 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         Theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        if (Theme.ToString().IndexOf("Dark") > -1 || Theme.ToString().IndexOf("HighContrast") > -1)
+        {
+            AxisLabelColor = "White";
+        }
+        else
+        {
+            AxisLabelColor = "Black";
+        }
         GetInitialChartData();
     }
 

@@ -10,13 +10,6 @@ else {
 
 const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net7/demos/", "/release/wasm/net6/demos/", "/release/wasm/net7/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net7/demos/","/"];
 
-function themeSwitch() {
-    let url = window.location.href.split("?theme=");
-    if (url.length > 1) {
-        let synclink = document.getElementById('theme');
-        synclink.href = '_content/Syncfusion.Blazor.Themes/' + url[1] + '.css';
-    }
-}
 
 function dynamicResources() {
     if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {
@@ -71,7 +64,6 @@ function homePageAssets() {
             '/styles/common/home.min.css',
             '/styles/common/devices.min.css',
             '/scripts/common/index.min.js',
-            '/scripts/common/tooltip.min.js',
             css
         ];
     } else {
@@ -82,7 +74,6 @@ function homePageAssets() {
             '/styles/common/home.css',
             '/styles/common/devices.css',
             '/scripts/common/index.js',
-            '/scripts/common/tooltip.min.js',
             css
         ];
     }
@@ -110,7 +101,7 @@ function samplePageAssets() {
         assetFiles = [
             '/styles/common/highcontrast.css',
             '/favicon.ico',
-            '/styles/site.css',
+            css,
             '/styles/common/roboto.css',
             '/styles/bootstrap.min.css',
             '/styles/common/highlight.css',
@@ -130,12 +121,11 @@ function samplePageAssets() {
 
 if (homepagepath.indexOf(window.location.pathname) !== -1) {
     homePageAssets();
+    loadAssets('_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js');
 }
 else {
     samplePageAssets();
-    loadAssets('_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js');
 }
-themeSwitch();
 dynamicResources();
 setTimeout(LoadingText, 400);
 function LoadingText() {

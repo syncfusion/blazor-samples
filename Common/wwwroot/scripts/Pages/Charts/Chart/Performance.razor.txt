@@ -10,11 +10,8 @@
 @implements IDisposable
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-<PageTitle>Blazor Charts Performance Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Performance in Blazor Charts Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -30,7 +27,7 @@
         <ChartPrimaryXAxis IntervalType="@intervalType" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="LabelIntersectAction.Trim">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Interval="@interval" Minimum="0" Maximum="12000" Title="Values">
+        <ChartPrimaryYAxis Interval="@interval" Minimum="0" Maximum="@maxRange" Title="Values">
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryYAxis>
@@ -50,9 +47,7 @@
     [Inject]
     protected IJSRuntime jsRuntime { get; set; }
 
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     private DateTime start = DateTime.Now;
     string BorderColor;
     string FillColor;
@@ -67,12 +62,12 @@
     string CurrentUri;
     string chartTitle = "Chart with 100k points";
     IntervalType intervalType = IntervalType.Years;
+    private double maxRange;
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         LoadPoints();
+        maxRange = (jsRuntime is IJSInProcessRuntime) ? 5000 : 12000;
         CurrentUri = NavigationManager.Uri;
         if (CurrentUri.IndexOf("material3") > -1)
         {

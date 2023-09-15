@@ -19,9 +19,13 @@ namespace BlazorDemos
             {
                 Name = "Overview",
                 Category = "Rich Text Editor",
+                Type = SampleType.Updated,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
-                FileName = "Overview.razor"
+                FileName = "Overview.razor",
+                NotificationDescription = new string[] {
+                    @"Enhanced the demo by introducing new toolbar items for the 'Audio' and 'Video' features."
+                }
             },
             new Sample
             {

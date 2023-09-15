@@ -10,11 +10,8 @@
 @inherits SampleBaseComponent;
 @implements IDisposable;
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Node Content Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Node Content in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -29,7 +26,7 @@
 </ActionDescription>
 @*End:Hidden*@
 <div class="col-lg-12 control-section">
-<SfDiagramComponent @ref="diagram" Height="630px" Nodes="@nodes" Connectors="@connectors" InteractionController="@DiagramInteractions.ZoomPan">
+<SfDiagramComponent @ref="diagram" Height="630px" Nodes="@nodes" Connectors="@connectors" InteractionController="@DiagramInteractions.ZoomPan" Created="OnCreated" >
     <SnapSettings Constraints=SnapConstraints.None>
     </SnapSettings>
     <DiagramTemplates>
@@ -103,18 +100,14 @@
     </SfDiagramComponent>
     </div>
     @code {
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     public SfDiagramComponent diagram;
     DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
     DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
     private bool node7Contentchange { get; set; } = false;
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         nodes = new DiagramObjectCollection<Node>()
 {
             new Node()
@@ -840,6 +833,16 @@
         new UserHandleAppearance() { Name ="Item#2" },
 
     };
+
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
+    }
     @*Hidden:Lines*@
     public void Dispose()
     {

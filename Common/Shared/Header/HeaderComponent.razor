@@ -19,7 +19,7 @@
      @if (!SampleService.IsDevice)
      {
         <div class='sb-header-item sb-table-cell' id="sb-index-search-container" style="padding-right:20px">
-           <SearchComponent @ref="@searchRef"></SearchComponent>
+            <SearchComponent></SearchComponent>
         </div>
       }
     <div class='sb-header-right sb-right sb-table'>
@@ -93,6 +93,33 @@
     </div>
     <hr />
     <div>
+        @foreach (var ComponentList in componentnotificationlist)
+        {
+            @if (ComponentList.NotificationContent.Length > 0)
+            {
+                var listclass = "sb-notification-list" + SampleUtils.SPACE + "list-type-none";
+                <div class="sb-notification-content-container">
+                    <div class=" sb-notification-content">
+                        <div class="sb-notification-category">
+                            <a href='@(UriHelper.BaseUri + ComponentList.DefaultSamplePath.ToLower())' target="_blank"> @ComponentList.Name</a>
+                        </div>
+                        <div class="sb-notification-list-container">
+                            <ul class="@listclass">
+                                @foreach (var content in ComponentList.NotificationContent)
+                                {
+                                    <li>@content</li>
+                                    @if (ComponentList.NotificationContent.Length > 1)
+                                    {
+                                        <br />
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
         @foreach (var ComponentList in notificationlist)
         {
              var listclass = "sb-notification-list";
@@ -142,6 +169,7 @@
     private string overlayClass{ get; set; }
     private bool isPreferenceClicked { get; set; }
     private List<NotificationList> notificationlist { get; set; }
+    private List<NotificationList> componentnotificationlist { get; set; }
     public bool isNotifyClicked { get; set; }
     public int count { get; set; } = 0;
     private string DemoLink { get; set; }
@@ -255,6 +283,7 @@
         preferenceClass = SampleUtils.HEADER_PREFERENCES_CLASS;
         overlayClass = "sb-notification-overlay" + SampleUtils.HIDDEN;
         notificationlist = new NotificationList().GetNotificationData();
+        componentnotificationlist = new NotificationList().GetComponentNotificationData();
         notificationClass = SampleUtils.NOTIFICATION_POPUP_CLASS + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
     }
 }

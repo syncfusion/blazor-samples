@@ -399,10 +399,6 @@ namespace BlazorDemos
                 Url = "word/word-to-pdf",
                 FileName = "WordToPDF.razor",
                 MetaDescription = "This sample illustrates how to convert Word document to PDF using Essential DocIO and Essential PDF.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to preserve comments while converting Word document to PDF."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -425,10 +421,6 @@ namespace BlazorDemos
                 Url = "word/word-to-pdfa",
                 FileName = "WordToPDFA.razor",
                 MetaDescription = "This sample illustrates how to set the Pdf conformance level while converting Word to PDF using Essential DocIO and Essential PDF.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to preserve comments while converting Word document to PDF."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -451,10 +443,6 @@ namespace BlazorDemos
                 Url = "word/word-to-pdfua",
                 FileName = "WordToPDFUA.razor",
                 MetaDescription = "This sample illustrates how to preserve document structured tags in the converted PDF using Essential DocIO and Essential PDF.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to preserve comments while converting Word document to PDF."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -477,10 +465,6 @@ namespace BlazorDemos
                 Url = "word/word-to-image",
                 FileName = "WordToImage.razor",
                 MetaDescription = "This sample illustrates how to convert Word document to Image using Essential DocIO.",
-                NotificationDescription = new string[]
-                {
-                    @"DocIO provides support to render Word document from flow to fixed page model and export as Image"
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -647,6 +631,33 @@ namespace BlazorDemos
                     {
                         Id="TrackChangesService",
                         FileName="TrackChangesService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Compare Documents",
+                Category = "Review",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/compare-documents",
+                Type = SampleType.New,
+                FileName = "CompareDocuments.razor",
+                MetaDescription = "This example demonstrates comparing two Word documents in ASP.NET Core Word (DocIO) library. Explore here for more details.",
+                NotificationDescription = new string[]
+                {
+                    @"Provided support to compare two Word documents. It helps the user easily identify the changes between two versions of a document."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CompareDocuments",
+                        FileName="CompareDocuments.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CompareDocumentsService",
+                        FileName="CompareDocumentsService.cs"
                     }
                 }
             },
@@ -839,7 +850,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/find-and-replace",
                 FileName = "FindAndReplace.razor",
-                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to replace a specific text in the PowerPoint presentation with another text using Find and Replace functionality of .NET PowerPoint  library.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -884,10 +894,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Type = SampleType.None,
                 Url = "powerpoint/encrypt-and-decrypt",
-                NotificationDescription = new string[]
-                {
-                    @"Added support for encrypting and decrypting a presentation document by using a password."
-                },
                 MetaDescription = "This sample demonstrates how to encrypt and decrypt the PowerPoint document using Essential Presentation.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1445,6 +1451,28 @@ namespace BlazorDemos
                     }
                 }
             },
+            new Sample
+            {
+                Name = "What-If Anlaysis",
+                Category = "Data Management",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/WhatIfAnalysis",
+                MetaDescription = "The sample shows how to create different scenarios of What-If Analysis in Blazor using .NET Excel (XlsIO) library.",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="WhatIfAnalysis",
+                        FileName="WhatIfAnalysis.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WhatIfAnalysisService",
+                        FileName="WhatIfAnalysisService.cs"
+                    }
+                }
+            },
 #if !(WASM || WASM_HOSTED)
             new Sample
             {
@@ -1453,7 +1481,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/worksheet-to-image",
                 MetaDescription = "This sample demonstrates how to convert worksheets to image using .NET Excel (XlsIO) library.",
-                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1498,7 +1525,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-pdf",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to pdf file using Essential XlsIO.",
-                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1618,6 +1644,28 @@ namespace BlazorDemos
                     {
                         Id="GroupShapesService",
                         FileName="GroupShapesService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Comments",
+                Category = "Shapes",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/Comments",
+                MetaDescription = "This sample demonstrates how to use comments in spreadsheets using .NET Excel (XlsIO) library.",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Comments",
+                        FileName="Comments.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CommentsService",
+                        FileName="CommentsService.cs"
                     }
                 }
             }
@@ -2054,7 +2102,7 @@ namespace BlazorDemos
                   Directory = "DocumentProcessing/PDF",
                   MetaDescription = "This sample demonstrates how to compress the existing PDF document using Essential PDF.",
                   Url = "pdf/compress-existing-pdf",
-                  Type = SampleType.New,
+                  Type = SampleType.None,
                   SourceFiles = new List<SourceCollection>()
                   {
                         new SourceCollection
@@ -2193,7 +2241,7 @@ namespace BlazorDemos
                           Directory = "DocumentProcessing/PDF",
                           MetaDescription = "This sample demonstrates how to convert single or multi frame TIFF images to PDF document.",
                           Url = "pdf/tiff-to-pdf",
-                          Type = SampleType.New,
+                          Type = SampleType.None,
                           SourceFiles = new List<SourceCollection>()
                           {
                               new SourceCollection
@@ -2215,7 +2263,7 @@ namespace BlazorDemos
                   Directory = "DocumentProcessing/PDF",
                   MetaDescription = "This sample demonstrates redacting a text from the PDF document. It is also possible to redact the images. The redaction is a process of removing sensitive or unwanted information from the PDF document.",
                   Url = "pdf/redaction",
-                  Type = SampleType.New,
+                  Type = SampleType.None,
                   SourceFiles = new List<SourceCollection>()
                   {
                         new SourceCollection
@@ -2237,7 +2285,7 @@ namespace BlazorDemos
                   Directory = "DocumentProcessing/PDF",
                   MetaDescription = "This sample demonstrates how to remove an image from the PDF document.",
                   Url = "pdf/remove-image",
-                  Type = SampleType.New,
+                  Type = SampleType.None,
                   SourceFiles = new List<SourceCollection>()
                   {
                         new SourceCollection
@@ -2259,7 +2307,7 @@ namespace BlazorDemos
                   Directory = "DocumentProcessing/PDF",
                   MetaDescription = "This sample demonstrates how to convert an existing PDF document to PDF/A-1b compliant PDF document.",
                   Url = "pdf/pdf-to-pdfa",
-                  Type = SampleType.New,
+                  Type = SampleType.None,
                   SourceFiles = new List<SourceCollection>()
                   {
                         new SourceCollection
@@ -2281,7 +2329,7 @@ namespace BlazorDemos
                 Directory="DocumentProcessing/PDF",
                 MetaDescription="This sample demonstrates how to validate the digital signatures in existing PDF document.",
                 Url="pdf/validation-signature-pdf",
-                Type=SampleType.New,
+                Type=SampleType.None,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection

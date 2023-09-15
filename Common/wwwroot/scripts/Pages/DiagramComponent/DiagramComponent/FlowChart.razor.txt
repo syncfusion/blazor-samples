@@ -7,11 +7,8 @@
 @inherits SampleBaseComponent;
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Flow Chart Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Flow Chart in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 <SampleDescription>
     <p>This Blazor Diagram example visualizes the processing of an order placed using a credit card with built-in flow shapes in Syncfusion Blazor Diagram.</p>
 </SampleDescription>
@@ -108,7 +105,7 @@
                 position: absolute;
                 display: none;
                 transition: transform 300ms linear, visibility 0s linear 300ms;
-                width: 39%;
+                width: 30%;
                 height: 100%;
             }
 
@@ -116,9 +113,9 @@
                 display: block;
                 width: 100%;
                 background: #fafafa;
-                padding: 10px 10px;
+                padding: 14px 10px;
                 border: 0.5px solid #e0e0e0;
-                min-height: 40px;
+                min-height: 54px;
             }
 
             .sb-mobile-diagram {
@@ -151,7 +148,7 @@
     <div style="width: 100%">
         @*Hidden:Lines*@
         <div class="sb-mobile-palette-bar">
-            <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
+            <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
         </div>
         @*End:Hidden*@
         <div id="palette-space" class="sb-mobile-palette">
@@ -178,9 +175,7 @@
 
 
 @code{
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     private int connectorCount = 0;
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
     public DiagramSize SymbolPreview;
@@ -206,7 +201,8 @@
 
     // Defines palette's connector collection
     private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
-
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -248,6 +244,12 @@
     private void OnCreated()
     {
         Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
+        FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            Diagram.FitToPage(options);
+        }
+
     }
 
     // Method to customize the tool
@@ -329,14 +331,13 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         GridLineIntervals = new double[] {
             1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75
     };
         InitDiagramModel();
         InitPaletteModel();
+
     }
     // Create Nodes and Connectors for the diagram.
     private void InitDiagramModel()
@@ -636,6 +637,12 @@
         }
         return handle;
     }
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
+
+    }
+
         @*Hidden:Lines*@
 public void Dispose()
 {

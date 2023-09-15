@@ -4,6 +4,7 @@
 
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
+@inject DeviceMode DeviceMode;
 @inject IJSRuntime JsRuntime;
 
 <TreeComponent @ref="TreeRef" DataSource="@TreeDataSource" OnNodeSelect="@OnComponentSelection">
@@ -63,7 +64,8 @@
 
     // List to tree navigation handler.
     private void OnTreeNavigation()
-    {
+    {   
+        Layout.CloseThemePrefPopups();
         // Hides list component and show tree component.
         samplesClass = SampleUtils.AddClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
         TreeRef.ShowTree();
@@ -90,7 +92,7 @@
             }
             else
             {
-                 this.SelectTreeNode(item.Category);
+                this.SelectTreeNode(item.Category);
             }
         }
         RefreshSampleNavigator(currentUrl);
@@ -109,7 +111,7 @@
 
         //Load dynamic script for Pdfviewer,Diagram and Document editor component
 #if WASM
-        await LoadScripts(nodeItem.Name);
+    	await LoadScripts(nodeItem.Name);
 #else
         LoadDynamicResources(nodeItem.Name);
 #endif
@@ -133,7 +135,10 @@
 
         Layout.RightPaneRef.TabSelectedItemChange();
         Layout.CollapseSideBar();
-
+        if (nodeItem.Samples[0].IsHideInMobile && nodeItem.DemoPath.Equals(nodeItem.Samples[0].Url) && DeviceMode.Isdevice)
+        {
+            nodeItem.DemoPath = nodeItem.Samples[1].Url;
+        }
         RefreshSampleNavigator(nodeItem.DemoPath);
         this.NavigatePage(nodeItem.DemoPath);
     }
@@ -266,15 +271,23 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        SampleBrowser.SampleUrls = new List<string>();
 
         // Gets the tree datasource.
         this.TreeDataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
         {
             List<SampleList> sampleItems = samples.ToList();
             List<SampleListType> childItems = new List<SampleListType>();
+            List<List<Sample>> listData = new List<List<Sample>>();
             sampleItems.ForEach(item =>
             {
-                var listData = item.Samples.GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                if(this.DeviceMode.Isdevice){
+                    listData = item.Samples.Where(sample=>!sample.IsHideInMobile).GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                }
+                else
+                {
+                    listData = item.Samples.GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                }
                 for (var i = 0; i < listData.Count; i++)
                 {
                     for (var j = 0; j < listData[i].Count; j++)

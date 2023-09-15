@@ -7,11 +7,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram User Handles Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the User Handles in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -84,7 +81,7 @@
                     Background
                 </div>
                 <div class="col-xs-6">
-                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="background" TItem="@UserHandleAppearance" ID="pattern" PopupHeight="120" Placeholder="Black" CssClass="textboxstyle" DataSource="@UserHandleAppearanceLists">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="background" TItem="@UserHandleAppearance" @bind-Value="@backgroundValue" ID="pattern" PopupHeight="120" Placeholder="Black" CssClass="textboxstyle" DataSource="@UserHandleAppearanceLists">
                         <DropDownListEvents TItem="UserHandleAppearance" TValue="string" ValueChange="@SetPattern"></DropDownListEvents>
                         <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
                     </SfDropDownList>
@@ -95,7 +92,7 @@
                     Command
                 </div>
                 <div class="col-xs-6">
-                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="shapeValue" TItem="@UserHandleShape" ID="command" PopupHeight="120" Placeholder="Duplicate" CssClass="textboxstyle" DataSource="@UserHandleShapeLists">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="shapeValue" TItem="@UserHandleShape" ID="command" PopupHeight="120" @bind-Value="@commandValue" Placeholder="Duplicate" CssClass="textboxstyle" DataSource="@UserHandleShapeLists">
                         <DropDownListEvents TItem="UserHandleShape" TValue="string" ValueChange="@OnCommand"></DropDownListEvents>
                         <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
                     </SfDropDownList>
@@ -106,7 +103,7 @@
                     UserHandle
                 </div>
                 <div class="col-xs-6">
-                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="userhandleValue" TItem="@UserHandleConstraints" ID="userHandle" PopupHeight="150" Placeholder="Both" CssClass="textboxstyle" DataSource="@UserHandleLists">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="userhandleValue" TItem="@UserHandleConstraints" ID="userHandle" PopupHeight="150" Placeholder="Both" @bind-Value="@visibleMode" CssClass="textboxstyle" DataSource="@UserHandleLists">
                         <DropDownListEvents TItem="UserHandleConstraints" TValue="string" ValueChange="@OnUserHandleConstraintsChange"></DropDownListEvents>
                         <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
                     </SfDropDownList>
@@ -122,9 +119,12 @@
 @code
 {
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     int connectorCount;
     string position = "BottomLeft";
+    string backgroundValue = "Black";
+    string commandValue = "Duplicate";
+    string visibleMode = "Both";
     bool positionValue = true;
     bool background = true;
     bool shapeValue = true;
@@ -144,9 +144,7 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         gridLineIntervals = new double[] { 1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75 };
         InitDiagramModel();
         selectionSettings.Constraints &= ~(SelectorConstraints.ResizeAll | SelectorConstraints.Rotate);
@@ -155,7 +153,16 @@
     private void OnCreated()
     {
         Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
-        Diagram.FitToPage();
+                  FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+            if (SampleService.IsDevice)
+            {
+                Diagram.FitToPage(mobileoptions);
+
+            }else
+            {
+            
+                 Diagram.FitToPage();
+            }
     }
 
     private void SelectionChanged(SelectionChangedEventArgs args)
@@ -326,6 +333,7 @@
         new UserHandleAppearance() { Name ="Blue"},
         new UserHandleAppearance() { Name ="Green" },
          new UserHandleAppearance() { Name ="Orange" },
+          new UserHandleAppearance() { Name ="Black" },
 
     };
 
@@ -405,7 +413,7 @@
     public void SetPattern(ChangeEventArgs<string, UserHandleAppearance> args)
     {
 
-        userhandle.BackgroundColor = args.Value == "Blue" ? "#1E90FF" : (args.Value == "Green" ? "#3CB371" : "#FF6347");
+        userhandle.BackgroundColor = args.Value == "Blue" ? "#1E90FF" : (args.Value == "Green" ? "#3CB371" : (args.Value == "Black" ? "#000000" : "#FF6347"));
         userhandle.PathColor = "white";
     }
     @*End:Hidden*@

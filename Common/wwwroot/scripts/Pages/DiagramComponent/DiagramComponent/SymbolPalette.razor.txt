@@ -14,11 +14,8 @@
 @using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
 @*Hidden:Lines*@
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Symbol Palette Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Symbol Palette in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -131,7 +128,7 @@
                     position: absolute;
                     display: none;
                     transition: transform 300ms linear, visibility 0s linear 300ms;
-                    width: 39%;
+                    width: 30%;
                     height: 100%;
                 }
 
@@ -139,9 +136,9 @@
                     display: block;
                     width: 100%;
                     background: #fafafa;
-                    padding: 10px 10px;
+                    padding: 14px 10px;
                     border: 0.5px solid #e0e0e0;
-                    min-height: 40px;
+                    min-height: 54px;
                 }
 
                 #diagramEventsControlSection .sb-mobile-diagram {
@@ -154,6 +151,7 @@
                 #diagramEventsControlSection #palette-icon {
                     font-size: 20px;
                 }
+
             }
 
             #diagramEventsControlSection .sb-mobile-palette-open {
@@ -207,6 +205,7 @@
                 padding-bottom: 20px;
                 height: 740px;
                 padding-right: 0px;
+                display:inline-block;
             }
 
             #diagramEventsPropertySection .evtbtn {
@@ -219,6 +218,11 @@
             }
         </style>
         <div id="diagramEventsControlSection" class="content-wrapper" style="background: white">
+            @*Hidden:Lines*@
+            <div class="sb-mobile-palette-bar">
+                <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
+            </div>
+            @*End:Hidden*@
             @*End:Hidden*@
             <div id="palette-space" class="sb-mobile-palette">
                 <SfSymbolPaletteComponent @ref="@palette"
@@ -293,7 +297,7 @@
 
 @code{
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     private int? index { get; set; } = 1;
     SfDropDownList<string, ExpandModevalue> expandDropDown;
     public int? sizeChangeValue { get; set; } = 75;
@@ -318,7 +322,8 @@
 
     //Defines Diagram's Connectors collection
     private DiagramObjectCollection<Connector> diagramConnectors = new DiagramObjectCollection<Connector>();
-
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
     @*Hidden:Lines*@
     public class ExpandModevalue
     {
@@ -388,9 +393,7 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         symbolDragPreviewSize = new DiagramSize();
         symbolDragPreviewSize.Width = 80;
         symbolDragPreviewSize.Height = 80;
@@ -544,7 +547,11 @@
         };
         return connector;
     }
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
 
+    }
     @*Hidden:Lines*@
     public void Dispose()
     {

@@ -1,0 +1,92 @@
+﻿@page "/pdf-viewer-2/form-filling"
+@using Syncfusion.Blazor.SfPdfViewer
+@using Blazor_MAUI_Demos.Services
+@using System.IO
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor SfPdfViewer Form Filling Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Form Filling in Blazor SfPdfViewer Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates form filling features of PDF Viewer, enabling you to edit form fields, download, and print the edited PDF documents.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The SfPdfViewer component enables editing form fields, downloading, and printing PDF documents with form field data.</p>
+   <p>In this demo, the SfPdfViewer is rendered with a PDF form file.</p>
+  @*WASM:Block*@
+@{ #if (WASM || WASM_HOSTED) }
+    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application'> documentation section</a>.</p>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !(WASM || WASM_HOSTED) }
+    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application'> documentation section</a>.</p>
+@{ #endif }
+@*End:Server*@
+</ActionDescription>
+
+
+<div class="control-section"> 
+    <SfPdfViewer2 DocumentPath="@DocumentPath" Height="640px" Width="100%">
+    <PdfViewerEvents DownloadEnd="@DownloadEndEvent"></PdfViewerEvents>
+    </SfPdfViewer2>
+</div>
+
+@code {
+   
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+    //End:Hidden
+
+    private string DocumentPath { get; set; } = "";
+    protected override void OnInitialized()
+    {
+        //Hidden:Lines
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+        #if MAUI 
+        string basePath = "Blazor_MAUI_Demos.wwwroot.data.pdfviewer2.form-filling-document.pdf";
+        Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+        DocumentStream.Position = 0;
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            DocumentStream.CopyTo(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+            string base64String = Convert.ToBase64String(bytes);
+            string base64prefix = "data:application/pdf;base64,";
+            //Assigned the base64 path to the PDF document path.
+            DocumentPath = $"{base64prefix}{base64String}";
+        }
+#endif
+        //End:Hidden
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        
+@*Server:Block*@
+#if !(WASM || WASM_HOSTED || MAUI)
+        //Sets the PDF document path for initial loading.
+        DocumentPath = "wwwroot/data/pdfviewer2/form-filling-document.pdf";
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@    
+#if (WASM || WASM_HOSTED)
+        //Sets the PDF document path for initial loading.   
+        DocumentPath= fileDataPath + "data/pdfviewer2/form-filling-document.pdf";
+#endif
+@*End:WebAssembly*@
+    }
+    
+    private void DownloadEndEvent(DownloadEndEventArgs downloadEndEvent)
+    {
+         string bas64string = downloadEndEvent.DownloadDocument.Replace("data:application/pdf;base64,", "");
+         byte[] bytes = Convert.FromBase64String(bas64string);
+         SaveService saveService = new();
+         saveService.SaveAndView(downloadEndEvent.FileName, "application/pdf", new MemoryStream(bytes));
+    }
+}

@@ -5,11 +5,8 @@
 @inherits SampleBaseComponent
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Fishbone Diagram Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Fishbone Diagram in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -22,7 +19,7 @@
 @*End:Hidden*@
 <div class="col-lg-12 control-section">
     <div id="diagram-space" class="content-wrapper" style="height:650px">
-        <SfDiagramComponent Height="650px" InteractionController="@DiagramInteractions.ZoomPan" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
+        <SfDiagramComponent @ref="diagram" Height="650px" InteractionController="@DiagramInteractions.ZoomPan" Nodes="@NodeCollection" Connectors="@ConnectorCollection" Created="OnCreated">
             <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
         </SfDiagramComponent>
     </div>
@@ -34,18 +31,17 @@
     //Defines Diagram's connectors collection
     public DiagramObjectCollection<Connector> ConnectorCollection { get; set; }
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     Syncfusion.Blazor.Diagram.NodeShapes BasicShape = Syncfusion.Blazor.Diagram.NodeShapes.Basic;
     Syncfusion.Blazor.Diagram.NodeShapes PathShape = Syncfusion.Blazor.Diagram.NodeShapes.Path;
     string FishBonePath = "M0 50H140L160 25L140 0H0L20 25L0 50Z";
     string TailPath = "M0 0H60L80 25L60 50H0V25V0Z";
     string HeadPath = "M0 0H115.5L132 25L115.5 50H0V25V0Z";
+    SfDiagramComponent diagram;
     @*End:Hidden*@
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         NodeCollection = new DiagramObjectCollection<Node>();
         DiagramObjectCollection<PointPort> Ports = new DiagramObjectCollection<PointPort>()
         {
@@ -161,6 +157,16 @@
         CreateConnector("connect49", "", "Quality", "ellipse14", "#464646", 1, "", 10);
         CreateConnector("connect50", "", "Order", "ellipse12", "#464646", 1, "", 10);
         CreateConnector("connect51", "", "Standardization", "ellipse11", "#464646", 1, "", 10);
+    }
+
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
     }
     // Method is used to create a Connector for the diagram.
     private void CreateConnector(string id, string lineDashArray, string source, string target, string lineColor, int lineWidth, string portId = null, int padding = 0)

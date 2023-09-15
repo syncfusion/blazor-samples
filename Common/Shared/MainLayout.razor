@@ -4,11 +4,13 @@
 @using Syncfusion.Blazor.Buttons;
 
 @using BlazorDemos.Shared;
-
+@using System.Globalization;
+@using System.Text.RegularExpressions;
 
 @inject IJSRuntime JsRuntime;
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
+@inject DeviceMode DeviceMode;
 
 @inherits LayoutComponentBase;
 @implements IDisposable;
@@ -64,7 +66,7 @@
                     </RightPaneComponent>
                     @{ #else}
                     <RightPaneComponent @ref="RightPaneRef">@Body</RightPaneComponent>
-                    @{ #endif}
+                  @{ #endif}
                 @if (SampleService.IsDevice)
                 {
                     <SideBarComponent IsExpanded="@rightSidebarExpanded" Position="SidebarPlacement.Right">
@@ -275,9 +277,23 @@
         StateHasChanged();
     }
 
-    protected override void OnInitialized()
+    /// <summary>
+    /// Close both theme and preference popups
+    /// </summary>
+    public void CloseThemePrefPopups()
+    {
+        headerRef.HidePreferences();
+        headerRef.dropdownRef.popupClass = SampleUtils.AddClass(headerRef.dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
+        StateHasChanged();
+    }
+    protected override async void OnInitialized()
     {
         base.OnInitialized();
+        UriHelper.LocationChanged += LocationChanged;
+        // Enable ripple effect to the material theme.
+        SyncfusionService.EnableRipple(UriHelper.Uri.IndexOf("material") > 0);
+        searchContainer = SampleUtils.SEARCH_OVERLAY + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+
         // Condition to check whether the URL query params contains the proper theme name. If the URL query params donesn't contains the theme name, the URL redirects to existing component URL without query params.
         // Due to this redirection, we can prevent our site from multiple vulnerability attacks from hackers.
         string themeName = System.Web.HttpUtility.ParseQueryString(new Uri(this.navigationManager.Uri).Query).Get("theme");
@@ -285,10 +301,8 @@
         {
             this.navigationManager.NavigateTo(this.navigationManager.Uri.Split("?")[0], forceLoad: true);
         }
-        UriHelper.LocationChanged += LocationChanged;
-        searchContainer = SampleUtils.SEARCH_OVERLAY + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
-    }
 
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -304,6 +318,7 @@
             dotnetObjectRef = DotNetObjectReference.Create<object>(this);
             // Get device information for mobile sidebar rendering
             this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDevice", dotnetObjectRef);
+            this.DeviceMode.Isdevice = this.SampleService.IsDevice;
             this.isTablet = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isTablet");
             this.isDeviceMode = this.SampleService.IsDevice;
             if (this.SampleService.IsDevice)
@@ -324,9 +339,7 @@
         }
         if(!firstRender && LeftPaneRef !=null && LeftPaneRef.NavMenuRef.isNavigate)
         {
-            headerRef.HidePreferences();
-            headerRef.dropdownRef.popupClass = SampleUtils.AddClass(headerRef.dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
-            StateHasChanged();
+            CloseThemePrefPopups();
             LeftPaneRef.NavMenuRef.isNavigate = false;
         }
         if (!this.SampleService.IsDevice || this.isTablet)
@@ -335,7 +348,11 @@
             RightPaneRef?.SampleNavigatorRef.Rerender(SampleService.IsDevice,this.isTablet);
         }
     }
-
+    public async Task<T> GetValueAsync<T>(T key)
+    {
+        var previouslySelectedCulture= await this.JsRuntime.InvokeAsync<T>("sfBlazorSB.getValue", key);
+        return previouslySelectedCulture;
+    }
     public void Dispose()
     {
         dotnetObjectRef?.Dispose();

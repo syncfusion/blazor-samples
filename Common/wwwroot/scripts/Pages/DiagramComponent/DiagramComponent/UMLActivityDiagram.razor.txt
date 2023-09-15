@@ -9,11 +9,8 @@
 @inherits SampleBaseComponent;
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram UML Activity Diagram Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the UML Activity Diagram in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -111,7 +108,7 @@
                 position: absolute;
                 display: none;
                 transition: transform 300ms linear, visibility 0s linear 300ms;
-                width: 39%;
+                width: 45%;
                 height: 100%;
             }
 
@@ -119,9 +116,9 @@
                 display: block;
                 width: 100%;
                 background: #fafafa;
-                padding: 10px 10px;
+                padding: 14px 10px;
                 border: 0.5px solid #e0e0e0;
-                min-height: 40px;
+                min-height: 54px;
             }
 
             .sb-mobile-diagram {
@@ -153,7 +150,7 @@
 
     <div style="width: 100%">
         <div class="sb-mobile-palette-bar">
-            <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
+            <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
         </div>
         @*End:Hidden*@
         <div id="palette-space" class="sb-mobile-palette">
@@ -162,7 +159,7 @@
         </div>
         <div id="diagram-space" class="sb-mobile-diagram">
             <div class="content-wrapper" style="border: 1px solid #D7D7D7">
-                <SfDiagramComponent @ref="@Diagram" Connectors="@connectors" Height="687px" Nodes="@nodes" NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating">
+                <SfDiagramComponent @ref="@Diagram" Connectors="@connectors" Height="687px" Nodes="@nodes" NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating" Created="OnCreated">
                     <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
                 </SfDiagramComponent>
             </div>
@@ -214,15 +211,11 @@
 
     // Defines palette's connector collection
     private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         //change offset vales
         centerX = 340;
         middle = centerX - 50;
@@ -332,7 +325,15 @@
         CreateConnector("connector13", "CloseCall", "node11");
     }
 
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            Diagram.FitToPage(mobileoptions);
 
+        }
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -622,7 +623,13 @@
         
         connectorSymbols.Add(connector);
     }
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
 
+    }
     @*Hidden:Lines*@
     public void Dispose()
     {

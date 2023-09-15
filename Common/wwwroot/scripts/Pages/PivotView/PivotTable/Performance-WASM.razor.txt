@@ -1,0 +1,153 @@
+﻿@page "/pivot-table/performance-wasm"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Spinner
+@using System.Diagnostics
+@using BlazorDemos
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows the pivot table loading a large quantity of data without any performance delays.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample shows the performance of the pivot table when bound with a million rows in an optimized way by displaying the rows and columns to the current view port only using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_EnableVirtualization'> EnableVirtualization</a> property. In this demo, a different range of rows can be loaded in the pivot table by selecting the dropdown list options.
+    </p>
+    <p>More information on the virtual scrolling feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/virtual-scrolling'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-dddata">
+                <SfDropDownList TItem="DDData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@index" DataSource="@DLData">
+                    <DropDownListEvents TItem="DDData" TValue="string" ValueChange="Changedata" Closed="DropdownClose"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                </SfDropDownList>
+                <div id="performance" style="float:right;padding:5px">
+                    Time taken = @timeElapsed
+                </div>
+            </div>
+
+            <div id="Pivot" style="padding:0 10px">
+                <SfPivotView TValue="PivotLargeData" Width="100%" Height="300" EnableVirtualization="true" ShowTooltip=false>
+                 <PivotViewVirtualScrollSettings AllowSinglePage="true"></PivotViewVirtualScrollSettings>
+                    <PivotViewDataSourceSettings TValue="PivotLargeData" DataSource="data" EnableSorting="false" DataSourceChanged="@DataSourceChanged">
+                        <PivotViewColumns>
+                            <PivotViewColumn Name="Year"></PivotViewColumn>
+                        </PivotViewColumns>
+                        <PivotViewRows>
+                            <PivotViewRow Name="ProductID"></PivotViewRow>
+                        </PivotViewRows>
+                        <PivotViewValues>
+                            <PivotViewValue Name="Price" Caption="Unit Price"></PivotViewValue>
+                            <PivotViewValue Name="Sold" Caption="Unit Sold"></PivotViewValue>
+                        </PivotViewValues>
+                        <PivotViewFormatSettings>
+                            <PivotViewFormatSetting Name="Price" Format="C0"></PivotViewFormatSetting>
+                            <PivotViewFormatSetting Name="Sold" Format="N0"></PivotViewFormatSetting>
+                        </PivotViewFormatSettings>
+                        <PivotViewSortSettings>
+                            <PivotViewSortSetting Name="Year" Order="Sorting.Ascending"></PivotViewSortSetting>
+                            <PivotViewSortSetting Name="ProductID" Order="Sorting.Ascending"></PivotViewSortSetting>
+                        </PivotViewSortSettings>
+                    </PivotViewDataSourceSettings>
+                    <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+                    <PivotViewEvents TValue="PivotLargeData" OnLoad="onLoad" DataBound="@dataBound"></PivotViewEvents>
+                </SfPivotView>
+            </div>
+        </div>
+        <SfSpinner @ref="@spinnerObj"></SfSpinner>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-dddata {
+        margin: 0 10px 15px 10px;
+    }
+
+    .e-pivotview .e-pivot-content-loader {
+        pointer-events: none;
+    }
+
+    @@media only screen and (max-width: 380px) {
+        #performance {
+            float: revert !important;
+        }
+    }
+</style>
+
+@code {
+    
+    private List<PivotLargeData> data { get; set; }
+    private SfSpinner spinnerObj;
+    private bool disableButton = false;
+    private Stopwatch stopWatch = new Stopwatch();
+    private string timeElapsed = "0 sec";
+    private int? index { get; set; } = 0;
+    private int? previousIndex { get; set; } = 0;
+    public int Value { get; set; } = 1000;
+    protected override void OnInitialized()
+    {
+        //Hidden:Lines
+        
+        stopWatch.Start();
+        data = PivotLargeData.GetLargeData(1000);
+        //End:Hidden
+    }
+    private void DropdownClose(@Syncfusion.Blazor.DropDowns.ClosedEventArgs args)
+    {
+        if (previousIndex != index)
+        {
+            data = PivotLargeData.GetLargeData(Value);
+            previousIndex = index;
+        }
+    }
+    public async Task Changedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DDData> args)
+    {
+        if (previousIndex != index && (index == 2 || previousIndex == 2))
+        {
+            await spinnerObj.ShowAsync();
+        }
+        Value = Int32.Parse(args.Value);
+
+    }
+    private void onLoad(LoadEventArgs<PivotLargeData> args)
+    {
+        stopWatch.Reset();
+        stopWatch.Start();
+    }
+    private void DataSourceChanged()
+    {
+        stopWatch.Reset();
+        stopWatch.Start();
+    }
+    private async Task dataBound()
+    {
+        stopWatch.Stop();
+        TimeSpan TimeTaken = stopWatch.Elapsed;
+        timeElapsed = String.Format("{0:00}:{1:00} seconds", TimeTaken.Seconds, TimeTaken.Milliseconds / 100);
+        await spinnerObj.HideAsync();
+    }
+    public class DDData
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+    public List<DDData> DLData = new List<DDData>() {
+        new DDData(){ Text= "1,000 Rows and 10 Columns", Value= "1000" },
+        new DDData(){ Text= "10,000 Rows and 10 Columns", Value= "10000" },
+        new DDData(){ Text= "100,000 Rows and 10 Columns", Value= "100000" },
+    };
+}

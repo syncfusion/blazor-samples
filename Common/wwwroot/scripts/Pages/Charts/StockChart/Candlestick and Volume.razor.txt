@@ -7,11 +7,8 @@
 @inject HttpClient Http
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-<PageTitle>Blazor Stock Chart Candlestick and Volume Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Candlestick and Volume in Blazor Stock Chart Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 
@@ -45,7 +42,7 @@ else
             <StockChartPrimaryYAxis>
                  <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
             </StockChartPrimaryYAxis>
-            <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+            <StockChartTooltipSettings Enable="true" Format="High : <b>${point.high}</b><br/>Low : <b>${point.low}</b><br/>Open : <b>${point.open}</b><br/>Close : <b>${point.close}</b><br/>Volume : <b>${point.volume}</b>"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartAxes>
                <StockChartAxis RowIndex=1 Name="yAxis1" LabelPosition="AxisPosition.Inside" EdgeLabelPlacement="EdgeLabelPlacement.Hide">                    
@@ -66,7 +63,7 @@ else
                     </StockChartPrimaryYAxis>
                 </StockChartSeries>
             </StockChartSeriesCollection>
-            <StockChartLegendSettings Visible="true" Padding="3"></StockChartLegendSettings>
+            <StockChartLegendSettings Visible="true"></StockChartLegendSettings>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
             </StockChartChartArea>
@@ -89,24 +86,32 @@ else
         .stockchartdiv {
             visibility: hidden;
         }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @translateY) !important;
+        }
     </style>
 }
 @code{ 
     
     private ChartData[] DataSource;
     private string Height = "500";
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    string translateY = "-5px";
+    
     protected override async Task OnInitializedAsync()
     {
         BeforeRender();
         DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/chart-data.json");
+        //Hidden:Lines
+        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
+        {
+            translateY = "-7px";
+        }
+        //End:Hidden
     }
 
     public class ChartData

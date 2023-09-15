@@ -10,11 +10,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Snapping Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Snapping in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 @*Hidden:Lines*@
 <SampleDescription>
@@ -157,7 +154,7 @@
     @*End:Hidden*@
 
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent @ref="Diagram" Height="500px" Nodes="@nodes" Connectors="@connectors">
+        <SfDiagramComponent @ref="Diagram" Height="500px" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
             <SnapSettings @ref="snapSettings" @bind-Constraints="@Constraints" SnapAngle="@snapangle">
                 <HorizontalGridLines SnapIntervals="@snapInterval">
                 </HorizontalGridLines>
@@ -241,9 +238,7 @@
     DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
     double? LineValue = 10;
     double? AngleValue = 5;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
 
 
     private void ShowLine(ButtonChangeArgs value)
@@ -294,12 +289,18 @@
         }
 
     }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            Diagram.FitToPage(mobileoptions);
 
+        }
+    }
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         nodes = new DiagramObjectCollection<Node>()
         {
             new Node()

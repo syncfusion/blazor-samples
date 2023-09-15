@@ -8,11 +8,8 @@
 @inherits SampleBaseComponent
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Nodes Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Nodes in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -26,7 +23,7 @@
 @*End:Hidden*@
 <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent @ref="@Diagram" NodeCreating="@OnNodeCreating" SelectionChanged="SelectionChanged" ConnectorCreating="@OnConnectorCreating" Height="590px" Nodes="@NodeCollection" Connectors="@ConnectorCollection">
+        <SfDiagramComponent @ref="@Diagram" NodeCreating="@OnNodeCreating" SelectionChanged="SelectionChanged" ConnectorCreating="@OnConnectorCreating" Height="590px" Nodes="@NodeCollection" Connectors="@ConnectorCollection" Created = "OnCreated">
             <SnapSettings Constraints=SnapConstraints.None>
             </SnapSettings>
         </SfDiagramComponent>
@@ -154,9 +151,7 @@
 @*End:Hidden*@
 
 @code{
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     private const string seleceditem = "image-pattern-style e-selected-style";
     private const string unseleceditem = "image-pattern-style";
     private string value1 = "All Shapes";
@@ -177,9 +172,7 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         dict = new Dictionary<string, string>()
         {
             { "preview0", unseleceditem },
@@ -200,6 +193,16 @@
         CreateConnector("connector3", "implement", "deploy");
         CreateConnector("connector4", "deploy", "support");
         CreateConnector("connector5", "support", "analysis");
+    }
+
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            Diagram.FitToPage(mobileoptions);
+
+        }
     }
     // Defines default values for Connector object
     private void OnConnectorCreating(IDiagramObject obj)

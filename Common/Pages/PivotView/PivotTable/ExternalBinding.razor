@@ -8,23 +8,21 @@
 @using BlazorDemos
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-<PageTitle>Blazor Pivot Table External Binding Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the External Binding in Blazor Pivot Table Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 <SampleDescription>
-    <p>This sample demonstrates rendering Heatmap control by providing desired data from a pivot table on selection. Not only Heatmap, but any other control (including third party) can be used for this purpose. </p>
+    <p>This sample demonstrates rendering heatmap component by providing desired data from a pivot table on selection. Not only heatmap, but any other component (including third party) can be used for this purpose. </p>
 </SampleDescription>
 <ActionDescription>
-    In this sample, the cell selection feature is enabled using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewGridSettings.html#Syncfusion_Blazor_PivotView_PivotViewGridSettings_AllowSelection'>AllowSelection</a> property set to <b>true</b> and its <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSelectionSettings.html#Syncfusion_Blazor_PivotView_PivotViewSelectionSettings_Type'>Type</a> and <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSelectionSettings.html#Syncfusion_Blazor_PivotView_PivotViewSelectionSettings_Mode'> Mode</a> are configured using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSelectionSettings.html#Syncfusion_Blazor_PivotView_PivotViewSelectionSettings'> SelectionSettings</a> property. The <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_CellSelected'>CellSelected</a> event gets fired on every selection operation performed in the pivot table. This event returns the selected cell information, like row header name, column header name, measure name, and value. Based on this information, the heatmap will be plotted.
+    <p> In this sample, the cell selection is enabled using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewGridSettings.html#Syncfusion_Blazor_PivotView_PivotViewGridSettings_AllowSelection'>AllowSelection</a> property set to <b>true</b> and its <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSelectionSettings.html#Syncfusion_Blazor_PivotView_PivotViewSelectionSettings_Type'>Type</a> and <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSelectionSettings.html#Syncfusion_Blazor_PivotView_PivotViewSelectionSettings_Mode'> Mode</a> are configured using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSelectionSettings.html#Syncfusion_Blazor_PivotView_PivotViewSelectionSettings'> PivotViewSelectionSettings</a>. The <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_CellSelected'>CellSelected</a> event gets fired on every selection operation performed in the pivot table. This event returns the selected cell information, like row header name, column header name, measure name, and value. Based on this information, the heatmap will be plotted. </p>
+    <p> More information on the selection can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/row-and-column/#selection'>documentation section</a>.</p>
 </ActionDescription>
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div id="Pivot" style="height:300px">
-            <SfPivotView TValue="PivotProductDetails" @ref="@pivot" Height="100%" Width="100%" ShowGroupingBar=false ShowTooltip=false>
-                <PivotViewDataSourceSettings TValue="PivotProductDetails" Url="@(NavigationManager.BaseUri  + SampleService.WebAssetsPath + "data/pivot/product-data.json")" Type="DataSourceType.JSON" ExpandAll="true">
+            <SfPivotView TValue="SalesAnalysis" @ref="@pivot" Height="100%" Width="100%" ShowGroupingBar=false ShowTooltip=false>
+                <PivotViewDataSourceSettings TValue="SalesAnalysis" DataSource="@data" ExpandAll="true">
                     <PivotViewColumns>
                         <PivotViewColumn Name="Year"></PivotViewColumn>
                         <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
@@ -39,22 +37,38 @@
                     <PivotViewFilters>
                         <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
                     </PivotViewFilters>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Sold" Format="N0"></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
                 </PivotViewDataSourceSettings>
                 <PivotViewGridSettings AllowSelection=true SelectedRowIndex=2 ColumnWidth="120">
                     <PivotViewSelectionSettings Mode="SelectionMode.Cell" Type="PivotTableSelectionType.Multiple" CellSelectionMode="PivotCellSelectionMode.Box"></PivotViewSelectionSettings>
                 </PivotViewGridSettings>
-                <PivotViewEvents TValue="PivotProductDetails" EnginePopulated="@EnginePopulated" CellSelected="@CellSelected"></PivotViewEvents>
+                <PivotViewEvents TValue="SalesAnalysis" EnginePopulated="@EnginePopulated" CellSelected="@CellSelected"></PivotViewEvents>
             </SfPivotView>
         </div>
         <br>
         <br>
         <div id="Heatmap" style="height:450px;width:100%">
-            <SfHeatMap DataSource="@dataSource" Theme="@theme">
-                <HeatMapXAxis Labels="@xLabels" LabelRotation="45"></HeatMapXAxis>
-                <HeatMapYAxis Labels="@yLabels"></HeatMapYAxis>
-                <HeatMapTitleSettings Text="Sales Analysis"></HeatMapTitleSettings>
-                <HeatMapLegendSettings  Position=LegendPosition.Bottom></HeatMapLegendSettings>
-            </SfHeatMap>
+            @if (dataSource.GetLength(0) > 0)
+            {
+                <SfHeatMap DataSource="@dataSource" Theme="@theme">
+                    <HeatMapXAxis LabelIntersectAction="LabelIntersectAction.Trim" Labels="@xLabels">
+                        <HeatMapXAxisTitle Text="Country ~ Products">
+                            <HeatMapXAxisTitleTextStyle FontWeight="500" Size="14px"></HeatMapXAxisTitleTextStyle>
+                        </HeatMapXAxisTitle>
+                    </HeatMapXAxis>
+                    <HeatMapYAxis Labels="@yLabels">
+                        <HeatMapYAxisTitle Text="Units Sold">
+                            <HeatMapYAxisTitleTextStyle FontWeight="500" Size="14px"></HeatMapYAxisTitleTextStyle>
+                        </HeatMapYAxisTitle>
+                    </HeatMapYAxis>
+                    <HeatMapTitleSettings Text="Sales Analysis">
+                        <HeatMapTitleTextStyle FontWeight="500" Size="14px"></HeatMapTitleTextStyle>
+                    </HeatMapTitleSettings>
+                    <HeatMapLegendSettings Visible="false"></HeatMapLegendSettings>
+                </SfHeatMap>
+            }
         </div>
     </div>
 </div>
@@ -64,12 +78,11 @@
     }
 </style>
 @code {
-    private SfPivotView<PivotProductDetails> pivot;
+    private SfPivotView<SalesAnalysis> pivot;
+    private List<SalesAnalysis> data;
     private Theme theme { get; set; }
     private bool onInit = true;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     private double[,] dataSource = new double[,]
     {
       {627, 205, 1261},
@@ -81,10 +94,9 @@
     private string[] yLabels = new string[] { "FY 2015.App Store", "FY 2015.Retail Outlets", "FY 2015.Sales Person" };
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        data = SalesAnalysis.GetSalesAnalysisData();
     }
     private void EnginePopulated(EnginePopulatedEventArgs args)
     {
@@ -128,7 +140,7 @@
         }
         xLabels = xLabelList.ToArray();
         yLabels = yLabelList.ToArray();
-        dataSource = newData;
+        dataSource = newData.GetLength(0) > 0 ? newData : dataSource;
     }
     private void selectCells(bool applySelect)
     {
@@ -143,7 +155,7 @@
                     {
                         for (int y = 0; y < 3; y++)
                         {
-                            if (data.FormattedText == dataSource[x, y].ToString() && data.RowHeaders.ToString() == xLabels[x] && data.ColumnHeaders.ToString() == yLabels[y])
+                            if (data.Value != null && (double)data.Value == dataSource[x, y] && data.RowHeaders.ToString() == xLabels[x] && data.ColumnHeaders.ToString() == yLabels[y])
                             {
                                 data.CssClass = applySelect ? data.CssClass + "e-cellselectionbackground" : string.Empty;
                             }

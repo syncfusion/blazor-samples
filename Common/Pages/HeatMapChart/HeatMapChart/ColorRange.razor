@@ -9,11 +9,8 @@
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-<PageTitle>Blazor HeatMap Chart Color Range Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Color Range in Blazor HeatMap Chart Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -27,16 +24,19 @@
     <div class="row">
         <SfHeatMap DataSource="@DataSource" Theme="@theme">
             <HeatMapTitleSettings Text="U.S. Government Energy Consumption by Agency (Trillion Btu)">
-                <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
+                <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontFamily="inherit" FontStyle="Normal" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
             </HeatMapTitleSettings>
             <HeatMapXAxis Labels="@XLabels"
                           LabelRotation="45"
                           LabelIntersectAction="@SFHeatMap.LabelIntersectAction.None">
+                <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
             </HeatMapXAxis>
-            <HeatMapYAxis Labels="@YLabels"></HeatMapYAxis>
+            <HeatMapYAxis Labels="@YLabels">
+                 <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapYAxisTextStyle>
+            </HeatMapYAxis>
             <HeatMapPaletteSettings Type="@PalatteType">
                 <HeatMapPalettes>
-                    <HeatMapPalette StartValue="4.3" EndValue="10" MinColor="#F0C27B" MaxColor="#BE8D6C"></HeatMapPalette>
+                    <HeatMapPalette StartValue="5" EndValue="10" MinColor="#F0C27B" MaxColor="#BE8D6C"></HeatMapPalette>
                     <HeatMapPalette StartValue="10" EndValue="15" MinColor="#A26E63" MaxColor="#4B1248"></HeatMapPalette>
                     <HeatMapPalette StartValue="15" EndValue="20" MinColor="#694b77" MaxColor="#d27d85"></HeatMapPalette>
                     <HeatMapPalette StartValue="20" EndValue="31.7" MinColor="#ed9485" MaxColor="#e44841"></HeatMapPalette>
@@ -47,12 +47,16 @@
                 <HeatMapCellBorder Width="0"></HeatMapCellBorder>
             </HeatMapCellSettings>
             <HeatMapLegendSettings Visible="true" Position="LegendPosition.Bottom">
-            </HeatMapLegendSettings>
+                <HeatMapLegendTextStyle FontFamily="inherit"></HeatMapLegendTextStyle>
+             </HeatMapLegendSettings>
+             <HeatMapTooltipSettings>
+                 <HeatMapFont FontFamily="inherit"></HeatMapFont>
+             </HeatMapTooltipSettings>
         </SfHeatMap>
     </div>
 </div>
 <div class="col-lg-3 property-section">
-    <div><h5>Properties</h5></div>
+    <div class="property-panel-header">Properties</div>
     <table id="property" title="Properties" style="width: 100%">
         <tbody>
             <tr style="height: 50px">
@@ -75,20 +79,25 @@
 
 @code{
     private Theme theme { get; set; }
+    public string AxisLabelColor = "Black";
     PaletteType PalatteType = PaletteType.Gradient;
     string Type = "Gradient";
     string[] XLabels = new string[] { "China", "India", "USA", "Indonesia", "Brazil", "Pakistan", "Nigeria", "Bangladesh", "Russia", "Mexico", "Germany" };
     string[] YLabels = new string[] { "1975-1980", "1980-1985", "1985-1990", "1990-1995", "1995-2000", "2000-2005", "2005-2010", "2010-2015" };
     double[,] DataSource = HeatMapData.GetPaletteData();
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        if (theme.ToString().IndexOf("Dark") > -1 || theme.ToString().IndexOf("HighContrast") > -1)
+        {
+            AxisLabelColor = "White";
+        }
+        else
+        {
+            AxisLabelColor = "Black";
+        }
     }
     public void ValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> args)
     {

@@ -9,11 +9,8 @@
 @inherits SampleBaseComponent;
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Constraints Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Constraints in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -205,7 +202,7 @@
         </SfToolbar>
     </div>
     <div id="diagram-space" class="content-wrapper" style="width:100%">
-        <SfDiagramComponent Height="640px" Constraints="@constraints" @ref="@diagram" Nodes="@nodes" Connectors="@connectors">
+        <SfDiagramComponent Height="640px" Constraints="@constraints" @ref="@diagram" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
             <SnapSettings Constraints=SnapConstraints.ShowLines>
             </SnapSettings>
         </SfDiagramComponent>
@@ -249,7 +246,7 @@
 @*End:Hidden*@
 @code{
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     string appearance = "e-remove-selection";
     bool zoom = true;
     bool undo = true;
@@ -279,9 +276,7 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         constraints = DiagramConstraints.Default;
 
         CreateNode("textnode", 390, NodeBasicShapes.Rectangle, "Node Constraints", "Node");
@@ -300,7 +295,16 @@
         CreateConnector(new DiagramPoint(660, 500), new DiagramPoint(720, 600), "DragSourceEnd = False", "DragSourceEnd", "sourceend");
         CreateConnector(new DiagramPoint(790, 500), new DiagramPoint(850, 600), "DragSegmentThumb = True", "SegmentThumb", "segmentthumb");
     }
+    @*Hidden:Lines*@
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
 
+        }
+    }
     //Enable or disable text edit constraints
     private void TextEditChanged(ChangeEventArgs<bool> args)
     {

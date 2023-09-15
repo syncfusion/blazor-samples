@@ -83,8 +83,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/data-annotation",
                 FileName = "DataAnnotation.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The updated Data Annotation demo now offers customizable tooltip content, filter options, conversion of empty strings to null values, custom text display for null fields in the grid, and prevention of automatic column generation." },
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -102,7 +101,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/expandoobject",
                 FileName = "GridExpandoObject.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The ExpandoObject binding demo was updated to include different numeric column types for the Type property. This demo showcases how to set the ColumnType based on its value type." }
             },
             new Sample
             {
@@ -111,7 +111,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/dynamicobject",
                 FileName = "GridDynamicObject.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The DynamicObject binding demo was updated to include different numeric column types for the Type property. This demo showcases how to set the ColumnType based on its value type." }
             },
             new Sample
             {
@@ -439,7 +440,7 @@ namespace BlazorDemos
 #if !(WASM || WASM_HOSTED)
 			new Sample
             {
-                Name = "Lazy Load Grouping",
+                Name = "Lazy Load with Virtual Scrolling",
                 Category = "Grouping",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/lazyload-virtualization",
@@ -447,7 +448,17 @@ namespace BlazorDemos
                 Type = SampleType.None,
             },
 #endif
-             new Sample
+            new Sample
+            {
+                Name = "Lazy Load with Infinite Scrolling",
+                Category = "Grouping",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/lazyload-infinitescrolling",
+                FileName = "LazyLoadGroupingInfiniteScrolling.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to demonstrate the lazy load grouping with the infinite scrolling feature." },
+            },
+            new Sample
             {
                 Name = "Default Aggregate",
                 Category = "Aggregates",
@@ -555,8 +566,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/virtual-scrolling",
                 FileName = "VirtualScrolling.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"Updated the virtual scrolling demo to include the column chooser. This demo showcases how to show or hide columns dynamically with the column chooser." },
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -565,9 +575,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/virtual-mask-row",
                 FileName = "VirtualMaskRow.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The virtual mask row demo was updated to include OverscanCount property. This demo showcases how additional items are rendered in the DOM before and after the visible items during scrolling and initial rendering." },
             },
-             new Sample
+            new Sample
+            {
+                Name = "Infinite Scrolling",
+                Category = "Scrolling",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/infinite-scrolling",
+                FileName = "InfiniteScrolling.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to showcase the infinite scrolling feature." },
+            },
+            new Sample
             {
                 Name = "Default Exporting",
                 Category = "Exporting",
@@ -576,7 +597,7 @@ namespace BlazorDemos
                 FileName = "Exporting.razor",
                 Type = SampleType.None
             },
-             new Sample
+            new Sample
             {
                 Name = "Advanced Exporting",
                 Category = "Exporting",

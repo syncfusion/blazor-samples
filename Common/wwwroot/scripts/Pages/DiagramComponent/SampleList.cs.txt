@@ -148,7 +148,7 @@ namespace BlazorDemos
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/drawingtool",
                 FileName = "DrawingToolSample.razor",
-                HeaderText="Example of DrawingTools in Blazor Diagram Component"
+                HeaderText="Example of DrawingTools in Blazor Diagram Component",
             },
              new Sample
             {

@@ -46,6 +46,7 @@ namespace BlazorDemos.Server
             services.AddSyncfusionBlazor();
             services.AddScoped<SfDialogService>();
             services.AddScoped<SampleService>();
+            services.AddSingleton<DeviceMode>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

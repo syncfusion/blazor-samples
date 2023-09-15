@@ -14,11 +14,8 @@
 @*End:Hidden*@
 @*Hidden:Lines*@
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Print Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Print in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 @*Hidden:Lines*@
 <SampleDescription>
@@ -33,7 +30,7 @@
     <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
         <SfDiagramComponent @ref="@diagram" Height="640px"
                             Nodes="@nodes"
-                            Connectors="@connectors">
+                            Connectors="@connectors" Created="OnCreated">
             <PageSettings MultiplePage="true" Width="@width" Height="@height" Orientation="@orientation" ShowPageBreaks="@showPageBreak">
                 <BackgroundStyle Background="white"></BackgroundStyle>
                 <PageMargin Left="@left" Right="@right" Top="@top" Bottom="@bottom"></PageMargin>
@@ -164,7 +161,7 @@
 @code
  {
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     string paperValue = "Custom";
     private string stringCheckedValue = "multiple";
     private string stringChecked = "portrait";
@@ -225,9 +222,7 @@
     protected override void OnInitialized()
     {
 
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         nodes = new DiagramObjectCollection<Node>();
         CreateNode("sourceNode1", 80, 160, "Source document");
         CreateNode("censusNode2", 80, 260, "Census \n record");
@@ -253,6 +248,16 @@
         CreateConnector("connector8", "radial1", "radial4", "Yes");
         CreateConnector("connector9", "radial1", "radial5", "No");
         CreateConnector("connector10", "radial1", "radial6", "Yes");
+    }
+
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
     }
     private void CreateNode(string id, double x, double y, string label)
     {

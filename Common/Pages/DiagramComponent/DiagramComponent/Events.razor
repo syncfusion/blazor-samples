@@ -11,11 +11,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Events Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Events in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -62,7 +59,7 @@
                     position: absolute;
                     display: none;
                     transition: transform 300ms linear, visibility 0s linear 300ms;
-                    width: 39%;
+                    width: 45%;
                     height: 100%;
                 }
 
@@ -70,9 +67,9 @@
                     display: block;
                     width: 100%;
                     background: #fafafa;
-                    padding: 10px 10px;
+                    padding: 14px 10px;
                     border: 0.5px solid #e0e0e0;
-                    min-height: 40px;
+                    min-height: 54px;
                 }
 
                 #diagramEventsControlSection .sb-mobile-diagram {
@@ -85,6 +82,11 @@
                 #diagramEventsControlSection #palette-icon {
                     font-size: 20px;
                 }
+                 .property-section {
+                     width:100%;
+                 }
+
+
             }
 
             #diagramEventsControlSection .sb-mobile-palette-open {
@@ -137,6 +139,7 @@
                 padding-bottom: 20px;
                 height: 740px;
                 padding-right: 0px;
+                display:inline-block;
             }
 
             #diagramEventsPropertySection .evtbtn {
@@ -182,13 +185,18 @@
             }
         </style>
         <div id="diagramEventsControlSection" class="content-wrapper" style="width:100%;background: white">
+            @*Hidden:Lines*@
+            <div class="sb-mobile-palette-bar">
+                <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
+            </div>
+            @*End:Hidden*@
             @*End:Hidden*@
             <div id="palette-space" class="sb-mobile-palette">
                 <SfSymbolPaletteComponent @ref="@PaletteInstance" Height="700px" Palettes="@palettes" SymbolDragPreviewSize="@SymbolPreview" SymbolHeight="60" SymbolWidth="60" SymbolMargin="@SymbolMargin">
                 </SfSymbolPaletteComponent>
             </div>
             <div id="diagram-space" class="sb-mobile-diagram">
-                <SfDiagramComponent @ref="@DInstance" Height="700px" Connectors="@connectors" Nodes="@nodes" 
+                <SfDiagramComponent @ref="@DInstance" Height="700px" Connectors="@connectors" Nodes="@nodes" Created="OnCreated"
                                     NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating"
                                     DragDrop="OnDragDrop" DragStart="OnDragStart" Dragging="OnDragging"
                                     SelectionChanged="OnSelectionChanged" PositionChanged="OnPositionChanged"
@@ -356,9 +364,7 @@
 </div>
 
 @code{
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-    //End:Hidden
+    
     bool dropEvent = false;
     bool dragStartEvent = false;
     bool dragOverEvent = false;
@@ -416,7 +422,8 @@
 
     // Defines palette's connector collection
     private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
-
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -425,12 +432,18 @@
             DInstance
         };
     }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            DInstance.FitToPage(mobileoptions);
 
+        }
+    }
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         GridLineIntervals = new double[] { 1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75 };
         InitPaletteModel();
         CreateDiagramNode("Diagramnode1", 145, 60, 200, 180, NodeFlowShapes.Process, "Lamp doesn't work" );
@@ -910,7 +923,11 @@
         };
         connectors.Add(diagramConnector);
     }
+    public async void ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
 
+    }
     @*Hidden:Lines*@
     public void Dispose()
     {

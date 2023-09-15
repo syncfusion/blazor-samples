@@ -7,11 +7,8 @@
 @inject HttpClient Http
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-<PageTitle>Blazor Stock Chart OHLC Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the OHLC in Blazor Stock Chart Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -20,12 +17,11 @@
 <ActionDescription>
     <p>In this example, you can see how to render and configure the stock chart with <code>HILO Open Close</code> type series. The horizontal lines on the left and the right are used to show the open and close values of the stock, and the vertical line represents both high and low values.</p>
     <p>
-       Stock Chart provides support to 6 types of <a target="_blank" href="https://blazor.syncfusion.com/documentation/stock-chart/trend-lines">trendlines</a> namely <code>Linear</code>, <code>Exponential</code>, <code>Logarithmic</code>, <code>Polynomial</code>, <code>Power</code>, <code>Moving Average</code>. By using trendline dropdown button, the required trendline type can be added or removed.
+       The stock chart provides support to 6 types of <a target="_blank" href="https://blazor.syncfusion.com/documentation/stock-chart/trend-lines">trendlines</a> namely <code>Linear</code>, <code>Exponential</code>, <code>Logarithmic</code>, <code>Polynomial</code>, <code>Power</code>, <code>Moving Average</code>. By using trendline dropdown button, the required trendline type can be added or removed.
     </p>
     <p>
         <code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover the chart or tap on it in touch enabled devices.
     </p>
-    <br />
     <p>
         More information about the series type can be found in this
         <a target="_blank" href="https://blazor.syncfusion.com/documentation/stock-chart/series-types">documentation section</a>.
@@ -43,7 +39,7 @@ else
     </div>
     <div class="@loadDiv">
         <SfStockChart Title="AAPL Stock Price" Theme="@theme">
-            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
+            <StockChartEvents OnLoaded="@ChartLoaded" SharedTooltipRendering="@TooltipText"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -52,7 +48,7 @@ else
                 <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
                 <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
             </StockChartPrimaryYAxis>
-            <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+            <StockChartTooltipSettings Enable="true" TooltipPosition="TooltipPosition.Nearest"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
                 <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.HiloOpenClose" XName="x"></StockChartSeries>
@@ -78,23 +74,31 @@ else
         .stockchartdiv {
             visibility: hidden;
         }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @translateY) !important;
+        }
     </style>
 }
 @code{
 
     private ChartData[] DataSource;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    string translateY = "-5px";
+    
     protected override async Task OnInitializedAsync()
     {
         BeforeRender();
         DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/googl.json");
+        //Hidden:Lines
+        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
+        {
+            translateY = "-7px";
+        }
+        //End:Hidden
     }
 
     public class ChartData
@@ -120,5 +124,15 @@ else
     void BeforeRender()
     {
         theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public void TooltipText(SharedTooltipRenderEventArgs args)
+    {
+        for (int i = 0; i < args.Text.Count; i++)
+        {
+            string pattern = @"<b>(\d+)[.,]\d+</b>";
+            string textValue = System.Text.RegularExpressions.Regex.Replace(args.Text[i], pattern, match => "<b>" + match.Groups[1].Value + "</b>");
+            args.Text[i] = textValue;
+        }
     }
 }

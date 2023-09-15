@@ -34,7 +34,8 @@ namespace BlazorDemos
                         Id="OverviewRecord",
                         FileName="OverviewData.cs"
                     }
-                }
+                },
+                IsHideInMobile= true,
             },
             new Sample
             {
@@ -66,7 +67,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/editing",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -79,7 +80,11 @@ namespace BlazorDemos
                         Id="EditData",
                         FileName="GanttData.cs"
                     }
-                }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"Enhanced the UI of taskbar editing by introducing a clone element during the editing process."
+                },
             },
             new Sample
             {
@@ -474,11 +479,21 @@ namespace BlazorDemos
                 Category = "Resource",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/resource-view",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 FileName="ResourceView.razor",
+
+            },
+             new Sample
+            {
+                Name = "Resource Multi Taskbar",
+                Category = "Resource",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/multi-taskbar",
+                Type = SampleType.New,
+                FileName="MultiTaskbar.razor",
                 NotificationDescription = new string[]
                 {
-                    @"The sample has been added to demonstrate the resource view and overallocation features of the Blazor Gantt Chart."
+                    @"The sample has been added to demonstrate the multi taskbar feature in resource view of Gantt Chart."
                 },
 
             },
@@ -552,11 +567,8 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/virtual-scroll",
                 FileName="VirtualScroll.razor",
-                Type = SampleType.Updated,
-                NotificationDescription=new string[]
-                {
-                    @"The sample has been updated with two new independent APIs for row and timeline virtualization in the Gantt chart."
-                }
+                Type = SampleType.None,
+                
             },
             new Sample
             {
@@ -566,6 +578,7 @@ namespace BlazorDemos
                 Url = "gantt-chart/frozen-column",
                 FileName="FrozenColumn.razor",
                 Type = SampleType.None,
+                IsHideInMobile= true,
                
             },
             new Sample
@@ -629,7 +642,7 @@ namespace BlazorDemos
                         Id="DefaultRecord",
                         FileName="DefaultData.cs"
                     }
-                }
+                },
             },
 #endif
             new Sample
@@ -714,7 +727,8 @@ namespace BlazorDemos
                         Id="DefaultRecord",
                         FileName="DefaultData.cs"
                     }
-                }
+                }, 
+                IsHideInMobile= true,
             },
         };
     }

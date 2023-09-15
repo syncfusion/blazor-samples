@@ -13,11 +13,8 @@
 @using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
 @*Hidden:Lines*@
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Connectors Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Connectors in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -39,6 +36,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
                             SetNodeTemplate="@SetNodeContent"
                             Height="580px"
                             Nodes="@nodes"
+                            Created="OnCreated"
                             SelectionChanged="@SelectionChanged"
                             Connectors="@connectors">
             <SnapSettings>
@@ -204,7 +202,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
     string targetShape = "Arrow";
     string selectedType = "Bezier";
     public Dictionary<string, string> CssClass { get; set; }
-    private string canonicalURL { get; set; }
+    
     @*End:Hidden*@
     SfDiagramComponent Diagram;
     // Defines interval values for GridLines
@@ -215,6 +213,17 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
 
     //Defines diagram's connectors collection
     DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    @*Hidden:Lines*@
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            Diagram.FitToPage(mobileoptions);
+
+        }
+    }
     @*Hidden:Lines*@
     List<DiagramShapeModel> shape = new List<DiagramShapeModel>()
     {
@@ -393,9 +402,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         gridLineIntervals = new double[]{ 1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75 };
         selectionSettings.Constraints = (SelectorConstraints.ConnectorSourceThumb | SelectorConstraints.ConnectorTargetThumb);
         @*Hidden:Lines*@

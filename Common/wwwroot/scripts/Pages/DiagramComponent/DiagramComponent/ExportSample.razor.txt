@@ -12,11 +12,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Export Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Export in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -35,7 +32,7 @@
     <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
         <SfDiagramComponent @ref="@diagram" Height="640px"
                             Nodes="@nodes"
-                            Connectors="@connectors">
+                            Connectors="@connectors" Created="OnCreated">
             <PageSettings MultiplePage="true" Width="@pageWidth" Height="@pageHeight" Orientation="@orientation" ShowPageBreaks="@showPageBreak">
                 <BackgroundStyle Background="white"></BackgroundStyle>
                 <PageMargin Left="@left" Right="@right" Top="@top" Bottom="@bottom"></PageMargin>
@@ -109,7 +106,7 @@
                     File Format
                 </div>
                 <div class="col-xs-6">
-                    <SfDropDownList TValue="@string" Width="120px" @bind-Enabled="file" TItem="@FileFomatItem" @bind-Value="@fileValue" ID="position" PopupHeight="120" PopupWidth="150" CssClass="textboxstyle" DataSource="@FileFomatLists">
+                    <SfDropDownList TValue="@string" Width="120px" @bind-Enabled="file" TItem="@FileFomatItem" @bind-Value="@fileValue" ID="fileformat" PopupHeight="120" PopupWidth="150" CssClass="textboxstyle" DataSource="@FileFomatLists">
                         <DropDownListEvents TItem="FileFomatItem" TValue="string" ValueChange="@FileFormateChange"></DropDownListEvents>
                         <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
                     </SfDropDownList>
@@ -190,7 +187,7 @@
 @code
  {
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     string fileValue = "PNG";
     bool clipBounds=false;
     string exportMode = "PageSettings";
@@ -226,6 +223,15 @@
     {
         get;
         set;
+    }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
     }
     @*Hidden:Lines*@
     private void PageWidthvalueChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
@@ -285,9 +291,7 @@
     protected override void OnInitialized()
     {
 
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         nodes = new DiagramObjectCollection<Node>();
         CreateNode("sourceNode1", 80, 160, "Source document");
         CreateNode("censusNode2", 80, 260, "Census \n record");

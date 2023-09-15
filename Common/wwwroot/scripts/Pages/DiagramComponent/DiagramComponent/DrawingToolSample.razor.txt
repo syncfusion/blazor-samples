@@ -6,11 +6,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Drawing Tools Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Drawing Tools in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -217,7 +214,7 @@
     </style>
     @*End:Hidden*@
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent Height="640px" @bind-DrawingObject="@drawingObject" InteractionController="Tools" @ref="@diagram" Nodes="@nodes" Connectors="@connectors">
+        <SfDiagramComponent Height="640px" @bind-DrawingObject="@drawingObject" InteractionController="Tools" @ref="@diagram" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
             <DiagramTemplates>
                 <NodeTemplate>
                     @{
@@ -334,7 +331,7 @@
 @*End:Hidden*@
 @code{
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     bool checkbox = true;
     const string unselecteditem = "image-pattern-style";
     const string selectedItem = "image-pattern-style e-selected-style";
@@ -356,16 +353,23 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         Node node = new Node()
         {
             Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
         };
         drawingObject = node;
     }
+    @*Hidden:Lines*@
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
 
+        }
+    }
     private void UpdateDrawingTool(ButtonEventArgs args)
     {
         if (args.Checked)

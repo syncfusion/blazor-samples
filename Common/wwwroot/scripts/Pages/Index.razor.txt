@@ -1,11 +1,5 @@
 @page "/"
 
-<PageTitle>Blazor Components Examples &amp; Demos | Syncfusion</PageTitle>
-
-<HeadContent>
-    <meta name="description" content="meta des" />
-    <link rel="canonical" href="@cURL">
-</HeadContent>
 
 @using BlazorDemos.Shared; 
 @using Syncfusion.Blazor.Buttons;
@@ -88,7 +82,7 @@
                                         @if (!component.IsHideFromHomePageList)
                                         {
                                             <li>
-                                                <a href=@component.DemoPath @onclick="@(() => NavToSample(component.DemoPath))" @onclick:preventDefault
+                                                <a href=@component.DemoPath @onclick="@(() => NavSample(component))" @onclick:preventDefault
                                                    rel="noopener noreferrer">
                                                     <span class="sf-home-icon sf-icon-@string.Join("", (component.ComponentIconName != null ? component.ComponentIconName : component.Name).ToLower().Split(" "))"></span>
                                                     @if (component.Name.Equals("PDF Viewer (NextGen)"))
@@ -250,7 +244,6 @@
     private bool isWasmSample { get; set; }
     private string SampleName { get; set; }
 
-    private string cURL { get; set; }
 
     [CascadingParameter(Name = "IsDevice")]
     protected bool IsDevice { get; set; }
@@ -277,6 +270,18 @@
         else
         {
             SampleService.SwicthToDemo(demoSampleName, UriHelper.BaseUri + "datagrid/overview", JsRuntime, UriHelper);
+        }
+    }
+
+    private void NavSample(SampleList sample)
+    {
+        if(sample.Samples[0].IsHideInMobile && sample.DemoPath.Equals(sample.Samples[0].Url) && SampleService.IsDevice)
+        {
+            NavToSample(sample.Samples[1].Url);
+        }
+        else
+        {
+            NavToSample(sample.DemoPath);
         }
     }
 
@@ -315,7 +320,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        cURL = UriHelper.Uri.Split("?")[0];
         headerLogo = SampleUtils.HEADER_LOGO;
         searchIcon = SampleUtils.SEARCH_ICON;
         searchContainer = SampleUtils.MOBILE_SEARCH_CONTAINER + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;

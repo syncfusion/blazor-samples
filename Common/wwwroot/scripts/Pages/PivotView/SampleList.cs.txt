@@ -38,6 +38,18 @@ namespace BlazorDemos
                 MetaDescription = "This Blazor Pivot Table example demonstrates the default rendering of the Blazor Pivot Table component with a minimum configuration. Explore here for more details.",
                 Type = SampleType.None
             },
+           
+
+            new Sample
+            {
+                Name = "Live Data",
+                Category = "Pivot Table",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/live-data",
+                FileName = "LiveData.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to show how the pivot table and pivot chart are frequently updated with live data at a given time period." }
+            },
             new Sample
             {
                 Name = "Local Data",
@@ -59,6 +71,7 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 Type = SampleType.None
             },
+
 #if !(WASM || WASM_HOSTED)
             new Sample
             {
@@ -70,7 +83,32 @@ namespace BlazorDemos
                 Type = SampleType.None
             },
 #endif
+           
+#if !(WASM || WASM_HOSTED)
             new Sample
+            {
+                Name = "Performance",
+                Category = "Benchmark",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/performance",
+                FileName = "Performance.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to show the pivot table loading a large amount of data without any performance delays." }
+            },
+#else
+             new Sample
+            {
+                Name = "Performance",
+                Category = "Benchmark",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/performance-wasm",
+                FileName = "Performance-WASM.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {  @"Added a demo to show the pivot table loading a large amount of data without any performance delays." }
+
+            },
+#endif
+             new Sample
             {
                 Name = "Pivot Chart",
                 Category = "Integration",
@@ -79,16 +117,28 @@ namespace BlazorDemos
                 FileName = "Chart.razor",
                 Type = SampleType.None
             },
-            // new Sample
-            //{
-            //    Name = "External Binding",
-            //    Category = "Integration",
-            //    Directory = "PivotView/PivotTable",
-            //    Url = "pivot-table/external-binding",
-            //    FileName = "ExternalBinding.razor",
-            //    Type = SampleType.New,
-            //    NotificationDescription = new string[] { @"Added a demo to create and update the Heatmap component using the cell selection obtained from the Pivot Table UI." }
-            //},
+             new Sample
+            {
+                Name = "External Binding",
+                Category = "Integration",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/external-binding",
+                FileName = "ExternalBinding.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to create and update a Heatmap component externally using data obtained from cell selection in the Pivot Table UI.
+
+ " }
+            },
+              new Sample
+            {
+                Name = "HeatMap",
+                Category = "Integration",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/heatmap",
+                FileName = "HeatMap.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to show the pivot table value cells as heatmap cells based on their range." }
+            },
             new Sample
             {
                 Name = "Field List",
@@ -96,8 +146,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/field-list",
                 FileName = "FieldList.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] { @"The sample has been updated with the field searching UI option enabled in the field list UI." }
+                Type = SampleType.None,
             },
             new Sample
             {

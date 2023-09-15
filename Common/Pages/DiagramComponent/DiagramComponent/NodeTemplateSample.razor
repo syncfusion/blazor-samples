@@ -10,11 +10,8 @@
 @inject NavigationManager NavigationManager
 @inherits SampleBaseComponent;
 @implements IDisposable
-<PageTitle>Blazor Diagram Node Template Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Node Template in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -28,41 +25,18 @@
 <div class="control-section" style="padding-bottom:0px">
     @*Hidden:Lines*@
     <style>
-        #pieChartNode_content_html_template {
-            left: 72px !important;
-            top: 144px !important;
-        }
-
         #lineChartNode_content_html_template {
-            left: 610px !important;
-            top: 582px !important;
             padding-top: 4px !important;
         }
 
         #barChartNode_content_html_template {
-            left: 72px !important;
-            top: 582px !important;
             padding-top: 4px !important;
             margin-left: 4px;
             padding-bottom: 5px !important;
         }
 
         #datePickerNode_content_html_template {
-            left: 872px !important;
             top: 13px !important;
-        }
-
-        #incomeNode_content_html_template {
-            top: 40px !important;
-            left: 72px !important;
-        }
-
-        #balanceNode_content_html_template {
-            top: 40px !important;
-        }
-
-        #expenseNode_content_html_template {
-            top: 40px !important;
         }
 
         .card-value {
@@ -202,7 +176,7 @@
         }
     </style>
     @*End:Hidden*@
-    <SfDiagramComponent Height="1060px" Nodes="@nodes">
+    <SfDiagramComponent @ref="@diagram" Height="1060px" Nodes="@nodes" Created = "OnCreated">
         <SnapSettings Constraints=SnapConstraints.ShowLines>
         </SnapSettings>
         <DiagramTemplates>
@@ -403,14 +377,14 @@
 
 @code{
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     private string chartXAnnoation = "75px";
     private SfChart chartRef;
     @*End:Hidden*@
 
     public DateTime startDate { get; set; }
     public DateTime endDate { get; set; }
-
+    SfDiagramComponent diagram;
     public ExpenseDataService expense { get; set; }
     public List<ExpenseData> lineChartData { get; set; }
     private List<RenderingData> pieRenderingData;
@@ -434,17 +408,14 @@
     private IEnumerable<ExpenseData> incomeData;
     private IEnumerable<ExpenseData> expenseData;
     private List<TempExpenseData> tempExpenseDS;
-    private List<TempExpenseData> tempIncomeDS;
-    public IEnumerable<ExpenseData> expenseDataSource { get; set; }
-
+    private List<TempExpenseData> tempIncomeDS;    public IEnumerable<ExpenseData> expenseDataSource { get; set; }
+    
     //Defines diagrams's nodes collection
     DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         expense = new ExpenseDataService();
         Node pieChartNode = new Node()
         {
@@ -454,7 +425,7 @@
             OffsetX = 600,
             Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Constraints = AnnotationConstraints.ReadOnly } },
             Constraints = NodeConstraints.Default & ~NodeConstraints.Resize & ~NodeConstraints.Rotate& ~NodeConstraints.Select,
-            OffsetY = 400,
+            OffsetY = 380,
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML }
         };
         Node lineChartNode = new Node()
@@ -462,9 +433,9 @@
             ID = "lineChartNode",
             Width = 512,
             Height = 408,
-            OffsetX = 335,
+            OffsetX = 870,
             Constraints = NodeConstraints.Default & ~NodeConstraints.Resize & ~NodeConstraints.Rotate& ~NodeConstraints.Select,
-            OffsetY = 840,
+            OffsetY = 810,
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML },
         };
         Node barChartNode = new Node()
@@ -472,9 +443,9 @@
             ID = "barChartNode",
             Width = 512,
             Height = 408,
-            OffsetX = 860,
+            OffsetX = 325,
             Constraints = NodeConstraints.Default & ~NodeConstraints.Resize & ~NodeConstraints.Rotate& ~NodeConstraints.Select,
-            OffsetY = 840,
+            OffsetY = 810,
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML }
         };
         Node datePickerNode = new Node()
@@ -482,9 +453,9 @@
             ID = "datePickerNode",
             Width = 250,
 
-            OffsetX = 950,
+            OffsetX = 1000,
             Constraints = NodeConstraints.Default & ~NodeConstraints.Resize & ~NodeConstraints.Rotate& ~NodeConstraints.Select,
-            OffsetY = 150,
+            OffsetY = 170,
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML }
         };
         TextStyle textStyle = new TextStyle()
@@ -518,7 +489,7 @@
             OffsetX = 200,
             Constraints = NodeConstraints.Default & ~NodeConstraints.Select,
             //Style = new ShapeStyle() { StrokeColor = "Transparent" },
-            OffsetY = 100,
+            OffsetY = 90,
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML }
         };
         Node expenseNode = new Node()
@@ -528,7 +499,7 @@
             Height = 100,
             OffsetX = 460,
             Constraints = NodeConstraints.Default & ~NodeConstraints.Select,
-            OffsetY = 100,
+            OffsetY = 90,
             Style = new ShapeStyle() { StrokeColor = "Transparent" },
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML }
         };
@@ -539,7 +510,7 @@
             Height = 100,
             OffsetX = 720,
             Constraints = NodeConstraints.Default & ~NodeConstraints.Select,
-            OffsetY = 100,
+            OffsetY = 90,
             Style = new ShapeStyle() { StrokeColor = "Transparent" },
             Shape = new Syncfusion.Blazor.Diagram.Shape() { Type = shapes.HTML }
         };
@@ -553,7 +524,15 @@
         nodes.Add(expenseNode);
         nodes.Add(balanceNode);
     }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
 
+        }
+    }
     //Method to define update charts depends on date
     private async Task OnDateRangeChange(RangePickerEventArgs<DateTime> args)
     {

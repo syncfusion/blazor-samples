@@ -28,6 +28,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddSyncfusionBlazor();
 builder.Services.AddScoped<SfDialogService>();
 builder.Services.AddScoped<SampleService>();
+builder.Services.AddSingleton<DeviceMode>();
 builder.Services.AddMemoryCache();
 
 #region Localization

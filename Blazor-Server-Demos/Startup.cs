@@ -75,6 +75,7 @@ namespace BlazorDemos
             // });
 #endif
             services.AddScoped<SampleService>();
+            services.AddSingleton<DeviceMode>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

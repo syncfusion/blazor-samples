@@ -37,6 +37,7 @@ namespace BlazorDemos
             builder.Services.AddScoped<SfDialogService>();
             builder.Services.AddScoped<SampleService>();
             builder.Services.AddMemoryCache();
+            builder.Services.AddSingleton<DeviceMode>();
 
             #region Localization
             // Register the Syncfusion locale service to customize the  SyncfusionBlazor component locale culture

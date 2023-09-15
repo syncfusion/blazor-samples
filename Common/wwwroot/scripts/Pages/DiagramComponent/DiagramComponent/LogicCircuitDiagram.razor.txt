@@ -9,11 +9,8 @@
 @inherits SampleBaseComponent;
 @implements IDisposable
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Diagram Logic Circuit Diagram Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Logic Circuit Diagram in Blazor Diagram Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 @*Hidden:Lines*@
@@ -66,9 +63,9 @@
                 display: block;
                 width: 100%;
                 background: #fafafa;
-                padding: 10px 10px;
+                padding: 14px 10px;
                 border: 0.5px solid #e0e0e0;
-                min-height: 40px;
+                min-height: 54px;
             }
 
             .sb-mobile-diagram {
@@ -114,7 +111,7 @@
     </style>
     <div id="logicCircuit" style="width: 100%">
         <div class="sb-mobile-palette-bar">
-            <div id="palette-icon" style="float: right;" role="button" class="e-ddb-icons1 e-toggle-palette"></div>
+            <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
         </div>
         @*End:Hidden*@
         <div id="palette-space" class="sb-mobile-palette">
@@ -123,7 +120,7 @@
             </SfSymbolPaletteComponent>
         </div>
         <div id="diagram-space" class="sb-mobile-diagram">
-            <SfDiagramComponent @ref="@diagram" Height="545px" Nodes="@nodes" Connectors="@connectors" NodeCreating="onNodeCreating">
+            <SfDiagramComponent @ref="@diagram" Height="545px" Nodes="@nodes" Connectors="@connectors" NodeCreating="onNodeCreating" Created="OnCreated">
                 <SnapSettings Constraints=SnapConstraints.None>
                 </SnapSettings>
             </SfDiagramComponent>
@@ -136,7 +133,7 @@
 @code
 {
     @*Hidden:Lines*@
-    private string canonicalURL { get; set; }
+    
     public string orData;
     public string andData;
     public string notData;
@@ -199,9 +196,7 @@
 
     protected override void OnInitialized()
     {
-        //Hidden:Lines
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-        //End:Hidden
+        
         symbolInfo = new SymbolInfo()
         {
             Fit = true
@@ -354,7 +349,15 @@
             diagram
         };
     }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
 
+        }
+    }
     //Initialize palette
     private void InitializePalette()
     {
@@ -563,7 +566,13 @@
 
         connectors.Add(connector);
     }
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
 
+    }
     @*Hidden:Lines*@
     public void Dispose()
     {

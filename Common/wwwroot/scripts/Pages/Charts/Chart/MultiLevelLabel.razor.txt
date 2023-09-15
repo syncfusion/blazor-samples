@@ -7,11 +7,8 @@
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-<PageTitle>Blazor Charts Multiple Level Labels Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Multiple Level Labels in Blazor Charts Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -29,29 +26,34 @@
 </ActionDescription>
 
 <div class="control-section" align="center">
-    <SfChart Title="Fruits and Vegetables - Season" Width="@Width" Theme="@Theme">
+   <SfChart Title="Fruits and Vegetables - Season" Width="@(SampleService.IsDevice ? "100%" : "90%")" Theme="@Theme">
         <ChartEvents OnPointRender="PointRender"></ChartEvents>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
         <ChartPrimaryXAxis IsIndexed="true" Interval="1" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelRotation="90">
+            <ChartAxisLabelStyle Size="@(SampleService.IsDevice ? "8px" : "12px")"></ChartAxisLabelStyle>
             <ChartAxisLabelBorder Width="1" Type="BorderType.Rectangle"></ChartAxisLabelBorder>
             <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             <ChartMultiLevelLabels>
+                @if (!SampleService.IsDevice)
+                {
+                    <ChartMultiLevelLabel>
+                        <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                        <ChartCategories>
+                            <ChartCategory Start="-0.5" End="0.5" Text="Seedless"></ChartCategory>
+                            <ChartCategory Start="0.5" End="2.5" Text="Seeded"></ChartCategory>
+                            <ChartCategory Start="2.5" End="3.5" Text="Seedless"></ChartCategory>
+                            <ChartCategory Start="3.5" End="5.5" Text="Seeded"></ChartCategory>
+                            <ChartCategory Start="5.5" End="6.5" Text="Seedless"></ChartCategory>
+                            <ChartCategory Start="6.5" End="7.5" Text="Seeded"></ChartCategory>
+                            <ChartCategory Start="7.5" End="8.5" Text="Seedless"></ChartCategory>
+                            <ChartCategory Start="8.5" End="9.5" Text="Seeded"></ChartCategory>
+                        </ChartCategories>
+                    </ChartMultiLevelLabel>
+                }
                 <ChartMultiLevelLabel>
                     <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
-                    <ChartCategories>
-                        <ChartCategory Start="-0.5" End="0.5" Text="Seedless"></ChartCategory>
-                        <ChartCategory Start="0.5" End="2.5" Text="Seeded"></ChartCategory>
-                        <ChartCategory Start="2.5" End="3.5" Text="Seedless"></ChartCategory>
-                        <ChartCategory Start="3.5" End="5.5" Text="Seeded"></ChartCategory>
-                        <ChartCategory Start="5.5" End="6.5" Text="Seedless"></ChartCategory>
-                        <ChartCategory Start="6.5" End="7.5" Text="Seeded"></ChartCategory>
-                        <ChartCategory Start="7.5" End="8.5" Text="Seedless"></ChartCategory>
-                        <ChartCategory Start="8.5" End="9.5" Text="Seeded"></ChartCategory>
-                    </ChartCategories>
-                </ChartMultiLevelLabel>
-                <ChartMultiLevelLabel>
-                    <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
+                    <ChartAxisMultiLevelLabelTextStyle Size="@(SampleService.IsDevice ? "7px" : "12px")"></ChartAxisMultiLevelLabelTextStyle>
                     <ChartCategories>
                         <ChartCategory Start="-0.5" End="2.5" Text="In Season"></ChartCategory>
                         <ChartCategory Start="2.5" End="5.5" Text="Out of Season"></ChartCategory>
@@ -61,7 +63,7 @@
                 </ChartMultiLevelLabel>
                 <ChartMultiLevelLabel>
                     <ChartAxisMultiLevelLabelBorder Type="BorderType.Rectangle"></ChartAxisMultiLevelLabelBorder>
-                    <ChartAxisMultiLevelLabelTextStyle FontWeight="Bold"></ChartAxisMultiLevelLabelTextStyle>
+                    <ChartAxisMultiLevelLabelTextStyle Size="@(SampleService.IsDevice ? "8px" : "12px")" FontWeight="Bold"></ChartAxisMultiLevelLabelTextStyle>
                     <ChartCategories>
                         <ChartCategory Start="-0.5" End="5.5" Text="Fruits"></ChartCategory>
                         <ChartCategory Start="5.5" End="9.5" Text="Vegetables"></ChartCategory>
@@ -77,7 +79,9 @@
         <ChartSeriesCollection>
             <ChartSeries DataSource="@ChartPoints" XName="Fruits" YName="Sales" Type="ChartSeriesType.Column">
                 <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="LabelPosition.Outer"></ChartDataLabel>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                        <ChartDataLabelFont Size="@(SampleService.IsDevice ? "8px" : "12px")"></ChartDataLabelFont>
+                    </ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
         </ChartSeriesCollection>        
@@ -89,6 +93,8 @@
 
     private Theme Theme { get; set; }
     public string Width { get; set; } = "90%";
+    public string Size { get; set; } = "12px";
+
     public List<CategoryData> ChartPoints { get; set; } = new List<CategoryData>
     {
         new CategoryData { Fruits = "Grapes", Sales = 28 },
@@ -102,23 +108,11 @@
         new CategoryData { Fruits = "Cucumber", Sales = 41 },
         new CategoryData { Fruits = "Onion", Sales = 59 }
     };
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    
 
     protected override async Task OnInitializedAsync()
     {
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        await Task.Delay(1000);
-        if (SampleService.IsDevice)
-        {
-            Width = "100%";
-        }
     }
 
     public void PointRender(PointRenderEventArgs args)

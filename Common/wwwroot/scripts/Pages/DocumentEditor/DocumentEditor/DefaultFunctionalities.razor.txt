@@ -6,11 +6,8 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
-<PageTitle>Blazor Word Processor Default Functionalities Example - Syncfusion Demos</PageTitle>
-<HeadContent>
-    <meta name="description" content="This example demonstrates the Default Functionalities in Blazor Word Processor Component. Explore here for more details." />
-    <link rel="canonical" href="@canonicalURL" />
-</HeadContent>
+
+
 @*End:Hidden*@
 
 <SampleDescription>
@@ -45,8 +42,8 @@
             </div>
         </div>
         <div>
-            <SfDocumentEditorContainer @ref="container" Height="590px">
-                <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
+            <SfDocumentEditorContainer @ref="container" Height="590px" RestrictEditing="@ReadOnly" ShowPropertiesPane="@ShowProperties">
+                <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange" ></DocumentEditorContainerEvents>
             </SfDocumentEditorContainer>
         </div>
     </div>
@@ -56,16 +53,10 @@
 @code {
 
     internal string DocumentName { get; set; }
-
+    internal bool ReadOnly { get; set;  }
+    internal bool ShowProperties { get; set; } = true;
     SfDocumentEditorContainer container;
-    //Hidden:Lines
-    private string canonicalURL { get; set; }
-
-    protected override void OnInitialized()
-    {
-        canonicalURL = NavigationManager.Uri.Split("?")[0];
-    }
-    //End:Hidden
+    
 
     public void OnExport(object args)
     {
@@ -79,11 +70,17 @@
         documentEditor.PrintAsync();
     }
 
-    public void OnCreated(object args)
+    public async void OnCreated(object args)
     {
         SfDocumentEditor documentEditor = container.DocumentEditor;
-        documentEditor.OpenAsync(Data.DefaultDocument);
+        await documentEditor.OpenAsync(Data.DefaultDocument);
         DocumentName = "Getting Started";
+        if (SampleService.IsDevice)
+        {
+            ReadOnly = true;
+            ShowProperties = false;
+            await documentEditor.FitPageAsync(PageFitType.FitPageWidth);
+        }
     }
 
     public void OnDocumentChange()
