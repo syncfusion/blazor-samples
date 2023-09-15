@@ -9,7 +9,7 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 * [Blazor Documentation](https://blazor.syncfusion.com/documentation/)
 * [Blazor Components Catalog](#blazor-components-catalog)
 * [License](#license)
-* [Support and Feedback](#support-and-feedback)
+* [Support and feedback](#support-and-feedback)
 
 ## Requirements to run the demo
 
