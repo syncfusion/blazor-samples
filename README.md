@@ -19,7 +19,7 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 ## How to run the demo
 
-Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET Core 3.1 and .NET 6 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
+Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET 6 and .NET 7 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
 * `Blazor-WASM-Hosted-Demos` folder has solution and project files to run Blazor WebAssembly Hosted demos.
