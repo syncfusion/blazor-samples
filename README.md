@@ -86,8 +86,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">RichTextEditor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor - Preview</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/document-editor/getting-started/features">Word Processor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features">PDF Viewer</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen) - Preview</a></div>     
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen)</a></div>     
             <p>&nbsp;</p>
             <div><p class="controlcategory">DOCUMENT PROCESSING LIBRARIES</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/docio/create-word-document-in-blazor">Word (DocIO)</a></div>
