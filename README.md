@@ -19,11 +19,11 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 ## How to run the demo
 
-Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET 6 and .NET 7 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
+Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET Core 3.1 and .NET 6 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
-* `Blazor-WASM-Hosted-Demos` folder has solution and project files to run Blazor WebAssembly Hosted demos.
-* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server Demos, Blazor WebAssembly Demos and Blazor WebAssembly Hosted Demos.
+ demos.
+* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server Demos and Blazor WebAssembly Demos.
 
 ### Run the demo using .NET CLI
 
@@ -33,20 +33,8 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
    To run .NET 6 Blazor Server Demos project
    > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET6.csproj`
 
-   To run .NET 7 Blazor Server Demos project
-   > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET7.csproj`
-
    To run .NET 6 Blazor WASM Demos project
    > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET6.csproj`
-
-    To run .NET 7 Blazor WASM Demos project
-   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET7.csproj`
-
-    To run .NET 6 Blazor WASM-Hosted Demos project
-   > `dotnet run --project Blazor-WASM-Hosted-Demos/Server/Blazor_WASM_Hosted_Demos_NET6.Server.csproj`
-
-    To run .NET 7 Blazor WASM-Hosted Demos project
-   > `dotnet run --project Blazor-WASM-Hosted-Demos/Server/Blazor_WASM_Hosted_Demos_NET7.Server.csproj`
 
 ### Run the demo using Visual Studio
 
@@ -86,7 +74,8 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">RichTextEditor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor - Preview</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/document-editor/getting-started/features">Word Processor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen)</a></div>     
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features">PDF Viewer</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen) - Preview</a></div>     
             <p>&nbsp;</p>
             <div><p class="controlcategory">DOCUMENT PROCESSING LIBRARIES</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/docio/create-word-document-in-blazor">Word (DocIO)</a></div>
