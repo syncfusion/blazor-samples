@@ -15,11 +15,9 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
-* Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
-
 ## How to run the demo
 
-Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET Core 3.1 and .NET 6 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
+Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET 6 and .NET 8 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
  demos.
@@ -30,11 +28,11 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
 * Open the command prompt from the demo's directory.
 * Run the demo using the following command.
    
-   To run .NET 6 Blazor Server Demos project
-   > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET6.csproj`
+   To run .NET 8 Blazor Server Demos project
+   > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET8.csproj`
 
-   To run .NET 6 Blazor WASM Demos project
-   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET6.csproj`
+   To run .NET 8 Blazor WASM Demos project
+   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET8.csproj`
 
 ### Run the demo using Visual Studio
 
