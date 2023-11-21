@@ -37,6 +37,7 @@ namespace BlazorDemos
                 Category = "Grids",
                 Directory = "TreeGrid/TreeGrid",
                 Samples = TreeGrid,
+		Type = SampleType.Updated,
                 ControllerName = "TreeGrid",
                 CustomDocLink = "treegrid/getting-started/",
                 DemoPath = "tree-grid/overview"
@@ -282,7 +283,7 @@ namespace BlazorDemos
                 Name = "DatePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DatePicker",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = DatePicker,
                 ControllerName = "DatePicker",
                 DemoPath = "datepicker/default-functionalities"
@@ -292,7 +293,7 @@ namespace BlazorDemos
                 Name = "DateRangePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DateRangePicker",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = DateRangePicker,
                 ControllerName = "DateRangePicker",
                 DemoPath = "daterangepicker/default-functionalities"
@@ -302,7 +303,7 @@ namespace BlazorDemos
                 Name = "DateTime Picker",
                 Category = "Calendars",
                 Directory = "Calendars/DateTimePicker",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = DateTimePicker,
                 ControllerName = "DateTimePicker",
                 DemoPath = "datetime-picker/default-functionalities"
@@ -312,7 +313,7 @@ namespace BlazorDemos
                 Name = "TimePicker",
                 Category = "Calendars",
                 Directory = "Calendars/TimePicker",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = TimePicker,
                 ControllerName = "TimePicker",
                 DemoPath = "timepicker/default-functionalities"
@@ -857,7 +858,7 @@ namespace BlazorDemos
                 Name = "PDF",
                 Category = "Document Processing Libraries",
                 Directory = "DocumentProcessing/PDF",
-#if !(WASM || WASM_HOSTED)
+#if !WASM
                 Type = SampleType.None,
 #else
                 Type = SampleType.None,

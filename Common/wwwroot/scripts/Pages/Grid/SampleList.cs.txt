@@ -437,7 +437,7 @@ namespace BlazorDemos
                 FileName = "Grouping.razor",
                 Type = SampleType.None,
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
 			new Sample
             {
                 Name = "Lazy Load with Virtual Scrolling",

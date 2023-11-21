@@ -115,6 +115,10 @@ namespace BlazorDemos.Shared
         /// </summary>
         public bool IsPdfScriptLoaded { get; set; }
         /// <summary>
+        /// Specifies the pdfviewer(NextGen) Script loaded or not.
+        /// </summary>
+        public bool IsPdfScript2Loaded { get; set; }
+        /// <summary>
         /// Specifies the document editor script loaded or not.
         /// </summary>
         public bool IsDocScriptLoaded { get; set; }
@@ -144,24 +148,18 @@ namespace BlazorDemos.Shared
 #if NET6_0
             "_content/Blazor_WASM_Common_NET6/";
 #else
-            "_content/Blazor_WASM_Common_NET7/";
-#endif
-#elif WASM_HOSTED
-#if NET6_0
-            "_content/Blazor_WASM_Hosted_Common_NET6/";
-#else
-            "_content/Blazor_WASM_Hosted_Common_NET7/";
+            "_content/Blazor_WASM_Common_NET8/";
 #endif
 #else
 #if NET6_0
             "_content/Blazor_Server_Common_NET6/";
 #else
-            "_content/Blazor_Server_Common_NET7/";
+            "_content/Blazor_Server_Common_NET8/";
 #endif
 #endif
         public SampleService()
         {
-#if WASM || WASM_HOSTED
+#if WASM
             DemoType = "Blazor WebAssembly Demos";
 #else
             DemoType = "Blazor Server Demos";
@@ -193,10 +191,11 @@ namespace BlazorDemos.Shared
         public async void SwicthToDemo(string id, string url, IJSRuntime JsRuntime, NavigationManager UriHelper)
         {
             if (!UriHelper.BaseUri.Contains("localhost")){
-                #if WASM || WASM_HOSTED
+                #if WASM
                     #if DEBUG || STAGING
-                        #if NET7_0
-                                url  = id == "wasm" ? url : url.Replace("/wasm/net7/","/net7/");
+
+                        #if NET8_0
+                                url  = id == "wasm" ? url : url.Replace("/wasm/net8/","/net8/");
                         #else
                                 url  = id == "wasm" ? url : url.Replace("/wasm/net6/","/net6/");
                         #endif
@@ -205,8 +204,9 @@ namespace BlazorDemos.Shared
                     #endif
                 #else
                     #if DEBUG || STAGING
-                        #if NET7_0
-                            url  = id == "server" ? url : url.Replace("/net7/","/wasm/net7/");
+
+                        #if NET8_0
+                            url  = id == "server" ? url : url.Replace("/net8/","/wasm/net8/");
                         #else
                             url  = id == "server" ? url : url.Replace("/net6/","/wasm/net6/");
                         #endif
@@ -216,7 +216,7 @@ namespace BlazorDemos.Shared
                 #endif
             }
 
-#if WASM || WASM_HOSTED
+#if WASM
             if(id != "wasm")
             {
                 if (!UriHelper.BaseUri.Contains("localhost"))
@@ -297,22 +297,25 @@ namespace BlazorDemos.Shared
                 {
                     string categoryName = splittedUrl[splittedUrl.Length - 1];
                     categoryName = categoryName.Replace("-", string.Empty);
-                    var controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
-                    if (controlInfo.Samples.Count > 0)
+                    var controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
+                    if (controlInfo != null)
                     {
-                        this.SampleInfo = controlInfo.Samples.First();
-                    }
-                    this.ComponentName = controlInfo.Name;
-                    this.CurrentSampleUrl = this.SampleInfo.Url;
-#if NET6_0 || NET7_0
-                    var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
-                    {
-                        ["theme"] = "fluent"
-                    });
-                    urlHelper.NavigateTo(newUri);
+                        if (controlInfo.Samples.Count > 0)
+                        {
+                            this.SampleInfo = controlInfo.Samples.First();
+                        }
+                        this.ComponentName = controlInfo.Name;
+                        this.CurrentSampleUrl = this.SampleInfo.Url;
+#if NET6_0 || NET7_0 || NET8_0
+                        var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
+                        {
+                            ["theme"] = "fluent"
+                        });
+                        urlHelper.NavigateTo(newUri);
 #else
                     urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=fluent");
 #endif
+                    }
 
                 }
             }

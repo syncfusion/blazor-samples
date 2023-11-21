@@ -35,7 +35,7 @@ namespace BlazorDemos.Shared
             StringBuilder sb = new StringBuilder();
             sb.Append(Environment.NewLine);
             // Meta data content generation for component demos.
-            if (SampleService.ComponentName != null)
+            if (SampleService.ComponentName != null && SampleService.SampleInfo != null)
             {
                 var componentName = SampleService.SampleInfo.Directory == "Buttons/Button" ? "Button" : SampleService.ComponentName;
                 componentName = (SampleService.SampleInfo.Directory).IndexOf("DocumentProcessing/") >= 0 ? componentName + " Library -" : componentName;

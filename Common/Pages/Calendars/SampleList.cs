@@ -97,8 +97,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Blazor DatePicker has support for a full-screen popup in mobile modes. This full-screen popup works with both landscape and portrait orientations." },
+                Type = SampleType.None,
             },
               new Sample
             {
@@ -191,8 +190,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Blazor DateTimePicker has support for a full-screen popup in mobile modes. This full-screen popup works with both landscape and portrait orientations." },
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -277,8 +275,7 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] { @"The Blazor TimePicker has support for a full-screen popup in mobile modes. This full-screen popup works with both landscape and portrait orientations." }
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -348,8 +345,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
                 MetaDescription = "This Blazor DataRangePicker example demonstrates the default functionalities. Explore here for more details.",
                 HeaderText = "Blazor Date Range Picker Example",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Blazor DateRangePicker has support for a full-screen popup in mobile modes. This full-screen popup works with both landscape and portrait orientations." },
+                Type = SampleType.None,
             },
             new Sample
             {

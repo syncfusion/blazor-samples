@@ -567,7 +567,11 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/virtual-scroll",
                 FileName="VirtualScroll.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+                {
+                    @"Enhanced virtual scrolling with OverscanCount and PageSize support which reduces the frequency of data fetching when scrolling through records."
+                },
                 
             },
             new Sample
@@ -623,7 +627,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Persist State",

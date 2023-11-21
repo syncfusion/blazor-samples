@@ -14,9 +14,6 @@
 #if NET6_0
     projectPath = "Blazor_Server_Common_NET6";
     CSSIsolation = "Blazor_Server_Common_NET6.bundle.scp.css";
-#elif NET7_0
-    projectPath = "Blazor_Server_Common_NET7";
-    CSSIsolation = "Blazor_Server_Common_NET7.bundle.scp.css";
 #endif
 }
 
@@ -42,8 +39,8 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff">
     @* Added CSP policy to prevent from the JS injection and XSS attacks *@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com blob:;
-            style-src 'self' 'unsafe-inline' data: https://*.googleapis.com;
+            script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.syncfusion.com https://www.googletagmanager.com https://www.google-analytics.com blob:;
+            style-src 'self' 'unsafe-inline' data: https://*.googleapis.com https://*.syncfusion.com;
             img-src 'self' 'unsafe-inline' blob: data: https://*.syncfusion.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://*.google.com https://*.google.co.in https://*.openstreetmap.org https://*.tiles.virtualearth.net;
             media-src 'self' 'unsafe-inline' blob: data:; 
             connect-src 'self' wss: https://*.syncfusion.com https://www.google-analytics.com/ http://localhost:*;
@@ -115,6 +112,27 @@
                     onConnectionUp: () => console.log("Sample Reconnected Again")
                 }
             });
+
+        const consoleMessages = [];
+        let disconnectedFound = false;
+
+        console.error = function () {
+            // Capture the error message and push it to the array
+            const message = Array.from(arguments).join(" ");
+            consoleMessages.push({ type: "error", message });
+        };
+
+        window.addEventListener('click',function(){
+            for (const messageObject of consoleMessages) {
+                if (messageObject.message.includes("disconnected")) {
+                    disconnectedFound = true;
+                    break; // Stop the loop when "disconnected" is found in a message
+                }
+            }
+            if(disconnectedFound) {
+                window.location.reload();
+            }
+        });
         </script>
     
 </body>

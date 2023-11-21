@@ -390,7 +390,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Word to PDF",
@@ -661,7 +661,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Table of Content",
@@ -731,7 +731,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "PowerPoint Viewer",
@@ -1365,7 +1365,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Formulas",
@@ -1473,7 +1473,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Worksheet To Image",
@@ -1517,7 +1517,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Excel To PDF",
@@ -1561,7 +1561,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Encrypt and Decrypt",
@@ -2094,7 +2094,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
               new Sample
               {
                   Name = "Compress Existing PDF",
@@ -2233,7 +2233,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
               new Sample
                       {
                           Name = "TIFF to PDF",

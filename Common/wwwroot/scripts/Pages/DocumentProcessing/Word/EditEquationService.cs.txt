@@ -87,7 +87,7 @@ namespace BlazorDemos.Data.DocumentProcessing.Word
             
             FormatType type = FormatType.Docx;
             /*Server:Block*/
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             //Save as .pdf format
             if (documentType == "PDF")
             {
@@ -119,7 +119,7 @@ namespace BlazorDemos.Data.DocumentProcessing.Word
                     return stream;
                 }
             /*Server:Block*/
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             }
 #endif
             /*End:Server*/

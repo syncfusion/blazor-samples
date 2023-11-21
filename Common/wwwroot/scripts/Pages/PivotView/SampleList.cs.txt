@@ -72,7 +72,7 @@ namespace BlazorDemos
                 Type = SampleType.None
             },
 
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "OLAP",
@@ -84,7 +84,7 @@ namespace BlazorDemos
             },
 #endif
            
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Performance",

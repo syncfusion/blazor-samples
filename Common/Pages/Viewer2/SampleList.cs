@@ -55,7 +55,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/handwritten-signature",
                 FileName = "HandwrittenSignature.razor"
             }
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             ,
             new Sample
             {

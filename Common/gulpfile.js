@@ -45,6 +45,14 @@ gulp.task('minify', gulp.parallel('min:js', 'min:css'));
 gulp.task('update-refs', function (done) {
     var indexFile = fs.readFileSync('../Blazor-WASM-Demos/wwwroot/index.html', 'utf8');
     var MinReferedIndex = indexFile.replace('importResources.js', 'importResources.min.js');
-    fs.writeFileSync('../Blazor-WASM-Demos/wwwroot/index.html', MinReferedIndex, 'utf8');
+    var serviceWorkerMin = MinReferedIndex.replace('service-worker.js', 'service-worker.min.js');
+    fs.writeFileSync('../Blazor-WASM-Demos/wwwroot/index.html', serviceWorkerMin, 'utf8');
+    done();
+})
+
+gulp.task('update-ref-server', function (done) {
+    var indexFile = fs.readFileSync('../Blazor-Server-Demos/Components/App.razor', 'utf8');
+    var MinReferedIndexValue = indexFile.replace('import_net8_resources.js', 'import_net8_resources.min.js');
+    fs.writeFileSync('../Blazor-Server-Demos/Components/App.razor', MinReferedIndexValue, 'utf8');
     done();
 })

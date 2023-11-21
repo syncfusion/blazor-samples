@@ -25,7 +25,7 @@
     </TreeTemplate>
 </TreeComponent>
 <div class="@samplesClass">
-    <div id="sb-left-all-components" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
+    <div id="sb-left-all-components" class="back" role="button" tabindex="@tabIndexValue" @onclick="@OnTreeNavigation">
         <div class="sb-icons sb-back-icon"></div>
         <div class='all-components'>All Components</div>
     </div>
@@ -58,6 +58,7 @@
     public bool isNavigate { get; set; }
     protected List<Sample> ListDataSource { get; set; } = new List<Sample>();
     protected List<SampleListType> TreeDataSource { get; set; } = new List<SampleListType>();
+    private int tabIndexValue { get; set; } = 0;
 
     [CascadingParameter]
     protected MainLayout Layout { get; set; }
@@ -68,6 +69,8 @@
         Layout.CloseThemePrefPopups();
         // Hides list component and show tree component.
         samplesClass = SampleUtils.AddClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
+        tabIndexValue = -1;
+        ListRef.setTabFocus(false);
         TreeRef.ShowTree();
     }
 
@@ -117,6 +120,8 @@
 #endif
 
         // Hides tree component and show list component.
+        tabIndexValue = 0;
+        ListRef.setTabFocus(true);
         TreeRef.ShowTree(false);
         samplesClass = SampleUtils.RemoveClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
 
@@ -153,9 +158,9 @@
             var resources = new List<string> { SampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js" };
             this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
         }
-        if (componentName.Equals("PDF Viewer (NextGen)") && !SampleService.IsPdfScriptLoaded)
+        if (componentName.Equals("PDF Viewer (NextGen)") && !SampleService.IsPdfScript2Loaded)
         {
-            SampleService.IsPdfScriptLoaded = true;
+            SampleService.IsPdfScript2Loaded = true;
             var resources = new List<string> { SampleService.PdfScriptPath2 + "/syncfusion-blazor-sfpdfviewer.min.js" };
             this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
         }
@@ -344,10 +349,10 @@
             SampleService.IsPdfScriptLoaded = true;
             await this.JsRuntime.InvokeVoidAsync("loadPdfScript");
         }
-        else if (componentName.Equals("PDF Viewer (NextGen)") && !SampleService.IsPdfScriptLoaded)
+        else if (componentName.Equals("PDF Viewer (NextGen)") && !SampleService.IsPdfScript2Loaded)
         {
             // Load script for 'pdfviewer'
-            SampleService.IsPdfScriptLoaded = true;
+            SampleService.IsPdfScript2Loaded = true;
             await this.JsRuntime.InvokeVoidAsync("loadPdf2Script");
         }
         else if (componentName.Equals("Word Processor") && !SampleService.IsDocScriptLoaded)

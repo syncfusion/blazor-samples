@@ -147,13 +147,15 @@ namespace BlazorDemos
                 FileName = "TreeGridDynamicObject.razor",
                 Type = SampleType.None
             },
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "List Binding",
                 Category = "Virtual Scrolling",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/virtual-scrolling",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The virtual scrolling demo was updated to include OverscanCount property. This demo showcases how additional items are rendered in the DOM before and after the visible items during scrolling and initial rendering." },
                 FileName="VirtualScrolling.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -171,7 +173,7 @@ namespace BlazorDemos
             },
 #endif
 
-#if (WASM || WASM_HOSTED)
+#if WASM
             new Sample
             {
                 Name = "Virtual Scrolling",
@@ -181,7 +183,7 @@ namespace BlazorDemos
                 FileName = "RemoteDataWithVirtualization.razor",
             },
 #endif
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             new Sample
             {
                 Name = "Remote Data Binding",

@@ -72,7 +72,7 @@ namespace BlazorDemos.Data.FileFormats.XlsIO
                     return ms;
                 }
             }
-#if !(WASM || WASM_HOSTED)
+#if !WASM
             else if(button == "Convert To PDF")
             {
                 //Initialize ExcelEngine

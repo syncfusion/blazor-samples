@@ -42,21 +42,13 @@ else
 
     private async Task GetSourceData(int index)
     {
-#if (WASM || WASM_HOSTED)
+#if WASM
         await InvokeAsync(async () =>
         {
     #if NET6_0 
-        #if WASM
             string projectPath = "Blazor_WASM_Common_NET6";
-        #else
-            string projectPath = "Blazor_WASM_Hosted_Common_NET6";
-        #endif
     #else
-        #if WASM
-            string projectPath = "Blazor_WASM_Common_NET7";
-        #else
-            string projectPath = "Blazor_WASM_Hosted_Common_NET7";
-        #endif
+            string projectPath = "Blazor_WASM_Common_NET8";
     #endif
             sourceCode = string.Empty;
             fileName = string.Empty;
@@ -166,10 +158,11 @@ else
         // Option to ignore the WASM/Server-side conditional compilation sample code.
         while (response.IndexOf("@*WASM:Block*@") > -1 || response.IndexOf("@*Server:Block*@") > -1 || response.IndexOf("@*WASM_HOSTED:Block*@") > -1 || response.IndexOf("@*WebAssembly:Block*@") > -1 || response.IndexOf("/*Server:Block*/") > -1)
         {
-#if (WASM || WASM_HOSTED)
+#if WASM
             response = Regex.Replace(response, @"(@\*Server:Block\*@([\s\S]*?)@\*End:Server\*@)", string.Empty);
             response = Regex.Replace(response, @"(\/\*Server:Block\*\/([\s\S]*?)\/\*End:Server\*\/)", string.Empty);
-            response = Regex.Replace(response, @"(@\*WebAssembly:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*#if.*WASM_HOSTED.*)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WebAssembly:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*@{.*#if.*WASM.*})", string.Empty);
+            response = Regex.Replace(response, @"(@\*WebAssembly:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*#if.*WASM.*)", string.Empty);
             response = Regex.Replace(response, @"(@{.*#endif.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WebAssembly\*@)", string.Empty);
             response = Regex.Replace(response, @"(#endif.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WebAssembly\*@)", string.Empty);
 #if (WASM)
@@ -192,10 +185,10 @@ else
             response = Regex.Replace(response, @"(@\*Server:Block\*@([\s\S]*?)@{.*WASM.*})", string.Empty);
             response = Regex.Replace(response, @"(@{.*#endif.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
             response = Regex.Replace(response, @"(@{.*#else.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
-            response = Regex.Replace(response, @"(@\*Server:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*WASM_HOSTED\))", string.Empty);
+            response = Regex.Replace(response, @"(@\*Server:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*WASM)", string.Empty);
             response = Regex.Replace(response, @"(.*#endif.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
             response = Regex.Replace(response, @"(.*#else.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
-            response = Regex.Replace(response, @"(\/\*Server:Block\*\/([\s\S]*?)WASM_HOSTED\))", string.Empty);
+            response = Regex.Replace(response, @"(\/\*Server:Block\*\/([\s\S]*?)WASM)", string.Empty);
             response = Regex.Replace(response, @"(#endif([\s\S]*?)\/\*End:Server\*\/)", string.Empty);
 #endif
         }

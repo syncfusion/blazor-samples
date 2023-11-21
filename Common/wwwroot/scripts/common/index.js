@@ -469,25 +469,44 @@ function onInsertEmotSlashRemove() {
 }
 
 function loadPdfScript() {
-    return new Promise(function () {
-        var script = document.createElement('script');
+    return new Promise(function (resolve, reject) {
+        let script = document.createElement('script');
         script.src = "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js";
+        script.onload = function () {
+            resolve(); // Resolve the promise when the script has loaded successfully
+        };
+        script.onerror = function (error) {
+            reject(error); // Reject the promise if there's an error loading the script
+        };
         document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
     });
 }
 
 function loadPdf2Script() {
-    return new Promise(function () {
-        var script = document.createElement('script');
+    return new Promise(function (resolve, reject) {
+        let script = document.createElement('script');
         script.src = "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js";
+        script.onload = function () {
+            resolve(); // Resolve the promise when the script has loaded successfully
+        };
+        script.onerror = function (error) {
+            reject(error); // Reject the promise if there's an error loading the script
+        };
         document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
     });
 }
 
+
 function loadWordScript() {
-    return new Promise(function () {
-        var script = document.createElement('script');
+    return new Promise(function (resolve, reject) {
+        let script = document.createElement('script');
         script.src = "_content/Syncfusion.Blazor.WordProcessor/scripts/syncfusion-blazor-documenteditor.min.js";
+        script.onload = function () {
+            resolve(); // Resolve the promise when the script has loaded successfully
+        };
+        script.onerror = function (error) {
+            reject(error); // Reject the promise if there's an error loading the script
+        };
         document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
     });
 }
