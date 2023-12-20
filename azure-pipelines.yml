@@ -1,0 +1,86 @@
+trigger:
+  branches:
+     include:
+         - hotfix/*
+         - release/*
+     exclude:
+         - BLAZ*
+         - EJ2*
+         - blaz*
+         - ej2*
+
+pool:
+  vmImage: 'windows-latest'
+
+jobs:
+- job: Blazor_MAUI_SB 
+  displayName: Blazor MAUI APK Generation
+  condition: eq(variables['Build.SourceBranchName'], '24.1.1')
+  timeoutInMinutes: 300
+  steps:
+    - task: NodeTool@0
+      displayName: Node Installation
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.x'
+
+    - task: UseDotNet@2
+      displayName: SDK Installation
+      inputs:
+        packageType: 'sdk'
+        version: '8.0.x'
+    
+    - task: Npm@1
+      displayName: NPM Installation
+      inputs:
+        command: 'install'
+
+    - task: CmdLine@2
+      displayName: MAUI Installation
+      inputs:
+        script: 'dotnet workload install maui'
+
+    - task: DotNetCoreCLI@2
+      displayName: MAUI Build/Publish
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: 'Blazor-MAUI-Demos/Blazor_MAUI_Demos_NET8.csproj'
+        arguments: '-c Release -f net8.0-android -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=blazordemos.keystore -p:AndroidSigningKeyAlias=blazordemos -p:AndroidSigningKeyPass=Sync@123 -p:AndroidSigningStorePass=Sync@123'
+        zipAfterPublish: false
+        modifyOutputPath: false
+    
+    - task: CopyFiles@2
+      displayName: Copying the Files
+      inputs:
+        SourceFolder: '$(agent.builddirectory)'
+        Contents: |
+          **/publish/*maui_demos-Signed.apk
+          **/*.aab
+        TargetFolder: '$(build.artifactstagingdirectory)'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: Copying the Files
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'APK'
+        publishLocation: 'Container'
+  
+    - task: AppCenterDistribute@3
+      displayName: Distribute APK via AppCenter
+      inputs:
+        serverEndpoint: 'AppcenterDistribute'
+        appSlug: 'Blazor-Core/Blazor-MAUI-Demos'
+        appFile: '$(Build.ArtifactStagingDirectory)/s/Blazor-MAUI-Demos/bin/Release/net8.0-android/publish/com.syncfusion.blazor_maui_demos-Signed.apk'
+        buildVersion: '1.0'
+        releaseNotesOption: 'input'
+        releaseNotesInput: |
+           Version: 1.0
+           Download Link - https://install.appcenter.ms/users/Blazor-Core/apps/Blazor-MAUI-Demos
+        destinationType: 'groups'
+
+    # - task: Npm@1
+    #   displayName: Send Report
+    #   inputs:
+    #     command: 'custom'
+    #     customCommand: 'run maui -- $(Agent.JobStatus);$(Build.Repository.Name);$(Build.SourceBranchName);$(Build.ContainerId)'

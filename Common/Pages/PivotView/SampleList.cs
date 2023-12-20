@@ -47,7 +47,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/live-data",
                 FileName = "LiveData.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[] { @"Added a demo to show how the pivot table and pivot chart are frequently updated with live data at a given time period." }
             },
             new Sample
@@ -71,8 +71,18 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 Type = SampleType.None
             },
+            new Sample
+            {
+                Name = "Server-side Aggregation",
+                Category = "Data Binding",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/server-side-aggregation",
+                FileName = "ServerSideAggregation.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo showcasing the server-side pivot engine's capability to fetch, process, and deliver summarized data through a remote service, and display it in the pivot table." }
+            },
 
-#if !WASM
+#if !(WASM)
             new Sample
             {
                 Name = "OLAP",
@@ -84,7 +94,7 @@ namespace BlazorDemos
             },
 #endif
            
-#if !WASM
+#if !(WASM)
             new Sample
             {
                 Name = "Performance",
@@ -92,7 +102,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/performance",
                 FileName = "Performance.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[] { @"Added a demo to show the pivot table loading a large amount of data without any performance delays." }
             },
 #else
@@ -103,7 +113,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/performance-wasm",
                 FileName = "Performance-WASM.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[] {  @"Added a demo to show the pivot table loading a large amount of data without any performance delays." }
 
             },
@@ -124,7 +134,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/external-binding",
                 FileName = "ExternalBinding.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[] { @"Added a demo to create and update a Heatmap component externally using data obtained from cell selection in the Pivot Table UI.
 
  " }
@@ -136,7 +146,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/heatmap",
                 FileName = "HeatMap.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[] { @"Added a demo to show the pivot table value cells as heatmap cells based on their range." }
             },
             new Sample

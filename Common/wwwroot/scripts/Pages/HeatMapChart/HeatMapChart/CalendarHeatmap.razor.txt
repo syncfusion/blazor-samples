@@ -23,7 +23,7 @@
 <div class="control-section">
     <div class="row">
         <div class="col-md-12">
-            <SfHeatMap DataSource="@DataSource" Height="240px" Theme="@theme">
+            <SfHeatMap DataSource="@DataSource" Height="300px" Theme="@theme">
                 <HeatMapEvents TooltipRendering="@TooltipRendering"></HeatMapEvents>
                 <HeatMapTitleSettings Text="Annual Summary of User Activities in GitLab">
                     <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal" FontFamily="inherit" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
@@ -35,20 +35,26 @@
                               ValueType="@SFHeatMap.ValueType.DateTime"
                               LabelFormat="MMM"
                               ShowLabelOn="@SFHeatMap.LabelType.Months"
-                              Increment="7"
-                              LabelIntersectAction="@SFHeatMap.LabelIntersectAction.Rotate45">
-                    <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
+                              Increment="7" LabelIntersectAction="LabelIntersectAction.None">
+                    <HeatMapXAxisTextStyle  Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
                 </HeatMapXAxis>
                 <HeatMapYAxis Labels="@YLabels" IsInversed="true">
                     <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapYAxisTextStyle>
                 </HeatMapYAxis>
-                <HeatMapPaletteSettings Type="@SFHeatMap.PaletteType.Gradient" EmptyPointColor="white">
+                <HeatMapPaletteSettings Type="@SFHeatMap.PaletteType.Fixed" EmptyPointColor="white">
+                    <HeatMapPalettes>
+                        <HeatMapPalette Value="0" Color="rgb(238,238,238)" Label="no contributions"></HeatMapPalette>
+                        <HeatMapPalette Value="1" Color="rgb(172, 213, 242)" Label="no contributions"></HeatMapPalette>
+                        <HeatMapPalette Value="16" Color="rgb(127, 168, 201)" Label="no contributions"></HeatMapPalette>
+                        <HeatMapPalette Value="32" Color="rgb(82, 123, 160)" Label="no contributions"></HeatMapPalette>
+                        <HeatMapPalette Value="50" Color="rgb(37, 78, 119)" Label="no contributions"></HeatMapPalette>
+                    </HeatMapPalettes>
                 </HeatMapPaletteSettings>
                 <HeatMapCellSettings ShowLabel="false">
                     <HeatMapCellBorder Color = "White" Width="1"></HeatMapCellBorder>
                      <HeatMapCellTextStyle FontFamily="inherit"></HeatMapCellTextStyle>
                 </HeatMapCellSettings>
-                <HeatMapLegendSettings Visible="true">
+                <HeatMapLegendSettings Visible="true" Alignment="Alignment.Near" Position="LegendPosition.Bottom" Width="200px" ShowLabel="true" LabelDisplayType="LabelDisplayType.None" EnableSmartLegend="true">
                     <HeatMapLegendTextStyle FontFamily="inherit"></HeatMapLegendTextStyle>
                 </HeatMapLegendSettings>
                 <HeatMapTooltipSettings>
@@ -63,8 +69,8 @@
     private Theme theme { get; set; }
     public string AxisLabelColor = "Black";
     string[] YLabels = new string[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-    DateTime XMinimum = new DateTime(2017, 6, 23);
-    DateTime XMaximum = new DateTime(2018, 6, 30);
+    DateTime XMinimum = new DateTime(2017, 7, 23);
+    DateTime XMaximum = new DateTime(2018, 7, 30);
     int?[,] DataSource = HeatMapData.GetCalendarData();
     
     protected override void OnInitialized()
@@ -85,6 +91,6 @@
         List<string> Ylabels = YLabels.ToList();
         DateTime heatmapdate = DateTime.ParseExact(args.XValue, "dd-MMM-yyyy", CultureInfo.CurrentCulture);
         heatmapdate = heatmapdate.AddDays(Ylabels.IndexOf(args.YLabel)).ToLocalTime();
-        args.Content = new string[] { args.Value + " contributions on " + heatmapdate.ToString("MMM") + " " + heatmapdate.ToString("dd") + ", " + heatmapdate.ToString("yyyy") };
+        args.Content = new string[] { args.Value + " contributions " +  args.YLabel + " " + heatmapdate.ToString("MMM") + " " + heatmapdate.ToString("dd") + ", " + heatmapdate.ToString("yyyy") };
     }
 }

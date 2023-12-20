@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorDemos;
 
 namespace BlazorDemos
 {
@@ -63,6 +64,179 @@ namespace BlazorDemos
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/header-template",
                 FileName = "HeaderTemplate.razor"
+            }            
+        };
+
+        public List<Sample> DataForm { get; set; } = new List<Sample>
+        {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor Data Form Example | Default Functionalities | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Default Functionalities",
+                MetaDescription = "This Blazor Data Form example demonstrates the default rendering of the Data Form with a minimum configuration.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DefaultFunctionalities.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="RegistrationData",
+                        FileName="RegistrationData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Column Layout",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/column-layout",
+                FileName = "ColumnLayout.razor",
+                MetaTitle = "Blazor Data Form Example | Column Layout | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Column Layout",
+                MetaDescription = "This example of Blazor Data Form demonstrates the rendering of the Data Form component using a column layout.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ColumnLayout",
+                        FileName="ColumnLayout.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="PaymentDetails",
+                        FileName="PaymentDetails.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Form Groups",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/form-group",
+                FileName = "FormGroups.razor",
+                MetaTitle = "Blazor Data Form Example | Form Groups | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Form Groups",
+                MetaDescription = "This example of the Blazor Data Form demonstrates the rendering of form groups by the Data Form component. It involves the organization of related form fields together.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="FormGroups",
+                        FileName="FormGroups.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EmployeeDetails",
+                        FileName="EmployeeDetails.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Adaptive Layout",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/adaptive-layout",
+                FileName = "AdaptiveLayout.razor",
+                MetaTitle = "Blazor Data Form Example | Adaptive Data Form | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Adaptive Layout",
+                MetaDescription = "This Blazor Data Form example demonstrates how the dimensions of the form fields dynamically adjust when the screen size changes or when rendered on various devices with differing screen dimensions.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="AdaptiveLayout",
+                        FileName="AdaptiveLayout.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="OrdersData",
+                        FileName="OrdersData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Templates",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/templates",
+                FileName = "Templates.razor",
+                MetaTitle = "Blazor Data Form Example | Data Form Templates | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Data Form Templates",
+                MetaDescription = "This example of Blazor Data Form demonstrates the template functionality in the Blazor Data Form component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Templates",
+                        FileName="Templates.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ProductDetails",
+                        FileName="ProductDetails.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Custom Editors",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/custom-editors",
+                FileName = "CustomEditor.razor",
+                MetaTitle = "Blazor Data Form Example | Custom Editors | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Custom Editors",
+                MetaDescription = "This example of Blazor Data Form demonstrates the process of using custom editors instead of the default editors in a Blazor Data Form component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CustomEditor",
+                        FileName="CustomEditor.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="HotelBooking",
+                        FileName="HotelBooking.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/api",
+                FileName = "Api.razor",
+                MetaTitle = "Blazor Data Form Example | API | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - API",
+                MetaDescription = "This Blazor Data Form example demonstrates how to adjust the position of the Label and the alignment of the Button in the Data Form component dynamically using the property.",
+                IsHideInMobile = true,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="API",
+                        FileName="Api.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="RegistrationData",
+                        FileName="RegistrationData.cs"
+                    }
+                }
             }
         };
     }

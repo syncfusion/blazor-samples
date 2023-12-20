@@ -521,7 +521,6 @@ namespace BlazorDemos
                 Name = "Directory Upload",
                 Category = "File Manager",
                 Directory = "Navigations/FileManager",
-                Type = SampleType.None,
                 Url = "file-manager/directory-upload",
                 FileName = "DirectoryUpload.razor"
             },
@@ -530,10 +529,8 @@ namespace BlazorDemos
                 Name = "Virtualization",
                 Category = "File Manager",
                 Directory = "Navigations/FileManager",
-                Type = SampleType.None,
                 Url = "file-manager/virtualization",
                 FileName = "Virtualization.razor",
-                NotificationDescription = new string[]{ @"Added a demo to showcase the virtualization feature in File Manager." }
             },
             new Sample
             {
@@ -553,6 +550,16 @@ namespace BlazorDemos
             //    Type = SampleType.New,
             //    FileName = "FileUpload.razor"
             //},
+		new Sample
+            {
+                Name = "Access Control",
+                Category = "Use Case",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/access-control",
+                Type = SampleType.New,
+                FileName = "AccessControl.razor",
+                NotificationDescription = new string[]{ @"Showcases the access control permissions enabled for specific folders in File Manager based on user role." }
+            },
             new Sample
             {
                 Name = "Azure Blob Storage",
@@ -561,15 +568,15 @@ namespace BlazorDemos
                 Url = "file-manager/azure",
                 FileName = "Azure.razor"
             },
-            new Sample
-            {
-                Name = "SQL Database Provider",
-                Category = "Cloud Service Providers",
-                Directory = "Navigations/FileManager",
-                Url = "file-manager/sql-server-provider",
-                Type = SampleType.None,
-                FileName = "SQL.razor"
-            },
+            //new Sample
+            //{
+            //    Name = "SQL Database Provider",
+            //    Category = "Cloud Service Providers",
+            //    Directory = "Navigations/FileManager",
+            //    Url = "file-manager/sql-server-provider",
+            //    Type = SampleType.None,
+            //    FileName = "SQL.razor"
+            //},
             // new Sample
             // {
             //     Name = "NodeJS File Provider",
@@ -765,6 +772,57 @@ namespace BlazorDemos
                 Url = "appbar/color",
                 FileName = "Color.razor",
                 MappingSampleName = "With Color"
+            }
+        };
+
+	    public List<Sample> Stepper { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the default combinations of the steps and stepType properties in the Stepper."
+                },
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Orientation",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/orientation",
+                FileName = "Orientation.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the orientations and label positions supported in the Stepper."
+                },
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Linear Flow",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/linear-flow",
+                FileName = "Linear.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the validation support for each step in the Stepper."
+                },
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/validation",
+                FileName = "Validation.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the usage of the linear property in the Stepper."
+                },
+                Type = SampleType.None
             }
         };
     }

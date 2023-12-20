@@ -25,60 +25,7 @@
 
 <div class="col-lg-8 control-section">
     <div class="">
-        <SfRichTextEditor>
-            <p>The Rich Text Editor is a WYSIWYG ("what you see is what you get") editor useful to create and edit content and return the valid HTML markup or markdown of the content.</p>
-
-            <p><b>Toolbar</b></p>
-
-            <ol>
-                <li>
-                    <p>The Toolbar contains commands to align the text, insert a link, insert an image, insert list, undo/redo operations, HTML view, etc </p>
-                </li>
-                <li>
-                    <p>The Toolbar is fully customizable. </p>
-                </li>
-            </ol>
-
-            <p><b>Links</b></p>
-            <ol>
-                <li>
-                    <p>You can insert a hyperlink with its corresponding dialog. </p>
-                </li>
-                <li>
-                    <p>Attach a hyperlink to the displayed text. </p>
-                </li>
-                <li>
-                    <p>Customize the quick toolbar based on the hyperlink. </p>
-                </li>
-            </ol>
-
-            <p><b>Validation</b></p>
-            <ul>
-                <li>
-                    <p>The editor’s content can be validated on form submission by applying validation rules and validation message.</p>
-                </li>
-            </ul>
-
-            <p><b>Locale.</b></p>
-            <ul>
-                <li>
-                    <p>The editor provides an option to localize its static strings to adapt the editor to a local language.</p>
-                </li>
-            </ul>
-
-            <p><b>Image.</b></p>
-            <ol>
-                <li>
-                    <p>Allows you to insert images from an online source as well as the local computer. </p>
-                </li>
-                <li>
-                    <p>You can upload an image. </p>
-                </li>
-                <li>
-                    <p>Provides an option to customize the quick toolbar for an image. </p>
-                </li>
-            </ol>
-            <img alt="Logo" src="@(SampleService.WebAssetsPath + "images/rich-text-editor/rte-image-feather.png")" />
+        <SfRichTextEditor @bind-Value="@RteValue">
             <RichTextEditorToolbarSettings Type="@Tooltype" Items="@Tools" />
         </SfRichTextEditor>
     </div>
@@ -94,7 +41,7 @@
                     </td>
                     <td>
                         <div style="width: 200px">
-                            <SfDropDownList TItem="ToolbarOption" TValue="ToolbarType" PopupHeight="200px" @bind-Value="@DropValue" DataSource="@Options">
+                            <SfDropDownList TItem="ToolbarOption" TValue="ToolbarType" PopupHeight="200px" DataSource="@Options">
                                 <DropDownListFieldSettings Text="text" Value="value" />
                                 <DropDownListEvents TValue="ToolbarType" TItem="ToolbarOption" ValueChange="valueChange" />
                             </SfDropDownList>
@@ -133,9 +80,8 @@
 </style>
 
 @code{
-
+    private String RteValue { get; set; }
     private ToolbarType Tooltype = ToolbarType.Expand;
-    private ToolbarType DropValue { get; set; } = ToolbarType.Expand;
     
 
     private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
@@ -144,31 +90,46 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Italic },
         new ToolbarItemModel() { Command = ToolbarCommand.Underline },
         new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.SuperScript },
+        new ToolbarItemModel() { Command = ToolbarCommand.SubScript },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.FontName },
         new ToolbarItemModel() { Command = ToolbarCommand.FontSize },
         new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
         new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.LowerCase },
         new ToolbarItemModel() { Command = ToolbarCommand.UpperCase },
         new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.Formats },
         new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
-        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
-        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.NumberFormatList },
+        new ToolbarItemModel() { Command = ToolbarCommand.BulletFormatList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
         new ToolbarItemModel() { Command = ToolbarCommand.Indent },
         new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
         new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.Video },
+        new ToolbarItemModel() { Command = ToolbarCommand.Audio },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
         new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.ClearFormat },
         new ToolbarItemModel() { Command = ToolbarCommand.Print },
         new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.FullScreen },
         new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.Undo },
         new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
 
+  protected override Task OnInitializedAsync()
+  {
+      this.RteValue = @"<p>The Rich Text Editor is a WYSIWYG ('what you see is what you get') editor useful to create and edit content and return the valid HTML markup or markdown of the content.</p><p><b>Toolbar</b></p><ol><li><p>The Toolbar contains commands to align the text, insert a link, insert an image, insert list, undo/redo operations, HTML view, etc </p></li><li><p>The Toolbar is fully customizable. </p></li></ol><p><b>Links</b></p><ol><li><p>You can insert a hyperlink with its corresponding dialog. </p></li><li><p>Attach a hyperlink to the displayed text. </p></li><li><p>Customize the quick toolbar based on the hyperlink. </p></li></ol><p><b>Validation</b></p><ul><li><p>The editor’s content can be validated on form submission by applying validation rules and validation message.</p></li></ul><p><b>Locale</b></p><ul><li><p>The editor provides an option to localize its static strings to adapt the editor to a local language.</p></li></ul><p><b>Image</b></p><ol><li><p>Allows you to insert images from an online source as well as the local computer. </p></li><li><p>You can upload an image. </p></li><li><p>Provides an option to customize the quick toolbar for an image. </p></li></ol><img alt='Logo' src='"+@SampleService.WebAssetsPath + "images/rich-text-editor/rte-image-feather.png'/>";
+      return base.OnInitializedAsync();
+  }
     private class ToolbarOption
     {
         public ToolbarType value { get; set; }

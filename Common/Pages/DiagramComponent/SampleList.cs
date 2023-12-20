@@ -240,6 +240,17 @@ namespace BlazorDemos
                 FileName = "ComplexHierarchicalTree.razor",
                 HeaderText="ComplexHierarchical Tree Example using Blazor Diagram Component",
             },
+             new Sample
+            {
+                Name = "Radial Tree",
+                Category = "Automatic Layouts",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/radialtree",
+                FileName = "RadialTree.razor",
+                HeaderText="Radial Tree Example using Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to demonstrate radial tree layout in Diagram Component. This layout emphasizes the relationship between parent and child nodes, with the central node typically representing the root of the hierarchy." }
+            },
             new Sample
             {
                 Name = "Local Data",

@@ -23,7 +23,8 @@ namespace BlazorDemos
                 Url = "image-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"Enhanced the Default Functionalities demo to encompass additional features such as framing, resizing, and incorporating image annotation choices. This demonstration effectively illustrates the utilization of the frame, resize, and image annotation options." }
+                NotificationDescription = new string[]{ @"The Image Editor component has undergone development to align with industry standards and has now received the designation of being production-ready.
+                Improved default functionalities with advanced features like straightening, additional crop selection, and support for transparency and no borders for annotations. This update enhances the overall user experience, providing more flexibility and control in image editing." }
             },
             new Sample
             {

@@ -147,7 +147,7 @@ namespace BlazorDemos
                 FileName = "TreeGridDynamicObject.razor",
                 Type = SampleType.None
             },
-#if !WASM
+#if !(WASM)
             new Sample
             {
                 Name = "List Binding",
@@ -173,7 +173,7 @@ namespace BlazorDemos
             },
 #endif
 
-#if WASM
+#if (WASM)
             new Sample
             {
                 Name = "Virtual Scrolling",
@@ -183,7 +183,7 @@ namespace BlazorDemos
                 FileName = "RemoteDataWithVirtualization.razor",
             },
 #endif
-#if !WASM
+#if !(WASM)
             new Sample
             {
                 Name = "Remote Data Binding",

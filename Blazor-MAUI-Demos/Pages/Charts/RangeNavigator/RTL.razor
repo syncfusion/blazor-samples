@@ -1,0 +1,370 @@
+﻿@page "/range-selector/rtl"
+@using Syncfusion.Blazor.Charts
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+<PageTitle>Blazor Range Selector RTL Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the RTL in Blazor Range Selector Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the consumer price with Range Navigator and Chart in RTL direction. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        <code>Right-to-left</code>(RTL) is used to render the component from right to left direction and it can be enabled by setting <code>EnableRtl</code> property as <b>true</b>. 
+        In this demo, you can see <code>Axis</code>, <code>Data Points</code>, <code>Tooltip</code> and <code>Legend</code> are aligned from right to left direction.
+    </p>
+    <p>
+        <code>Tooltip</code> is enabled  to show the selected data range, while the selected range is changed.
+    </p>
+    <p>More information about the RTL can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/r-t-l'>documentation section</a>.</p>
+</ActionDescription>
+
+@if (RtlData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;text-align:center">Inflation - Consumer Price</h4>
+        <div>
+            <SfRangeNavigator IntervalType="RangeIntervalType.Years" EnableRtl="true" @bind-Value="@Value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Theme="@theme">
+                <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+                <RangeNavigatorSeriesCollection>
+                    <RangeNavigatorSeries Fill="@FillColor" DataSource="@RtlData" XName="x" Type="RangeNavigatorType.Area" YName="high">
+                        <RangeNavigatorSeriesBorder Width="2" Color="@BorderColor"></RangeNavigatorSeriesBorder>
+                    </RangeNavigatorSeries>
+                </RangeNavigatorSeriesCollection>
+            </SfRangeNavigator>
+        </div>
+        <div>
+            <SfChart Theme="@theme" EnableRtl="true">
+                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+                </ChartPrimaryXAxis>
+                <ChartPrimaryYAxis Minimum="82" Maximum="87" Interval="1" RangePadding="ChartRangePadding.Normal" LabelFormat="{value}%">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+                <ChartSeriesCollection>
+                    <ChartSeries Fill="@FillColor" DataSource="@RtlData" XName="x" YName="high" Width="2" Type="ChartSeriesType.Area">
+                        <ChartSeriesBorder Width="2" Color="@BorderColor"></ChartSeriesBorder>
+                    </ChartSeries>
+                </ChartSeriesCollection>
+                <ChartTooltipSettings Enable="true" Shared="true" Header="<b>England<b>" Format="${point.x} : <b>${point.y}<b>"></ChartTooltipSettings>
+            </SfChart>
+        </div>
+    </div>
+}
+@code{
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+    //End:Hidden
+    private ChartData[] RtlData;
+    double ZF = 1;
+    double ZP = 0;
+    string BorderColor;
+    string FillColor;
+    string valueUrl = "url";
+    private Theme theme { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        string basePath = "Blazor_MAUI_Demos.wwwroot.data.rangenavigator.axes-data.json";
+        Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+        DocumentStream.Position = 0;
+        using (StreamReader reader = new StreamReader(DocumentStream))
+        {
+            string jsonContent = reader.ReadToEnd();
+            RtlData = System.Text.Json.JsonSerializer.Deserialize<ChartData[]>(jsonContent);
+        }
+    }
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double high { get; set; }
+    }
+    private object Value = new object[] { new DateTime(2014, 01, 22), new DateTime(2015, 11, 07) };
+    public void OnRangeChanged(ChangedEventArgs args)
+    {
+        ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
+    }
+
+    string CurrentUri;
+    protected override void OnInitialized()
+    {
+        //Hidden:Lines
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+        //End:Hidden
+        CurrentUri = NavigationManager.Uri;
+        if (CurrentUri.IndexOf("material3") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.Material3Dark;
+                BorderColor = "#4EAAFF";
+                FillColor = String.Concat(valueUrl, "(#material3-dark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Material3;
+                BorderColor = "#6355C7";
+                FillColor = String.Concat(valueUrl, "(#material3-gradient-chart)");
+            }
+        }
+        else if (CurrentUri.IndexOf("material") > -1) 
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.MaterialDark;
+                BorderColor = "#9ECB08";
+                FillColor = String.Concat(valueUrl, "(#materialdark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Material;
+                BorderColor = "#00bdae";
+                FillColor = String.Concat(valueUrl, "(#material-gradient-chart)");
+            }
+            
+        }
+        else if (CurrentUri.IndexOf("fabric") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FabricDark;
+                BorderColor = "#4472c4";
+            }
+            else
+            {
+                theme = Theme.Fabric;
+                BorderColor = "#4472c4";
+            }
+            FillColor = String.Concat(valueUrl, "(#fabric-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("bootstrap5") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.Bootstrap5Dark;
+                BorderColor = "#8F80F4";
+                FillColor = String.Concat(valueUrl, "(#bootstrap5dark-gradient-chart)");                 
+            }
+            else
+            {
+                theme = Theme.Bootstrap5;
+                BorderColor = "#6355C7";
+                FillColor = String.Concat(valueUrl, "(#bootstrap5-gradient-chart)");                 
+            }
+        }
+        else if (CurrentUri.IndexOf("fluent") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.FluentDark;
+                BorderColor = "#1AC9E6";
+                FillColor = String.Concat(valueUrl, "(#fluentdark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Fluent;
+                BorderColor = "#1AC9E6";
+                FillColor = String.Concat(valueUrl, "(#fluent-gradient-chart)");
+            }
+        }
+        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        {
+            theme = Theme.Bootstrap4;
+            BorderColor = "#a16ee5";
+            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.BootstrapDark;
+                BorderColor = "#a16ee5";
+            }
+            else
+            {
+                theme = Theme.Bootstrap;
+                BorderColor = "#a16ee5";
+            }
+            FillColor = String.Concat(valueUrl, "(#bootstrap-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            theme = Theme.HighContrast;
+            BorderColor = "#79ECE4";
+            FillColor = String.Concat(valueUrl, "(#highcontrast-gradient-chart)");
+        }
+        else if (CurrentUri.IndexOf("material3") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.Material3Dark;
+                BorderColor = "#4EAAFF";
+                FillColor = String.Concat(valueUrl, "(#material3dark-gradient-chart)");
+            }
+            else
+            {
+                theme = Theme.Material3;
+                BorderColor = "#6355C7";
+                FillColor = String.Concat(valueUrl, "(#material3-gradient-chart)");
+            }
+        }
+        else if (CurrentUri.IndexOf("tailwind") > -1)
+        {
+            if (CurrentUri.IndexOf("dark") > -1)
+            {
+                theme = Theme.TailwindDark;
+                BorderColor = "#8B5CF6";
+            }
+            else
+            {
+                theme = Theme.Tailwind;
+                BorderColor = "#5A61F6";
+            }
+            FillColor = String.Concat(valueUrl, "(#tailwind-gradient-chart)");
+        }
+        else
+        {
+            theme = Theme.Bootstrap4;
+            BorderColor = "#a16ee5";
+            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+        }
+    }
+}
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #material-gradient-chart stop {
+        stop-color: #00bdae;
+    }
+
+    #materialdark-gradient-chart stop {
+        stop-color: #9ECB08;
+    }
+
+    #fabric-gradient-chart stop {
+        stop-color: #4472c4;
+    }
+
+    #bootstrap-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #bootstrap4-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #highcontrast-gradient-chart stop {
+        stop-color: #79ECE4;
+    }
+    
+    #bootstrap5-gradient-chart stop {
+        stop-color: #6355C7;
+    }
+
+    #bootstrap5dark-gradient-chart stop {
+        stop-color: #8F80F4;
+    }
+
+    #fluent-gradient-chart stop {
+        stop-color: #1AC9E6;
+    }
+
+    #fluentdark-gradient-chart stop {
+        stop-color: #1AC9E6;
+    }
+
+    #tailwind-gradient-chart stop {
+        stop-color: #4F46E5;
+    }
+
+    #material3-gradient-chart stop {
+        stop-color: #6355C7;
+    }
+
+    #material3-dark-gradient-chart stop {
+        stop-color: #4EAAFF;
+    }
+
+    .chart-gradient stop[offset="0"] {
+        stop-opacity: 0.9;
+    }
+
+    .chart-gradient stop[offset="1"] {
+        stop-opacity: 0.3;
+    }
+</style>
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="material-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="materialdark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fabric-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap4-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap5-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap5dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluent-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluentdark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="highcontrast-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="material3-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="material3-dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>

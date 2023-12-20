@@ -65,7 +65,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Json Row",
+                Name = "JSON Row",
                 Category = "Data Binding",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/json-row",
@@ -73,7 +73,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Json Cell",
+                Name = "JSON Cell",
                 Category = "Data Binding",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/json-cell",
@@ -103,6 +103,16 @@ namespace BlazorDemos
                 Url = "heatmap-chart/opposed-axis",
                 FileName = "OpposedAxis.razor"
             },
+            new Sample
+            {
+                Name = "Label Template",
+                Category = "Features",
+                Directory = "HeatMapChart/HeatMapChart",
+                Url = "heatmap-chart/label-template",
+                FileName = "LabelTemplate.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to demonstrate label template support, which is to add any HTML elements into the HeatMap cells, such as images, text, and so on." }
+            }, 
              new Sample
             {
                 Name = "Multi Level Labels",

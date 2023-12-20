@@ -111,10 +111,30 @@ namespace BlazorDemos
                 FileName = "NavigationLines.razor",
                 Type = SampleType.None
             },
+           new Sample
+           {
+               Name = "Polygon",
+               Category = "Polygon",
+               Directory = "Maps/Maps",
+               Url = "maps/polygon",
+               FileName = "Polygon.razor",
+               Type = SampleType.New,
+               NotificationDescription = new string[]{ @"Added a demo to show a polygon shape rendering on top of the Maps main layer to highlight a specific region." }
+           },
+           new Sample
+            {
+                Name = "Shapefile",
+                Category = "Other Map Providers",
+                Directory = "Maps/Maps",
+                Url = "maps/shapefile",
+                FileName = "Shapefile.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"A demo of shapefile (*.shp) loading and rendering, a new data source introduced in the component, has been added." }
+            },
             new Sample
             {
                 Name = "OpenStreetMap",
-                Category = "Other Map Providers",
+                Category = "Online Map Providers",
                 Directory = "Maps/Maps",
                 Url = "maps/open-street-map",
                 FileName = "OpenStreetMap.razor",
@@ -123,7 +143,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "OSM With Sublayer",
-                Category = "Other Map Providers",
+                Category = "Online Map Providers",
                 Directory = "Maps/Maps",
                 Url = "maps/osm-sublayer",
                 FileName = "OSMSublayer.razor",
@@ -132,7 +152,7 @@ namespace BlazorDemos
              new Sample
             {
                 Name = "OSM With Navigation Lines",
-                Category = "Other Map Providers",
+                Category = "Online Map Providers",
                 Directory = "Maps/Maps",
                 Url = "maps/osm-navigation-lines",
                 FileName = "OSMNavigationlines.razor",
@@ -141,7 +161,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "OSM With Legend",
-                Category = "Other Map Providers",
+                Category = "Online Map Providers",
                 Directory = "Maps/Maps",
                 Url = "maps/osm-legend",
                 FileName = "OSMLegend.razor",
@@ -150,7 +170,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Bing Maps",
-                Category = "Other Map Providers",
+                Category = "Online Map Providers",
                 Directory = "Maps/Maps",
                 Url = "maps/bing-map",
                 FileName = "BingMap.razor",

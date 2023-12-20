@@ -362,9 +362,6 @@ namespace BlazorDemos
                 Category = "Rating",
                 Directory = "Inputs/Rating",
                 Url = "rating/default-functionalities",
-                NotificationDescription = new string[] {
-                    @"Showcase the usage of AllowReset, ReadOnly, EnableSingleSelection, ItemsCount, Disabled properties in Rating."
-                },
                 FileName = "DefaultFunctionalities.razor"
             },
             new Sample
@@ -373,9 +370,6 @@ namespace BlazorDemos
                 Category = "Rating",
                 Directory = "Inputs/Rating",
                 Url = "rating/precision",
-                NotificationDescription = new string[] {
-                    @"Demonstrate the precision types of the Rating."
-                },
                 FileName = "Precision.razor"
             },
             new Sample
@@ -384,9 +378,6 @@ namespace BlazorDemos
                 Category = "Rating",
                 Directory = "Inputs/Rating",
                 Url = "rating/tooltip",
-                NotificationDescription = new string[] {
-                    @"Showcase usage of tooltip and its customization using templates in Rating."
-                },
                 FileName = "Tooltip.razor"
             },
             new Sample
@@ -395,9 +386,6 @@ namespace BlazorDemos
                 Category = "Rating",
                 Directory = "Inputs/Rating",
                 Url = "rating/label",
-                NotificationDescription = new string[] {
-                    @"Added a demo to illustrate the different label positions in Rating."
-                },
                 FileName = "Label.razor"
             },
             new Sample
@@ -406,9 +394,6 @@ namespace BlazorDemos
                 Category = "Rating",
                 Directory = "Inputs/Rating",
                 Url = "rating/template",
-                NotificationDescription = new string[] {
-                    @"Showcase the usage of EmptyTemplate and FullTemplate in Rating."
-                },
                 FileName = "Template.razor"
             },
             new Sample
@@ -417,9 +402,6 @@ namespace BlazorDemos
                 Category = "Rating",
                 Directory = "Inputs/Rating",
                 Url = "rating/navigation",
-                NotificationDescription = new string[] {
-                    @"Added a demo to illustrate the keyboard shortcuts in Rating."
-                },
                 FileName = "KeyboardNavigation.razor"
             }
         };

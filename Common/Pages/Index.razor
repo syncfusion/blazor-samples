@@ -48,12 +48,29 @@
                 <h1>Blazor Components Examples, <span @onclick="@(() => NavToDemos())">Demos</span> and Showcase Web Apps</h1>
             </div>
             <div class="sf-banner-buttons">
-               <div class="demo-btn">
-                    <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("server"))'>View Server Demos</SfButton>
-               </div>
-                <div class="demo-btn-wasm">
-                    <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("wasm"))'>View WebAssembly Demos</SfButton>
-                </div>
+                @{#if(WASM) }
+                    @{#if(ISSTAGING)}
+                   <div class="demo-btn">
+                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("server"))'>View Server Demos</SfButton>
+                   </div>
+                    @{#endif}
+                    <div class="demo-btn-wasm">
+                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("wasm"))'>View WebAssembly Demos</SfButton>
+                    </div>
+                 @{#elif(WEBAPP) }
+                    <div class="demo-btn-wasm">
+                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("webapp"))'>View Demos</SfButton>
+                    </div>
+                @{#else}
+                    <div class="demo-btn">
+                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("server"))'>View Server Demos</SfButton>
+                   </div>
+                    @{#if(ISSTAGING)}
+                    <div class="demo-btn-wasm">
+                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("wasm"))'>View WebAssembly Demos</SfButton>
+                    </div>
+                     @{#endif}
+                @{#endif}
             </div>
             <div class="trusted-companies">
                 <span>Trusted by 20,000 of the world’s leading companies</span>
@@ -323,9 +340,11 @@
         this.categoryOrders.Add(new List<string> { "Data Visualization", "Buttons" });
         this.categoryOrders.Add(new List<string> { "Calendars", "Inputs", "Forms" });
         this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Notifications" });
-#if WASM
+#if (WASM)
         isWasmSample = true;
         SampleName = "Blazor Components - WebAssembly Demos";
+#elif WEBAPP
+        SampleName = "Blazor Components - WebApp Demos";
 #else
         SampleName = "Blazor Components - Server Demos";
 #endif

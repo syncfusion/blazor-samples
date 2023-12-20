@@ -1,0 +1,79 @@
+﻿@page "/maps/shapefile"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor
+@using System
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example shows how to render a US map using a shape file. The shape file, similar to the GeoJSON file, is a vector data storage format that holds the location, shape, and attributes of a geographic location.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html#Syncfusion_Blazor_Maps_MapsLayer_1_ShapeData'>ShapeData</a> property of the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html'>MapsLayer</a> to render a map of the United States using the provided shape file. The map's markers help in identifying the top 10 most affordable universities in the United States. The tooltip is also enabled in this example.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfMaps Background="transparent" Theme="@Theme">
+        <MapsAreaSettings Background="transparent" />
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = "https://cdn.syncfusion.com/maps/map-data/usa-states.shp"}' TValue="string">
+                <MapsMarkerClusterSettings AllowClustering="true" AllowClusterExpand="true" Shape="MarkerType.Image" Height="40" Width="40" ImageUrl="@(SampleService.WebAssetsPath + "images/maps/cluster.svg")">
+                    <MapsLayerMarkerClusterLabelStyle Color="#FFFFFF" />
+                    <MapsLayerMarkerClusterConnectorLineSettings Color="@ConnectorLineColor" />
+                </MapsMarkerClusterSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" TValue="TopUniversitiesDetails" Height=15 Width=15 DataSource="@TopUniversities" Shape="MarkerType.Circle" Fill="red" AnimationDuration="0">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                            <MapsMarkerTooltipTextStyle FontFamily="inherit"></MapsMarkerTooltipTextStyle>
+                        </MapsMarkerTooltipSettings>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+                <MapsShapeSettings Fill="#A6A6A6"></MapsShapeSettings>
+            </MapsLayer>
+        </MapsLayers>
+        <MapsZoomSettings Enable="false" />
+        <MapsLegendSettings Visible="false" />
+        <MapsTitleSettings Text="Top 10 Affordable Universities in the United States">
+            <MapsTitleTextStyle Size="16px" FontFamily="inherit" />
+        </MapsTitleSettings>
+    </SfMaps>
+</div>
+
+@code {
+    public string ConnectorLineColor = "#000000";
+    public class TopUniversitiesDetails
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Name { get; set; }
+        public string Color { get; set; }
+    };
+    public List<TopUniversitiesDetails> TopUniversities = new List<TopUniversitiesDetails> {
+        new TopUniversitiesDetails { Name="University of Washington", Latitude=47.655548, Longitude=-122.303200 , Color = "#623e8c" },
+        new TopUniversitiesDetails { Name="CUNY Brooklyn College", Latitude=40.631920, Longitude= -73.952904, Color="#45738a" },
+        new TopUniversitiesDetails { Name="Purdue University", Latitude=40.425869, Longitude=-86.908066, Color="#5fb8ad" },
+        new TopUniversitiesDetails { Name="University of Florida", Latitude=29.643946, Longitude=-82.355659, Color="#5fb87b" },
+        new TopUniversitiesDetails { Name="Oklahoma State University", Latitude=35.471901, Longitude=-97.581794, Color="#99b85f" },
+        new TopUniversitiesDetails { Name="University of North Carolina at Chapel Hill", Latitude=35.904613, Longitude=-79.046761, Color="#a1931a" },
+        new TopUniversitiesDetails { Name="California State University-Long Beach", Latitude=33.783823, Longitude=-118.114090, Color="#a1501a" },
+        new TopUniversitiesDetails { Name="California State University-Los Angeles", Latitude=34.022415, Longitude=-118.285530, Color="#db4040" },
+        new TopUniversitiesDetails { Name="Indiana University-Bloomington", Latitude=39.168804, Longitude=-86.536659, Color="#e227e8" },
+        new TopUniversitiesDetails { Name="University of Illinois at Chicago", Latitude=41.789722, Longitude=-87.599724, Color="#0dff00" }
+    };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (Theme == Theme.Bootstrap5Dark || Theme == Theme.Material3Dark || Theme == Theme.BootstrapDark || Theme == Theme.FabricDark || Theme == Theme.HighContrast || Theme == Theme.MaterialDark || Theme == Theme.TailwindDark || Theme == Theme.FluentDark)
+        {
+            ConnectorLineColor = "#FFFFFF";
+        }
+    }
+
+}

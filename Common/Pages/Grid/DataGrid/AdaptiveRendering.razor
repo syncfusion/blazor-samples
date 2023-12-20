@@ -15,11 +15,12 @@
     <p>This sample shows the rendering order of DataGrid row elements as well as adaptive dialogs.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_EnableAdaptiveUI'>EnableAdaptiveUI</a> property is used to render the grid filter, sort and edit dialogs adaptively. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_RowRenderingMode'>RowRenderingMode</a> property is used to render the DataGrid row elements in the following ways,</p>
+    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_EnableAdaptiveUI'>EnableAdaptiveUI</a> property is used to render the grid filter, sort, edit, and column chooser dialogs adaptively. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_RowRenderingMode'>RowRenderingMode</a> property is used to render the DataGrid row elements in the following ways,</p>
     <ul>
         <li><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.RowDirection.html#Syncfusion_Blazor_Grids_RowDirection_Horizontal'>Horizontal</a> - Displays the grid row elements horizontally.</li>
         <li><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.RowDirection.html#Syncfusion_Blazor_Grids_RowDirection_Vertical'>Vertical</a> - Renders the grid row elements vertically.</li>
     </ul>
+    <p>By defining the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridPageSettings.html#Syncfusion_Blazor_Grids_GridPageSettings_PageSizes'>PageSizes</a> property in the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridPageSettings.html'>GridPageSettings</a> , you can specify a customized list of page sizes, and it will be displayed in the pager dropdown.</p>
     <p>More information about the Adaptive UI feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/adaptive-layout'>documentation</a> section.</p>
 </ActionDescription>
 
@@ -29,7 +30,8 @@
          <div class="content-wrapper e-bigger e-adaptive-demo">
             <div class="e-mobile-layout">
                <div class="e-mobile-content">
-                  <SfGrid DataSource="@GridData" AllowSorting="true" AllowFiltering="true" EnableAdaptiveUI="true" Toolbar="@(new List <string> () { "Add", "Edit", "Delete", "Cancel", "Update", "Search" })" RowRenderingMode="RowDirection.Vertical" Height="100%" Width="100%" AllowPaging="true">
+                  <SfGrid DataSource="@GridData" AllowSorting="true" AllowFiltering="true" EnableAdaptiveUI="true" Toolbar="@(new List <string> () { "Add", "Edit", "Delete", "Cancel", "Update", "Search","ColumnChooser" })" ShowColumnChooser="true" RowRenderingMode="RowDirection.Vertical" Height="100%" Width="100%" AllowPaging="true">
+                      <GridPageSettings PageSizes="true"></GridPageSettings>
                       <GridFilterSettings Type="@FilterType.Excel"></GridFilterSettings>
                       <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog"></GridEditSettings>
                       <GridAggregates>
@@ -52,7 +54,7 @@
                          <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" Width="120"></GridColumn>
                          <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
                          <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" Width="130"></GridColumn>
-                         <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" Width="120"></GridColumn>
+                         <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" ShowInColumnChooser="false" Width="120"></GridColumn>
                       </GridColumns>
                   </SfGrid>
                </div>
@@ -142,9 +144,6 @@
      .e-adaptive-demo .e-pager .e-pager-default:hover {
     background: transparent;
 }
-     .e-adaptive-demo .e-pager {
-         padding: 13px 0;
-    }
      .e-adaptive-demo .e-pager div.e-parentmsgbar {
          box-sizing: border-box;
          display: inline-block;
@@ -156,8 +155,9 @@
          vertical-align: top;
          width: calc(50% - 48px);
     }
-     .e-adaptive-demo .e-pager .e-pagesizes, .e-adaptive-demo .e-pager .e-pagecountmsg, .e-adaptive-demo .e-pager .e-pagercontainer {
-         display: none;
+
+    .e-adaptive-demo .e-pager .e-pagercontainer, .e-adaptive-demo .e-pager .e-parentmsgbar .e-pagecountmsg {
+        display: none;
     }
      .e-adaptive-demo .e-pager .e-icons {
          font-size: 11px;
@@ -166,7 +166,6 @@
          border: 0;
          box-sizing: border-box;
          display: inline-block;
-         padding: 1% 5%;
     }
      .e-adaptive-demo .e-pager .e-mfirst {
          margin-right: 4px;
@@ -176,12 +175,12 @@
      .e-adaptive-demo .e-pager .e-mprev {
          margin: 0 4px;
          text-align: right;
-         width: 10%;
+         width: 7%;
     }
      .e-adaptive-demo .e-pager .e-mnext {
          margin: 0 4px;
          text-align: left;
-         width: 10%;
+         width: 7%;
     }
      .e-adaptive-demo .e-pager .e-mlast {
          margin-left: 4px;
@@ -189,13 +188,18 @@
          width: calc(10% + 11px);
     }
      .e-adaptive-demo .e-bigger .e-pager, .e-adaptive-demo .e-pager.e-bigger {
-         padding: 19px 0;
+         padding: 6px 0;
     }
      .e-adaptive-demo .e-bigger .e-pager.e-rtl div.e-parentmsgbar, .e-adaptive-demo .e-pager.e-bigger.e-rtl div.e-parentmsgbar {
          margin-right: 0;
     }
      .e-adaptive-demo .e-bigger .e-pager div.e-parentmsgbar, .e-adaptive-demo .e-pager.e-bigger div.e-parentmsgbar {
          padding: 0;
+    }
+
+    .e-adaptive-demo .e-pager .e-input-group:not(.e-disabled) .e-ddl-icon:hover,
+    .e-adaptive-demo .e-input-group .e-clear-icon:hover {
+        background: transparent;
     }
 }
  </style>

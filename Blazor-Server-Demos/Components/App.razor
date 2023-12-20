@@ -14,12 +14,20 @@
         })(window, document, 'script', 'dataLayer', 'GTM-W8WD8WN');
     </script>
     <!-- End Google Tag Manager -->
+    <style>
+        #components-reconnect-modal {
+            display: none !important;
+        }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Blazor Demos</title>
     <base href="/" />
-    <link id="theme" href="_content/Syncfusion.Blazor.Themes/fluent.css" rel="stylesheet" />
-    <HeadOutlet />
+    @{#if DEBUG || STAGING}
+        <link id="theme" href="_content/Syncfusion.Blazor.Themes/fluent.css" rel="stylesheet"  />
+    @{#else}
+        <link crossorigin="anonymous" id="theme" href="https://cdn.syncfusion.com/blazor/23.2.4/styles/fluent.css" integrity="sha384-ShUpJ2zAKGexKvfkgb4lpuR7/U1Yqw2H5Ahzi6oZT2V5sb41aL6hjsoNSbrH+zfc" rel="stylesheet" />
+    @{#endif}
+    <SampleMetaData @rendermode="@RenderMode.InteractiveServer" />
 </head>
 
 <body>
@@ -30,8 +38,37 @@
     <Routes @rendermode="@(new InteractiveServerRenderMode(false))" />
     <script src="_framework/blazor.web.js"></script>
     <script type="module" src="import_net8_resources.js"></script>
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
+    @{#if DEBUG || STAGING}
+        <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
+    @{#else}
+        <script crossorigin="anonymous" integrity="sha384-05nFKflYRVuQ5ILLb9IAZK+wHL7M1Kj+JGiCUbOmZj1pvoyCpF3tqBWNX3O1GBtQ" src="https://cdn.syncfusion.com/blazor/23.2.4/syncfusion-blazor.min.js" type="text/javascript"></script>
+    @{#endif}
     <div class="dynamic-resources"></div>
+
+    <script>
+         const consoleMessages = [];
+        let disconnectedFound = false;
+        const originalConsoleError = console.error;
+
+        console.error = function () {
+            originalConsoleError.apply(console, arguments);
+            // Capture the error message and push it to the array
+            const message = Array.from(arguments).join(" ");
+            consoleMessages.push({ type: "error", message });
+        };
+
+        window.addEventListener('click',function(){
+            for (const messageObject of consoleMessages) {
+                if (messageObject.message.includes("Connection disconnected")) {
+                    disconnectedFound = true;
+                    break; // Stop the loop when "disconnected" is found in a message
+                }
+            }
+            if(disconnectedFound) {
+                window.location.reload();
+            }
+        });
+    </script>
 </body>
 
 </html>

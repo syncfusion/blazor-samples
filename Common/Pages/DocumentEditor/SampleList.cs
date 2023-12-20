@@ -27,6 +27,19 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Document List",
+                Type = SampleType.New,
+                Category = "File Management",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/document-list",
+                FileName = "DocumentList.razor",
+                NotificationDescription = new string[]
+                {
+                 @"Added a demo to showcase grid-based document listing and enable viewing or editing through the Document Editor in a dialog."
+                }
+            },
+            new Sample
+            {
                 Name = "Character Formatting",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
@@ -69,14 +82,9 @@ namespace BlazorDemos
             {
                 Name = "Table Formatting",
                 Category = "Editing Features",
-                Type = SampleType.Updated,
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/table-format",
-                FileName = "TableFormat.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Updated the demo with table title and description. Table titles and descriptions are essential for accessibility."
-                }
+                FileName = "TableFormat.razor"
             },
             new Sample
             {
@@ -149,6 +157,19 @@ namespace BlazorDemos
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/web-layout",
                 FileName = "WebLayout.razor"
+            },
+            new Sample
+            {
+                Name = "Ruler",
+                Category = "View",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/ruler",
+                FileName = "Ruler.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                 @"Added a demo to showcase ruler support to set tab stops, margins, indents and move table borders."
+                }
             },
              new Sample
             {

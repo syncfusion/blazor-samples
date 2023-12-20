@@ -19,7 +19,6 @@ namespace BlazorDemos
             {
                 Name = "Overview",
                 Category = "Rich Text Editor",
-                Type = SampleType.Updated,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor",

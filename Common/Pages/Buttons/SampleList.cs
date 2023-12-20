@@ -141,9 +141,6 @@ namespace BlazorDemos
                 Directory = "Buttons/FAB",
                 Url = "fab/overview",
                 FileName = "Overview.razor",
-                NotificationDescription = new string[] {
-                    "Showcases the usage of the Floating Action Button (FAB) to add new record in DataGrid."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -153,9 +150,6 @@ namespace BlazorDemos
                 Directory = "Buttons/FAB",
                 Url = "fab/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[] {
-                    "Showcase usage of IconCss, CssClass, Content and Disabled properties in FAB."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -165,9 +159,6 @@ namespace BlazorDemos
                 Directory = "Buttons/FAB",
                 Url = "fab/position",
                 FileName = "Position.razor",
-                NotificationDescription = new string[] {
-                    @"Demonstrate the different positions of the Floating Action Button on the target."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -177,9 +168,6 @@ namespace BlazorDemos
                 Directory = "Buttons/FAB",
                 Url = "fab/styles",
                 FileName = "Styles.razor",
-                NotificationDescription = new string[] {
-                    @"Showcase the supported predefined styles in FAB."
-                },
                 Type = SampleType.None
             }
         };
@@ -191,9 +179,6 @@ namespace BlazorDemos
                 Directory = "Buttons/SpeedDial",
                 Url = "speeddial/defaultfunctionalities",
                 FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[] {
-                    @"A demo for Speed Dial to display a multiple action items on click.",
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -203,9 +188,6 @@ namespace BlazorDemos
                 Directory = "Buttons/SpeedDial",
                 Url = "speeddial/position",
                 FileName = "Position.razor",
-                NotificationDescription = new string[] {
-                    @"Demonstrates the different positions of the Speed Dial in the target."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -215,9 +197,6 @@ namespace BlazorDemos
                 Directory = "Buttons/SpeedDial",
                 Url = "speeddial/radialmenu",
                 FileName = "RadialMenu.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the radial menu mode of the Speed Dial."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -227,9 +206,6 @@ namespace BlazorDemos
                 Directory = "Buttons/SpeedDial",
                 Url = "speeddial/styles",
                 FileName = "Styles.razor",
-                NotificationDescription = new string[] {
-                    @"Demonstrates the appearance customization of the Speed Dial action items."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -239,9 +215,6 @@ namespace BlazorDemos
                 Directory = "Buttons/SpeedDial",
                 Url = "speeddial/template",
                 FileName = "Template.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the usage of action items and speed dial popup using templates."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -251,9 +224,6 @@ namespace BlazorDemos
                 Directory = "Buttons/SpeedDial",
                 Url = "speeddial/modal",
                 FileName = "Modal.razor",
-                NotificationDescription = new string[] {
-                    "Demonstrates the modal popup of a speed dial",
-                },
                 Type = SampleType.None
             }
         };

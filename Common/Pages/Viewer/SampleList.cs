@@ -23,10 +23,28 @@ namespace BlazorDemos
                 Url = "pdf-viewer/default-functionalities",
                 FileName = "DefaultFunctionalities.razor"
             },
+             new Sample
+            {
+                Name = "Read-Only",
+                Category = "Document Security",
+                Directory = "Viewer/PdfViewer",
+                Url = "pdf-viewer/read-only",
+                FileName = "ReadOnly.razor",
+                Type=SampleType.New
+            },
+             new Sample
+            {
+                Name = "Document List",
+                Category = "File Management",
+                Directory = "Viewer/PdfViewer",
+                Url = "pdf-viewer/document-list",
+                FileName = "DocumentList.razor",
+                Type=SampleType.New
+            },
             new Sample
             {
                 Name = "Custom Toolbar",
-                Category = "PDF Viewer",
+                Category = "Toolbar",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/custom-toolbar",
                 FileName = "CustomToolbar.razor",
@@ -34,7 +52,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Form Filling",
-                Category = "PDF Viewer",
+                Category = "PDF Form",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/form-filling",
                 FileName = "FormFilling.razor"
@@ -42,7 +60,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Annotations",
-                Category = "PDF Viewer",
+                Category = "Annotation",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/annotations-toolbar",
                 FileName = "AnnotationsToolbar.razor",
@@ -50,22 +68,25 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Handwritten Signature",
-                Category = "PDF Viewer",
+                Category = "Signature",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/handwritten-signature",
                 FileName = "HandwrittenSignature.razor"                
             }
-#if !WASM
+           
+           
+#if !(WASM || WEBAPP)
             ,
             new Sample
             {
                 Name = "Invisible Digital Signature",
-                Category = "PDF Viewer",
+                Category = "Signature",
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/invisible-digital-signature",
                 FileName = "InvisibleDigitalSignature.razor",               
-            },
+            }            
 #endif
+           
         };
     }
 }

@@ -8,7 +8,8 @@ else {
     var css = "/Blazor_WASM_Common_NET8.bundle.scp.css";
 }
 
-const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/", "/release/wasm/net6/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/"];
+const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/", "/release/wasm/net6/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/cloudtesting/net8-wasm/","/"];
+
 
 function dynamicResources() {
     if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {

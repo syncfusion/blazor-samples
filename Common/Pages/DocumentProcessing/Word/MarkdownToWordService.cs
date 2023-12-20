@@ -41,7 +41,7 @@ namespace BlazorDemos.Data.DocumentProcessing.Word
             if (documentType == "HTML")
                 formatType = FormatType.Html;
 /*Server:Block*/
-#if !WASM
+#if !(WASM) && !WEBAPP
             //Save as PDF format
             else if(documentType == "PDF")
             {

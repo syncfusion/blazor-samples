@@ -339,6 +339,8 @@
             HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
             DataSource.Remove(deletenodes);
             await diagram.RefreshDataSource();
+            var parentIdCollection = treeviewnodes.Where(node => node.ParentId== id);
+            int parentIdCollectionCount = parentIdCollection?.Count() ?? 0;
             for (int i = 0; i < treeviewnodes.Count; i++)
             {
                 if (deletenodes.Role == treeviewnodes[i].Name)
@@ -357,9 +359,12 @@
                         }
                         else
                         {
-                            if (treeviewnodes[j].Id == (int)id)
+                            if (parentIdCollectionCount == 0)
                             {
-                                treeviewnodes[j].HasChild = false;
+                                if (treeviewnodes[j].Id == (int)id)
+                                {
+                                    treeviewnodes[j].HasChild = false;
+                                }
                             }
                         }
                     }

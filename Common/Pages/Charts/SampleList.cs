@@ -191,8 +191,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Spline Range Area Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Spline Range Area Chart Example",
                 MetaDescription = "This example demonstrates the Blazor Spline Range Area Chart component. Explore here for more details.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Added a demo to showcase the spline range area chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -238,8 +237,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Area with Negative Points in Area Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Area with Negative Points in Area Chart Example",
                 MetaDescription = "Blazor Area with Negative Points in Area Chart example shows how to render and configure the area with negative points area type chart.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Added a demo for displaying negative values in the area chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -271,10 +269,7 @@ namespace BlazorDemos
                 Url = "chart/grouped-column",
                 FileName = "GroupedColumn.razor",
                 HeaderText = "Blazor Grouped Column Chart Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Added a demo to group the column series in Chart component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -388,8 +383,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Column with Negative Points in Bar Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Column with Negative Points Bar Chart Example",
                 MetaDescription = "Blazor Column with Negative Points Bar Chart example shows how to render and configure the column with negative points bar type chart.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Added a demo for displaying negative values in the column chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -401,10 +395,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Negative Stacked Bar Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Negative Stacked Bar Chart Example",
                 MetaDescription = "Blazor Negative Stacked Bar Chart example shows how to render and configure the negative stacking bar type chart.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Added a demo to showcase negative values in stacking series."
-                }
+                Type = SampleType.None
             },
              new Sample
             {
@@ -450,10 +441,7 @@ namespace BlazorDemos
                 Url = "chart/pie-radius",
                 FileName = "PieRadius.razor",
                 HeaderText = "Blazor Pie with Various Radius Chart Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Updated the demo by including an option to reverse the legend order for the pie chart."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -499,10 +487,7 @@ namespace BlazorDemos
                 Url = "chart/pie-legend",
                 FileName = "PieLegend.razor",
                 HeaderText = "Blazor Pie with Legend Chart Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Updated the demo by including an option to wrap the legend item text for the pie chart."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -512,8 +497,7 @@ namespace BlazorDemos
                 Url = "chart/semi-pie",
                 FileName = "SemiPie.razor",
                 HeaderText = "Blazor Semi Pie Chart Example.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Updated a demo for displaying wrap support for the datalabel in accumulation chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -993,8 +977,7 @@ namespace BlazorDemos
                 Url = "chart/multiple-level",
                 FileName = "MultiLevelLabel.razor",
                 HeaderText = "Blazor Chart with Multiple Level Labels Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added a demo for multi-level axis labels in the Chart components." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1018,16 +1001,24 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Synchronized Charts",
+                Category = "Chart Customization",
+                Directory = "Charts/Chart",
+                Url = "chart/synchronized-charts",
+                FileName = "SynchronizedCharts.razor",
+                HeaderText = "Blazor Synchronized Charts Example.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to demonstrate synchronized charts for tooltip, crosshair, and zooming user interactions across multiple charts." }
+            },
+            new Sample
+            {
                 Name = "RTL",
                 Category = "Chart Customization",
                 Directory = "Charts/Chart",
                 Url = "chart/rtl",
                 FileName = "RTL.razor",
                 HeaderText = "Blazor RTL Chart Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Added a demo to show the RTL support in Chart component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1057,8 +1048,7 @@ namespace BlazorDemos
                 Url = "chart/datalabel-template",
                 FileName = "DataLabelTemplate.razor",
                 HeaderText = "Blazor Chart with Datalabel Template Example.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Added a demo to display templates in data labels of the Chart components." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1078,7 +1068,7 @@ namespace BlazorDemos
                 Url = "chart/dataSorting",
                 FileName = "DataSorting.razor",
                 HeaderText = "DataSorting Chart Example.",
-                Type = SampleType.None,
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1088,8 +1078,7 @@ namespace BlazorDemos
                 Url = "chart/annotation",
                 FileName = "Annotation.razor",
                 HeaderText = "Blazor Chart with Annotation Example.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Added a demo to show the annotation feature in the chart. In area-based series, data points are annotated using symbols." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1109,7 +1098,10 @@ namespace BlazorDemos
                 Url = "chart/export",
                 FileName = "Export.razor",
                 HeaderText = "Blazor Chart with Export Example.",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] {
+                    @"Enhanced the demo with additional export options (XLSX and CSV) for the Chart component."
+                }
             },
             new Sample
             {
@@ -1119,10 +1111,7 @@ namespace BlazorDemos
                 Url = "chart/selection",
                 FileName = "Selection.razor",
                 HeaderText = "Blazor Chart with Selection Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Updated the demo by including an option to customize the highlight color for data point."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1142,8 +1131,7 @@ namespace BlazorDemos
                 Url = "chart/keyboard",
                 FileName = "KeyboardChart.razor",
                 HeaderText = "Blazor Chart with Keyboard Navigation Example.",
-                Type = SampleType.None,
-                NotificationDescription= new string[] { @"Added a demo to showcase the keyboard navigation support in the chart." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1174,6 +1162,17 @@ namespace BlazorDemos
                 FileName = "ZoomingandPanning.razor",
                 HeaderText = "Blazor Chart with Zooming and Panning Example.",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Dynamic Points",
+                Category = "User Interaction",
+                Directory = "Charts/Chart",
+                Url = "chart/add-a-point-on-click",
+                FileName = "AddingPoint.razor",
+                HeaderText = "Blazor Chart with Dynamic Points Example.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to demonstrate charts to add a data point dynamically on mouse click inside the chart area." }
             },
             new Sample
             {
@@ -1267,7 +1266,10 @@ namespace BlazorDemos
 			      Directory = "Charts/RangeNavigator",
 			      Url = "range-selector/print-export",
 			      FileName = "PrintExport.razor",
-			      Type = SampleType.None
+			      Type = SampleType.Updated,
+			      NotificationDescription = new string[] {
+                    @"Enhanced the demo with additional export options (XLSX and CSV) for the RangeSelector component."
+                  }
 			  },
 			  new Sample
 			  {
@@ -1395,8 +1397,7 @@ namespace BlazorDemos
                 Url = "stock-chart/ohlc",
                 FileName = "OHLC.razor",
                 HeaderText = "Blazor Stock Chart with OHLC Example.",
-                Type = SampleType.Updated,
-                NotificationDescription= new string[] { @"Updated a demo to display a tooltip along with the mouse in the stock chart." }
+                Type = SampleType.None
             },
            new Sample
             {

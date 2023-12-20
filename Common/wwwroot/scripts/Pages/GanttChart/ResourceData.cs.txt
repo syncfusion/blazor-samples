@@ -44,7 +44,7 @@ namespace ej2_blazor_defaultdata
             public string TaskName { get; set; }
             public string TaskType { get; set; }
             public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
+            public DateTime? EndDate { get; set; }
             public string Duration { get; set; }
             public int Progress { get; set; }
             public int? ParentId { get; set; }

@@ -4,7 +4,7 @@
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
 
-<div class="@classNames" role="list" tabindex="@tabIndexValue">
+<div class="@classNames" role="list" tabindex="0">
     <div class="@SampleUtils.CONTENT">
         <ul class="@SampleUtils.LIST_UL_CLASS" role="presentation">
             @if (groupData != null)
@@ -21,7 +21,7 @@
                     }
                     foreach (var item in group)
                     {
-                        if ((!SampleService.IsDevice) || (Template != null && (!item.IsHideInMobile)))
+                        if (((!SampleService.IsDevice) || (Template != null && (!item.IsHideInMobile))) && (!item.IsHideFromSamplePageList))
                         {
                             var liClass = SampleUtils.LIST_LI_CLASS;
                             if (EqualityComparer<Sample>.Default.Equals(item, selectedItem))
@@ -44,7 +44,6 @@
     private List<string> groupList;
     private List<List<Sample>> groupData { get; set; }
     private string classNames = SampleUtils.LIST_CLASS;
-    private int tabIndexValue { get; set; } = 0;
 
     /// <summary>
     /// Child content of ListComponent.
@@ -85,15 +84,6 @@
         selectedItem = item;
         this.groupList = new List<string>();
         StateHasChanged();
-    }
-
-    /// <summary>
-    /// Sets the tab focus behavior of the method based on user interaction.
-    /// </summary>
-    /// <param name="enableTabFocus">A boolean value that indicates whether to enable or disable the tab focus. Default is true.</param>
-    public void setTabFocus(bool enableTabFocus = true)
-    {
-        tabIndexValue = enableTabFocus ? 0 : -1;
     }
 
     // Item click handler

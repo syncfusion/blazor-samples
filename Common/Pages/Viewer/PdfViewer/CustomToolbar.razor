@@ -8,13 +8,13 @@
 @using Syncfusion.Blazor.Buttons
 @using Microsoft.JSInterop
 @*WebAssembly:Block*@
-@{ #if WASM }
+@{ #if (WASM || WEBAPP) }
 @using Syncfusion.Blazor.PdfViewer
 @{ #endif }
 @*End:WebAssembly*@
 
 @*Server:Block*@
-@{ #if !WASM }
+@{ #if !(WASM || WEBAPP) }
 @using Syncfusion.Blazor.PdfViewerServer
 @{ #endif }
 @*End:Server*@
@@ -27,7 +27,7 @@
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>This sample demonstrate how to perform the PDF Viewer core functionalities using a custom toolbar.</p>
+    <p>This example illustrates the process of crafting a customized toolbar within the PDF Viewer, allowing you to incorporate specific tools tailored to your needs.</p>
 </SampleDescription>
 <ActionDescription>
    <p>In this example, you can see PDF Viewer control API in action to perform the functionalities.</p>
@@ -42,13 +42,13 @@
         <li>Download - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_DownloadAsync'>'viewer.DownloadAsync()'</a></li>
     </ul>   
 @*WASM:Block*@
-@{ #if WASM }
+@{ #if (WASM) }
     <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/toolbar-customization'> documentation section</a>.</p>
 @{ #endif }
 @*End:WASM*@
 
 @*Server:Block*@
-@{ #if !WASM }
+@{ #if !(WASM) }
     <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/toolbar-customization'> documentation section</a>.</p>
 @{ #endif }
 @*End:Server*@
@@ -86,7 +86,7 @@
             </ToolbarItem>
             <ToolbarItem Align="ItemAlign.Center" Id="totalPage" CssClass="e-pv-total-page-container">
                 <Template>
-                    <span class="e-pv-total-page">of @TotalPages</span>
+                    <span class="e-pv-total-page">&nbsp;of @TotalPages</span>
                 </Template>
             </ToolbarItem>
             <ToolbarItem PrefixIcon="e-icons e-search" Id="searchicon" TooltipText="Search Text" Align=@ItemAlign.Right CssClass="e-pv-search-text-container"></ToolbarItem>
@@ -124,7 +124,7 @@
     </SfToolbar>
 </div>
 @*WASM:Block*@
-@{ #if WASM }
+@{ #if (WASM || WEBAPP) }
      <SfPdfViewer @ref="viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" EnableNavigationToolbar="false" Height="640px" Width="100%" ServiceUrl="http://localhost:63028/api/pdfviewer">
      <PdfViewerEvents DocumentLoaded="@DocumentLoaded" PageChanged="@OnPageChanged"></PdfViewerEvents>    
      </SfPdfViewer>
@@ -132,7 +132,7 @@
 @*End:WASM*@
 
 @*Server:Block*@
-@{ #if !WASM }
+@{ #if !(WASM || WEBAPP) }
      <SfPdfViewerServer @ref="viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" EnableNavigationToolbar="false" Height="640px" Width="100%">
      <PdfViewerEvents DocumentLoaded="@DocumentLoaded" PageChanged="@OnPageChanged"></PdfViewerEvents>
      </SfPdfViewerServer>
@@ -143,14 +143,14 @@
 @code {
 
     @*Server:Block*@
-    #if !WASM
+    #if !(WASM || WEBAPP)
     SfPdfViewerServer viewer;
-    private string DocumentPath { get; set; } = "wwwroot/data/pdfviewer/hive_succinctly.pdf";
+    private string DocumentPath { get; set; } = "wwwroot/data/pdfviewer/hive-succinctly.pdf";
 #endif
     @*End:Server*@
 
     @*WASM:Block*@
-    #if (WASM)
+    #if (WASM || WEBAPP)
     private string DocumentPath { get; set; } = "Hive_Succinctly.pdf";
     SfPdfViewer viewer;
 #endif
@@ -435,8 +435,11 @@
     }
 
     #zoomout{
-        transform: rotate(90deg);
         margin-right: 4px;
+    }
+
+    .e-pv-zoom-out-container button {
+         transform: rotate(90deg);
     }
 </style>
 @*End:Hidden*@

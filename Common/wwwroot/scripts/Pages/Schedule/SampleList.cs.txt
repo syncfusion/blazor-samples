@@ -173,9 +173,7 @@ namespace BlazorDemos
                 Category = "Scrolling",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/data-virtualization",
-                FileName = "DataVirtualization.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to showcase the data virtualization on virtual scrolling." }
+                FileName = "DataVirtualization.razor"
             },
             new Sample
             {
@@ -392,9 +390,7 @@ namespace BlazorDemos
                 Category = "Editor Window",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/editor-template",
-                Type = SampleType.Updated,
-                FileName = "EditorPopupTemplate.razor",
-                NotificationDescription = new string[]{ @"Updated the demo to showcase the header customization of the editor window." }
+                FileName = "EditorPopupTemplate.razor"
             },
             new Sample
             {

@@ -107,6 +107,54 @@ namespace BlazorDemos
             }
         };
 
+        public List<Sample> DropDownTree { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[]{ @"Showcases the hierarchical and self-referential data binding in the Dropdown Tree component." }
+            },
+            new Sample
+            {
+                Name = "Customization",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/customization",
+                FileName = "Customization.razor",
+                NotificationDescription = new string[]{ @"Showcases the template customization along with icon & image url in the Dropdown Tree component." }
+            },
+            new Sample
+            {
+                Name = "Selection",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/selection",
+                FileName = "Selection.razor",
+                NotificationDescription = new string[]{ @"Showcases the checkbox, auto check, multi selection and mode support in the Dropdown Tree component." }
+            },
+            new Sample
+            {
+                Name = "Filtering",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/Filtering",
+                FileName = "Filtering.razor",
+                NotificationDescription = new string[]{ @"Showcases the list data and remote data filtering support along with available filter types in the Dropdown Tree component." }
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/validation",
+                FileName = "Validation.razor",
+                NotificationDescription = new string[]{ @"Showcases the data annotations and validation support in the Dropdown Tree component." }
+            }
+        };
+
         public List<Sample> ComboBox { get; set; } = new List<Sample> {
             new Sample
             {

@@ -25,7 +25,7 @@
     </TreeTemplate>
 </TreeComponent>
 <div class="@samplesClass">
-    <div id="sb-left-all-components" class="back" role="button" tabindex="@tabIndexValue" @onclick="@OnTreeNavigation">
+    <div id="sb-left-all-components" class="back" role="button" tabindex="0" @onclick="@OnTreeNavigation">
         <div class="sb-icons sb-back-icon"></div>
         <div class='all-components'>All Components</div>
     </div>
@@ -58,7 +58,6 @@
     public bool isNavigate { get; set; }
     protected List<Sample> ListDataSource { get; set; } = new List<Sample>();
     protected List<SampleListType> TreeDataSource { get; set; } = new List<SampleListType>();
-    private int tabIndexValue { get; set; } = 0;
 
     [CascadingParameter]
     protected MainLayout Layout { get; set; }
@@ -69,8 +68,6 @@
         Layout.CloseThemePrefPopups();
         // Hides list component and show tree component.
         samplesClass = SampleUtils.AddClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
-        tabIndexValue = -1;
-        ListRef.setTabFocus(false);
         TreeRef.ShowTree();
     }
 
@@ -120,8 +117,6 @@
 #endif
 
         // Hides tree component and show list component.
-        tabIndexValue = 0;
-        ListRef.setTabFocus(true);
         TreeRef.ShowTree(false);
         samplesClass = SampleUtils.RemoveClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
 
@@ -327,6 +322,10 @@
         if (firstRender)
         {
             this.SelectTreeNode(SampleService.ComponentName);
+        }
+        else
+        {
+            this.isCurrentComponent = false;
         }
         SampleService.MetaData?.Refresh();
     }

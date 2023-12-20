@@ -47,7 +47,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/adaptive-rendering",
                 FileName = "AdaptiveRendering.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Adaptive Layout demo was updated to include a new toolbar item that introduces the column chooser feature and pager dropdown feature. This demo showcases how DataGrid columns can be dynamically shown/hidden using the column chooser functionality and how to specify a customized list of PageSizes to be displayed in the pager dropdown." }
             },
             new Sample
             {
@@ -78,6 +79,16 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "DataTable Binding",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/datatable-binding",
+                FileName = "CustomBinding.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to showcase the DataTable databinding feature." },
+            },
+            new Sample
+            {
                 Name = "Data Annotation",
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
@@ -101,8 +112,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/expandoobject",
                 FileName = "GridExpandoObject.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The ExpandoObject binding demo was updated to include different numeric column types for the Type property. This demo showcases how to set the ColumnType based on its value type." }
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -111,8 +121,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/dynamicobject",
                 FileName = "GridDynamicObject.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The DynamicObject binding demo was updated to include different numeric column types for the Type property. This demo showcases how to set the ColumnType based on its value type." }
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -265,7 +274,9 @@ namespace BlazorDemos
                Directory = "Grid/DataGrid",
                Url = "datagrid/draganddrop-within-grid",
                FileName = "DragAndDropWithinGrid.razor",
-               Type = SampleType.None
+               Type = SampleType.Updated,
+               NotificationDescription = new string[]{ @"The Drag and Drop within Grid demonstration has been enhanced to incorporate the AllowGrouping property. This enhancement enables the capability to rearrange rows from one group to another group." },
+
             },
             new Sample
             {
@@ -437,7 +448,7 @@ namespace BlazorDemos
                 FileName = "Grouping.razor",
                 Type = SampleType.None,
             },
-#if !WASM
+#if !(WASM)
 			new Sample
             {
                 Name = "Lazy Load with Virtual Scrolling",
@@ -455,8 +466,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/lazyload-infinitescrolling",
                 FileName = "LazyLoadGroupingInfiniteScrolling.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate the lazy load grouping with the infinite scrolling feature." },
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -557,7 +567,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/frozen-rows",
                 FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Frozen Rows and Columns demo has been updated to include the freezing of specific columns at positions such as left, right, and fixed. This demo showcases how to set the 'freeze' property within column settings." },
             },
             new Sample
             {
@@ -575,8 +586,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/virtual-mask-row",
                 FileName = "VirtualMaskRow.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The virtual mask row demo was updated to include OverscanCount property. This demo showcases how additional items are rendered in the DOM before and after the visible items during scrolling and initial rendering." },
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -585,8 +595,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/infinite-scrolling",
                 FileName = "InfiniteScrolling.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to showcase the infinite scrolling feature." },
+                Type = SampleType.None,
             },
             new Sample
             {

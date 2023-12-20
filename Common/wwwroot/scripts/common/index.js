@@ -368,11 +368,18 @@ window.addEventListener('load', function () {
 
   //To replace theme in Link Tag for WASM and MAUI
     let ThemeEle = document.getElementById('theme');
-    let url = window.location.href.split("?theme=");
     if (ThemeEle) {
         let url = window.location.href.split("?theme=");
         if (url.length > 1) {
-            ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + url[1] + '.css';
+            if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
+                ThemeEle.removeAttribute('integrity');
+                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/23.1.43/styles/' + url[1] + '.css';
+                ThemeEle.setAttribute('integrity', "sha384-ShUpJ2zAKGexKvfkgb4lpuR7/U1Yqw2H5Ahzi6oZT2V5sb41aL6hjsoNSbrH+zfc");
+            }
+            else {
+                ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + url[1] + '.css';
+            }
+           
         }
     }
 
@@ -436,33 +443,37 @@ window.openThumbnailPane = (viewerId) => {
 };
 
 function beforeApplyFormat(id, isBlocked) {
-      var range1 = sfBlazor.instances["mentionFormatIntegration"].getRange();
-      var node = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getNodeCollection(range1)[0];
-      var blockNewLine = !(node.parentElement.innerHTML.replace(/&nbsp;|<br>/g, '').trim() == '/' || node.textContent.trim().indexOf('/')==0);
-      var blockNode;
-      var startNode = node;
-      if (blockNewLine && isBlocked) {
-          while (startNode != sfBlazor.instances[id].inputElement) {
-              blockNode = startNode;
-              startNode = startNode.parentElement;
-          }
-      }
-      var startPoint = range1.startOffset;
-      while (sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getRange(document).toString().indexOf("/") == -1)
-      {
-          sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, startPoint, range1.endOffset)
-          startPoint--;
-      }
-     // sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, range1.startOffset - 1, range1.endOffset);
-      var range2 = sfBlazor.instances["mentionFormatIntegration"].getRange();
-      var node2 = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeCutter.GetSpliceNode(range2, node);
-      var previouNode = node2.previousSibling;
-      node2.parentNode.removeChild(node2);
-      var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(range2, document);
-      if (previouNode) {
-          selection.setCursorPoint(document, previouNode, previouNode.textContent.length);
-      }
+  var range1 = sfBlazor.instances["mentionFormatIntegration"].getRange();
+  var node = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getNodeCollection(range1)[0];
+  var blockNewLine = !(node.parentElement.innerHTML.replace(/&nbsp;|<br>/g, '').trim() == '/' || node.textContent.trim().indexOf('/')==0);
+  var blockNode;
+  var startNode = node;
+  if (blockNewLine && isBlocked) {
+      while (startNode != sfBlazor.instances[id].inputElement) {
+          blockNode = startNode;
+          startNode = startNode.parentElement;
+      }
   }
+  var startPoint = range1.startOffset;
+  while (sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getRange(document).toString().indexOf("/") == -1)
+  {
+      sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, startPoint, range1.endOffset)
+      startPoint--;
+  }
+ // sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, range1.startOffset - 1, range1.endOffset);
+  var range2 = sfBlazor.instances["mentionFormatIntegration"].getRange();
+  var node2 = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeCutter.GetSpliceNode(range2, node);
+  var previouNode = node2.previousSibling;
+const brTag = document.createElement('br');
+    if ( node2.parentElement && node2.parentElement.innerHTML.length === 1) {
+        node2.parentElement.appendChild(brTag);
+    }
+  node2.parentNode.removeChild(node2);
+  var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(range2, document);
+  if (previouNode) {
+      selection.setCursorPoint(document, previouNode, previouNode.textContent.length);
+  }
+}
 
 function onInsertEmotSlashRemove() {
     beforeApplyFormat(null, false);

@@ -214,7 +214,34 @@ namespace BlazorDemos
                     }
                 }
             },
-			new Sample
+            new Sample
+            {
+                Name = "LaTeX",
+                Category = "Mathematical Equation",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/latex",
+                Type = SampleType.New,
+                FileName = "LaTeX.razor",
+                MetaDescription = "This example demonstrates how to create an equation using LaTeX in the Blazor Word (DocIO) Library",
+                NotificationDescription = new string[]
+                {
+                    @"Provided support to create a mathematical equation using LaTeX in a Word document."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="LaTeX",
+                        FileName="LaTeX.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="LaTeXService",
+                        FileName="LaTeXService.cs"
+                    }
+                }
+            },
+            new Sample
             {
                 Name = "Bookmarks",
                 Category = "Insert Content",
@@ -390,11 +417,12 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !(WASM) && !WEBAPP
             new Sample
             {
                 Name = "Word to PDF",
                 Category = "Import and Export",
+                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-pdf",
                 FileName = "WordToPDF.razor",
@@ -461,6 +489,7 @@ namespace BlazorDemos
             {
                 Name = "Word to Image",
                 Category = "Import and Export",
+                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-image",
                 FileName = "WordToImage.razor",
@@ -640,9 +669,8 @@ namespace BlazorDemos
                 Category = "Review",
                 Directory = "DocumentProcessing/Word",
                 Url = "word/compare-documents",
-                Type = SampleType.New,
                 FileName = "CompareDocuments.razor",
-                MetaDescription = "This example demonstrates comparing two Word documents in ASP.NET Core Word (DocIO) library. Explore here for more details.",
+                MetaDescription = "This example demonstrates comparing two Word documents in Blazor Word (DocIO) Library. Explore here for more details.",
                 NotificationDescription = new string[]
                 {
                     @"Provided support to compare two Word documents. It helps the user easily identify the changes between two versions of a document."
@@ -661,7 +689,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !(WASM) && !WEBAPP
             new Sample
             {
                 Name = "Table of Content",
@@ -731,7 +759,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !(WASM) && !WEBAPP
             new Sample
             {
                 Name = "PowerPoint Viewer",
@@ -758,6 +786,7 @@ namespace BlazorDemos
             {
                 Name = "PPTX To Image",
                 Category = "Conversion",
+                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-image",
                 FileName = "PPTXToImage.razor",
@@ -780,6 +809,7 @@ namespace BlazorDemos
             {
                 Name = "PPTX To PDF",
                 Category = "Conversion",
+                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
@@ -1365,7 +1395,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !WASM && !WEBAPP
             new Sample
             {
                 Name = "Formulas",
@@ -1458,7 +1488,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/WhatIfAnalysis",
                 MetaDescription = "The sample shows how to create different scenarios of What-If Analysis in Blazor using .NET Excel (XlsIO) library.",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1473,7 +1502,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !WASM && !WEBAPP
             new Sample
             {
                 Name = "Worksheet To Image",
@@ -1481,6 +1510,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/worksheet-to-image",
                 MetaDescription = "This sample demonstrates how to convert worksheets to image using .NET Excel (XlsIO) library.",
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1517,7 +1547,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !WASM && !WEBAPP
             new Sample
             {
                 Name = "Excel To PDF",
@@ -1525,6 +1555,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-pdf",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to pdf file using Essential XlsIO.",
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1561,7 +1592,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !WASM && !WEBAPP
             new Sample
             {
                 Name = "Encrypt and Decrypt",
@@ -1602,6 +1633,28 @@ namespace BlazorDemos
                     {
                         Id="TablesService",
                         FileName="TablesService.cs"
+                    }
+                }
+            },
+             new Sample
+            {
+                Name = "PivotTable",
+                Category = "Business Intelligence",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/PivotTable",
+                MetaDescription = " Click the \"Create Document\" button to view the created Excel document and click the \"Customize Pivot Table\" button to view the Excel document created with customized pivot table. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document..",
+                Type = SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="PivotTable",
+                        FileName="PivotTable.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="PivotTableService",
+                        FileName="PivotTableService.cs"
                     }
                 }
             },
@@ -1653,8 +1706,7 @@ namespace BlazorDemos
                 Category = "Shapes",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/Comments",
-                MetaDescription = "This sample demonstrates how to use comments in spreadsheets using .NET Excel (XlsIO) library.",
-                Type = SampleType.New,
+                MetaDescription = "This sample demonstrates how to use comments in spreadsheets using .NET Excel (XlsIO) library.",                
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -2094,7 +2146,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !WASM
+#if !WASM && !WEBAPP
               new Sample
               {
                   Name = "Compress Existing PDF",
@@ -2233,7 +2285,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !WASM
+#if !WASM && !WEBAPP
               new Sample
                       {
                           Name = "TIFF to PDF",

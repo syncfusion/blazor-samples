@@ -145,22 +145,28 @@ namespace BlazorDemos.Shared
 
         public static string AssetsPath =
 #if WASM
-#if NET6_0
+    #if NET6_0
             "_content/Blazor_WASM_Common_NET6/";
-#else
+    #else
             "_content/Blazor_WASM_Common_NET8/";
-#endif
+    #endif
+#elif WEBAPP
+    #if NET8_0
+            "_content/Blazor_WebApp_Common_NET8/";
+    #endif
 #else
-#if NET6_0
+    #if NET6_0
             "_content/Blazor_Server_Common_NET6/";
-#else
+    #else
             "_content/Blazor_Server_Common_NET8/";
-#endif
+    #endif
 #endif
         public SampleService()
         {
 #if WASM
             DemoType = "Blazor WebAssembly Demos";
+#elif WEBAPP
+            DemoType = "Blazor WebApp Demos";
 #else
             DemoType = "Blazor Server Demos";
 #endif
@@ -191,29 +197,29 @@ namespace BlazorDemos.Shared
         public async void SwicthToDemo(string id, string url, IJSRuntime JsRuntime, NavigationManager UriHelper)
         {
             if (!UriHelper.BaseUri.Contains("localhost")){
-                #if WASM
-                    #if DEBUG || STAGING
-
-                        #if NET8_0
+#if !WEBAPP
+    #if WASM
+        #if DEBUG || STAGING
+            #if NET8_0
                                 url  = id == "wasm" ? url : url.Replace("/wasm/net8/","/net8/");
-                        #else
+            #else
                                 url  = id == "wasm" ? url : url.Replace("/wasm/net6/","/net6/");
-                        #endif
-                    #else
+            #endif
+        #else
                         url  = id == "wasm" ? url : url.Replace("/wasm/demos/","/demos/");
-                    #endif
-                #else
-                    #if DEBUG || STAGING
-
-                        #if NET8_0
-                            url  = id == "server" ? url : url.Replace("/net8/","/wasm/net8/");
-                        #else
-                            url  = id == "server" ? url : url.Replace("/net6/","/wasm/net6/");
-                        #endif
-                    #else
-                        url  = id == "server" ? url : url.Replace("/demos/","/wasm/demos/");
-                    #endif
-                #endif
+        #endif
+    #else
+        #if DEBUG || STAGING
+            #if NET8_0
+                url  = id == "server" ? url : url.Replace("/net8/","/wasm/net8/");
+            #else
+                url = id == "server" ? url : url.Replace("/net6/","/wasm/net6/");
+            #endif
+        #else
+                url = id == "server" ? url : url.Replace("/demos/","/wasm/demos/");
+        #endif
+    #endif
+#endif
             }
 
 #if WASM
@@ -225,6 +231,18 @@ namespace BlazorDemos.Shared
                 }
             }
             else{
+                UriHelper.NavigateTo(url, true);
+            }
+#elif WEBAPP
+            if (id != "webapp")
+            {
+                if (!UriHelper.BaseUri.Contains("localhost"))
+                {
+                    await JsRuntime.InvokeVoidAsync("open", url, "_blank");
+                }
+            }
+            else
+            {
                 UriHelper.NavigateTo(url, true);
             }
 #else
@@ -306,15 +324,11 @@ namespace BlazorDemos.Shared
                         }
                         this.ComponentName = controlInfo.Name;
                         this.CurrentSampleUrl = this.SampleInfo.Url;
-#if NET6_0 || NET7_0 || NET8_0
                         var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                         {
                             ["theme"] = "fluent"
                         });
                         urlHelper.NavigateTo(newUri);
-#else
-                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=fluent");
-#endif
                     }
 
                 }

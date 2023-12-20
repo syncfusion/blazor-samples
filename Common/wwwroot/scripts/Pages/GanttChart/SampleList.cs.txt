@@ -67,7 +67,6 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/editing",
-                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -80,10 +79,6 @@ namespace BlazorDemos
                         Id="EditData",
                         FileName="GanttData.cs"
                     }
-                },
-                NotificationDescription = new string[]
-                {
-                    @"Enhanced the UI of taskbar editing by introducing a clone element during the editing process."
                 },
             },
             new Sample
@@ -489,13 +484,7 @@ namespace BlazorDemos
                 Category = "Resource",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/multi-taskbar",
-                Type = SampleType.New,
                 FileName="MultiTaskbar.razor",
-                NotificationDescription = new string[]
-                {
-                    @"The sample has been added to demonstrate the multi taskbar feature in resource view of Gantt Chart."
-                },
-
             },
              new Sample
             {
@@ -572,7 +561,6 @@ namespace BlazorDemos
                 {
                     @"Enhanced virtual scrolling with OverscanCount and PageSize support which reduces the frequency of data fetching when scrolling through records."
                 },
-                
             },
             new Sample
             {
@@ -627,7 +615,7 @@ namespace BlazorDemos
                     }
                 }
             },
-#if !WASM
+#if !(WASM)
             new Sample
             {
                 Name = "Persist State",

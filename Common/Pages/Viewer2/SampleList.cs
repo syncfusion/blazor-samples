@@ -25,8 +25,30 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Read-Only",
+                Category = "Document Security",
+                Directory = "Viewer2/PdfViewer2",
+                Url = "pdf-viewer-2/read-only",
+                FileName = "ReadOnly.razor",
+                Type=SampleType.New,
+                NotificationDescription = new string[]{ @"Incorporated the sample to showcase how to make a PDF document secure in a read-only mode without the need for editing." }
+            },
+
+            new Sample
+            {
+                Name = "Document List",
+                Category = "File Management",
+                Directory = "Viewer2/PdfViewer2",
+                Url = "pdf-viewer-2/document-list",
+                FileName = "DocumentList.razor",
+                Type=SampleType.New,
+                NotificationDescription = new string[]{ @"Included the example to demonstrate how to showcase a list of documents in a grid layout and open each document for viewing or editing utilizing the PDF Viewer component within a Dialog." }
+
+            },
+            new Sample
+            {
                 Name = "Custom Toolbar",
-                Category = "PDF Viewer (NextGen)",
+                Category = "Toolbar",
                 Directory = "Viewer2/PdfViewer2",             
                 Url = "pdf-viewer-2/custom-toolbar",
                 FileName = "CustomToolbar.razor",
@@ -34,7 +56,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Form Filling",
-                Category = "PDF Viewer (NextGen)",
+                Category = "PDF Form",
                 Directory = "Viewer2/PdfViewer2",              
                 Url = "pdf-viewer-2/form-filling",
                 FileName = "FormFilling.razor"
@@ -42,7 +64,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Annotations",
-                Category = "PDF Viewer (NextGen)",
+                Category = "Annotation",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/annotations-toolbar",              
                 FileName = "AnnotationsToolbar.razor",
@@ -50,22 +72,26 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Handwritten Signature",
-                Category = "PDF Viewer (NextGen)",
+                Category = "Signature",
                 Directory = "Viewer2/PdfViewer2",              
                 Url = "pdf-viewer-2/handwritten-signature",
                 FileName = "HandwrittenSignature.razor"
             }
-#if !WASM
+           
+            
+#if !(WASM || WEBAPP)
             ,
             new Sample
             {
                 Name = "Invisible Digital Signature",
-                Category = "PDF Viewer (NextGen)",
+                Category = "Signature",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/invisible-digital-signature",
                 FileName = "InvisibleDigitalSignature.razor",             
-            },
+            }
+           
 #endif
+            
         };
     };
         
