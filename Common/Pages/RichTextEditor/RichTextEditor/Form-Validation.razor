@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.RichTextEditor
 @using System.ComponentModel.DataAnnotations;
+@using System.Text.RegularExpressions
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -67,7 +68,7 @@
     private class FormModel
     {
         [Required]
-        [MinLength(20, ErrorMessage = "The Rich Text Editor content must contain at least 20 letters, including the HTML element.")]
+        [MinLength(20, ErrorMessage = "The Rich Text Editor content must contain at least 20 letters.")]
         public string Description { get; set; }
     }
 
@@ -86,7 +87,31 @@
 
     private void ValidSubmit(EditContext context)
     {
-        Model.Description = String.Empty;
-        this.Visible = true;
+        var textWithoutHtml = RemoveHtmlTags(Model.Description.Trim());
+        textWithoutHtml = textWithoutHtml.Replace("&nbsp;", "");
+        int imgCount = CountImageTags(Model.Description);
+        int adjustedLength = textWithoutHtml.Trim().Length + imgCount ;
+
+        if (string.IsNullOrWhiteSpace(textWithoutHtml) || adjustedLength < 20)
+        {
+            var validationMessageStore = new ValidationMessageStore(context);
+            validationMessageStore.Add(new FieldIdentifier(Model, nameof(Model.Description)), "The Rich Text Editor content must contain at least 20 characters.");
+        }
+        else
+        {
+            Model.Description = String.Empty;
+            this.Visible = true;
+        }
+    }
+
+    private string RemoveHtmlTags(string htmlContent)
+    {
+        return Regex.Replace(htmlContent, "<.*?>", string.Empty);
+    }
+
+    private int CountImageTags(string text)
+    {
+        var imgCount = Regex.Matches(text, "<img[^>]*>").Count;
+        return imgCount;
     }
 }

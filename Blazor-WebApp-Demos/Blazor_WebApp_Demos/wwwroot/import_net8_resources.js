@@ -1,7 +1,8 @@
+import {data} from './version.js';
 var path = "_content/Blazor_WebApp_Common_NET8";
 var css = "/Blazor_WebApp_Common_NET8.bundle.scp.css";
 
-const homepagepath = ["/", "/staging/demos/", "/development/webapp/demos/", "/release/webapp/demos/", "/hotfix/webapp/demos/"];
+const homepagepath = ["/", "/staging/demos/", "/demos/", "/staging/demos/", "/development/webapp/demos/", "/release/webapp/demos/", "/hotfix/webapp/demos/"];
 
 function dynamicResources() {
     if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {
@@ -47,7 +48,19 @@ function loadAssets(file) {
 }
 
 function homePageAssets() {
-    var assetFiles = [
+    var assetFiles;
+    if (data.configuration == "Release") {
+        assetFiles = [
+            '/styles/bootstrap.min.css',
+            '/favicon.ico',
+            '/styles/site.css',
+            '/styles/common/home.min.css',
+            '/styles/common/devices.min.css',
+            '/scripts/common/index.js',
+            css
+        ];
+    } else {
+        assetFiles = [
             '/styles/bootstrap.min.css',
             '/favicon.ico',
             '/styles/site.css',
@@ -55,7 +68,8 @@ function homePageAssets() {
             '/styles/common/devices.css',
             '/scripts/common/index.js',
             css
-     ];
+        ];
+    }
     assetFiles.forEach((file) => {
         loadAssets(path + file);
     });
@@ -63,7 +77,21 @@ function homePageAssets() {
 }
 
 function samplePageAssets() {
-    var assetFiles = [
+    var assetFiles;
+    if (data.configuration == "Release") {
+        assetFiles = [
+            '/favicon.ico',
+            css,
+            '/styles/bootstrap.min.css',
+            '/styles/common/demos.min.css',
+            '/styles/common/devices.min.css',
+            '/scripts/common/highlight.min.js',
+            '/scripts/common/index.js',
+            '/scripts/image-editor.min.js',
+            '/styles/common/dark-theme.min.css',
+        ];
+    } else {
+        assetFiles = [
             '/styles/common/highcontrast.css',
             '/favicon.ico',
             css,
@@ -76,7 +104,7 @@ function samplePageAssets() {
             '/scripts/common/index.js',
             '/scripts/image-editor.js',
             '/styles/common/dark-theme.css',
-        ];
+        ]; }
     assetFiles.forEach((file) => {
         loadAssets(path + file);
     });

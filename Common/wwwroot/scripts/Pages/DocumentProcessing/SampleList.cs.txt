@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2023.
-// Copyright Syncfusion Inc. 2001-2023. All rights reserved.
+#region Copyright Syncfusion Inc. 2001-2024.
+// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -1506,7 +1506,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Worksheet To Image",
-                Category = "Export",
+                Category = "Conversions",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/worksheet-to-image",
                 MetaDescription = "This sample demonstrates how to convert worksheets to image using .NET Excel (XlsIO) library.",
@@ -1529,7 +1529,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Worksheet To HTML",
-                Category = "Export",
+                Category = "Conversions", 
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/worksheet-to-html",
                 MetaDescription = "This sample demonstrates how to convert Worksheets to html files using Essential XlsIO.",
@@ -1551,7 +1551,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Excel To PDF",
-                Category = "Export",
+                Category = "Conversions",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-pdf",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to pdf file using Essential XlsIO.",
@@ -1574,7 +1574,7 @@ namespace BlazorDemos
 			new Sample
             {
                 Name = "Excel To JSON",
-                Category = "Export",
+                Category = "Conversions",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-json",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to JSON file using Essential XlsIO.",

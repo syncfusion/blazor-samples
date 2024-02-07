@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2023.
-// Copyright Syncfusion Inc. 2001-2023. All rights reserved.
+#region Copyright Syncfusion Inc. 2001-2024.
+// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -184,10 +184,10 @@ namespace BlazorDemos.Shared
 #else
             ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
             ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
-            PdfScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
-            PdfScriptPath2 = "_content/Syncfusion.Blazor.SfPdfViewer/scripts";
-            DocScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
-            CommonScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
+            PdfScriptPath = "https://cdn.syncfusion.com/blazor/24.1.41";
+            PdfScriptPath2 = "https://cdn.syncfusion.com/blazor/24.1.41";
+            DocScriptPath = "https://cdn.syncfusion.com/blazor/24.1.41";
+            CommonScriptPath = "https://cdn.syncfusion.com/blazor/24.1.41";
             DiagramScriptPath = WebAssetsPath + "scripts/diagram/interop.min.js";
             SBScriptPath = WebAssetsPath + "scripts/common/demos.min.js";
             ViewerScriptPath = WebAssetsPath + "scripts/pdfviewer/interop.min.js";

@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2023.
-// Copyright Syncfusion Inc. 2001-2023. All rights reserved.
+#region Copyright Syncfusion Inc. 2001-2024.
+// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -248,8 +248,6 @@ namespace BlazorDemos
                 Url = "diagramcomponent/radialtree",
                 FileName = "RadialTree.razor",
                 HeaderText="Radial Tree Example using Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate radial tree layout in Diagram Component. This layout emphasizes the relationship between parent and child nodes, with the central node typically representing the root of the hierarchy." }
             },
             new Sample
             {

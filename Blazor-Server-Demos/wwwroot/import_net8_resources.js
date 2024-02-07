@@ -3,8 +3,7 @@ if (data.version == "net8.0") {
     var path = "_content/Blazor_Server_Common_NET8";
 var css = "/Blazor_Server_Common_NET8.bundle.scp.css";
 }
-const homepagepath = ["/staging/demos/" ,"/net8/demos/", "/development/net8/demos/", "/development/net8/demos/", "/release/net8/demos/", "/release/net8/demos/", "/hotfix/net8/demos/", "/hotfix/net8/demos/","/cloudtesting/net8-server/","/"];
-
+const homepagepath = ["/staging/server/demos/","/server/demos/" ,"/net8/demos/", "/development/net8/demos/", "/development/net8/demos/", "/release/net8/demos/", "/release/net8/demos/", "/hotfix/net8/demos/", "/hotfix/net8/demos/","/cloudtesting/net8-server/","/"];
 function dynamicResources() {
     if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {
         let newScript = document.createElement('script');

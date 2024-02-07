@@ -1,5 +1,6 @@
 ﻿@page "/card/expand-card"
 
+@inject IJSRuntime jsRuntime
 @using Syncfusion.Blazor.Cards
 @using Syncfusion.Blazor.Buttons
 @*Hidden:Lines*@
@@ -42,7 +43,7 @@
                     @if (Expand)
                     {
                         <table>
-                            <tr>
+                            <tr class="DayContent" @ref="weekdayElementRef" tabindex="0">
                                 <td>
                                     <div class="WeekDay">Monday</div>
                                 </td>
@@ -53,7 +54,7 @@
                                     <div class="MinMaxClass TextCenter"><b>23°C</b> / 12°C</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="DayContent" tabindex="0">
                                 <td>
                                     <div class="WeekDay">Tuesday</div>
                                 </td>
@@ -64,7 +65,7 @@
                                     <div class="MinMaxClass TextCenter"><b>28°C</b> / 15°C</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="DayContent" tabindex="0">
                                 <td>
                                     <div class="WeekDay">Wednesday</div>
                                 </td>
@@ -75,7 +76,7 @@
                                     <div class="MinMaxClass TextCenter"><b>25°C</b> / 20°C</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="DayContent" tabindex="0">
                                 <td>
                                     <div class="WeekDay">Thursday</div>
                                 </td>
@@ -86,7 +87,7 @@
                                     <div class="MinMaxClass TextCenter"><b>20°C</b> / 12°C</div>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr class="DayContent" tabindex="0">
                                 <td>
                                     <div class="WeekDay">Friday</div>
                                 </td>
@@ -103,7 +104,7 @@
                 <CardContent EnableSeparator="true"></CardContent>
                 <CardFooter>
                     <CardFooterContent>
-                        <SfButton CssClass="e-outline" @onclick="@(() => Expand = !Expand)">@(Expand ? "Collapse" : "Expand")</SfButton>
+                        <SfButton CssClass="e-outline" @onclick="@ExpandHandler">@(Expand ? "Collapse" : "Expand")</SfButton>
                     </CardFooterContent>
                 </CardFooter>
             </SfCard>
@@ -113,10 +114,44 @@
 
 @code{
     bool Expand = false;
+
+    public ElementReference weekdayElementRef;
+
+    public async Task ExpandHandler()
+    {
+        Expand = !Expand;
+        await Task.Delay(2);
+        if (Expand)
+        {
+            if (weekdayElementRef.Id != null)
+            {
+                await jsRuntime.InvokeVoidAsync("setFocusToElement", weekdayElementRef);
+            }
+        }
+    }
     
 }
 
 <style>
+    .DayContent:focus {
+        outline: solid 1px black;
+        border-radius: 5px;    
+    }
+    .fluent-dark .DayContent:focus,
+    .fabric-dark .DayContent:focus,
+    .material-dark .DayContent:focus,
+    .material3-dark .DayContent:focus,
+    .bootstrap-dark .DayContent:focus,
+    .bootstrap5-dark .DayContent:focus,
+    .tailwind-dark .DayContent:focus,
+    .highcontrast .DayContent:focus {
+        outline: solid 1px #8a8886;
+        border-radius: 5px;
+    }
+    .WeekDay {
+        padding-left: 7px;
+    }
+    
     .TempClass {
         font-size: 30px;
     }

@@ -333,41 +333,33 @@
         args.Cancel = true;
         await this.rteObj.FocusIn();
         await this.rteObj.RestoreSelectionAsync();
-        if(args.ItemData.FormatType != "Inline"){
+        var command = args.ItemData.Command;
+        var formatType = args.ItemData.FormatType;
+        if (formatType != "Inline")
+        {
             beforeApplyFormat();
         }
-        if (args.ItemData.Command == "OL")
+        switch (command)
         {
-            await this.rteObj.ExecuteCommandAsync(CommandName.InsertOrderedList);
-        }
-        else if (args.ItemData.Command == "UL")
-        {
-            await this.rteObj.ExecuteCommandAsync(CommandName.InsertUnorderedList);
-        }
-        else if (args.ItemData.Command == "CreateTable")
-        {
-            await this.rteObj.ShowDialogAsync(DialogType.InsertTable);
-        }
-        else if (args.ItemData.Command == "Emoji")
-        {
-            this.dialogVisible = true;
-            await this.rteObj.SaveSelectionAsync();
-        }
-        else if (args.ItemData.Command == "Image")
-        {
-            await this.rteObj.ShowDialogAsync(DialogType.InsertImage);
-        }
-        else if (args.ItemData.Command == "Audio")
-        {
-            await this.rteObj.ShowDialogAsync(DialogType.InsertAudio);
-        }
-        else if (args.ItemData.Command == "Video")
-        {
-            await this.rteObj.ShowDialogAsync(DialogType.InsertVideo);
-        }
-        else
-        {
-            await this.rteObj.ExecuteCommandAsync(CommandName.FormatBlock, args.ItemData.Command);
+            case "OL":
+                await this.rteObj.ExecuteCommandAsync(CommandName.InsertOrderedList);
+                break;
+            case "UL":
+                await this.rteObj.ExecuteCommandAsync(CommandName.InsertUnorderedList);
+                break;
+            case "CreateTable":
+            case "Image":
+            case "Audio":
+            case "Video":
+                await this.rteObj.ShowDialogAsync(command == "CreateTable"? DialogType.InsertTable : command =="Image"? DialogType.InsertImage : command =="Audio"? DialogType.InsertAudio : DialogType.InsertVideo);
+                break;
+            case "Emoji":
+                this.dialogVisible = true;
+                await this.rteObj.SaveSelectionAsync();
+                break;
+            default:
+                await this.rteObj.ExecuteCommandAsync(CommandName.FormatBlock, args.ItemData.Command);
+                break;
         }
 
     }

@@ -312,6 +312,11 @@ function focusElement(ele) {
     }
 }
 
+//card component expand card sample function for focuing element
+function setFocusToElement(element) {
+  element.focus();
+}
+
 //tooltip keyboard navigation sample function for focuing input
 function focusInput(id) {
     setTimeout(function () {
@@ -373,8 +378,8 @@ window.addEventListener('load', function () {
         if (url.length > 1) {
             if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
                 ThemeEle.removeAttribute('integrity');
-                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/23.1.43/styles/' + url[1] + '.css';
-                ThemeEle.setAttribute('integrity', "sha384-ShUpJ2zAKGexKvfkgb4lpuR7/U1Yqw2H5Ahzi6oZT2V5sb41aL6hjsoNSbrH+zfc");
+                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/24.1.41/styles/' + url[1] + '.css';
+                ThemeEle.setAttribute('integrity', "sha384-q6lWA6UTLwy+yJ8/tmgzgBh/VgNOIwgsTLRkVjwB9NLOfVCgS3UOlZlgIPpWCE/R");
             }
             else {
                 ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + url[1] + '.css';
@@ -442,34 +447,25 @@ window.openThumbnailPane = (viewerId) => {
     viewer.thumbnailView.openThumbnailPane();
 };
 
-function beforeApplyFormat(id, isBlocked) {
-  var range1 = sfBlazor.instances["mentionFormatIntegration"].getRange();
-  var node = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getNodeCollection(range1)[0];
-  var blockNewLine = !(node.parentElement.innerHTML.replace(/&nbsp;|<br>/g, '').trim() == '/' || node.textContent.trim().indexOf('/')==0);
-  var blockNode;
-  var startNode = node;
-  if (blockNewLine && isBlocked) {
-      while (startNode != sfBlazor.instances[id].inputElement) {
-          blockNode = startNode;
-          startNode = startNode.parentElement;
-      }
-  }
-  var startPoint = range1.startOffset;
+function beforeApplyFormat() {
+  var currentRange = sfBlazor.instances["mentionFormatIntegration"].getRange();
+  var node = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getNodeCollection(currentRange)[0];
+  var startPoint = currentRange.startOffset;
   while (sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.getRange(document).toString().indexOf("/") == -1)
   {
-      sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, startPoint, range1.endOffset)
+      sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, startPoint, currentRange.endOffset)
       startPoint--;
   }
  // sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.setSelectionText(document, node, node, range1.startOffset - 1, range1.endOffset);
-  var range2 = sfBlazor.instances["mentionFormatIntegration"].getRange();
-  var node2 = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeCutter.GetSpliceNode(range2, node);
-  var previouNode = node2.previousSibling;
+  var slashRange = sfBlazor.instances["mentionFormatIntegration"].getRange();
+  var slashNode = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeCutter.GetSpliceNode(slashRange, node);
+  var previouNode = slashNode.previousSibling;
 const brTag = document.createElement('br');
-    if ( node2.parentElement && node2.parentElement.innerHTML.length === 1) {
-        node2.parentElement.appendChild(brTag);
+    if ( slashNode.parentElement && slashNode.parentElement.innerHTML.length === 1) {
+        slashNode.parentElement.appendChild(brTag);
     }
-  node2.parentNode.removeChild(node2);
-  var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(range2, document);
+  slashNode.parentNode.removeChild(slashNode);
+  var selection = sfBlazor.instances["mentionFormatIntegration"].formatter.editorManager.nodeSelection.save(slashRange, document);
   if (previouNode) {
       selection.setCursorPoint(document, previouNode, previouNode.textContent.length);
   }

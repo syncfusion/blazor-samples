@@ -56,3 +56,10 @@ gulp.task('update-ref-server', function (done) {
     fs.writeFileSync('../Blazor-Server-Demos/Components/App.razor', MinReferedIndexValue, 'utf8');
     done();
 })
+
+gulp.task('update-ref-webapp', function (done) {
+    var indexFile = fs.readFileSync('../Blazor-WebApp-Demos/Blazor_WebApp_Demos/Components/App.razor', 'utf8');
+    var MinReferedIndexValue = indexFile.replace('import_net8_resources.js', 'import_net8_resources.min.js');
+    fs.writeFileSync('../Blazor-WebApp-Demos/Blazor_WebApp_Demos/Components/App.razor', MinReferedIndexValue, 'utf8');
+    done();
+})
