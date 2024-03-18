@@ -183,6 +183,7 @@ window.sfBlazorSB = {
   }
 };
 
+
 function refreshTab(code, filename) {
   var highlightCodeInterval = setInterval(highlightSource, 0);
 
@@ -375,14 +376,15 @@ window.addEventListener('load', function () {
     let ThemeEle = document.getElementById('theme');
     if (ThemeEle) {
         let url = window.location.href.split("?theme=");
+        let theme = new URL(window.location.href).searchParams.get("theme");
         if (url.length > 1) {
             if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
                 ThemeEle.removeAttribute('integrity');
-                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/24.1.41/styles/' + url[1] + '.css';
+                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/24.1.41/styles/' + theme + '.css';
                 ThemeEle.setAttribute('integrity', "sha384-q6lWA6UTLwy+yJ8/tmgzgBh/VgNOIwgsTLRkVjwB9NLOfVCgS3UOlZlgIPpWCE/R");
             }
             else {
-                ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + url[1] + '.css';
+                ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + theme + '.css';
             }
            
         }
@@ -398,7 +400,9 @@ window.addEventListener('load', function () {
   if (/theme=/g.test(location.search)) {
     themeName = location.search.replace("?theme=", "");
   }
-  document.body.classList.add(themeName);
+    document.body.classList.add(themeName);
+    // Call the function to update button text on page load
+   
 });
 
 window.onresize = function () {
@@ -524,6 +528,76 @@ function created() {
   })
 }
 
+function createdBrowsebutton() {
+    document.getElementById('browseButton').addEventListener('click', function () {
+        document.querySelector('.e-upload-browse-btn').click()
+    })
+}
+
+function onSelect(args) {
+    let extensions = ['doc', 'docx', 'rtf', 'docm', 'dotm', 'dotx', 'dot', 'xls', 'xlsx', 'pptx', 'pptm', 'potx', 'potm', 'jpeg', 'png', 'bmp', 'pdf'];
+    var progressRef = document.getElementById("progress-container");
+    progressRef.value = 0;
+    let progressBarContainer = document.getElementById("progressbarContainer");
+    let progressBar = document.getElementById("linearProgressBar");
+    let progressMessage = document.getElementById("uploadedMessage");
+    let fileSizeValidation = document.getElementById("fileSizeValidation");
+    document.getElementById("fileDetails").style.display = "block";
+    document.getElementById("FailedMessage").style.display = "none";
+    progressBarContainer.style.display = "block";
+    progressBar.style.display = "flex";
+    progressMessage.style.display = "none";
+    fileSizeValidation.style.display = "none";
+    document.getElementById("pdfviewer").style.display = "block";
+    var validFiles = args.filesData;
+    if (validFiles.length === 0) {
+        progressBarContainer.style.display = "block";
+        progressBar.style.display = "none";
+        progressMessage.style.display = "block";       
+        args.cancel = true;
+        return true;
+    }
+    if (!extensions.includes(validFiles[0].type)) {
+        document.getElementById("FailedMessage").style.display = "block";
+        document.getElementById("fileDetails").style.display = "none";
+        document.getElementById("pdfviewer").style.display = "none";
+        document.getElementById("uploadedMessage").style.display = "none";        
+        progressBar.style.display = "none";
+        progressMessage.style.display = "none";
+        args.cancel = true;
+        return true;
+    }
+    if (validFiles[0].type != "pdf" && validFiles[0].size > 4000000) {
+        fileSizeValidation.style.display = "block";
+        document.getElementById("fileDetails").style.display = "none";
+        document.getElementById("pdfviewer").style.display = "none";
+        document.getElementById("uploadedMessage").style.display = "none";        
+        progressBar.style.display = "none";
+        progressMessage.style.display = "none";
+        args.cancel = true;
+        return true;
+    }      
+    document.getElementById("fileName").innerHTML = args.filesData[0].name;
+    let size = document.getElementById("fileSize");
+    if ((args.filesData[0].size.toString()).length <= 6) {
+        size.innerHTML = ((args.filesData[0].size / 1024).toFixed(1)).toString() + " KB";
+    } else {
+        let kbsize = args.filesData[0].size / 1024;
+        size.innerHTML = ((kbsize / 1024).toFixed(1)).toString() + " MB";
+    }
+    return false;
+}
+
+function showMessage() {
+   
+    setTimeout(() => {
+        document.getElementById("linearProgressBar").style.display = "none";
+        document.getElementById("uploadedMessage").style.display = "block";        
+    }, 1000);
+
+}
+
+
 //For diagram component
 function CommonKeyboardCommands_newDiagram() {
     var origin = window.location.origin;
@@ -643,5 +717,64 @@ function ScrollToSelected() {
     if (selectedDiv) {
         selectedDiv.scrollIntoView({ block: 'nearest' });
   }
+  const selectedComponent = document.querySelector('.sf-tree-parent .sf-tree-active');
+  if (selectedComponent) {
+      selectedComponent.scrollIntoView({ block: 'nearest' });
+  }
 }
 
+var updatedURL;
+var currentURL;
+
+// console.log("Current URL:", currentURL);
+
+function updateThemeURL() {
+    const themeParameter = "fluent";
+    currentURL = window.location.href;
+    if (!currentURL.includes("?")) {
+        // URL does not contain a query string
+        // Add the theme parameter with "?" prefix
+        currentURL=`${currentURL}?theme=${themeParameter}`;
+    }
+    //  var currentURL = window.location.href;
+    if (currentURL.includes("?")) {
+        var urlParts = currentURL.split("?");
+        var baseUrl = urlParts[0];
+        var queryString = urlParts[1];
+        var params = new URLSearchParams(queryString);
+
+        if (params.has("theme")) {
+            var themeValue = params.get("theme");
+            var themeParts = themeValue.split("-");
+            var themeName = themeParts[0]; // Extracting the theme name without the "-dark" suffix
+            if (themeName !== "highcontrast") {
+                // Check if the URL already contains "-dark"
+                if (!currentURL.includes("-dark")) {
+                    // Append "-dark" to the current URL
+                    updatedURL = currentURL + "-dark";
+                    console.log("Updated URL:", updatedURL);
+                } else if (currentURL.includes("-dark")) {
+                    // Remove "-dark" from the current URL
+                    updatedURL = currentURL.replace("-dark", "");
+                    console.log("Updated URL (removed -dark):", updatedURL);
+                }
+            } else {
+                console.log("Theme is already fluent, no update needed");
+            }
+        } else {
+            console.log("No theme parameter found in the URL");
+        }
+    } else {
+        console.log("No query parameter found in the URL");
+    }
+    return updatedURL; // Return the updated URL or current URL if no update is needed
+}
+
+function navigateToPage() {
+    var updatedURL = updateThemeURL();
+    console.log("Updated URL is:" + updatedURL);
+    if (updatedURL) {
+        window.location.href = updatedURL; // Replace the current URL without reloading the page
+    }
+
+}

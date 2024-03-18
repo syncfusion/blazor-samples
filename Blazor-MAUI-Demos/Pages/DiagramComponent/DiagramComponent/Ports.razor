@@ -33,7 +33,6 @@
 @*End:Hidden*@
 
 <div class="content-wrapper">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7;height: 640px">
         <SfDiagramComponent @ref="@Diagram"
                             Height="600px"
@@ -238,6 +237,7 @@
 
     private async Task ApplyPortStyle(string propertyName, Object propertyValue)
     {
+        Diagram.StartGroupAction();
         Diagram.BeginUpdate();
         if (Diagram.SelectionSettings != null && Diagram.SelectionSettings.Nodes != null && Diagram.SelectionSettings.Nodes.Count > 0)
         {
@@ -273,13 +273,14 @@
             }
         }
         await Diagram.EndUpdate();
+        Diagram.EndGroupAction();
     }
     @*End:Hidden*@
 
     // Method to update the style for the selected node's port.
     private void SelectionChanged(SelectionChangedEventArgs arg)
     {
-        if (arg.NewValue != null && arg.NewValue.Count > 0)
+        if (arg.NewValue != null && arg.NewValue.Count > 0 && !(arg.NewValue[0] is Connector))
         {
             disablePicker = false;
             enableDropDown = true;

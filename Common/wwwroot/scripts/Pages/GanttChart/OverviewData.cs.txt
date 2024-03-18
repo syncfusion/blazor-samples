@@ -25,11 +25,13 @@ namespace Overview.Pages
             public string Manager { get; set; }
             public int Progress { get; set; }
             public string Predecessor { get; set; }
+            public string EmptyPredecessor { get; set; }
             public double StoryPoints { get; set; }
             public string Status { get; set; }
             public int? ParentId { get; set; }
             public string Priority { get; set; }
             public string Component { get; set; }
+            public List<OverviewData.ResourceAlloacteData> Resources { get; set; }
         }
         public class ResourceAlloacteData
         {
@@ -67,17 +69,19 @@ namespace Overview.Pages
                     TimeLog=2,
                     Work=2,
                     Progress=80,
-                    Status="In Progress"
+                    Status="In Progress",
                 },
                 new TaskData(){
                     TaskId= 2,
                     TaskName="Roadmap",
-                    ParentId=1
+                    ParentId=1,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1, Unit=70} }
                 },
                 new TaskData(){
                     TaskId= 3,
                     TaskName="Implementation",
-                    ParentId=2
+                    ParentId=2,
+                     Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} }
                 },
                 new TaskData(){
                     TaskId = 4,
@@ -88,7 +92,8 @@ namespace Overview.Pages
                     TimeLog=44,
                     Work=45,
                     Progress=70,
-                    ParentId=3
+                    ParentId=3,
+                     Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1, Unit=70} }
                 },
                 new TaskData(){
                     TaskId = 5,
@@ -104,7 +109,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=4,
                     Priority="High",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId = 6,
@@ -120,7 +126,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=4,
                     Priority="Normal",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} }
                 },
                 new TaskData(){
                     TaskId = 7,
@@ -131,7 +138,8 @@ namespace Overview.Pages
                     TimeLog=33,
                     Work=30,
                     Progress=80,
-                    ParentId=3
+                    ParentId=3,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4, Unit=30} }
                 },
                 new TaskData(){
                     TaskId = 8,
@@ -147,7 +155,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=7,
                     Priority="Critical",
-                    Component="Tree Grid"
+                    Component="Tree Grid",
+                     Resources = new List<ResourceAlloacteData>(){new ResourceAlloacteData() { ResourceId=8} }
                 },
                 new TaskData(){
                     TaskId = 9,
@@ -158,7 +167,8 @@ namespace Overview.Pages
                     TimeLog=2,
                     Work=2,
                     Progress=100,
-                    ParentId=3
+                    ParentId=3,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} }
                 },
                 new TaskData(){
                     TaskId = 10,
@@ -174,7 +184,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=9,
                     Priority="Low",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} }
                 },
                 new TaskData(){
                     TaskId = 11,
@@ -191,7 +202,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=9,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=12} },
                 },
                 new TaskData(){
                     TaskId = 12,
@@ -207,7 +219,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=9,
                     Priority="High",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=10} },
                 },
                 new TaskData(){
                     TaskId = 13,
@@ -223,7 +236,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=9,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4} },
                 },
                 new TaskData(){
                     TaskId = 14,
@@ -239,7 +253,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=9,
                     Priority="Critical",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=5} },
                 },
                 new TaskData(){
                     TaskId = 15,
@@ -255,19 +270,22 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=9,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskName="Feature Completion",
                     StartDate=new DateTime(2022,3,25),
                     TimeLog=0,
                     ParentId=3,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId=16,
                     TaskName="Testing",
                     Work=8,
                     ParentId=3,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} },
                 },
                 new TaskData(){
                     TaskId=17,
@@ -277,6 +295,7 @@ namespace Overview.Pages
                     Work=2,
                     Progress=0,
                     ParentId=16,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=5} },
                 },
                 new TaskData(){
                     TaskId=18,
@@ -287,6 +306,7 @@ namespace Overview.Pages
                     Progress=0,
                     Predecessor="17FS",
                     ParentId=16,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId=19,
@@ -294,6 +314,7 @@ namespace Overview.Pages
                     StartDate=new DateTime(2022,3,27),
                     TimeLog=0,
                     ParentId=3,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskId=20,
@@ -301,6 +322,7 @@ namespace Overview.Pages
                     StartDate=new DateTime(2022,04,4),
                     TimeLog=0,
                     ParentId=2,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=9} },
                 },
                 new TaskData(){
                     TaskId = 21,
@@ -313,16 +335,19 @@ namespace Overview.Pages
                     Work=2,
                     Progress=90,
                     Status="Completed",
+
                 },
                 new TaskData(){
                     TaskId= 22,
                     TaskName="Roadmap",
-                    ParentId=21
+                    ParentId=21,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=12} },
                 },
                 new TaskData(){
                     TaskId= 23,
                     TaskName="Implementation",
-                    ParentId=22
+                    ParentId=22,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=5} },
                 },
                 new TaskData(){
                     TaskId = 24,
@@ -333,7 +358,8 @@ namespace Overview.Pages
                     TimeLog=2,
                     Work=2,
                     Progress=100,
-                    ParentId=23
+                    ParentId=23,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=7} },
                 },
                 new TaskData(){
                     TaskId = 25,
@@ -349,7 +375,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=24,
                     Priority="High",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId = 26,
@@ -365,7 +392,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=24,
                     Priority="Normal",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4} },
                 },
                 new TaskData(){
                     TaskId = 27,
@@ -381,7 +409,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=24,
                     Priority="Normal",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1} },
                 },
                 new TaskData(){
                     TaskId = 28,
@@ -392,7 +421,8 @@ namespace Overview.Pages
                     TimeLog=2,
                     Work=2,
                     Progress=50,
-                    ParentId=23
+                    ParentId=23,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=7} },
                 },
                 new TaskData(){
                     TaskId = 29,
@@ -408,7 +438,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=28,
                     Priority="Normal",
-                    Component="Tree Grid"
+                    Component="Tree Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} },
                 },
                 new TaskData(){
                     TaskId = 30,
@@ -424,7 +455,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=28,
                     Priority="High",
-                    Component="Tree Grid"
+                    Component="Tree Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskId = 31,
@@ -435,7 +467,8 @@ namespace Overview.Pages
                     TimeLog=2,
                     Work=2,
                     Progress=50,
-                    ParentId=23
+                    ParentId=23,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=7} },
                 },
                 new TaskData(){
                     TaskId = 32,
@@ -451,7 +484,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=31,
                     Priority="Critical",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=9} },
                 },
                 new TaskData(){
                     TaskId = 33,
@@ -467,7 +501,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=31,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=11} },
                 },
                 new TaskData(){
                     TaskId = 34,
@@ -483,7 +518,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=31,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1} },
                 },
                 new TaskData(){
                     TaskId = 35,
@@ -499,7 +535,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=31,
                     Priority="High",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} },
                 },
                 new TaskData(){
                     TaskId = 36,
@@ -515,7 +552,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=31,
                     Priority="Critical",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=5} },
                 },
                 new TaskData(){
                     TaskId = 37,
@@ -531,7 +569,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=31,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=7} },
                 },
                 new TaskData(){
                     TaskId = 38,
@@ -547,7 +586,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=31,
                     Priority="Low",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=9} },
                 },
                 new TaskData(){
                     TaskId = 39,
@@ -563,7 +603,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=31,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=10} },
                 },
                 new TaskData(){
                     TaskId = 40,
@@ -579,7 +620,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=31,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=12} },
                 },
                 new TaskData(){
                     TaskId = 41,
@@ -595,7 +637,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=31,
                     Priority="Low",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskId = 42,
@@ -611,7 +654,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=31,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4} },
                 },
                 new TaskData(){
                     TaskId = 43,
@@ -619,12 +663,14 @@ namespace Overview.Pages
                     StartDate=new DateTime(2022,6,15),
                     TimeLog=0,
                     ParentId=23,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} },
                 },
                 new TaskData(){
                     TaskId=44,
                     TaskName="Testing",
                     Work=8,
                     ParentId=23,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId=45,
@@ -634,6 +680,7 @@ namespace Overview.Pages
                     Work=3,
                     Progress=0,
                     ParentId=44,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=10} },
                 },
                 new TaskData(){
                     TaskId=46,
@@ -644,6 +691,7 @@ namespace Overview.Pages
                     Predecessor="45FS",
                     Progress=0,
                     ParentId=44,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1} },
                 },
                 new TaskData(){
                     TaskId=47,
@@ -651,6 +699,7 @@ namespace Overview.Pages
                     StartDate=new DateTime(2022,6,24),
                     TimeLog=0,
                     ParentId=24,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4} },
                 },
                 new TaskData(){
                     TaskId=48,
@@ -658,6 +707,7 @@ namespace Overview.Pages
                     StartDate=new DateTime(2022,06,30),
                     TimeLog=0,
                     ParentId=22,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=9} },
                 },
                 new TaskData(){
                     TaskId = 49,
@@ -670,17 +720,19 @@ namespace Overview.Pages
                     Work=2,
                     Progress=100,
                     StoryPoints=100,
-                    Status="In Progress"
+                    Status="In Progress",
                 },
                 new TaskData(){
                     TaskId= 50,
                     TaskName="Roadmap",
-                    ParentId=49
+                    ParentId=49,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=5} },
                 },
                 new TaskData(){
                     TaskId= 51,
                     TaskName="Implementation",
-                    ParentId=50
+                    ParentId=50,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} },
                 },
                 new TaskData(){
                     TaskId = 52,
@@ -691,7 +743,8 @@ namespace Overview.Pages
                     TimeLog=15,
                     Work=120,
                     Progress=100,
-                    ParentId=51
+                    ParentId=51,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} },
                 },
                 new TaskData(){
                     TaskId = 53,
@@ -707,7 +760,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=52,
                     Priority="Normal",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=12} },
                 },
                 new TaskData(){
                     TaskId = 54,
@@ -723,7 +777,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=52,
                     Priority="Low",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=7} },
                 },
                 new TaskData(){
                     TaskId = 55,
@@ -739,7 +794,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=52,
                     Priority="High",
-                    Component="Grid"
+                    Component="Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} },
                 },
                 new TaskData(){
                     TaskId = 56,
@@ -750,7 +806,8 @@ namespace Overview.Pages
                     TimeLog=15,
                     Work=12,
                     Progress=100,
-                    ParentId=51
+                    ParentId=51,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskId = 57,
@@ -766,7 +823,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=56,
                     Priority="Normal",
-                    Component="Tree Grid"
+                    Component="Tree Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId = 58,
@@ -782,7 +840,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=56,
                     Priority="Critical",
-                    Component="Tree Grid"
+                    Component="Tree Grid",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=12} },
                 },
                 new TaskData(){
                     TaskId = 59,
@@ -793,7 +852,8 @@ namespace Overview.Pages
                     TimeLog=15,
                     Work=120,
                     Progress=100,
-                    ParentId=51
+                    ParentId=51,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} },
                 },
                 new TaskData(){
                     TaskId = 60,
@@ -809,7 +869,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=59,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} },
+                    Component="Gantt Chart",
                 },
                 new TaskData(){
                     TaskId = 61,
@@ -825,7 +886,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=59,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=1} },
                 },
                 new TaskData(){
                     TaskId = 62,
@@ -841,7 +903,8 @@ namespace Overview.Pages
                     Status="In Progress",
                     ParentId=59,
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskId = 63,
@@ -857,7 +920,8 @@ namespace Overview.Pages
                     Status="Completed",
                     ParentId=59,
                     Priority="High",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} },
                 },
                 new TaskData(){
                     TaskId = 64,
@@ -874,7 +938,8 @@ namespace Overview.Pages
                     ParentId=59,
                     Predecessor="30FS+40Days",
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=6} },
                 },
                 new TaskData(){
                     TaskId = 65,
@@ -890,7 +955,8 @@ namespace Overview.Pages
                     Status="On Hold",
                     ParentId=59,
                     Priority="Low",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=10} },
                 },
                 new TaskData(){
                     TaskId = 66,
@@ -907,7 +973,8 @@ namespace Overview.Pages
                     ParentId=59,
                     Predecessor="58FS",
                     Priority="Normal",
-                    Component="Gantt Chart"
+                    Component="Gantt Chart",
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=8} },
                 },
                 new TaskData(){
                     TaskId = 67,
@@ -915,12 +982,14 @@ namespace Overview.Pages
                     StartDate=new DateTime(2022,9,15),
                     TimeLog=0,
                     ParentId=51,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=2} },
                 },
                 new TaskData(){
                     TaskId=68,
                     TaskName="Testing",
                     Work=8,
                     ParentId=51,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=3} },
                 },
                 new TaskData(){
                     TaskId=69,
@@ -930,6 +999,7 @@ namespace Overview.Pages
                     Work=3,
                     Progress=0,
                     ParentId=68,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=4} },
                 },
                 new TaskData(){
                     TaskId=70,
@@ -940,8 +1010,9 @@ namespace Overview.Pages
                     Predecessor="69FS",
                     Progress=0,
                     ParentId=68,
+                    Resources = new List<ResourceAlloacteData>(){ new ResourceAlloacteData() { ResourceId=7} },
                 },
-                new TaskData(){
+               new TaskData(){
                     TaskId=71,
                     TaskName="Testing Completion",
                     StartDate=new DateTime(2022,9,24),

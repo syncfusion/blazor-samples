@@ -1007,8 +1007,7 @@ namespace BlazorDemos
                 Url = "chart/synchronized-charts",
                 FileName = "SynchronizedCharts.razor",
                 HeaderText = "Blazor Synchronized Charts Example.",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate synchronized charts for tooltip, crosshair, and zooming user interactions across multiple charts." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1098,10 +1097,7 @@ namespace BlazorDemos
                 Url = "chart/export",
                 FileName = "Export.razor",
                 HeaderText = "Blazor Chart with Export Example.",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] {
-                    @"Enhanced the demo with additional export options (XLSX and CSV) for the Chart component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1171,8 +1167,7 @@ namespace BlazorDemos
                 Url = "chart/add-a-point-on-click",
                 FileName = "AddingPoint.razor",
                 HeaderText = "Blazor Chart with Dynamic Points Example.",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate charts to add a data point dynamically on mouse click inside the chart area." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1266,10 +1261,7 @@ namespace BlazorDemos
 			      Directory = "Charts/RangeNavigator",
 			      Url = "range-selector/print-export",
 			      FileName = "PrintExport.razor",
-			      Type = SampleType.Updated,
-			      NotificationDescription = new string[] {
-                    @"Enhanced the demo with additional export options (XLSX and CSV) for the RangeSelector component."
-                  }
+			      Type = SampleType.None
 			  },
 			  new Sample
 			  {

@@ -21,7 +21,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/overview",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -34,6 +34,10 @@ namespace BlazorDemos
                         Id="OverviewRecord",
                         FileName="OverviewData.cs"
                     }
+                },
+                 NotificationDescription = new string[]
+                {
+                    @"Enhanced Overview sample demonstrating additional configuration options for the Gantt, Including Row Height, Duration Unit, Work Week, Event Markers, Dependencies, Task Labels, Timeline Width, View Type, and View Mode."
                 },
                 IsHideInMobile= true,
             },
@@ -99,27 +103,6 @@ namespace BlazorDemos
                     {
                         Id="DefaultRecord",
                         FileName="DefaultData.cs"
-                    }
-                }
-            },
-            new Sample
-            {
-                Name = "Filtering",
-                Category = "Gantt Chart",
-                Directory = "GanttChart/GanttChart",
-                Url = "gantt-chart/filtering",
-                Type = SampleType.None,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="Filtering",
-                         FileName = "Filtering.razor",
-                    },
-                    new SourceCollection
-                    {
-                        Id="Filter",
-                        FileName="FilterData.cs"
                     }
                 }
             },
@@ -556,7 +539,6 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/virtual-scroll",
                 FileName="VirtualScroll.razor",
-                Type = SampleType.Updated,
                 NotificationDescription = new string[]
                 {
                     @"Enhanced virtual scrolling with OverscanCount and PageSize support which reduces the frequency of data fetching when scrolling through records."
@@ -594,20 +576,7 @@ namespace BlazorDemos
                     }
                 }
             },
-            new Sample
-            {
-                Name = "Split Tasks",
-                Category = "Miscellaneous",
-                Directory = "GanttChart/GanttChart",
-                Url = "gantt-chart/split-tasks",
-                Type = SampleType.New,
-                FileName="SplitTasks.razor",
-                NotificationDescription = new string[]
-                {
-                    @"The sample has been added to demonstrate the split taskbar feature in Gantt Chart."
-                },
-            },
-            new Sample
+             new Sample
             {
                 Name = "Row Height",
                 Category = "Rows",
@@ -628,6 +597,86 @@ namespace BlazorDemos
                     }
                 }
             },
+            new Sample
+            {
+                Name = " Default Filtering",
+                Category = "Filtering",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/filtering",
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Filtering",
+                         FileName = "Filtering.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="Filter",
+                        FileName="FilterData.cs"
+                    }
+                }
+            },
+             new Sample
+            {
+                Name = "Advanced Filtering",
+                Category = "Filtering",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/advanced-filtering",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                         Id="AdvancedFiltering",
+                         FileName = "AdvancedFiltering.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="AdvancedFiltering",
+                        FileName="FilterData.cs"
+                    }
+                },
+                 NotificationDescription = new string[]
+                {
+                    @"The sample has been added to demonstrate the comprehensive filtering support available in the Gantt Chart."
+                },
+            },
+             new Sample
+            {
+                Name = "Split Tasks",
+                Category = "Miscellaneous",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/split-tasks",
+                Type = SampleType.New,
+                FileName="SplitTasks.razor",
+                NotificationDescription = new string[]
+                {
+                    @"The sample has been added to demonstrate the split taskbar feature in Gantt Chart."
+                },
+            },
+			new Sample
+            {
+                Name = "Responsive",
+                Category = "Miscellaneous",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/ganttresponsive",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="GanttResponsive",
+                        FileName="GanttResponsive.razor"
+                    }
+                },
+                 NotificationDescription = new string[]
+                 {
+                 @"The sample has been added to demonstrate the responsive behavior in the Gantt Chart."
+                 },
+            },
+            
 #if !(WASM)
             new Sample
             {

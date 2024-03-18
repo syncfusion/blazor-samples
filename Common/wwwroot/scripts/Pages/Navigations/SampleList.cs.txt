@@ -85,14 +85,6 @@ namespace BlazorDemos
                 Directory = "Navigations/ContextMenu",
                 FileName = "DefaultFunctionalities.razor",
                 Url = "context-menu/default-functionalities"
-            },
-             new Sample
-            {
-                Name = "Keyboard Navigation",
-                Category = "Context Menu",
-                Directory = "Navigations/ContextMenu",
-                FileName = "KeyboardNavigation.razor",
-                Url = "context-menu/keyboard-navigation"
             }
         };
         public List<Sample> MenuBar { get; set; } = new List<Sample>
@@ -492,6 +484,29 @@ namespace BlazorDemos
                 Url = "file-manager/overview",
                 FileName = "Overview.razor"
             },
+            new Sample
+            {
+                Name = "Flat Data",
+                Category = "File Manager",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/flat-data",
+                FileName = "FlatData.razor",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id = "FlatData",
+                        FileName = "FlatData.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id = "FileManagerService",
+                        FileName = "FileManagerService.cs"
+                    },
+                },
+                NotificationDescription = new string[]{ @"Introduces a new feature in the File Manager, Showcases the seamless integration of Flat Data retrieved as complete folder data as a list of objects during the initial rendering of the File Manager. File operations such as reading, deleting, and creating folders are efficiently executed within the injected FileManagerService." }
+            },
              new Sample
             {
                 Name = "Custom Thumbnails",
@@ -556,7 +571,6 @@ namespace BlazorDemos
                 Category = "Use Case",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/access-control",
-                Type = SampleType.New,
                 FileName = "AccessControl.razor",
                 NotificationDescription = new string[]{ @"Showcases the access control permissions enabled for specific folders in File Manager based on user role." }
             },
@@ -783,9 +797,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Stepper",
                 Url = "stepper/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the default combinations of the steps and stepType properties in the Stepper."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -795,9 +806,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Stepper",
                 Url = "stepper/orientation",
                 FileName = "Orientation.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the orientations and label positions supported in the Stepper."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -807,9 +815,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Stepper",
                 Url = "stepper/linear-flow",
                 FileName = "Linear.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the validation support for each step in the Stepper."
-                },
                 Type = SampleType.None
             },
             new Sample
@@ -819,9 +824,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Stepper",
                 Url = "stepper/validation",
                 FileName = "Validation.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the usage of the linear property in the Stepper."
-                },
                 Type = SampleType.None
             }
         };

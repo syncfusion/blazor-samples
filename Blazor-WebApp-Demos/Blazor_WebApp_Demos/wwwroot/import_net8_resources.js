@@ -56,7 +56,7 @@ function homePageAssets() {
             '/styles/site.css',
             '/styles/common/home.min.css',
             '/styles/common/devices.min.css',
-            '/scripts/common/index.js',
+            '/scripts/common/index.min.js',
             css
         ];
     } else {
@@ -86,7 +86,7 @@ function samplePageAssets() {
             '/styles/common/demos.min.css',
             '/styles/common/devices.min.css',
             '/scripts/common/highlight.min.js',
-            '/scripts/common/index.js',
+            '/scripts/common/index.min.js',
             '/scripts/image-editor.min.js',
             '/styles/common/dark-theme.min.css',
         ];

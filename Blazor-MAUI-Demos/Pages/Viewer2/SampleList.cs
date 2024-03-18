@@ -33,6 +33,15 @@ namespace Blazor_MAUI_Demos
             },
             new Sample
             {
+                Name = "Primary Toolbar Customization",
+                Category = "PDF Viewer (NextGen)",
+                Directory = "Viewer2/PdfViewer2",             
+                Url = "pdf-viewer-2/primary-toolbar-customization",
+                FileName = "PrimaryToolbarCustomization.razor",
+                Type=SampleType.New
+            },
+            new Sample
+            {
                 Name = "Form Filling",
                 Category = "PDF Viewer (NextGen)",
                 Directory = "Viewer2/PdfViewer2",              

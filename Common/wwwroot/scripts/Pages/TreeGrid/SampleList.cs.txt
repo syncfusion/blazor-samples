@@ -154,8 +154,7 @@ namespace BlazorDemos
                 Category = "Virtual Scrolling",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/virtual-scrolling",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The virtual scrolling demo was updated to include OverscanCount property. This demo showcases how additional items are rendered in the DOM before and after the visible items during scrolling and initial rendering." },
+                Type = SampleType.None,
                 FileName="VirtualScrolling.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -442,8 +441,9 @@ namespace BlazorDemos
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-drag-and-drop",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 FileName="RowDragAndDrop.razor",
+                NotificationDescription = new string[]{ @"The drag-and-drop functionality between tree grid has been enhanced to allow dragging and dropping rows using the drag icon." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -706,6 +706,8 @@ namespace BlazorDemos
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/menu-filter",
                 FileName="MenuFilter.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The menu filtering demo has been updated to include additional filter operators. This demo showcases how to filter columns using the newly provided filter operators." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

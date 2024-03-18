@@ -1,4 +1,4 @@
-﻿window.canvasInterop = {
+﻿﻿﻿﻿﻿window.canvasInterop = {
     imgSrc: "",
     onInitialized: function () {
         document.getElementById('img-upload').onchange = function (args) {
@@ -33,7 +33,7 @@
     },
     applyImage: function (a) {
         var dataId = document.querySelector('.e-image-editor').getAttribute('dataId');
-        var inst = window.sfBlazor.getCompInstance(dataId).imageEditorBase;
+        var inst = window.sfBlazor.getCompInstance(dataId);
         var croppedData = inst.getImageData();
         var canvas = document.querySelector('#img-canvas');
         var ctx = canvas.getContext('2d');
@@ -52,3 +52,52 @@
         return true;
     }
 };
+
+window.customToolbarInterop = {
+    toolbarPosition: function () {
+        setTimeout(() => {
+            let toolbarArea = document.getElementById('top-toolbar');
+            if (toolbarArea) {
+                toolbarArea.style.left = (toolbarArea.parentElement.parentElement.clientWidth / 2) - (toolbarArea.clientWidth / 2) + 'px';
+            }
+            toolbarArea = document.getElementById('bottom-toolbar');
+            if (toolbarArea) {
+                toolbarArea.style.left = (toolbarArea.parentElement.parentElement.clientWidth / 2) - (toolbarArea.clientWidth / 2) + 'px';
+            }
+        }, 20);
+    },
+    loadBase64ImageIntoCanvas: function (canvasId, filter, base64Url) {
+        var img = new Image();
+        img.onload = function () {
+            for (var i = 0; i < canvasId.length; i++) {
+                var canvas = document.getElementById(canvasId[i]);
+                var context = canvas.getContext('2d');
+                context.filter = filter[i];
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            }
+            };
+        img.src = base64Url;
+    },
+    dropdownPosition: function (element) {
+        if (window.innerWidth <= 768) {
+            var btnElem = document.querySelector('#bottom-toolbar .e-dropdown-btn.e-active');
+            if (btnElem) {
+                element.style.top = btnElem.getBoundingClientRect().top - element.offsetHeight + 'px';
+                element.style.left = element.offsetLeft + 'px';
+            }
+        }
+    },
+    updateColorpicker: function (elemId, type, value) {
+        var btnElem = document.querySelector(`.e-dropdownbtn-preview.${elemId}`);
+        if (type == "shape-fill" && btnElem) {
+            if (value == "") {
+                btnElem.classList.add('e-nocolor-item');
+            } else {
+                btnElem.classList.remove('e-nocolor-item');
+                btnElem.style.backgroundColor = value;
+            }
+        } else if (btnElem) {
+            btnElem.style.backgroundColor = value;
+        }
+    }
+}

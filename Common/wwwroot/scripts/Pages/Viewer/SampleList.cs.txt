@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion Inc. 2001-2023.
+// Copyright Syncfusion Inc. 2001-2023. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -30,7 +30,6 @@ namespace BlazorDemos
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/read-only",
                 FileName = "ReadOnly.razor",
-                Type=SampleType.New
             },
              new Sample
             {
@@ -39,7 +38,6 @@ namespace BlazorDemos
                 Directory = "Viewer/PdfViewer",
                 Url = "pdf-viewer/document-list",
                 FileName = "DocumentList.razor",
-                Type=SampleType.New
             },
             new Sample
             {

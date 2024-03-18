@@ -85,7 +85,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+				NotificationDescription = new string[]{ @"The virtualization demo has been updated to include the feature of support for grouping data." }
             },
             new Sample
             {
@@ -114,8 +115,7 @@ namespace BlazorDemos
                 Category = "Dropdown Tree",
                 Directory = "DropDowns/DropDownTree",
                 Url = "dropdown-tree/Default-Functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[]{ @"Showcases the hierarchical and self-referential data binding in the Dropdown Tree component." }
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -123,8 +123,7 @@ namespace BlazorDemos
                 Category = "Dropdown Tree",
                 Directory = "DropDowns/DropDownTree",
                 Url = "dropdown-tree/customization",
-                FileName = "Customization.razor",
-                NotificationDescription = new string[]{ @"Showcases the template customization along with icon & image url in the Dropdown Tree component." }
+                FileName = "Customization.razor"
             },
             new Sample
             {
@@ -132,8 +131,7 @@ namespace BlazorDemos
                 Category = "Dropdown Tree",
                 Directory = "DropDowns/DropDownTree",
                 Url = "dropdown-tree/selection",
-                FileName = "Selection.razor",
-                NotificationDescription = new string[]{ @"Showcases the checkbox, auto check, multi selection and mode support in the Dropdown Tree component." }
+                FileName = "Selection.razor"
             },
             new Sample
             {
@@ -141,8 +139,7 @@ namespace BlazorDemos
                 Category = "Dropdown Tree",
                 Directory = "DropDowns/DropDownTree",
                 Url = "dropdown-tree/Filtering",
-                FileName = "Filtering.razor",
-                NotificationDescription = new string[]{ @"Showcases the list data and remote data filtering support along with available filter types in the Dropdown Tree component." }
+                FileName = "Filtering.razor"
             },
             new Sample
             {
@@ -150,8 +147,7 @@ namespace BlazorDemos
                 Category = "Dropdown Tree",
                 Directory = "DropDowns/DropDownTree",
                 Url = "dropdown-tree/validation",
-                FileName = "Validation.razor",
-                NotificationDescription = new string[]{ @"Showcases the data annotations and validation support in the Dropdown Tree component." }
+                FileName = "Validation.razor"
             }
         };
 
@@ -235,7 +231,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+				NotificationDescription = new string[]{ @"The virtualization demo has been updated to include the feature of support for grouping data." }
             },
              new Sample
             {
@@ -310,7 +307,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+				NotificationDescription = new string[]{ @"The virtualization demo has been updated to include the feature of support for grouping data." }
             },
              new Sample
             {

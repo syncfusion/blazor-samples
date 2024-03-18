@@ -222,5 +222,41 @@ namespace BlazorDemos
                 HeaderText = "Example of Blazor CSS Avatar Component with Card"
             }
         };
+
+        public List<Sample> Timeline { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Timeline",
+                Directory = "Layouts/Timeline",
+                Url = "timeline/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the basic features of the Timeline component, such as DotCss, CssClass, and Content properties, and includes the item configuration in Timeline."
+                }
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Timeline",
+                Directory = "Layouts/Timeline",
+                Url = "timeline/api",
+                FileName = "API.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the usage of different API's available in the Timeline component, such as Orientation, Alignment, OppositeContent, and Reverse properties."
+                }
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "Timeline",
+                Directory = "Layouts/Timeline",
+                Url = "timeline/timeline-template",
+                FileName = "Template.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the customization of each timeline item using the template support."
+                }
+            }
+        };
     }
 }

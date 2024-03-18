@@ -47,8 +47,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/adaptive-rendering",
                 FileName = "AdaptiveRendering.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Adaptive Layout demo was updated to include a new toolbar item that introduces the column chooser feature and pager dropdown feature. This demo showcases how DataGrid columns can be dynamically shown/hidden using the column chooser functionality and how to specify a customized list of PageSizes to be displayed in the pager dropdown." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -84,8 +83,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/datatable-binding",
                 FileName = "CustomBinding.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to showcase the DataTable databinding feature." },
+                Type = SampleType.None
             },
             new Sample
             {
@@ -265,7 +263,8 @@ namespace BlazorDemos
                  Directory = "Grid/DataGrid",
                  Url = "datagrid/row-drag-and-drop",
                  FileName = "RowDragAndDrop.razor",
-                 Type = SampleType.None
+                 Type = SampleType.Updated,
+                 NotificationDescription = new string[]{ @"The drag-and-drop functionality between grids has been enhanced to allow dragging and dropping rows using the drag icon." },
              },
             new Sample
             {
@@ -274,8 +273,7 @@ namespace BlazorDemos
                Directory = "Grid/DataGrid",
                Url = "datagrid/draganddrop-within-grid",
                FileName = "DragAndDropWithinGrid.razor",
-               Type = SampleType.Updated,
-               NotificationDescription = new string[]{ @"The Drag and Drop within Grid demonstration has been enhanced to incorporate the AllowGrouping property. This enhancement enables the capability to rearrange rows from one group to another group." },
+               Type = SampleType.None
 
             },
             new Sample
@@ -303,7 +301,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/inline-editing",
                 FileName = "InlineEditing.razor",
-                Type = SampleType.None,
+                Type = SampleType.None
             },
             new Sample
             {
@@ -392,7 +390,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/filter-menu",
                 FileName = "FilterMenu.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The menu filtering demo has been updated to include additional filter operators. This demo showcases how to filter columns using the newly provided filter operators." },
             },
              new Sample
             {
@@ -401,7 +400,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/checkbox-filter",
                 FileName = "FilterCheckbox.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The checkbox filtering demo has been updated to include feature for adding the current selection to the filter. This demo showcases how to retain previously filtered values when multiple filtering actions are performed on the same column." },
             },
              new Sample
             {
@@ -410,7 +410,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/excel-like-filter",
                 FileName = "FilterExcel.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Excel filtering demo has been updated to include the feature for adding the current selection to the filter. This demo showcases how to retain previously filtered values when multiple filtering actions are performed on the same column." },
             },
             new Sample
             {
@@ -567,8 +568,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/frozen-rows",
                 FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Frozen Rows and Columns demo has been updated to include the freezing of specific columns at positions such as left, right, and fixed. This demo showcases how to set the 'freeze' property within column settings." },
+                Type = SampleType.None
             },
             new Sample
             {
@@ -614,6 +614,26 @@ namespace BlazorDemos
                 Url = "datagrid/advanced-exporting",
                 FileName = "AdvancedExporting.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Detail Template Exporting",
+                Category = "Exporting",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/detail-template-exporting",
+                FileName = "DetailTemplateExporting.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample includes a demo showcasing the detail template with exporting features in DataGrid." }
+            },
+            new Sample
+            {
+                Name = "Template Exporting",
+                Category = "Exporting",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/template-exporting",
+                FileName = "TemplateExporting.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample includes a demonstration of the column template exporting features in DataGrid, along with group captions and footer aggregates."}
             },
             new Sample
             {

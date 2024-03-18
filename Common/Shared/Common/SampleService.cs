@@ -263,6 +263,17 @@ namespace BlazorDemos.Shared
         // Updates the SampleInfo and ComponentName based on current loaded uri.
         internal void Update(NavigationManager urlHelper)
         {
+            if (urlHelper.Uri.IndexOf("?theme") != -1)
+            {
+                var themeName = System.Web.HttpUtility.ParseQueryString(new Uri(urlHelper.Uri).Query).Get("theme");
+                var queryString = urlHelper.Uri.Substring(urlHelper.Uri.IndexOf(themeName) + themeName.Length);
+                if (queryString != "")
+                {
+                    string[] themeurl = urlHelper.Uri.Split("?");
+                    var url = themeurl[0] + "?theme=" + themeName;
+                    urlHelper.NavigateTo(url);
+                }
+            }
             string updatedUrl = urlHelper.ToBaseRelativePath(urlHelper.Uri);
             if (updatedUrl.Contains("?"))
             {

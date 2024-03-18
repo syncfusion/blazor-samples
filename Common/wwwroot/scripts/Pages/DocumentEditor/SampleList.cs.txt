@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion Inc. 2001-2023.
+// Copyright Syncfusion Inc. 2001-2023. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -23,20 +23,134 @@ namespace BlazorDemos
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor"
-
             },
             new Sample
             {
                 Name = "Document List",
-                Type = SampleType.New,
-                Category = "File Management",
+                Category = "File Management",  
+
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/document-list",
-                FileName = "DocumentList.razor",
+                FileName = "DocumentList.razor"
+            },
+            new Sample
+            {
+                 Name = "Mail Merge",
+                 Category = "Mail Merge",
+                 Directory = "DocumentEditor/DocumentEditor",
+                 Url = "document-editor/mail-merge",
+                 FileName = "MailMerge.razor",
+                 Type = SampleType.New,
+                 NotificationDescription = new string[]
+                {
+                 @"Added a demo to showcase performing mail merge using the Document Editor."
+                }
+             },
+             new Sample
+            {
+                Name = "Comments",
+                Category = "Review",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/comments",
+                FileName = "Comments.razor",
+                Type = SampleType.Updated,
                 NotificationDescription = new string[]
                 {
-                 @"Added a demo to showcase grid-based document listing and enable viewing or editing through the Document Editor in a dialog."
+                 @"Updated the demo to showcase the design improvement for the comment resolved state."
                 }
+            },
+            new Sample
+            {
+                Name = "Track Changes",
+                Category = "Review",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/track-changes",
+                FileName = "TrackChanges.razor"
+            },
+            new Sample
+            {
+                Name = "Document Protection",
+                Category = "Security",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/document-protection",
+                FileName = "DocumentProtection.razor"
+            },
+            new Sample
+            {
+                Name = "Custom Context Menu",
+                Category = "Customization",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/custom-context-menu",
+                FileName = "CustomContextMenu.razor"
+            },
+             new Sample
+            {
+                Name = "Toolbar Customization",
+                Category = "Customization",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/toolbar-customization",
+                FileName = "ToolbarCustomization.razor"
+            },
+            new Sample
+            {
+                Name = "Color Picker Customization",
+                Category = "Customization",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/color-picker-customization",
+                FileName = "ColorPickerCustomization.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                 @"Added a demo to showcase options to customize the color picker used inside the Document Editor."
+                }
+                
+            },
+            
+            new Sample
+            {
+                Name = "Table of Contents",
+                Category = "References",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/table-of-contents",
+                FileName = "TableOfContents.razor"
+            },
+            new Sample
+            {
+                Name = "Footnotes and Endnotes",
+                Category = "References",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/notes",
+                FileName = "Notes.razor"
+            },
+            new Sample
+            {
+                Name = "Web Layout",
+                Category = "View",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/web-layout",
+                FileName = "WebLayout.razor"
+            },
+            new Sample
+            {
+                Name = "Ruler",
+                Category = "View",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/ruler",
+                FileName = "Ruler.razor"
+            },
+            new Sample
+            {
+                Name = "Heading Navigation",
+                Category = "View",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/heading-navigation",
+                FileName = "HeadingNavigationPane.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                 @"Added a demo to showcase the heading navigation support in the Document Editor."
+                }
+                
             },
             new Sample
             {
@@ -102,14 +216,7 @@ namespace BlazorDemos
                 Url = "document-editor/headers-and-footers",
                 FileName = "HeadersAndFooters.razor"
             },
-            new Sample
-            {
-                Name = "Table of Contents",
-                Category = "References",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/table-of-contents",
-                FileName = "TableOfContents.razor"
-            },
+            
               new Sample
             {
                 Name = "Form Fields",
@@ -120,89 +227,22 @@ namespace BlazorDemos
             },
              new Sample
             {
-                Name = "Custom Context Menu",
-                Category = "Customization",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/custom-context-menu",
-                FileName = "CustomContextMenu.razor"
-            },
-             new Sample
-            {
-                Name = "Toolbar Customization",
-                Category = "Customization",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/toolbar-customization",
-                FileName = "ToolbarCustomization.razor"
-            },
-             new Sample
-            {
-                Name = "Chart Preservation",
-                Category = "Charts",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/chart",
-                FileName = "Chart.razor"
-            },
-             new Sample
-            {
-                Name = "Document Protection",
-                Category = "Security",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/document-protection",
-                FileName = "DocumentProtection.razor"
-            },
-            new Sample
-            {
-                Name = "Web Layout",
-                Category = "View",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/web-layout",
-                FileName = "WebLayout.razor"
-            },
-            new Sample
-            {
-                Name = "Ruler",
-                Category = "View",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/ruler",
-                FileName = "Ruler.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                 @"Added a demo to showcase ruler support to set tab stops, margins, indents and move table borders."
-                }
-            },
-             new Sample
-            {
-                Name = "Comments",
-                Category = "Review",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/comments",
-                FileName = "Comments.razor"
-            },
-            new Sample
-            {
-                Name = "Track Changes",
-                Category = "Review",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/track-changes",
-                FileName = "TrackChanges.razor"
-            },
-            new Sample
-            {
-                Name = "Footnotes and Endnotes",
-                Category = "References",
-                Directory = "DocumentEditor/DocumentEditor",
-                Url = "document-editor/notes",
-                FileName = "Notes.razor"
-            },
-             new Sample
-            {
                 Name = "Multiple Columns",
                 Category = "Editing Features",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/multiple-columns",
                 FileName = "MultipleColumn.razor"
-            }
+            },
+             
+             new Sample
+            {
+                Name = "Chart Preservation",
+                Category = "Chart",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/chart",
+                FileName = "Chart.razor"
+            },
+             
         };
     }
 

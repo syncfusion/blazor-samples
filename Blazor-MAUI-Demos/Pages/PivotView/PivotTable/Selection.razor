@@ -109,6 +109,7 @@
                         <td>
                             <div>
                                 <SfDropDownList TValue="string" TItem="DropDownData" @ref="DropDownType" DataSource="@DropDownMode" @bind-Value="@Type" PopupWidth="auto">
+                                    <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSelectType"></DropDownListEvents>
                                     <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
@@ -192,7 +193,7 @@
     public List<DropDownData> DropDownEditmode = new List<DropDownData>();
     public List<DropDownData> DropDownMode = new List<DropDownData>();
     public string Mode { get; set; } = "Cell";
-    public string Type { get; set; } = "Single";
+    public string Type { get; set; } = "Multiple";
 
     public List<PivotProductDetails> Data { get; set; }
 
@@ -206,6 +207,7 @@
         this.DropDownEditmode.Add(new DropDownData() { ID = "Row", Name = "Row" });
         this.DropDownEditmode.Add(new DropDownData() { ID = "Column", Name = "Column" });
         this.DropDownEditmode.Add(new DropDownData() { ID = "Both", Name = "Row and Column" });
+        this.DropDownMode.Add(new DropDownData() { ID = "Multiple", Name = "Multiple" });
         this.DropDownMode.Add(new DropDownData() { ID = "Single", Name = "Single" });
     }
 
@@ -218,7 +220,11 @@
         SelectMode = (Syncfusion.Blazor.PivotView.SelectionMode)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.SelectionMode), args.Value, true);
         ResetSelectedCellInfo();
     }
-
+    public void ChangeSelectType(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        SelectionType = (PivotTableSelectionType)Enum.Parse(typeof(PivotTableSelectionType), args.Value, true);
+        ResetSelectedCellInfo();
+    }
     public class DropDownData
     {
         public string ID { get; set; }

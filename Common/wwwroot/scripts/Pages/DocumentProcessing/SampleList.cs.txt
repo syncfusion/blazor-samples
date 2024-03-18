@@ -220,7 +220,6 @@ namespace BlazorDemos
                 Category = "Mathematical Equation",
                 Directory = "DocumentProcessing/Word",
                 Url = "word/latex",
-                Type = SampleType.New,
                 FileName = "LaTeX.razor",
                 MetaDescription = "This example demonstrates how to create an equation using LaTeX in the Blazor Word (DocIO) Library",
                 NotificationDescription = new string[]
@@ -422,7 +421,6 @@ namespace BlazorDemos
             {
                 Name = "Word to PDF",
                 Category = "Import and Export",
-                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-pdf",
                 FileName = "WordToPDF.razor",
@@ -489,7 +487,6 @@ namespace BlazorDemos
             {
                 Name = "Word to Image",
                 Category = "Import and Export",
-                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-image",
                 FileName = "WordToImage.razor",
@@ -712,7 +709,33 @@ namespace BlazorDemos
                     }
                 }
             },
-#endif
+            new Sample
+            {
+                Name = "Table of Figures",
+                Category = "Reference",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/table-of-figures",
+                Type = SampleType.New,
+                FileName = "TableOfFigures.razor",
+                MetaDescription = "This example demonstrates the Table of Figures in Blazor Word Library (DocIO). Explore here for more details.",
+                NotificationDescription = new string[]
+                {
+                    @"Provided support to insert and update table of figures in Word document."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="TableOfFigures",
+                        FileName="TableOfFigures.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TableOfFiguresService",
+                        FileName="TableOfFiguresService.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Encrypt and Decrypt",
@@ -735,6 +758,7 @@ namespace BlazorDemos
                     }
                 }
             }
+#endif
         };
         public List<Sample> Presentation { get; set; } = new List<Sample>{
             new Sample
@@ -786,7 +810,6 @@ namespace BlazorDemos
             {
                 Name = "PPTX To Image",
                 Category = "Conversion",
-                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-image",
                 FileName = "PPTXToImage.razor",
@@ -809,7 +832,6 @@ namespace BlazorDemos
             {
                 Name = "PPTX To PDF",
                 Category = "Conversion",
-                Type = SampleType.Updated,
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
@@ -917,6 +939,7 @@ namespace BlazorDemos
                     }
                 }
             },
+#if !(WASM) && !WEBAPP
             new Sample
             {
                 Name = "Encrypt and Decrypt",
@@ -961,6 +984,34 @@ namespace BlazorDemos
                 },
                 FileName = "WriteProtection.razor",
                 MetaDescription = "This sample demonstrates how to set write protection for a PowerPoint presentation with password."
+            },
+#endif
+            new Sample
+            {
+                Name = "Image",
+                Category = "Slide Elements",
+                Directory = "DocumentProcessing/PowerPoint",
+                Url = "powerpoint/image",
+                FileName = "Image.razor",
+                Type = SampleType.Updated,
+                MetaDescription = "This sample demonstrates how to add and format images in PowerPoint Presentation.",
+                NotificationDescription = new string[]
+                {
+                    @"Provided support to crop images in PowerPoint Presentation."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Image",
+                        FileName="Image.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ImageService",
+                        FileName="ImageService.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -1510,7 +1561,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/worksheet-to-image",
                 MetaDescription = "This sample demonstrates how to convert worksheets to image using .NET Excel (XlsIO) library.",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1529,7 +1580,7 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Worksheet To HTML",
-                Category = "Conversions", 
+                Category = "Conversions",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/worksheet-to-html",
                 MetaDescription = "This sample demonstrates how to convert Worksheets to html files using Essential XlsIO.",
@@ -1556,6 +1607,10 @@ namespace BlazorDemos
                 Url = "excel/excel-to-pdf",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to pdf file using Essential XlsIO.",
                 Type = SampleType.Updated,
+	        NotificationDescription = new string[]
+		{
+		     @"Provided line cap formatting and dashed line support in chart to image conversion."
+		},
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1643,7 +1698,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/PivotTable",
                 MetaDescription = " Click the \"Create Document\" button to view the created Excel document and click the \"Customize Pivot Table\" button to view the Excel document created with customized pivot table. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document..",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

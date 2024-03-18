@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using BlazorDemos.Shared;
 using Syncfusion.Blazor.Popups;
 using Syncfusion.Licensing;
+using System;
 
 var licenseKey = "";
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,12 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+// Set HSTS value is 1 year. see https://aka.ms/aspnetcore-hsts.
+builder.Services.AddHsts(options =>
+{
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(365);
+});
 
 
 var app = builder.Build();

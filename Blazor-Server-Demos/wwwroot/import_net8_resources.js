@@ -5,7 +5,7 @@ var css = "/Blazor_Server_Common_NET8.bundle.scp.css";
 }
 const homepagepath = ["/staging/server/demos/","/server/demos/" ,"/net8/demos/", "/development/net8/demos/", "/development/net8/demos/", "/release/net8/demos/", "/release/net8/demos/", "/hotfix/net8/demos/", "/hotfix/net8/demos/","/cloudtesting/net8-server/","/"];
 function dynamicResources() {
-    if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {
+    if ((window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) || window.location.href.indexOf('powerpoint') != -1) {
         let newScript = document.createElement('script');
         newScript.setAttribute('src', "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js");
         document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);

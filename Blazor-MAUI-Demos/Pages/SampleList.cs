@@ -47,7 +47,7 @@ namespace Blazor_MAUI_Demos
                 Name = "Charts",
                 Category = "Data Visualization",
                 Directory = "Charts",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = Chart,
                 ControllerName = "Chart",
                 DemoPath = "chart/overview"
@@ -98,6 +98,7 @@ namespace Blazor_MAUI_Demos
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "DiagramComponent",
+                Type = SampleType.Updated,
                 Samples = DiagramComponent,
                 ControllerName = "DiagramComponent",
                 DemoPath = "diagramcomponent/flowchart",

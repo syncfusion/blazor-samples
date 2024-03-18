@@ -99,8 +99,8 @@
     private ErrorBoundary errorBoundaryRef { get; set; }
     #endif
 
-     /// <summary>
-     /// Specifies the app is rendering in tablet or not.
+    /// <summary>
+    /// Specifies the app is rendering in tablet or not.
     /// </summary> 
     public bool isTablet { get; set; }
 
@@ -122,13 +122,13 @@
     // Recover from the error state and handle the exception.
     protected override void OnParametersSet()
     {
-        errorBoundaryRef?.Recover();
+    errorBoundaryRef?.Recover();
     }
 
     // Refresh the current page.
     private void OnRefresh()
     {
-        UriHelper.NavigateTo(UriHelper.Uri, true);
+    UriHelper.NavigateTo(UriHelper.Uri, true);
     }
    #endif
 
@@ -168,7 +168,7 @@
     }
 
     // Home icon click handler.
-     private async Task HomeIconClick(){
+    private async Task HomeIconClick(){
         await LeftPaneRef.HomeButtonClick();
     }
 
@@ -297,6 +297,11 @@
         // Condition to check whether the URL query params contains the proper theme name. If the URL query params donesn't contains the theme name, the URL redirects to existing component URL without query params.
         // Due to this redirection, we can prevent our site from multiple vulnerability attacks from hackers.
         string themeName = System.Web.HttpUtility.ParseQueryString(new Uri(this.navigationManager.Uri).Query).Get("theme");
+        if (!string.IsNullOrEmpty(themeName) && themeName.Contains("-dark"))
+        {
+            // Remove "-dark" from the current theme
+            themeName = themeName.Replace("-dark", "");
+        }
         if (!string.IsNullOrEmpty(themeName) && !SampleUtils.ThemeData.Any((theme => theme.ID == themeName)))
         {
             this.navigationManager.NavigateTo(this.navigationManager.Uri.Split("?")[0], forceLoad: true);
@@ -316,6 +321,7 @@
             }
 
             dotnetObjectRef = DotNetObjectReference.Create<object>(this);
+           
             // Get device information for mobile sidebar rendering
             this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDevice", dotnetObjectRef);
             this.DeviceMode.Isdevice = this.SampleService.IsDevice;

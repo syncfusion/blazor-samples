@@ -11,9 +11,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Syncfusion.Blazor.DataForm;
 
 namespace BlazorDemos.Models.Form
 {
+    public enum City
+    {
+        NewYork,
+        LosAngeles,
+        Chicago,
+        Houston,
+        Phoenix,
+        Philadelphia,
+        SanAntonio,
+        SanDiego,
+        Dallas,
+        SanJose
+    }
+
+    public class BookingDetails
+    {
+        [Required(ErrorMessage = "Please enter the passenger's name.")]
+        [Display(Name = "Passenger name")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 6)]
+        [DataType(DataType.Text)]
+        public string PassengerName { get; set; }
+
+        [Required(ErrorMessage = "Please enter a 10-digit phone number.")]
+        [Range(typeof(long), "1000000000", "9999999999", ErrorMessage = "Invalid phone number format.")]
+        [Display(Name = "Contact number")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 3)]
+        [DataType(DataType.PhoneNumber)]
+        public string ContactNumber { get; set; }
+
+        [Required(ErrorMessage = "Please enter your email address.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        [Display(Name = "Email ID")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 3)]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please select a departure date for your trip.")]
+        [Display(Name = "Departure date")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 3)]
+        public DateTime? DepartureDate { get; set; }
+
+        [Required(ErrorMessage = "Please enter the number of tickets.")]
+        [Range(1, 10, ErrorMessage = "Number of tickets should be between 1 and 10.")]
+        [Display(Name = "Number of tickets")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 3)]
+        public int? NumberOfTickets { get; set; }
+
+        [Required(ErrorMessage = "Please select the departure city.")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 3)]
+        public City? DepartureCity { get; set; }
+
+        [Required(ErrorMessage = "Please select the destination city")]
+        [DataFormDisplayOptionsAttribute(ColumnSpan = 3)]
+        public City? DestinationCity { get; set; }
+    }
+
     public class RegistrationDetails
     {
         public RegistrationDetails()

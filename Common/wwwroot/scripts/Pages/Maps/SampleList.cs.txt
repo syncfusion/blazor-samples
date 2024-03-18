@@ -118,7 +118,7 @@ namespace BlazorDemos
                Directory = "Maps/Maps",
                Url = "maps/polygon",
                FileName = "Polygon.razor",
-               Type = SampleType.New,
+               Type = SampleType.Updated,
                NotificationDescription = new string[]{ @"Added a demo to show a polygon shape rendering on top of the Maps main layer to highlight a specific region." }
            },
            new Sample
@@ -128,7 +128,7 @@ namespace BlazorDemos
                 Directory = "Maps/Maps",
                 Url = "maps/shapefile",
                 FileName = "Shapefile.razor",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[]{ @"A demo of shapefile (*.shp) loading and rendering, a new data source introduced in the component, has been added." }
             },
             new Sample

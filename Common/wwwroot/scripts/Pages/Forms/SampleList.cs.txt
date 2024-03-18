@@ -22,7 +22,8 @@ namespace BlazorDemos
                 Category = "Query Builder",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -32,6 +33,36 @@ namespace BlazorDemos
                 Url = "query-builder/complex-databinding",
                 FileName = "ComplexDataBinding.razor",
                 NotificationDescription = new string []{@"Added the demo for binding nested columns in the QueryBuilder component."},
+            },
+            new Sample
+            {
+                Name = "Mongo and SQL Query",
+                Category = "Query Builder",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/mongo-query",
+                FileName = "MongoQuery.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string []{@"Added the demo for import and export the Mongo and SQL query in the QueryBuilder component."}
+            },
+            new Sample
+            {
+                Name = "Lock Group/Rule",
+                Category = "Query Builder",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/lock-group",
+                FileName = "LockGroup.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string []{@"Added the demo for lock the group/rule in the QueryBuilder component."}
+            },
+            new Sample
+            {
+                Name = "Clone Group/Rule",
+                Category = "Query Builder",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/clone-group",
+                FileName = "CloneGroup.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string []{@"Added the demo for clone the group/rule in the QueryBuilder component."}
             },
             new Sample
             {
@@ -64,7 +95,7 @@ namespace BlazorDemos
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/header-template",
                 FileName = "HeaderTemplate.razor"
-            }            
+            }
         };
 
         public List<Sample> DataForm { get; set; } = new List<Sample>
@@ -212,6 +243,32 @@ namespace BlazorDemos
                         FileName="HotelBooking.cs"
                     }
                 }
+            },
+            new Sample
+            {
+                Name = "Floating Label",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/floating-label",
+                FileName = "FloatingLabel.razor",
+                MetaTitle = "Blazor Data Form Example | Floating Label | Syncfusion Demos",
+                HeaderText = "Blazor Data Form Example - Floating Label",
+                MetaDescription = "The example below demonstrates the floating label functionality, DataType attribute, and display options custom attribute supported in the Blazor Data Form component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="FloatingLabel",
+                        FileName="FloatingLabel.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="BookingDetails",
+                        FileName="RegistrationDetails.cs"
+                    }
+                },
+                NotificationDescription = new string[]{ @"Added the floating label functionality, DataType attribute, and display options custom attribute support for the Blazor Data Form component." },
+                Type = SampleType.New
             },
             new Sample
             {

@@ -19,11 +19,11 @@
 
 @*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample illustrates the flow of data in a marketing process created using <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html'>Connector</a></code>.  Different types of connectors and decorators are used to customize the appearance, path and direction of the data flow.</p>
+    <p>This sample illustrates the flow of data in a marketing process created using <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html' aria-label="Connector">Connector</a></code>.  Different types of connectors and decorators are used to customize the appearance, path and direction of the data flow.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to add connectors to connect shapes and how to customize the appearance of the connectors. The collection of nodes are added to a diagram using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Connectors'>Connectors</a></code> property of `SfDiagramComponent`. 
-You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_Style'>Style</a></code> property to customize its stroke style. You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_CornerRadius'>CornerRadius</a></code> property to add connectors with rounded corners. </p>
+    <p>In this example, you can see how to add connectors to connect shapes and how to customize the appearance of the connectors. The collection of nodes are added to a diagram using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Connectors' aria-label="Connectors">Connectors</a></code> property of `SfDiagramComponent`. 
+You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_Style' aria-label="Style">Style</a></code> property to customize its stroke style. You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_CornerRadius' aria-label="CornerRadius">CornerRadius</a></code> property to add connectors with rounded corners. </p>
    <p>Click different styles in the property panel to customize the appearance of the connector. The `Lock` option is used to enable or disable the connector editing.</p>
 </ActionDescription>
 @*End:Hidden*@
@@ -218,11 +218,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        if (SampleService.IsDevice)
-        {
-            Diagram.FitToPage(mobileoptions);
-
-        }
+        Diagram.FitToPage(mobileoptions);
     }
     @*Hidden:Lines*@
     List<DiagramShapeModel> shape = new List<DiagramShapeModel>()
@@ -245,6 +241,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
     //Method to update the source decorator style
     private async Task OnSourceDecoratorChange(ChangeEventArgs<string, DiagramShapeModel> args)
     {
+        Diagram.StartGroupAction();
         Diagram.BeginUpdate();
         if (CheckValue == "All shapes")
         {
@@ -264,11 +261,13 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
             }
         };
         await Diagram.EndUpdate();
+        Diagram.EndGroupAction();
     }
 
     //Method to update the target decorator style
     private async Task OnTargetDecoratorChange(ChangeEventArgs<string, DiagramShapeModel> args)
     {
+        Diagram.StartGroupAction();
         Diagram.BeginUpdate();
         if (CheckValue == "All shapes")
         {
@@ -288,6 +287,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
             }
         };
         await Diagram.EndUpdate();
+        Diagram.EndGroupAction();
     }
     private void UpdateSourceDecoratorShape(ChangeEventArgs<string, DiagramShapeModel> args, Connector connector)
     {
@@ -738,13 +738,16 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
     {
         if (CheckValue == "All shapes")
         {
+            Diagram.StartGroupAction();
             foreach (Connector connector in Diagram.Connectors)
             {
                 this.UpdateConnectorStyle(connector, type, strokeWidth, isDashedLine, hasSourceDecorator, isRounded);
             }
+            Diagram.EndGroupAction();
         }
         if (CheckValue == "Selected Shapes" && Diagram.SelectionSettings.Connectors.Count > 0)
         {
+            Diagram.StartGroupAction();
             for (var i = 0; i < Diagram.SelectionSettings.Connectors.Count; i++)
             {
                 Connector selectedconnector = selectionSettings.Connectors[i] as Connector;
@@ -752,6 +755,7 @@ You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/bl
                 Connector newConnector = connector as Connector;
                 this.UpdateConnectorStyle(newConnector, type, strokeWidth, isDashedLine, hasSourceDecorator, isRounded);
             }
+            Diagram.EndGroupAction();
         };
     }
 

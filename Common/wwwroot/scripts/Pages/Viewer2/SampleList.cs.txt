@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion Inc. 2001-2023.
+// Copyright Syncfusion Inc. 2001-2023. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -30,7 +30,6 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/read-only",
                 FileName = "ReadOnly.razor",
-                Type=SampleType.New,
                 NotificationDescription = new string[]{ @"Incorporated the sample to showcase how to make a PDF document secure in a read-only mode without the need for editing." }
             },
 
@@ -41,10 +40,20 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/document-list",
                 FileName = "DocumentList.razor",
-                Type=SampleType.New,
                 NotificationDescription = new string[]{ @"Included the example to demonstrate how to showcase a list of documents in a grid layout and open each document for viewing or editing utilizing the PDF Viewer component within a Dialog." }
 
             },
+#if !(WASM || WEBAPP)
+             new Sample
+            {
+                Name = "Multi-Format Viewer",
+                Category = "File Management",
+                Directory = "Viewer2/PdfViewer2",
+                Url = "pdf-viewer-2/multi-format-viewer",
+                FileName = "MultiFormatViewer.razor",
+                Type=SampleType.New,
+            },
+#endif
             new Sample
             {
                 Name = "Custom Toolbar",
@@ -52,6 +61,16 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",             
                 Url = "pdf-viewer-2/custom-toolbar",
                 FileName = "CustomToolbar.razor",
+            },
+            new Sample
+            {
+                Name = "Primary Toolbar Customization",
+                Category = "Toolbar",
+                Directory = "Viewer2/PdfViewer2",             
+                Url = "pdf-viewer-2/primary-toolbar-customization",
+                FileName = "PrimaryToolbarCustomization.razor",
+                Type=SampleType.New,
+                NotificationDescription = new string[]{ @"Discover how to personalize the main toolbar in this sample, enabling seamless integration of additional items while offering the flexibility to show, hide, and rearrange existing ones according to specific needs." }
             },
             new Sample
             {

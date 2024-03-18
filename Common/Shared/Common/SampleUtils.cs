@@ -197,27 +197,23 @@ namespace BlazorDemos.Shared
         public static List<DropDownData> ThemeData = new List<DropDownData>
         {
             new DropDownData { ID = "material3", Text = "Material 3" },
-            new DropDownData { ID = "material3-dark", Text = "Material 3 Dark" },
             new DropDownData { ID = "fluent", Text = "Fluent" },
-            new DropDownData { ID = "fluent-dark", Text = "Fluent Dark" },
             new DropDownData { ID = "bootstrap5", Text = "Bootstrap v5" },
-            new DropDownData { ID = "bootstrap5-dark", Text = "Bootstrap v5 Dark" },
             new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
-            new DropDownData { ID = "tailwind-dark", Text = "Tailwind CSS Dark" },
-            new DropDownData { ID = "material", Text = "Material" },
 #if DEBUG || STAGING
-            new DropDownData { ID = "material-dark", Text = "Material Dark" },
+      //      new DropDownData { ID = "material-dark", Text = "Material Dark" },
 #endif
-            new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
+          //  new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
 #if DEBUG || STAGING
-            new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
-            new DropDownData { ID = "bootstrap-dark", Text = "Bootstrap Dark" },
-            new DropDownData { ID = "fabric", Text = "Fabric" },
-            new DropDownData { ID = "fabric-dark", Text = "Fabric Dark" },
+           // new DropDownData { ID = "fabric", Text = "Fabric" },
 #endif
             new DropDownData { ID = "highcontrast", Text = "High Contrast" }
         };
 
+        public static List<DropDownData> ThemeMode = new List<DropDownData> {
+        new DropDownData { ID = "dark", Text = "Dark Mode" },
+        new DropDownData { ID = "light", Text = "Light Mode" }
+    };
         /// <summary>
         /// Returns list of JS resources need to be loaded.
         /// </summary>

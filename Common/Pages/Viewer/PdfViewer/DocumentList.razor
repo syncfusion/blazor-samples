@@ -30,25 +30,23 @@
 <ActionDescription>
     @*WASM:Block*@
     @{ #if (WASM) }
-        <p>More information on adding annotations programmatically can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application'>documentation section</a>.</p>
+        <p>More information on adding annotations programmatically can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application' aria-label="documentation section" >documentation section</a>.</p>
     @{ #endif }
     @*End:WASM*@
 
     @*Server:Block*@
     @{ #if !(WASM) }
-        <p>More information on adding annotations programmatically can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application'>documentation section</a>.</p>
+        <p>More information on adding annotations programmatically can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application' aria-label="documentation section" >documentation section</a>.</p>
     @{ #endif }
     @*End:Server*@
 </ActionDescription>
 
 <div class="col-lg-12 control-section" id="target">
     @*Hidden:Lines*@
-    @if (buttonVisible)
-    {
-        <SfGrid DataSource="@DataItem">
+  <SfGrid DataSource="@DataItem">
          <GridEvents CommandClicked="CommandClick" TValue="Data"></GridEvents>
             <GridColumns>
-                <GridColumn HeaderText="File Name" HeaderTextAlign="TextAlign.Left">
+                <GridColumn HeaderText="File Name">
                     <Template>
                         <div>
                             @if (context is Data data)
@@ -71,16 +69,7 @@
                         </div>
                     </Template>
                 </GridColumn>
-                <GridColumn HeaderText="Author" HeaderTextAlign="TextAlign.Left">
-                    <Template>
-                        <div>
-                            @if (context is Data data)
-                            {                               
-                              <div>@data.Author</div>
-                            }
-                        </div>
-                    </Template>
-                </GridColumn>
+                <GridColumn HeaderText="Author" Field="Author"></GridColumn>
                  <GridColumn HeaderText="Actions" TextAlign="TextAlign.Center">
                  <GridCommandColumns>
                  <GridCommandColumn  ButtonOption="@(new CommandButtonOptions() { IconCss = "e-icons e-eye", CssClass = "e-flat" })"></GridCommandColumn>
@@ -89,7 +78,6 @@
                 </GridColumn>
             </GridColumns>
         </SfGrid>
-    }
     @*End:Hidden*@
     <SfDialog Header="@HeaderText" IsModal=true Width="90%" Height="90%" ShowCloseIcon="true" @bind-Visible="@dialogVisible">
         <DialogTemplates>
@@ -113,7 +101,7 @@
                     @{ #endif }
                     @*End:Server*@
                 </div>
-            }    
+            }
             </Content>
         </DialogTemplates>
         <DialogEvents Opened="OnOpen" Closed="OnClose"></DialogEvents>
@@ -133,41 +121,17 @@
     #endif
     @*End:WebAssembly*@
     private string CurrentUri;
-
-    bool buttonVisible { get; set; } = true;
-    bool alertVisible { get; set; } = false;
     bool dialogVisible { get; set; } = false;
     bool enableStickyNotesAnnotation { get; set; } = true;
+    bool isDialogOpended { get; set; } = false;
     private string DocumentPath;
     private string HeaderText;
     PdfViewerAnnotationSettings annotationSettings;
     PdfViewerToolbarSettings ToolbarSettings;
     PdfViewerContextMenuSettings ContextMenuSettings;
-    bool isDialogOpended { get; set; } = false;
     bool enableTextSelection { get; set; } = false;
     bool isReadOnlyMode { get; set; } = false;
 
-    private void OnOpen()
-    {
-        this.buttonVisible = false;
-        isDialogOpended = true;
-    }
-
-    private void OnClose()
-    {
-        this.buttonVisible = true;
-        isDialogOpended = false;
-    }
-
-    private void OnBtnClick()
-    {
-        this.dialogVisible = false;
-    }
-
-    private void OnClick()
-    {
-        this.dialogVisible = true;
-    }
 
     private async Task DocumentLoaded(LoadEventArgs args)
     { 
@@ -182,7 +146,15 @@
            } 
         }
     } 
+    private void OnOpen()
+    {
+        isDialogOpended = true;
+    }
 
+    private void OnClose()
+    {
+        isDialogOpended = false;
+    }
    @*Hidden:Lines*@
          private void CommandClick(CommandClickEventArgs<Data> args)
     {
@@ -211,6 +183,7 @@
         {
             ToolbarItems = new List<Syncfusion.Blazor.PdfViewer.ToolbarItem>()
             {
+                Syncfusion.Blazor.PdfViewer.ToolbarItem.OpenOption,
                 Syncfusion.Blazor.PdfViewer.ToolbarItem.PageNavigationTool,
                 Syncfusion.Blazor.PdfViewer.ToolbarItem.MagnificationTool,                
                 Syncfusion.Blazor.PdfViewer.ToolbarItem.PanTool,               
@@ -253,6 +226,7 @@
         {
             ToolbarItems = new List<Syncfusion.Blazor.PdfViewer.ToolbarItem>()
             {
+                Syncfusion.Blazor.PdfViewer.ToolbarItem.OpenOption,
                 Syncfusion.Blazor.PdfViewer.ToolbarItem.PageNavigationTool,
                 Syncfusion.Blazor.PdfViewer.ToolbarItem.MagnificationTool,
                 Syncfusion.Blazor.PdfViewer.ToolbarItem.CommentTool,
@@ -267,13 +241,7 @@
         };
         ContextMenuSettings = new PdfViewerContextMenuSettings()
         {
-            ContextMenuItems =new List<ContextMenuItem>()
-            {
-                ContextMenuItem.Copy,
-                ContextMenuItem.Highlight,
-                ContextMenuItem.Strikethrough,
-                ContextMenuItem.Underline,
-            }
+            EnableContextMenu = true
         };
 
         enableStickyNotesAnnotation = true;
@@ -346,11 +314,6 @@
 
 @*Hidden:Lines*@
 <style>
-
-.control-section {
-    padding-left: 10px;
-}
-
 .file-name-container {
     display: flex;
     justify-content: left;
@@ -371,83 +334,5 @@
     margin-left: 8px; 
     margin-top: 5px;
 }
-
-.fluent #target .e-dialog,
-.fluent-dark #target .e-dialog {
-    height: inherit;
- }
-
-.fluent.e-bigger #target .e-dialog,
-.fluent-dark.e-bigger #target .e-dialog {
-    height: 700px;
-}
-
-#target {
-    height: 90%;
-   
-}
-
-#target .e-dialog {
-    height: 400px;
-}
-
-@@media screen and (min-width: 150px) and (max-width: 480px) {
-    .control-section {
-        margin-bottom: 30px;
-    }
-    .control-wrapper {
-        margin-bottom: 0px;
-    }
-}
-
-#defaultDialog {
-    top: 0% !important;
-}
- 
-.header {
-    color: rgba(0, 0, 0, 0.7);
-}
-
-table,
-td,
-th {
-    padding: 3px;
-}
-
- 
-.e-dialog .e-dlg-content {
-    padding: 14px;
-}
-
-@@font-face {
-    font-family: 'Font';
-    src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-[class^="sf-icon-"], [class*=" sf-icon-"] {
-    font-family: 'Font' !important;
-    font-size: 55px;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.sf-icon-edit::before { 
-    content: "\e200";
-    font-family: 'Font' !important;
-}
-
-.sf-icon-eye::before { 
-    content: "\e201"; 
-    font-family: 'Font' !important;
-}
-
 </style>
-
 @*End:Hidden*@

@@ -1007,8 +1007,7 @@ namespace Blazor_MAUI_Demos
                 Url = "chart/synchronized-charts",
                 FileName = "SynchronizedCharts.razor",
                 HeaderText = "Blazor Synchronized Charts Example.",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate synchronized charts for tooltip, crosshair, and zooming user interactions across multiple charts." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1169,8 +1168,7 @@ namespace Blazor_MAUI_Demos
                 Url = "chart/add-a-point-on-click",
                 FileName = "AddingPoint.razor",
                 HeaderText = "Blazor Chart with Dynamic Points Example.",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate charts to add a data point dynamically on mouse click inside the chart area." }
+                Type = SampleType.None
             }
             // new Sample
             // {
