@@ -230,4 +230,4 @@ The Syncfusion license that contains the terms and conditions can be found at
 * [Blazor Components](https://www.syncfusion.com/blazor-components)
 * [Blazor Live Demos - Server](https://blazor.syncfusion.com/demos/)
 * [Blazor Live Demos - WebAssembly](https://blazor.syncfusion.com/wasm/demos/)
-* [Blazor Playground](https://blazorplayground.syncfusion.com/)
+* [Blazor Playground](https://blazorplayground.syncfusion.com/) 
