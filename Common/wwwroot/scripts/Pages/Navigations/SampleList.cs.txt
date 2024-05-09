@@ -280,6 +280,7 @@ namespace BlazorDemos
                 Name = "Alignment",
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
+                Type = SampleType.Updated,
                 FileName = "Alignment.razor",
                 Url = "toolbar/alignment"
             },

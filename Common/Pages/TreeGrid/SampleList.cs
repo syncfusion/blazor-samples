@@ -441,9 +441,8 @@ namespace BlazorDemos
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-drag-and-drop",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 FileName="RowDragAndDrop.razor",
-                NotificationDescription = new string[]{ @"The drag-and-drop functionality between tree grid has been enhanced to allow dragging and dropping rows using the drag icon." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -706,14 +705,36 @@ namespace BlazorDemos
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/menu-filter",
                 FileName="MenuFilter.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The menu filtering demo has been updated to include additional filter operators. This demo showcases how to filter columns using the newly provided filter operators." },
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
                     {
                         Id="MenuFilter",
                         FileName="MenuFilter.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="FilterData",
+                        FileName="TreeData.cs"
+                    }
+                },
+            },
+             new Sample
+            {
+                Name = "Excel like Filter",
+                Category = "Filtering",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/excel-filter",
+                FileName="ExcelFilter.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample demonstrates the way of filtering tree grid columns using Excel-like filter UI. Which helps to create complex filter criteria for a column by allowing users to select possible filter values from a check box list" },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExcelFilter",
+                        FileName="ExcelFilter.razor"
                     },
                     new SourceCollection
                     {

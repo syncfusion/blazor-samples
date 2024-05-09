@@ -59,6 +59,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+app.UseStatusCodePagesWithRedirects("/Error");
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()

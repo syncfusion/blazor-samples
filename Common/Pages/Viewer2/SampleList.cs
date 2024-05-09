@@ -85,8 +85,18 @@ namespace BlazorDemos
                 Name = "Annotations",
                 Category = "Annotation",
                 Directory = "Viewer2/PdfViewer2",
-                Url = "pdf-viewer-2/annotations-toolbar",              
-                FileName = "AnnotationsToolbar.razor",
+                Url = "pdf-viewer-2/annotations-toolbar",
+                Type=SampleType.Updated,
+                FileName = "AnnotationsToolbar.razor"
+            },
+            new Sample
+            {
+                Name = "Programmatic Operations",
+                Category = "Annotation",
+                Directory = "Viewer2/PdfViewer2",
+                Url = "pdf-viewer-2/programmatical-annotations",
+                Type=SampleType.New,
+                FileName = "ProgrammaticalAnnotations.razor" 
             },
             new Sample
             {

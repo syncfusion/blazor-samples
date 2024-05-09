@@ -223,11 +223,13 @@ function OnDragStopCall(dragEventArgs) {
 
 function callResizeEvent() {
   //Due to facing issue with DocumentEditor component resizing on sidebar collapse/expand, enclosed the dispatch event within setTimeout.
-  setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 300);
-  window.resizeTo(
-    window.screen.availWidth,
-    window.screen.availHeight
-  );
+    resizevalue = false;
+    //Due to facing issue with DocumentEditor component resizing on sidebar collapse/expand, enclosed the dispatch event within setTimeout.
+    setTimeout(() => { window.dispatchEvent(new Event('resize')); resizevalue = true; }, 300);
+    window.resizeTo(
+        window.screen.availWidth,
+        window.screen.availHeight
+    );
 }
 
 function setThemeSelection(themeName) {
@@ -726,8 +728,6 @@ function ScrollToSelected() {
 var updatedURL;
 var currentURL;
 
-// console.log("Current URL:", currentURL);
-
 function updateThemeURL() {
     const themeParameter = "fluent";
     currentURL = window.location.href;
@@ -752,29 +752,60 @@ function updateThemeURL() {
                 if (!currentURL.includes("-dark")) {
                     // Append "-dark" to the current URL
                     updatedURL = currentURL + "-dark";
-                    console.log("Updated URL:", updatedURL);
                 } else if (currentURL.includes("-dark")) {
                     // Remove "-dark" from the current URL
                     updatedURL = currentURL.replace("-dark", "");
-                    console.log("Updated URL (removed -dark):", updatedURL);
                 }
             } else {
-                console.log("Theme is already fluent, no update needed");
+                //console.log("Theme is already fluent, no update needed");
             }
         } else {
-            console.log("No theme parameter found in the URL");
+            //console.log("No theme parameter found in the URL");
         }
     } else {
-        console.log("No query parameter found in the URL");
+        //console.log("No query parameter found in the URL");
     }
     return updatedURL; // Return the updated URL or current URL if no update is needed
 }
 
 function navigateToPage() {
     var updatedURL = updateThemeURL();
-    console.log("Updated URL is:" + updatedURL);
     if (updatedURL) {
         window.location.href = updatedURL; // Replace the current URL without reloading the page
     }
 
 }
+
+var visiblevalue = false;
+function toggleSidebarVisibility() {
+    var sidebar = document.querySelector('.sf-sidebar');
+    // Toggle sidebar visibility based on window width
+    if (sidebar && resizevalue && window.innerWidth < 1026) {
+        visiblevalue = true;
+        sidebar.classList.remove('sf-visible');
+        sidebar.classList.add('sf-hidden');
+    }
+    else if (sidebar && visiblevalue && resizevalue && window.innerWidth >= 1026) {
+        visiblevalue = false;
+        sidebar.classList.remove('sf-hidden');
+        sidebar.classList.add('sf-visible');
+    }
+}
+
+window.addEventListener('resize', toggleSidebarVisibility);
+document.addEventListener('DOMContentLoaded', function () {
+    var sidebar = document.querySelector('.sb-toggle-left');
+    if (sidebar && sidebar.classList.contains('sf-hidden')) {
+        sidebar.addEventListener('click', function () {
+            sidebar.classList.remove('sf-hidden');
+            sidebar.classList.add('sf-visible');
+        });
+    }
+    else if (sidebar && sidebar.classList.contains('sf-visible')) {
+        sidebar.addEventListener('click', function () {
+            sidebar.classList.add('sf-hidden');
+            sidebar.classList.remove('sf-visible');
+        });
+    }
+});
+

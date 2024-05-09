@@ -1280,6 +1280,27 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Call Center Dashboard",
+                Category = "Product Showcase",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/call-center-dashboard",
+                MetaDescription = "This sample demonstrates how to use CallCenterDashboard in spreadsheets using XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CallCenterDashboard",
+                        FileName="CallCenterDashboard.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CallCenterDashboardService",
+                        FileName="CallCenterDashboardService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
                 Name = "Expenses Report",
                 Category = "Product Showcase",
                 Directory = "DocumentProcessing/Excel",
@@ -1534,7 +1555,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "What-If Anlaysis",
+                Name = "What-If Analysis",
                 Category = "Data Management",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/WhatIfAnalysis",
@@ -1775,7 +1796,49 @@ namespace BlazorDemos
                         FileName="CommentsService.cs"
                     }
                 }
-            }
+            },
+            new Sample
+            {
+                Name = "Create Macro",
+                Category = "Macros",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/create-macros",
+                MetaDescription = "This sample demonstrates how to create macros using XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CreateMacros",
+                        FileName="CreateMacros.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CreateMacrosService",
+                        FileName="CreateMacrosService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Edit Macro",
+                Category = "Macros",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/edit-macros",
+                MetaDescription = "This sample demonstrates how to create macros using XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EditMacro",
+                        FileName="EditMacro.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EditMacroService",
+                        FileName="EditMacroService.cs"
+                    }
+                }
+            },
         };	
 
           public List<Sample> PDF { get; set; } = new List<Sample>{

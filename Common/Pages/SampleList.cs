@@ -672,6 +672,7 @@ namespace BlazorDemos
                 Category = "Navigation",
                 Directory = "Navigations/Toolbar",
                 Samples = Toolbar,
+                Type = SampleType.Updated,
                 ControllerName = "Toolbar",
                 DemoPath = "toolbar/default-functionalities"
             });
