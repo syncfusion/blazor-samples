@@ -1,0 +1,218 @@
+﻿@page "/tabs/dynamic-tabs"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>  This sample demonstrates the options to customize tab items dynamically like browser tab.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, floating button added to the right of existing tabs by adding button inside the <code>HeaderTemplate</code> of last TabItem. <br />
+        The <code>Blazor Tabs</code> allows you to add new tab items when user clicks on the Button inside HeaderTemplate and close the Tab item by clicking the close icon in the tab header. By default, the close icon is not shown in the header which can be shown or hidden using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfTab.html#Syncfusion_Blazor_Navigations_SfTab_ShowCloseButton">ShowCloseButton</a> property.
+    </p>
+    <p>More information about Blazor Tabs can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/tabs/getting-started/'  aria-label="documentation section" >documentation</a> section. </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="dynamic-tab-control-section">
+        <div id="plus-btn">
+            <SfButton title="Add Tab" IconCss="e-icons e-plus" @onclick="addTab"></SfButton>
+        </div>
+        <SfTab CssClass="dynamic-tabs" ShowCloseButton=true>
+            <TabAnimationSettings>
+                <TabAnimationPrevious Effect=AnimationEffect.None></TabAnimationPrevious>
+                <TabAnimationNext Effect=AnimationEffect.None></TabAnimationNext>
+            </TabAnimationSettings>
+            <TabItems>
+                @if (TabItems != null && TabItems.Count > 0)
+                {
+                    @foreach (TabData Item in TabItems)
+                    {
+                        <TabItem>
+                            <HeaderTemplate>
+                                <span>@(Item.Header)</span>
+                            </HeaderTemplate>
+                            <ContentTemplate>
+                                <div>@(Item.TabContent)</div>
+                            </ContentTemplate>
+                        </TabItem>
+                    }
+                }
+            </TabItems>
+        </SfTab>
+    </div>
+</div>
+
+
+@code {
+    
+    int i;
+    public class TabData
+    {
+        public string Header { get; set; }
+        public RenderFragment TabContent { get; set; }
+    }
+    RenderFragment FragmentContent(String fragmentString) => builder =>
+    {
+        builder.OpenElement(0, "div");
+        builder.AddContent(1, fragmentString);
+        builder.OpenElement(2, "div");
+        builder.AddContent(3, "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas deleniti quibusdam necessitatibus excepturi nisi soluta officia dolore repellendus inventore animi. Id nobis iusto ex quis sed dolores doloremque a dolorum natus, odio illum aliquid mollitia quos quisquam nostrum harum hic! Culpa quasi, odio fugiat amet similique consequuntur esse tenetur aperiam provident excepturi, adipisci dolores temporibus error ea dignissimos qui consectetur. Nam expedita hic optio corporis. Cum deserunt soluta molestias modi aperiam ducimus officia distinctio inventore. Dolor commodi ab voluptatum tempora. Vel voluptates odit obcaecati inventore, suscipit nobis. Assumenda, enim quam, debitis ipsum magnam quas rerum similique temporibus libero minus dolores.");
+        builder.CloseElement();
+        builder.CloseElement();
+    };
+    List<TabData> TabItems { get; set; }
+    protected override void OnInitialized()
+    {
+        
+        TabItems = new List<TabData>()
+        {
+            new TabData() { Header = "Tab Header 1", TabContent = FragmentContent("Tab Content: 1") },
+            new TabData() { Header = "Tab Header 2", TabContent = FragmentContent("Tab Content: 2") },
+            new TabData() { Header = "Tab Header 3", TabContent = FragmentContent("Tab Content: 3") }
+        };
+        i = TabItems.Count();
+    }
+    public void addTab()
+    {
+        i++;
+        TabItems.Add(new TabData
+        {
+           Header = "Tab Header " + i.ToString(),
+           TabContent = FragmentContent("Tab Content: " + i.ToString())
+        });
+    }
+}
+
+<style>
+    .dynamic-tabs {
+        border: 1px solid #d7d7d7;
+    }
+
+    .dynamic-tabs .e-content .e-item {
+        padding: 10px;
+        text-align: justify;
+    }
+
+    .dynamic-tabs .e-tab-header.e-close-show .e-toolbar-item .e-icons.e-close-icon {
+        visibility: hidden;
+    }
+
+    .dynamic-tabs .e-tab-header.e-close-show .e-toolbar-item.e-active .e-icons.e-close-icon,
+    .dynamic-tabs .e-tab-header.e-close-show .e-toolbar-item:hover .e-icons.e-close-icon {
+        visibility: visible;
+    }
+
+    .bootstrap5 .dynamic-tabs,
+    .bootstrap5-dark .dynamic-tabs,
+    .bootstrap .dynamic-tabs,
+    .bootstrap-dark .dynamic-tabs,
+    .bootstrap4 .dynamic-tabs {
+        border: none;
+    }
+
+    .dynamic-tab-control-section #plus-btn {
+        position: relative;
+        z-index: 99;
+        float: right;
+        margin-top: 3px;
+        margin-right: 10px;
+    }
+
+    .dynamic-tab-control-section #plus-btn .e-btn.e-icon-btn,
+    .dynamic-tab-control-section #plus-btn .e-btn.e-icon-btn:focus {
+        background: inherit;
+        color: inherit;
+        box-shadow: none;
+        border: none;
+        outline: none;
+    }
+
+    .dynamic-tab-control-section #plus-btn .e-btn.e-icon-btn .e-icons.e-plus {
+        font-weight: bold;
+    }
+
+    .bootstrap5 .dynamic-tab-control-section #plus-btn,
+    .bootstrap5-dark .dynamic-tab-control-section #plus-btn,
+    .bootstrap4 .dynamic-tab-control-section #plus-btn {
+        margin-top: 0;
+    }
+
+    .tailwind .dynamic-tab-control-section #plus-btn,
+    .tailwind-dark .dynamic-tab-control-section #plus-btn,
+    .fluent .dynamic-tab-control-section #plus-btn,
+    .fluent-dark .dynamic-tab-control-section #plus-btn {
+        margin-top: 6px;
+    }
+
+    .dynamic-tabs .e-tab-header {
+        width: calc(100% - 30px) !important;
+    }
+
+    .fluent .dynamic-tabs .e-content > .e-item.e-active,
+    .bootstrap5 .dynamic-tabs .e-content > .e-item.e-active,
+    .tailwind .dynamic-tabs .e-content > .e-item.e-active,
+    .material .dynamic-tabs .e-content > .e-item.e-active,
+    .bootstrap4 .dynamic-tabs .e-content > .e-item.e-active,
+    .bootstrap .dynamic-tabs .e-content > .e-item.e-active,
+    .fabric .dynamic-tabs .e-content > .e-item.e-active {
+        background: #FAF9F8;
+    }
+
+    .fluent-dark .dynamic-tabs .e-content > .e-item.e-active,
+    .bootstrap5-dark .dynamic-tabs .e-content > .e-item.e-active,
+    .tailwind-dark .dynamic-tabs .e-content > .e-item.e-active,
+    .material-dark .dynamic-tabs .e-content > .e-item.e-active,
+    .bootstrap-dark .dynamic-tabs .e-content > .e-item.e-active,
+    .fabric-dark .dynamic-tabs .e-content > .e-item.e-active,
+    .highcontrast .dynamic-tabs .e-content > .e-item.e-active {
+        background: #201F1E;
+    }
+
+    @@media screen and (max-width: 480px) {
+        .dynamic-tab-control-section #plus-btn .e-btn.e-icon-btn {
+            padding: 5px;
+        }
+
+        .dynamic-tab-control-section #plus-btn {
+            margin-top: 7px;
+            margin-right: 0;
+        }
+
+        .bootstrap5 .dynamic-tab-control-section #plus-btn,
+        .bootstrap5-dark .dynamic-tab-control-section #plus-btn {
+            margin-top: 2px;
+            margin-right: -18px;
+        }
+
+        .tailwind .dynamic-tab-control-section #plus-btn,
+        .tailwind-dark .dynamic-tab-control-section #plus-btn {
+            margin-top: 15px;
+        }
+
+        .bootstrap4 .dynamic-tab-control-section #plus-btn {
+            margin-top: 3px;
+        }
+
+        .bootstrap .dynamic-tab-control-section #plus-btn,
+        .bootstrap-dark .dynamic-tab-control-section #plus-btn {
+            margin-top: 0px;
+            margin-right: -5px;
+        }
+
+        .highcontrast .dynamic-tab-control-section #plus-btn {
+            margin-top: 3px;
+            margin-right: 10px
+        }
+    }
+</style>

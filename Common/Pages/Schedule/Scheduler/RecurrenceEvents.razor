@@ -1,0 +1,76 @@
+﻿@page "/scheduler/recurrence-events"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases the Scheduler with recurring meetings handled by a top-level manager on a regular pattern.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, the recurrence events are defined with different repeat patterns. It can be defined through
+        <code>RecurrenceRule</code> field. The recurring events are differentiated from other events by a repeat marker added to the right-bottom of it. These events can repeat on daily, weekly, monthly or yearly basis.
+    </p>
+    <p> Here, the daily patterned events are depicted in blue color, weekly events are differentiated with green color, monthly events are depicted in orange color and the yearly event is depicted in the all-day section with another green shade for reference.</p>
+    <p>Scheduler requires only the <code>StartTime</code> and <code>EndTime</code> fields as mandatory to be mapped from the DataSource. The Scheduler events can be categorized into 3 types based on its time range and all-day type. </p>
+    <table style=" width:100%">
+        <tr>
+            <th style=" width:100px"> <strong>Event</strong> </th>
+            <th><strong>Description</strong> </th>
+        </tr>
+        <tr>
+            <td style=" padding:4px 0;">Normal events</td>
+            <td> The events that has its start and end time duration on the same date.</td>
+        </tr>
+        <tr>
+            <td style=" padding:4px 0;">Spanned events</td>
+            <td>The events on which its start and end time spans over multiple days and usually displays together with all-day events.</td>
+        </tr>
+        <tr>
+            <td style=" padding:4px 0;">All-day events</td>
+            <td>The events that are defined as all-day in its event object by setting <code>IsAllDay</code> to true. </td>
+        </tr>
+    </table>
+    <p> Also, you can edit or delete the future events of a recurrence series using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleEventSettings-1.html#Syncfusion_Blazor_Schedule_ScheduleEventSettings_1_AllowEditFollowingEvents">AllowEditFollowingEvents</a> property. This can be achieved by choosing <code>Following Events</code> in edit and delete alert popups.</p>
+</ActionDescription>
+
+<div class="col-lg-12" style="padding-top:15px">
+    <div class="form-row">
+        <SfCheckBox @bind-Checked="@EditUpcoming" Label="Enable Following Events" title="Show option to edit and delete the following events of a recurrence series."></SfCheckBox>
+    </div>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource" AllowEditFollowingEvents="@EditUpcoming"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+
+@code{
+    public View CurrentView { get; set; } = View.Week;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 12);
+    private bool EditUpcoming { get; set; } = false;
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetRecurrenceData();
+    
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}
+<style>
+    .fabric .e-dialog .e-footer-content .e-btn,
+    .fabric-dark .e-dialog .e-footer-content .e-btn {
+        margin-left: 0px;
+    }
+</style>

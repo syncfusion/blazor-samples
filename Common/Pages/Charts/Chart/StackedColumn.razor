@@ -1,0 +1,102 @@
+﻿@page "/chart/stacked-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.Globalization
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/stacked-column-chart' aria-label="Navigate to explore the Blazor Stacked Column Chart">Blazor Stacked Column Chart</a> example visualizes motor vehicle production by manufacturer with a default stacked column series. The legend in the sample shows more information about those series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the stacked column chart. The stacked column chart stacks points in the series vertically. You can also use the  <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartSeries.html#Syncfusion_Blazor_Charts_ChartSeries_StackingGroup' aria-label="Navigate to the StackingGroup property reference for chart series">StackingGroup</a> property to group stacked collections based on category.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the stacked column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/stacked-column' aria-label="Navigate to the documentation for stacked in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Motor Vehicle Production by Manufacturer" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartEvents OnAxisLabelRender="axisLabel"></ChartEvents>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate45">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Vehicles Production (In Millions)">           
+            <ChartAxisMinorGridLines Width="1"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>            
+            <ChartSeries ColumnWidth="0.5" DataSource="@ChartPoints" XName="Year" YName="General" Width="2" Name="General Motors" Type="ChartSeriesType.StackingColumn">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries ColumnWidth="0.5" DataSource="@ChartPoints" XName="Year" YName="Honda" Width="2" Name="Honda" Type="ChartSeriesType.StackingColumn">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries ColumnWidth="0.5" DataSource="@ChartPoints" XName="Year" YName="Suzuki" Width="2" Name="Suzuki" Type="ChartSeriesType.StackingColumn">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries ColumnWidth="0.5" DataSource="@ChartPoints" XName="Year" YName="BMW" Width="2" Name="BMW" Type="ChartSeriesType.StackingColumn">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>            
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<StackedColumnChartData> ChartPoints { get; set; } = new List<StackedColumnChartData>
+    {
+        new StackedColumnChartData { Year = "2013", General = 9628912, Honda = 4298390, Suzuki = 2842133, BMW = 2006366 },
+        new StackedColumnChartData { Year = "2014", General = 9609326, Honda = 4513769, Suzuki = 3016710, BMW = 2165566 },
+        new StackedColumnChartData { Year = "2015", General = 7485587, Honda = 4543838, Suzuki = 3034081, BMW = 2279503 },
+        new StackedColumnChartData { Year = "2016", General = 7793066, Honda = 4999266, Suzuki = 2945295, BMW = 2359756 },
+        new StackedColumnChartData { Year = "2017", General = 6856880, Honda = 5235842, Suzuki = 3302336, BMW = 2505741 },
+
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    void axisLabel(AxisLabelRenderEventArgs args)
+    {
+        if (args.Value > 999999 || args.Value < -999999 )
+        {
+            args.Text = args.Value.ToString("0,,.##M", CultureInfo.InvariantCulture);
+        }
+    }
+
+    public class StackedColumnChartData
+    {
+        public string Year { get; set; }
+        public double General { get; set; }
+        public double Honda { get; set; }
+        public double Suzuki { get; set; }
+        public double BMW { get; set; }
+    }
+
+}

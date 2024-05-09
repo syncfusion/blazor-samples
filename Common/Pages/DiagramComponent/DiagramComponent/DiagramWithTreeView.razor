@@ -1,0 +1,727 @@
+﻿@page "/diagramcomponent/diagramwithtreeview"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Buttons
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Navigations
+@using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+<SampleDescription>
+    <p>This sample illustrates how to create a tree view and diagram with a data source. This sample provides support for selecting, adding, deleting, expanding, collapsing, and editing the annotations of the nodes during runtime. These actions will replicate in the corresponding nodes of the TreeView component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In Diagram, the Selection operation is achieved with the Select method. In TreeView, it is achieved with the selectedNodes property. When a node is added or removed in Diagram during runtime, the AddedNodes or RemoveNodes methods will also add or remove the relevant nodes in the TreeView component. The ExpandAllAsync() and CollapseAllAsync() functions will expand or collapse the necessary nodes in the TreeView component whenever a node in the corresponding Diagram is expanded or collapsed during runtime.
+    </p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="control-section" style="padding-top:5px;margin-left:-10px">
+    @*Hidden:Lines*@
+    <div style="width: 100%;height: 10%;">
+        <SfButton OnClick="@Add" style="background-color:#cccccc;color:black;font-weight:normal;margin-top:4px;margin-left:4px;margin-bottom:5px" @bind-Disabled="add">Add Node</SfButton>
+        <SfButton OnClick="@Delete" style="background-color:#cccccc;color:black;font-weight:normal;margin-top:4px;margin-left:4px;margin-bottom:5px" @bind-Disabled="delete">Delete Node</SfButton>
+        <div style="float:right;font-size:18px;font-weight:normal">
+            @{
+                if (!isMobileDevice)
+                {
+                <div style="float:left;padding-top:5px;margin-right:5px">
+                    Diagram Binding With TreeView
+                </div>
+                }
+            }
+            <div style=" float:right; width: 60px;
+                                height: 42px;
+                                left: 12px;
+                                right: 12px;
+                                background-size: 100% 100%;background-image: url(@( SampleService.WebAssetsPath + "/images/diagram/annotation/layout.png"))">
+            </div>
+        </div>
+    </div>
+
+    @*End:Hidden*@
+    <div id="diagramEventsControlSection" class="content-wrapper" style="background: white">
+        @*Hidden:Lines*@
+        <div class="sb-mobile-palette-bar">
+            <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette" aria-label="palette-icon"></div>
+        </div>
+        @*End:Hidden*@
+    <div style="width: 100%;height: 90%;padding-top: 2px">
+            <div id="palette-space" class="sb-mobile-palette" style="border:1px solid lightgrey;overflow:auto;background: #f2f2f2;">
+            <SfTreeView @ref="dom" TValue="TreeItem" @bind-SelectedNodes="@selectedNodes" AllowEditing="true">
+                <TreeViewFieldsSettings Id="Id" DataSource="@treeviewnodes" Text="Name" ParentID="ParentId" HasChildren="HasChild" Expanded="Expanded" Selected="IsSelected"></TreeViewFieldsSettings>
+                <TreeViewEvents TValue="TreeItem" OnKeyPress="OnKeyPressHandler" NodeClicked="nodeClicked" NodeCollapsed="NodeCollapse" NodeExpanding="NodeExpand" NodeEdited="NodeEditing" ></TreeViewEvents>
+            </SfTreeView>
+        </div>
+        <div id="diagram-space" class="sb-mobile-diagram" style="border:1px solid lightgrey;@(!isMobileDevice ? "margin-left:290px;margin-top:-732px": "")">
+            <div class="content-wrapper">
+                <SfDiagramComponent @ref="diagram" KeyDown="@OnKeyDown" Constraints="@constraints" Height="730px" TextChanged="@textchange" NodeCreating="NodeCreating" ConnectorCreating="ConnectorCreating" Click="@OnClick" SelectionChanged="@SelectionChanged" Created="@OnCreated">
+                    <DataSourceSettings DataSource="DataSource" ID="Id" ParentID="Manager"></DataSourceSettings>
+                    <Layout @bind-Type="type" @bind-HorizontalSpacing="@horizontalSpacing" @bind-FixedNode="@fixedNode" @bind-Orientation="@orientation" @bind-VerticalSpacing="@verticalSpacing" @bind-HorizontalAlignment="@horizontalAlignment" @bind-VerticalAlignment="@verticalAlignment">
+                        <LayoutMargin @bind-Top="@top" @bind-Bottom="@bottom" @bind-Right="@right" @bind-Left="@left"></LayoutMargin>
+                    </Layout>
+                    <SnapSettings Constraints=SnapConstraints.None>
+                    </SnapSettings>
+                </SfDiagramComponent>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+@*Hidden:Lines*@
+<style>
+    .sb-mobile-palette {
+        width: 285px;
+        height: 730px;
+        float: left;
+    }
+
+    .sb-mobile-diagram {
+        width: calc(100% - 280px);
+        height: 100%;
+        float: left;
+    }
+
+    @@media (max-width: 550px) {
+        #diagramEventsControlSection .sb-mobile-palette {
+            z-index: 19;
+            position: absolute;
+            display: none;
+            transition: transform 300ms linear, visibility 0s linear 300ms;
+            width: 55%;
+            height: 100%;
+        }
+
+        #diagramEventsControlSection .sb-mobile-palette-bar {
+            display: block;
+            width: 100%;
+            background: #fafafa;
+            padding: 14px 10px;
+            border: 0.5px solid #e0e0e0;
+            min-height: 54px;
+        }
+
+        #diagramEventsControlSection .sb-mobile-diagram {
+            width: 100%;
+            height: 100%;
+            float: left;
+            left: 0px;
+        }
+
+        #diagramEventsControlSection #palette-icon {
+            font-size: 20px;
+        }
+
+        #diagramEventsControlSection .sb-mobile-palette-open {
+            position: absolute;
+            display: block;
+            right: 15px;
+        }
+    }
+
+    .e-toggle-palette::before {
+        content: "\e700";
+    }
+
+    @@font-face {
+        font-family: "e-ddb-icons1";
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfIAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmdC1P4gAAAcgAAAAwaGVhZBJhohMAAADQAAAANmhoZWEIVQQDAAAArAAAACRobXR4CAAAAAAAAYAAAAAIbG9jYQAYAAAAAAHAAAAABm1heHABDgAUAAABCAAAACBuYW1lm+wy9gAAAfgAAAK1cG9zdLnsYngAAASwAAAAMAABAAAEAAAAAFwEAAAAAAAD+AABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAAgNcenF8PPPUACwQAAAAAANelrs4AAAAA16WuzgAAAAAD+AN6AAAACAACAAAAAAAAAAEAAAACAAgAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAAQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAGAAAAAIAAAAAA/gDegACAAcAACUhCQEhATUhAQQC9P6G/YoBMQFF/YqGAjf+hgH0QwAAAAAAEgDeAAEAAAAAAAAAAQAAAAEAAAAAAAEAEwABAAEAAAAAAAIABwAUAAEAAAAAAAMAEwAbAAEAAAAAAAQAEwAuAAEAAAAAAAUACwBBAAEAAAAAAAYAEwBMAAEAAAAAAAoALABfAAEAAAAAAAsAEgCLAAMAAQQJAAAAAgCdAAMAAQQJAAEAJgCfAAMAAQQJAAIADgDFAAMAAQQJAAMAJgDTAAMAAQQJAAQAJgD5AAMAAQQJAAUAFgEfAAMAAQQJAAYAJgE1AAMAAQQJAAoAWAFbAAMAAQQJAAsAJAGzIERpYWdyYW1fU2hhcGVzX0ZPTlRSZWd1bGFyRGlhZ3JhbV9TaGFwZXNfRk9OVERpYWdyYW1fU2hhcGVzX0ZPTlRWZXJzaW9uIDEuMERpYWdyYW1fU2hhcGVzX0ZPTlRGb250IGdlbmVyYXRlZCB1c2luZyBTeW5jZnVzaW9uIE1ldHJvIFN0dWRpb3d3dy5zeW5jZnVzaW9uLmNvbQAgAEQAaQBhAGcAcgBhAG0AXwBTAGgAYQBwAGUAcwBfAEYATwBOAFQAUgBlAGcAdQBsAGEAcgBEAGkAYQBnAHIAYQBtAF8AUwBoAGEAcABlAHMAXwBGAE8ATgBUAEQAaQBhAGcAcgBhAG0AXwBTAGgAYQBwAGUAcwBfAEYATwBOAFQAVgBlAHIAcwBpAG8AbgAgADEALgAwAEQAaQBhAGcAcgBhAG0AXwBTAGgAYQBwAGUAcwBfAEYATwBOAFQARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAdQBzAGkAbgBnACAAUwB5AG4AYwBmAHUAcwBpAG8AbgAgAE0AZQB0AHIAbwAgAFMAdAB1AGQAaQBvAHcAdwB3AC4AcwB5AG4AYwBmAHUAcwBpAG8AbgAuAGMAbwBtAAAAAAIAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgECAQMABlNoYXBlcwAA) format("truetype");
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-ddb-icons1 {
+        font-family: "e-ddb-icons1";
+        speak: none;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+</style>
+@*End:Hidden*@
+
+@code
+{
+
+    private string[] selectedNodes;
+    private string[] expandNode = new string[] { "" };
+    SfTreeView<TreeItem> dom;
+    public SfDiagramComponent diagram;
+    double top = 50;
+    double bottom = 50;
+    double right = 50;
+    double left = 50;
+    bool add = true;
+    bool delete = true;
+    //Defines diagram constraints
+    public DiagramConstraints constraints = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
+    NodeBase selectedElement;
+    LayoutType type = LayoutType.OrganizationalChart;
+    LayoutOrientation orientation = LayoutOrientation.TopToBottom;
+    HorizontalAlignment horizontalAlignment = HorizontalAlignment.Auto;
+    VerticalAlignment verticalAlignment = VerticalAlignment.Auto;
+    int horizontalSpacing = 30;
+    int verticalSpacing = 30;
+    private string fixedNode = null;
+    int id = 18;
+    private List<string> array = new List<string>();
+    private String[] emptystring;
+    int text = 8;
+    public void OnKeyPressHandler(NodeKeyPressEventArgs args)
+    {
+        if(args.Key == "Delete")
+        {
+            DeleteNode();
+        }
+        selectedElement = null;
+        StateHasChanged();
+    }
+    private void OnKeyDown(KeyEventArgs args)
+    {
+        if(args.Key == "Delete")
+        {
+            DeleteNode();
+        }
+        selectedElement = null;
+        StateHasChanged();
+    }
+    private async void DeleteNode()
+    {
+        if (selectedElement is Node)
+        {
+            array.Clear();
+            var node = selectedElement as Node;
+            HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
+            DataSource.Remove(deletenodes);
+            await diagram.RefreshDataSource();
+            int? id=0;
+            bool isParent = false;
+            for (int i = 0; i < treeviewnodes.Count; i++)
+            {
+                if (deletenodes.Id == treeviewnodes[i].Id.ToString())
+                {
+                    id = treeviewnodes[i].ParentId;
+                    array.Add(treeviewnodes[i].Id.ToString());
+                    treeviewnodes.Remove(treeviewnodes[i]);
+                }
+            }
+            for (int i = 0; i < treeviewnodes.Count; i++)
+            {
+                if (id == treeviewnodes[i].ParentId)
+                {
+                    isParent = true;
+                }
+            }
+            if (!isParent)
+            {
+                for (int i = 0; i < treeviewnodes.Count; i++)
+                {
+                    if (id!=null&&id == treeviewnodes[i].Id)
+                    {
+                        treeviewnodes[i].HasChild = false;
+                    }
+                }
+            }
+            emptystring = array.ToArray();
+            dom.RemoveNodes(emptystring);
+        }
+    }
+    private async Task Add()
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0)
+        {
+
+            Node node = diagram.SelectionSettings.Nodes[0];
+            HierarchicalDetails nodes = node.Data as HierarchicalDetails;
+            DataSource.Add(new HierarchicalDetails() { Id = id.ToString(), Role = "Craft Personnel" + text, Manager = nodes.Id, });
+            await diagram.RefreshDataSource();
+            for (int i = 0; i < diagram.Nodes.Count; i++)
+            {
+                if (diagram.Nodes[i].Annotations[0].Content == "Craft Personnel" + text)
+                {
+                    diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[i] });
+
+                }
+            }
+            for (int i = 0; i < treeviewnodes.Count; i++)
+            {
+
+                if (nodes.Id == treeviewnodes[i].Id.ToString())
+                {
+                    List<TreeItem> album = new List<TreeItem>();
+                    TreeItem Addednode = new TreeItem();
+                    Addednode.Id = id;
+                    Addednode.Name = "Craft Personnel" + text;
+                    Addednode.ParentId = treeviewnodes[i].Id;
+                    album.Add(Addednode);
+                    dom.AddNodes(album);
+                    treeviewnodes.Add(Addednode);
+                    selectedNodes = null;
+
+                }
+                if (nodes.Id == treeviewnodes[i].Id.ToString())
+                {
+                    treeviewnodes[i].HasChild = true;
+                    treeviewnodes[i].Expanded = true;
+                    array.Add(treeviewnodes[i].Id.ToString());
+                    emptystring = array.ToArray();
+                    await dom.ExpandAllAsync(emptystring);
+                }
+
+            }
+            for (int j = 0; j < diagram.Nodes.Count; j++)
+            {
+                if (treeviewnodes[j].Name == "Craft Personnel" + text)
+                {
+                    selectedNodes = new string[] { treeviewnodes[j].Id.ToString() };
+                }
+            }
+        }
+        id++;
+        text++;
+        StateHasChanged();
+    }
+    private async Task NodeEditing(NodeEditEventArgs args)
+    {
+        array.Clear();
+        for (int i = 0; i < diagram.Nodes.Count; i++)
+        {
+            if (args.OldText == diagram.Nodes[i].Annotations[0].Content)
+            {
+                diagram.Nodes[i].Annotations[0].Content = args.NewText;
+                array.Add(args.NodeData.Id.ToString());
+                HierarchicalDetails nodes = diagram.Nodes[i].Data as HierarchicalDetails;
+                nodes.Role = args.NewText;
+                emptystring = array.ToArray();
+                await dom.ExpandAllAsync(emptystring);
+                break;
+            }
+        }
+        args.NodeData.Text = args.NewText;
+        for (int i = 0; i < diagram.Nodes.Count; i++)
+        {
+            if (args.NodeData.Text == diagram.Nodes[i].Annotations[0].Content)
+            {
+                diagram.Nodes[i].IsExpanded = true;
+                break;
+
+            }
+        }
+    }
+    private void textchange(TextChangeEventArgs args)
+    {
+
+        if (args.Element is Node)
+        {
+            for (int i = 0; i < treeviewnodes.Count; i++)
+            {
+                if (args.OldValue == treeviewnodes[i].Name)
+                {
+                    treeviewnodes[i].Name = args.NewValue;
+                }
+            }
+        }
+        if (args.Element is Node)
+        {
+            var node = args.Element as Node;
+            HierarchicalDetails nodes = node.Data as HierarchicalDetails;
+            nodes.Role = args.NewValue;
+        }
+    }
+    private async void Delete()
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0)
+        {
+            array.Clear();
+            var node = diagram.SelectionSettings.Nodes[0];
+            HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
+            if (deletenodes.Id != "1")
+            {
+                DataSource.Remove(deletenodes);
+                await diagram.RefreshDataSource();
+                int? id = 0;
+                bool isParent = false;
+                for (int i = 0; i < treeviewnodes.Count; i++)
+                {
+                    if (deletenodes.Id == treeviewnodes[i].Id.ToString())
+                    {
+                        id = treeviewnodes[i].ParentId;
+                        array.Add(treeviewnodes[i].Id.ToString());
+                        treeviewnodes.Remove(treeviewnodes[i]);
+                    }
+                }
+                for (int i = 0; i < treeviewnodes.Count; i++)
+                {
+                    if (id == treeviewnodes[i].ParentId)
+                    {
+                        isParent = true;
+                    }
+                }
+                if (!isParent)
+                {
+                    for (int i = 0; i < treeviewnodes.Count; i++)
+                    {
+                        if (id != null && id == treeviewnodes[i].Id)
+                        {
+                            treeviewnodes[i].HasChild = false;
+                        }
+                    }
+                }
+                emptystring = array.ToArray();
+                dom.RemoveNodes(emptystring);
+            }
+        }
+        StateHasChanged();
+    }
+    private void SelectionChanged(SelectionChangedEventArgs args)
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0 || diagram.SelectionSettings.Connectors.Count > 0)
+        {
+            add = false;
+            delete = false;
+        }
+        else
+        {
+            add = true;
+            delete = true;
+        }
+    }
+
+    public void NodeCollapse(NodeExpandEventArgs args)
+    {
+
+        for (int i = 0; i < diagram.Nodes.Count; i++)
+        {
+            if (args.NodeData.Id == diagram.Nodes[i].ID)
+            {
+                diagram.Nodes[i].IsExpanded = false;
+                break;
+            }
+        }
+    }
+    public void NodeExpand(NodeExpandEventArgs args)
+    {
+
+        for (int i = 0; i < diagram.Nodes.Count; i++)
+        {
+            if (args.NodeData.Text == diagram.Nodes[i].Annotations[0].Content && args.Name == "NodeExpanding")
+            {
+                diagram.Nodes[i].IsExpanded = true;
+                break;
+            }
+        }
+    }
+    // Triggers when TreeView node is clicked
+    public void nodeClicked(NodeClickEventArgs args)
+    {
+        for (int i = 0; i < diagram.Nodes.Count; i++)
+        {
+            if (args.NodeData.Id == diagram.Nodes[i].ID)
+            {
+                diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[i] });
+            }
+        }
+
+    }
+    private async Task OnClick(Syncfusion.Blazor.Diagram.ClickEventArgs args)
+    {
+        selectedElement = (args.Element != null)? args.Element as NodeBase : null;
+        TreeItem tree = new TreeItem();
+        array.Clear();
+        if (args.Element is Node)
+        {
+            for (int i = 0; i < treeviewnodes.Count; i++)
+            {
+                if (treeviewnodes[i].Id.ToString() == (args.Element as Node).ID)
+                {
+                    if ((args.Element as Node).IsExpanded == true)
+                    {
+                        array.Add(treeviewnodes[i].Id.ToString());
+                        emptystring = array.ToArray();
+                        if (treeviewnodes[i].HasChild == false)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            await dom.ExpandAllAsync(emptystring);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        array.Add(treeviewnodes[i].Id.ToString());
+                        emptystring = array.ToArray();
+                        await dom.CollapseAllAsync(emptystring);
+                        break;
+                    }
+                }
+            }
+            selectedNodes = null;
+            if (args.ActualObject is Node)
+            {
+                for (int i = 0; i < treeviewnodes.Count; i++)
+                {
+
+                    if (treeviewnodes[i].IsSelected == true)
+                    {
+                        treeviewnodes[i].IsSelected = false;
+                    }
+                    if (treeviewnodes[i].Id.ToString() == (args.ActualObject as Node).ID)
+                    {
+                        selectedNodes = new string[] { treeviewnodes[i].Id.ToString() };
+                    }
+                }
+            }
+            StateHasChanged();
+        }
+    }
+    public class HierarchicalDetails
+    {
+        public string Id { get; set; }
+        public string Role { get; set; }
+        public string Manager { get; set; }
+
+    }
+    public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
+    {
+        new HierarchicalDetails()   { Id= "1", Role= "Plant Manager" },
+        new HierarchicalDetails()   { Id= "2", Role= "Production Manager", Manager= "1",  },
+        new HierarchicalDetails()   { Id= "3", Role= "Administrative Officer", Manager= "1" },
+        new HierarchicalDetails()   { Id= "4", Role= "Maintenance Manager", Manager= "1"  },
+        new HierarchicalDetails()   { Id= "5", Role= "Control Room", Manager= "2" },
+        new HierarchicalDetails()   { Id= "6", Role= "Foreman1", Manager= "5" },
+        new HierarchicalDetails()   { Id= "7", Role= "Craft Personnel5", Manager= "6" },
+        new HierarchicalDetails()   { Id= "8", Role= "Craft Personnel6", Manager= "6" },
+        new HierarchicalDetails()   { Id= "9", Role= "Plant Operator", Manager= "2" },
+        new HierarchicalDetails()   { Id= "10", Role= "Foreman2", Manager= "9" },
+        new HierarchicalDetails()   { Id= "11", Role= "Craft Personnel7", Manager= "10" },
+        new HierarchicalDetails()   { Id= "12", Role= "Electrical Supervisor", Manager= "4" },
+        new HierarchicalDetails()   { Id= "13", Role= "Craft Personnel1", Manager= "12" },
+        new HierarchicalDetails()   { Id= "14", Role= "Craft Personnel2", Manager= "12" },
+        new HierarchicalDetails()   { Id= "15", Role= "Mechanical Supervisor", Manager= "4" },
+        new HierarchicalDetails()   { Id= "16", Role= "Craft Personnel3", Manager= "15" },
+        new HierarchicalDetails()   { Id= "17", Role= "Craft Personnel4", Manager= "15" },
+    };
+
+    private void NodeCreating(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        if (node.Data is System.Text.Json.JsonElement)
+        {
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<HierarchicalDetails>(node.Data.ToString());
+        }
+        HierarchicalDetails hierarchicalData = node.Data as HierarchicalDetails;
+        node.ID = hierarchicalData.Id;
+        node.Width = 135;
+        node.Height = 40;
+        node.Style.Fill = "CornflowerBlue";
+        node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+        {
+            new ShapeAnnotation()
+            {
+                Content = hierarchicalData.Role,
+                Style =new TextStyle(){Color = "white"}
+            }
+        };
+        node.ExpandIcon = new DiagramExpandIcon()
+            {
+                Shape = DiagramExpandIcons.Minus,
+                Height = 15,
+                Width = 15,
+                CornerRadius = 10
+            };
+        node.CollapseIcon = new DiagramCollapseIcon()
+            {
+                Shape = DiagramCollapseIcons.Plus,
+                Height = 15,
+                Width = 15,
+                CornerRadius = 10
+            };
+    }
+    private void ConnectorCreating(IDiagramObject connector)
+    {
+        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShape.Arrow;
+        (connector as Connector).TargetDecorator.Style.Fill = (connector as Connector).Style.Fill = (connector as Connector).Style.StrokeColor = (connector as Connector).TargetDecorator.Style.StrokeColor = "CornflowerBlue";
+    }
+    // Specifies the DataSource value for TreeView component.
+    List<TreeItem> treeviewnodes = new List<TreeItem>();
+
+    protected override void OnInitialized()
+    {
+
+        
+        base.OnInitialized();
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 1,
+                Name = "Plant Manager",
+                HasChild = true,
+                Expanded = true,
+                
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 2,
+                ParentId = 1,
+                Name = "Production Manager",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 3,
+                ParentId = 1,
+                Name = "Administrative Officer",
+
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 4,
+                ParentId = 1,
+                Name = "Maintenance Manager",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 5,
+                ParentId = 2,
+                HasChild = true,
+                Name = "Control Room",
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 6,
+                ParentId = 5,
+                Name = "Foreman1",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 7,
+                Name = "Craft Personnel5",
+                ParentId = 6,
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 8,
+                ParentId = 6,
+                Name = "Craft Personnel6"
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 9,
+                ParentId = 2,
+                Name = "Plant Operator",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 10,
+                ParentId = 9,
+                Name = "Foreman2",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 11,
+                ParentId = 10,
+                Name = "Craft Personnel7"
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 12,
+                ParentId = 4,
+                Name = "Electrical Supervisor",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 13,
+                ParentId = 12,
+                Name = "Craft Personnel1"
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 14,
+
+                ParentId = 12,
+                Name = "Craft Personnel2",
+
+
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 15,
+                ParentId = 4,
+                Name = "Mechanical Supervisor",
+                HasChild = true,
+                Expanded = true
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 16,
+                Name = "Craft Personnel3",
+                ParentId = 15,
+            });
+        treeviewnodes.Add(new TreeItem
+            {
+                Id = 17,
+                Name = "Craft Personnel4",
+                ParentId = 15,
+            });
+
+    }
+
+    class TreeItem
+    {
+        public int Id { get; set; }
+        public int? ParentId { get; set; }
+        public string Name { get; set; }
+        public bool Expanded { get; set; }
+        public bool? IsSelected { get; set; }
+        public bool HasChild { get; set; }
+        public string IconCss { get; set; }
+    }
+    bool isMobileDevice = false;
+    private void OnCreated()
+    {
+        if (SampleService.IsDevice)
+        {
+            isMobileDevice = SampleService.IsDevice;
+            StateHasChanged();
+        }
+    }
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
+    private async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
+
+    }
+}
+

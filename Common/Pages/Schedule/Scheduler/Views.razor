@@ -1,0 +1,70 @@
+﻿@page "/scheduler/basic-views"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases the usage of basic views available in Scheduler such as Day, Week, Work Week and Month. Here, the wildlife events being held in zoos are displayed against their respective timings.  </p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this demo, Scheduler is showcased with 4 basic views namely  </p>
+    <ul>
+        <li>Day</li>
+        <li>Week</li>
+        <li>Work Week</li>
+        <li>Month</li>
+    </ul>
+    <p>The user can navigate between different view options available on the header section just by clicking on it. From any of the views, the user can switch back to the day view by clicking dates in the date header section.</p>
+</ActionDescription>
+
+<div class="col-lg-12" style="padding-top:15px">
+    <div class="form-row">
+        <div class="col-md-3">
+            <SfDropDownList TValue="View" TItem="DropDownData" @bind-Value="@CurrentView" DataSource="@ViewData" Placeholder="Current View" FloatLabelType="FloatLabelType.Always">
+                <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+            </SfDropDownList>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+
+@code{
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetZooEventData();
+    public View CurrentView { get; set; } = View.Week;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
+    
+
+    List<DropDownData> ViewData = new List<DropDownData>() {
+        new DropDownData { Name = "Day", Value = View.Day },
+        new DropDownData { Name = "Week", Value = View.Week },
+        new DropDownData { Name = "Work Week", Value = View.WorkWeek },
+        new DropDownData { Name = "Month", Value = View.Month }
+    };
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public View Value { get; set; }
+    }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}

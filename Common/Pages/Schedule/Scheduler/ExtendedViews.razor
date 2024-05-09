@@ -1,0 +1,40 @@
+﻿@page "/scheduler/custom-views"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This demo illustrates how to display n number of days, weeks and months on a single view.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this demo, the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#Syncfusion_Blazor_Schedule_ScheduleView_Interval">Interval</a> property has been defined with different values on each view such as 3 on day view, 2 on week view, and 4 on month view. so that it will be displayed as 3 days, 2 weeks, and 4 months on the respective views. This property is not applicable on agenda and month agenda views.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfSchedule TValue="ScheduleData.FifaEventsData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="ScheduleData.FifaEventsData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day" DisplayName="3 Days" Interval="3"></ScheduleView>
+            <ScheduleView Option="View.Week" DisplayName="2 Weeks" Interval="2"></ScheduleView>
+            <ScheduleView Option="View.Month" DisplayName="4 Months" Interval="4"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+
+
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 22);
+    public View CurrentView { get; set; } = View.Week;
+    private List<ScheduleData.FifaEventsData> dataSource = new ScheduleData().GetFifaEventsData();
+    
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.FifaEventsData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}

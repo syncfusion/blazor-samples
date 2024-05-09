@@ -1,0 +1,172 @@
+﻿@page "/rich-text-editor/enterKeyConfiguration"
+
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the APIs to customize the <span class="key-class"><kbd>Enter</kbd></span> and <span class="key-class"><kbd>Shift + Enter</kbd></span> key actions in the Rich Text Editor. Code view shows the HTML source of the Rich Text Editor content, and it is updated as you type in the editor.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The following properties are used to customize the key actions,</p>
+    <ul>
+        <li><code>EnterKey</code> - To change the tag of <span class="key-class"><kbd>Enter</kbd></span> key action. In this demo, change the value of Enter key dropdown to customize the Enter key tag.</li>
+        <li>
+            <code>ShiftEnterKey</code> - To change the tag pf <span class="key-class"><kbd>Shift + Enter</kbd></span> key action. In this demo, change the value of Shift + Enter key dropdown to customize the Shift + Enter key tag.
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="control-wrapper">
+        <table class='api'>
+            <tbody>
+                <tr>
+                    <td>
+                        <SfDropDownList TValue="string" TItem="RTEKeyConfig" DataSource="@EnterKeyData" @bind-Value="@EnterDropdownValue" Placeholder="Enter key tag" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always">
+                            <DropDownListFieldSettings Value="Value" Text="Text"/>
+                            <DropDownListEvents TItem="RTEKeyConfig" TValue="string" ValueChange="@EnterKeyChange"/>
+                        </SfDropDownList>
+                    </td>
+                    <td>
+                        <SfDropDownList TValue="string" TItem="RTEKeyConfig" DataSource="@ShiftEnterKeyData" @bind-Value="@ShiftEnterDropdownValue" Placeholder="Shift + Enter key tag" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always">
+                            <DropDownListFieldSettings Value="Value" Text="Text"/>
+                            <DropDownListEvents TItem="RTEKeyConfig" TValue="string" ValueChange="@ShiftEnterKeyChange"/>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <SfRichTextEditor @ref="richTextEditor" EnterKey="@EnterKeyAction" ShiftEnterKey="@ShiftEnterKeyAction" Height="220" SaveInterval="1" @bind-Value="@RteValue">
+            <RichTextEditorEvents ValueChange="@OnValueChange"/>
+        </SfRichTextEditor>
+        <br>
+        <label>Code View </label>
+        <div id="codeView" class="codeView">@RteValue</div>
+    </div>
+</div>
+
+<style>
+
+    .api {
+        width: 75%;
+    }
+
+    .api td {
+        padding-right: 100px;
+        margin-top: 3px;
+    }
+
+    @@media only screen and (max-width: 600px) {
+        .api {
+            width: 100%;
+        }
+
+        .api td {
+            display: block;
+            margin-top: 10px;
+        }
+    }
+
+    @@media only screen and (min-width: 600px) and (max-width: 1000px) {
+        .api {
+            width: 100%;
+        }
+    }
+
+    .codeView {
+        border: 1px solid rgba(0,0,0,0.12);
+        height: 200px;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .bootstrap-dark .codeView{
+        border:1px solid rgb(80,80,80);
+    }
+
+    .highcontrast .codeView {
+        border:1px solid rgb(255,255,255);
+    }
+
+</style>
+
+@code {
+    SfRichTextEditor richTextEditor;
+
+    public String RteValue { get; set; } = "<p>In Rich text Editor, the Enter key and Shift + Enter key actions can be customized using the EnterKey and ShiftEnterKey properties. The possible values are as follows:</p><ul><li> P - When 'P' is configured, pressing enter or shift + enter will create a 'p' tag</li><li>DIV - When 'DIV' is configured, pressing enter or shift + enter will create a 'div' tag</li><li>BR - When 'BR' is configured, pressing enter or shift + enter will create a 'br' tag</li></ul>";
+
+    public EnterKeyTag EnterKeyAction { get; set; } = EnterKeyTag.P;
+    public ShiftEnterKeyTag ShiftEnterKeyAction { get; set; } = ShiftEnterKeyTag.BR;
+    
+
+    public void OnValueChange()
+    {
+        this.RteValue = this.richTextEditor.Value;
+    }
+
+    public class RTEKeyConfig
+    {
+        public string Value { get; set; }
+        public string Text { get; set; }
+    }
+
+    List<RTEKeyConfig> EnterKeyData = new List<RTEKeyConfig> 
+    {
+        new RTEKeyConfig() { Value= "P", Text= "Creates a new <p>" },
+        new RTEKeyConfig() { Value= "DIV", Text= "Creates a new <div>" },
+        new RTEKeyConfig() { Value= "BR", Text= "Creates a new <br>" }
+    };
+
+    public string EnterDropdownValue = "P";
+
+    List<RTEKeyConfig> ShiftEnterKeyData = new List<RTEKeyConfig> 
+    {
+        new RTEKeyConfig() { Value= "BR", Text= "Creates a new <br>" },
+        new RTEKeyConfig() { Value= "P", Text= "Creates a new <p>" },
+        new RTEKeyConfig() { Value= "DIV", Text= "Creates a new <div>" }
+    };
+
+    public string ShiftEnterDropdownValue = "BR";
+
+    private void EnterKeyChange(ChangeEventArgs<string, RTEKeyConfig> args)
+    {
+        if (args.Value == "P")
+        {
+            this.EnterKeyAction = EnterKeyTag.P;
+            this.RteValue = "<p>In Rich text Editor, the Enter key and Shift + Enter key actions can be customized using the EnterKey and ShiftEnterKey properties. And the possible values are as follows:</p><ul><li>P - When 'P' is configured, pressing enter or shift + enter will create a 'p' tag</li><li>DIV - When 'DIV' is configured, pressing enter or shift + enter will create a 'div' tag</li><li>BR - When 'BR' is configured, pressing enter or shift + enter will create a 'br' tag</li></ul>";
+        }
+        else if (args.Value == "DIV")
+        {
+            this.EnterKeyAction = EnterKeyTag.DIV;
+            this.RteValue = "<div>In Rich text Editor, the Enter key and Shift + Enter key actions can be customized using the EnterKey and ShiftEnterKey properties. And the possible values are as follows:</div><ul><li>P - When 'P' is configured, pressing enter or shift + enter will create a 'p' tag</li><li>DIV - When 'DIV' is configured, pressing enter or shift + enter will create a 'div' tag</li><li>BR - When 'BR' is configured, pressing enter or shift + enter will create a 'br' tag</li></ul>";
+        }
+        else
+        {
+            this.EnterKeyAction = EnterKeyTag.BR;
+            this.RteValue = "In Rich text Editor, the Enter key and Shift + Enter key actions can be customized using the EnterKey and ShiftEnterKey properties. And the possible values are as follows:<ul><li>P - When 'P' is configured, pressing enter or shift + enter will create a 'p' tag</li><li>DIV - When 'DIV' is configured, pressing enter or shift + enter will create a 'div' tag</li><li>BR - When 'BR' is configured, pressing enter or shift + enter will create a 'br' tag</li></ul>";
+        }
+    }
+
+    private void ShiftEnterKeyChange(ChangeEventArgs<string, RTEKeyConfig> args)
+    {
+        if (args.Value == "P")
+        {
+            this.ShiftEnterKeyAction = ShiftEnterKeyTag.P;
+        }
+        else if (args.Value == "DIV")
+        {
+            this.ShiftEnterKeyAction = ShiftEnterKeyTag.DIV;
+        }
+        else
+        {
+            this.ShiftEnterKeyAction = ShiftEnterKeyTag.BR;
+        }
+    }
+}

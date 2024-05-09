@@ -1,0 +1,127 @@
+﻿@page "/scheduler/external-form-editing"
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates editing operation in Scheduler using external custom edit form. To edit a record, select required appointment and edit data and then click save.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, external custom form editors are used to edit Scheduler appointments. You can start editing by selecting an appointment and the selected appointment will be shown on the external form. You can change the appointment values and save edited data through <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_SaveEventAsync__0_Syncfusion_Blazor_Schedule_CurrentAction__0_">SaveEventAsync</a> method of the Scheduler.</p>
+</ActionDescription>
+<div class="col-lg-12">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <SfTextBox @bind-Value="@(selectedData.Subject)" Placeholder="Title" FloatLabelType="FloatLabelType.Always" Width="100%"></SfTextBox>
+        </div>
+        <div class="form-group col-md-6">
+            <SfTextBox @bind-Value="@(selectedData.Location)" Placeholder="Location" FloatLabelType="FloatLabelType.Always" Width="100%"></SfTextBox>
+        </div>
+        <div class="form-group col-md-6">
+            <SfDateTimePicker @bind-Value="@(selectedData.StartTime)" Placeholder="Start date" FloatLabelType="FloatLabelType.Always" Width="100%"></SfDateTimePicker>
+        </div>
+        <div class="form-group col-md-6">
+            <SfDateTimePicker @bind-Value="@(selectedData.EndTime)" Placeholder="End date" FloatLabelType="FloatLabelType.Always" Width="100%"></SfDateTimePicker>
+        </div>
+        <div class="form-group col-md-6">
+            <SfCheckBox @bind-Checked="@(selectedData.IsAllDay)" Label="Is All Day"></SfCheckBox>
+        </div>
+    </div>
+</div>
+<div style="min-height: 45px">
+    <div style="float: right; padding: 2px;"><SfButton IsPrimary="true" @onclick="@OnCancel">Cancel</SfButton></div>
+    <div style="float:right; padding: 2px 6px 0px 0px;"><SfButton IsPrimary="true" @onclick="@OnSave">Save</SfButton></div>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" @ref="ScheduleRef" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" OnEventDoubleClick="OnEventDoubleClick" OnEventClick="OnEventClick" OnCellClick="OnCellClick" OnCellDoubleClick="OnCellDoubleClick"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetScheduleData();
+    public int CurrentYear;
+    private DateTime CurrentDate { get; set; }
+    private ScheduleData.AppointmentData selectedData;
+    
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        CurrentYear = DateTime.Today.Year;
+        CurrentDate = new DateTime(CurrentYear, 1, 9);
+        selectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(CurrentYear, 1, 10, 9, 0, 0), EndTime = new DateTime(CurrentYear, 1, 10, 10, 0, 0) };
+    }
+    private async Task OnSave()
+    {
+        if (selectedData.Id == 0)
+        {
+            if (string.IsNullOrEmpty(selectedData.Subject))
+            {
+                selectedData.Subject = "Add title";
+            }
+
+            ScheduleData.AppointmentData data = new ScheduleData.AppointmentData()
+            {
+                Id = await ScheduleRef.GetMaxEventIdAsync<int>(),
+                StartTime = selectedData.StartTime,
+                EndTime = selectedData.EndTime,
+                Subject = selectedData.Subject,
+                Location = selectedData.Location
+            };
+            await ScheduleRef.AddEventAsync(data);
+        }
+        else
+        {
+            await ScheduleRef.SaveEventAsync(selectedData);
+        }
+    }
+
+    private void OnCancel()
+    {
+        selectedData = new ScheduleData.AppointmentData() { StartTime = new DateTime(CurrentYear, 1, 10, 9, 0, 0), EndTime = new DateTime(CurrentYear, 1, 10, 10, 0, 0), Subject = "Add title" };
+    }
+
+    private void OnEventClick(EventClickArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Cancel = true;
+        selectedData = args.Event;
+    }
+
+    private void OnEventDoubleClick(EventClickArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Cancel = true;
+    }
+
+    private void OnCellClick(CellClickEventArgs args)
+    {
+        args.Cancel = true;
+        selectedData = new ScheduleData.AppointmentData();
+        selectedData.StartTime = args.StartTime;
+        selectedData.EndTime = args.EndTime;
+        selectedData.Subject = "Add title";
+        selectedData.Location = null;
+    }
+
+    private void OnCellDoubleClick(CellClickEventArgs args)
+    {
+        args.Cancel = true;
+    }
+}

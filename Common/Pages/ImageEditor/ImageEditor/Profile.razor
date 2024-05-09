@@ -1,0 +1,341 @@
+@page "/image-editor/profile"
+
+@using BlazorDemos.Shared;
+@using Syncfusion.Blazor.ImageEditor
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Navigations
+@using System.Text;
+
+@inject IJSRuntime jsRuntime
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@inherits SampleBaseComponent;
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The Image Editor component provides built-in support to rotate an image using the rotate method and support to crop an image using the select and crop methods.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this demo, Image Editor is rendered within a dialog and opens an image by passing its URL path to the open method of the Image Editor control.</p>
+    <p> The following operations are supported in the Image Editor. :  </p>
+    <ul>
+        <li><b>Selection</b> : Multiple selection options are available. The selection region can be a square or circle, customized to various aspect ratios, and customized by dragging and resizing.</li>
+        <li><b>Crop</b> : The image can be cropped based on the selection.</li>
+        <li><b>Rotate</b> : The image can be rotated both clockwise and anticlockwise by 90 degrees.</li>
+    </ul>
+    <p>
+        More information about Image Editor can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started/" aria-label="documentation section">
+            documentation section
+        </a>.
+    </p>
+</ActionDescription>
+<div class="control-section" id="target" style="height: 500px">
+    <input type="file" id="img-upload" style="display:none" accept="image/*" />
+    <div class="e-profile e-img-editor-sample e-hide">
+        <div class="e-custom-wrapper">
+            <canvas id="img-canvas" style="max-width: 200px; max-height: 200px;"></canvas>
+            <img alt="img" id="custom-img" crossorigin="anonymous" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/image-editor/profile.png")" style="display: none;" @onload="onLoad" />
+		    <span id="custom-edit" class="e-custom-edit" contenteditable="false" @onclick="Edit">
+                <span class="e-custom-icon e-image-editor-icons" contenteditable="false"></span>
+		    </span>
+        </div>
+    </div>
+
+    <SfDialog Header="Edit Profile Image" Target="#target" @bind-Visible="Visibility" ShowCloseIcon="true" Width="340px" Height="400px">
+        <DialogEvents Opened="dialogOpened" Closed="dialogClosed"></DialogEvents>
+        <DialogTemplates>
+            <Content>
+                <div class="dialogContent">
+                    @if (isOpened)
+                    {
+                        <SfImageEditor @ref="Image" Toolbar="@toolbar">
+                            <ImageEditorEvents FileOpened="FileOpened" Created="Created"></ImageEditorEvents>
+                        </SfImageEditor>
+                    }
+                </div>
+            </Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton Content="Open" CssClass="e-custom-img-btn e-img-custom-open" OnClick="OpenBtnClick"></DialogButton>
+            <DialogButton Content="Reset" CssClass="e-custom-img-btn e-img-custom-reset" OnClick="ResetBtnClick"></DialogButton>
+            <DialogButton Content="Rotate" CssClass="e-custom-img-btn e-img-custom-rotate" OnClick="RotateBtnClick"></DialogButton>
+            <DialogButton Content="Apply" CssClass="e-custom-img-btn e-img-custom-apply" IsPrimary="true" OnClick="ApplyBtnClick"></DialogButton>
+        </DialogButtons>
+    </SfDialog>
+</div>
+
+@code {
+    
+    private DotNetObjectReference<Profile>? objRef;
+
+    protected override void OnInitialized()
+    {
+	
+        objRef = DotNetObjectReference.Create(this);
+    }
+
+    SfImageEditor Image;
+    private List<ImageEditorToolbarItemModel> toolbar = new List<ImageEditorToolbarItemModel>() { };
+    private bool Visibility { get; set; } = false;
+    private string dataUrl;
+    private bool isOpened { get; set; }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await jsRuntime.InvokeAsync<bool>("canvasInterop.onInitialized");
+        }
+    }
+
+    private async Task onLoad()
+    {
+        await jsRuntime.InvokeAsync<bool>("canvasInterop.imageLoaded", objRef);
+    }
+
+    private async void Edit()
+    {
+        this.Visibility = true;
+        dataUrl = await jsRuntime.InvokeAsync<string>("canvasInterop.getImageSource");
+    }
+
+    private async Task dialogOpened(Syncfusion.Blazor.Popups.OpenEventArgs args)
+    {
+        if (!isOpened)
+        {
+            isOpened = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task dialogClosed(Syncfusion.Blazor.Popups.CloseEventArgs args)
+    {
+        isOpened = false;
+    }
+
+    private async Task Created()
+    {
+        await Image.OpenAsync(dataUrl);
+    }
+	    
+    private async Task FileOpened()
+    {
+        await Image.SelectAsync("circle");
+    }
+
+    private async void OpenBtnClick()
+    {
+        await jsRuntime.InvokeAsync<bool>("canvasInterop.fileSelect");
+    }
+
+    private async void ResetBtnClick()
+    {
+        await Image.ResetAsync();
+        await Image.SelectAsync("circle");
+    }
+
+    private async void ApplyBtnClick()
+    {
+        await Image.CropAsync();
+        await jsRuntime.InvokeAsync<bool>("canvasInterop.applyImage");
+        Visibility = false;
+        isOpened = false;
+        StateHasChanged();
+    }
+
+    private async void RotateBtnClick()
+    {
+        await Image.RotateAsync(90);
+    }
+
+    [JSInvokable]
+    public async void FileSelected(string URL)
+    {
+        await Image.OpenAsync(URL);
+        await Task.Delay(100);
+        await Image.SelectAsync("circle");
+    }
+}
+	 
+  @*
+  // Please refer to the below code snippet for canvasInterop.js
+  window.canvasInterop = {
+    imgSrc: "",
+    onInitialized: function () {
+        document.getElementById('img-upload').onchange = function (args) {
+            var URL = window.URL; var url = URL.createObjectURL((args.target).files[0]);
+            (document.getElementById('img-upload')).value = null;
+            canvasInterop.imgSrc = url.toString();
+            return window.objRef.invokeMethodAsync('FileSelected', url.toString());
+        };
+        return true;
+    },
+    getImageSource: function () {
+        var img = document.querySelector('#custom-img'); // Add
+        return img.src;
+    },
+    imageLoaded: function (objRef) {
+        window.objRef = objRef;
+        if (canvasInterop.imgSrc === '') {
+            var canvas = document.querySelector('#img-canvas');
+            var image = document.querySelector('#custom-img');
+            var ctx = canvas.getContext('2d');
+            canvas.width = image.width < image.height ? image.width : image.height;
+            canvas.height = canvas.width;
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            document.querySelector('.e-profile').classList.remove('e-hide');
+        }
+        return true;
+    },
+    fileSelect: function () {
+        var inputFile = document.getElementById('img-upload');
+        inputFile.click();
+        return true;
+    },
+    applyImage: function (a) {
+        var dataId = document.querySelector('.e-image-editor').getAttribute('dataId');
+        var inst = window.sfBlazor.getCompInstance(dataId).imageEditorBase;
+        var croppedData = inst.getImageData();
+        var canvas = document.querySelector('#img-canvas');
+        var ctx = canvas.getContext('2d');
+        var parentDiv = document.querySelector('.e-profile');
+        var tempCanvas = parentDiv.appendChild(document.createElement('canvas'));
+        var tempContext = tempCanvas.getContext('2d');
+        tempCanvas.width = croppedData.width; tempCanvas.height = croppedData.height;
+        tempContext.putImageData(croppedData, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+        tempCanvas.remove();
+        if (canvasInterop.imgSrc !== '') {
+            const img = document.querySelector('#custom-img');
+            img.src = canvasInterop.imgSrc;
+        }
+        return true;
+    }
+}; *@
+
+<style>
+
+    .e-toolbar .e-toolbar-items.e-tbar-pos .e-toolbar-center {
+        margin: 0 auto !important;
+    }
+
+    .e-ie-toolbar-upload-div.e-hide,
+    .e-ie-toolbar-upload-btn.e-hide {
+        display: none;
+    }
+
+    .e-img-editor-sample,
+    .e-img-editor-sample .control-wrapper {
+        position: relative;
+    }
+
+    .e-profile {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 50%;
+        -webkit-transform: translate(-50%, 30%);
+        transform: translate(-50%, 30%);
+        border-radius: 50%;
+    }
+
+    .e-custom-wrapper {
+        position: relative;
+    }
+
+    .e-custom-edit {
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: blue;
+        top: calc(100% - 54px);
+        left: calc(100% - 47px);
+    }
+
+    .e-custom-icon::before {
+        content: '\e701';
+        font-size: 18px;
+        color: white;
+        left: 10px;
+        top: 8px;
+        position: absolute;
+    }
+
+    .tailwind .e-custom-icon::before,
+    .tailwind-dark .e-custom-icon::before {
+        top: 6px;
+    }
+
+    #custom-edit:hover {
+        cursor: pointer;
+    }
+
+    canvas#img-canvas {
+        border-radius: 50%;
+        border: 4px solid darkgrey;
+    }
+
+    .e-img-custom-open {
+        float: left;
+        margin-left: 0 !important;
+    }
+
+    .e-img-custom-reset {
+        float: left;
+    }
+
+    .e-bigger #profile-dialog .e-dlg-header {
+        font-size: 18px !important;
+    }
+
+    .e-img-editor-sample {
+        min-height: 450px;
+    }
+
+    .highcontrast .e-custom-img-btn,
+    .fabric .e-custom-img-btn,
+    .fabric-dark .e-custom-img-btn {
+        padding: 2px 10px !important;
+    }
+
+    .e-bigger .e-custom-img-btn {
+        font-size: 14px !important;
+        padding: 6px 10px !important;
+    }
+
+    .e-bigger.highcontrast .e-custom-img-btn,
+    .e-bigger.fabric .e-custom-img-btn,
+    .e-bigger.fabric-dark .e-custom-img-btn,
+    .e-bigger.material .e-custom-img-btn,
+    .e-bigger.material-dark .e-custom-img-btn {
+        padding: 3px 10px !important;
+    }
+
+    .e-bigger.bootstrap .e-custom-img-btn,
+    .e-bigger.bootstrap-dark .e-custom-img-btn {
+        padding: 1px 10px !important;
+    }
+
+    .dialogContent {
+	height: 100%;
+    }
+	
+    .e-img-editor-sample.e-hide {
+        display: none;
+    }
+	
+    .material3 .e-custom-img-btn,
+    .material3-dark .e-custom-img-btn,
+    .e-bigger.material3 .e-custom-img-btn,
+    .e-bigger.material3-dark .e-custom-img-btn
+    { 
+     	margin-left: 3px !important;
+     }
+</style>

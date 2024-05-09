@@ -1,0 +1,123 @@
+﻿@page "/scheduler/time-scale"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo depicts how to customize the grid lines of Scheduler with different duration and count, and also how to apply template customizations on them.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, Scheduler allows to display different number of grid lines per hour assigned with different duration
+        to each cell by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTimeScale.html#Syncfusion_Blazor_Schedule_ScheduleTimeScale_Interval">Interval</a> and <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTimeScale.html#Syncfusion_Blazor_Schedule_ScheduleTimeScale_SlotCount">SlotCount</a> properties. The grid lines can also be disabled on schedule by setting <code>false</code> to the
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTimeScale.html#Syncfusion_Blazor_Schedule_ScheduleTimeScale_Enable">Enable</a> property available within <code>ScheduleTimeScale</code>. The time header text can be customized by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTimeScale.html#Syncfusion_Blazor_Schedule_ScheduleTimeScale_MajorSlotTemplate">MajorSlotTemplate</a> and <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTimeScale.html#Syncfusion_Blazor_Schedule_ScheduleTimeScale_MinorSlotTemplate">MinorSlotTemplate</a> properties.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleViews>
+            <ScheduleView MaxEventsPerRow="9" Option="View.Day"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="9" Option="View.Week"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineDay"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWeek"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleTimeScale Enable="@GridLine" Interval="@IntervalValue" SlotCount="@SlotValue"></ScheduleTimeScale>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="int" TItem="TimeScaleDropDownModel" @bind-Value="@IntervalValue" DataSource="@IntervalData" Placeholder="Interval (in Minutes)" FloatLabelType="FloatLabelType.Always">
+                                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="int" TItem="TimeScaleDropDownModel" @bind-Value="@SlotValue" DataSource="@SlotCountsData" Placeholder="Slot Count" FloatLabelType="FloatLabelType.Always">
+                                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="bool" TItem="TimeScaleDropDownModelOption" @bind-Value="@GridLine" DataSource="@TimeScaleOption" Placeholder="Time Slots" FloatLabelType="FloatLabelType.Always">
+                                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetScheduleData();
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
+    private int IntervalValue { get; set; } = 60;
+    private int SlotValue { get; set; } = 6;
+    private bool GridLine { get; set; } = true;
+    
+    public void TimeScaleOptionChange(ChangeEventArgs<string, TimeScaleDropDownModelOption> args)
+    {
+        GridLine = (args.Value == "enable") ? true : false;
+    }
+    private List<TimeScaleDropDownModel> IntervalData { get; set; } = new List<TimeScaleDropDownModel>()
+{
+       new TimeScaleDropDownModel { Text = "30", Value = 30 },
+       new TimeScaleDropDownModel { Text = "60", Value = 60 },
+       new TimeScaleDropDownModel { Text = "90", Value = 90 },
+       new TimeScaleDropDownModel { Text = "120", Value = 120 },
+       new TimeScaleDropDownModel { Text = "150", Value = 150 },
+       new TimeScaleDropDownModel { Text = "180", Value = 180 },
+       new TimeScaleDropDownModel { Text = "240", Value = 240 },
+       new TimeScaleDropDownModel { Text = "300", Value = 300 },
+       new TimeScaleDropDownModel { Text = "720", Value = 720 }
+    };
+    private List<TimeScaleDropDownModel> SlotCountsData { get; set; } = new List<TimeScaleDropDownModel>()
+{
+        new TimeScaleDropDownModel { Text = "1", Value = 1 },
+        new TimeScaleDropDownModel { Text = "2", Value = 2 },
+        new TimeScaleDropDownModel { Text = "3", Value = 3 },
+        new TimeScaleDropDownModel { Text = "4", Value = 4 },
+        new TimeScaleDropDownModel { Text = "5", Value = 5 },
+        new TimeScaleDropDownModel { Text = "6", Value = 6 }
+    };
+    private List<TimeScaleDropDownModelOption> TimeScaleOption { get; set; } = new List<TimeScaleDropDownModelOption>()
+{
+        new TimeScaleDropDownModelOption { Text = "Show", Value = true },
+        new TimeScaleDropDownModelOption { Text = "Hide", Value = false }
+    };
+    public class TimeScaleDropDownModel
+    {
+        public string Text { get; set; }
+        public int Value { get; set; }
+    }
+    public class TimeScaleDropDownModelOption
+    {
+        public string Text { get; set; }
+        public bool Value { get; set; }
+    }
+}

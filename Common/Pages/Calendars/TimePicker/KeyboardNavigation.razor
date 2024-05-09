@@ -1,0 +1,126 @@
+﻿@page "/TimePicker/Keyboard-Navigation"
+
+@using Syncfusion.Blazor.Calendars
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+
+
+@*End:Hidden*@
+<SampleDescription>
+    <p>TimePicker functionalities can be interactive with keyboard shortcuts. In the below sample, various key
+        combinations can be used to interact with TimePicker.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The TimePicker supports the following keyboard shortcuts to initiate various actions.</p>
+    <ul>
+        <li>
+            <b>Focus</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Alt</kbd> + <kbd>J</kbd></span>
+                    <span> - Focuses on the first component of the sample.</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>Input Navigation</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Alt</kbd> + <kbd>Down arrow</kbd></span>
+                    <span> - Opens the popup.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Alt</kbd> + <kbd>Up arrow</kbd></span>
+                    <span> - Closes the popup.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Esc</kbd></span>
+                    <span> - Closes the popup.</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>Time Selection</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Enter</kbd></span>
+                    <span> - Selects the currently focused item and closes the popup.</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>TimePicker Navigation</b>
+            <ul>
+                <li>
+                    <span class="key-class"><kbd>Up arrow</kbd></span>
+                    <span> - Navigate and select the previous item.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Down arrow</kbd></span>
+                    <span> - Navigate and select the next item.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>Home</kbd></span>
+                    <span> - Navigate and select the first item.</span>
+                </li>
+                <li>
+                    <span class="key-class"><kbd>End</kbd></span>
+                    <span> - Navigate and select the first item.</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section col-lg-12">
+    <div class="control-wrapper">
+        <label class="example-label">Select a Time</label>
+        <SfTimePicker TValue="DateTime?" ShowClearButton="true" FullScreen="true">
+            <TimePickerEvents TValue="DateTime?" OnItemRender="@ItemRenderHandler"></TimePickerEvents>
+        </SfTimePicker>
+    </div>
+</div>
+
+@code {
+    private DateTime? StartTime;
+    private TimeSpan? Minutes;
+    
+    private void ItemRenderHandler(ItemEventArgs<DateTime?> args)
+    {
+        if (args.Value.Value.Hour == 0 && args.Value.Value.Minute == 0 && args.Value.Value.Second == 0)
+        {
+            StartTime = args.Value;
+        }
+        Minutes = (args.Value - StartTime) / 60000;
+        if ((Minutes.Value.TotalMilliseconds / 60) % 3 == 0)
+        {
+            args.IsDisabled = true;
+        }
+    }
+}
+
+<style>
+    .control-wrapper {
+        max-width: 200px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .description {
+        margin: 4px;
+        font-size: 14px;
+    }
+    .key-class {
+        display: inline-block;
+        width: 130px;
+    }
+</style>

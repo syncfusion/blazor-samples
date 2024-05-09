@@ -1,0 +1,69 @@
+﻿@page "/scheduler/timeline-grouping"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases how the multiple resources are grouped as well as how the events are portrayed in timeline view layouts.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In the timeline view, each row depicts a single resource, whereas in vertical views, each resource is grouped parallelly as columns. Here, the resource grouping follows the tree-view like hierarchical grouping structure and can contain
+        any level of child resources. They are grouped in layout by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleGroup.html">ScheduleGroup</a> property and its order of grouping depends on the order of names passed onto the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleGroup.html#Syncfusion_Blazor_Schedule_ScheduleGroup_Resources">Resources</a> option within <code>ScheduleGroup</code>.
+    </p>
+    <p>
+        Also, the colors defined for the child level resources will be applied to the events of those resources by default. In case, if the colors of parent level need to be applied to those child events, then it is necessary to define the
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleEventSettings-1.html#Syncfusion_Blazor_Schedule_ScheduleEventSettings_1_ResourceColorField">ResourceColorField</a> option within the <code>ScheduleEventSettings</code> property with the parent level resource name value.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleGroup Resources="@groupData"></ScheduleGroup>
+        <ScheduleResources>
+            <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@ProjectData" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+            <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@TaskData" Field="TaskId" Title="Category" Name="Categories" TextField="Text" IdField="Id" GroupIDField="GroupId" ColorField="Color" AllowMultiple="true"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleViews>
+            <ScheduleView Option="View.TimelineDay"></ScheduleView>
+            <ScheduleView Option="View.TimelineWeek"></ScheduleView>
+            <ScheduleView Option="View.TimelineWorkWeek"></ScheduleView>
+            <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+
+@code{
+    private View CurrentView { get; set; } = View.TimelineWeek;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 10);
+    
+    private List<ScheduleData.ResourceData> dataSource = new ScheduleData().GetResourceData();
+    private string[] groupData = new string[] { "Projects", "Categories" };
+    private List<ResourceData> ProjectData { get; set; } = new List<ResourceData> {
+        new ResourceData {Text = "PROJECT 1", Id= 1, Color= "#cb6bb2"},
+        new ResourceData {Text = "PROJECT 2", Id= 2, Color= "#56ca85"},
+        new ResourceData {Text = "PROJECT 3", Id= 3, Color= "#df5286"}
+    };
+    private List<ResourceData> TaskData { get; set; } = new List<ResourceData> {
+        new ResourceData { Text = "Nancy", Id= 1, GroupId = 1, Color = "#df5286" },
+        new ResourceData { Text = "Steven", Id= 2, GroupId = 1, Color = "#7fa900" },
+        new ResourceData { Text = "Robert", Id= 3, GroupId = 2, Color = "#ea7a57" },
+        new ResourceData { Text = "Smith", Id= 4, GroupId = 2, Color = "#5978ee" },
+        new ResourceData { Text = "Michael", Id= 5, GroupId = 3, Color = "#df5286" },
+        new ResourceData { Text = "Root", Id= 6, GroupId = 3, Color = "#00bdae" }
+    };
+    public class ResourceData
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+        public int GroupId { get; set; }
+        public string Color { get; set; }
+    }
+}

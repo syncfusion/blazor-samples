@@ -1,0 +1,257 @@
+﻿@page "/in-place-editor/edit-post"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.InPlaceEditor
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Inputs;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The sample demonstrates In-place Editor component usage with a form element. Edit the values in place to update to the post.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This sample demonstrates the placing of following In-place Editor controls with the default form </p>
+    <p>
+        <ul>
+            <li>TextBox</li>
+            <li>RichTextEditor</li>
+            <li>MultiSelect </li>
+        </ul>
+    </p>
+</ActionDescription>
+
+<div class="row">
+    <div class="col-lg-8 control-section inplace-editor-control-section form-layout" id='inplace-editor-control'>
+        <div class="content-wrapper" style="margin-bottom: 25px">
+            <div id="confirmation">
+                <div id="submitDialog"></div>
+                <div id="formId" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
+                            Title
+                        </label>
+                        <SfInPlaceEditor @bind-Value="@exampleModel.TitleValue" Mode="@Mode" TValue="string" Name="Title" EmptyText="Enter your question title">
+                            <EditorComponent>
+                                <EditForm Model="@exampleModel">
+                                    <SfTextBox @bind-Value="@exampleModel.TitleValue" Placeholder="Enter your question title"></SfTextBox>
+                                    <ValidationMessage For=@(() => exampleModel.TitleValue) />
+                                </EditForm>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Width="auto"></InPlaceEditorPopupSettings>
+                        </SfInPlaceEditor>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
+                            Comments
+                        </label>
+                        <SfInPlaceEditor Mode="@Mode" Type="Syncfusion.Blazor.InPlaceEditor.InputType.RichTextEditor" EditableOn="EditableType.EditIconClick" SubmitOnEnter="false" EmptyText="Enter your comment" Name="RTE" @bind-Value="@exampleModel.CommentValue">
+                            <EditorComponent>
+                                <EditForm Model="@exampleModel">
+                                    <SfRichTextEditor @bind-Value="@exampleModel.CommentValue">
+                                        <ChildContent>
+                                            <RichTextEditorToolbarSettings Items="@Items" EnableFloating="false" />
+                                        </ChildContent>
+                                    </SfRichTextEditor>
+                                    <ValidationMessage For=@(() => exampleModel.CommentValue) />
+                                </EditForm>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Width="50%"></InPlaceEditorPopupSettings>
+                        </SfInPlaceEditor>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" style="text-align: left;font-size: 14px;">
+                            Tags
+                        </label>
+                        <SfInPlaceEditor Type="Syncfusion.Blazor.InPlaceEditor.InputType.MultiSelect" Name="Tag" Mode="@Mode" @bind-Value="@exampleModel.TagValue" EmptyText="Enter your tags" TValue="string[]">
+                            <EditorComponent>
+                                <EditForm Model="@exampleModel">
+                                    <SfMultiSelect TValue="string[]" TItem="Programs" Placeholder="Enter your tags" Mode="VisualMode.Box" @bind-Value="@exampleModel.TagValue" DataSource="@Program">
+                                        <MultiSelectFieldSettings Text="Name" Value="Code"></MultiSelectFieldSettings>
+                                    </SfMultiSelect>
+                                    <ValidationMessage For=@(() => exampleModel.TagValue) />
+                                </EditForm>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Width="30%"></InPlaceEditorPopupSettings>
+                        </SfInPlaceEditor>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 property-section" id="editorProperty">
+         <div class="property-panel-section">
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <table class="property-panel-table">
+                    <tbody>
+                        <tr>
+                            <td style="width: 50%;">
+                                <div>Mode</div>
+                            </td>
+                            <td style="width: 50%;">
+                                <div>
+                                    <SfDropDownList Width="90%" TValue="string" TItem="InplaceModes" DataSource="@ModeData" @bind-Value="@DropMode">
+                                        <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="@ChangeEditMode"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private Syncfusion.Blazor.InPlaceEditor.RenderMode Mode = Syncfusion.Blazor.InPlaceEditor.RenderMode.Inline;
+    private ExampleModel exampleModel = new ExampleModel();
+    public string DropMode { get; set; } = "Inline";
+    
+
+    public class Programs
+    {
+        public string Name { get; set; }
+        public string Code { get; set; }
+    }
+    private List<Programs>
+    Program = new List<Programs>
+        {
+        new Programs() { Name = "Android", Code = "AN" },
+        new Programs() { Name = "JavaScript", Code = "JS" },
+        new Programs() { Name = "jQuery", Code = "JQ" },
+        new Programs() { Name = "TypeScript", Code = "TS" },
+        new Programs() { Name = "Angular", Code = "AG" },
+        new Programs() { Name = "React", Code = "RE" },
+        new Programs() { Name = "Vue", Code = "VU" },
+        new Programs() { Name = "Ionic", Code = "IO" }
+                };
+
+    public class ExampleModel
+    {
+        [Required]
+        [StringLength(10, ErrorMessage = "Enter Valid Title")]
+        public string TitleValue = "Succinctly E-Book about TypeScript";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Enter Valid Comments")]
+        public string CommentValue = "The extensive adoption of JavaScript for application development, and the ability to use HTML and JavaScript to create Windows Store apps, has made JavaScript a vital part of the Windows development ecosystem. Microsoft has done extensive work to make JavaScript easier to use.";
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Enter Valid Tags")]
+        public string[] TagValue = new string[] { "TS", "JS" };
+    }
+
+    private List<ToolbarItemModel> Items = new List<ToolbarItemModel>()
+{
+            new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+            new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+            new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+            new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.FontName },
+            new ToolbarItemModel() { Command = ToolbarCommand.FontSize },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+            new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.LowerCase },
+            new ToolbarItemModel() { Command = ToolbarCommand.UpperCase }
+        };
+
+    public class InplaceModes
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+    List<InplaceModes>
+    ModeData = new List<InplaceModes>()
+    {
+            new InplaceModes(){ value= "Inline", text= "Inline" },
+            new InplaceModes(){ value= "Popup", text= "Popup" }
+            };
+    private void ChangeEditMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, InplaceModes> args)
+    {
+        this.Mode = (args.Value.ToString() == "Popup" ? Syncfusion.Blazor.InPlaceEditor.RenderMode.Popup : Syncfusion.Blazor.InPlaceEditor.RenderMode.Inline);
+        this.StateHasChanged();
+    }
+}
+<style>
+    .inplace-editor-control-section.form-layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
+    .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide {
+        display: block;
+        visibility: hidden;
+    }
+    /* custom code start */
+    .inplace-editor-control-section.form-layout #confirmation {
+        max-width: 500px;
+        margin: auto;
+    }
+    /* custom code end */
+    .inplace-editor-control-section.form-layout #formId {
+        padding-top: 20px;
+        margin-bottom: 45px;
+        border: 1px solid #ccc;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.36);
+        border-radius: 5px;
+    }
+
+    .inplace-editor-control-section.form-layout .form-horizontal .form-group {
+        margin: 0 20px;
+    }
+
+        .inplace-editor-control-section.form-layout .form-horizontal .form-group > * {
+            width: 100%;
+        }
+
+        .inplace-editor-control-section.form-layout .form-horizontal .form-group:last-child {
+            padding-bottom: 40px;
+        }
+
+    .inplace-editor-control-section.form-layout .form-title {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.70);
+    }
+
+    .inplace-editor-control-section.form-layout .submit {
+        margin: auto;
+        width: 50%;
+        text-align: center;
+    }
+
+    .inplace-editor-control-section.form-layout .form-horizontal .control-label {
+        padding: 15px 15px 15px 0;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    @@media (max-width: 768px) {
+        .inplace-editor-control-section.form-layout .form-horizontal .control-label {
+            padding-top: 7px;
+            margin-bottom: 0;
+        }
+    }
+
+    #editorProperty table td {
+        width: 50%;
+    }
+
+    #editorProperty table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+</style>

@@ -1,0 +1,151 @@
+@page "/scheduler/resource"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates how to dynamically show or hide the appointments of resources on Scheduler based on the resource selection.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the resource appointments are dynamically shown or hidden on the Scheduler by passing the
+        filtered event data of selected resources to the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleEventSettings-1.html#Syncfusion_Blazor_Schedule_ScheduleEventSettings_1_Query">Query</a> option of the <code>ScheduleEventSettings</code>.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfSchedule TValue="ScheduleData.ResourceSampleData" CssClass='schedule-resource' Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleResources>
+            <ScheduleResource TValue="int[]" TItem="ResourceData" DataSource="@OwnersData" Field="OwnerId" Title="Owners" Name="Owners" TextField="OwnerText" IdField="OwnerId" ColorField="Color" AllowMultiple="true"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource" Query="@ScheduleQuery"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <SfCheckBox TChecked="bool" @bind-Checked="MargretChecked" Value="@MargretId" ValueChange="@OnChange" Label="Margaret" CssClass="margaret"></SfCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <SfCheckBox TChecked="bool" @bind-Checked="RobertChecked" Value="@RobertId" ValueChange="@OnChange" Label="Robert" CssClass="robert"></SfCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width: 100%">
+                            <SfCheckBox TChecked="bool" @bind-Checked="LauraChecked" Value="@LauraId" ValueChange="@OnChange" Label="Laura" CssClass="laura"></SfCheckBox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 5, 31);
+    private bool MargretChecked { get; set; } = true;
+    private bool RobertChecked { get; set; } = true;
+    private bool LauraChecked { get; set; } = true;
+
+    private string MargretId { get; set; } = "1";
+    private string RobertId { get; set; } = "2";
+    private string LauraId { get; set; } = "3";
+
+    public List<ResourceData> OwnersData { get; set; } = new List<ResourceData> {
+        new ResourceData { OwnerText = "Margaret", OwnerId = 1, Color = "#ea7a57" },
+        new ResourceData { OwnerText = "Robert", OwnerId = 2, Color = "#df5286" },
+        new ResourceData { OwnerText = "Laura", OwnerId = 3, Color = "#865fcf" }
+    };
+
+    private Query ScheduleQuery { get; set; } = null;
+    private List<ScheduleData.ResourceSampleData> dataSource = new ScheduleData().GetResourceSampleData();
+    
+    
+    public void OnChange(ChangeEventArgs<bool> args)
+    {
+        dynamic predicate = null;
+        if (MargretChecked)
+        {
+            if (predicate != null)
+            {
+                predicate = predicate.Or("OwnerId", "equal", Convert.ToInt32(MargretId));
+            }
+            else
+            {
+                predicate = new WhereFilter() { Field = "OwnerId", Operator = "equal", value = Convert.ToInt32(MargretId) };
+            }
+        }
+        if (RobertChecked)
+        {
+            if (predicate != null)
+            {
+                predicate = predicate.Or("OwnerId", "equal", Convert.ToInt32(RobertId));
+            }
+            else
+            {
+                predicate = new WhereFilter() { Field = "OwnerId", Operator = "equal", value = Convert.ToInt32(RobertId) };
+            }
+        }
+        if (LauraChecked)
+        {
+            if (predicate != null)
+            {
+                predicate = predicate.Or("OwnerId", "equal", Convert.ToInt32(LauraId));
+            }
+            else
+            {
+                predicate = new WhereFilter() { Field = "OwnerId", Operator = "equal", value = Convert.ToInt32(LauraId) };
+            }
+        }
+        if (predicate == null)
+        {
+            predicate = new WhereFilter() { Field = "OwnerId", Operator = "notequal", value = Convert.ToInt32(MargretId) }.And("OwnerId", "notequal", Convert.ToInt32(RobertId)).And("OwnerId", "notequal", Convert.ToInt32(LauraId));
+        }
+        ScheduleQuery = new Query().Where(predicate);
+    }
+
+    public class ResourceData
+    {
+        public int OwnerId { get; set; }
+        public string OwnerText { get; set; }
+        public string Color { get; set; }
+    }
+}
+<style>
+
+    .property-panel-content .e-checkbox-wrapper.margaret .e-frame {
+        background-color: #ea7a57;
+        border-color: transparent;
+    }
+
+    .property-panel-content .e-checkbox-wrapper.robert .e-frame {
+        background-color: #df5286;
+        border-color: transparent;
+    }
+
+    .property-panel-content .e-checkbox-wrapper.laura .e-frame {
+        background-color: #865fcf;
+        border-color: transparent;
+    }
+</style>

@@ -1,0 +1,206 @@
+﻿@page "/menu-bar/templates"
+
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This sample demonstrates the template functionalities of the Menu component. Mouse hovering or clicking the menu item displays the submenu pop-up items with their customized templates.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> The <code><a target=""_blank"" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfMenu-1.html" aria-label="Menu">Menu</a></code> component has an option to customize menu items using <code><a target=""_blank"" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.MenuTemplates-1.html" aria-label="MenuTemplates">MenuTemplates</a></code> directive, so that the menu items can be rendered according to the requirement.</p>
+    <p> More information about Blazor Menu component can be found in this <a target="" _blank"" href="https://blazor.syncfusion.com/documentation/menu-bar/data-source-binding-and-custom-menu-items#custom-menu-bar-items"  aria-label="documentation section"> documentation </a>section.</p>
+</ActionDescription>
+
+<div class="menu-control">
+    <SfMenu Items="@data">
+        <MenuFieldSettings Text="Value" Children="Options"></MenuFieldSettings>
+        <MenuTemplates TValue="CategoryModel">
+            <Template>
+                @{
+                    var MenuItems = context;
+                    if (MenuItems.Value != null && MenuItems.Count == null && MenuItems.Url == null)
+                    {
+                        <div>@MenuItems.Value</div>
+                    }
+                    else if (MenuItems.Value != null)
+                    {
+                        <div style="width: 100%;display: flex;justify-content: space-between;">
+                            @{
+                                if (MenuItems.Url != null)
+                                {
+                                    <img class="e-avatar e-avatar-small" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/menu-bar/{MenuItems.Url}.png")" />
+                                }
+                                <span style="width:100%;">@MenuItems.Value</span>
+                                if (MenuItems.Count != null)
+                                {
+                                    <span class="e-badge e-badge-success">@MenuItems.Count</span>
+                                }
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div tabindex="0" class="e-card">
+                            <div class="e-card-header">
+                                <div class="e-card-header-caption">
+                                    <div class="e-card-header-title">About Us</div>
+                                </div>
+                            </div>
+                            <div class="e-card-content">
+                                @MenuItems.About
+                            </div>
+                            <div class="e-card-actions">
+                                <input type="button" class="e-btn e-outline" style="pointer-events: auto;" value="Read More" />
+                            </div>
+                        </div>
+                    }
+                }
+            </Template>
+        </MenuTemplates>
+    </SfMenu>
+</div>
+@code{
+    
+    private List<CategoryModel> data = new List<CategoryModel>
+    {
+        new CategoryModel {
+            Value = "Products",
+            Options = new List<CategoryModel>
+            {
+                new CategoryModel { Value= "JavaScript", Url= "javascript" },
+                new CategoryModel { Value= "Angular", Url= "angular" },
+                new CategoryModel { Value= "ASP.NET Core", Url= "core" },
+                new CategoryModel { Value= "ASP.NET MVC", Url= "mvc" }
+            }
+        },
+        new CategoryModel {
+            Value = "Services",
+            Options = new List<CategoryModel>
+            {
+                new CategoryModel { Value= "Application Development", Count= "1200+" },
+                new CategoryModel { Value= "Maintenance & Support", Count= "3700+" },
+                new CategoryModel { Value= "Quality Assurance" },
+                new CategoryModel { Value= "Cloud Integration", Count= "900+" }
+            }
+        },
+        new CategoryModel {
+            Value = "About Us",
+            Options =  new List<CategoryModel>
+        {
+                new CategoryModel {
+                    Id = "about",
+                    About = "We are on a mission to provide world-class best software solutions for web, mobile and desktop platforms. Around 900+ applications are desgined and delivered to our customers to make digital & strengthen their businesses."
+                }
+            }
+        },
+        new CategoryModel { Value = "Careers" },
+        new CategoryModel { Value = "Sign In" }
+    };
+    private class CategoryModel
+    {
+        public List<CategoryModel> Options { get; set; }
+        public string Value { get; set; }
+        public string Url { get; set; }
+        public string Count { get; set; }
+        public string About { get; set; }
+        public string Id { get; set; }
+    }
+}
+<style>
+    .menu-control {
+        margin-top: 45px;
+        text-align: center;
+    }
+    /* Common ul & li styles */
+	.e-bigger .e-menu-container ul.e-ul,
+    .mobile .e-menu-container ul.e-ul,
+    .e-menu-container ul.e-ul {
+        padding: 0;
+    }
+    .mobile .e-menu-container ul.e-ul .e-menu-item,
+    .e-menu-container ul.e-ul .e-menu-item {
+        display: flex;
+        padding: 0 10px;
+        outline-color: transparent;
+    }
+    /** Avatar customization */
+    .e-menu-container ul .e-menu-item .e-avatar {
+        background-color: inherit;
+        font-size: 8px;
+        margin-right: 8px;
+        align-self: center;
+        width: auto;
+        overflow: visible;
+    }
+    .mobile .e-menu-container ul .e-menu-item .e-avatar {
+        font-size: 10px;
+    }
+    /** Badge customization */
+    .e-menu-container ul .e-menu-item .e-badge {
+        margin-top: 4px;
+        margin-left: 10px;
+        align-self: center;
+        overflow: visible;
+    }
+    /** Card customization */
+    .e-menu-container ul.e-ul .e-menu-item .e-card {
+        width: 290px;
+        font-size: inherit;
+        background-color: inherit;
+        border-color: transparent;
+    }
+    .mobile .e-menu-container ul.e-ul .e-menu-item .e-card {
+        width: 320px;
+    }
+    .e-menu-container ul.e-ul .e-menu-item .e-card .e-card-content {
+        white-space: normal;
+        color: inherit;
+        padding-top: 0;
+        text-align: justify;
+        font-size: inherit;
+    }
+    .e-menu-container ul.e-ul .e-menu-item#about {
+        height: auto;
+        padding: 0;
+    }
+    .e-menu-container ul.e-ul .e-menu-item#about.e-focused {
+        background-color: transparent;
+        outline-color: transparent;
+        pointer-events: none;
+    }
+    .e-menu-container .e-ul .e-menu-item {
+        height: 36px;
+        line-height: 36px;
+    }
+
+</style>
+
+@*Hidden:Lines*@
+<style>
+
+    ul.e-menu-parent.e-ul {
+        width: auto !important;
+    }
+
+    .material3 .e-menu-container ul .e-menu-item .e-avatar,
+    .material3-dark .e-menu-container ul .e-menu-item .e-avatar,
+    .e-bigger .material3 .e-menu-container ul .e-menu-item .e-avatar,
+    .e-bigger .material3-dark .e-menu-container ul .e-menu-item .e-avatar
+    {
+        height: 24px;
+    }
+    .material3 .e-menu-container ul.e-ul .e-menu-item .e-card,
+    .material3-dark .e-menu-container ul.e-ul .e-menu-item .e-card,
+    .e-bigger .material3 .e-menu-container ul.e-ul .e-menu-item .e-card,
+    .e-bigger .material3-dark .e-menu-container ul.e-ul .e-menu-item .e-card
+    {
+        border-radius: 0;
+    }
+</style >
+@*End:Hidden*@

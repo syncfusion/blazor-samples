@@ -1,0 +1,64 @@
+﻿@page "/pdf-viewer-2/handwritten-signature"
+@using Syncfusion.Blazor.SfPdfViewer
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Handwritten signature support of SfPdfViewer. Handwritten signatures help reduce paperwork in reviewing content and provide digital verification.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In the SfPdfViewer component, we can explicitly open the Handwritten signature dialog using the method <code>SetAnnotationMode</code>.</p>
+@*WASM:Block*@
+@{ #if (WASM) }
+    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application' aria-label="documentation section"> documentation section </a>.</p>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !(WASM) }
+    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application' aria-label="documentation section"> documentation section </a>.</p>
+@{ #endif }
+@*End:Server*@
+</ActionDescription>
+
+<div class="control-section">
+     <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%">
+        <PdfViewerEvents DocumentLoaded="DocumentLoad"></PdfViewerEvents>
+    </SfPdfViewer2>
+</div>
+
+@code {
+    
+
+    private string DocumentPath { get; set; } = "";
+    SfPdfViewer2 Viewer;
+    protected override void OnInitialized()
+    {
+        
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+
+@*Server:Block*@
+#if !(WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.
+        DocumentPath = "wwwroot/data/pdfviewer2/hand-written-signature.pdf";
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@
+#if (WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.   
+        DocumentPath= fileDataPath + "data/pdfviewer2/hand-written-signature.pdf";
+#endif
+@*End:WebAssembly*@
+    }
+ 
+    public async void DocumentLoad(LoadEventArgs args)
+    {
+        await Viewer.SetAnnotationModeAsync(AnnotationType.HandWrittenSignature);
+    }
+}

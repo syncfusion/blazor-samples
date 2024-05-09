@@ -1,0 +1,880 @@
+﻿@page "/diagramcomponent/historymanager"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
+
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>
+        This sample demonstrates viewing and deleting and limiting the diagram history as well as grouping diagram actions and storing them as a single entry in the history manager.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Undo' aria-label="Undo">Undo</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Redo' aria-label="Redo">Redo</a></code> methods help you to revert/restore the changes. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramHistoryManager.html#Syncfusion_Blazor_Diagram_DiagramHistoryManager_StackLimit" aria-label="StackLimit">StackLimit</a></code> is used to restrict the number of history entries that can be stored on the history list to limit undo stack and redo stack actions. Diagram history managers have the option to group actions as a single entry with the help of the  <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_StartGroupAction' aria-label="StartGroupAction">StartGroupAction</a></code> and  <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_EndGroupAction' aria-label="EndGroupAction">EndGroupAction</a></code> public APIs.
+        <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_ClearHistory' aria-label="ClearHistory">ClearHistory</a></code>  method is used to clear history logged into the undo stack and redo stack.
+    </p>
+</ActionDescription>
+@*End:Hidden*@
+@*Hidden:Lines*@
+<div class="col-lg-9 control-section sb-property-border" style="padding-top:10px;padding-left:2px">
+    <style>
+        .image-pattern-style {
+            background-color: white;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 60px;
+            width: calc((100% - 18px) / 3);
+            cursor: pointer;
+            border: 1px solid #D5D5D5;
+            background-position: center;
+            float: left;
+        }
+
+        .sb-property-border {
+            border-right: 1px solid #D7D7D7;
+        }
+
+        .property-panel-header {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .image-pattern-style:hover {
+            border-color: gray;
+            border-width: 2px;
+        }
+
+        .e-remove-selection .property-section-content {
+            pointer-events: none;
+        }
+
+        .column-style {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: calc((100% - 12px) / 3);
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 5px;
+        }
+
+        .buttonstyle {
+            display: table;
+            height: 35px;
+            padding-right: 0px;
+            padding-left: 20px;
+            width: 30px;
+            float: left;
+        }
+
+        .column-style custom {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 70px;
+        }
+
+        .e-btn .e-btn-icon, .e-css.e-btn .e-btn-icon {
+            display: inline-block;
+            font-size: 14px;
+            margin-top: -2px;
+            vertical-align: middle;
+            width: 1em;
+        }
+
+        #bold, #italic, #underline {
+            width: 100%;
+        }
+
+        .bg-icons {
+            font-family: 'e-bg-icons' !important;
+            speak: none;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .e-btngrp-bold::before {
+            content: '\e71a'
+        }
+
+        .e-btngrp-italic::before {
+            content: '\e708';
+        }
+
+        .e-btngrp-underline::before {
+            content: '\e703';
+        }
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 15px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+    </style>
+    @*End:Hidden*@
+
+    <div id="diagram-space" class="content-wrapper">
+        <div style="padding-top:6px;padding-left:6px;padding-bottom:6px">
+            <SfDropDownList TValue="@string" Width="100px" TItem="@FontFamily" @bind-Value="@fontStyle" ID="fontFamily" @bind-Enabled="@fontfamily" PopupHeight="120" Placeholder="Select a font type" CssClass="textboxstyle" PopupWidth="150" DataSource="@FontFamilyLists">
+                <DropDownListEvents TItem="FontFamily" TValue="string" ValueChange="FontChange"></DropDownListEvents>
+                <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+            </SfDropDownList>
+
+            <SfNumericTextBox @ref="@fontSize" ID="fontSize" TValue="int" @bind-Value="@fontSizeValue" Min="10" Max="50" @bind-Enabled="font" Format="##.##" Step="1" Width="100px" CssClass="textboxstyle">
+                <NumericTextBoxEvents TValue="int" ValueChange="@FontSizeChange"></NumericTextBoxEvents>
+            </SfNumericTextBox>
+
+            <SfButton @ref="@boldButton" @bind-Disabled="bold" ID="bold" style="@TextStyle" OnClick="FontBold" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-bold e-icons"></SfButton>
+            <SfButton @ref="@italicButton" ID="italic" style="@TextStyle" @bind-Disabled="italic" OnClick="FontItalic" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-italic e-icons"></SfButton>
+            <SfButton @ref="@underLineButton" style="@TextStyle" ID="underline" @bind-Disabled="underLine" OnClick="FontUnderLine" CssClass="boldwidth button" iconCss="e-btn-icon e-de-ctnr-underline e-icons"></SfButton>
+            <SfColorPicker title="Text Fill Color" @bind-Disabled="colorPicker" ValueChange="OnFillColorChange"></SfColorPicker>
+            <SfColorPicker title="Node Fill Color" @bind-Disabled="colorPicker" ValueChange="OnNodeFillColorChange" @bind-Value="@fillColor"></SfColorPicker>
+            <SfColorPicker title="Node Stroke Color" @bind-Disabled="colorPicker" ValueChange="OnStrokeFillColorChange" @bind-Value="@strokeColor"></SfColorPicker>
+        </div>
+        <div style="border:1px solid lightgrey">
+            <SfDiagramComponent Height="712px" Constraints="@constraints" TextChanged="@TextChange" @ref="@diagram" HistoryChanged="@OnHistoryChange" Created="OnCreated" SelectionChanged="@SelectionChanged" Nodes="@nodes" Connectors="@connectors">
+                <SnapSettings Constraints=SnapConstraints.None>
+                </SnapSettings>
+                <DiagramHistoryManager StackLimit="@stackLimit"></DiagramHistoryManager>
+            </SfDiagramComponent>
+        </div>
+    </div>
+    @*Hidden:Lines*@
+</div>
+@*End:Hidden*@
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header" style="font-weight:bold;font-size:18px">
+        History Manager Settings
+    </div>
+    <fieldset>
+        <div>
+            <div class="row property-panel-content" id="appearance">
+                <div class="row row-header" style="padding-top: 26px;font-size:17px;font-weight:600">
+                    @undotext
+                    <SfButton @bind-Disabled="undo" style="width:35%;background-color:#cccccc;color:black;font-weight:normal;float:right;margin-bottom:5px" OnClick="OnUndo">Undo</SfButton>
+                </div>
+                <div class="row">
+                    <div id="eventtracker" style="overflow: scroll;height:250px;width:100%;border: 1px solid gray;margin-top:1px;margin-bottom:6px;">
+                        @if (undoStack.Count > 0)
+                        {
+                            if (stackLimit != 0 && undoStack.Count > stackLimit)
+                            {
+                                undoStack.Remove(undoStack[0]);
+                            }
+                            for (int i = 0; i < undoStack.Count; i++)
+                            {
+                                @undoStack[i]
+                                <br />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row property-panel-content" style="padding-top: 1px">
+                <div class="row row-header" style="padding-top: 1px;font-size:17px;font-weight:600">
+                    @redotext
+                    <SfButton @bind-Disabled="redo" style="width:35%;background-color:#cccccc;color:black;font-weight:normal;float:right;margin-bottom:5px" OnClick="OnRedo">Redo</SfButton>
+                    <br />
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div id="eventtracker1" style="overflow: scroll;height:250px;width:100%;border: 1px solid gray;margin-top:-5px;margin-bottom:-9px;">
+                        @if (redoStack.Count > 0)
+                        {
+                            for (int i = 0; i < redoStack.Count; i++)
+                            {
+                                @redoStack[i]
+                                <br />
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="row row-header" style="padding-top: 26px;font-size:13px;font-weight:500;height:auto">
+                    <div style="float:left;padding-top:5px">
+                        @stacktext
+                    </div>
+                    
+                    <div style="float:right;margin-left:auto;height:5%;padding-left:7px" class="content-wrapper">
+                
+                        <SfNumericTextBox @ref="@stackButton" ID="stackButton" TValue="int" @bind-Value="@stackLimit" Placeholder="0" Min="0" Max="50" Format="##.##" Step="1" Width="100px" CssClass="textboxstyle">
+                            <NumericTextBoxEvents TValue="int" ValueChange="@StackLimitChange"></NumericTextBoxEvents>
+                        </SfNumericTextBox> 
+                     
+                    </div>
+                    <br />
+                </div>
+                    
+                <div class="row" style="padding-top: 8px;margin-top:10px">
+                    <SfButton OnClick="group" style="background-color:#cccccc;color:black;font-weight:normal;width:55%;padding-left:2px;text-overflow:ellipsis;overflow:hidden">@change</SfButton>
+                    <SfButton OnClick="@OnClearEventTracker" style="background-color:#cccccc;color:black;width:43%;font-weight:normal;padding-left:1px;text-overflow:ellipsis;overflow:hidden">Clear History</SfButton>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+@*End:Hidden*@
+@code
+{
+    @*Hidden:Lines*@
+    
+    bool bold = false;
+    bool italic = false;
+    bool underLine = false;
+    bool fontfamily = true;
+
+    bool font = true;
+    bool undo = true;
+    bool redo = true;
+    string change = "Start Group Action";
+    bool colorPicker = false;
+    string selectedPanel = "center";
+    private bool isUpdatePanelOnly = false;
+    const string selectedItem = "image-pattern-style e-selected-style";
+    int fontSizeValue = 0;
+    int stackLimit = 0;
+    string fillColor = "#c9c6ac";
+    string strokeColor = "#edb879";
+    string fontStyle = "Arial";
+    const string unSelectedItem = "image-pattern-style";
+    List<string> undoStack = new List<string>();
+    List<string> redoStack = new List<string>();
+    private string styleValue = "background-color:#008000";
+    string undotext = "Undo\nstack";
+    string redotext = "Redo\nstack";
+    string stacktext = "Stack Limit";
+    string TextStyle = "background-color:#cccccc;color:black;width:40px";
+    //Define bold, italic, underline button
+    SfButton boldButton;
+    SfButton italicButton;
+    SfButton underLineButton;
+    SfNumericTextBox<int> fontSize;
+    SfNumericTextBox<int> stackButton;
+
+    //Define selected item/unselected item dictionary
+    Dictionary<string, string> dictionary = new Dictionary<string, string>() { { "left", unSelectedItem }, { "centertext", unSelectedItem }, { "belowcenter", unSelectedItem }, { "abovecenter", unSelectedItem }, { "targettext", unSelectedItem }, { "sourcetext", unSelectedItem }, { "right", unSelectedItem }, { "center", unSelectedItem }, { "bottomr", unSelectedItem }, { "bottoml", unSelectedItem }, { "bottomcenter_top", unSelectedItem } };
+
+    @*End:Hidden*@
+
+    //Define sfdiagramComponent
+    SfDiagramComponent diagram;
+
+    public DiagramConstraints constraints { get; set; }
+
+    //Defines diagrams's nodes collection
+    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    //Defines diagrams's connectors collection
+    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    private void OnCreated()
+    {
+        diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[2] });
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        diagram.FitToPage(mobileoptions);
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        constraints = DiagramConstraints.Default;
+
+        Node newProject = CreateNode(130, 50, 430, 80, NodeFlowShapes.Terminator, "Start", "newProject", "#ffb6c1");
+        Node design = CreateNode(130, 40, 430, 160, NodeFlowShapes.Process, "Design", "design", "#cccccc");
+        Node coding = CreateNode(130, 40, 430, 250, NodeFlowShapes.Process, "Coding", "coding", "#cccccc");
+        Node testing = CreateNode(130, 40, 430, 360, NodeFlowShapes.Process, "Testing", "testing", "#cccccc");
+        Node errors = CreateNode(130, 70, 430, 470, NodeFlowShapes.Decision, "Errors?", "errors", "#90ee90");
+        Node designErrors = CreateNode(130, 70, 215, 250, NodeFlowShapes.Decision, "Design Error?", "designErrors", "#90ee90");
+        Node completed = CreateNode(130, 40, 430, 570, NodeFlowShapes.Terminator, "End", "completed", "#90ee90");
+
+
+        CreateNodePort(design, "designPort", 0, 0.5);
+        CreateNodePort(coding, "codingPort1", 1, 0.5);
+        CreateNodePort(coding, "codingPort2", 0, 0.5);
+        CreateNodePort(errors, "errorsPort2", 1, 0.5);
+        CreateNodePort(errors, "errorsPort1", 0, 0.5);
+        CreateNodePort(errors, "errorsPort2", 1, 0.5);
+        CreateNodePort(designErrors, "Port1", 0.5, 0);
+        CreateNodePort(designErrors, "Port2", 0.5, 1);
+        CreateNodePort(designErrors, "Port3", 1, 0.5);
+        OrthogonalSegment designOrthogonalSegment = new OrthogonalSegment()
+            {
+                Type = ConnectorSegmentType.Orthogonal,
+                Direction = Direction.Left,
+                Length = 120,
+            };
+        OrthogonalSegment codingOrthogonalSegment = new OrthogonalSegment
+            {
+                Type = ConnectorSegmentType.Orthogonal,
+                Length = 100,
+                Direction = Direction.Right,
+            };
+        OrthogonalSegment designErrorOrthogonalSegment = new OrthogonalSegment
+            {
+                Type = ConnectorSegmentType.Orthogonal,
+                Length = 50,
+                Direction = Direction.Top,
+            };
+        DiagramObjectCollection<ConnectorSegment> designSegment = new DiagramObjectCollection<ConnectorSegment>() { designOrthogonalSegment };
+
+        DiagramObjectCollection<ConnectorSegment> codingSegment = new DiagramObjectCollection<ConnectorSegment>() { codingOrthogonalSegment };
+
+        DiagramObjectCollection<ConnectorSegment> designErrorSegment = new DiagramObjectCollection<ConnectorSegment>() { designErrorOrthogonalSegment };
+
+        CreateConnector("newProject", "design", "", "", "", null);
+        CreateConnector("design", "coding", "", "", "", null);
+        CreateConnector("coding", "testing", "", "", "", null);
+        CreateConnector("testing", "errors", "", "", "", null);
+        CreateConnector("errors", "completed", "No", "", "", null);
+        CreateConnector("errors", "designErrors", "Yes", "errorsPort1", "Port2", designSegment);
+        CreateConnector("designErrors", "coding", "No", "Port3", "codingPort2", null);
+        CreateConnector("designErrors", "design", "Yes", "Port1", "designPort", designErrorSegment);
+    }
+    private void TextChange(TextChangeEventArgs arg)
+    {
+        string annotation = "Annotation\ncontent\nchanged";
+        undoStack.Add(annotation);
+    }
+    private void OnHistoryChange(HistoryChangedEventArgs arg)
+    {
+        if (redoStack.Count > 0 && arg.ActionTrigger == HistoryChangedAction.CustomAction)
+        {
+            redoStack.Clear();
+        }
+
+        if (arg.ActionTrigger == HistoryChangedAction.CustomAction)
+        {
+            if (!(arg.EntryType == HistoryEntryType.PropertyChanged))
+            {
+                string entrylog = null;
+                if (arg.EntryType == HistoryEntryType.RotationChanged)
+                {
+                    entrylog = "Rotation\nchanged";
+                    undoStack.Add(entrylog);
+                }
+                else if (arg.EntryType == HistoryEntryType.CollectionChanged)
+                {
+                    entrylog = "Collection\nchanged";
+                    undoStack.Add(entrylog);
+                }
+                else if (arg.EntryType == HistoryEntryType.ConnectionChanged)
+                {
+                    entrylog = "Connection\nchanged";
+                    undoStack.Add(entrylog);
+                }
+                else if (arg.EntryType == HistoryEntryType.PositionChanged)
+                {
+                    entrylog = "Position\nchanged";
+                    undoStack.Add(entrylog);
+                }
+                else if (arg.EntryType == HistoryEntryType.SizeChanged)
+                {
+                    entrylog = "Size\nchanged";
+                    undoStack.Add(entrylog);
+                }
+
+
+            }
+
+        }
+        else if (arg.ActionTrigger == HistoryChangedAction.Redo)
+        {
+            for (int i = (redoStack.Count - 1); i >= 0; i--)
+            {
+                if (i == (redoStack.Count - 1))
+                {
+                    undoStack.Add(redoStack[redoStack.Count - 1]);
+                    redoStack.Remove(redoStack[redoStack.Count - 1]);
+                    break;
+                }
+            }
+
+        }
+        else if (arg.ActionTrigger == HistoryChangedAction.Undo)
+        {
+            for (int i = 0; i < undoStack.Count; i++)
+            {
+                if (i == (undoStack.Count - 1))
+                {
+                    redoStack.Add(undoStack[i]);
+                    undoStack.Remove(undoStack[i]);
+                    break;
+                }
+            }
+
+        }
+        undo = undoStack.Count > 0 ? false : true;
+        redo = redoStack.Count > 0 ? false : true;
+    }
+    private void group()
+    {
+        if (change == "Start Group Action")
+        {
+            diagram.StartGroupAction();
+            change = "End Group Action";
+        }
+        else if (change == "End Group Action")
+        {
+            diagram.EndGroupAction();
+            change = "Start Group Action";
+        }
+    }
+    private void OnClearEventTracker()
+    {
+        undoStack.Clear();
+        redoStack.Clear();
+        diagram.ClearHistory();
+        undo = true;
+        redo = true;
+    }
+    private void OnUndo()
+    {
+        diagram.Undo();
+    }
+
+    private void OnRedo()
+    {
+        diagram.Redo();
+    }
+    //Create nodes
+    private Node CreateNode(double unitWidth, double unitHeight, double offsetx, double offsety, NodeFlowShapes shape, string text, string id, string fill)
+    {
+        TextStyle textStyle = new TextStyle() { FontSize = 13, TextWrapping = TextWrap.WrapWithOverflow, Bold = true };
+        ShapeAnnotation shapeAnnotation = new ShapeAnnotation() { Content = text, Style = textStyle };
+        Node node = new Node()
+            {
+                Width = unitWidth,
+                Height = unitHeight,
+                OffsetX = offsetx,
+                OffsetY = offsety,
+                ID = id,
+                Style = new ShapeStyle() { Fill = fill },
+                Shape = new FlowShape() { Shape = shape, Type = shapes.Flow },
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>() { shapeAnnotation }
+            };
+        nodes.Add(node);
+        return node;
+    }
+
+    //Create ports
+    private void CreateNodePort(Node node, string id, double nodeoffsetx, double nodeoffsety)
+    {
+        PointPort nodePort = new PointPort()
+            {
+                ID = id,
+                Offset = new DiagramPoint() { X = nodeoffsetx, Y = nodeoffsety },
+            };
+
+        node.Ports.Add(nodePort);
+    }
+
+    //Create connectors
+    private void CreateConnector(string sourceNode, string targetNode, string text,
+      string sourcePort, string targetPort, DiagramObjectCollection<ConnectorSegment> segment = null)
+    {
+        TextStyle textStyle = new TextStyle() { FontSize = 13, TextWrapping = TextWrap.WrapWithOverflow, Bold = true };
+        PathAnnotation pathAnnotation = new PathAnnotation() { Content = text, Style = textStyle };
+        Connector connector = new Connector()
+            {
+                SourceID = sourceNode,
+                TargetID = targetNode,
+                SourcePortID = sourcePort,
+                TargetPortID = targetPort,
+                Style = new ShapeStyle() { Fill = "#008000", StrokeWidth = 1 },
+                Annotations = new DiagramObjectCollection<PathAnnotation>() { pathAnnotation },
+            };
+        if (segment != null)
+        {
+            connector.Type = ConnectorSegmentType.Orthogonal;
+            connector.Segments = segment;
+        }
+        connectors.Add(connector);
+    }
+
+    //Update annotation bold property
+    private void FontBold()
+    {
+        UpdateAnnotation("bold", true);
+
+    }
+
+    //Update annotation italic property
+    private void FontItalic()
+    {
+        UpdateAnnotation("italic", true);
+
+    }
+
+    //Update annotation underline property
+    private void FontUnderLine()
+    {
+        UpdateAnnotation("underline", true);
+
+    }
+
+    //Update annotation fontfamily
+    private void FontChange(ChangeEventArgs<string, FontFamily> args)
+    {
+        UpdateAnnotation("fontfamily", args.Value);
+
+    }
+
+
+    //Update annotation fontsize value
+    private void FontSizeChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        fontSizeValue = int.Parse(args.Value.ToString());
+        UpdateAnnotation("fontsize", fontSizeValue);
+
+    }
+
+    private void StackLimitChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        stackLimit = int.Parse(args.Value.ToString());
+    }
+    private void SelectionChanged(SelectionChangedEventArgs args)
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0 || diagram.SelectionSettings.Connectors.Count > 0)
+        {
+            bold = false;
+            italic = false;
+            underLine = false;
+            fontfamily = true;
+            colorPicker = false;
+            font = true;
+            TextStyle = "background-color:#cccccc;color:black;width:40px";
+        }
+        else
+        {
+            bold = true;
+            italic = true;
+            underLine = true;
+            fontfamily = false;
+            colorPicker = true;
+            font = false;
+            TextStyle = "background-color:#cccccc;color:#757575;width:40px";
+        }
+    }
+
+    //Update fill color for annotations
+    public void OnFillColorChange(ColorPickerEventArgs args)
+    {
+        this.styleValue = "background-color:" + args.CurrentValue.Hex;
+        UpdateAnnotation("fontcolor", args.CurrentValue.Hex);
+
+    }
+    //Update fill color for annotations
+    public void OnNodeFillColorChange(ColorPickerEventArgs args)
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0)
+        {
+            diagram.SelectionSettings.Nodes[0].Style.Fill = args.CurrentValue.Hex;
+            string stackvaluenodefill = "\nNode" + "\nstyle" + "\nchanged";
+            undoStack.Add(stackvaluenodefill);
+        }
+    }
+    //Update fill color for annotations
+    public void OnStrokeFillColorChange(ColorPickerEventArgs args)
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0)
+        {
+            diagram.SelectionSettings.Nodes[0].Style.StrokeColor = args.CurrentValue.Hex;
+            string stackvaluenodestroke = "\nNode" + "\nstyle" + "\nchanged";
+            undoStack.Add(stackvaluenodestroke);
+        }
+        else
+        {
+            diagram.SelectionSettings.Connectors[0].Style.StrokeColor = args.CurrentValue.Hex;
+            string stackvaluenodestroke = "\nConnector" + "\nstyle" + "\nchanged";
+            undoStack.Add(stackvaluenodestroke);
+        }
+    }
+    //Update annotation
+    private void UpdateAnnotation(string name, object value)
+    {
+        if (diagram.SelectionSettings.Connectors.Count > 0)
+        {
+            for (var i = 0; i < diagram.SelectionSettings.Connectors.Count; i++)
+            {
+                var connector = diagram.SelectionSettings.Connectors[i];
+                for (var j = 0; j < connector.Annotations.Count; j++)
+                {
+                    TextStyle annotationStyle = connector.Annotations[j].Style;
+                    UpdateAnnotationStyle(name, annotationStyle, value);
+
+                }
+            }
+        }
+        if (diagram.SelectionSettings.Nodes.Count > 0)
+        {
+            for (var i = 0; i < diagram.SelectionSettings.Nodes.Count; i++)
+            {
+                var node = diagram.SelectionSettings.Nodes[i];
+                for (var j = 0; j < node.Annotations.Count; j++)
+                {
+                    TextStyle annotationStyle = node.Annotations[j].Style;
+                    UpdateAnnotationStyle(name, annotationStyle, value);
+                }
+            }
+        }
+    }
+
+    //Update annotation style
+    private void UpdateAnnotationStyle(string option, TextStyle textStyle, object value)
+    {
+        switch (option)
+        {
+            case "fontsize":
+                textStyle.FontSize = Double.Parse(value.ToString());
+                string stackvaluesize = "\nAnnotation" + "\nfontsize" + "\nchanged";
+                undoStack.Add(stackvaluesize);
+                break;
+            case "underline":
+                textStyle.TextDecoration = textStyle.TextDecoration == TextDecoration.Underline ? TextDecoration.None : TextDecoration.Underline;
+                string stackvalueDecoration = "\nAnnotation" + "\nfontstyle" + "\nchanged";
+                undoStack.Add(stackvalueDecoration);
+                break;
+            case "fontfamily":
+                textStyle.FontFamily = value.ToString();
+                string stackvalueFamily = "\nAnnotation" + "\nfontfamily" + "\nchanged";
+                undoStack.Add(stackvalueFamily);
+                break;
+            case "bold":
+                if (textStyle.Bold)
+                    textStyle.Bold = false;
+                else
+                    textStyle.Bold = true;
+                string stackvaluebold = "\nAnnotation" + "\nfontstyle" + "\nchanged";
+                undoStack.Add(stackvaluebold);
+                break;
+            case "italic":
+                if (textStyle.Italic)
+                    textStyle.Italic = false;
+                else
+                    textStyle.Italic = true;
+                string stackvalueitalic = "\nAnnotation" + "\nfontstyle" + "\nchanged";
+                undoStack.Add(stackvalueitalic);
+                break;
+            case "fontcolor":
+                textStyle.Color = value.ToString();
+                string stackvaluecolor = "\nAnnotation" + "\nfontcolor" + "\nchanged";
+                undoStack.Add(stackvaluecolor);
+                break;
+
+        }
+    }
+
+    //Update pathannotation property panel value
+    private void UpateProprtyPanelValue(PathAnnotation annotation)
+    {
+        fontSizeValue = int.Parse(annotation.Style.FontSize.ToString());
+        fontStyle = annotation.Style.FontFamily;
+        fillColor = annotation.Style.Color;
+    }
+
+    //Update shapeannotation alignment
+    private void UpdateAnnotation(string id, ShapeAnnotation annotation)
+    {
+        diagram.BeginUpdate();
+        if (!isUpdatePanelOnly)
+        {
+            switch (id)
+            {
+                case "left":
+                    SetAnnotationPosition(annotation, 0, 0, VerticalAlignment.Top, HorizontalAlignment.Left);
+                    break;
+                case "right":
+                    SetAnnotationPosition(annotation, 1, 0, VerticalAlignment.Top, HorizontalAlignment.Right);
+                    break;
+                case "bottoml":
+                    SetAnnotationPosition(annotation, 0, 1, VerticalAlignment.Bottom, HorizontalAlignment.Left);
+                    break;
+                case "bottomr":
+                    SetAnnotationPosition(annotation, 1, 1, VerticalAlignment.Bottom, HorizontalAlignment.Right);
+                    break;
+                case "center":
+                    SetAnnotationPosition(annotation, 0.5f, 0.5f, VerticalAlignment.Center, HorizontalAlignment.Center);
+                    break;
+                case "bottomcenter_top":
+                    SetAnnotationPosition(annotation, 0.5f, 1, VerticalAlignment.Top, HorizontalAlignment.Center);
+                    break;
+            }
+        }
+        UpdateSelection(id);
+        UpateProprtyPanel(annotation);
+        _ = diagram.EndUpdate();
+    }
+
+    //Update shapeannotation property panel
+    private void UpateProprtyPanel(ShapeAnnotation annotation)
+    {
+        fontSizeValue = int.Parse(annotation.Style.FontSize.ToString());
+        fontStyle = annotation.Style.FontFamily;
+        fillColor = annotation.Style.Color;
+    }
+
+    //Update selection
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dictionary.Count; i++)
+        {
+            var value = dictionary.Values.ElementAt(i);
+            var key = dictionary.Keys.ElementAt(i);
+            if (dictionary.ContainsKey(id) && key == id)
+            {
+                value = selectedItem;
+            }
+            else
+            {
+                value = unSelectedItem;
+            }
+            dictionary.Remove(key);
+            dictionary.Add(key, value);
+        }
+        dictionary[selectedPanel] = unSelectedItem;
+        selectedPanel = id;
+        dictionary[id] = selectedItem;
+    }
+
+    //Set annotation position
+    private void SetAnnotationPosition(ShapeAnnotation annotation, float offsetX, float offsetY, VerticalAlignment vAlignment, HorizontalAlignment hAlignment)
+    {
+        if (annotation.Offset.X != offsetX)
+            annotation.Offset.X = offsetX;
+        if (annotation.Offset.Y != offsetY)
+            annotation.Offset.Y = offsetY;
+        annotation.VerticalAlignment = vAlignment;
+        annotation.HorizontalAlignment = hAlignment;
+        annotation.Margin = new DiagramThickness();
+        if (vAlignment == VerticalAlignment.Top && hAlignment == HorizontalAlignment.Left)
+        {
+            annotation.HorizontalAlignment = HorizontalAlignment.Right;
+            annotation.VerticalAlignment = VerticalAlignment.Bottom;
+            annotation.Margin = new DiagramThickness() { Left = 3, Top = 3 };
+        }
+        else if (vAlignment == VerticalAlignment.Top && hAlignment == HorizontalAlignment.Right)
+        {
+            annotation.HorizontalAlignment = HorizontalAlignment.Left;
+            annotation.VerticalAlignment = VerticalAlignment.Bottom;
+            annotation.Margin = new DiagramThickness() { Right = 3, Top = 3 };
+        }
+        else if (vAlignment == VerticalAlignment.Bottom && hAlignment == HorizontalAlignment.Left)
+        {
+            annotation.HorizontalAlignment = HorizontalAlignment.Right;
+            annotation.VerticalAlignment = VerticalAlignment.Top;
+            annotation.Margin = new DiagramThickness() { Left = 3, Bottom = 3 };
+
+        }
+        else if (vAlignment == VerticalAlignment.Bottom && hAlignment == HorizontalAlignment.Right)
+        {
+            annotation.HorizontalAlignment = HorizontalAlignment.Left;
+            annotation.VerticalAlignment = VerticalAlignment.Top;
+            annotation.Margin = new DiagramThickness() { Right = 3, Bottom = 3 };
+        }
+        else if (vAlignment == VerticalAlignment.Top && hAlignment == HorizontalAlignment.Center)
+        {
+            annotation.HorizontalAlignment = HorizontalAlignment.Center;
+            annotation.VerticalAlignment = VerticalAlignment.Bottom;
+        }
+    }
+    @*Hidden:Lines*@
+    public class FontFamily
+    {
+        public string Name { get; set; }
+    }
+    private List<FontFamily> FontFamilyLists = new List<FontFamily>() {
+        new FontFamily() { Name ="Arial"},
+        new FontFamily() { Name ="Aharoni" },
+        new FontFamily() { Name ="Bell MT"},
+        new FontFamily() { Name = "Fantasy" },
+        new FontFamily() { Name ="Times New Roman" },
+        new FontFamily() { Name ="Segoe UI" },
+        new FontFamily() { Name ="Verdana" },
+    };
+    public class TextWrapping
+    {
+        public string Name { get; set; }
+    }
+    private List<TextWrapping> TextWrappingList = new List<TextWrapping>() {
+        new TextWrapping() { Name ="NoWrap"},
+        new TextWrapping() { Name ="Wrap" },
+        new TextWrapping() { Name ="WrapWithOverflow"},
+    };
+    public class TextOverFlow
+    {
+        public string Name { get; set; }
+    }
+    private List<TextOverFlow> TextOverFlowList = new List<TextOverFlow>() {
+        new TextOverFlow() { Name ="Ellipsis"},
+        new TextOverFlow() { Name ="Wrap" },
+        new TextOverFlow() { Name ="Clip"},
+    };
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}
+

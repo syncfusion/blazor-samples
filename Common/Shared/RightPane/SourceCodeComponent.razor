@@ -1,0 +1,266 @@
+﻿@using System.Text.RegularExpressions;
+@using Syncfusion.Blazor.Navigations;
+@using System.IO;
+
+@namespace BlazorDemos.Shared
+@implements IDisposable;
+
+@inject HttpClient Http;
+@inject IJSRuntime JsRuntime;
+@inject SampleService SampleService;
+
+@if (!isSourceCodeRequired)
+{
+<div class='sb-tab-content'>
+    <span>Loading...</span>
+</div> }
+else
+{
+<div class='sb-source-section'>
+    <SfTab ID='sb-source-tab' Items="@sourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom" @bind-SelectedItem="tabSelectedIndex">
+        <TabEvents Selected="OnSourceClicked"></TabEvents>
+    </SfTab>
+</div> 
+}
+<PageTitle>@pageTitle</PageTitle>
+
+
+@code {
+    private List<TabItem> sourceCodeItems;
+    private string sourceCode { get; set; }
+    private string fileName { get; set; }
+    private bool isSourceCodeRequired { get; set; }
+    private int tabSelectedIndex { get; set; }
+    private string pageTitle { get; set; }
+
+    // Source code tab selected event handler.
+    private async Task OnSourceClicked(SelectEventArgs args)
+    {
+        string response = string.Empty;
+        await this.GetSourceData((int)args.SelectedIndex);
+    }
+
+    private async Task GetSourceData(int index)
+    {
+#if (WASM || WEBAPP)
+        await InvokeAsync(async () =>
+        {
+    #if NET6_0 
+        #if WASM
+            string projectPath = "Blazor_WASM_Common_NET6";
+        #endif
+    #else
+        #if WASM
+            string projectPath = "Blazor_WASM_Common_NET8";
+        #else
+            string projectPath = "Blazor_WebApp_Common_NET8";
+        #endif
+    #endif
+            sourceCode = string.Empty;
+            fileName = string.Empty;
+            string directory = SampleService.SampleInfo.Directory;
+            if (SampleService.SampleInfo.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
+            {
+                fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
+                try
+                {
+                    sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
+                }
+                catch
+                {
+                    if (directory.LastIndexOf("/") > 0)
+                    {
+                        directory = directory.Substring(0, directory.LastIndexOf("/"));
+                    }
+
+                    sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
+                }
+            }
+            else
+            {
+                fileName = SampleService.SampleInfo.FileName;
+                sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
+            }
+            pageTitle = this.PageTitleContent(sourceCode);
+            sourceCode = this.FormatSourceCode(sourceCode);
+        });
+#else
+        await InvokeAsync(() =>
+        {
+            sourceCode = string.Empty;
+            fileName = string.Empty;
+            string directory = SampleService.SampleInfo.Directory;
+            string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
+            if (SampleService.SampleInfo.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
+            {
+                fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
+                try
+                {
+                    sourceCode = System.IO.File.ReadAllText(filePath + "/Pages/" + directory + "/" + fileName);
+                }
+                catch
+                {
+                    if (directory.LastIndexOf("/") > 0)
+                    {
+                        directory = directory.Substring(0, directory.LastIndexOf("/"));
+                    }
+
+                    sourceCode = System.IO.File.ReadAllText(filePath + "/Pages/" + directory + "/" + fileName);
+                }
+            }
+            else
+            {
+                fileName = SampleService.SampleInfo.FileName;
+                sourceCode = System.IO.File.ReadAllText(filePath + "/Pages/" + directory + "/" + fileName);
+            }
+            pageTitle = this.PageTitleContent(sourceCode);
+            sourceCode = this.FormatSourceCode(sourceCode);
+        });
+#endif
+        await Task.Delay(1000);
+        this.isSourceCodeRequired = true;
+    }
+
+    private string RemoveString(string comments, string startTag, string endTag)
+    {
+        int StartIndex = comments.IndexOf(startTag);
+        if (StartIndex > 0)
+        {
+            int EndIndex = comments.IndexOf(endTag,StartIndex) + endTag.Length;
+            string Content = comments.Substring(StartIndex, EndIndex - StartIndex);
+            return comments.Replace(Content, string.Empty);
+        }
+        else
+        {
+            return comments;
+        }
+    }
+
+    private string PageTitleContent(string sourceCode)
+    {
+        string pattern = @"(?<=<PageTitle>).*?(?=</PageTitle>)";
+        MatchCollection matches = Regex.Matches(sourceCode, pattern);
+        if (matches == null || matches.Count <= 0)
+        {
+            return string.Empty;
+        }
+        return matches[0].Value;
+    }
+
+    private string FormatSourceCode(string response)
+    {
+        response = RemoveString(response, "<SampleDescription>", "</SampleDescription>");
+        response = RemoveString(response, "<ActionDescription>", "</ActionDescription>");
+        response = response.Replace("<", "&lt;");
+        response = response.Replace(">", "&gt;");
+        while (response.IndexOf("@*Hidden:Lines*@") > -1)
+        {
+            response = RemoveString(response, "@*Hidden:Lines*@", "@*End:Hidden*@");
+        }
+        while (response.IndexOf("//Hidden:Lines") > -1)
+        {
+            response = RemoveString(response, "//Hidden:Lines", "//End:Hidden");
+        }
+        // Option to ignore the WASM/Server-side conditional compilation sample code.
+        while (response.IndexOf("@*WASM:Block*@") > -1 || response.IndexOf("@*Server:Block*@") > -1 || response.IndexOf("@*WASM_HOSTED:Block*@") > -1 || response.IndexOf("@*WebAssembly:Block*@") > -1 || response.IndexOf("/*Server:Block*/") > -1)
+        {
+#if (WASM || WEBAPP)
+            response = Regex.Replace(response, @"(@\*Server:Block\*@([\s\S]*?)@\*End:Server\*@)", string.Empty);
+            response = Regex.Replace(response, @"(\/\*Server:Block\*\/([\s\S]*?)\/\*End:Server\*\/)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WebAssembly:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*@{.*#if.*WASM.*})", string.Empty);
+            response = Regex.Replace(response, @"(@\*WebAssembly:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*#if.*WASM.*)", string.Empty);
+            response = Regex.Replace(response, @"(@{.*#endif.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WebAssembly\*@)", string.Empty);
+            response = Regex.Replace(response, @"(#endif.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WebAssembly\*@)", string.Empty);
+#if (WASM || WEBAPP)
+            response = Regex.Replace(response, @"(@\*WASM_HOSTED:Block\*@([\s\S]*?)@\*End:WASM_HOSTED\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WASM:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*@{.*#if.*WASM.*})", string.Empty);
+            response = Regex.Replace(response, @"(@{.*#endif.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WASM\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WASM:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*#if.*WASM.*)", string.Empty);
+            response = Regex.Replace(response, @"(#endif.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WASM\*@)", string.Empty);
+#else
+            response = Regex.Replace(response, @"(@\*WASM:Block\*@([\s\S]*?)@\*End:WASM\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WASM_HOSTED:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*@{.*#if.*WASM_HOSTED.*})", string.Empty);
+            response = Regex.Replace(response, @"(@{.*#endif.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WASM_HOSTED\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WASM_HOSTED:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*#if.*WASM_HOSTED.*)", string.Empty);
+            response = Regex.Replace(response, @"(#endif.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:WASM_HOSTED\*@)", string.Empty);
+#endif
+#else
+            response = Regex.Replace(response, @"(@\*WASM:Block\*@([\s\S]*?)@\*End:WASM\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WASM_HOSTED:Block\*@([\s\S]*?)@\*End:WASM_HOSTED\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*WebAssembly:Block\*@([\s\S]*?)@\*End:WebAssembly\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*Server:Block\*@([\s\S]*?)@{.*WASM.*})", string.Empty);
+            response = Regex.Replace(response, @"(@{.*#endif.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@{.*#else.*}.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
+            response = Regex.Replace(response, @"(@\*Server:Block\*@.*(?:[\t ]*(?:\r?\n|\r)?)+.*WASM.*)", string.Empty);
+            response = Regex.Replace(response, @"(.*#endif.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
+            response = Regex.Replace(response, @"(.*#else.*(?:[\t ]*(?:\r?\n|\r)?)+.*@\*End:Server\*@)", string.Empty);
+            response = Regex.Replace(response, @"(\/\*Server:Block\*\/([\s\S]*?)WASM)", string.Empty);
+            response = Regex.Replace(response, @"(#endif([\s\S]*?)\/\*End:Server\*\/)", string.Empty);
+#endif
+        }
+        response = Regex.Replace(response, @"^(?:[\t ]*(?:\r?\n|\r))+", string.Empty, RegexOptions.Multiline);
+
+        return response;
+    }
+
+    /// <summary>
+    /// Renders the dynamic source code tab for showcase the source codes.
+    /// </summary>
+    /// <param name="args">Arguments used to render the dynamic tab items.</param>
+    public async Task OnSourceTabSelected(SelectEventArgs args)
+    {
+        sourceCodeItems = new List<TabItem>();
+        if (args == null || (args != null && args.SelectedIndex == 1))
+        {
+            if (SampleService.SampleInfo.SourceFiles.Count != 0)
+            {
+                for (var i = 0; i < SampleService.SampleInfo.SourceFiles.Count; i++)
+                {
+#pragma warning disable
+                    sourceCodeItems.Add(
+                    new TabItem()
+                    {
+                        Header = new TabHeader() { Text = SampleService.SampleInfo.SourceFiles[i].FileName },
+                        ContentTemplate =@<pre class='sb-src-code'><code></code></pre>
+                        
+                    });
+#pragma warning restore
+                }
+                await this.GetSourceData(0);
+            }
+            else
+            {
+                sourceCodeItems = new List<TabItem>() {
+#pragma warning disable
+                new TabItem() {
+                        Header = new TabHeader() { Text = SampleService.SampleInfo.FileName },
+                        ContentTemplate = @<pre id='code' class='sb-src-code' tabindex="0"><code></code></pre>
+                }};
+#pragma warning restore
+                await this.GetSourceData(0);
+            }
+            this.tabSelectedIndex = 0;
+            this.StateHasChanged();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await this.OnSourceTabSelected(null);
+            await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);
+        }
+        if (this.isSourceCodeRequired)
+        {
+            this.isSourceCodeRequired = false;
+            await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);
+        }
+    }
+
+    public void Dispose()
+    {
+        sourceCodeItems = null;
+    }
+}

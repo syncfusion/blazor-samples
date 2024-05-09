@@ -1,0 +1,132 @@
+@page "/scheduler/editor-template"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo illustrates the way of customizing the default editor window with custom template option and the customized design is automatically replaced onto the usual event editor. Here, a doctor's daily appointment with his patients is listed out and shaded with specific color based on its status. </p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this demo, the event window is customized based on the doctor's required appointment related fields which can be achieved by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleTemplates.html#Syncfusion_Blazor_Schedule_ScheduleTemplates_EditorTemplate">EditorTemplate</a>. Here, the custom design is built with the required field. </p>
+    <p> In this demo, the editor window header is customized based on the appointment subject field which can be achieved by the <b>EditorHeaderTemplate</b>. </p>
+    <p> In this demo, two-way binding of Value property for Syncfusion components such as DropDownList and DateTimePicker is used to update the values to the respective fields in the appointment. </p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfSchedule TValue="ScheduleData.DoctorsEventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleEvents TValue="ScheduleData.DoctorsEventData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleTemplates>
+            <EditorHeaderTemplate>
+                @if (((context as ScheduleData.DoctorsEventData).Subject) == null)
+                {
+                    <div>Create New Event</div>
+                }
+                else
+                {
+                    <div>@((context as ScheduleData.DoctorsEventData).Subject)</div>
+                }
+            </EditorHeaderTemplate>
+            <EditorTemplate>
+                <input type="hidden" name="Id" class="e-field" value="@((context as ScheduleData.DoctorsEventData).Id)" />
+                <table class="custom-event-editor" width="100%" cellpadding="5">
+                    <tbody>
+                        <tr>
+                            <td class="e-textlabel">Summary</td>
+                            <td colspan="4">
+                                <SfTextBox @bind-Value="@((context as ScheduleData.DoctorsEventData).Subject)"></SfTextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="e-textlabel">Status</td>
+                            <td class="dropdown" colspan="4">
+                                <SfDropDownList TValue="string" TItem="EventFields" ID="EventType" DataSource="@statusData" Placeholder="Choose status" @bind-Value="@((context as ScheduleData.DoctorsEventData).EventType)">
+                                    <DropDownListFieldSettings Value="Id"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="e-textlabel">From</td>
+                            <td colspan="4">
+                                <SfDateTimePicker @bind-Value="@((context as ScheduleData.DoctorsEventData).StartTime)"></SfDateTimePicker>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="e-textlabel">To</td>
+                            <td colspan="4">
+                                <SfDateTimePicker @bind-Value="@((context as ScheduleData.DoctorsEventData).EndTime)"></SfDateTimePicker>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="e-textlabel">Reason</td>
+                            <td colspan="4">
+                                <SfTextBox Multiline="true" @bind-Value="@((context as ScheduleData.DoctorsEventData).Description)"></SfTextBox>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </EditorTemplate>
+        </ScheduleTemplates>
+        <ScheduleEventSettings TValue="ScheduleData.DoctorsEventData" DataSource="@dataSource">
+        </ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 10);
+    
+    List<EventFields> statusData = new List<EventFields>() {
+        new EventFields(){ Id= "New", Text= "New" },
+        new EventFields(){ Id= "Requested", Text= "Requested" },
+        new EventFields(){ Id= "Confirmed", Text= "Confirmed" },
+    };
+    List<ScheduleData.DoctorsEventData> dataSource = new ScheduleData().GetDoctorsEventData();
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.DoctorsEventData> args)
+    {
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        switch (args.Data.EventType)
+        {
+            case "Requested":
+                attributes.Add("style", "background: #F57F17");
+                args.Attributes = attributes;
+                break;
+            case "Confirmed":
+                attributes.Add("style", "background: #7fa900");
+                args.Attributes = attributes;
+                break;
+            case "New":
+                attributes.Add("style", "background: #8e24aa");
+                args.Attributes = attributes;
+                break;
+        }
+    }
+    public class EventFields
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
+}
+
+<style>
+    .custom-event-editor td {
+        padding: 7px;
+        padding-right: 16px;
+    }
+
+    .dropdown .e-dropdownlist {
+        color: inherit !important;
+    }
+</style>

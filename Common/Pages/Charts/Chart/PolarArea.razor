@@ -1,0 +1,112 @@
+﻿@page "/chart/polar-area"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows the average product sales comparison for 6 years in  polar and radar charts.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure  polar and radar charts with an area series. Switching between polar and radar series can be done using <b>Series Type</b> in the property panel</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the polar and radar chart with an area series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/polar/#area' aria-label="Navigate to the documentation for area in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="Average Sales Comparison" Theme="@Theme">
+        <ChartTooltipSettings Enable="true">
+        </ChartTooltipSettings>
+        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Revenue in Millios" LabelFormat="{value}M"></ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Opacity=0.5 Name="Product A" XName="Period" Width="2" YName="ProductRevenue_A" Type="@SeriesType" DrawType="ChartDrawType.Area">
+                <ChartSeriesBorder Color="transparent" Width="0"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Opacity=0.5 Name="Product B" XName="Period" Width="2" YName="ProductRevenue_B" Type="@SeriesType" DrawType="ChartDrawType.Area">
+                <ChartSeriesBorder Color="transparent" Width="0"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Opacity=0.5 Name="Product C" XName="Period" Width="2" YName="ProductRevenue_C" Type="@SeriesType" DrawType="ChartDrawType.Area">
+                <ChartSeriesBorder Color="transparent" Width="0"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Polar" DataSource="@SeriesTypes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Polar;
+    public List<DropDownData> SeriesTypes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Polar" },
+        new DropDownData() { Type = "Radar" },
+    };
+    public List<PolarAreaChartData> ChartPoints { get; set; } = new List<PolarAreaChartData>
+    {
+        new PolarAreaChartData { Period = "2000", ProductRevenue_A = 4  , ProductRevenue_B = 2.6, ProductRevenue_C = 2.8},
+        new PolarAreaChartData { Period = "2001", ProductRevenue_A = 3.0, ProductRevenue_B = 2.8, ProductRevenue_C = 2.5 },
+        new PolarAreaChartData { Period = "2002", ProductRevenue_A = 3.8, ProductRevenue_B = 2.6, ProductRevenue_C = 2.8 },
+        new PolarAreaChartData { Period = "2003", ProductRevenue_A = 3.4, ProductRevenue_B = 3  , ProductRevenue_C = 3.2 },
+        new PolarAreaChartData { Period = "2004", ProductRevenue_A = 3.2, ProductRevenue_B = 3.6, ProductRevenue_C = 2.9 },
+        new PolarAreaChartData { Period = "2005", ProductRevenue_A = 3.9, ProductRevenue_B = 3  , ProductRevenue_C = 2   }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public void ChangeSeriesType(ChangeEventArgs<string, DropDownData> args)
+    {
+        SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class PolarAreaChartData
+    {
+        public string Period { get; set; }
+        public double ProductRevenue_A { get; set; }
+        public double ProductRevenue_B { get; set; }
+        public double ProductRevenue_C { get; set; }
+    }
+
+}

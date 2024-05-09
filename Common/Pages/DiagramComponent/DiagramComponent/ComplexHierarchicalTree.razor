@@ -1,0 +1,463 @@
+﻿@page "/diagramcomponent/complexhierarchical"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@implements IDisposable;
+@inject NavigationManager NavigationManager
+
+
+<SampleDescription>
+    <p>This sample demonstrates a complex hierarchical template built from an external data source using a complex hierarchical tree algorithm.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to generate a complex hierarchical tree from external data sources. You can customize the spacing among the objects in the tree. You can use the <code><a target="_blank" href=" https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing " aria-label="HorizontalSpacing">HorizontalSpacing</a></code>  and <code><a target="_blank" href=" https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing" aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html" aria-label="Layout">Layout</a></code>  to customize the space between the objects in the tree. You can use the <code><a target="_blank" href=" https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation" aria-label="Orientation">Orientation</a></code> property of <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html" aria-label="Layout">Layout</a></code> to change the orientation of the tree.</p>
+    <p>To change the orientation of the tree, you can also click the templates in the property panel. </p>
+</ActionDescription>
+<style>
+    #diagram {
+        display: block;
+    }
+
+    .image-pattern-style {
+        background-color: white;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 75px;
+        width: calc((100% - 18px) / 3);
+        cursor: pointer;
+        border: 1px solid #D5D5D5;
+        background-position: center;
+        float: left;
+    }
+
+        .image-pattern-style:hover {
+            border-color: gray;
+            border-width: 2px;
+        }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+        display: block;
+    }
+
+    .property-panel-header {
+        padding-top: 15px;
+        padding-bottom: 5px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .row-header {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .row-header1 {
+        font-size: 12px;
+        padding-left: 2px;
+        font-weight: 400;
+    }
+
+    .e-selected-orientation-style {
+        border-color: #006CE6;
+        border-width: 2px;
+    }
+
+
+    .e-selected-pattern-style {
+        border-color: #006CE6;
+        border-width: 2px;
+    }
+
+    .textboxstyle {
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        width: 120px;
+    }
+
+    .e-checkbox-wrapper .e-label {
+        font-size: 12px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .sb-property-border {
+        border-right: 1px solid #D7D7D7;
+    }
+
+    .e-orgchart-template-div-style {
+        position: absolute;
+        width: 177px;
+        height: 54px;
+        border: 1px solid #EEEEEE;
+        background: #FFFFFF;
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+
+    .e-orgchart-template-image-style {
+        width: 52px;
+        height: 52px;
+        left: 552px;
+        top: 154px;
+        float: left;
+        background-size: 100% 100%;
+    }
+
+    .e-orgchart-template-name-style {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #363636;
+        margin-top: 8px;
+        height: 8px
+    }
+
+    .e-orgchart-template-role-style {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #7A7A7A;
+    }
+</style>
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagramComponent @ref="@Diagram" Created="OnCreated" Height="690px" NodeCreating="@OnNodeCreating" ConnectorCreating="@OnConnectorCreating" InteractionController="@DiagramInteractions.ZoomPan">
+            <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
+            <DataSourceSettings ID="Id" ParentID="ReportingPerson" DataSource="DataSource"></DataSourceSettings>
+            <Layout @bind-Type="@Type" @bind-VerticalSpacing="@VerticalSpacing" @bind-SamePoint="@samepoint" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment">
+                <LayoutMargin @bind-Top="@Top" @bind-Bottom="@Bottom" @bind-Right="@Right" @bind-Left="@Left"></LayoutMargin>
+            </Layout>
+            <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+        </SfDiagramComponent>
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="row property-panel-content" id="appearance">
+        <div class="row" style="padding-top: 10px;">
+            <div class="row row-header">
+                Orientation
+            </div>
+            <div id="orientation">
+                <div class="row" style="padding-top: 8px">
+                    <div title="Top to Bottom" class="@dict["topToBottom"]" @onclick="ToptoBottomClick" id="topToBottom" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/top-to-bottom.png"));
+        margin-right: 3px">
+                    </div>
+                    <div title="Bottom to Top" class="@dict["bottomToTop"]" id="bottomToTop" @onclick="BottomtoTopClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/bottom-to-top.png"));
+        margin: 0px 3px">
+                    </div>
+                    <div title="Left to Right" class="@dict["leftToRight"]" id="leftToRight" @onclick="LefttoRightClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/left-to-right.png")); margin-right:0px 3px">
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div title="Right to Left" class="@dict["rightToLeft"]" id="rightToLeft" @onclick="RighttoLeftClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/right-to-left.png"));
+        margin: 0px 3px">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row property-panel-content" style="padding-top: 10px">
+        <div class="row row-header">
+            Behaviour
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 30px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Horizontal Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="hSpacing" Format="###.##" Width="100%"  Step="2" Value="@HorizontalValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="@HSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 30px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Vertical Spacing</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="vSpacing" Format="###.##" Width="100%"  Step="2" Value="@VerticalValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="VSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 30px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Left Margin</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="marginx" Format="###.##" Width="100%"  Step="2" Value="@LeftValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="MarginLeftChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 30px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Top Margin</div>
+            </div>
+            <div class="textboxstyle">
+                <SfNumericTextBox TValue="int?" ID="marginy" Format="###.##" Width="100%"  Step="2" Value="@TopValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="MarginTopChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+         <div class="row" style="padding-top: 8px">
+          
+            <div  class="textboxstyle" style="width:1000px">
+              <SfCheckBox Label="Prevent Connector Overlapping" Checked="@checkBoxValue" ValueChange="@LinearChange" TChecked="bool" />
+            </div>
+        </div>
+                
+    </div>
+</div>
+@*End:Hidden*@
+@code
+{
+    private const string selecteditem = "image-pattern-style  e-selected-orientation-style";
+    private const string unselecteditem = "image-pattern-style";
+    private const string selectedPattenitem = "image-pattern-style  e-selected-pattern-style";
+    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
+    private Orientation subTreeOrientation = Orientation.Vertical;
+    private bool samepoint = false;
+    private SubTreeAlignmentType subTreeAlignment = SubTreeAlignmentType.Right;
+    private int rows = 0;
+    private string pattern;
+    private double offset = 20;
+    private Dictionary<string, string> dict = new Dictionary<string, string>() {
+        { "topToBottom", selecteditem },
+        { "bottomToTop", unselecteditem },
+        { "leftToRight", unselecteditem },
+        { "rightToLeft", unselecteditem }
+    };
+
+    bool checkBoxValue = true;
+    public SfDiagramComponent Diagram;
+    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
+    public int? HorizontalValue { get; set; } = 40;
+    public int? VerticalValue { get; set; } = 40;
+    public int? MaginXValue { get; set; } = 22;
+    public int? MaginYValue { get; set; } = 22;
+    public LayoutType Type = LayoutType.ComplexHierarchicalTree;
+    public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Left;
+    public VerticalAlignment VerticalAlignment = VerticalAlignment.Top;
+    public int HorizontalSpacing = 40;
+    public int VerticalSpacing = 40;
+    public double Top = 50;
+    public double Bottom = 0;
+    public double Right = 0;
+    public double Left = 10;
+    public int TopValue = 50;
+    public int LeftValue = 10;
+    
+
+    // Defines default values for Node object
+    private void OnNodeCreating(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        node.Width = 40; node.Height = 40;
+        //Initialize shape
+        HierarchicalDetails hierarchicalDetails = node.Data as HierarchicalDetails;
+        node.Shape = new BasicShape() { Type =Syncfusion.Blazor.Diagram.NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle, CornerRadius = 7 };
+        node.Style = new ShapeStyle() { Fill = hierarchicalDetails.FilllColor, StrokeWidth = 1, StrokeColor = hierarchicalDetails.Border };
+    }
+    // Defines default values for Connector object
+    private void OnConnectorCreating(IDiagramObject connector1)
+    {
+        Connector connector = (connector1 as Connector);
+        connector.Type = ConnectorSegmentType.Orthogonal;
+        connector.CornerRadius = 7;
+        connector.Style = new ShapeStyle()
+        {
+            StrokeColor= "#6d6d6d",
+        };
+        connector.TargetDecorator.Height = 7;
+        connector.TargetDecorator.Width = 7;
+    }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram.FitToPage(mobileoptions);
+    }
+    public class HierarchicalDetails
+    {
+        public string Id { get; set; }
+        public string FilllColor { get; set; }
+        public string Border { get; set; }
+        public string Label { get; set; }
+        public List<string> ReportingPerson { get; set; }
+    }
+    //DataSource Items.
+    public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
+{
+        new HierarchicalDetails()   { Id= "node11", Label = "StackPanel",FilllColor="#e7704c", Border="#c15433"  },
+        new HierarchicalDetails()   { Id= "node12", Label= "StackPanel1", ReportingPerson = new List<string>(){ "node114" },FilllColor="#efd46e", Border="#d6b123"  },
+        new HierarchicalDetails()   { Id= "node13", Label= "StackPanel2",ReportingPerson = new List<string>(){ "node12" },FilllColor="#58b087", Border="#16955e"   },
+        new HierarchicalDetails()   { Id= "node14", Label= "StackPanel3",ReportingPerson = new List<string>(){ "node12"},FilllColor="#58b087", Border="#16955e" },
+        new HierarchicalDetails()   { Id= "node15", Label= "StackPanel4", ReportingPerson = new List<string>(){ "node12" },FilllColor="#58b087", Border="#16955e"  },
+        new HierarchicalDetails()   { Id= "node116", Label= "StackPanel16",ReportingPerson = new List<string>(){ "node22", "node12"},FilllColor="#58b087", Border="#16955e" },
+        new HierarchicalDetails()   { Id= "node17", Label= "StackPanel6",ReportingPerson = new List<string>(){ "node13", "node14", "node15"},FilllColor="#659be5", Border="#3a6eb5"},
+        new HierarchicalDetails()   { Id= "node19", Label= "StackPanel8",ReportingPerson = new List<string>(){"node16", "node17", "node18" },FilllColor="#8dbe6c", Border="#489911"},
+        new HierarchicalDetails()   { Id= "node110", Label= "StackPanel9", ReportingPerson = new List<string>(){ "node16", "node17", "node18" },FilllColor="#8dbe6c", Border="#489911" },
+        new HierarchicalDetails()   { Id= "node111", Label= "StackPanel10",ReportingPerson = new List<string>(){"node16", "node17", "node18","node116" },FilllColor="#8dbe6c", Border="#489911"},
+        new HierarchicalDetails()   { Id= "node21", Label= "StackPanel11" ,FilllColor="#e7704c", Border="#c15433"},
+        new HierarchicalDetails()   { Id= "node22", Label= "StackPanel12",ReportingPerson = new List<string>(){"node114" },FilllColor="#efd46e", Border="#d6b123"},
+        new HierarchicalDetails()   { Id= "node23", Label= "StackPanel13", ReportingPerson = new List<string>(){ "node22" } ,FilllColor="#58b087", Border="#16955e"},
+        new HierarchicalDetails()   { Id= "node24", Label= "StackPanel14",ReportingPerson = new List<string>(){ "node22" },FilllColor="#58b087", Border="#16955e"  },
+        new HierarchicalDetails()   { Id= "node25", Label= "StackPanel15",ReportingPerson = new List<string>(){"node22" },FilllColor="#58b087", Border="#16955e"},
+        new HierarchicalDetails()   { Id= "node27", Label= "StackPanel17",ReportingPerson = new List<string>(){"node23", "node24", "node25" },FilllColor="#659be5", Border="#3a6eb5"},
+        new HierarchicalDetails()   { Id= "node29", Label= "StackPanel19",ReportingPerson = new List<string>(){ "node26", "node27", "node28", "node116" } ,FilllColor="#8dbe6c", Border="#489911" },
+        new HierarchicalDetails()   { Id= "node210", Label= "StackPanel20",ReportingPerson = new List<string>(){"node26", "node27", "node28"} ,FilllColor="#8dbe6c", Border="#489911"},
+        new HierarchicalDetails()   { Id= "node211", Label= "StackPanel21",ReportingPerson = new List<string>(){ "node26", "node27", "node28" } ,FilllColor="#8dbe6c", Border="#489911"  },
+        new HierarchicalDetails()   { Id= "node31", Label= "StackPanel22" ,FilllColor="#e7704c", Border="#c15433"},
+        new HierarchicalDetails()   { Id= "node114", Label= "StackPanel23", ReportingPerson = new List<string>(){ "node11", "node21", "node31" } ,FilllColor="#f3904a", Border="#d3722e" },
+
+    };
+    private TreeInfo GetLayoutInfo(IDiagramObject obj, TreeInfo options)
+    {
+        if (rows == 0)
+        {
+            if (rows == 0 && options.Rows != null)
+                options.Rows = null;
+            Node node = obj as Node;
+            if (pattern == "LeftOrientationVertical50" || pattern == "RightOrientationVertical50")
+            {
+                options.Offset = -50;
+            }
+
+            if (!options.HasSubTree)
+            {
+                options.AlignmentType = subTreeAlignment;
+                options.Orientation = subTreeOrientation;
+                options.AlignmentType = subTreeAlignment;
+            }
+        }
+        else
+        {
+            if (!options.HasSubTree)
+            {
+                options.AlignmentType = subTreeAlignment;
+                options.Orientation = subTreeOrientation;
+                options.Offset = offset;
+            }
+        }
+        return options;
+    }
+
+    public void LeftToRight()
+    {
+        OrientationType = LayoutOrientation.LeftToRight;
+    }
+
+    public class ImageFields
+    {
+        public string Text { get; set; }
+    }
+
+    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        HorizontalValue = (int)args.Value;
+        HorizontalSpacing = int.Parse(args.Value.ToString());
+
+    }
+    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        VerticalValue = (int)args.Value;
+        VerticalSpacing = int.Parse(args.Value.ToString());
+    }
+    private void MarginLeftChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        LeftValue = (int)args.Value;
+        Left = (double)args.Value;
+    }
+    private void MarginTopChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        TopValue = (int)args.Value;
+        Top = (double)args.Value; ;
+    }
+    private void ToptoBottomClick()
+    {
+        OrientationType = LayoutOrientation.TopToBottom;
+        UpdateSelection("topToBottom");
+    }
+    private void LefttoRightClick()
+    {
+        OrientationType = LayoutOrientation.LeftToRight;
+        UpdateSelection("leftToRight");
+    }
+    private void RighttoLeftClick()
+    {
+        OrientationType = LayoutOrientation.RightToLeft;
+        UpdateSelection("rightToLeft");
+    }
+    private void BottomtoTopClick()
+    {
+        OrientationType = LayoutOrientation.BottomToTop;
+        UpdateSelection("bottomToTop");
+    }
+
+    private void LinearChange(ButtonChangeArgs args)
+    {
+        checkBoxValue = args.Checked;
+        if (checkBoxValue)
+        {
+            samepoint = false;
+        }
+        else
+        {
+            samepoint = true;
+        }
+    }
+    // Method is used to apply the selection to the prroperty panel.
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dict.Count; i++)
+        {
+            var value = dict.Values.ElementAt(i);
+            var key = dict.Keys.ElementAt(i);
+            if (dict.ContainsKey(id) && key == id)
+            {
+                value = selectedPattenitem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dict.Remove(key);
+            dict.Add(key, value);
+        }
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (dict != null)
+        {
+            dict.Clear();
+            dict = null;
+        }
+        Diagram = null;
+        pattern = null;
+    }
+    @*End:Hidden*@
+}

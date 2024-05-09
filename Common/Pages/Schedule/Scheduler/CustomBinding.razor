@@ -1,0 +1,164 @@
+﻿@page "/scheduler/custom-binding"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Data
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of custom data binding in the Scheduler component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The custom data binding can be performed in the Scheduler component by providing the custom adaptor class and overriding the <code>Read or ReadAsync</code> method of the DataAdaptor abstract class. The CRUD operations for the custom bounded data in the Scheduler component can be
+        implemented by overriding the following CRUD methods of the DataAdaptor abstract class, <br>
+    </p>
+    <ul>
+        <li><code>Insert/InsertAsync</code> - Performs Insert operation.</li>
+        <li><code>Remove/RemoveAsync</code> - Performs Remove operation.</li>
+        <li><code>Update/UpdateAsync</code> - Performs Update operation.</li>
+        <li><code>BatchUpdate/BatchUpdateAsync</code> - Performs BatchUpdate operation.</li>
+    </ul>
+    <p>In this demo, CRUD operations for the custom bounded data is performed using the methods of DataAdaptor abstract class. Similarly, you can perform Batch Update operations by using the <code>BatchUpdate/BatchUpdateAsync</code> methods.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleResources>
+            <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@ProjectData" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleEventSettings TValue="AppointmentData">
+            <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+        </ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code {
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 3);
+    
+    List<ResourceData> ProjectData { get; set; } = new List<ResourceData> {
+            new ResourceData { Text = "PROJECT 1", Id = 1, Color = "#cb6bb2" },
+            new ResourceData { Text = "PROJECT 2", Id = 2, Color = "#56ca85" }
+    };
+    public class CustomAdaptor : DataAdaptor
+    {
+        static int CurrentYear = DateTime.Today.Year;
+        List<AppointmentData> EventData = new List<AppointmentData>
+        {
+            new AppointmentData { Id = 1, Subject = "Meeting", StartTime = new DateTime(CurrentYear, 1, 4, 10, 0, 0) , EndTime = new DateTime(CurrentYear, 1, 4, 11, 0, 0), ProjectId = 1, RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=5;"},
+            new AppointmentData { Id = 2, Subject = "Project Discussion", StartTime = new DateTime(CurrentYear, 1, 4, 11, 30, 0) , EndTime = new DateTime(CurrentYear, 1, 4, 13, 0, 0), ProjectId = 2},
+            new AppointmentData { Id = 3, Subject = "Workflow Analysis", StartTime = new DateTime(CurrentYear, 1, 5, 12, 0, 0) , EndTime = new DateTime(CurrentYear, 1, 5, 13, 0, 0), ProjectId = 2, RecurrenceRule = "FREQ=DAILY;INTERVAL=1;COUNT=3;"},
+            new AppointmentData { Id = 4, Subject = "Report", StartTime = new DateTime(CurrentYear, 1, 8, 11, 30, 0) , EndTime = new DateTime(CurrentYear, 1, 8, 13, 0, 0), ProjectId = 2}
+        };
+        public async override Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string key = null)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            return dataManagerRequest.RequiresCounts ? new DataResult() { Result = EventData, Count = EventData.Count() } : (object)EventData;
+        }
+        public async override Task<object> InsertAsync(DataManager dataManager, object data, string key)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            EventData.Insert(0, data as AppointmentData);
+            return data;
+        }
+        public async override Task<object> UpdateAsync(DataManager dataManager, object data, string keyField, string key)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            var val = (data as AppointmentData);
+            var appointment = EventData.Where((AppointmentData) => AppointmentData.Id == val.Id).FirstOrDefault();
+            if (appointment != null)
+            {
+                appointment.Id = val.Id;
+                appointment.Subject = val.Subject;
+                appointment.StartTime = val.StartTime;
+                appointment.EndTime = val.EndTime;
+                appointment.Location = val.Location;
+                appointment.Description = val.Description;
+                appointment.IsAllDay = val.IsAllDay;
+                appointment.ProjectId = val.ProjectId;
+                appointment.RecurrenceException = val.RecurrenceException;
+                appointment.RecurrenceID = val.RecurrenceID;
+                appointment.RecurrenceRule = val.RecurrenceRule;
+            }
+            return data;
+        }
+        public async override Task<object> RemoveAsync(DataManager dataManager, object data, string keyField, string key) //triggers on appointment deletion through public method DeleteEvent
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            int value = (int)data;
+            EventData.Remove(EventData.Where((AppointmentData) => AppointmentData.Id == value).FirstOrDefault());
+            return data;
+        }
+        public async override Task<object> BatchUpdateAsync(DataManager dataManager, object changedRecords, object addedRecords, object deletedRecords, string keyField, string key, int? dropIndex)
+        {
+            await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
+            object records = deletedRecords;
+            List<AppointmentData> deleteData = deletedRecords as List<AppointmentData>;
+            foreach (var data in deleteData)
+            {
+                EventData.Remove(EventData.Where((AppointmentData) => AppointmentData.Id == data.Id).FirstOrDefault());
+            }
+            List<AppointmentData> addData = addedRecords as List<AppointmentData>;
+            foreach (var data in addData)
+            {
+                EventData.Insert(0, data as AppointmentData);
+                records = addedRecords;
+            }
+            List<AppointmentData> updateData = changedRecords as List<AppointmentData>;
+            foreach (var data in updateData)
+            {
+                var val = (data as AppointmentData);
+                var appointment = EventData.Where((AppointmentData) => AppointmentData.Id == val.Id).FirstOrDefault();
+                if (appointment != null)
+                {
+                    appointment.Id = val.Id;
+                    appointment.Subject = val.Subject;
+                    appointment.StartTime = val.StartTime;
+                    appointment.EndTime = val.EndTime;
+                    appointment.Location = val.Location;
+                    appointment.Description = val.Description;
+                    appointment.IsAllDay = val.IsAllDay;
+                    appointment.ProjectId = val.ProjectId;
+                    appointment.RecurrenceException = val.RecurrenceException;
+                    appointment.RecurrenceID = val.RecurrenceID;
+                    appointment.RecurrenceRule = val.RecurrenceRule;
+                }
+                records = changedRecords;
+            }
+            return records;
+        }
+    }
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+        public bool IsAllDay { get; set; }
+        public string RecurrenceRule { get; set; }
+        public string RecurrenceException { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public int ProjectId { get; set; }
+    }
+    public class ResourceData
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string Color { get; set; }
+    }
+}

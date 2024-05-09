@@ -1,0 +1,80 @@
+﻿@page "/chart/hilo-open-close"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.Net.Http.Json
+
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the AAPL stock price with default HILO Open Close series in the chart. The tooltip and the crosshairs display the data and period information.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the HILO Open Close series. The horizontal lines on the left and the right are used to show the opening and closing values of the stock, and the vertical line represents both high and low values.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the HILO Open Close series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/high-low-open-close' aria-label="Navigate to the documentation for High Low Open Close in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="AAPL Historical" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" RangePadding="ChartRangePadding.None" Interval="20" LabelFormat="n0">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Shared="true" Header="" Format="<b>Apple Inc.(AAPL)</b> <br> High : <b>${point.high}</b> <br> Low : <b>${point.low}</b> <br> Open : <b>${point.open}</b> <br> Close : <b>${point.close}</b> "></ChartTooltipSettings>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+        </ChartCrosshairSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Apple Inc.(AAPL)" XName="Period" High="High" Low="Low" Open="Open" Close="Close"
+                         BearFillColor="#2ecd71" BullFillColor="#e74c3d" Type="ChartSeriesType.HiloOpenClose">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public HLOCData[] ChartPoints { get; set; } = new HLOCData[] { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        ChartPoints = await Http.GetFromJsonAsync<HLOCData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/chart/financial-data.json");
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public class HLOCData
+    {
+        public DateTime Period { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+        public double Open { get; set; }
+        public double Close { get; set; }
+    }
+}

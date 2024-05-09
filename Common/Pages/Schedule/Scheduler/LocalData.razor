@@ -1,0 +1,126 @@
+﻿@page "/scheduler/local-data"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>  This demo shows the way of binding appointments with local datasource.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Scheduler can be bound either to local or remote data services which will load the data by default on demand to reduce the data transfer and load time. In this sample, the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleEventSettings-1.html#Syncfusion_Blazor_Schedule_ScheduleEventSettings_1_DataSource">DataSource</a> property available within the <code>ScheduleEventSettings</code> needs to be assigned with the valid local list data. </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    public View CurrentView { get; set; } = View.Week;
+    private int CurrentYear;
+    private DateTime CurrentDate { get; set; }
+    private List<AppointmentData> dataSource = new List<AppointmentData>();
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        CurrentYear = DateTime.Today.Year;
+        CurrentDate = new DateTime(CurrentYear, 1, 4);
+        dataSource = GetScheduleData();
+    }
+
+    public List<AppointmentData> GetScheduleData()
+    {
+        List<AppointmentData> appData = new List<AppointmentData>();
+        appData.Add(new AppointmentData
+        {
+            Id = 1,
+            Subject = "Explosion of Betelgeuse Star",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(CurrentYear, 1, 4, 9, 30, 0),
+            EndTime = new DateTime(CurrentYear, 1, 4, 11, 0, 0),
+            CategoryColor = "#1aaa55"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 2,
+            Subject = "Thule Air Crash Report",
+            Location = "Newyork City",
+            StartTime = new DateTime(CurrentYear, 1, 5, 12, 0, 0),
+            EndTime = new DateTime(CurrentYear, 1, 5, 14, 0, 0),
+            CategoryColor = "#357cd2"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 3,
+            Subject = "Blue Moon Eclipse",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(CurrentYear, 1, 6, 9, 30, 0),
+            EndTime = new DateTime(CurrentYear, 1, 6, 11, 0, 0),
+            CategoryColor = "#7fa900"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 4,
+            Subject = "Meteor Showers in 2022",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(CurrentYear, 1, 7, 13, 0, 0),
+            EndTime = new DateTime(CurrentYear, 1, 7, 14, 30, 0),
+            CategoryColor = "#ea7a57"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 5,
+            Subject = "Milky Way as Melting pot",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(CurrentYear, 1, 8, 12, 0, 0),
+            EndTime = new DateTime(CurrentYear, 1, 8, 14, 0, 0),
+            CategoryColor = "#00bdae"
+        });
+        return appData;
+    }
+    public void OnEventRendered(EventRenderedArgs<AppointmentData> args)
+    {
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        if (CurrentView == View.Agenda)
+        {
+            attributes.Add("style", "border-left-color: " + args.Data.CategoryColor);
+        }
+        else
+        {
+            attributes.Add("style", "background: " + args.Data.CategoryColor);
+        }
+        args.Attributes = attributes;
+    }
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string CategoryColor { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+    }
+}

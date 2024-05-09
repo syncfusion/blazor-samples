@@ -1,0 +1,81 @@
+﻿@page "/chart/range-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/range-column-chart' aria-label="Navigate to explore the Blazor Range Column Chart">Blazor Range Column Chart</a> example visualizes the maximum and minimum temperatures for a week in different countries with the default range column series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the range column chart. The range column chart is used to display a range of data by plotting two y-values per data point. The two y-values are used as the upper and lower bounds of a column.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the range column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/range-column' aria-label="Navigate to the documentation for range-column in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Temperature Variation by Week" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Temperature (In Celsius)" LabelFormat="{value}˚C" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Maximum="20">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Days" High="IND_HighTemp" Low="IND_LowTemp" Name="India" ColumnSpacing="0.1" Type="ChartSeriesType.RangeColumn">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Header="<b>${point.x}</b>" Enable="true" Format="Temperature : <b>${point.low} - ${point.high}</b>"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="false" EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<RangeColumnChartData> ChartPoints = new List<RangeColumnChartData>
+    {
+        new RangeColumnChartData { Days = "Sun", IND_LowTemp = 3.1, IND_HighTemp = 10.8 },
+        new RangeColumnChartData { Days = "Mon", IND_LowTemp = 5.7, IND_HighTemp = 14.4  },
+        new RangeColumnChartData { Days = "Tue", IND_LowTemp = 8.4, IND_HighTemp = 16.9 },
+        new RangeColumnChartData { Days = "Wed", IND_LowTemp = 9.6, IND_HighTemp = 18.2 },
+        new RangeColumnChartData { Days = "Thu", IND_LowTemp = 8.5, IND_HighTemp = 16.1 },
+        new RangeColumnChartData { Days = "Fri", IND_LowTemp = 6.0, IND_HighTemp = 12.5 },
+        new RangeColumnChartData { Days = "Sat", IND_LowTemp = 1.5, IND_HighTemp = 6.9 }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public class RangeColumnChartData
+    {
+        public string Days { get; set; }
+        public double IND_LowTemp { get; set; }
+        public double IND_HighTemp { get; set; }
+        public double GER_LowTemp { get; set; }
+        public double GER_HighTemp { get; set; }
+    }
+}

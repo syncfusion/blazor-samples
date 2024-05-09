@@ -1,0 +1,161 @@
+@page "/scheduler/year-view"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This example showcases the Year and Timeline year views of the Scheduler with the starting month of the year and the number of months customizations.
+        Once the property value has been changed in the properties, it will be reflected in the Scheduler.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, we have showcased the <code>Year</code> and <code>TimelineYear</code> views that help to view the appointment in an annual calendar view. The view options are enabled by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html">ScheduleView</a> property.
+        In the <code>TimelineYear</code> view, <code>Horizontal</code> and <code>Vertical</code> orientations are available to view the events with a different layout. Also, this demo explains the option to set starting month of the year using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_FirstMonthOfYear">FirstMonthOfYear</a> property and set n number of months using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_MonthsCount">MonthsCount</a> property.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12" style="padding-top:15px">
+    <div class="col-md-3" style="padding-top:15px" >
+        <SfDropDownList TValue="int" TItem="MonthsData" Placeholder="First month of year" FloatLabelType="FloatLabelType.Always" @bind-Value="@firstMonthOfYear" DataSource="@Months">
+            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+        </SfDropDownList>
+    </div>
+    <div class="col-md-3" style="padding-top:15px">
+        <SfNumericTextBox TValue="int" Placeholder="Number of months" FloatLabelType="FloatLabelType.Always" Min="1" Max="24" Format="###.##" @bind-Value="@numberOfMonths">
+        </SfNumericTextBox>
+    </div>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="EventData" Width="100%" Height="555px" CssClass="year-view" @bind-SelectedDate="@CurrentDate" FirstMonthOfYear="@firstMonthOfYear" MonthsCount="@numberOfMonths">
+        <ScheduleEventSettings DataSource="@appointmentData"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Year"></ScheduleView>
+            <ScheduleView Option="View.TimelineYear" Orientation="Orientation.Horizontal" DisplayName="Horizontal Timeline Year"></ScheduleView>
+            <ScheduleView Option="View.TimelineYear" IsSelected="true" Orientation="Orientation.Vertical" DisplayName="Vertical Timeline Year">
+                <ScheduleViewGroup Resources="@resourceName"></ScheduleViewGroup>
+            </ScheduleView>
+        </ScheduleViews>
+        <ScheduleResources>
+            <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@TaskData" Field="TaskId" Title="Category" Name="Categories" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+        </ScheduleResources>
+    </SfSchedule>
+</div>
+
+@code{
+    private List<EventData> appointmentData = new List<EventData>();
+    private DateTime CurrentDate { get; set; } = DateTime.Today;
+    private string[] resourceName = { "Categories" };
+    private int firstMonthOfYear = 1;
+    private int numberOfMonths = 12;
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        appointmentData = GenerateEvents();
+    }
+    private List<ResourceData> TaskData { get; set; } = new List<ResourceData> {
+        new ResourceData{ Text = "Nancy", Id= 1, Color = "#df5286" },
+        new ResourceData{ Text = "Steven", Id= 2, Color = "#7fa900" },
+        new ResourceData{ Text = "Robert", Id= 3, Color = "#ea7a57" },
+        new ResourceData{ Text = "Smith", Id= 4, Color = "#5978ee" },
+        new ResourceData{ Text = "Michael", Id= 5, Color = "#df5286" }
+    };
+    private List<MonthsData> Months { get; set; } = new List<MonthsData>() {
+        new MonthsData{ Text = "January", Value = 1 },
+        new MonthsData{ Text = "February", Value = 2 },
+        new MonthsData{ Text = "March", Value = 3 },
+        new MonthsData{ Text = "April", Value = 4 },
+        new MonthsData{ Text = "May", Value = 5 },
+        new MonthsData{ Text = "June", Value = 6 },
+        new MonthsData{ Text = "July", Value = 7 },
+        new MonthsData{ Text = "August", Value = 8 },
+        new MonthsData{ Text = "September", Value = 9 },
+        new MonthsData{ Text = "October", Value = 10 },
+        new MonthsData{ Text = "November", Value = 11 },
+        new MonthsData{ Text = "December", Value = 12 },
+    };
+
+    public List<EventData> GenerateEvents()
+    {
+        List<EventData> dataCollections = new List<EventData>(360);
+        int count = 250;
+        int year = DateTime.Now.Year;
+        var names = new string[] { "Bering Sea Gold", "Technology", "Maintenance", "Meeting", "Travelling", "Annual Conference", "Birthday Celebration", "Farewell Celebration", "Wedding Aniversary", "Alaska: The Last Frontier", "Deadliest Catch", "Sports Day", "MoonShiners", "Close Encounters", "HighWay Thru Hell", "Daily Planet", "Cash Cab", "Basketball Practice", "Rugby Match", "Guitar Class", "Music Lessons", "Doctor checkup", "Brazil - Mexico", "Opening ceremony", "Final presentation" };
+        DateTime startDate = new DateTime(year - 2, 1, 1);
+        DateTime endDate = new DateTime(year + 2, 12, 31);
+        var id = 1;
+
+        for (var a = 0; a < count; a++)
+        {
+            Random random = new Random();
+            double num = random.NextDouble();
+
+            DateTimeOffset sdate = new DateTimeOffset(startDate).ToUniversalTime();
+            long startDateMilliSeconds = sdate.ToUnixTimeMilliseconds();
+
+            DateTimeOffset edate = new DateTimeOffset(endDate).ToUniversalTime();
+            long endDateMilliSeconds = edate.ToUnixTimeMilliseconds();
+
+            long Operations = (long)(num * (endDateMilliSeconds - startDateMilliSeconds) + startDateMilliSeconds);
+            DateTime start = DateTimeOffset.FromUnixTimeMilliseconds(Operations).UtcDateTime;
+            DateTime end = start.AddHours(1);
+            int ncount = (int)Math.Floor(Convert.ToDecimal(num * names.Length));
+            dataCollections.Add(new EventData
+            {
+                Id = id,
+                Subject = names[ncount],
+                StartTime = start,
+                EndTime = end,
+                IsAllDay = (id % 10 == 0) ? true : false,
+                TaskId = (id % 5) + 1
+            });
+            id++;
+        }
+        return dataCollections;
+    }
+
+    public class MonthsData
+    {
+        public string Text { get; set; }
+        public int Value { get; set; }
+    }
+
+    public class ResourceData
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string Color { get; set; }
+    }
+    public class EventData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+        public int TaskId { get; set; }
+    }
+}
+<style>
+    .year-view.e-schedule .e-timeline-year-view .e-resource-column-table,
+    .year-view.e-schedule .e-timeline-year-view .e-resource-left-td {
+        width: 120px;
+    }
+</style>

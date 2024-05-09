@@ -1,0 +1,166 @@
+﻿@page "/scheduler/reminder"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Notifications
+@using System.Timers
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases an event reminder notification that will be displayed after 3 seconds of the scheduler getting loaded.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Notifications.SfToast.html">Toast</a> component is used to show the reminder notification. The reminder notification will be displayed after 3 seconds. You can also customize the notification interval as per your needs.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="AppointmentData" @ref="ScheduleRef" Height="550px" Timezone="UTC">
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+    <SfToast @ref="ToastRef" CssClass="e-schedule-reminder e-toast-info" ShowCloseButton="true" Target=".e-schedule" NewestOnTop="true" Timeout=0>
+        <ToastPosition X="Right" Y="Top"></ToastPosition>
+        <ToastAnimationSettings>
+            <ToastShowAnimationSettings Effect="@ToastEffect.SlideRightIn"></ToastShowAnimationSettings>
+            <ToastHideAnimationSettings Effect="@ToastEffect.SlideRightOut"></ToastHideAnimationSettings>
+        </ToastAnimationSettings>
+        <ToastTemplates>
+            <Template>
+                <div class="e-toast-template">
+                    <div class="e-toast-message">
+                        <div class="e-toast-title">@subject</div>
+                        <div class="e-toast-content">@time</div>
+                    </div>
+                </div>
+            </Template>
+        </ToastTemplates>
+    </SfToast>
+</div>
+
+@code{
+    SfSchedule<AppointmentData> ScheduleRef;
+    SfToast ToastRef;
+    private List<AppointmentData> dataSource = new List<AppointmentData>();
+    private string subject = string.Empty;
+    private string time = string.Empty;
+    private Timer timer = new Timer { Interval = 5000 };
+    
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        dataSource = GetScheduleData();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if(firstRender) {
+            timer = new Timer { Interval = 3000 };
+            timer.Elapsed += RefreshEventReminder;
+            timer.Enabled = true;
+        }
+    }
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+    public void RefreshEventReminder(Object source, ElapsedEventArgs e)
+    {
+        List<AppointmentData> apps = ScheduleRef.GetCurrentViewEvents();
+        apps.ForEach(async (app) =>
+        {
+            double duration = (DateTime.UtcNow - app.StartTime).TotalSeconds;
+            if (duration >= 0 && duration <= 3)
+            {
+                subject = app.Subject;
+                time = app.StartTime.ToLongTimeString() + " - " + app.EndTime.ToLongTimeString();
+                await ToastRef.ShowAsync();
+            }
+        });
+    }
+    public List<AppointmentData> GetScheduleData()
+    {
+        DateTime today = DateTime.UtcNow;
+        DateTime yesterday = new DateTime(today.Ticks).AddDays(-1);
+        DateTime tomorrow = new DateTime(today.Ticks).AddDays(1);
+        List<AppointmentData> appData = new List<AppointmentData>();
+        appData.Add(new AppointmentData
+        {
+            Id = 1,
+            Subject = "Explosion of Betelgeuse Star",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(today.Year, today.Month, today.Day, today.Hour, today.Minute, today.AddSeconds(3).Second),
+            EndTime = new DateTime(today.Year, today.Month, today.Day, today.AddHours(2).Hour, today.Minute, today.AddSeconds(3).Second),
+            StartTimezone = "UTC",
+            EndTimezone = "UTC"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 2,
+            Subject = "Thule Air Crash Report",
+            Location = "Newyork City",
+            StartTime = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, yesterday.AddHours(-2).Hour, yesterday.Minute, 0),
+            EndTime = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, yesterday.Hour, yesterday.Minute, 0),
+            StartTimezone = "UTC",
+            EndTimezone = "UTC"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 3,
+            Subject = "Milky Way as Melting pot",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, yesterday.Hour, yesterday.Minute, 0),
+            EndTime = new DateTime(yesterday.Year, yesterday.Month, yesterday.Day, yesterday.AddHours(2).Hour, yesterday.Minute, 0),
+            StartTimezone = "UTC",
+            EndTimezone = "UTC"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 4,
+            Subject = "Blue Moon Eclipse",
+            Location = "Space Centre USA",
+            StartTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, tomorrow.AddHours(2).Hour, tomorrow.Minute, 0),
+            EndTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, tomorrow.AddHours(4).Hour, tomorrow.Minute, 0),
+            StartTimezone = "UTC",
+            EndTimezone = "UTC"
+        });
+        appData.Add(new AppointmentData
+        {
+            Id = 5,
+            Subject = "Mysteries of Bermuda Triangle",
+            Location = "Bermuda",
+            StartTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, tomorrow.Hour, tomorrow.Minute, 0),
+            EndTime = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, tomorrow.AddHours(2).Hour, tomorrow.Minute, 0),
+            StartTimezone = "UTC",
+            EndTimezone = "UTC"
+        });
+        return appData;
+    }
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string CategoryColor { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+    }
+}

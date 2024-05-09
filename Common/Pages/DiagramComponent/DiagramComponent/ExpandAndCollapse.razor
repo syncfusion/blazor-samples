@@ -1,0 +1,116 @@
+﻿@page "/diagramcomponent/expandcollapse"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This example illustrates how to show and hide child nodes when the icon of the relevant parent node is clicked in a diagram.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Diagram component provides support to describe the state of the node. For example, whether it is in an expanded or collapsed state. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_IsExpanded' aria-label="IsExpanded">IsExpanded</a></code> property is used to expand or collapse children nodes. The expand and collapse support is used to compress the hierarchy view so that only the root of each element is visible. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_ExpandIcon' aria-label="ExpandIcon">ExpandIcon</a></code>/<code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_CollapseIcon' aria-label="CollapseIcon">CollapseIcon</a></code> property is used to represent the expanded/collapsed state of the node.</p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div id="diagram-space" class="col-lg-12 control-section">
+    <SfDiagramComponent @ref="diagram" Width="100%" Height="600px" InteractionController="@DiagramInteractions.ZoomPan" NodeCreating="NodeCreating" ConnectorCreating="ConnectorCreating">
+        <DataSourceSettings DataSource="DataSource" ID="Id" ParentID="Manager"></DataSourceSettings>
+            <Layout @bind-Type="type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-FixedNode="@FixedNode" @bind-Orientation="@oreintation" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@horizontalAlignment" @bind-VerticalAlignment="@verticalAlignment">
+                <LayoutMargin @bind-Top="@top" @bind-Bottom="@bottom" @bind-Right="@right" @bind-Left="@left"></LayoutMargin>               
+            </Layout>
+            <SnapSettings></SnapSettings>
+    </SfDiagramComponent>
+</div>
+@code{
+
+    public SfDiagramComponent diagram;
+    double top = 50;
+    double bottom = 50;
+    double right = 50;
+    double left = 50;
+    LayoutType type = LayoutType.OrganizationalChart;
+    LayoutOrientation oreintation = LayoutOrientation.TopToBottom;
+    HorizontalAlignment horizontalAlignment = HorizontalAlignment.Auto;
+    VerticalAlignment verticalAlignment = VerticalAlignment.Auto;
+    int HorizontalSpacing = 30;
+    int VerticalSpacing = 30;
+    private string FixedNode = null;
+    
+    public class HierarchicalDetails
+    {
+        public string Id { get; set; }
+        public string Role { get; set; }
+        public string Manager { get; set; }
+        public string ChartType { get; set; }
+        public string Color { get; set; }
+    }
+    public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
+    {
+        new HierarchicalDetails()   { Id= "1", Role= "Board", Color= "#71AF17" },
+        new HierarchicalDetails()   { Id= "2", Role= "General Manager", Manager= "1", ChartType= "right", Color= "#13ab11" },
+        new HierarchicalDetails()   { Id= "3", Role= "Human Resource\n Manager", Manager= "2", Color= "#1859B7" },
+        new HierarchicalDetails()   { Id= "4", Role= "Design Manager", Manager= "2", ChartType= "right", Color= "#1859B7" },
+        new HierarchicalDetails()   { Id= "5", Role= "Operations Manager", Manager= "2", Color= "#1859B7" },
+        new HierarchicalDetails()   { Id= "6", Role= "Marketing Manager", Manager= "2", Color= "#1859B7" },
+        new HierarchicalDetails()   { Id= "61", Role= "Trainers", Manager= "3", Color= "#2E95D8" },
+        new HierarchicalDetails()   { Id= "7", Role= "Recruiting Team", Manager= "3",ChartType= "right", Color= "#2E95D8" },
+        new HierarchicalDetails()   { Id= "8", Role= "Design Supervisor", Manager= "4", Color= "#2E95D8" },
+        new HierarchicalDetails()   { Id= "9", Role= "Development \nSupervisor", Manager= "4", Color= "#2E95D8" },
+        new HierarchicalDetails()   { Id= "10", Role= "Statistics Department", Manager= "5", Color= "#2E95D8" },
+        new HierarchicalDetails()   { Id= "11", Role= "Logistics Department", Manager= "5", ChartType= "right", Color= "#2E95D8" },
+        new HierarchicalDetails()   { Id= "12", Role= "Overseas Sales \nManager", Manager= "6", Color= "#2E95D8" },
+         new HierarchicalDetails()   { Id= "13", Role= "Service Department \nManager", Manager= "6", Color= "#2E95D8" },
+       
+    };
+
+    private void NodeCreating(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        if(node.Data is System.Text.Json.JsonElement)
+        {
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<HierarchicalDetails>(node.Data.ToString());
+        }
+        HierarchicalDetails hierarchicalData = node.Data as HierarchicalDetails;
+        node.Width = 150;
+        node.Height = 50;
+        node.Style.Fill = hierarchicalData.Color;
+        node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+        {
+            new ShapeAnnotation()
+            {
+                Content = hierarchicalData.Role,
+                Style =new TextStyle(){Color = "white"}
+            }
+        };
+        node.ExpandIcon = new DiagramExpandIcon()
+        {
+            Shape = DiagramExpandIcons.Minus,
+            Height=15,
+            Width = 15,
+            CornerRadius = 10
+        };
+        node.CollapseIcon = new DiagramCollapseIcon()
+        {
+            Shape = DiagramCollapseIcons.Plus,
+            Height=15,
+            Width = 15,
+            CornerRadius = 10
+        };
+    }
+    private void ConnectorCreating(IDiagramObject connector)
+    {
+        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShape.None;
+    }
+}

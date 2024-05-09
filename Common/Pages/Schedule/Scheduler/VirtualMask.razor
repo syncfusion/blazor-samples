@@ -1,0 +1,165 @@
+﻿@page "/scheduler/virtual-mask"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This example illustrates how the virtual mask functionality works in virtual scrolling. All the events in this example are loaded at the initial rendering of Scheduler, but the events in the visible
+        area alone will be rendered. Here, the Scheduler is made to dynamically load 300 resources along with the events count of 3600 (300 resources * 12 events).
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The Scheduler UI Mask virtualization allows it to render only the content area visible within the view-port without buffering the resource content. Here, the same set of DOM elements is re-used to improve the performance. In this feature, a loading placeholder indicator was shown while loading the new resource.
+    </p>
+    <p>
+        In this example, the virtual scrolling and virtual mask options are enabled on the timeline month view to load a large number of resources and their associated events. To enable the dynamic loading of events and resources in timeline view of
+        Scheduler, set the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#Syncfusion_Blazor_Schedule_ScheduleView_AllowVirtualScrolling">AllowVirtualScrolling</a> and <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleView.html#Syncfusion_Blazor_Schedule_ScheduleView_EnableVirtualMask">EnableVirtualMask</a> properties to <code>true</code> within the view-specific settings.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfSchedule TValue="EventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleTemplates>
+            <ResourceHeaderTemplate>
+                <div class='template-wrap'>
+                    <div class="employee-name"><b>@(((context as TemplateContext).ResourceData as ResourceData).Name)</b></div>
+                    <div class="employee-designation">@(((context as TemplateContext).ResourceData as ResourceData).Designation)</div>
+                </div>
+            </ResourceHeaderTemplate>
+        </ScheduleTemplates>
+        <ScheduleGroup EnableCompactView="false" Resources="@GroupData"></ScheduleGroup>
+        <ScheduleResources>
+            <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@ResourceDatasource" Field="ResourceId" Title="Resource" Name="Resources" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleEventSettings DataSource="@AppointmentData"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView MaxEventsPerRow="1" Option="View.TimelineMonth" AllowVirtualScrolling="true" EnableVirtualMask="true" IsSelected="true"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="1" Option="View.TimelineYear" Orientation="Syncfusion.Blazor.Schedule.Orientation.Vertical" AllowVirtualScrolling="true" EnableVirtualMask="true"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+@code{
+    private int CurrentYear;
+    public List<ResourceData> ResourceDatasource = new List<ResourceData>();
+    public List<EventData> AppointmentData = new List<EventData>();
+    public string[] GroupData { get; set; } = { "Resources" };
+    private DateTime CurrentDate;
+    
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        CurrentYear = DateTime.Today.Year;
+        CurrentDate = new DateTime(CurrentYear, 1, 1);
+        AppointmentData = GenerateEvents();
+        ResourceDatasource = GenerateResourceData();
+    }
+    public List<ResourceData> GenerateResourceData()
+    {
+        List<ResourceData> resources = new List<ResourceData>(300);
+        var colors = new string[] { "#ff8787", "#9775fa", "#748ffc", "#3bc9db", "#69db7c",
+            "#fdd835", "#748ffc", "#9775fa", "#df5286", "#7fa900",
+            "#fec200", "#5978ee", "#00bdae", "#ea80fc"};
+        var names = new string[] { "John", "Kate", "Randy", "Nancy", "Robert",
+            "Harry", "Blake", "Jimmy", "Ellen", "Vennasa",
+            "Mike", "Shawn", "Mark", "Jeff"};
+        var designation = new string[] { "Auditor", "Accountant", "Administrator", "Managing Director", "General Manager",
+            "Maintainance Engineer", "Supervisor 1", "Sales Manager Level 1", "Sales Manager Level 2", "Sales Leader",
+            "Customer Care", "Facility", "Customer Tracker", "Supervisor 2"};
+        for (int a = 1; a <= 300; a++)
+        {
+            int index = a % colors.Length;
+            index = index == 0 ? (colors.Length / a) : index;
+            resources.Add(new ResourceData
+            {
+                Id = a,
+                Text = "Resource " + a,
+                Color = colors[index],
+                Name = names[index],
+                Designation = designation[index]
+            });
+        }
+        return resources;
+    }
+
+    public List<EventData> GenerateEvents()
+    {
+        DateTime date = new DateTime(CurrentYear, 1, 1);
+        List<EventData> data = new List<EventData>(3600);
+        var id = 1;
+        for (var i = 0; i < 300; i++)
+        {
+            Random random = new Random();
+            List<int> listNumbers = new List<int>();
+            int[] randomCollection = new int[24];
+            int number;
+            int max = 30;
+            for (int a = 0; a < 12; a++)
+            {
+                do
+                {
+                    number = random.Next(max);
+                } while (listNumbers.Contains(number));
+                listNumbers.Add(number);
+                var startDate = date.AddDays(number);
+                startDate = startDate.AddMilliseconds((((number % 10) * 10) * (1000 * 60)));
+                var endDate = startDate.AddMilliseconds(((1440 + 30) * (1000 * 60)));
+                data.Add(new EventData
+                {
+                    Id = id,
+                    Subject = "Event #" + id,
+                    StartTime = startDate,
+                    EndTime = endDate,
+                    IsAllDay = (id % 10 == 0) ? false : true,
+                    ResourceId = i + 1
+                });
+                id++;
+            }
+        }
+        return data;
+    }
+    public class EventData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string CategoryColor { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+        public int ResourceId { get; set; }
+    }
+
+    public class ResourceData
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string Name { get; set; }
+        public string Designation { get; set; }
+        public string Color { get; set; }
+    }
+}
+<style>
+    @@media screen and (max-width: 480px) {
+        .e-schedule .e-timeline-month-view .e-resource-left-td {
+            width: 146px;
+        }
+
+        .e-schedule .e-timeline-month-view .e-resource-cells {
+            padding-left: 6px;
+        }     
+</style>

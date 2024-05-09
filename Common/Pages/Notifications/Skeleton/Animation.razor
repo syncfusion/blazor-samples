@@ -1,0 +1,341 @@
+﻿@page "/skeleton/animation"
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Lists
+@inherits SampleBaseComponent 
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This sample demonstrates the fade and pulse shimmer effects of the skeleton with a card and a list layout. Click the reload button to load data to the card and list with a skeleton to show loading. 
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The default skeleton shimmer effect is wave.
+        This can be changed to <b>Fade</b> and <b>Pulse</b> shimmer effects using the <code>Effect</code> property.
+    </p>
+</ActionDescription>
+<div class="control-section">
+    <div class="row skeleton-animation">
+        <div>
+            <SfButton id="reloadSkeleton" IsPrimary="true" Content="Reload" OnClick="@ReloadClick"></SfButton>
+        </div>
+        <div class="col-sm-6">
+            <h5>Fade Effect</h5>
+            <br />
+            @if (isDataLoaded)
+                {
+                <div id="skeletondatacard"  class="e-card" style="display:block;">
+                    <div class="cardProfile">
+                        <div class="@data.cardProfileImage"></div>
+                    </div>
+                    <div class="cardinfo">
+                        <label id="name" style="font-size: 15px;">@data.cardname</label><br />
+                        <label id="time" style="font-weight:normal;">@data.cardtime</label>
+                    </div>
+                    <div class="cardContent">
+                        <div class="@data.cardPostImage"></div>
+                    </div>
+
+                    <div class="cardoptions">
+                        <div id="cardLeftOptn" style="min-width:20%;">
+                            <button class="e-btn e-outline e-primary" style="width: 100%;">Like</button>
+                        </div>
+                        <div id="cardRightOptn" style="min-width:20%;">
+                            <button class="e-btn e-primary" style="width: 100%;">Share</button>
+                        </div>
+                    </div>
+                </div>
+                }
+            else
+                {
+                <div id="skeletonCard"  class="e-card" style="display:block;">
+                    <div class="cardProfile">
+                        <SfSkeleton Shape=SkeletonType.Circle Width="60px" Effect=ShimmerEffect.Fade></SfSkeleton>
+                    </div>
+                    <div class="cardinfo">
+                        <SfSkeleton CssClass="cardText1" Width="30%" Height="15px" Effect=ShimmerEffect.Fade></SfSkeleton><br />
+                        <SfSkeleton CssClass="cardText2" Width="15%" Height="15px" Effect=ShimmerEffect.Fade></SfSkeleton>
+                    </div>
+                    <div class="cardContent">
+                        <SfSkeleton  Shape=SkeletonType.Rectangle Width="100%" Height="250px" Effect=ShimmerEffect.Fade></SfSkeleton>
+                    </div>
+                    <div class="cardoptions">
+                        <SfSkeleton CssClass="cardLeftOptn" Shape=SkeletonType.Rectangle Width="20%" Height="32px" Effect=ShimmerEffect.Fade></SfSkeleton>
+                        <SfSkeleton CssClass="cardRightOptn" Shape=SkeletonType.Rectangle Width="20%" Height="32px" Effect=ShimmerEffect.Fade></SfSkeleton>
+                    </div>
+                </div>
+                }
+        </div>
+
+        <div class="col-sm-6">
+            <h5>Pulse Effect</h5>
+            <br />
+            <div class="skeleton-listcard e-card">
+            @if (isDataLoaded)
+                {                
+                <SfListView ID="skeleton-listview" DataSource="@data.ListData" CssClass="e-list-template" Height="420px"
+                        SortOrder="Syncfusion.Blazor.Lists.SortOrder.Ascending">
+                    <ListViewFieldSettings TValue="ContactList" Id="Id" Text="Text"></ListViewFieldSettings>
+                    <ListViewTemplates TValue="ContactList">
+                        <Template>
+                            <div class="e-list-wrapper e-list-multi-line e-list-avatar">
+                                @if (((context as ContactList).Avatar) != "")
+                                {
+                                <span class="e-avatar e-avatar-circle">@((context as ContactList).Avatar)</span>
+                                }
+                            else
+                                {
+                                <span class="@((context as ContactList).Pic) e-avatar e-avatar-circle"> </span>
+                                }
+                            <span class="e-list-item-header">@((context as ContactList).Text)</span>
+                            <span class="e-list-content">@((context as ContactList).Contact)</span>
+                        </div>
+                    </Template>
+                </ListViewTemplates>
+            </SfListView>
+                }
+            else
+                {
+                <ul id="skeleton-list">
+                    @for (int i = 0; i < 8; i++)
+                        {
+                        <li>
+                            <SfSkeleton CssClass="listProfile" Shape=SkeletonType.Circle Effect=ShimmerEffect.Pulse></SfSkeleton>
+                            <div>
+                                <SfSkeleton CssClass="listCtn" Width="80%" Effect=ShimmerEffect.Pulse></SfSkeleton><br />
+                                <SfSkeleton CssClass="distCtn" Width="60%" Effect=ShimmerEffect.Pulse></SfSkeleton>
+                            </div>
+                        </li>
+                        }
+                </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    
+    public class SkeletonData
+    {
+        public List<ContactList> ListData { get; set; }
+        public string cardProfileImage { get; set; }
+        public string cardPostImage { get; set; }
+        public string cardname { get; set; }
+        public string cardtime { get; set; }
+
+    }
+    private SkeletonData data;
+    private bool isDataLoaded;
+    private async void LoadData()
+    {
+        data = await GetData();
+        isDataLoaded = true;
+        StateHasChanged();
+    }
+    private async Task<SkeletonData> GetData()
+    {
+        await Task.Delay(3000);
+        SkeletonData value = new SkeletonData()
+                {
+                cardProfileImage = "image profile-image e-avatar",
+                cardname = "Laura Callahan",
+                cardtime = DateTime.Now.ToLongDateString(),
+                cardPostImage = "image post-image",
+                ListData = ContactList.GetAllRecords(),
+                };
+        return value;
+    }
+
+
+
+    private void ReloadClick()
+    {
+        isDataLoaded = false;
+        data = new SkeletonData();
+        StateHasChanged();
+        LoadData();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+            {
+            LoadData();
+            }
+        }
+}
+<style>
+    .skeleton-animation .col-sm-6 {
+        padding: 30px;
+        min-height: 350px;
+        position: relative;
+    }
+
+    .skeleton-listcard,
+    .e-bigger .skeleton-listcard
+    {
+        line-height:20px;  
+    }
+
+    #skeleton-listview {
+        border:0px;
+    }
+     
+    #reloadSkeleton {
+        margin-left: 30px;
+    }
+
+    #skeletondatacard,
+    #skeletonCard {
+        padding: 10px;
+        line-height: inherit;
+        height: 420px;
+    }
+
+    .skeleton-animation .cardProfile {
+        float: left;
+        margin-right: 15px;
+    }
+
+    .skeleton-animation .cardinfo {
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+    .skeleton-animation #skeleton-list,
+    .skeleton-animation .cardinfo label {
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .skeleton-animation .cardContent {
+        margin: 20px 0px 30px;
+    }
+
+    .skeleton-animation .cardoptions {
+        display: flex;
+        justify-content: space-between;
+    }
+   .skeleton-animation .cardoptions>div {
+        min-width: 60px;
+    }
+
+    #skeleton-list {
+        padding-left: 12px;
+        padding-top: 7px;
+        height: 420px;
+        line-height: inherit;
+    }
+
+    #skeleton-list li {
+        list-style: none;
+        display: flow-root;
+        margin-bottom: 9px;
+    }
+
+    .skeleton-animation .listProfile {
+        float: left;
+        margin-right: 15px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .skeleton-animation .listCtn {
+        margin: 5px 0px;
+        width: 80%;
+        height: 14px;
+    }
+
+    .skeleton-animation .distCtn {
+        width: 60%;
+        height: 14px;
+    }
+
+    .fluent-dark #skeletondatacard,
+    .fluent-dark #skeletonCard,
+    .fluent-dark #skeleton-list{
+        background-color: #313131;
+    }
+
+    .skeleton-animation .image.profile-image {
+        background-image: url(@(SampleService.WebAssetsPath + "images/skeleton/profile.png"));
+        background-size: 60px 60px;
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+    }
+
+    .skeleton-animation .image.post-image {
+        background-image: url(@(SampleService.WebAssetsPath + "images/skeleton/post.png"));
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        background-position: center;
+        height: 250px;
+        width: 100%;
+    }
+    /* List view customization */
+    #skeleton-listview .e-list-item .e-avatar {
+        color: white;
+    }
+
+    #skeleton-listview .e-list-item:nth-child(1) .e-avatar {
+        background-color: #039be5;
+    }
+
+    #skeleton-listview .e-list-item:nth-child(2) .e-avatar {
+        background-color: #e91e63;
+    }
+
+    #skeleton-listview .e-list-item:nth-child(6) .e-avatar {
+        background-color: #009688;
+    }
+
+    #skeleton-listview .e-list-item:nth-child(8) .e-avatar {
+        background-color: #0088;
+    }
+
+    body[class*="material3"] #skeleton-listview {
+        .pic01 {
+            background: url(@(SampleService.WebAssetsPath + "images/skeleton/1.png")) rgba(var(--color-sf-primary)) center;  
+            background-size: cover;
+        }
+        .pic02 {
+            background: url(@(SampleService.WebAssetsPath + "images/skeleton/3.png")) rgba(var(--color-sf-primary)) center;
+            background-size: cover;
+        }
+        .pic03 {
+            background: url(@(SampleService.WebAssetsPath + "images/skeleton/5.png")) rgba(var(--color-sf-primary)) center;
+            background-size: cover;
+        }
+        .pic04 {
+            background: url(@(SampleService.WebAssetsPath + "images/skeleton/2.png")) rgba(var(--color-sf-primary)) center;
+            background-size: cover;
+        }
+    }
+
+    #skeleton-listview .pic01 {
+        background-image: url(@(SampleService.WebAssetsPath + "images/skeleton/1.png"));
+    }
+
+    #skeleton-listview .pic02 {
+        background-image: url(@(SampleService.WebAssetsPath + "images/skeleton/3.png"));
+    }
+
+    #skeleton-listview .pic03 {
+        background-image: url(@(SampleService.WebAssetsPath + "images/skeleton/5.png"));
+    }
+
+    #skeleton-listview .pic04 {
+        background-image: url(@(SampleService.WebAssetsPath + "images/skeleton/2.png"));
+    }
+</style>

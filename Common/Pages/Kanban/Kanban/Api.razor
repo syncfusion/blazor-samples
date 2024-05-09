@@ -1,0 +1,176 @@
+﻿@page "/kanban/api"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Popups
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the important APIs required to manipulate the Kanban control. It provides necessary details in the property panel to add and remove the columns dynamically.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The demo explains how to add or remove columns programmatically using property binding and dynamic rendering concepts.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="@cardData">
+        <KanbanColumns>
+            @foreach (ColumnModel item in columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
+			@if (@ColumnDynamicChange)
+            {
+                @foreach (ColumnModel changedItem in DynamicData)
+                {
+                    <KanbanColumn HeaderText="@changedItem.HeaderText" KeyField="@changedItem.KeyField" Index="@changedItem.Index"></KanbanColumn>
+                }
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+    </SfKanban>
+    <SfDialog Width="350px" Header="Validation" Content="@AlertContent" IsModal="true" ShowCloseIcon="true" Visible="@IsAlertShow">
+        <DialogButtons>
+            <DialogButton Content="OK" IsPrimary="true" OnClick="@(() => { IsAlertShow = false; })"></DialogButton>
+        </DialogButtons>
+    </SfDialog>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Add Column</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Add Column">
+                <tbody>
+                    <tr>
+                        <td>
+                            <SfTextBox @ref="AddTextRef" Placeholder="Enter Text Field" @bind-Value="@TextValue"></SfTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfDropDownList @ref="AddKeyRef" TItem="string" TValue="string" DataSource="@ColumnKeys" PopupHeight="200px" Placeholder="Select Key Field" @bind-Value="DropDownValue"></SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfNumericTextBox @ref="AddIndexRef" TValue="int?" Min="0" Max="@columnData.Count" Placeholder="Index" Value="@AddIndexValue"></SfNumericTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfButton ID="add" Content="Add" OnClick="OnAddColumn"></SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="property-panel-header">Delete Column</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Delete Column">
+                <tbody>
+                    <tr>
+                        <td>
+                            <SfNumericTextBox @ref="DeleteIndexRef" TValue="int?" Min="0" Max="@(columnData.Count - 1)" Placeholder="Index" Value="@DeleteIndexValue"></SfNumericTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfButton ID="delete" Content="Delete" OnClick="OnDeleteColumn"></SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .property-panel-section table {
+        width: 100%;
+    }
+
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+</style>
+
+@code{
+    SfTextBox AddTextRef;
+    SfKanban<KanbanDataModel> KanbanRef;
+    SfDropDownList<string, string> AddKeyRef;
+    SfNumericTextBox<int?> AddIndexRef;
+    SfNumericTextBox<int?> DeleteIndexRef;
+    private string DropDownValue = null;
+    private string TextValue = "";
+	public bool ColumnDynamicChange = false;
+    private int? AddIndexValue = 0;
+    private int? DeleteIndexValue = 0;
+    private bool IsAlertShow = false;
+    private string AlertContent = string.Empty;
+    private List<string> ColumnKeys = new List<string>() { "Review", "Testing", "Validate" };
+    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> columnData = new List<ColumnModel>() {
+        new ColumnModel { HeaderText = "To Do", KeyField = new List<string>() { "Open" } },
+        new ColumnModel { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" } },
+        new ColumnModel { HeaderText = "Testing", KeyField = new List<string>() { "Testing" } },
+        new ColumnModel { HeaderText = "Done", KeyField = new List<string>() { "Close" } }
+    };
+	private List<ColumnModel> DynamicData = new List<ColumnModel>();
+    
+
+    private void OnAddColumn()
+    {
+        if (!string.IsNullOrEmpty(AddTextRef.Value) && !string.IsNullOrEmpty(AddKeyRef.Value) && AddIndexRef.Value != null)
+        {
+            DynamicData.Add(new ColumnModel { HeaderText = AddTextRef.Value, KeyField = new List<string>() { AddKeyRef.Value }, Index = (int)AddIndexRef.Value });
+            AddIndexValue = null;
+            ColumnDynamicChange = true;
+            DropDownValue = null;
+            TextValue = "";
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(AddTextRef.Value))
+            {
+                AlertContent = "Enter Column Header Text";
+            }
+            else if (string.IsNullOrEmpty(AddKeyRef.Value))
+            {
+                AlertContent = "Enter Column Key Field";
+            }
+            else if (AddIndexRef.Value == null)
+            {
+                AlertContent = "Enter Column Index";
+            }
+            IsAlertShow = true;
+        }
+    }
+
+    private async Task OnDeleteColumn()
+    {
+        if (DeleteIndexRef.Value != null)
+        {
+            await KanbanRef.DeleteColumnAsync((int)DeleteIndexRef.Value);
+            DeleteIndexValue = null;
+        }
+        else
+        {
+            AlertContent = "Enter Column Index";
+            IsAlertShow = true;
+        }
+    }
+
+}

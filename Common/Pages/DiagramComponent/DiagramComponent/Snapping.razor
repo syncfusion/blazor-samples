@@ -1,0 +1,427 @@
+﻿@page "/diagramcomponent/snapping"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+@using Microsoft.AspNetCore.Components
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>
+        This sample shows how the diagram objects snap to the nearest intersection of gridlines or objects while being dragged or resized.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The gridline or position towards where the diagram object snaps can be customized by using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramGridLines.html#Syncfusion_Blazor_Diagram_DiagramGridLines_SnapIntervals' aria-label="SnapIntervals">SnapIntervals</a></code> property of the HorizontalGridLines and VerticalGridLines and specifies a set of intervals for snapping the objects.
+        The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SnapSettings.html#Syncfusion_Blazor_Diagram_SnapSettings_SnapAngle' aria-label="SnapAngle">SnapAngle</a></code>property allows you to define the snap angle by which the object needs to be rotated.
+        The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SnapSettings.html#Syncfusion_Blazor_Diagram_SnapSettings_Constraints' aria-label="Constraints">Constraints</a></code> property control the visibility of gridlines and enable or disable snapping.
+        The horizontal and vertical grid lines are displayed when restrictions are set to ShowLines. If the constraints is set to SnaptoLines, the object snaps  to both the vertical and horizontal grid lines. In the case of snap to object, it jumps to line up with the closest element when you move or resize an element. .
+    </p>
+</ActionDescription>
+@*End:Hidden*@
+
+
+<div class="col-lg-9 control-section sb-property-border">
+    @*Hidden:Lines*@
+    <style>
+
+
+        .sb-property-border {
+            border-right: 1px solid #D7D7D7;
+        }
+
+        .property-panel-header {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+
+        .e-remove-selection .property-section-content {
+            pointer-events: none;
+        }
+
+        .column-style {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: calc((100% - 12px) / 3);
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 5px;
+        }
+
+        .buttonstyle {
+            display: table;
+            height: 35px;
+            padding-right: 0px;
+            padding-left: 20px;
+            width: 30px;
+            float: left;
+        }
+
+        .column-style custom {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 70px;
+        }
+
+        .e-btn .e-btn-icon, .e-css.e-btn .e-btn-icon {
+            display: inline-block;
+            font-size: 14px;
+            margin-top: -2px;
+            vertical-align: middle;
+            width: 1em;
+        }
+
+        #bold, #italic, #underline {
+            width: 100%;
+        }
+
+        .bg-icons {
+            font-family: 'e-bg-icons' !important;
+            speak: none;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .e-btngrp-bold::before {
+            content: '\e71a'
+        }
+
+        .e-btngrp-italic::before {
+            content: '\e708';
+        }
+
+        .e-btngrp-underline::before {
+            content: '\e703';
+        }
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 10px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+    </style>
+    @*End:Hidden*@
+
+    <div id="diagram-space" class="content-wrapper">
+        <SfDiagramComponent @ref="Diagram" Height="500px" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
+            <SnapSettings @ref="snapSettings" @bind-Constraints="@Constraints" SnapAngle="@snapangle">
+                <HorizontalGridLines SnapIntervals="@snapInterval">
+                </HorizontalGridLines>
+                <VerticalGridLines SnapIntervals="@snapInterval">
+                </VerticalGridLines>
+            </SnapSettings>
+        </SfDiagramComponent>
+    </div>
+
+</div>
+
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header;" style="font-weight:bold;margin-top:15px;font-size:18px">
+        Properties
+    </div>
+    <fieldset>
+        <div>
+            <div class="row property-panel-content" style="padding-top: 1px">
+                <div class="row" style="padding-top: 8px">
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div class="texstyle">
+                        Snapping Interval
+                    </div>
+                    <div class="col-xs-6">
+                        <SfNumericTextBox TValue="double?" @bind-Value="@LineValue" Format="n0" Decimals=0 Min=1>
+                            <NumericTextBoxEvents TValue="double?" ValueChange="@linechange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div class="texstyle">
+                        Snapping Angle
+                    </div>
+                    <div class="col-xs-6">
+                        <SfNumericTextBox TValue="double?" @bind-Value="@AngleValue" Format="n0" Decimals=0 Min=1>
+                            <NumericTextBoxEvents TValue="double?" ValueChange="@Anglechange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+                <br />
+                <div class="row" style="padding-top: 8px">
+                    <div style="font-weight:500;font-size:16px;margin-top:5px">
+                        Constraints
+                    </div>
+                    <div style="margin-left:9px;margin-top:13px">
+                        <SfCheckBox Checked="@showline" Label="Show Lines" ValueChange="@ShowLine" TChecked="bool">
+                        </SfCheckBox>
+                    </div>
+                    <div style="margin-left:9px">
+                        <SfCheckBox Checked="@snaptoline" Label="Snap To Lines" ValueChange="@SnapToLine" TChecked="bool">
+                        </SfCheckBox>
+                    </div>
+                    <div style="margin-left:9px">
+                        <SfCheckBox Checked="@snaptoobject" Label="Snap To Object" ValueChange="@SnapToObject" TChecked="bool">
+                        </SfCheckBox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+@*End:Hidden*@
+@code
+{
+    //Sets the snap interval.
+    private double[] snapInterval { get; set; } = new double[]
+    {
+        10
+    };
+
+    private bool showline = true;
+    private bool snaptoline = true;
+    private bool snaptoobject = true;
+    double snapangle = 5;
+    SfDiagramComponent Diagram;
+    SnapSettings snapSettings;
+    SnapConstraints Constraints = SnapConstraints.All;
+    DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    double? LineValue = 10;
+    double? AngleValue = 5;
+    
+
+
+    private void ShowLine(ButtonChangeArgs value)
+    {
+        showline = value.Checked;
+        if ((bool)showline)
+        {
+            Constraints |= SnapConstraints.ShowLines;
+            Constraints |= SnapConstraints.ShowVerticalLines;
+            Constraints |= SnapConstraints.ShowVerticalLines;
+        }
+        else
+        {
+            Constraints &= ~SnapConstraints.ShowLines;
+            Constraints &= ~SnapConstraints.ShowVerticalLines;
+            Constraints &= ~SnapConstraints.ShowVerticalLines;
+        }
+
+    }
+
+    private void SnapToLine(ButtonChangeArgs value)
+    {
+        snaptoline = value.Checked;
+        if ((bool)snaptoline)
+        {
+            Constraints |= SnapConstraints.SnapToLines;
+            Constraints |= SnapConstraints.SnapToHorizontalLines;
+            Constraints |= SnapConstraints.SnapToVerticalLines;
+        }
+        else
+        {
+            Constraints &= ~SnapConstraints.SnapToLines;
+            Constraints &= ~SnapConstraints.SnapToHorizontalLines;
+            Constraints &= ~SnapConstraints.SnapToVerticalLines;
+        }
+
+    }
+    private void SnapToObject(ButtonChangeArgs value)
+    {
+        snaptoobject = value.Checked;
+        if ((bool)snaptoobject)
+        {
+            Constraints |= SnapConstraints.SnapToObject;
+        }
+        else
+        {
+            Constraints &= ~SnapConstraints.SnapToObject;
+        }
+
+    }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram.FitToPage(mobileoptions);
+    }
+    protected override void OnInitialized()
+    {
+        
+        nodes = new DiagramObjectCollection<Node>()
+        {
+            new Node()
+            {
+                OffsetX = 200,
+                OffsetY = 200,
+                Height = 100,
+                Ports = new DiagramObjectCollection<PointPort>()
+                {
+                    new PointPort()
+                    {
+                        ID="port1",
+                        Visibility = PortVisibility.Hidden,
+                        Offset = new DiagramPoint() { X = 0.5, Y = 1},
+
+                    }
+                },
+                Width = 100,
+                ID = "node1",
+                Style = new ShapeStyle(){ Fill = "#ffae42", StrokeColor = "#ffae42"},
+                Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle }
+            },
+            new Node()
+            {
+                OffsetX = 350,
+                OffsetY = 350,
+                Height = 100,
+                Width = 100,
+                ID = "node2",
+                Ports = new DiagramObjectCollection<PointPort>()
+                {
+                    new PointPort()
+                    {
+                        ID="port2",
+                        Visibility = PortVisibility.Hidden,
+                        Offset = new DiagramPoint() { X = 0.5, Y = 0},
+
+                    }
+                },
+                Style = new ShapeStyle(){ Fill = "#ffae42", StrokeColor = "#ffae42" },
+                Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle }
+              },
+               new Node()
+            {
+                OffsetX = 450,
+                OffsetY = 200,
+                Height = 100,
+                Width = 100,
+                ID = "node3",
+                Ports = new DiagramObjectCollection<PointPort>()
+                {
+                    new PointPort()
+                    {
+                        ID="port4",
+                        Visibility = PortVisibility.Hidden,
+                        Offset = new DiagramPoint() { X = 0.5, Y = 1},
+
+                    }
+                },
+                Style = new ShapeStyle(){ Fill = "#ffae42", StrokeColor = "#ffae42" },
+                Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle }
+              }
+        };
+        Connector Connector = new Connector()
+            {
+                ID = "connector1",
+                //Source node id of the connector.
+                SourceID = "node1",
+                //source node port id.
+                SourcePortID = "port1",
+                //Target node id of the connector.
+                TargetID = "node2",
+                //Target node port id.
+                TargetPortID = "port2",
+                TargetDecorator = new DecoratorSettings()
+                {
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "black",
+                        StrokeColor = "black",
+                    },
+                    Shape = DecoratorShape.Arrow,
+                },
+                Style = new ShapeStyle()
+                {
+                    Fill = "black",
+                    StrokeColor = "black",
+                },
+                // Type of the connector.
+                Type = ConnectorSegmentType.Orthogonal,
+            };
+        connectors.Add(Connector);
+    }
+    @*Hidden:Lines*@
+    public class GameFields
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    private List<GameFields> Games = new List<GameFields>()
+    {
+        new GameFields(){ ID= "None", Text= "None" },
+        new GameFields(){ ID= "ShowHorizontalLines", Text= "ShowHorizontalLines" },
+        new GameFields(){ ID= "ShowVerticalLines", Text= "ShowVerticalLines" },
+        new GameFields(){ ID= "ShowLines", Text= "ShowLines" },
+        new GameFields(){ ID= "SnapToHorizontalLines", Text= "SnapToHorizontalLines" },
+        new GameFields(){ ID= "SnapToVerticalLines", Text= "SnapToVerticalLines" },
+        new GameFields(){ ID= "SnapToLines", Text= "SnapToLines" },
+        new GameFields(){ ID= "SnapToObject", Text= "SnapToObject"},
+        new GameFields(){ ID= "All", Text= "All"},
+
+     };
+    @*End:Hidden*@
+    public string DropDownValue = "All";
+    public string ChangeValue { get; set; } = "Bottom";
+    public void linechange(Syncfusion.Blazor.Inputs.ChangeEventArgs<double?> args)
+    {
+        double[] lineinterval = { (double)args.Value };
+        snapInterval = lineinterval;
+    }
+    public void Anglechange(Syncfusion.Blazor.Inputs.ChangeEventArgs<double?> args)
+    {
+        snapangle = (double)args.Value;
+    }
+
+
+}

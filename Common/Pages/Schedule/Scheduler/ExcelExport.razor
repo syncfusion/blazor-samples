@@ -1,0 +1,60 @@
+﻿@page "/scheduler/export-to-excel"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates how to export the Scheduler events to an Excel file format.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the Scheduler events data are exported to an Excel file by using the public method
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_ExportToExcelAsync_Syncfusion_Blazor_Schedule_ExportOptions_">ExportToExcelAsync</a>. By default, the whole event collection bound to the Scheduler gets exported as an excel file. To
+        export only specific events of Scheduler, you need to pass the custom data collection as a parameter to the
+        <code>ExportToExcelAsync</code> method. This method accepts the export options as its arguments such as FileName, ExportType,
+        Fields, CustomData, and IncludeOccurrences. The FileName denotes the name to be given for the exported file and
+        the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ExportOptions.html">ExportType</a> allows you to set the format of the excel file to be exported either as .xlsx or .csv. The custom
+        or specific field collection of event dataSource to be exported can be provided through <code>FieldsInfo</code> option and the
+        custom data collection can be exported by passing them through the <code>CustomData</code> option. There also exists option
+        to export individual instances of the recurring events to an excel file, by setting true or false to the
+        <code>IncludeOccurrences</code> option, denoting either to include or exclude the occurrences as separate instances on an
+        exported excel file.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12" style="padding-top:15px">
+        <SfButton Content="Export to Excel" OnClick="OnExportToExcel"></SfButton>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Week"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
+    SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetExportingData();
+    
+    public async Task OnExportToExcel()
+    {
+        List<ExportFieldInfo> exportFields = new List<ExportFieldInfo>();
+        exportFields.Add(new ExportFieldInfo { Name = "Id", Text = "Id" });
+        exportFields.Add(new ExportFieldInfo { Name = "Subject", Text = "Summary" });
+        exportFields.Add(new ExportFieldInfo { Name = "StartTime", Text = "Start Date" });
+        exportFields.Add(new ExportFieldInfo { Name = "EndTime", Text = "End Date" });
+        exportFields.Add(new ExportFieldInfo { Name = "Location", Text = "Location" });
+        ExportOptions options = new ExportOptions() { ExportType = ExcelFormat.Xlsx, FieldsInfo = exportFields };
+        await ScheduleRef.ExportToExcelAsync(options);
+    }
+}
+

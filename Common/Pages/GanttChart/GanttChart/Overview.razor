@@ -1,0 +1,1336 @@
+﻿@page "/gantt-chart/overview"
+
+@using BlazorDemos.Shared
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Lists
+@inject NavigationManager Navigation
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@using ej2_blazor_ganttdata;
+@using global::Overview.Pages;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows an overview of the <a aria-label="Navigate to the explore Syncfusion Blazor gantt chart component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-gantt-chart'>Blazor Gantt Chart</a> features that visualize the progress of each feature of the product towards its release and make it easier to monitor the scheduling of the dependent items.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example shows the three-quarter release planning of product features rendered in the Blazor Gantt chart. It tracks the quarterly release planning of product status, resources, and task scheduling.</p>
+    <p>Blazor Gantt Chart features such as <a aria-label="Navigate to the documentation for sorting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/sorting'>Sorting</a>, <a aria-label="Navigate to the documentation for filtering in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/filtering'>Filtering</a>, <a aria-label="Navigate to the documentation for column resizing in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-resizing'>Column resizing</a>, <a aria-label="Navigate to the documentation for column menu in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-menu'>Column menu</a>, <a aria-label="Navigate to the documentation for taskbar template in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/templates#taskbar-template'>Taskbar template</a>, and so on are used in this demo.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div style="padding-left: 10px; padding-right: 20px;">
+                    @if (IsSideBar)
+                    {
+<SfSidebar class="default-sidebar" Width="280px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="SidebarToggle" >
+                            <ChildContent>
+
+                            <SfListView DataSource="@ListData"  CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
+                                    <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Text" GroupBy="Category" Tooltip="Text"></ListViewFieldSettings>
+                                <ListViewEvents TValue="DataModel"></ListViewEvents>
+                                    <ListViewTemplates TValue="DataModel">
+                                       <HeaderTemplate>
+                                            <div style="display: flex;justify-content: center; align-items: center; padding: 8px;" class="title">
+                                                @CurrentHeaderTitle
+                                            </div>
+                                            <span id="close" class="e-close" @onclick="@Close" style="position: absolute;top: 23%;right: 7%;cursor:pointer"></span>
+                                        </HeaderTemplate>
+                                        <GroupTemplate>
+                                            @{
+                                                var composedItemModel = context as Syncfusion.Blazor.Lists.ComposedItemModel<DataModel>;
+                                                var data = composedItemModel.Text;
+                                                <div>
+                                                    @if (data != "")
+                                                    {
+                                                        if (data == "Scheduling Settings")
+                                                        {
+                                                            <div class="list-header">Scheduling settings</div>
+                                                        }
+                                                        else if (data == "View settings")
+                                                        {
+                                                            <div class="list-header">View settings</div>
+                                                        }
+                                                        else if (data == "API properties")
+                                                        {
+                                                        <div class="list-header">API properties</div>
+                                                        }
+                                                     }
+                                                </div>
+                                            }
+                                        </GroupTemplate>
+                                        <Template>
+                                            @{
+                                                if (context.Text == "RowHeight")
+                                                {
+                                                    <div>
+                                                    <label class="labels">Row height:</label>
+                                                    <div style="padding-left: 12px;margin-top: 7px;">
+                                                        <SfSlider Min="40" Max="60" Step="10" Type=SliderType.MinRange TValue="int" @bind-Value="@RowHeightValue">
+                                                            <SliderTicks Placement="Placement.Before" ></SliderTicks>
+                                                            <SliderEvents TValue="int" ValueChange="@(e => { rowheightchange(e.Value); })"></SliderEvents>
+                                                        </SfSlider>
+
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            if (context.Text == "Work Week")
+                                            {
+                                                <label class="labels">Work week:</label>
+                                                <div>
+                                                    <SfMultiSelect TValue="string[]" TItem="WorkWeek" Placeholder="Select week" Mode="@VisualMode.CheckBox" DataSource="@Weeks" PopupHeight="350px">
+                                                        <MultiSelectEvents TItem="WorkWeek" TValue="string[]" ValueChange="@ValueChangeHandler"></MultiSelectEvents>
+                                                        <MultiSelectFieldSettings Text="Week" Value="Week"></MultiSelectFieldSettings>
+                                                    </SfMultiSelect>
+                                                </div>
+                                            }
+                                            else if (context.Text == "Work Time Range")
+                                                {
+                                                <label class="labels">Duration unit:</label>
+                                                    <div>
+                                                        <SfDropDownList TValue="string" TItem="Duration"  Placeholder="@DurationUnitValue" DataSource="@Duration1" PopupHeight="350px">
+                                                            <DropDownListEvents TItem="Duration" TValue="string" ValueChange="@ValueChangeHandler2"></DropDownListEvents>
+                                                            <DropDownListFieldSettings Text="Unit" Value="Unit"></DropDownListFieldSettings>
+                                                        </SfDropDownList>
+                                                    </div>
+                                                }
+                                                else if (context.Text == "TimeLine Cell Unit")
+                                                {
+                                                <label class="labels">Timeline width:</label>
+                                                    <div>
+                                                        <SfNumericTextBox TValue="int?" Format="n0" Value="@DefaultUnitWidth" Min="10">
+                                                            <NumericTextBoxEvents TValue="int?" ValueChange="OnChange"></NumericTextBoxEvents>
+                                                        </SfNumericTextBox>
+                                                    </div>
+                                                }
+                                                if (context.Text == "View Type")
+                                                {
+                                                <label class="labels">View type:</label>
+                                                    <div>
+                                                    <SfDropDownList TValue="string" TItem="ViewTypes" Placeholder="@viewTypes" DataSource="@Types" PopupHeight="350px">
+                                                            <DropDownListEvents TItem="ViewTypes" TValue="string" ValueChange="@GanttViewTypes"></DropDownListEvents>
+                                                            <DropDownListFieldSettings Text="Type" Value="Type"></DropDownListFieldSettings>
+                                                        </SfDropDownList>
+                                                    </div>
+                                                }
+                                            else if (context.Text == "View Mode")
+                                            {
+                                                <label class="labels">View mode:</label>
+                                                <div>
+                                                    <SfDropDownList TValue="string" TItem="SplitterView" DataSource="@SplitterViews" Placeholder="View" CssClass="e-custom">
+                                                        <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                                                        <DropDownListEvents TValue="string" TItem="SplitterView" ValueChange="OnChange"></DropDownListEvents>
+                                                    </SfDropDownList>
+                                                </div>
+                                            }
+                                            if (context.Text == "Show grid Lines")
+                                            {
+                                                <div class="list-fields">
+                                                    <label class="labels"> Show grid lines:</label>
+                                                    <div style="float: right; margin-right: 10px;">
+                                                        <SfSwitch ValueChange="GridLines" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                    </div>
+                                                </div>
+                                            }
+                                            if (context.Text == "Event markers")
+                                            {
+                                                <div class="list-fields">
+                                                    <label class="labels"> Show event marker:</label>
+                                                    <div style="float: right; margin-right: 10px;">
+                                                        <SfSwitch ValueChange="EventMarkerEvent" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                    </div>
+                                                </div>
+                                            }
+                                            if (context.Text == "Show dependencies")
+                                            {
+                                                <div class="list-fields">
+                                                    <label class="labels">Show dependencies:</label>
+                                                    <div style="float: right; margin-right: 10px;">
+                                                        <SfSwitch ValueChange="ShowDependencies" TValue="bool?" @bind-Checked="ShowDependency" TChecked="bool"></SfSwitch>
+                                                    </div>
+                                                </div>
+                                            }
+                                            if (context.Text == "Show task labels")
+                                            {
+                                                <div class="list-fields">
+                                                    <label class="labels">Show task labels:</label>
+                                                    <div style="float: right; margin-right: 10px;">
+                                                        <SfSwitch ValueChange="ShowTaskLabels" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        </Template>
+                                    </ListViewTemplates>
+                                </SfListView>
+                            </ChildContent>
+                        </SfSidebar>
+                    }
+                </div>
+            </div>
+            <div>
+            <SfGantt @ref="Gantt" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@viewType" Height="450px" Width="100%"
+                     GridLines="@gridlines" WorkWeek="@week" WorkUnit="WorkUnit.Day" ProjectStartDate=@(new DateTime(2021, 12, 17)) ProjectEndDate="@(new DateTime(2022,10,26))" HighlightWeekends="true"
+                     AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue">
+                     @if(!ShowDependency)
+                     {
+                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
+                                 Duration="TimeLog"  ResourceInfo="Resources" Progress="Progress" ParentID="ParentId">
+                    </GanttTaskFields>
+                     }
+                     else
+                     {
+                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
+                                 Duration="TimeLog" Dependency="Predecessor" ResourceInfo="Resources" Progress="Progress" ParentID="ParentId">
+                    </GanttTaskFields>
+                     }
+                    
+                    <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+                    <GanttResourceFields Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="OverviewData.ResourceAlloacteData"></GanttResourceFields>
+                    <GanttColumns>
+                        <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
+                        <GanttColumn Field="TaskName" Width="250" HeaderText="Product Release" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="true" Freeze="FreezeDirection.Left"></GanttColumn>
+                        <GanttColumn Field="Assignee" HeaderText="Assignee" AllowFiltering="false" AllowSorting="false" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="130">
+                        <Template>
+                            @{
+                                if (!string.IsNullOrEmpty((context as OverviewData.TaskData).Assignee))
+                                {
+                                    var template = (context as OverviewData.TaskData).Assignee;
+                                    <div class="image">
+                                        <img style="height:25px; width:25px" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{template.Trim().Replace(" ","").ToLower()}.png")" aria-label="Profile Picture" />
+                                        <span>@template</span>
+                                    </div>
+                                }
+                            }
+                        </Template>
+                        </GanttColumn>
+                        <GanttColumn Field="Status" HeaderText="Status" MinWidth="100" Width="120" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
+                            <Template>
+                                @{
+                                    string statusString = (context as OverviewData.TaskData).Status;
+                                    if (!string.IsNullOrEmpty(statusString))
+                                    {
+                                        string statusStyle = GetStatusContentStyles(statusString);
+                                        <div><span style="@statusStyle">@statusString</span></div>
+                                    }
+                                }
+                            </Template>
+                        </GanttColumn>
+                        <GanttColumn Field="Priority" HeaderText="Priority" MinWidth="80" Width="100" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
+                            <Template>
+                                @{
+                                    string priorityString = (context as OverviewData.TaskData).Priority;
+                                    if (!string.IsNullOrEmpty(priorityString))
+                                    {
+                                        string statusStyle = this.GetPriorityContentStyle(priorityString);
+                                        <div><span style="@statusStyle">@priorityString</span></div>
+                                    }
+                                }
+                            </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="120"></GanttColumn>
+                    <GanttColumn Field="TimeLog" HeaderText="Work Log" Width="120"></GanttColumn>
+                </GanttColumns>
+                @if (TaskLabels)
+                {
+                    <GanttLabelSettings RightLabel="Assignee" TValue="OverviewData.TaskData"></GanttLabelSettings>
+                }
+                else
+                {
+                    <GanttLabelSettings  TValue="OverviewData.TaskData"></GanttLabelSettings>
+                }
+                <GanttTemplates TValue="OverviewData.TaskData">
+                    <TaskbarTemplate>
+                        @{
+                            var task = (context as OverviewData.TaskData);
+                            if (task == null)
+                            {
+                                return;
+                            }
+                            var taskModel = GetTaskData(task);
+                            if (task.Progress < 100 && task.Progress != 0)
+                            {
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 2)px">@task.Progress%</span>
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                                    </div>
+                                </div>
+                            }
+                            else if (task.Progress == 100)
+                            {
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                                    </div>
+                                </div>
+                            }
+                            if (task.Progress == 0)
+                            {
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");height:@(TaskbarHeightValue + "px")" tabindex=-1>
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </TaskbarTemplate>
+                    <ParentTaskbarTemplate>
+                        @{
+                            var task = (context as OverviewData.TaskData);
+                            if (task == null)
+                            {
+                                return;
+                            }
+                            var taskModel = GetTaskData(task);
+                            if (task.Progress < 100 && task.Progress != 0)
+                            {
+                                borderRadius = "0px";
+                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 20)px">@task.Progress%</span>
+                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
+                                    </div>
+                                </div>
+                            }
+                            else if (task.Progress == 100)
+                            {
+                                borderRadius = "4px";
+                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
+                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
+                                    </div>
+                                </div>
+                            }
+                            if (task.Progress == 0)
+                            {
+                                borderRadius = "0px";
+                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
+                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </ParentTaskbarTemplate>
+                </GanttTemplates>
+                    <SfToolbar ID="GanttOverview_Gantt_Toolbar">
+                        <ToolbarItems>
+                            <ToolbarItem Align="ItemAlign.Right" Text="View">
+                                <Template>
+                                @if (Settings)
+                                {
+                                    <SfButton class="settings-btn" IconCss="e-settings-icon" @onclick="onToggleClick">Settings</SfButton>
+                                }
+                                </Template>
+                            </ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_expandall" Text="Expand all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-expandall"></ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_collapseall" Text="Collapse all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-collapseall"></ToolbarItem>
+                         <ToolbarItem Id="GanttOverview_zoomin" Text="Zoom in" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomin"></ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_zoomout" Text="Zoom out" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomout"></ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_zoomtofit" Text="Zoom fit" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomtofit"></ToolbarItem>
+                    </ToolbarItems>
+                </SfToolbar>
+
+                <GanttEventMarkers>
+                    @if (EventMarker)
+                    {
+                        <GanttEventMarker Day="@VolumeOneRelease" Label="Q-1 Release"
+                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                        <GanttEventMarker Day="@VolumeTwoRelease" Label="Q-2 Release"
+                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                        <GanttEventMarker Day="@VolumeThreeRelease" Label="Q-3 Release"
+                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                    }
+
+                </GanttEventMarkers>
+                         <GanttHolidays>
+                        <GanttHoliday From="@Holiday1" To="@Holiday2" Label="Christmas holidays"></GanttHoliday>
+                        <GanttHoliday From="@Holiday3" To="@Holiday4" Label="New year's' holiday"></GanttHoliday>
+                    </GanttHolidays>
+
+                    
+                    <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
+                        <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
+                        <GanttBottomTierSettings Unit="TimelineViewMode.Day" Format="dd" Count="4"></GanttBottomTierSettings>
+                    </GanttTimelineSettings>
+                    <GanttSplitterSettings Position="380px"> </GanttSplitterSettings>
+                <GanttEvents TValue="OverviewData.TaskData" RowSelected="rowSelect"></GanttEvents>
+                </SfGantt>
+            </div>
+        </div>
+    </div>
+
+@code {
+    public bool SidebarToggle;
+    SfSwitch<bool?> SwitchObj;
+    public bool IsSideBar = false;
+    public bool Settings = true;
+    private int RowHeightValue { get; set; } = 40;
+    private int TaskbarHeightValue { get; set; } = 24;
+    private string TaskBarHeight = "24px";
+    private string MarginValue = "0px";
+    private string TopPosition = "4px";
+    private int DefaultUnitWidth = 40;
+    private SfGantt<OverviewData.TaskData> Gantt;
+    public List<OverviewData.TaskData> TaskCollection { get; set; }
+    private DateTime VolumeOneRelease = new DateTime(2022, 04, 04);
+    private DateTime VolumeTwoRelease = new DateTime(2022, 06, 30);
+    private DateTime VolumeThreeRelease = new DateTime(2022, 09, 29);
+    private DateTime Holiday1 = new DateTime(2021, 12, 25);
+    private DateTime Holiday2 = new DateTime(2021, 12, 26);
+    private DateTime Holiday3 = new DateTime(2022, 01, 01);
+    private DateTime Holiday4 = new DateTime(2022, 01, 01);
+    public Theme CurrentTheme { get; set; }
+    public string currentUri;
+    public string style;
+    public string childProgressColor;
+    public string parentProgressColor;
+    public string childTrackColor;
+    public string parentTrackColor;
+    public string progressValue { get; set; } = "white";
+    public bool ShowDependency { get; set; } = true;
+    private List<OverviewData.ResourceAlloacteData> ResourceCollection { get; set; }
+    private List<string> Status = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
+    private List<string> Priority = new List<string>() { "Low", "Normal", "High", "Critical" };
+    public string borderRadius = "4px";
+    public string statusStyleColor;
+    public string statusContentstyleColor;
+    public string priorityContentStyle;
+    public string priorityStyle;
+    private List<Theme> ThemeCollection = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material };
+    public string progressLeft = "0px";
+    private string dropDownWidth { get; set; } = "80px";
+    //***API properties
+    public Syncfusion.Blazor.Gantt.GridLine gridlines { get; set; } = Syncfusion.Blazor.Gantt.GridLine.Vertical;
+    private ViewType viewType { get; set; } = ViewType.ProjectView;
+    public string viewTypes { get; set; } = "Project view";
+    public string DurationUnitValue { get; set; } = "Day";
+    public Syncfusion.Blazor.Gantt.DurationUnit DurationValue { get; set; } = DurationUnit.Day;
+    private bool EventMarker { get; set; } = false;
+    private bool TaskLabels { get; set; } = false;
+    public int CurrentValue { get; set; }
+    public int PreviousValue { get; set; } = 11;
+    public int BindValue { get; set; } = 11;
+    string CurrentHeaderTitle = "Project Settings";
+    public string[] week = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+    private string filterHeaderFontSize { get; set; }
+    private string filterHeaderFontSizeTouch { get; set; }
+    private string filteraHeaderHeight { get; set; }
+    private string filteraHeaderHeightTouch { get; set; }
+    private string filterHeaderFontWeight{ get; set; }
+    private string filterBackground{ get; set; }
+    private string labelTextColor{ get; set; }
+    // Specifies the ListView datasource.
+    List<DataModel> ListData = new List<DataModel>();
+    // Specifies the model class for ListView datasource.
+    class DataModel
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+        public string Category { get; set; }
+        public int Order { get; set; }
+        public List<DataModel> Child { get; set; }
+    }
+
+    public async Task rowSelect(RowSelectEventArgs<OverviewData.TaskData> args)
+    {
+        ToggleSidebarSettings();
+        await Task.CompletedTask;
+    }
+    private async Task ToggleSidebarSettings()
+    {
+        SidebarToggle = false;
+        Settings = true;
+    }
+    private void GanttViewTypes(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ViewTypes> args)
+    {
+        if (args.Value.Contains("Resource view"))
+        {
+            viewType = ViewType.ResourceView;
+            viewTypes = viewType.ToString();
+        }
+        else
+        {
+            viewType = ViewType.ProjectView;
+            viewTypes = viewType.ToString();
+        }
+        StateHasChanged();
+        Settings = true;
+    }
+    private void GridLines(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            gridlines = Syncfusion.Blazor.Gantt.GridLine.Both;
+        }
+        else
+        {
+            gridlines = Syncfusion.Blazor.Gantt.GridLine.Vertical;
+        }
+        Settings = true;
+        Gantt.RefreshAsync();
+    }
+    private void EventMarkerEvent(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            EventMarker = true;
+        }
+        else
+        {
+            EventMarker = false;
+        }
+        Settings = true;
+        Gantt.RefreshAsync();
+    }
+    private void ShowDependencies(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        if (args.Checked == true)
+        {
+            ShowDependency = true;
+        }
+        else
+        {
+            ShowDependency = false;
+        }
+        Settings = true;
+        Gantt.RefreshAsync();
+    }
+    private void ShowTaskLabels(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            TaskLabels = true;
+        }
+        else
+        {
+            TaskLabels = false;
+        }
+        Settings = true;
+        Gantt.RefreshAsync();
+    }
+
+    private void onToggleClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        SidebarToggle = !SidebarToggle;
+        IsSideBar = true;
+        Settings = false;
+    }
+    public void OnChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        DefaultUnitWidth = (int)args.Value;
+    }
+    private void rowheightchange(int value)
+    {
+        RowHeightValue = value;
+        if (value == 40)
+        {
+            TaskbarHeightValue = 24;
+            TaskBarHeight = "24px";
+            MarginValue = "0px";
+            TopPosition = "4px";
+        }
+        else if (value == 50)
+        {
+            TaskbarHeightValue = 32;
+            TaskBarHeight = "32px";
+            MarginValue = "0px";
+            TopPosition = "7px";
+        }
+        else if (value == 60)
+        {
+            TaskbarHeightValue = 40;
+            TaskBarHeight = "40px";
+            MarginValue = "4px";
+            TopPosition = "10px";
+        }
+    }
+    public void Close()
+    {
+        SidebarToggle = false;
+        Settings = true;
+    }
+    public class WorkWeek
+    {
+        public string Week { get; set; }
+    }
+    List<WorkWeek> Weeks = new List<WorkWeek>
+    {
+        new WorkWeek() { Week = "Monday"},
+        new WorkWeek() { Week = "Tuesday"},
+        new WorkWeek() { Week = "Wednesday"},
+        new WorkWeek() { Week = "Thursday"},
+        new WorkWeek() { Week = "Friday"},
+        new WorkWeek() { Week = "Saturday"}
+    };
+    public class Duration
+    {
+        public string Unit { get; set; }
+    }
+    List<Duration> Duration1 = new List<Duration>
+    {
+        new Duration() { Unit = "Hour"},
+        new Duration() { Unit = "Minute"},
+        new Duration() { Unit = "Day"}
+    };
+    public class ViewTypes
+    {
+        public string Type { get; set; }
+    }
+    List<ViewTypes> Types = new List<ViewTypes>
+    {
+        new ViewTypes() { Type = "Resource view"},
+        new ViewTypes() { Type = "Project view"}
+
+    };
+    private void ValueChangeHandler(MultiSelectChangeEventArgs<string[]> args)
+    {
+        if (args.Value == null)
+        {
+            week = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+        }
+        else
+        {
+            week = args.Value;
+        }
+    }
+    private async void ValueChangeHandler2(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Duration> args)
+    {
+        if (args.Value.Contains("Hour"))
+        {
+            DurationValue = DurationUnit.Hour;
+            DurationUnitValue = DurationValue.ToString();
+        }
+        else if (args.Value.Contains("Day"))
+        {
+            DurationValue = DurationUnit.Day;
+            DurationUnitValue = DurationValue.ToString();
+        }
+        else if (args.Value.Contains("Minute"))
+        {
+            DurationValue = DurationUnit.Minute;
+            DurationUnitValue = DurationValue.ToString();
+        }
+        await Gantt.RefreshAsync();
+    }
+    public class SplitterView
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    public List<SplitterView> SplitterViews = new List<SplitterView>
+{
+        new SplitterView() { ID= "Default", Text= "Default" },
+        new SplitterView() { ID= "Grid", Text= "Grid" },
+        new SplitterView() { ID= "Chart", Text= "Chart" },
+    };
+    public async void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SplitterView> args)
+    {
+        if (args.Value == "Grid")
+        {
+            await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Grid);
+
+        }
+        else if (args.Value == "Chart")
+        {
+            await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Chart);
+        }
+        else
+        {
+            await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Default);
+            dropDownWidth = "90px";
+        }
+        await Gantt.RefreshAsync();
+    }
+    public async void ToolbarAction(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        switch (args.Item.Id)
+        {
+            case "GanttOverview_expandall":
+                await this.Gantt.ExpandAllAsync();
+                break;
+            case "GanttOverview_collapseall":
+                await this.Gantt.CollapseAllAsync();
+                break;
+            case "GanttOverview_zoomin":
+                await this.Gantt.ZoomInAsync();
+                break;
+            case "GanttOverview_zoomout":
+                await this.Gantt.ZoomOutAsync();
+                break;
+            case "GanttOverview_zoomtofit":
+                await this.Gantt.ZoomToFitAsync();
+                break;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        // Updating the ListView datasource.
+        ListData.Add(new DataModel
+            {
+                Id = "01",
+                Text = "RowHeight",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "02",
+                Text = "Show grid Lines",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "02",
+                Text = "Event markers",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "02",
+                Text = "Show dependencies",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "02",
+                Text = "Show task labels",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "03",
+                Text = "Work Week",
+                Category = "Scheduling Settings",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "03",
+                Text = "Work Time Range",
+                Category = "Scheduling Settings",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "02",
+                Text = "TimeLine Cell Unit",
+                Category = "Scheduling Settings",
+                Order = 1,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "04",
+                Text = "View Type",
+                Category = "View settings",
+                Order = 2,
+            });
+        ListData.Add(new DataModel
+            {
+                Id = "04",
+                Text = "View Mode",
+                Category = "View settings",
+                Order = 2,
+            });
+        this.TaskCollection = OverviewData.DataCollection();
+        this.ResourceCollection = OverviewData.GetResources;
+        currentUri = Navigation.Uri;
+        if (currentUri.Contains("fluent-dark"))
+        {
+            CurrentTheme = Theme.FluentDark;
+            parentProgressColor = "#3b3a39";
+            parentTrackColor = "#323130";
+            childProgressColor = "#0078d4";
+            childTrackColor = "#6ec0ff";
+            progressValue = "#f3f2f1";
+            filterBackground = "#201f1e";
+            filterHeaderFontSize = "14px";
+            filterHeaderFontSizeTouch = "16px";
+            filteraHeaderHeight = "50px";
+            filteraHeaderHeightTouch = "56px";
+            filterHeaderFontWeight = "600";
+        }
+        else if (currentUri.Contains("fluent"))
+        {
+            CurrentTheme = Theme.Fluent;
+            parentProgressColor = "#d2d0ce";
+            parentTrackColor = "#e1dfdd";
+            childProgressColor = "#0078d4";
+            childTrackColor = "#6ec0ff";
+            progressValue = "#201f1e";
+            filterBackground = "#faf9f8";
+            labelTextColor = "#201f1e";
+            filterHeaderFontSize = "14px";
+            filterHeaderFontSizeTouch = "16px";
+            filteraHeaderHeight = "50px";
+            filteraHeaderHeightTouch = "56px";
+            filterHeaderFontWeight = "600";
+        }
+        else if (currentUri.Contains("fabric-dark"))
+        {
+            CurrentTheme = Theme.FabricDark;
+            parentProgressColor = "#4cc7ba";
+            parentTrackColor = "#029f90";
+            childProgressColor = "#0063ad";
+            childTrackColor = "#0074cc";
+            filterBackground = "#333232";
+            labelTextColor = "#f3f2f1";
+        }
+        else if (currentUri.Contains("fabric"))
+        {
+            CurrentTheme = Theme.Fabric;
+            parentProgressColor = "#505050";
+            parentTrackColor = "#767676";
+            childProgressColor = "#005ba3";
+            childTrackColor = "#0078d6";
+            filterBackground = "#f4f4f4";
+        }
+        else if (currentUri.Contains("bootstrap5-dark"))
+        {
+            CurrentTheme = Theme.Bootstrap5Dark;
+            parentProgressColor = "#adb5bd";
+            parentTrackColor = "#6c757d";
+            childProgressColor = "#0d6efd";
+            childTrackColor = "#86b7fe";
+            progressValue = "#212529";
+            filterBackground = "#282d31";
+            labelTextColor = "#fff";
+            filterHeaderFontSize = "14px";
+            filterHeaderFontSizeTouch = "14px";
+            filteraHeaderHeight = "40px";
+            filteraHeaderHeightTouch = "48px";
+            filterHeaderFontWeight = "400";
+        }
+        else if (currentUri.Contains("bootstrap-dark"))
+        {
+            CurrentTheme = Theme.BootstrapDark;
+            parentProgressColor = "#4cc7ba";
+            parentTrackColor = "#029f90";
+            childProgressColor = "#0070f0";
+            childTrackColor = "#248aff";
+            filterBackground = "#393939";
+        }
+        else if (currentUri.Contains("bootstrap5"))
+        {
+            CurrentTheme = Theme.Bootstrap5;
+            parentProgressColor = "#adb5bd";
+            parentTrackColor = "#ced4da";
+            childProgressColor = "#0d6efd";
+            childTrackColor = "#86b7fe";
+            progressValue = "#212529";
+            filterBackground = "#f8f9fa";
+            labelTextColor = "#212529";
+            filterHeaderFontSize = "14px";
+            filterHeaderFontSizeTouch = "14px";
+            filteraHeaderHeight = "40px";
+            filteraHeaderHeightTouch = "48px";
+            filterHeaderFontWeight = "400";
+        }
+        else if (currentUri.Contains("bootstrap4"))
+        {
+            CurrentTheme = Theme.Bootstrap4;
+            parentProgressColor = "#495057";
+            parentTrackColor = "#6c757d";
+            childProgressColor = "#0056b3";
+            childTrackColor = "#007bff";
+            filterBackground = "#e9ecef";
+        }
+        else if (currentUri.Contains("bootstrap"))
+        {
+            CurrentTheme = Theme.Bootstrap;
+            parentProgressColor = "#555";
+            parentTrackColor = "#777";
+            childProgressColor = "#21527d";
+            childTrackColor = "#317ab9";
+            filterBackground = "#eee";
+        }
+        else if (currentUri.Contains("highcontrast"))
+        {
+            CurrentTheme = Theme.HighContrast;
+            parentProgressColor = "#005201";
+            parentTrackColor = "#007d01";
+            childProgressColor = "#3e047d";
+            childTrackColor = "#6e06f1";
+            filterBackground = "#000";
+            labelTextColor = "#fff";
+        }
+        else if (currentUri.Contains("tailwind-dark"))
+        {
+            CurrentTheme = Theme.TailwindDark;
+            parentProgressColor = "#9ca3af";
+            parentTrackColor = "#6b7280";
+            childProgressColor = "#22d3ee";
+            childTrackColor = "#0891b2";
+            progressValue = "white";
+            filterBackground = "#232e3e";
+            labelTextColor = "#fff";
+            filterHeaderFontSize = "14px";
+            filterHeaderFontSizeTouch = "16px";
+            filteraHeaderHeight = "44px";
+            filteraHeaderHeightTouch = "52px";
+            filterHeaderFontWeight = "400";
+        }
+        else if (currentUri.Contains("tailwind"))
+        {
+            CurrentTheme = Theme.Tailwind;
+            parentProgressColor = "#9ca3af";
+            parentTrackColor = "#d1d5db";
+            childProgressColor = "#4f46e5";
+            childTrackColor = "#818cf8";
+            progressValue = "#111827";
+            filterBackground = "#f9fafb";
+            labelTextColor = "rgb(17, 24, 39)";
+            filterHeaderFontSize = "14px";
+            filterHeaderFontSizeTouch = "16px";
+            filteraHeaderHeight = "44px";
+            filteraHeaderHeightTouch = "52px";
+            filterHeaderFontWeight = "400";
+        }
+        else if (currentUri.Contains("material-dark"))
+        {
+            CurrentTheme = Theme.MaterialDark;
+            parentProgressColor = "#4cc7ba";
+            parentTrackColor = "#029f90";
+            childProgressColor = "#7280ce";
+            childTrackColor = "#3f51b5";
+            filterHeaderFontSize = "16px";
+            filterHeaderFontSizeTouch = "18px";
+            filteraHeaderHeight = "52px";
+            filteraHeaderHeightTouch = "58px";
+            filterBackground = "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)),rgba(28, 27, 31)";
+            labelTextColor = "rgba(230, 225, 229)";
+            filterHeaderFontWeight = "400";
+        }
+        else if (currentUri.Contains("material"))
+        {
+            CurrentTheme = Theme.Material;
+            parentProgressColor = "#616161";
+            parentTrackColor = "rgba(97, 97, 97, 0.87)";
+            childProgressColor = "#3f51b5";
+            childTrackColor = "#5869c5";
+            filterHeaderFontSize = "16px";
+            filterHeaderFontSizeTouch = "18px";
+            filteraHeaderHeight = "52px";
+            filteraHeaderHeightTouch = "58px";
+            filterBackground = "linear-gradient(0deg, rgba(208, 188, 255, 0.05), rgba(208, 188, 255, 0.05)),rgba(255, 255, 255)";
+            labelTextColor = "#404042";
+            filterHeaderFontWeight = "400";
+        }
+
+    }
+    private string GetStatusContentStyles(string status)
+    {
+        switch (status)
+        {
+            case "In Progress":
+                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#DFECFF" : "#2D3E57";
+                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#006AA6" : "#34B6FF";
+
+                break;
+            case "Open":
+                statusStyleColor = "red";
+                statusContentstyleColor = "white";
+                break;
+            case "On Hold":
+                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#E4E4E7" : "#3C3B43";
+                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#766B7C" : "#CDCBD7";
+                break;
+            case "Completed":
+                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#DFFFE2" : "#16501C";
+                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#00A653" : "#92FFC8";
+                break;
+            case "High":
+                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
+                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
+                break;
+        }
+        return $"background:{statusStyleColor};color:{statusContentstyleColor};padding: 5px 12px; border-radius: 24px";
+    }
+    
+    private string GetPriorityContentStyle(string status)
+    {
+        switch (status)
+        {
+            case "Low":
+                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFF6D1" : "#473F1E";
+                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#70722B" : "#FDFF88";
+                break;
+            case "Normal":
+                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#F5DFFF" : "#4D2F5A";
+                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#7100A6" : "#E3A9FF";
+                break;
+            case "Critical":
+                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
+                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
+                break;
+            case "High":
+                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
+                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
+                break;
+        }
+        return $"background:{priorityStyle};color:{priorityContentStyle};padding: 5px 12px; border-radius: 24px";
+    }
+    private IGanttTaskModel<OverviewData.TaskData> GetTaskData(OverviewData.TaskData data)
+    {
+        return Gantt.GetRowTaskModel(data);
+    }
+}
+
+<style>
+   
+    body:not(.material3):not(.material3-dark) .e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
+        content: '\e729';
+        padding-top: 5px;
+        padding-right: 10px;
+    }
+
+    .e-task-label {
+        display: inline-block;
+        width: 100%;
+        padding: 0 6px;
+    }
+
+    .e-toolbar {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-style: solid;
+        border-width: 1px 1px 0;
+    }
+
+    @@font-face {
+        font-family: 'e-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-close::before {
+        font-family: 'e-icons' !important;
+        content: '\e7e7';
+        font-size: 15px;
+    }
+
+    .e-settings-icon::before {
+        font-family: 'e-icons' !important;
+        content: '\e880';
+        font-size: 15px;
+    }
+
+    .listviewarrow::before {
+        font-family: 'e-icons' !important;
+        content: '\e70c';
+        font-size: 15px;
+    }
+    .material3 .e-close::before,
+    .materia3l-dark .e-close::before,
+    .material3 .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .material .e-close::before,
+    .material-dark .e-close::before,
+    .material .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .fabric .e-close::before,
+    .fabric-dark .e-close::before,
+    .highcontrast .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap .e-close::before,
+    .bootstrap-dark .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap4 .e-close::before {
+        content: '\e745';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .tailwind .e-close::before,
+    .tailwind-dark .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap5 .e-close::before,
+    .bootstrap5-dark .e-close::before,
+    .fluent .e-close::before, .fluent-dark .e-close::before,
+    .tailwind .e-close::before, .tailwind-dark .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+
+    .material3 .e-settings-icon::before,
+    .materia3l-dark .e-settings-icon::before,
+    .material3 .e-settings-icon::before {
+        content: '\e880';
+        font-family: 'e-icons';
+    }
+
+    .material .e-settings-icon::before,
+    .material-dark .e-settings-icon::before,
+    .material .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .fabric .e-settings-icon::before,
+    .fabric-dark .e-settings-icon::before,
+    .highcontrast .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap .e-settings-icon::before,
+    .bootstrap-dark .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap4 .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .tailwind .e-settings-icon::before,
+    .tailwind-dark .e-settings-icon::before {
+        content: '\e880';
+        font-family: 'e-icons';
+    }
+
+
+    .fluent .e-settings-icon::before, .fluent-dark .e-settings-icon::before, {
+        content: '\e880';
+        font-family: 'e-icons';
+    }
+
+    .title {
+        line-height: 24px;
+        font-size: @filterHeaderFontSize;
+        font-weight:@filterHeaderFontWeight;
+        margin-top: 0;
+    }
+
+    .e-filterbutton {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .e-listview .e-list-header {
+        background: @filterBackground;
+        padding-left: 15px;
+        position: sticky;
+        top: -1px;
+        height: @filteraHeaderHeight;
+        color: @labelTextColor;
+    }
+
+    .e-listview .e-list-group-item {
+        font-size: 16px !important;
+        color: @labelTextColor;
+        padding: 12px;
+    }
+
+    .e-listview:not(.e-list-template) .e-list-item {
+        height: 100% !important;
+        padding: 12px;
+    }
+
+    .e-listview .e-list-group-item {
+        height: 100% !important;
+    }
+
+    .e-btn .e-btn-icon.e-icon-left {
+        margin-bottom: -3px;
+    }
+
+    .e-bigger .e-btn .e-btn-icon.e-icon-left {
+        margin-top: -6px;
+    }
+
+    .e-listview .e-list-group-item:first-child{
+        display: none;
+    }
+
+
+    .material3 .settings-btn,
+    .material3-dark .settings-btn {
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.10000000149011612px;
+        text-align: center;
+        border-radius:20px;
+    }
+    .material3 .list-header,
+    .material3-dark .list-header {
+        font-weight:600;
+        font-size:14px;
+        padding-top: 2px;
+    }
+
+    .material3 .list-fields,
+    .material3 .list-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .material3 .e-switch-wrapper,
+    .material3-dark .e-switch-wrapper {
+        width:40px;
+        height:24px;
+    }
+
+    .labels {
+        font-weight: 400;
+        font-size: 14px;
+    }
+    
+    .e-sidebar.e-right.e-open {
+        transition-duration: 200ms;
+    }
+
+    .e-sidebar.e-right.e-close {
+        transition-duration: 200ms;
+    }
+
+    .e-listview .e-list-item.e-focused{
+        background:none;
+    }
+
+    .bootstrap5 .e-listview .e-list-item,
+    .bootstrap5-dark .e-listview .e-list-item{
+        border:0px;
+    }
+
+    .e-bigger.bootstrap5 .e-listview .e-list-item,
+    .e-bigger .bootstrap5-dark .e-listview .e-list-item {
+        border: 0px;
+    }
+    .e-bigger .material3 .e-switch-wrapper,
+    .e-bigger .material3-dark .e-switch-wrapper {
+        width: 52px;
+        height: 32px;
+    }
+
+    .e-bigger
+    .title {
+        line-height: 24px;
+        font-size: @filterHeaderFontSizeTouch;
+        font-weight: @filterHeaderFontWeight;
+        margin-top: 0;
+    }
+
+    .e-bigger .e-listview .e-list-header {
+        background: @filterBackground;
+        padding-left: 15px;
+        position: sticky;
+        top: -1px;
+        height: @filteraHeaderHeightTouch;
+    }
+
+    .groupedList.e-listview {
+        display: block;
+        max-width: 350px;
+        margin: auto;
+        border: 1px solid;
+        line-height: initial;
+        border-color: rgba(0, 0, 0, 0.12);
+    } 
+    /* ListView border color customization */
+    .highcontrast .groupedList.e-listview {
+        border-color: #969696;
+    }
+
+    .tailwind-dark .groupedList.e-listview,
+    .bootstrap5-dark .groupedList.e-listview,
+    .material-dark .groupedList.e-listview,
+    .bootstrap-dark .groupedList.e-listview,
+    .fabric-dark .groupedList.e-listview {
+        border-color: #fff;
+    }
+
+    /* ListView template customization */
+     .groupedList.e-listview .e-list-header {
+        color: #fff;
+        height: 57px;
+        background-color: #56697f;
+        padding-left: 15px;
+        position: sticky;
+        top: -1px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .groupedList.e-listview .e-list-item {
+        cursor: pointer;
+    }
+
+    .groupedList.e-listview .e-list-group-item {
+        color: #837c7c;
+        height: inherit;
+    }
+
+     /* Dark theme related customization*/
+    .bootstrap5-dark .groupedList.e-listview .icon,
+    .bootstrap-dark .groupedList.e-listview .icon,
+    .highcontrast .groupedList.e-listview .icon,
+    .fabric-dark .groupedList.e-listview .icon,
+    .bootstrap5-dark .groupedList.e-listview .e-focused .icon,
+    .tailwind-dark .groupedList.e-listview .e-focused .icon,
+    .tailwind-dark .groupedList.e-listview .icon,
+    .highcontrast .groupedList.e-listview .e-focused .icon,
+    .bootstrap5 .groupedList.e-listview .e-focused .icon {
+        color: #fff;
+    }
+
+    .bootstrap4 .groupedList.e-listview .e-focused .icon {
+        color: #212529;
+    }
+    /* Template icons related customization */
+    .groupedList.e-listview .icon {
+        background: transparent;
+        color: #6c757d;
+    }
+
+
+    .highcontrast .groupedList.e-listview .e-list-header {
+        color: #ffd939;
+        background-color: #333333;
+    }
+
+    .material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-item-header {
+        color: #ffffff;
+    }
+
+    .material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content,
+    .bootstrap-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content {
+        color: rgba(255,255,255,0.7);
+    }
+
+    .e-list-item:has(:hover){
+        background-color:transparent !important;
+    }
+    </style>

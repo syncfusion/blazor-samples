@@ -1,0 +1,257 @@
+﻿@page "/card/tile-view"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Cards
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates cards in Tile view.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Card is a small, flexible, and extensible container in which users can show defined content in a specific structure.</p>
+</ActionDescription>
+
+<div class="row">
+    <div class="control-section col-lg-9 card-control-section tile_layout">
+        <div class="e-card-layout">
+            @if (this.CardDatas.Count == 0)
+            {
+                <div class="e-error">
+                    <div class="e-error-content">No results found. Please try a different search.</div>
+                </div>
+            }
+            else
+            {
+                @foreach (CardDataModel card in CardDatas)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding: 15px;">
+                        <div id="card_sample_1" class="card_sample">
+                            <SfCard>
+                                <CardImage Image="@card.ImageUrl" />
+                                <CardHeader Title="@card.Title" SubTitle="@card.SubTitle" />
+                                <CardContent Content="@card.Content" />
+                                <CardFooter>
+                                    <CardFooterContent>
+                                        <SfButton CssClass="e-btn e-outline e-primary" @onclick="@(e => NavigateToUrlAsync(@card.NavUrl))">Read More</SfButton>
+                                    </CardFooterContent>
+                                </CardFooter>
+                            </SfCard>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-section">
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <SfTextBox Placeholder="Search book" ShowClearButton="true" Width="200px" ValueChange="OnSearch" @bind-Value="SearchValue"></SfTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfDropDownList TValue="string" TItem="string" DataSource="@SortingType" Placeholder="Sorting order" Width="200px" @bind-Value="SortingValue">
+                                <DropDownListEvents TValue="string" TItem="string" ValueChange="OnSorting"></DropDownListEvents>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfMultiSelect Mode="VisualMode.Default" AllowFiltering="true" DataSource="@FilteringType" Placeholder="Book category" ShowClearButton="true" Width="200px" @bind-Value="FilteringValue">
+                                <MultiSelectEvents TValue="string[]" TItem="string" ValueChange="OnFiltering"></MultiSelectEvents>
+                            </SfMultiSelect>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfButton Content="Reset" OnClick="OnReset"></SfButton>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="source_link">
+    Source: &#xA0;
+    <a href="https://www.syncfusion.com/ebooks/" target="_blank">https://www.syncfusion.com/ebooks</a>
+</div>
+
+
+<style>
+    .property-panel-section .property-panel-content td {
+        padding: 0 0 15px 0;
+    }
+
+    .tile_layout.card-control-section .e-error {
+        height: 100px;
+        width: 100%;
+    }
+
+        .tile_layout.card-control-section .e-error .e-error-content {
+            color: red;
+            line-height: 100px;
+            text-align: center;
+        }
+
+    .tile_layout.card-control-section .e-card .e-card-image {
+        height: 180px;
+        width: inherit;
+    }
+
+    .tile_layout.card-control-section .e-card .e-card-header .e-card-header-caption .e-card-header-title {
+        font-size: 20px;
+        font-family: Helvetica, 'Segoe UI';
+        font-weight: bold;
+    }
+
+    .tile_layout.card-control-section .e-card .e-card-header .e-card-header-caption .e-card-sub-title {
+        padding-top: 5px;
+    }
+
+    .tile_layout.card-control-section .e-card .e-card-content {
+        padding-top: 0px;
+        height: 110px;
+    }
+
+    #source_link {
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+
+@code{
+    [Inject] public NavigationManager NavigationManager { get; set; }
+    [Inject] public IJSRuntime JsRuntime { get; set; }
+    public string SearchValue { get; set; }
+    public string SortingValue { get; set; }
+    public string[] FilteringValue { get; set; }
+    
+
+    protected override void OnInitialized()
+    {
+        _cardDatas = this.GetCardDatas();
+        base.OnInitialized();
+        
+    }
+
+    public class CardDataModel
+    {
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
+        public string SubTitle { get; set; }
+        public string Content { get; set; }
+        public string NavUrl { get; set; }
+        public string Tag { get; set; }
+    }
+
+    public List<CardDataModel> GetCardDatas()
+    {
+        var assetpath = SampleService.AssetsPath + "images/cards/";
+        List<CardDataModel> CardData = new List<CardDataModel>();
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-one.png", Title = "ASP.NET MVC", SubTitle = "Nick Harrison", Content = "ASP.NET Model View Controller design pattern to keep the data, views, and logic clearly separated in apps.", NavUrl = "https://www.syncfusion.com/ebooks/ASPNET_MVC_Succinctly", Tag = "Server-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-two.png", Title = "Node.js", SubTitle = "Emanuele DelBono", Content = "Node.js is a wildly popular platform for writing web applications that has revolutionized web development in many ways.", NavUrl = "https://www.syncfusion.com/ebooks/nodejs", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-three.png", Title = "React.js", SubTitle = "Dmitri Nesteruk", Content = "React is a JavaScript library that has revolutionized how developers design and think about views in web applications.", NavUrl = "https://www.syncfusion.com/ebooks/reactjs_succinctly", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-four.png", Title = "TypeScript", SubTitle = "Steve Fenton", Content = "Microsoft TypeScript extends many familiar features of .NET programming to JavaScript.", NavUrl = "https://www.syncfusion.com/ebooks/typescript", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-five.png", Title = "PHP", SubTitle = "Jose Roberto Olivas Mendoza", Content = "Known for its straightforward simplicity, PHP is an open source, general-purpose scripting language oriented for web development.", NavUrl = "https://www.syncfusion.com/ebooks/php_succinctly", Tag = "Server-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-six.png", Title = "CSS3", SubTitle = "Peter Shaw", Content = "In CSS3 Succinctly, author Peter Shaw provides an overview of the latest features available for custom cascading style sheets.", NavUrl = "https://www.syncfusion.com/ebooks/css3", Tag = "Front-end" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-seven.png", Title = "ASP.NET Core", SubTitle = "Simone Chiaretta and Ugo Lattanzi", Content = "In ASP.NET Core Succinctly, seasoned authors Simone Chiaretta and Ugo Lattanzi update you on all the advances provided by Microsoft’s landmark framework.", NavUrl = "https://www.syncfusion.com/ebooks/asp_net_core_succinctly", Tag = "Server-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-eight.png", Title = "Aurelia", SubTitle = "Matthew Duffield", Content = "Aurelia is a relatively new, open-source JavaScript library/framework that simplifies the creation of web-based applications.", NavUrl = "https://www.syncfusion.com/ebooks/aurelia_succinctly", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-nine.png", Title = "ECMAScript 6", SubTitle = "Matthew Duffield", Content = "ECMAScript 6 (ES6), also known as ECMAScript 2015, brings new functionality and features to the table that developers have been wanting for a long time.", NavUrl = "https://www.syncfusion.com/ebooks/ecmascript_6_succinctly", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-ten.png", Title = "JavaScript", SubTitle = "Cody Lindley", Content = "JavaScript Succinctly was written to give readers an accurate, concise examination of JavaScript objects and their supporting nuances.", NavUrl = "https://www.syncfusion.com/ebooks/javascript", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-eleven.png", Title = "Knockout.js", SubTitle = "Ryan Hodson", Content = "Knockout.js Succinctly is intended for professional web developers who need to build dynamic, scalable user interfaces with minimal code.", NavUrl = "https://www.syncfusion.com/ebooks/knockoutjs", Tag = "Client-side" });
+        CardData.Add(new CardDataModel { ImageUrl = assetpath + "tile-twelve.png", Title = "Angular 2", SubTitle = "Joseph D.Booth", Content = "Angular 2 is a massively popular JavaScript framework built to take advantage of component development in web apps.", NavUrl = "https://www.syncfusion.com/ebooks/angular2_succinctly", Tag = "Client-side" });
+        return CardData;
+    }
+
+    private List<CardDataModel> _cardDatas;
+    public List<CardDataModel> CardDatas
+    {
+        get {  return _cardDatas; }
+        set { _cardDatas = value; }
+    } 
+
+    public List<string> SortingType = new List<string>() { "Ascending", "Descending" };
+
+    public List<string> FilteringType = new List<string>() { "Client-side", "Server-side", "Front-end" };
+
+    public async Task NavigateToUrlAsync(string url)
+    {
+        await JsRuntime.InvokeAsync<object>("open", url, "_blank");
+    }
+
+    public List<CardDataModel> GetCardDatas(string[] values)
+    {
+        var cardDatas = GetCardDatas();
+        if (values == null)
+        {
+            return this.GetSortedCardDatas(cardDatas);
+        }
+        
+        var filterCards = new List<CardDataModel>();
+        foreach (string value in values)
+        {
+            var cards = cardDatas.Where(e => e.Tag == value);
+            foreach (var card in cards)
+            {
+                filterCards.Add(card);
+            }
+        }
+        return this.GetSortedCardDatas(filterCards);
+    }
+
+    public List<CardDataModel> GetSortedCardDatas(List<CardDataModel> sortingCards)
+    {
+        if (this.SortingValue != null)
+        {
+            sortingCards.Sort((x, y) => x.Title.CompareTo(y.Title));
+            if (this.SortingValue == "Descending")
+            {
+                sortingCards.Reverse();
+            }
+        }
+        return sortingCards;
+    }
+
+    public void OnSearch(ChangedEventArgs args)
+    {
+        if (args.Value != null)
+        {
+            this.CardDatas = this.CardDatas.FindAll(e => (e.Title.Contains(args.Value) || e.SubTitle.Contains(args.Value) || e.Content.Contains(args.Value) || e.Title.ToLower().Contains(args.Value) || e.SubTitle.ToLower().Contains(args.Value) || e.Content.ToLower().Contains(args.Value)));
+        }
+        else
+        {
+            this.CardDatas = this.GetCardDatas(this.FilteringValue);
+        }
+    }
+
+    public void OnSorting(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        this.CardDatas = this.GetSortedCardDatas(this.CardDatas);
+    }
+
+    public void OnFiltering(MultiSelectChangeEventArgs<string[]> args)
+    {
+        this.CardDatas = this.GetCardDatas(args.Value);
+    }
+
+    public void OnReset()
+    {
+        this.SearchValue = null;
+        this.SortingValue = null;
+        this.FilteringValue = null;
+        this.CardDatas = this.GetCardDatas();
+    }
+}

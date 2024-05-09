@@ -1,0 +1,287 @@
+﻿@page "/smith-chart/customization"
+
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes distinct transmissions using the smith chart. Data points are enhanced with marker and tooltip. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a smith chart with multiple series. Legend provides information about the series in the smith chart.</p>
+    <p>More information about the smith chart can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/smith-chart/getting-started' aria-label="documentation section" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="row">
+    <div class="col-lg-9 control-section sb-property-border">
+        <SfSmithChart Radius="@smithchartRadius" Theme="@Theme">
+            <SmithChartHorizontalAxis>
+                <SmithChartHorizontalMinorGridLines Visible="true"></SmithChartHorizontalMinorGridLines>
+            </SmithChartHorizontalAxis>
+            <SmithChartRadialAxis>
+                <SmithChartRadialMinorGridLines Visible="true"></SmithChartRadialMinorGridLines>
+            </SmithChartRadialAxis>
+            <SmithChartTitle Visible="true" Text="Impedance Transmission" EnableTrim="true" MaximumWidth="200">
+                <SmithChartTitleFont Size="16px"></SmithChartTitleFont>
+            </SmithChartTitle>
+            <SmithChartLegendSettings Visible="@smithchartLegend" Shape="Shape.Circle" Position="@smithchartLegendPostion">
+                <SmithChartBorder Color="transparent"></SmithChartBorder>
+            </SmithChartLegendSettings>
+            <SmithChartSeriesCollection>
+                <SmithChartSeries Name="Transmission-1" DataSource="@FirstTransmissionData" Resistance="resistance" Reactance="reactance"
+                                  EnableAnimation="@smithchartAnimation" EnableSmartLabels="false"
+                                  Width="2">
+                    <SmithChartSeriesTooltip Visible="@smithchartTooltip"></SmithChartSeriesTooltip>
+                    <SmithChartSeriesMarker Visible="@smithchartMarker" Shape="Shape.Rectangle">
+                        <SmithChartSeriesDatalabel Visible="@smithchartDatalabel"></SmithChartSeriesDatalabel>
+                        <SmithChartSeriesMarkerBorder Width="2">
+                        </SmithChartSeriesMarkerBorder>
+                    </SmithChartSeriesMarker>
+                </SmithChartSeries>
+                <SmithChartSeries Name="Transmission-2" DataSource="@SecondTransmissionData" Resistance="resistance" Reactance="reactance"
+                                  EnableAnimation="@smithchartAnimation" EnableSmartLabels="false" Width="2">
+                    <SmithChartSeriesTooltip Visible="@smithchartTooltip"></SmithChartSeriesTooltip>
+                    <SmithChartSeriesMarker Visible="@smithchartMarker" Shape="Shape.Rectangle">
+                        <SmithChartSeriesDatalabel Visible="@smithchartDatalabel"></SmithChartSeriesDatalabel>
+                        <SmithChartSeriesMarkerBorder Width="2">
+                        </SmithChartSeriesMarkerBorder>
+                    </SmithChartSeriesMarker>
+                </SmithChartSeries>
+            </SmithChartSeriesCollection>
+        </SfSmithChart>
+    </div>
+    <div class="col-md-3 property-section">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+        <div class="property-panel-header">Properties</div>
+        <table style="width :100%" title="Properties">
+            <tbody>
+                <tr style="height: 35px">
+                    <td style="width: 45%; margin-top: 5px" class="property-text">
+                        Radius<span>&nbsp;&nbsp;&nbsp;@radiusValueText</span>
+                    </td>
+                    <td style="width: 70%">
+                        <SfNumericTextBox TValue="double?" Value="@radiusSliderValue" Max=1 Min=0.4 Step=0.1>
+                                <NumericTextBoxEvents TValue="double?" ValueChange="RadiusSlider" />
+                        </SfNumericTextBox>
+                    </td>
+                </tr>
+                <tr style="height: 35px">
+                    <td style="width: 45%" class="property-text">
+                        Marker
+                    </td>
+                    <td style="width: 70%">
+                        <SfCheckBox Checked="@markerCheckedState" ValueChange="MarkerCheckbox" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr style="height: 35px">
+                    <td style="width: 45%" class="property-text">
+                        Data Label
+                    </td>
+                    <td style="width: 75%">
+                        <SfCheckBox Checked="@datalabelCheckedState" ValueChange="DatalabelCheckbox" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr style="height: 35px">
+                    <td style="width: 45%" class="property-text">
+                        Animation
+                    </td>
+                    <td style="width: 75%">
+                        <SfCheckBox Checked="@animationCheckedState" ValueChange="AnimationCheckbox" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr style="height: 35px">
+                    <td style="width: 45%" class="property-text">
+                        Tooltip
+                    </td>
+                    <td style="width: 75%">
+                        <SfCheckBox Checked="@tooltipCheckedState" ValueChange="TooltipCheckbox" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr style="height: 35px">
+                    <td style="width: 45%" class="property-text">
+                        Legend
+                    </td>
+                    <td style="width: 75%">
+                        <SfCheckBox Checked="@legendCheckedState" ValueChange="LegendCheckbox" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr style="height: 35px">
+                    <td style="width: 45%" class="property-text">
+                        Legend Position
+                    </td>
+                    <td style="width: 75%">
+                        <SfDropDownList TValue="string" Enabled="@LegendPositionListEnable" TItem="PositionList" DataSource="@PositionData" @bind-Value="@legendPositionValue" Width="90px">
+                            <DropDownListEvents TValue="string" TItem="PositionList" ValueChange="LegendPositionList"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    .control-section {
+        min-height: 450px;
+    }
+
+    .property-text {
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+        font-size: 13px !important;
+        font-weight: 400 !important;
+    }
+
+    #radius > * {
+        padding: 0px !important;
+    }
+
+    .content-wrapper {
+        width: 40%;
+        margin: 0 auto;
+        min-width: 185px;
+    }
+
+    label {
+        height: 32px !important;
+    }
+
+    td {
+        padding: 1%;
+    }
+</style>
+
+@code {
+    
+    private Theme Theme { get; set; }
+    private double smithchartRadius = 1;
+    private bool smithchartMarker = true;
+    private bool smithchartDatalabel = false;
+    private bool smithchartAnimation = false;
+    private bool smithchartTooltip = true;
+    private bool smithchartLegend = true;
+    private LegendPosition smithchartLegendPostion = LegendPosition.Top;
+    private double radiusValueText = 1;
+    private double radiusSliderValue = 1;
+    private bool markerCheckedState = true;
+    private bool datalabelCheckedState = false;
+    private bool animationCheckedState = false;
+    private bool tooltipCheckedState = true;
+    private bool legendCheckedState = true;
+    private string legendPositionValue = "Top";
+    private bool LegendPositionListEnable = true;
+
+    public class SmithDataSource
+    {
+        public double? resistance { get; set; }
+        public double? reactance { get; set; }
+    };
+    public List<SmithDataSource> FirstTransmissionData = new List<SmithDataSource> {
+        new SmithDataSource { resistance= 10, reactance= 25 },
+        new SmithDataSource { resistance= 8, reactance= 6 },
+        new SmithDataSource { resistance= 6, reactance= 4.5 },
+        new SmithDataSource { resistance= 4.5, reactance= 4 },
+        new SmithDataSource { resistance= 3.5, reactance= 3 },
+        new SmithDataSource { resistance= 2.5, reactance= 2 },
+        new SmithDataSource { resistance= 2, reactance= 1.5 },
+        new SmithDataSource { resistance= 1.5, reactance= 1.25 },
+        new SmithDataSource { resistance= 1, reactance= 0.9 },
+        new SmithDataSource { resistance= 0.5, reactance= 0.6 },
+        new SmithDataSource { resistance= 0.3, reactance= 0.4 },
+        new SmithDataSource { resistance= 0, reactance= 0.15 }
+    };
+
+    public List<SmithDataSource> SecondTransmissionData = new List<SmithDataSource>  {
+        new SmithDataSource { resistance= 20, reactance= -50 },
+        new SmithDataSource { resistance= 10, reactance= -10 },
+        new SmithDataSource { resistance= 9, reactance= -4.5 },
+        new SmithDataSource { resistance= 8, reactance= -3.5 },
+        new SmithDataSource { resistance= 7, reactance= -2.5 },
+        new SmithDataSource { resistance= 6, reactance= -1.5 },
+        new SmithDataSource { resistance= 5, reactance= -1 },
+        new SmithDataSource { resistance= 4.5, reactance= -0.8 },
+        new SmithDataSource { resistance= 3.5, reactance= -0.8 },
+        new SmithDataSource { resistance= 2.5, reactance= -0.4 },
+        new SmithDataSource { resistance= 2, reactance= -0.2 },
+        new SmithDataSource { resistance= 1.5, reactance= 0 },
+        new SmithDataSource { resistance= 1, reactance= 0.1 },
+        new SmithDataSource { resistance= 0.5, reactance= 0.2 },
+        new SmithDataSource { resistance= 0.3, reactance= 0.15 },
+        new SmithDataSource { resistance= 0, reactance= 0.05 },
+    };
+    public class PositionList
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    }
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    private List<PositionList> PositionData = new List<PositionList> {
+        new PositionList { Name= "Top"},
+        new PositionList { Name= "Bottom"},
+        new PositionList { Name= "Right"},
+        new PositionList { Name= "Left"},
+    };
+    private void RadiusSlider(Syncfusion.Blazor.Inputs.ChangeEventArgs<double?> args)
+    {
+        smithchartRadius = Convert.ToDouble(args.Value);
+        radiusSliderValue = Convert.ToDouble(args.Value);
+        radiusValueText = radiusSliderValue;
+    }
+    private void MarkerCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        markerCheckedState = args.Checked;
+        smithchartMarker = args.Checked;
+    }
+    private void DatalabelCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        datalabelCheckedState = args.Checked;
+        smithchartDatalabel = args.Checked;
+    }
+    private void AnimationCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        animationCheckedState = args.Checked;
+        smithchartAnimation = args.Checked;
+    }
+    private void TooltipCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        tooltipCheckedState = args.Checked;
+        smithchartTooltip = args.Checked;
+    }
+    private void LegendCheckbox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        legendCheckedState = args.Checked;
+        smithchartLegend = args.Checked;
+        LegendPositionListEnable = args.Checked;
+    }
+    private void LegendPositionList(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, PositionList> args)
+    {
+        legendPositionValue = args.Value;
+        switch (args.Value)
+        {
+            case "Top":
+                smithchartLegendPostion = LegendPosition.Top;
+                break;
+            case "Bottom":
+                smithchartLegendPostion = LegendPosition.Bottom;
+                break;
+            case "Right":
+                smithchartLegendPostion = LegendPosition.Right;
+                break;
+            case "Left":
+                smithchartLegendPostion = LegendPosition.Left;
+                break;
+        }
+    }
+}

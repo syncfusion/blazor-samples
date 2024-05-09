@@ -1,0 +1,93 @@
+﻿@page "/scheduler/working-hours"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases how to set the required working hours on Scheduler, thus visually highlighting the cells underlying the given work hour range.  </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, the work hours are set by using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleWorkHours.html">ScheduleWorkHours</a> tag and it usually applies only on the working days defined for the Schedule. It can either be highlighted or not by defining the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleWorkHours.html#Syncfusion_Blazor_Schedule_ScheduleWorkHours_Highlight">Highlight</a>
+        option within the <code>ScheduleWorkHours</code>. The working hour range can be defined by using the <code>Start</code> and <code>End</code> option available within the <code>ScheduleWorkHours</code>.
+    </p>
+    <p>
+        To set discontinuous working hours on a day, then the default <code>WorkHours</code> on Scheduler needs to be disabled by setting false to
+        <code>Highlight</code> option within it. Then, use the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_SetWorkHoursAsync_System_Collections_Generic_List_System_DateTime__System_String_System_String_System_Nullable_System_Int32__">SetWorkHoursAsync</a> method which accepts the days collection and the start & end hour values as parameters.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate" WorkDays="@workingDays">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleWorkHours Highlight="true" Start="@startWorkingHours" End="@endWorkingHours"></ScheduleWorkHours>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@StartTime" Placeholder="Work Start" FloatLabelType="FloatLabelType.Always">
+                                    <TimePickerEvents TValue="DateTime?" ValueChange="OnStartWorkHourChange"></TimePickerEvents>
+                                </SfTimePicker>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@EndTime" Placeholder="Work End" FloatLabelType="FloatLabelType.Always">
+                                    <TimePickerEvents TValue="DateTime?" ValueChange="OnEndWorkHourChange"></TimePickerEvents>
+                                </SfTimePicker>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@code{
+    public View CurrentView { get; set; } = View.WorkWeek;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetEmployeeEventData();
+    private int[] workingDays = new int[] { 1, 3, 5 };
+    private DateTime? StartTime { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0);
+    private DateTime? EndTime { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0);
+    private string startWorkingHours = "08:00";
+    private string endWorkingHours = "20:00";
+    
+    public void OnStartWorkHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.startWorkingHours = args.Text;
+    }
+    public void OnEndWorkHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.endWorkingHours = args.Text;
+    }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}

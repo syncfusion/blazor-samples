@@ -1,0 +1,125 @@
+﻿@page "/chart/polar-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows the top 10 mobile markets by the number of subscriptions in polar and radar charts using column series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure polar and radar charts with a column series. Switching between polar and radar series can be done using <b>Series Type</b> in the property panel.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the polar and radar chart with column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/polar/#column' aria-label="Navigate to the documentation for column in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="Top 10 Mobile Markets by Number of Subscriptions" Theme="@Theme">
+        <ChartPrimaryXAxis Interval="1" Coefficient="@(SampleService.IsDevice ? 67 : 100 )" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}M"></ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" Header="<b>${series.name}</b>" Format="${point.text} : <b>${point.y}%</b>">
+        </ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Population" XName="Country" Width="2" YName="Population" Type="@SeriesType" DrawType="ChartDrawType.Column">
+                <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="Mobile Subscriptions" XName="Country" Width="2" YName="MobileSubscriber" Type="@SeriesType" DrawType="ChartDrawType.Column">
+                <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="3G/4G Subscriptions" XName="Country" Width="2" YName="NetworkSubscriber" Type="@SeriesType" DrawType="ChartDrawType.Column">
+                <ChartSeriesBorder Color="white" Width="1"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Polar" DataSource="@SeriesTypes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Polar;
+    public List<DropDownData> SeriesTypes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Polar" },
+        new DropDownData() { Type = "Radar" },
+    };
+    public List<PolarColumnData> ChartPoints { get; set; } = new List<PolarColumnData>
+    {
+        new PolarColumnData { TooltipMappingName= "Japan", Country = "Japan", MobileSubscriber = 137.9, Population = 127.6, NetworkSubscriber = 108.8 },
+        new PolarColumnData { TooltipMappingName= "Indonesia", Country = "Indonesia", MobileSubscriber = 85.0, Population = 246.9, NetworkSubscriber = 45.5 },
+        new PolarColumnData { TooltipMappingName= "Russia", Country = "Russia", MobileSubscriber = 237.1, Population = 143.5, NetworkSubscriber = 41.2 },
+        new PolarColumnData { TooltipMappingName= "Vietnam", Country = "Vietnam", MobileSubscriber = 127.7, Population = 88.8, NetworkSubscriber = 18.0 },
+        new PolarColumnData { TooltipMappingName= "Pakistan", Country = "Pakistan", MobileSubscriber = 126.1, Population = 179.2 },
+        new PolarColumnData { TooltipMappingName= "Nigeria", Country = "Nigeria", MobileSubscriber = 175.0, Population = 168.8, NetworkSubscriber = 12.7 },
+        new PolarColumnData { TooltipMappingName= "Germany", Country = "Germany", MobileSubscriber = 113.6, Population = 81.9, NetworkSubscriber = 46.0 },
+        new PolarColumnData { TooltipMappingName= "Bangladesh", Country = "Bangladesh", MobileSubscriber = 116.0, Population = 154.7, NetworkSubscriber = 34.6 },
+        new PolarColumnData { TooltipMappingName= "Philippines", Country = "Philippines", MobileSubscriber = 109.5, Population = 96.7, NetworkSubscriber = 16.6 },
+        new PolarColumnData { TooltipMappingName= "Mexico", Country = "Mexico", MobileSubscriber = 102.7, Population = 120.8, NetworkSubscriber = 19.8 }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public void ChangeSeriesType(ChangeEventArgs<string, DropDownData> args)
+    {
+        SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class PolarColumnData
+    {
+        public string TooltipMappingName { get; set; }
+        public string Country { get; set; }
+        public double MobileSubscriber { get; set; }
+        public double Population { get; set; }
+        public double NetworkSubscriber { get; set; }
+    }
+}

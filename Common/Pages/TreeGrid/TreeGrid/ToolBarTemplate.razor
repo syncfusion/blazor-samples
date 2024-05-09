@@ -1,0 +1,91 @@
+﻿@page "/tree-grid/tool-bar-template"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@*Hidden:Lines*@
+@using ej2_blazor_selfdata
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+@using Syncfusion.Blazor.Navigations
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows how to render a custom item in toolbar. In this demo, 'Quick Filter' custom toolbar item is shown that, when clicked, filters the Task Name column in the Tree Grid.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>By defining the toolbar as a collection of <a aria-label="Navigate to the class reference for ItemModel in navigation component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.ItemModel.html'>ItemModel</a>, custom toolbar items can be added. By using <a aria-label="Navigate to the OnToolbarClick event reference for tree grid component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEvents-1.html#Syncfusion_Blazor_TreeGrid_TreeGridEvents_1_OnToolbarClick'>OnToolbarClick</a> event, the actions for these customised toolbar items can be defined.</p>
+   <p>In this demo, the custom toolbar item 'Quick Filter' has been rendered, along with the predefined toolbar items 'ExpandAll' and 'CollapseAll'. When you click the 'Quick Filter' toolbar button, the filtering is applied to the Task Name column.</p>
+   <p>More information on toolbar can be found in this <a aria-label="Navigate to the documentation for toolbar in tree grid component" target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/toolbar/'>documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid AllowFiltering="true" @ref="TreeGrid" DataSource="TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" Toolbar="ToolbarItems" Height="350">
+                <TreeGridEvents TValue="SelfReferenceData" OnToolbarClick="ToolBarClick"></TreeGridEvents>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="120" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="145"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type=ColumnType.Date Width="140" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="120" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="120"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-expand::before {
+        content: '\e82e';
+    }
+
+    .e-collapse::before {
+        content: '\e834';
+    }
+</style>
+
+
+@code{
+    private SfTreeGrid<SelfReferenceData> TreeGrid;
+
+
+    private List<ItemModel> ToolbarItems = new List<ItemModel>
+        {
+            new ItemModel() { Text = "Expand all", TooltipText = "Expand all", PrefixIcon = "e-expand", Id = "ExpandAll" },
+            new ItemModel() { Text = "Collapse all", TooltipText = "Collapse all", PrefixIcon = "e-collapse", Id = "CollapseAll" },
+            new ItemModel() { Text = "Quick Filter", TooltipText = "Quick Filter", Id = "toolbarfilter" }
+        };
+
+    private List<SelfReferenceData> TreeData { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+        this.TreeData = SelfReferenceData.GetTree().Take(12).ToList();
+    }
+    public async Task ToolBarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (args.Item.Text == "Expand all")
+        {
+            await this.TreeGrid.ExpandAllAsync();
+
+        }
+        if (args.Item.Text == "Collapse all")
+        {
+            await this.TreeGrid.CollapseAllAsync();
+
+        }
+        if (args.Item.Text == "Quick Filter")
+        {
+            await this.TreeGrid.FilterByColumnAsync("TaskName", "startswith", "Child");
+        }
+    }
+}

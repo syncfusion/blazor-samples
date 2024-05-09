@@ -1,0 +1,556 @@
+﻿@page "/breadcrumb/address-bar"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the address bar functionalities using the <b>Blazor Breadcrumb</b> component. Click the right arrow icon to view and navigate to the next level items.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In the demo, <code>ItemTemplate</code> property is used to render <code>Menu</code> component as Breadcrumb items. 
+        Click the right arrow icon to view and navigate to the next level items.
+    </p>
+    <p><b>See also</b></p>
+    <ul>
+       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/' target='_blank' aria-label="Getting started with Blazor Breadcrumb">Getting started with Blazor Breadcrumb</a></li>
+       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/templates' target='_blank' aria-label="Blazor Breadcrumb - Template">Blazor Breadcrumb - Template</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <div class="row material2">
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                <h5 style="display: inline-block">File Manager like Breadcrumb</h5>
+                <SfButton class="e-small reset-btn" @onclick="ResetBtnClickHandler">Reset State</SfButton>
+            </div>
+        </div>
+        <div class="row material2">
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                <SfBreadcrumb class="e-custom-breadcrumb">
+                    <BreadcrumbItems>
+                        @foreach (var item in breadcrumbItems)
+                        {
+                            <BreadcrumbItem IconCss="@item.IconCss" Text="@item.Text"></BreadcrumbItem>
+                        }
+                    </BreadcrumbItems>
+                    <BreadcrumbTemplates>
+                        <ItemTemplate>
+                            <div style="display: flex;">
+                                @if (context.Text != "LastItem")
+                                {
+                                    <SfMenu TValue="MenuItem">
+                                        <MenuItems>
+                                            <MenuItem Text="@context.Text" IconCss="@context.IconCss" />
+                                        </MenuItems>
+                                        <MenuEvents TValue="MenuItem" ItemSelected="@MenuItemSelected"></MenuEvents>
+                                    </SfMenu>
+                                }
+                            </div>
+                        </ItemTemplate>
+                        <SeparatorTemplate>
+                            <div style="display: flex;">
+                                @{if (context.PreviousItem.Text != "LastItem")
+                                    {
+                                        var items = getItems(@context.PreviousItem.Text, false);
+                                        if (items != null && items.Count > 0)
+                                        {
+                                            <SfMenu TValue="MenuItem" ShowItemOnClick="true">
+                                                <MenuItems>
+                                                    <MenuItem>
+                                                        <MenuItems>
+                                                            @foreach (var item in items)
+                                                            {
+                                                                <MenuItem Text="@item.Text" Id="@item.Type"></MenuItem>
+                                                            }
+                                                        </MenuItems>
+                                                    </MenuItem>
+                                                </MenuItems>
+                                                <MenuEvents TValue="MenuItem" ItemSelected="@((MenuEventArgs<MenuItem> args) => { SubMenuItemSelected(args, context.PreviousItem.Text); })"></MenuEvents>
+                                            </SfMenu>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </SeparatorTemplate>
+                    </BreadcrumbTemplates>
+                </SfBreadcrumb>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    private List<BreadcrumbItemModel> breadcrumbItems = new List<BreadcrumbItemModel>() {
+        new BreadcrumbItemModel { IconCss = "e-bicons e-picture" },
+        new BreadcrumbItemModel { Text = "This PC" },
+        new BreadcrumbItemModel { Text = "Local Disk (C:)" },
+        new BreadcrumbItemModel { Text = "Users" },
+        new BreadcrumbItemModel { Text = "Admin" },
+        new BreadcrumbItemModel { Text = "Pictures" }
+    };
+
+    private void MenuItemSelected(MenuEventArgs<MenuItem> args)
+    {
+        for (var i = 0; i < breadcrumbItems.Count; i++)
+        {
+            if (breadcrumbItems[i].Text == args.Item.Text)
+            {
+                breadcrumbItems = breadcrumbItems.GetRange(0, i + 1);
+                breadcrumbItems[0].IconCss = "e-bicons e-" + getItems(args.Item.Text, true)[0].Type;
+                break;
+            }
+        }
+        breadcrumbItems.Add(new BreadcrumbItemModel { Text = "LastItem" });
+    }
+
+    private void SubMenuItemSelected(MenuEventArgs<MenuItem> args, string text)
+    {
+        if (args.Item.Text != "")
+        {
+            List<AddressBarItemModel> mItems = getItems(text, false);
+            List<BreadcrumbItemModel> bItems = breadcrumbItems;
+            for (var i = 0; i < mItems.Count; i++)
+            {
+                for (var j = 0; j < breadcrumbItems.Count; j++)
+                {
+                    if (mItems[i].Text == breadcrumbItems[j].Text)
+                    {
+                        bItems = breadcrumbItems.GetRange(0, j);
+                    }
+                }
+            }
+            bItems[0].IconCss = "e-bicons e-" + args.Item.Id;
+            bItems.Add(new BreadcrumbItemModel { Text = args.Item.Text });
+            bItems.Add(new BreadcrumbItemModel { Text = "LastItem" });
+            breadcrumbItems = bItems;
+        }
+    }
+
+    private List<AddressBarItemModel> getItems(string text, bool needParent)
+    {
+        List<AddressBarItemModel> mItems = items;
+        bool isBreaked = false;
+        if (text == null)
+        {
+            mItems = getSubMenuItems(mItems);
+        }
+        else
+        {
+            for (var i = 1; i < breadcrumbItems.Count; i++)
+            {
+                for (var j = 0; j < mItems.Count; j++)
+                {
+                    if (mItems[j].Text == breadcrumbItems[i].Text)
+                    {
+                        if (mItems[j].Text == text)
+                        {
+                            if (needParent)
+                            {
+                                mItems = new List<AddressBarItemModel>() { mItems[j] };
+                            }
+                            else
+                            {
+                                mItems = getSubMenuItems(mItems[j].Items);
+                            }
+                            isBreaked = true;
+                        }
+                        else
+                        {
+                            mItems = mItems[j].Items;
+                            j = 0;
+                            if (mItems == null)
+                            {
+                                isBreaked = true;
+                            }
+                        }
+                        break;
+                    }
+                }
+                if (isBreaked)
+                {
+                    break;
+                }
+            }
+        }
+        return (mItems == items ? null : mItems);
+    }
+
+    private List<AddressBarItemModel> getSubMenuItems(List<AddressBarItemModel> mItems)
+    {
+        List<AddressBarItemModel> subItems = new List<AddressBarItemModel>();
+        if (mItems != null)
+        {
+            for (var i = 0; i < mItems.Count; i++)
+            {
+                subItems.Add(new AddressBarItemModel { Text = mItems[i].Text, Type = mItems[i].Type });
+            }
+        }
+        return subItems;
+    }
+
+
+    List<AddressBarItemModel> items = new List<AddressBarItemModel>() {
+        new AddressBarItemModel {
+            Text = "OneDrive", Type = "onedrive",
+            Items = new List<AddressBarItemModel>() {
+               new AddressBarItemModel { Text = "Documents", Type = "folder" },
+               new AddressBarItemModel { Text = "Email attachments", Type = "folder" },
+               new AddressBarItemModel { Text = "Music", Type = "folder" },
+               new AddressBarItemModel { Text = "Pictures", Type = "folder" }
+            }
+        },
+       new AddressBarItemModel {
+            Text = "This PC", Type = "desktop",
+            Items = new List<AddressBarItemModel>() {
+               new AddressBarItemModel { Text = "Desktop", Type = "desktop" },
+               new AddressBarItemModel { Text = "Documents", Type = "documents",
+                   Items = new List<AddressBarItemModel>() {
+                   new AddressBarItemModel { Text = "IISExpress", Type = "folder",
+                       Items = new List<AddressBarItemModel>() {
+                       new AddressBarItemModel { Text = "config", Type = "folder" }
+                    } },
+                   new AddressBarItemModel { Text = "Visual Studio 2019", Type = "folder",
+                       Items = new List<AddressBarItemModel>() {
+                       new AddressBarItemModel { Text = "Code Snippets", Type = "folder" },
+                       new AddressBarItemModel { Text = "Templates", Type = "folder" },
+                       new AddressBarItemModel { Text = "Visualizers", Type = "folder" }
+                    } }
+                } },
+               new AddressBarItemModel { Text = "Downloads", Type = "downloads" },
+               new AddressBarItemModel { Text = "Local Disk (C:)", Type = "folder",
+                    Items = new List<AddressBarItemModel>() {
+                       new AddressBarItemModel {
+                            Text = "Microsoft", Type = "folder"
+                        },
+                       new AddressBarItemModel { Text = "Program Files", Type = "folder",
+                           Items = new List<AddressBarItemModel>() {
+                           new AddressBarItemModel { Text = "Git", Type = "folder",
+                               Items = new List<AddressBarItemModel>() {
+                               new AddressBarItemModel { Text = "bin", Type = "folder" },
+                               new AddressBarItemModel { Text = "cmd", Type = "folder" },
+                               new AddressBarItemModel { Text = "dev", Type = "folder" }
+                            } },
+                           new AddressBarItemModel { Text = "Google", Type = "folder",
+                               Items = new List<AddressBarItemModel>() {
+                               new AddressBarItemModel { Text = "Chrome", Type = "folder" }
+                            } },
+                           new AddressBarItemModel { Text = "Internet Explorer", Type = "folder",
+                               Items = new List<AddressBarItemModel>() {
+                               new AddressBarItemModel { Text = "en-US", Type = "folder" }
+                            } }
+                        } },
+                       new AddressBarItemModel { Text = "Program Files (x86)", Type = "folder",
+                           Items = new List<AddressBarItemModel>() {
+                           new AddressBarItemModel { Text = "Microsoft", Type = "folder",
+                               Items = new List<AddressBarItemModel>() {
+                               new AddressBarItemModel { Text = "Edge", Type = "folder" }
+                            } },
+                           new AddressBarItemModel { Text = "MSBuild", Type = "folder" },
+                           new AddressBarItemModel { Text = "Windows Defender", Type = "folder" }
+                        } },
+                       new AddressBarItemModel {
+                            Text = "Users", Type = "folder", Items = new List<AddressBarItemModel>() {
+                               new AddressBarItemModel {
+                                    Text = "Admin", Type = "folder", Items = new List<AddressBarItemModel>() {
+                                       new AddressBarItemModel { Text = "Desktop", Type = "desktop" },
+                                       new AddressBarItemModel { Text = "Documents", Type = "documents" },
+                                       new AddressBarItemModel { Text = "Downloads", Type = "downloads" },
+                                       new AddressBarItemModel { Text = "Pictures", Type = "picture" }
+                                    }
+                                },
+                               new AddressBarItemModel { Text = "Public", Type = "folder" }
+                            }
+                        },
+                       new AddressBarItemModel { Text = "Windows", Type = "folder",
+                           Items = new List<AddressBarItemModel>() {
+                           new AddressBarItemModel { Text = "Boot", Type = "folder" },
+                           new AddressBarItemModel { Text = "System32", Type = "folder",
+                               Items = new List<AddressBarItemModel>() {
+                               new AddressBarItemModel { Text = "Configuration", Type = "folder" },
+                               new AddressBarItemModel { Text = "LogFiles", Type = "folder" }
+                            } }
+                        } }
+                    }
+                },
+               new AddressBarItemModel { Text = "Local Disk (D:)", Type = "folder" }
+            }
+        },
+       new AddressBarItemModel { Text = "Libraries", Type = "folder" },
+       new AddressBarItemModel { Text = "Network", Type = "network" },
+       new AddressBarItemModel { Text = "Recycle Bin", Type = "recyclebin" }
+    };
+
+    // To refresh the Breadcrumb control state when reset button clicked
+    private void ResetBtnClickHandler()
+    {
+        breadcrumbItems = new List<BreadcrumbItemModel>() {
+        new BreadcrumbItemModel { IconCss = "e-bicons e-picture" },
+        new BreadcrumbItemModel { Text = "This PC" },
+        new BreadcrumbItemModel { Text = "Local Disk (C:)" },
+        new BreadcrumbItemModel { Text = "Users" },
+        new BreadcrumbItemModel { Text = "Admin" },
+        new BreadcrumbItemModel { Text = "Pictures" }
+        };
+    }
+
+    public class AddressBarItemModel
+    {
+        public string Text { get; set; }
+        public string Type { get; set; }
+        public List<AddressBarItemModel> Items { get; set; }
+    }
+
+    public class BreadcrumbItemModel
+    {
+        public string Text { get; set; }
+        public string IconCss { get; set; }
+    }
+}
+<style>
+    .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
+        padding-right: 20px !important;
+        padding-left: 0px !important;
+        overflow: hidden;
+    }
+
+    .tailwind .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon,
+    .tailwind-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon,
+    .e-bigger.bootstrap-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
+        padding-right: 25px !important;
+    }
+
+    .bootstrap5 .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon,
+    .bootstrap5-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
+        padding-right: 23px !important;
+    }
+
+    .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret {
+        right: 5px;
+    }
+
+    .fluent .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .fluent-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .e-bigger .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .e-bigger .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret
+    {
+        right: 1px;
+    }
+    
+    .e-custom-breadcrumb .e-breadcrumb-item,
+    .e-custom-breadcrumb .e-breadcrumb-separator {
+        padding: 0px !important;
+    }
+
+    .fabric .e-custom-breadcrumb .e-menu {
+        padding: 0 8px !important;
+    }
+
+    .fabric .e-bigger .e-custom-breadcrumb .e-menu {
+        padding: 0 12px !important;
+    }
+
+    .fabric .e-custom-breadcrumb .e-breadcrumb-item .e-menu,
+    .highcontrast .e-custom-breadcrumb .e-breadcrumb-item .e-menu,
+    .fabric-dark .e-custom-breadcrumb .e-breadcrumb-item .e-menu {
+        padding: 0 !important;
+    }
+
+    .e-custom-breadcrumb .e-menu-container {
+        border: none;
+    }
+
+    .e-custom-breadcrumb ol {
+        background-color: transparent !important;
+    }
+
+    .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-menu-icon {
+        margin-right: 0;
+    }
+
+    .fabric-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-menu-icon,
+    .fabric .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-menu-icon,
+    .highcontrast .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-menu-icon {
+        padding-right: 22px;
+        padding-left: 6px;
+    }
+
+    .bootstrap .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-menu-icon {
+        padding-right: 16px;
+    }
+
+    .e-custom-breadcrumb .e-caret {
+        transform: rotate(-90deg);
+    }
+
+    .e-custom-breadcrumb .e-menu-item[aria-expanded="true"] .e-caret {
+        transform: none;
+    }
+
+    @@font-face {
+        font-family: 'e-bicons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-bicons {
+        font-family: 'e-bicons' !important;
+    }
+
+    .e-folder::before {
+        content: '\e705';
+    }
+
+    .e-onedrive::before {
+        content: '\e713';
+    }
+
+    .e-pc::before {
+        content: '\e711';
+    }
+
+    .e-desktop::before {
+        content: '\e700';
+    }
+
+    .e-documents::before {
+        content: '\e70d';
+    }
+
+    .e-downloads::before {
+        content: '\e709';
+    }
+
+    .e-picture::before {
+        content: '\e718';
+    }
+
+    .e-network::before {
+        content: '\e71c';
+    }
+
+    .e-recyclebin::before {
+        content: '\e71f';
+    }
+</style>
+
+@*Hidden:Lines*@
+<style>
+    .content-wrapper {
+        width: 90%;
+        margin: 0 auto;
+        min-width: 85px;
+    }
+
+        .content-wrapper div.row {
+            padding: 15px 0px;
+        }
+
+    @@media only screen and (max-width: 480px) {
+        .content-wrapper {
+            width: 92%;
+        }
+
+        .col-xs-12,
+        .col-xs-4,
+        .col-xs-12 {
+            padding: 10px 5px;
+            width: 100%;
+        }
+
+        .content-wrapper div.row {
+            padding: 0px;
+        }
+    }
+
+    .reset-btn {
+        float: right;
+        margin: 5px 2px 5px 0;
+    }
+
+    .bootstrap .e-custom-breadcrumb ol,
+    .bootstrap4 .e-custom-breadcrumb ol,
+    .bootstrap-dark .e-custom-breadcrumb ol {
+        margin-left: -16px;
+    }
+
+    .e-bigger.bootstrap5-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon,
+    .e-bigger.bootstrap5 .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
+        margin-top: -2px;
+        padding-right: 26px !important;
+    }
+
+    .e-bigger.fabric-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
+        padding-right: 25px !important;
+    }
+
+    .e-bigger.fabric .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon,
+    .e-bigger.highcontrast .e-custom-breadcrumb .e-menu-container ul .e-menu-item.e-menu-caret-icon {
+        padding-right: 22px !important;
+    }
+
+    .bootstrap4 .e-custom-breadcrumb {
+        background-color: transparent;
+    }
+
+    .e-custom-breadcrumb .e-menu-item.e-selected,
+    .e-custom-breadcrumb .e-menu-item.e-focused {
+        background-color: transparent !important;
+    }
+
+    .bootstrap5 .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #dee2e6 !important;
+    }
+
+    .bootstrap5-dark .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #495057 !important;
+    }
+
+    .tailwind .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #e5e7eb !important;
+    }
+
+    .tailwind-dark .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #4b5563 !important;
+    }
+
+    .material .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #e0e0e0 !important;
+    }
+
+    .fabric .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #dadada !important;
+    }
+
+    .fabric-dark .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #514f4f !important;
+    }
+
+    .highcontrast .e-custom-breadcrumb .e-menu-item:hover {
+        background-color: #685708 !important;
+    }
+	
+    .fluent .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .fluent-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret	{
+        right: 0;
+    }
+	
+    .material3 .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .material3-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .e-bigger .material3 .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret,
+    .e-bigger .material3-dark .e-custom-breadcrumb .e-menu-container ul .e-menu-item .e-caret {
+        right: 2px;
+    }
+</style>
+@*End:Hidden*@

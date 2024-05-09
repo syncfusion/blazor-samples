@@ -1,0 +1,99 @@
+﻿@page "/gantt-chart/expando-data"
+@using Syncfusion.Blazor.Gantt
+@using System.Dynamic
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of ExpandoObject (dynamic) data binding with CRUD operations and sorting functionalities in the Gantt component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, dynamic list of objects are bound to dataSource of Gantt using the ExpandoObject.</p>
+    <p>More information on the ExpandoObject data binding can be found in this <a aria-label="Navigate to the documentation for ExpandoObject Binding in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/data-binding/#expandoobject-binding'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@GanttExpandoData" Height="450px" Width="100%" TreeColumnIndex="1" HighlightWeekends="true" ProjectStartDate="@ProjectStart" AllowSorting="true"
+                     Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })" ProjectEndDate="@ProjectEnd">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Progress="Progress" Duration="Duration" ParentID="ParentId"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="Task ID" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Task Name"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+                </GanttColumns>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="ExpandoObject"></GanttLabelSettings>
+                <GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DateTime ProjectStart = new DateTime(2021, 01, 04);
+    private DateTime ProjectEnd = new DateTime(2021, 03, 07);
+    private static List<ExpandoObject> Data = new List<ExpandoObject>();
+    private List<ExpandoObject> GanttExpandoData { get; set; }
+    private static int ParentRecordID { get; set; }
+    private static int ChildRecordID { get; set; }
+    
+
+    protected override void OnInitialized()
+    {
+        
+        this.GanttExpandoData = GetData().ToList();
+    }
+
+    public static List<ExpandoObject> GetData()
+    {
+        Data.Clear();
+        ParentRecordID = 0;
+        ChildRecordID = 0;
+        for (var i = 1; i <= 5; i++)
+        {
+            DateTime start = new DateTime(2021, 01, 10);
+            int range = (DateTime.Today - start).Days;
+            DateTime startingDate = start;
+            DateTime endingDate = startingDate.AddDays(2);
+            dynamic ParentRecord = new ExpandoObject();
+            ParentRecord.TaskId = ++ParentRecordID;
+            ParentRecord.TaskName = "Parent task " + i;
+            ParentRecord.StartDate = startingDate;
+            ParentRecord.EndDate = endingDate;
+            ParentRecord.Progress = 30;
+            ParentRecord.Duration = ParentRecordID % 2 == 0 ? (4).ToString() : (8).ToString();
+            ParentRecord.ParentId = null;
+            Data.Add(ParentRecord);
+            AddChildRecords(ParentRecordID);
+        }
+        return Data;
+    }
+
+    public static void AddChildRecords(int ParentId)
+    {
+        for (var i = 1; i < 4; i++)
+        {
+            DateTime start = new DateTime(2021, 01, 10);
+            int range = (DateTime.Today - start).Days;
+            DateTime startingDate = start;
+            DateTime endingDate = startingDate.AddDays(2);
+            dynamic ChildRecord = new ExpandoObject();
+            ChildRecord.TaskId = ++ParentRecordID;
+            ChildRecord.TaskName = "Child task " + ++ChildRecordID;
+            ChildRecord.StartDate = startingDate;
+            ChildRecord.EndDate = endingDate;
+            ChildRecord.Progress = 40;
+            ChildRecord.Duration = ParentRecordID % 3 == 0 ? (3).ToString() : (6).ToString();
+            ChildRecord.ParentId = ParentId;
+            Data.Add(ChildRecord);
+        }
+    }
+}

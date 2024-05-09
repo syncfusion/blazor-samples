@@ -1,0 +1,61 @@
+@page "/scheduler/field-validation"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This demo shows the way of adding default and custom validation rules to the editor fields of Scheduler.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this demo, the specific fields of Scheduler editor window such as <code>Subject</code>, <code>Location</code>, <code>Description</code>, <code>StartTime</code> and <code>EndTime</code> are made to undergo validation such that if it is left as blank, then the default required validation message will be displayed in a separate tooltip, on clicking a save button. </p>
+    <p>
+        Additionally, the regex condition has been added to the <code>Location</code> field, so that if any special characters are typed into it, then the custom validation message will be displayed. The
+        <code>Description</code> field has been validated to restrict the character count to be typed into it between 5 and 500 and not beyond that. This validation can be given by using the
+        <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.EventSettingsField.html#Syncfusion_Blazor_Schedule_EventSettingsField_Validation">Validation</a> property available within each <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleField.html">ScheduleField</a> of the <code>ScheduleEventSettings</code> property.
+    </p>
+    <p>
+        Apart from this validation feature, the built-in validation has been provided to the start and end time fields, so that when the selected end time occurs before the start time, a validation message will be displayed as well as when some
+        unwanted characters are typed into the date fields, the invalid date message will be alerted.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+     <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="@dataSource">
+            <ScheduleField>
+                <FieldSubject Name="Subject" Validation="@validationRules"></FieldSubject>
+                <FieldLocation Name="Location" Validation="@locationValidationRules"></FieldLocation>
+                <FieldDescription Name="Description" Validation="@descriptionValidationRules"></FieldDescription>
+                <FieldStartTime Name="StartTime" Validation="@validationRules"></FieldStartTime>
+                <FieldEndTime Name="EndTime" Validation="@validationRules"></FieldEndTime>
+            </ScheduleField>
+        </ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    public View CurrentView { get; set; } = View.Week;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetScheduleData();
+    ValidationRules validationRules = new ValidationRules { Required = true };
+    ValidationRules locationValidationRules = new ValidationRules { Required = true, RegexPattern = "^[a-zA-Z0-9- ]*$", Messages = new Dictionary<string, object>() { { "regex", "Special characters are not allowed in this field" } } };
+    ValidationRules descriptionValidationRules = new ValidationRules { Required = true, MinLength = 5, MaxLength = 500 };
+    
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}

@@ -1,0 +1,119 @@
+﻿@page "/MultiSelect-Dropdown/Forms-Validation"
+
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample is used to validate form using the Data Annotation. Type the value in the input element or choose from the multiselect popup. If the input value is valid, then the given input will be ready to submit. Otherwise, an error message will be shown until you enter or choose the valid value.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The form enables the validation with data annotation attributes by clicking on the submit externally. All rules are validated by the DataAnnotationsValidator.</p>
+    <p>The above game field is configured with the following rule.</p>
+    <table style='width:100%'>
+        <tr>
+            <th>Field</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <td>Required</td>
+            <td>The field must have a valid value.</td>
+        </tr>
+    </table>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+        <EditForm Model="@annoationfields" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+            <DataAnnotationsValidator />
+            <label class="example-label">Select games</label>
+            <SfMultiSelect TValue="string[]" TItem="GameFields" Mode="@VisualMode.Default" @bind-Value="@annoationfields.ValueObj" Placeholder="e.g. Badminton" DataSource="@Games">
+                <MultiSelectFieldSettings Text="Text" Value="ID"></MultiSelectFieldSettings>
+            </SfMultiSelect>
+            <ValidationMessage For="() => annoationfields.ValueObj" />
+            <br />
+            <div class="submit-btn">
+                <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+            </div>
+        </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px 0px;
+    }
+
+    .validation-message {
+        color: red;
+        padding-top: 5px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    
+    async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        annoationfields.ValueObj = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    private GameFields annoationfields = new GameFields();
+    public class GameFields
+    {
+        [Required(ErrorMessage = "The Game field is required.")]
+        public string[] ValueObj { get; set; }
+        public string Text { get; set; }
+        public string ID { get; set; }
+    }
+
+    private List<GameFields> Games = new List<GameFields>()
+    {
+        new GameFields(){ ID= "Game1", Text= "American Football" },
+        new GameFields(){ ID= "Game2", Text= "Badminton" },
+        new GameFields(){ ID= "Game3", Text= "Basketball" },
+        new GameFields(){ ID= "Game4", Text= "Cricket" },
+        new GameFields(){ ID= "Game5", Text= "Football" },
+        new GameFields(){ ID= "Game6", Text= "Golf" },
+        new GameFields(){ ID= "Game7", Text= "Hockey" },
+        new GameFields(){ ID= "Game8", Text= "Rugby"},
+        new GameFields(){ ID= "Game9", Text= "Snooker" },
+        new GameFields(){ ID= "Game10",Text= "Tennis"}
+    };
+}

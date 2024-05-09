@@ -1,0 +1,188 @@
+﻿@page "/gantt-chart/taskbar-template"
+@using Syncfusion.Blazor.Gantt
+@using ej2_blazor_taskbartemplatedata
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the complete event schedule of the 90th Academy Awards. Taskbars are customized using template support and the timeline header is customized for a better view of the data.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The Gantt Chart provides support for customizing taskbar UI using the taskbar template feature. By using <a aria-label="Navigate to the TaskbarTemplate property reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_TaskbarTemplate'>TaskbarTemplate</a> component
+        of <a aria-label="Navigate to the class reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html'>GanttTemplates</a>, custom content can be placed.
+    </p>
+    <p>The summary tasks and the milestone items can also be customized using the <a aria-label="Navigate to the ParentTaskbarTemplate property reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_ParentTaskbarTemplate'>ParentTaskbarTemplate</a> and <a aria-label="Navigate to the MilestoneTemplate property reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_MilestoneTemplate'>MilestoneTemplate</a> properties.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt RowHeight="75" TaskbarHeight="50"
+                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" DurationUnit="DurationUnit.Minute"
+                     DateFormat="hh:mm tt" DataSource="@TaskCollection" Height="450px" Width="100%">
+                <Syncfusion.Blazor.Gantt.GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Dependency="Predecessor" ParentID="ParentId"></Syncfusion.Blazor.Gantt.GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="Event Id"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Event Name" Width="150" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Time"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Time"></GanttColumn>
+                    <GanttColumn Field="Winner" HeaderText="Winner"></GanttColumn>
+                    <GanttColumn Field="Movie" HeaderText="Movie"></GanttColumn>
+                    <GanttColumn Field="Performance" HeaderText=" Performance" Width="200"></GanttColumn>
+                </GanttColumns>
+                <GanttEventMarkers>
+                    <GanttEventMarker Day="@EventDay1" Label="Performance"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay2" Label="Moments"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay3" Label="Performance"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay4" Label="Moments"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay5" Label="Moments"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay6" Label="Performance"></GanttEventMarker>
+                    <GanttEventMarker Day="@EventDay7" Label="Moments"></GanttEventMarker>
+                </GanttEventMarkers>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskbarTemplateData.TaskbarData">
+                </GanttLabelSettings>
+                <GanttSplitterSettings Position="28%"> </GanttSplitterSettings>
+                <GanttTemplates TValue="TaskbarTemplateData.TaskbarData">
+                    <TaskbarTemplate>
+                        @if ((context as TaskbarTemplateData.TaskbarData).TaskName == "Oscar Moments")
+                        {
+                            <div class="e-gantt-child-taskbar e-custom-moments" style="height:50px;border-radius:5px;" tabindex="-1">
+                                @if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
+                                {
+                                    <img class="moments" height="32" width="44" role="presentation"/>
+                                }
+                                else
+                                {
+                                    <img class="moments" height="32" width="44" role="presentation"/>
+                                    <span class="e-task-label" style="position:absolute;top:15px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;color:black">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
+                                }
+                            </div>
+                        }
+                        else if ((context as TaskbarTemplateData.TaskbarData).TaskName == "Oscar Performance")
+                        {
+                            <div class="e-gantt-child-taskbar e-custom-performance" style="height:50px;border-radius:5px;" tabindex="-1">
+                                @if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) <= 5)
+                                {
+                                    <img class="face-mask" height="32" width="32" role="presentation" />
+                                }
+                                else
+                                {
+                                    <img class="face-mask" height="32" width="32" role="presentation" />
+                                    <span class="e-task-label" style="position:absolute;top:5px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
+                                } 
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="e-gantt-parent-taskbar e-custom-parent" style="height:50px;border-radius:5px;text-overflow:ellipsis;" tabindex="-1">
+                                @if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
+                                {
+                                    <img class="oscar" height="32" width="32" role="presentation" />
+                                }
+                                else
+                                {
+                                    @if (!string.IsNullOrEmpty(((context as TaskbarTemplateData.TaskbarData).Winner)) && !string.IsNullOrEmpty(((context as TaskbarTemplateData.TaskbarData).Movie)))
+                                    {
+                                        <img class="oscar" height="32" width="32" role="presentation"/>
+                                        <span class="e-task-label" style="position:absolute; top:10px;font-size:14px;">@((context as TaskbarTemplateData.TaskbarData).Winner)</span>
+                                        <span class="e-task-label" style="position:absolute;top:28px;font-size:10px;text-overflow:ellipsis;">@((context as TaskbarTemplateData.TaskbarData).Movie)</span>
+                                    }
+                                    else if (!string.IsNullOrEmpty(((context as TaskbarTemplateData.TaskbarData).Movie)))
+                                    {
+                                        <img class="oscar" height="32" width="32" role="presentation"/>
+                                        <span class="e-task-label" style="position:absolute; top:18px;font-size:12px;text-overflow:ellipsis;">@((context as TaskbarTemplateData.TaskbarData).Movie)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="e-task-label"></span>
+                                    }
+                                }
+                            </div>
+                        }
+                    </TaskbarTemplate>
+                    <MilestoneTemplate>
+                        <div style="margin-top:-7px;">
+                            <div class="e-gantt-milestone" style="position:absolute;" tabindex="-1">
+                                <img class="moments" height="24" width="48" role="presentation" />
+                                <div class="e-milestone-top" style="border-right-width:26px; margin-top: -24px;border-left-width:26px;border-bottom-width:26px;"></div>
+                                <div class="e-milestone-bottom" style="top:26px;border-right-width:26px; border-left-width:26px; border-top-width:26px;"></div>
+                            </div>
+                        </div>
+                    </MilestoneTemplate>
+                </GanttTemplates>
+                <GanttTimelineSettings TimelineUnitSize="75">
+                    <GanttTopTierSettings Unit="TimelineViewMode.Hour" Format="MMM dd, yyyy"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Minutes" Count="2" Format="h:mm tt"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code{
+    private DateTime EventDay1 = new DateTime(2021, 3, 5, 19, 9, 0);
+    private DateTime EventDay2 = new DateTime(2021, 3, 5, 19, 46, 0);
+    private DateTime EventDay3 = new DateTime(2021, 3, 5, 19, 59, 0);
+    private DateTime EventDay4 = new DateTime(2021, 3, 5, 20, 8, 0);
+    private DateTime EventDay5 = new DateTime(2021, 3, 5, 20, 24, 0);
+    private DateTime EventDay6 = new DateTime(2021, 3, 5, 20, 31, 0);
+    private DateTime EventDay7 = new DateTime(2021, 3, 5, 20, 47, 0);
+    private DateTime ProjectStart = new DateTime(2021, 3, 5, 18, 0, 0);
+    private DateTime ProjectEnd = new DateTime(2021, 3, 6, 18, 0, 0);
+    private List<TaskbarTemplateData.TaskbarData> TaskCollection { get; set; }
+    
+	
+    protected override void OnInitialized()
+    {
+        
+        this.TaskCollection = TaskbarTemplateData.TaskTemplateData();
+    }
+}
+
+<style>
+    .e-custom-parent {
+        background-color: #6d619b;
+        border: 1px solid #3f51b5;
+    }
+    .e-custom-performance {
+        background-color: #ad7a66;
+        border: 1px solid #3f51b5;
+    }
+    .e-custom-moments {
+        background-color: #7ab748;
+        border: 1px solid #3f51b5;
+    }
+    .moments, .face-mask, .oscar {
+        position: relative;
+        top: 9px;
+        bottom: 2px;
+        left: 5px;
+        padding-right: 4px;
+    }
+    .e-milestone-top {
+        border-bottom-color: #7ab748 !important;
+        border-bottom: 1px solid #3f51b5;
+    }
+    .e-milestone-bottom {
+        border-top-color: #7ab748 !important;
+        border-top: 1px solid #3f51b5;
+    }
+    .oscar {
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIyLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzMiAzMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojRkZGRkZGO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDF7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQoJLnN0MntmaWxsOiNGRkZGRkY7fQoJLnN0M3tmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQoJLnN0NHtmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDV7ZmlsbDpub25lO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Q2e2ZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Q3e3N0cm9rZTojRkZGRkZGO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDh7ZmlsbDojRkZGRkZGO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Q5e3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3QxMHtmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjI7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDExe2ZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3QxMntmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjM7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDEze2ZpbGw6bm9uZTtzdHJva2U6I0RERERERDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9CgljaXJjbGUscGF0aHtmaWxsOiNGRkY7fQo8L3N0eWxlPgo8Zz4KCTxjaXJjbGUgY3g9IjE1LjciIGN5PSIyMS45IiByPSI4LjEiLz4KCTxwYXRoIGQ9Ik0yMywxNS40TDI5LDRoLTcuNGwtNC43LDguMkMxOS4zLDEyLjUsMjEuNCwxMy42LDIzLDE1LjR6Ii8+Cgk8cGF0aCBkPSJNMTQuOSwxMi4yTDEwLjIsNEgzbDUuNywxMS4xQzEwLjMsMTMuNSwxMi41LDEyLjQsMTQuOSwxMi4yeiIvPgo8L2c+Cjwvc3ZnPgo=');
+    }
+    .face-mask {
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIyLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzMiAzMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlPgoJcGF0aHtmaWxsOiNGRkY7fQo8L3N0eWxlPgo8Zz4KCTxwYXRoIGQ9Ik0yNy40LDE0LjlsLTYuNS0yLjhjLTAuNy0wLjMtMS40LTAuMy0yLjEsMGMtMC41LDAuMy0wLjksMC42LTEuMiwxLjFjLTAuMS0xLTAuMy0xLjktMC44LTIuOGwtMi40LTQuOQoJCWMtMC42LTEuMy0yLjItMS44LTMuNS0xLjJsLTYuNCwzQzMuOSw3LjYsMy40LDguMiwzLjEsOC45Yy0wLjIsMC43LTAuMiwxLjMsMC4xLDJsMi40LDQuOWMxLjMsMi43LDQuMSw0LjQsNy4xLDQuNAoJCWMwLjYsMCwxLjEtMC4xLDEuNy0wLjJoMC4xbDAuMS0wLjFjMC4xLTAuMSwwLjItMC4yLDAuMy0wLjNjLTAuOCwzLDAuNCw2LjMsMyw4LjNMMTgsMjhoMC4xYzAuNCwwLDAuOSwwLDEuMywwCgkJYzMuMSwwLDYtMS44LDcuMi00LjdsMi4xLTVDMjkuNCwxNywyOC43LDE1LjUsMjcuNCwxNC45eiBNMTEuNSw4LjFjMC43LTAuMywxLjMtMC4zLDEuNSwwYzAuMiwwLjMtMC4zLDAuOS0xLDEuMnMtMS4zLDAuMy0xLjUsMAoJCVMxMC44LDguNSwxMS41LDguMXogTTYuMywxMS4zYy0wLjItMC4zLDAuMy0wLjgsMC45LTEuMmMwLjctMC4zLDEuMy0wLjMsMS41LDBjMC4yLDAuMy0wLjIsMC45LTAuOSwxLjIKCQlDNy4xLDExLjcsNi41LDExLjYsNi4zLDExLjN6IE04LjIsMTQuOWMwLDAsNC4xLDAuOCw2LjQtM0MxNC42LDExLjksMTQuNiwxOS41LDguMiwxNC45eiBNMjcuOSwxNy45bC0yLjEsNQoJCWMtMS4yLDIuOC00LjMsNC41LTcuNCw0Yy0yLjUtMi0zLjQtNS4zLTIuMi04LjFsMi4xLTVjMC4yLTAuNCwwLjUtMC43LDAuOS0wLjhjMC40LTAuMiwwLjktMC4yLDEuMywwbDYuNSwyLjgKCQlDMjcuOCwxNi4yLDI4LjIsMTcuMSwyNy45LDE3Ljl6Ii8+Cgk8cGF0aCBkPSJNMjQuOCwxNy44Yy0wLjctMC4zLTEuNC0wLjMtMS41LDAuMWMtMC4xLDAuMywwLjMsMC44LDEsMS4xczEuNCwwLjMsMS41LTAuMUMyNS45LDE4LjUsMjUuNSwxOC4xLDI0LjgsMTcuOHoiLz4KCTxwYXRoIGQ9Ik0xOS45LDE3LjJjMC43LDAuMywxLjQsMC4zLDEuNS0wLjFjMC4xLTAuMy0wLjMtMC44LTEtMS4xYy0wLjctMC4zLTEuNC0wLjMtMS41LDAuMUMxOC44LDE2LjQsMTkuMywxNi45LDE5LjksMTcuMnoiLz4KCTxwYXRoIGQ9Ik0xNy41LDE5LjhjMC43LDcuOCw2LjUsMi44LDYuNSwyLjhDMTkuNiwyMy41LDE3LjUsMTkuOCwxNy41LDE5Ljh6Ii8+CjwvZz4KPC9zdmc+Cg==');
+    }
+    .moments {
+        content: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIyLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzMiAzMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzIgMzI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojRkZGRkZGO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDF7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQoJLnN0MntmaWxsOiNGRkZGRkY7fQoJLnN0M3tmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLW1pdGVybGltaXQ6MTA7fQoJLnN0NHtmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDV7ZmlsbDpub25lO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Q2e2ZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Q3e3N0cm9rZTojRkZGRkZGO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDh7ZmlsbDojRkZGRkZGO3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Q5e3N0cm9rZTojMDAwMDAwO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3QxMHtmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjI7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDExe2ZpbGw6bm9uZTtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3QxMntmaWxsOm5vbmU7c3Ryb2tlOiMwMDAwMDA7c3Ryb2tlLXdpZHRoOjM7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KCS5zdDEze2ZpbGw6bm9uZTtzdHJva2U6I0RERERERDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9CglwYXRoLGVsbGlwc2V7ZmlsbDojRkZGO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBkPSJNMzAuMSw2LjNjMC44LTAuNSwxLjEtMS41LDAuNy0yLjRzLTEuNS0xLjItMi4zLTAuN3MtMS4xLDEuNS0wLjcsMi40QzI4LjIsNi40LDI5LjMsNi43LDMwLjEsNi4zeiIvPgoJPHBhdGggZD0iTTMwLjMsNi45Yy0wLjcsMC40LTEuNiwwLjMtMi4zLTAuMkwyOC4yLDljLTAuMiwwLTAuNSwwLjEtMC43LDAuM2wtNS41LDQuM2wtNC4zLTIuOGMtMC4yLTAuMy0wLjUtMC42LTAuOS0wLjhMMTQsOWwtMyw2CgkJTDgsOWwtMi45LDEuMWMtMC4yLDAuMS0wLjQsMC4yLTAuNSwwLjNjLTAuMiwwLjEtMC40LDAuMy0wLjUsMC41bC0zLjYsNi40Yy0wLjIsMC4zLTAuMiwwLjctMC4yLDFsMS43LDguNEMyLjIsMjcuNSwyLjksMjgsMy42LDI4CgkJYzAuMSwwLDAuMiwwLDAuMywwYzAuMiwwLDAuMy0wLjEsMC41LTAuMkw0LDMwaDE0bC0xLjgtMTAuOWwxLjItNC45bDQsMi42YzAuMiwwLjIsMC41LDAuMiwwLjgsMC4yYzAuMywwLDAuNy0wLjEsMC45LTAuM2w1LjUtNC40CgkJYzAsMC4zLTAuMSwwLjYtMC4yLDAuOGMtMC4zLDAuNy0wLjYsMC42LTEuMiwwLjVjLTAuMSwwLTAuMSwwLTAuMiwwbDAsMC4zYzAuMSwwLDAuMiwwLDAuMiwwYzAuMywwLjEsMC43LDAuMSwxLDAKCQljMC4yLTAuMSwwLjQtMC4zLDAuNS0wLjdjMC4xLTAuMywwLjItMC43LDAuMi0xLjFjMC4xLDAsMC4zLTAuMSwwLjMtMC4zbDAsMGwwLjItMC4yYzAuNi0wLjUsMC43LTEuNCwwLjMtMmwwLjctMi44CgkJQzMwLjQsNi45LDMwLjMsNi45LDMwLjMsNi45eiBNNC44LDI1bC0xLjQtNi43bDEuNS0yLjdMNS44LDE5TDQuOCwyNXoiLz4KCTxlbGxpcHNlIGN4PSIxMSIgY3k9IjUiIHJ4PSIzLjUiIHJ5PSI0Ii8+CjwvZz4KPC9zdmc+Cg==');
+    }
+</style>

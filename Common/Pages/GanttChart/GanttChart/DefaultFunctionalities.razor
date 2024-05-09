@@ -1,0 +1,78 @@
+﻿@page "/gantt-chart/default-functionalities"
+
+@using Syncfusion.Blazor.Gantt
+@using ej2_blazor_defaultdata
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a aria-label="Navigate to the explore Syncfusion Blazor gantt chart component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-gantt-chart'>Blazor Gantt Chart</a> example visualizes the various phases involved in the manufacturing process of a product, which transforms from a conceptual model to a sellable product.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> In this example, you can see how to render a Gantt Chart with the provided data source. Here the <a aria-label="Navigate to the documentation for time line in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/time-line'>Timeline view</a> is displayed in its <code>Week</code> mode by default. The dependency lines are enabled in this example to represent the execution order or the hierarchy between the phases.</p>
+    <p><a aria-label="Navigate to the documentation for tooltip in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/tooltip'>Tooltip</a> is enabled for all the UI in this example. To see the tooltip in action, hover the mouse over or tap taskbars, timeline units and dependency lines in touch-enabled devices. </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1"
+                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId"></GanttColumn>
+                    <GanttColumn Field="TaskName" Width="250"></GanttColumn>
+                    <GanttColumn Field="StartDate"></GanttColumn>
+                    <GanttColumn Field="EndDate"></GanttColumn>
+                    <GanttColumn Field="Duration"></GanttColumn>
+                    <GanttColumn Field="Progress"></GanttColumn>
+                    <GanttColumn Field="Predecessor"></GanttColumn>
+                </GanttColumns>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData"> </GanttLabelSettings>
+                <GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
+                <GanttTemplates TValue="DefaultData.TaskData">
+                    <TaskbarTemplate>
+                        @{
+                            var task = (context as DefaultData.TaskData);
+                        }
+                        <div class="e-gantt-child-taskbar-inner-div e-gantt-child-taskbar" style="height:22px;width:100%;" tabindex="-1">
+                            <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="height:22px;width:@task.Progress%;">
+                                <span class="e-task-label" style="position:absolute;top:3px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@(task.Progress + "%")</span>
+                            </div>
+                        </div>
+                    </TaskbarTemplate>
+                    <ParentTaskbarTemplate>
+                        @{
+                            var task = (context as DefaultData.TaskData);
+                        }
+                        <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="height:22px;text-overflow:ellipsis;width:100%" tabindex="-1">
+                            <div class="e-gantt-parent-progressbar-inner-div e-row-expand e-gantt-parent-progressbar " style="height:22px;text-overflow:ellipsis;width:@task.Progress%;">
+                                <span class="e-task-label" style="position:absolute;top:3px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@(task.Progress + "%")</span>
+                            </div>
+                        </div>
+                        </ParentTaskbarTemplate>
+                </GanttTemplates>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DateTime ProjectStart = new DateTime(2021, 3, 24);
+    private DateTime ProjectEnd = new DateTime(2021, 7, 6);
+    private List<DefaultData.TaskData> TaskCollection { get; set; }
+    
+
+    protected override void OnInitialized()
+    {
+        
+        this.TaskCollection = DefaultData.ProjectNewData();
+       
+    }
+}

@@ -1,0 +1,129 @@
+﻿@page "/scheduler/shared-events"
+
+@using Syncfusion.Blazor.Schedule
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo illustrates the usage of single event that are shared by multiple resources.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo,<a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleGroup.html#Syncfusion_Blazor_Schedule_ScheduleGroup_AllowGroupEdit">AllowGroupEdit</a> option is set to true within the <code>Group</code> property to enable the same event to be shared with multiple resources. With this property enabled, a single appointment
+        object will be maintained within the appointment collection, even if it is shared by more than one resource, whereas the resource fields of such appointment object will hold the IDs of the multiple resources separated by commas. Any
+        actions such as create, edit or delete held on any one of the event will be reflected on all other related instances
+        visible on the UI. The <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleResource-2.html#Syncfusion_Blazor_Schedule_ScheduleResource_2_AllowMultiple">AllowMultiple</a> option when set as true within the <code>ScheduleResource</code> will allow the user to select multiple resources from the resource field of editor window, while trying to create appointments.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfSchedule TValue="ScheduleData.ResourceConferenceData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate">
+            <ScheduleGroup EnableCompactView="false" AllowGroupEdit="true" Resources="@groupData"></ScheduleGroup>
+            <ScheduleResources>
+                <ScheduleResource TItem="ScheduleData.ConferenceData" TValue="int[]" DataSource="@Conferences" Field="ConferenceId" Title="Attendees" Name="Conferences" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
+            </ScheduleResources>
+            <ScheduleTemplates>
+                <ResourceHeaderTemplate>
+                    @{
+                        var resourceData = (context as TemplateContext).ResourceData as ScheduleData.ConferenceData;
+                        <div class='template-wrap'>
+                            <div class="resource-image"><img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/{resourceData.Text.ToLower()}.png")" alt="Employee" /></div>
+                            <div class="resource-details">
+                                <div class="resource-name">@(resourceData.Text)</div>
+                                <div class="resource-designation">@(resourceData.Designation)</div>
+                            </div>
+                        </div>
+                    }
+                </ResourceHeaderTemplate>
+            </ScheduleTemplates>
+            <ScheduleViews>
+                <ScheduleView Option="View.Day"></ScheduleView>
+                <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="1" Option="View.Month"></ScheduleView>
+                <ScheduleView MaxEventsPerRow="3" Option="View.TimelineWeek"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEventSettings DataSource="@dataSource">
+                <ScheduleField>
+                    <FieldSubject Name="Subject" Title="Conference Name"></FieldSubject>
+                    <FieldStartTime Name="StartTime" Title="From"></FieldStartTime>
+                    <FieldEndTime Name="EndTime" Title="To"></FieldEndTime>
+                    <FieldDescription Name="Description" Title="Summary"></FieldDescription>
+                </ScheduleField>
+            </ScheduleEventSettings>
+        </SfSchedule>
+    </div>
+</div>
+
+@code{
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 7);
+    private View CurrentView { get; set; } = View.WorkWeek;
+    private List<ScheduleData.ResourceConferenceData> dataSource = new ScheduleData().GetResourceConferenceData();
+    private string[] groupData = new string[] { "Conferences" };
+    
+    private List<ScheduleData.ConferenceData> Conferences { get; set; } = new List<ScheduleData.ConferenceData> {
+        new ScheduleData.ConferenceData { Text = "Margaret", Id = 1, Color = "#1aaa55", Designation = "Sales Representative" },
+        new ScheduleData.ConferenceData { Text = "Robert", Id = 2, Color = "#357cd2", Designation = "Vice President, Sales" },
+        new ScheduleData.ConferenceData { Text = "Laura", Id = 3, Color = "#7fa900", Designation = "Inside Sales Coordinator" }
+    };
+}
+<style>
+    .e-schedule .e-month-view .e-appointment .e-appointment-details {
+        padding: 1px;
+        padding-left: 3px;
+    }
+
+    .e-schedule .e-vertical-view .e-resource-cells {
+        height: 64px;
+    }
+
+    .e-schedule .template-wrap {
+        display: flex;
+        text-align: left;
+    }
+
+    .e-schedule .template-wrap .resource-image {
+        width: 45px;
+        height: 45px;
+        background-size: 45px;
+        background-repeat: no-repeat;
+    }
+
+    .e-schedule .template-wrap .resource-details {
+        padding-left: 10px;
+    }
+
+    .e-schedule .template-wrap .resource-details .resource-name {
+        font-size: 16px;
+        font-weight: 500;
+        padding-right: 10px;
+    }
+
+    .e-schedule .template-wrap .resource-details .resource-designation {
+        font-size: 12px;
+    }
+
+    .e-schedule.e-device .template-wrap .resource-details .resource-name {
+        font-size: inherit;
+        font-weight: inherit;
+        padding-top: 5px;
+    }
+
+    .e-schedule.e-device .e-resource-tree-popup .e-fullrow {
+        height: 50px;
+    }
+
+    .e-schedule.e-device .template-wrap .resource-details .resource-designation {
+        display: none;
+    }
+
+    .e-schedule .template-wrap .resource-image img {
+        height: 45px;
+        width: 45px;
+    }
+</style>
+

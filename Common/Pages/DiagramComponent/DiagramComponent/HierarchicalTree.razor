@@ -1,0 +1,438 @@
+﻿@page "/diagramcomponent/hierarchical-tree"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Diagram
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@implements IDisposable
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This sample illustrates how to generate a hierarchical tree from an external data source.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example explains how to generate a hierarchical tree from external data sources. You can customize the spacing between the objects in the tree by using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing' aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing' aria-label="">VerticalSpacing</a></code> properties of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html' aria-label="Layout">Layout</a></code>. You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation' aria-label="Orientation">Orientation</a></code> property of Layout to change the orientation.</p>
+    <p>To change the orientation of the tree, click the templates that are added to the property panel.</p>
+</ActionDescription>
+<style>
+
+    #diagram {
+        display: block;
+    }
+
+    .row {
+        display: block;
+    }
+
+    .image-pattern-style {
+        background-color: white;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 60px;
+        width: calc((100% - 42px) / 2);
+        cursor: pointer;
+        border: 1px solid #D5D5D5;
+        background-position: center;
+        float: left;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .row-header {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .image-pattern-style:hover {
+        border-color: gray;
+        border-width: 2px;
+    }
+
+    .e-checkbox-wrapper .e-label {
+        font-size: 12px;
+    }
+
+    .e-selected-style {
+        border-color: #006CE6;
+        border-width: 2px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .textboxstyle {
+        padding-left: 0px;
+        padding-right: 0px;
+        float: left;
+        width: 120px;
+    }
+
+    .sb-property-border {
+        border-right: 1px solid #D7D7D7;
+    }
+</style>
+@*End:Hidden*@
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfDiagramComponent Width="100%" Height="810px" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" InteractionController="@DiagramInteractions.ZoomPan">
+            <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
+            <DataSourceSettings ID="EmployeeID" ParentID="ParentID" DataSource="DataSource"> </DataSourceSettings>
+            <Layout @bind-Type="Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@HorizontalAlignment" @bind-VerticalAlignment="@VerticalAlignment" GetLayoutInfo="GetLayoutInfo">
+                <LayoutMargin @bind-Top="@Top" @bind-Bottom="@Bottom" @bind-Right="@Right" @bind-Left="@Left"></LayoutMargin>
+            </Layout>
+            <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
+            <DiagramTemplates>
+                <NodeTemplate>
+                    @{ Node node1 = (context as Node);
+                        string NameId = (node1.Data as HierarchicalDetails).Name;
+                        string TeamName = (node1.Data as HierarchicalDetails).TeamName;
+                        string EmpId = (node1.Data as HierarchicalDetails).EmployeeID;
+                        string Team = (node1.Data as HierarchicalDetails).Name;
+                        string Teamsize = (node1.Data as HierarchicalDetails).TeamSize;
+                        string role = (node1.Data as HierarchicalDetails).Designation;
+                        string BgImage = (node1.Data as HierarchicalDetails).BG;
+                        Syncfusion.Blazor.Diagram.NodeShapes type = (context as Node).Shape.Type;
+                        if (type == Syncfusion.Blazor.Diagram.NodeShapes.HTML)
+                        {
+                            <div style="position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #E0E0E0;
+        background: #FFFFFF;
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding-top: 5px;">
+                                <div id="image" style="
+                            width: 62px;
+                            height: 65px;
+                            float: left;
+                            background-size: 60px 65px;
+                            background-image: url(@(SampleService.WebAssetsPath + BgImage));
+                            border: 1px solid #E0E0E0;
+                            box-sizing: border-box;
+                            border-radius: 80px;
+                            margin-top: 12px;
+                            margin-bottom: 5px;
+                            margin-left: 5px;
+                            ">
+                                </div>
+                                <div>
+                                    <div id="header1" style="
+                            width: 165px;
+                            height: 14px;
+                            left: 664px;
+                            top: 152px;
+                            font-family: Roboto;
+                            font-style: normal;
+                            font-weight: 600;
+                            font-size: 13px;
+                            line-height: 14px;
+                            /* identical to box height, or 87% */
+                            letter-spacing: 0.1px;
+                            color: #000000;">
+                                        @NameId
+                                    </div>
+                                    <div id="header2" style="
+            /* width: 121px; */
+            /* height: 14px; */
+            left: 660px;
+            top: 170px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 11px;
+            line-height: 14px;
+            letter-spacing: 0.1px;
+            color: #7B7B7B;
+            ">
+                                        @role
+                                    </div>
+                                    <hr style="margin-top: 4px;margin-bottom: -10px;left: 553px;top: 192px;height: 0px;border: 1px solid #E0E0E0;border-top: none;">
+                                    <div style="top: 200px;font-family: Roboto;font-size: 10px;padding-top: 18px;padding-left: 72px;">
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #7B7B7B;">
+                                                        Emp ID
+                                                    </td>
+                                                    <td style="font-family: Roboto;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #323232;">
+                                                        @EmpId
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #7B7B7B;">
+                                                        Team
+                                                    </td>
+                                                    <td style="font-family: Roboto;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #323232;">
+                                                        @TeamName
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #7B7B7B;">
+                                                        Team Size
+                                                    </td>
+                                                    <td style="font-family: Roboto;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 14px;
+        letter-spacing: 0.1px;
+        color: #323232;">@Teamsize
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </NodeTemplate>
+            </DiagramTemplates>
+        </SfDiagramComponent>
+
+    </div>
+</div>
+@*Hidden:Lines*@
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="row property-panel-content" id="appearance">
+        <div class="row row-header">
+            Appearance
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Top to Bottom  Orientation" class="@dict["topToBottom"]" @onclick="@ToptoBottomClick" id="topToBottom" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/top-to-bottom.png"));
+        margin-right: 3px">
+            </div>
+            <div title="Bottom to top Orientation" class="@dict["bottomToTop"]" @onclick="@BottomtoTopClick" id="bottomToTop" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/bottom-to-top.png"));
+        margin: 0px 3px">
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div title="Left to right Orientation" class="@dict["leftToRight"]" @onclick="@LefttoRightClick" id="leftToRight" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/left-to-right.png"));
+        margin-right: 3px">
+            </div>
+            <div title="Right to left Orientation" class="@dict["rightToLeft"]" @onclick="@RighttoLeftClick" id="rightToLeft" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/right-to-left.png"));
+        margin: 0px 3px">
+            </div>
+        </div>
+    </div>
+    <div class="row property-panel-content" style="padding-top: 10px">
+        <div class="row row-header">
+            Layout Spacing
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 30px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Horizontal Spacing</div>
+            </div>
+            <div class="textboxstyle" style="padding-left:10px">
+                <SfNumericTextBox TValue="int?" ID="hSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@HValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="HSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 8px">
+            <div style="display: table;height: 30px;" class="textboxstyle">
+                <div style="display: table-cell; vertical-align: middle">Vertical Spacing</div>
+            </div>
+            <div class="textboxstyle" style="padding-left:10px">
+                <SfNumericTextBox TValue="int?" ID="vSpacing" Format="###.##" Width="100%" Min="20" Max="60" Step="2" Value="@VValue">
+                    <NumericTextBoxEvents TValue="int?" ValueChange="VSpacingChange"></NumericTextBoxEvents>
+                </SfNumericTextBox>
+            </div>
+        </div>
+    </div>
+</div>
+@*End:Hidden*@
+
+@code
+{
+    private const string selecteditem = "image-pattern-style e-selected-style";
+    private const string unselecteditem = "image-pattern-style";
+    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
+    public SfDiagramComponent Diagram;
+    public int? HValue { get; set; } = 60;
+    public int? VValue { get; set; } = 60;
+    public LayoutType Type = LayoutType.HierarchicalTree;
+    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
+    public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Auto;
+    public VerticalAlignment VerticalAlignment = VerticalAlignment.Auto;
+    public int HorizontalSpacing = 60;
+    public int VerticalSpacing = 60;
+    public double Top = 50;
+    public double Bottom = 50;
+    public double Right = 50;
+    public double Left = 50;
+    
+
+    Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
+
+    private void OnConnectorCreating(IDiagramObject connector)
+    {
+        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector).TargetDecorator.Shape = DecoratorShape.None;
+        (connector as Connector).Style = new ShapeStyle() { StrokeColor = "#F16256", StrokeWidth = 1, StrokeDashArray = "3,3" };
+        (connector as Connector).Constraints = 0;
+        (connector as Connector).TargetDecorator = new DecoratorSettings()
+        {
+            Shape = DecoratorShape.Circle,
+            Style = new ShapeStyle()
+            {
+                StrokeColor = "#F16256",
+                Fill = "#F16256",
+                StrokeWidth = 1,
+            }
+        };
+    }
+
+    private TreeInfo GetLayoutInfo(IDiagramObject obj, TreeInfo options)
+    {
+        options.EnableSubTree = true;
+        options.Orientation = Orientation.Horizontal;
+        return options;
+    }
+    private void OnNodeCreating(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        node.Width = 190;
+        node.Height = 104;
+        node.Shape = new Shape()
+        { Type = Syncfusion.Blazor.Diagram.NodeShapes.HTML };
+    }
+
+    public class HierarchicalDetails
+    {
+        public string Name { get; set; }
+        public string Designation { get; set; }
+        public string EmployeeID { get; set; }
+        public string TeamName { get; set; }
+        public string TeamSize { get; set; }
+        public string ParentID { get; set; }
+        public string BG { get; set; }
+        public string ConnetColor { get; set; }
+
+    }
+    public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
+    {
+        new HierarchicalDetails(){ Name = "Liam James", Designation="President", EmployeeID="SF10001", TeamName="Web-Diagram", TeamSize="10", ParentID = "", BG= "images/diagram/overview/himage1.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Diana", Designation="Vice President", EmployeeID="SF10002", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10001", BG= "images/diagram/overview/himage2.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Kale Nate", Designation="Vice President", EmployeeID="SF10003", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10001", BG= "images/diagram/overview/himage3.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Sam", Designation="Manager", EmployeeID="SF10004", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10002", BG= "images/diagram/overview/himage4.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Stan West", Designation="Manager", EmployeeID="SF10005", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10002", BG= "images/diagram/overview/himage5.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Paul", Designation="Manager", EmployeeID="SF10006", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10003", BG= "images/diagram/overview/himage6.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Rick", Designation="Manager", EmployeeID="SF10007", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10003", BG= "images/diagram/overview/himage7.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Renly Dent", Designation="Employee", EmployeeID="SF10008", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10004", BG= "images/diagram/overview/himage8.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Christi", Designation="Employee", EmployeeID="SF10009", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10008", BG= "images/diagram/overview/himage9.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Scharlet", Designation="Employee", EmployeeID="SF100010", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF10006", BG= "images/diagram/overview/himage10.png", ConnetColor="Blue" },
+        new HierarchicalDetails(){ Name = "Rob Wayne", Designation="Employee", EmployeeID="SF100011", TeamName="Web-Diagram", TeamSize="10", ParentID ="SF100010", BG= "images/diagram/overview/himage11.png", ConnetColor="Blue" },
+    };
+
+    //Update the section to the property panel
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dict.Count; i++)
+        {
+            var value = dict.Values.ElementAt(i);
+            var key = dict.Keys.ElementAt(i);
+            if (dict.ContainsKey(id) && key == id)
+            {
+                value = selecteditem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dict.Remove(key);
+            dict.Add(key, value);
+        }
+    }
+
+    public class ImageFields
+    {
+        public string Text { get; set; }
+    }
+    private void HSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        HValue = (int)args.Value;
+        HorizontalSpacing = int.Parse(args.Value.ToString());
+    }
+    private void VSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        VValue = (int)args.Value;
+        VerticalSpacing = int.Parse(args.Value.ToString());
+    }
+
+    private void ToptoBottomClick()
+    {
+        UpdateSelection("topToBottom");
+        OrientationType = LayoutOrientation.TopToBottom;
+    }
+    private void LefttoRightClick()
+    {
+        UpdateSelection("leftToRight");
+        OrientationType = LayoutOrientation.LeftToRight;
+    }
+    private void RighttoLeftClick()
+    {
+        UpdateSelection("rightToLeft");
+        OrientationType = LayoutOrientation.RightToLeft;
+    }
+    private void BottomtoTopClick()
+    {
+        UpdateSelection("bottomToTop");
+        OrientationType = LayoutOrientation.BottomToTop;
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (dict != null)
+        {
+            dict.Clear();
+            dict = null;
+        }
+    }
+    @*End:Hidden*@
+}

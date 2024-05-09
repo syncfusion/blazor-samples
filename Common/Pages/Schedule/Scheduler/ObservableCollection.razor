@@ -1,0 +1,126 @@
+﻿@page "/scheduler/observable-binding"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@using System.Collections.ObjectModel
+@using System.ComponentModel
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the usage of Observable data binding in the Scheduler component. A new event will be added when you click on the Add Data button and the subject of the first event will be updated when you click on the Update Data. When you click on the Delete Data button, the first event will be deleted.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Using Observable Collections, event data can be added, removed, or updated with automatic notification of actions. The UI will be automatically updated when an event data is added to or removed from an observable collection. To refresh the UI for a single property update, the setter of the corresponding property must be configured as shown in the sample.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="observable-btn" style="margin: 0 0 7px 7px;">
+                <SfButton @onclick="AddRecord">Add Data</SfButton>
+                <SfButton @onclick="UpdateRecord" Disabled="ObservableData.Count == 0">Update Data</SfButton>
+                <SfButton @onclick="DeleteRecord" Disabled="ObservableData.Count == 0">Delete Data</SfButton>
+            </div>
+            <SfSchedule TValue="ObservableDatas" @bind-SelectedDate="@CurrentDate" Width="100%" Height="550px">
+                <ScheduleEventSettings DataSource="@ObservableData"></ScheduleEventSettings>
+                <ScheduleViews>
+                    <ScheduleView Option="View.Day"></ScheduleView>
+                    <ScheduleView Option="View.Week"></ScheduleView>
+                    <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                    <ScheduleView Option="View.Month"></ScheduleView>
+                    <ScheduleView Option="View.Agenda"></ScheduleView>
+                </ScheduleViews>
+            </SfSchedule>
+        </div>
+    </div>
+</div>
+<style>
+    @@media (max-width: 481px) {
+        .observable-btn .e-btn {
+            padding: 7px 5px;
+        }
+    }
+</style>
+
+@code{
+    DateTime CurrentDate { get; set; }
+    int CurrentYear;
+    public ObservableCollection<ObservableDatas> ObservableData { get; set; }
+    List<ObservableDatas> EventsCollection = new List<ObservableDatas>();
+    int uniqueid = 1;
+    
+    protected override void OnInitialized()
+    {
+        
+        CurrentYear = DateTime.Today.Year;
+        CurrentDate = new DateTime(CurrentYear, 3, 11);
+        EventsCollection = Enumerable.Range(1, 4).Select(x => new ObservableDatas()
+        {
+            Id = x,
+            Subject = (new string[] { "Project Discussion", "Workflow Analysis", "Report", "Meeting", "Project Demo" })[new Random().Next(5)],
+            StartTime = new DateTime(CurrentYear, 3, 11 + x, 9, 0, 0),
+            EndTime = new DateTime(CurrentYear, 3, 11 + x, 11, 0, 0)
+        }).ToList();
+        uniqueid = EventsCollection.Count;
+        ObservableData = new ObservableCollection<ObservableDatas>(EventsCollection);
+    }
+    public void AddRecord()
+    {
+        uniqueid++;
+        ObservableData.Add(new ObservableDatas() { Id = uniqueid, Subject = "Meeting", StartTime = new DateTime(CurrentYear, 3, 11, 9, 0, 0), EndTime = new DateTime(CurrentYear, 3, 11, 11, 0, 0) });
+    }
+    public void DeleteRecord()
+    {
+        if (ObservableData.Count != 0)
+        {
+            ObservableData.Remove(ObservableData.First());
+        }
+    }
+    public void UpdateRecord()
+    {
+        if (ObservableData.Count != 0)
+        {
+            var data = ObservableData.First();
+            data.Subject = "Event Updated";
+        }
+    }
+    public class ObservableDatas : INotifyPropertyChanged
+    {
+        public int Id { get; set; }
+        private string subject { get; set; }
+        public string Subject
+        {
+            get { return subject; }
+            set
+            {
+                this.subject = value;
+                NotifyPropertyChanged("Subject");
+            }
+        }
+        public string Location { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+        public bool IsAllDay { get; set; }
+        public string RecurrenceRule { get; set; }
+        public string RecurrenceException { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+}

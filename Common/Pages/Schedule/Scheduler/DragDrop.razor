@@ -1,0 +1,53 @@
+@page "/scheduler/drag-and-drop"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases the drag and drop functionality of events.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, you can change the timing of the events by simply drag and drop them. Also, the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_AllowMultiDrag">AllowMultiDrag</a> property helps you to perform dragging multiple selected events at a time. You can select multiple events by click on the events along with pressing <code>CTRL</code> key.</p>
+</ActionDescription>
+
+<div class="col-lg-12" style="padding-top:15px">
+    <SfCheckBox @bind-Checked="@IsMultiDrag" Label="Allow dragging multiple events" title="Enable/disable dragging multiple events at the same time"></SfCheckBox>
+</div>
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" AllowMultiDrag="@IsMultiDrag" ShowQuickInfo="false">
+        <ScheduleViews>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleGroup Resources="@groupData"></ScheduleGroup>
+        <ScheduleResources>
+            <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@TaskData" Field="TaskId" Title="Owners" Name="Owners" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+
+@code{
+    private View CurrentView { get; set; } = View.Month;
+    private bool IsMultiDrag { get; set; } = false;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 3);
+    private List<ScheduleData.ResourceData> dataSource = new ScheduleData().GetResourceData();
+    private string[] groupData = new string[] { "Owners" };
+    
+    private List<ResourceData> TaskData { get; set; } = new List<ResourceData> {
+        new ResourceData { Text = "Nancy", Id= 1, Color = "#df5286" },
+        new ResourceData { Text = "Steven", Id= 2, Color = "#7fa900" }
+    };
+    public class ResourceData
+    {
+        public string Text { get; set; }
+        public int Id { get; set; }
+        public string Color { get; set; }
+    }
+}

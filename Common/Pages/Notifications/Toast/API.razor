@@ -1,0 +1,392 @@
+﻿@page "/toast/api"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates all the API features available in Toast.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Toast header title and content text can be provided in this sample using text inputs.</p>
+    <ul>
+        <li><code>Action Buttons</code> – Provide support to add a button inside Toast to interact with it.</li>
+        <li><code>Prevent Duplicates</code> – Disable the user to create same Toast message multiple times.</li>
+        <li><code>TimeOut</code> – Allows to set time in millisecond to close Toast.</li>
+        <li><code>Progress Bar</code> – Visualizes the time out of Toast as an indicator.</li>
+        <li><code>Animation</code> – Enables to define the Toast show and hide animation.</li>
+        <li><code>Close button</code> – Show close button to hide Toast irrespective of time out.</li>
+    </ul>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section toast-api-section">
+    <div class="control_wrapper">
+        <SfToast @ref="ToastObj" ID="toastApi" Title="@ToastTitle" ProgressDirection="@DirectionProgress" Content="@ToastContent" ShowCloseButton="@ShowCloseBtn" ShowProgressBar="@ShowProgressBtn" NewestOnTop="@ShowNewestOnTop" Timeout="@ToastTimeout">
+            <ToastPosition X="Right" Y="Bottom"></ToastPosition>
+            <ToastAnimationSettings>
+                <ToastShowAnimationSettings Effect="@ShowEffect" Easing="@ShowEasing" Duration="@ShowDuration"></ToastShowAnimationSettings>
+                <ToastHideAnimationSettings Effect="@HideEffect" Easing="@HideEasing" Duration="@HideDuration"></ToastHideAnimationSettings>
+            </ToastAnimationSettings>
+            @if (this.EnableButtons)
+            {
+                <ToastButtons>
+                    <ToastButton Content="Click Here"></ToastButton>
+                </ToastButtons>
+            }
+        </SfToast>
+        <div class="row">
+            <div class="col-lg-6 padding">
+                <div class="input-form">
+                    <SfTextBox @ref="TileObj" Placeholder="Enter the title" Input="@HideToast" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                </div>
+                <div class="input-form">
+                    <SfTextBox @ref="ContentObj" Multiline="true" Placeholder="Enter the content" Input="@HideToast" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                </div>
+                <div class="group-form e-group">
+                    <SfCheckBox ID="closeButton" Label="Show Close Button" ValueChange="@CloseBtnChange" TChecked="bool"></SfCheckBox>
+                </div>
+                <div class="group-form">
+                    <SfCheckBox ID="progressBar" Label="Show Progress Bar" ValueChange="@ProgressBtnChange" TChecked="bool"></SfCheckBox>
+                </div>
+                <div class="group-form">
+                    <SfCheckBox ID="newestOnTop" Label="Newest On Top" @bind-Checked="@Checked" ValueChange="@NewestOnTopChange" TChecked="bool"></SfCheckBox>
+                </div>
+                <div class="group-form">
+                    <SfCheckBox ID="actionButtons" Label="Action Button" ValueChange="ActionBtnChange" TChecked="bool"></SfCheckBox>
+                </div>
+                <div class="input-form">
+                    <SfDropDownList @ref="DirectionDropdownObj" TValue="string" TItem="Direction" ID="Direction" Placeholder="ProgressDirection" FloatLabelType="FloatLabelType.Auto" @bind-Value="@DirectionValue" DataSource="@DirectionData">
+                        <DropDownListEvents TValue="string" TItem="Direction" ValueChange="@DirectionChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+                <div class="input-form">
+                    <SfTextBox @ref="TimeoutObj" @bind-Value="@TimeoutValue" Placeholder="TimeOut" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                </div>
+            </div>
+            <div class="col-lg-6 padding">
+                <div class="input-form">
+                    <h4> Show Animation</h4>
+                    <SfTextBox @ref="ShowDurationObj" @bind-Value="@ShowDurationtValue" Placeholder="Duration" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                </div>
+                <div class="input-form">
+                    <SfDropDownList @ref="EasingDropdownObj" TValue="string" TItem="Easing" ID="ShowEasing" Placeholder="Select an Easing" @bind-Value="@EasingValue" DataSource="@Ease">
+                        <DropDownListEvents TValue="string" TItem="Easing" ValueChange="@EasingChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+                <div class="input-form">
+                    <SfDropDownList @ref="ShowDropdownObj" TValue="string" TItem="Positions" ID="ShowAnimation" Placeholder="Select an Animation" @bind-Value="@AnimationValue" DataSource="@Show">
+                        <DropDownListEvents TValue="string" TItem="Positions" ValueChange="@ShowChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+                <div class="input-form e-group">
+                    <h4> Hide Animation</h4>
+                    <SfTextBox @ref="HideDurationObj" @bind-Value="@HideDurationtValue" Placeholder="Duration" FloatLabelType="FloatLabelType.Auto"></SfTextBox>
+                </div>
+                <div class="input-form">
+                    <SfDropDownList @ref="HideEasingDropdownObj" TValue="string" TItem="Easing" ID="HideEasing" Placeholder="Select an Easing" @bind-Value="@HideEasingValue" DataSource="@Ease">
+                        <DropDownListEvents TValue="string" TItem="Easing" ValueChange="@HideEasingChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+                <div class="input-form">
+                    <SfDropDownList @ref="HideDropdownObj" TValue="string" TItem="Positions" ID="HideAnimation" Placeholder="Select an Animation" @bind-Value="@HideAnimationValue" DataSource="@Hide">
+                        <DropDownListEvents TValue="string" TItem="Positions" ValueChange="@HideChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+        </div>
+        <div class="row center">
+            <button id="toastBtnShow" class="e-btn e-primary" @onclick="@ShowToast">Show Toasts</button>
+            <button id="toastBtnHide" class="e-btn e-primary" @onclick="@HideToastAll">Hide all</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .toast-api-section .row {
+        padding: 0 15px;
+    }
+
+        .toast-api-section .row .padding {
+            padding: 15px;
+        }
+
+    .toast-api-section .input-form {
+        margin: 33px 0;
+    }
+
+    .toast-api-section .group-form.e-group {
+        /* margin-top: 35px; */
+    }
+
+    .toast-api-section .group-form {
+        margin: 25px 0;
+    }
+
+    .toast-api-section .row.center {
+        text-align: center;
+    }
+
+    .toast-api-section .row {
+        padding: 0 15px;
+    }
+
+        .toast-api-section .row.center {
+            text-align: center;
+            align-items: center;
+            display: block;
+
+        }
+    .material3-dark .toast-api-section .input-form h4,
+    .material-dark .toast-api-section .input-form h4 {
+        color: #fff;
+    }
+
+    .bootstrap5 .e-toast .e-toast-message .e-toast-actions .e-small,
+    .bootstrap5-dark .e-toast .e-toast-message .e-toast-actions .e-small {
+        margin-top: 2px;
+    }
+
+    .e-toast .e-toast-message .e-toast-actions .e-small {
+        margin-top: 10px;
+        padding:2px;
+    }
+</style>
+
+@code {
+    SfToast ToastObj;
+    SfTextBox TileObj;
+    SfTextBox ContentObj;
+    SfTextBox TimeoutObj;
+    SfTextBox ShowDurationObj;
+    SfTextBox HideDurationObj;
+    SfDropDownList<string, Easing> EasingDropdownObj;
+    SfDropDownList<string, Direction> DirectionDropdownObj;
+    SfDropDownList<string, Easing> HideEasingDropdownObj;
+    SfDropDownList<string, Positions> ShowDropdownObj;
+    SfDropDownList<string, Positions> HideDropdownObj;
+
+    private string ToastTitle { get; set; }
+    private bool ShowButtons { get; set; } = false;
+    private bool Checked { get; set; } = true;
+    private ToastEasing ShowEasing { get; set; }
+    private ToastEasing HideEasing { get; set; }
+    private ToastEffect ShowEffect { get; set; } = ToastEffect.SlideBottomIn;
+    private ToastEffect HideEffect { get; set; } = ToastEffect.SlideBottomOut;
+    private string EasingValue { get; set; } = "ease";
+    private string DirectionValue { get; set; } = "RTL";
+    private string AnimationValue { get; set; } = "SlideBottomIn";
+    private string HideEasingValue { get; set; } = "ease";
+    private string HideAnimationValue { get; set; } = "SlideBottomOut";
+    private string ToastContent { get; set; } = "You have created a Toast message";
+    private string TimeoutValue { get; set; } = "5000";
+    private int ToastTimeout { get; set; } = 5000;
+    private int ShowDuration { get; set; } = 400;
+    private int HideDuration { get; set; } = 400;
+    private string ShowDurationtValue { get; set; } = "400";
+    private string HideDurationtValue { get; set; } = "400";
+    private bool ShowCloseBtn { get; set; } = false;
+    private bool ShowProgressBtn { get; set; } = false;
+    private bool ShowNewestOnTop { get; set; } = true;
+    private bool EnableButtons { get; set; } = false;
+    
+
+    private ProgressDirection DirectionProgress { get; set; } = ProgressDirection.RTL;
+  
+    public class Positions
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    public class Easing
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    public class Direction
+    {
+        public string value { get; set; }
+        public string text { get; set; }
+    }
+
+    private List<Positions> Show = new List<Positions>()
+    {
+        new Positions(){ value= "SlideBottomIn", text= "Slide Bottom In" },
+        new Positions(){ value= "FadeIn", text= "Fade In" },
+        new Positions(){ value= "FadeZoomIn", text= "Fade Zoom In" },
+        new Positions(){ value= "FadeZoomOut", text= "Fade Zoom Out" },
+        new Positions(){ value= "FlipLeftDownIn", text= "Flip Left Down In" },
+        new Positions(){ value= "FlipLeftDownOut", text= "Flip Left Down Out" },
+        new Positions(){ value= "FlipLeftUpIn", text= "Flip Left Up In" },
+        new Positions(){ value= "FlipLeftUpOut", text= "Flip Left Up Out" },
+        new Positions(){ value= "FlipRightDownIn", text= "Flip Right Down In" },
+        new Positions(){ value= "FlipRightDownOut", text= "Flip Right Down Out" },
+        new Positions(){ value= "FlipRightUpIn", text= "Flip Right Up In" },
+        new Positions(){ value= "FlipRightUpOut", text= "Flip Right Up Out" },
+        new Positions(){ value= "SlideBottomOut", text= "Slide Bottom Out" },
+        new Positions(){ value= "SlideLeftIn", text= "Slide Left In" },
+        new Positions(){ value= "SlideLeftOut", text= "Slide Left Out" },
+        new Positions(){ value= "SlideRightIn", text= "Slide Right In" },
+        new Positions(){ value= "SlideRightOut", text= "Slide Right Out" },
+        new Positions(){ value= "SlideTopIn", text= "Slide Top In" },
+        new Positions(){ value= "SlideTopOut", text= "Slide Top Out" },
+        new Positions(){ value= "ZoomIn", text= "Zoom In" },
+        new Positions(){ value= "ZoomOut", text= "Zoom Out" },
+    };
+
+    private List<Positions> Hide = new List<Positions>()
+    {
+        new Positions(){ value= "SlideBottomOut", text= "Slide Bottom Out" },
+        new Positions(){ value= "FadeIn", text= "Fade In" },
+        new Positions(){ value= "FadeZoomIn", text= "Fade Zoom In" },
+        new Positions(){ value= "FadeZoomOut", text= "Fade Zoom Out" },
+        new Positions(){ value= "FlipLeftDownIn", text= "Flip Left Down In" },
+        new Positions(){ value= "FlipLeftDownOut", text= "Flip Left Down Out" },
+        new Positions(){ value= "FlipLeftUpIn", text= "Flip Left Up In" },
+        new Positions(){ value= "FlipLeftUpOut", text= "Flip Left Up Out" },
+        new Positions(){ value= "FlipRightDownIn", text= "Flip Right Down In" },
+        new Positions(){ value= "FlipRightDownOut", text= "Flip Right Down Out" },
+        new Positions(){ value= "FlipRightUpIn", text= "Flip Right Up In" },
+        new Positions(){ value= "FlipRightUpOut", text= "Flip Right Up Out" },
+        new Positions(){ value= "SlideBottomOut", text= "Slide Bottom Out" },
+        new Positions(){ value= "SlideLeftIn", text= "Slide Left In" },
+        new Positions(){ value= "SlideLeftOut", text= "Slide Left Out" },
+        new Positions(){ value= "SlideRightIn", text= "Slide Right In" },
+        new Positions(){ value= "SlideRightOut", text= "Slide Right Out" },
+        new Positions(){ value= "SlideTopIn", text= "Slide Top In" },
+        new Positions(){ value= "SlideTopOut", text= "Slide Top Out" },
+        new Positions(){ value= "ZoomIn", text= "Zoom In" },
+        new Positions(){ value= "ZoomOut", text= "Zoom Out" },
+    };
+
+    private List<Easing> Ease = new List<Easing>()
+    {
+        new Easing(){ value= "ease", text= "Ease" },
+        new Easing(){ value= "linear", text= "Linear" }
+    };
+
+    private List<Direction> DirectionData = new List<Direction>()
+    {
+        new Direction(){ value= "RTL", text= "Right to Left" },
+        new Direction(){ value= "LTR", text= "Left to Right" }
+    };
+
+    private async Task ShowToast()
+    {
+        this.ToastTitle = this.TileObj.Value;
+        this.ToastContent = this.ContentObj.Value;
+        if (this.TileObj.Value == null && this.ContentObj.Value == null)
+        {
+            this.ToastContent = "You have created a Toast message";
+        }
+        this.ShowDuration = Int32.Parse(this.ShowDurationObj.Value);
+        this.HideDuration = Int32.Parse(this.HideDurationObj.Value);
+        this.ToastTimeout = Int32.Parse(this.TimeoutObj.Value);
+        this.StateHasChanged();
+        await Task.Delay(100);
+        await this.ToastObj.ShowAsync();
+    }
+
+    private async Task HideToast()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    private async Task HideToastAll()
+    {
+        await this.ToastObj.HideAsync("All");
+    }
+
+    private async Task CloseBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> arg)
+    {
+        await this.HideToastAll();
+        this.ShowCloseBtn = arg.Checked;
+        this.StateHasChanged();
+    }
+
+    private async Task ProgressBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> arg)
+    {
+        await this.HideToastAll();
+        this.ShowProgressBtn = arg.Checked;
+        this.StateHasChanged();
+    }
+
+    private async Task NewestOnTopChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> arg)
+    {
+        await this.HideToastAll();
+        this.ShowNewestOnTop = arg.Checked;
+        this.StateHasChanged();
+    }
+
+    private async Task ActionBtnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> arg)
+    {
+        await this.HideToastAll();
+        this.EnableButtons = (arg.Checked) ? true : false;
+        this.StateHasChanged();
+    }
+
+    private void DirectionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Direction> arg)
+    {
+        if (this.DirectionDropdownObj.Value == "RTL")
+        {
+            this.DirectionProgress = ProgressDirection.RTL;
+        }
+        else
+        {
+            this.DirectionProgress = ProgressDirection.LTR;
+        }
+        this.StateHasChanged();
+    }
+
+    private void EasingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Easing> arg)
+    {
+        if (this.EasingDropdownObj.Value == "linear")
+        {
+            this.ShowEasing = ToastEasing.Linear;
+        }
+        else
+        {
+            this.ShowEasing = ToastEasing.Ease;
+        }
+        this.StateHasChanged();
+    }
+    private void HideEasingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Easing> arg)
+    {
+        if (this.HideEasingDropdownObj.Value == "linear")
+        {
+            this.ShowEasing = ToastEasing.Linear;
+        }
+        else
+        {
+            this.ShowEasing = ToastEasing.Ease;
+        }
+        this.StateHasChanged();
+    }
+
+    private void ShowChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Positions> args)
+    {
+        this.ShowEffect = (ToastEffect)System.Enum.Parse(typeof(ToastEffect), args.Value);
+        this.StateHasChanged();
+    }
+    private void HideChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Positions> args)
+    {
+        this.HideEffect = (ToastEffect)System.Enum.Parse(typeof(ToastEffect), args.Value);
+        this.StateHasChanged();
+    }
+}

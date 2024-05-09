@@ -1,0 +1,226 @@
+﻿@page "/scheduler/horizontal-grouping"
+
+@using Syncfusion.Blazor.Schedule
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This demo illustrates the timings of different flight services on a specific route say between Barcelona and Los Angeles, on a daily basis. Here, the Scheduler is grouped based on the 3 Airline services. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, the Scheduler has been grouped with multiple resources by using the property <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleGroup.html">ScheduleGroup</a>. The resources to be grouped depends on the values of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleGroup.html#Syncfusion_Blazor_Schedule_ScheduleGroup_Resources">Resources</a> option within the <code>ScheduleGroup</code> property, which accepts the array of resource names. </p>
+    <p>
+        In mobile mode, when the grouping is enabled, the resources will be listed out in a treeview as a side-panel which opens
+        or closes, on clicking the hamburger icon at the resource header. Only a single resource will be viewable at a time,
+        due to the space constraints on mobile. If in case, the users want to view the grouped layout on mobile with scrolling
+        content, then it is necessary to set <code>false</code> to the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.ScheduleGroup.html#Syncfusion_Blazor_Schedule_ScheduleGroup_EnableCompactView">EnableCompactView</a> option within the <code>ScheduleGroup</code> property which is set to <code>true</code> by default. This option is not applicable on desktop mode.
+    </p>
+    <p> Note: If the <code>ScheduleGroup</code> property is not defined, then the default Scheduler will be rendered with no grouping on layout, but the appointments of all the resources will be displayed on a single Scheduler. </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="schedule-demo-heading">Flight timings between Barcelona and Los Angeles</div>
+    <SfSchedule TValue="AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleGroup EnableCompactView="false" Resources="@groupData"></ScheduleGroup>
+        <ScheduleResources>
+            <ScheduleResource TItem="AirlinesData" TValue="int[]" DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleTemplates>
+            <ResourceHeaderTemplate>
+                @{
+                    var airlineData = (context as TemplateContext).ResourceData as AirlinesData;
+                    <div class='template-wrap'>
+                        <div class="airline-image"><img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/{airlineData.AirlineImage}.svg")" alt="Airline Details" /></div>
+                        <div class="airline-details">
+                            <div class="airline-name">@(airlineData.AirlineName)</div>
+                            <div class="airline-model">Model no: @(airlineData.AirlineModel)</div>
+                            <div class="airline-seats">No.of seats: @(airlineData.AirlineSeats)</div>
+                        </div>
+                    </div>
+                }
+            </ResourceHeaderTemplate>
+        </ScheduleTemplates>
+        <ScheduleEventSettings DataSource="@dataSource">
+            <ScheduleField>
+                <FieldSubject Title="Travel Summary" Name="Subject"></FieldSubject>
+                <FieldLocation Title="Place" Name="Location"></FieldLocation>
+                <FieldDescription Title="Comments" Name="Description"></FieldDescription>
+                <FieldStartTime Title="Departure Time" Name="StartTime"></FieldStartTime>
+                <FieldEndTime Title="Arrival Time" Name="EndTime"></FieldEndTime>
+            </ScheduleField>
+        </ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
+    private List<AppointmentData> dataSource = new List<AppointmentData>();
+    private string[] groupData = new string[] { "Airlines" };
+    private List<AirlinesData> ResourceData { get; set; } = new List<AirlinesData> {
+        new AirlinesData { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50, AirlineImage = "airways-1" },
+        new AirlinesData { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75, AirlineImage = "airways-2" },
+        new AirlinesData { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100, AirlineImage = "airways-3" }
+    };
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        dataSource = GenerateEvents();
+    }
+    private List<AppointmentData> GenerateEvents()
+    {
+        var currentYear = DateTime.Today.Year;
+        var subjectCollection = new List<string> { "Barcelona to Los Angeles", "Los Angeles to Barcelona" };
+        var collections = new List<AppointmentData> { };
+        var dataCollections = new List<int> { 1, 2, 3 };
+        var id = 1;
+        var no = 0;
+        for (var i = 0; i < dataCollections.Count; i++)
+        {
+            var data = dataCollections[i];
+            var startDate = new DateTime(currentYear, 1, 1);
+            var lastDate = new DateTime(currentYear, 2, 1);
+            for (var date = startDate; date.Ticks < lastDate.Ticks; date = date.AddHours(2))
+            {
+                var strDate = date;
+                var endDate = strDate.AddHours(2);
+                collections.Add(new AppointmentData
+                {
+                    Id = id,
+                    Subject = subjectCollection[id % 2],
+                    StartTime = strDate,
+                    EndTime = endDate,
+                    AirlineId = data
+                });
+                no += 1;
+                id += 1;
+                date = date.AddHours(1);
+                if (id % 8 == 0)
+                {
+                    date = date.AddHours(1);
+                }
+            }
+        }
+        return collections;
+    }
+    public class AirlinesData
+    {
+        public string AirlineName { get; set; }
+        public int AirlineId { get; set; }
+        public int AirlineSeats { get; set; }
+        public string AirlineColor { get; set; }
+        public string AirlineModel { get; set; }
+        public string AirlineImage { get; set; }
+    }
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Nullable<bool> IsAllDay { get; set; }
+        public string CategoryColor { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+        public string StartTimezone { get; set; }
+        public string EndTimezone { get; set; }
+        public int AirlineId { get; set; }
+    }
+}
+
+<style>
+    .e-schedule .template-wrap {
+        display: flex;
+        text-align: left;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap {
+        display: table;
+        width: inherit;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .e-schedule:not(.e-device) .e-agenda-view .e-content-wrap table td:first-child {
+        width: 110px;
+    }
+
+    .e-schedule .template-wrap .airline-image {
+        width: 30px;
+        margin-top: 15px;
+        background-repeat: no-repeat;
+    }
+
+    .e-schedule.e-device .template-wrap .airline-image {
+        margin-top: 5px;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap .airline-image {
+        height: 30px;
+        margin-top: 0;
+        margin-left: 35%;
+    }
+
+    .e-schedule .e-vertical-view .e-resource-cells {
+        height: 80px;
+    }
+
+    .e-schedule .template-wrap .airline-details {
+        padding-left: 15px;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap .airline-details {
+        padding: 0;
+    }
+
+    .e-schedule .template-wrap .airline-details .airline-name {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .e-schedule.e-device .template-wrap .airline-details .airline-name {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+
+    .e-schedule .e-agenda-view .template-wrap .airline-model,
+    .e-schedule .e-agenda-view .template-wrap .airline-seats {
+        display: none;
+    }
+
+    .e-schedule.e-device .template-wrap .airline-model,
+    .e-schedule.e-device .template-wrap .airline-seats {
+        display: none;
+    }
+
+    .schedule-demo-heading {
+        font-size: 16px;
+        padding-bottom: 15px;
+        font-weight: 500;
+    }
+
+    @@media (max-width: 550px) {
+        .schedule-demo-heading {
+            font-size: 14px;
+        }
+    }
+
+    .material-dark .schedule-demo-heading {
+        color: #fff;
+    }
+</style>

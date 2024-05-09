@@ -1,0 +1,484 @@
+﻿@page "/diagramcomponent/UserHandles"
+
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.DropDowns
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This sample visualizes a simple flow diagram along with options to execute frequently used commands using user handles.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>User handles are represented as icons placed around the node to run frequently used commands. This example shows how to render and configure user handles and how to interact with the Diagram component using user handles. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramSelectionSettings.html#Syncfusion_Blazor_Diagram_DiagramSelectionSettings_UserHandles' aria-label="UserHandles">UserHandles</a></code> property of the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_SelectionSettings' aria-label="SelectionSettings">SelectionSettings</a></code> is used to add user handles to a diagram. Click the templates in the property panel to customize the position and appearance of the user handles. Here, the user handle is used to clone or delete the selected node or connector based on the command that is selected.</p><br>
+</ActionDescription>
+@*End:Hidden*@
+<div>
+    <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
+        <SfDiagramComponent @ref="@Diagram" Height="640px"
+                            Nodes="@nodes"
+                            Connectors="@connectors"
+                            SelectionChanged="@SelectionChanged"
+                            SelectionSettings="@selectionSettings"
+                            GetCustomTool="@GetCustomTool"
+                            Created="OnCreated">
+            <SnapSettings>
+                <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@gridLineIntervals">
+                </HorizontalGridLines>
+                <VerticalGridLines LineColor="#e0e0e0" LineIntervals="@gridLineIntervals">
+                </VerticalGridLines>
+            </SnapSettings>
+        </SfDiagramComponent>
+    </div>
+
+    @*Hidden:Lines*@
+
+    <style>
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 2px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 10px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+    </style>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-header">
+            Properties
+        </div>
+        <div class="row property-panel-content" style="padding-top: 10px">
+
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Position
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="positionValue" TItem="@UserHandlePosition" @bind-Value="@position" ID="position" PopupHeight="120" PopupWidth="150" Placeholder="BottomLeft" CssClass="textboxstyle" DataSource="@UserHandlePositionLists">
+                        <DropDownListEvents TItem="UserHandlePosition" TValue="string" ValueChange="@PositionChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Background
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="background" TItem="@UserHandleAppearance" @bind-Value="@backgroundValue" ID="pattern" PopupHeight="120" Placeholder="Black" CssClass="textboxstyle" DataSource="@UserHandleAppearanceLists">
+                        <DropDownListEvents TItem="UserHandleAppearance" TValue="string" ValueChange="@SetPattern"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Command
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="shapeValue" TItem="@UserHandleShape" ID="command" PopupHeight="120" @bind-Value="@commandValue" Placeholder="Duplicate" CssClass="textboxstyle" DataSource="@UserHandleShapeLists">
+                        <DropDownListEvents TItem="UserHandleShape" TValue="string" ValueChange="@OnCommand"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    UserHandle
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="110px" @bind-Enabled="userhandleValue" TItem="@UserHandleConstraints" ID="userHandle" PopupHeight="150" Placeholder="Both" @bind-Value="@visibleMode" CssClass="textboxstyle" DataSource="@UserHandleLists">
+                        <DropDownListEvents TItem="UserHandleConstraints" TValue="string" ValueChange="@OnUserHandleConstraintsChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*End:Hidden*@
+
+@code
+{
+    @*Hidden:Lines*@
+    
+    int connectorCount;
+    string position = "BottomLeft";
+    string backgroundValue = "Black";
+    string commandValue = "Duplicate";
+    string visibleMode = "Both";
+    bool positionValue = true;
+    bool background = true;
+    bool shapeValue = true;
+    bool userhandleValue = true;
+    @*End:Hidden*@
+    public SfDiagramComponent Diagram;
+    // Defines interval values for GridLines
+    public double[] gridLineIntervals { get; set; }
+    // Defines diagram's nodes collection
+    public DiagramObjectCollection<Node> nodes { get; set; }
+    UserHandle userhandle;
+    UserHandle handle;
+    // Defines diagram's connector collection
+    public DiagramObjectCollection<Connector> connectors { get; set; }
+
+    DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
+
+    protected override void OnInitialized()
+    {
+        
+        gridLineIntervals = new double[] { 1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75 };
+        InitDiagramModel();
+        selectionSettings.Constraints &= ~(SelectorConstraints.ResizeAll | SelectorConstraints.Rotate);
+    }
+
+    private void OnCreated()
+    {
+        Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram.FitToPage(mobileoptions);
+    }
+
+    private void SelectionChanged(SelectionChangedEventArgs args)
+    {
+        if (args.NewValue != null && args.NewValue.Count > 0)
+        {
+            string position1 = Diagram.SelectionSettings.UserHandles[0].Side.ToString();
+            var offset = Diagram.SelectionSettings.UserHandles[0].Offset;
+            if (position1 == "Bottom" && offset == 1)
+            {
+                position = "BottomRight";
+            }
+            else if (position1 == "Bottom" && offset == 0)
+            {
+                position = "BottomLeft";
+            }
+            else if (position1 == "Right" && offset == 0)
+            {
+                position = "TopLeft";
+            }
+
+        }
+        if (Diagram.SelectionSettings.Nodes.Count > 0 || Diagram.SelectionSettings.Connectors.Count > 0)
+        {
+            background = true;
+            positionValue = true;
+            shapeValue = true;
+            userhandleValue = true;
+        }
+        else
+        {
+            background = false;
+            positionValue = false;
+            shapeValue = false;
+            userhandleValue = false;
+        }
+    }
+    // Method to customize the tool
+    public InteractionControllerBase GetCustomTool(DiagramElementAction action, string id)
+    {
+        InteractionControllerBase tool = null;
+        if (id == "clone")
+        {
+            tool = new CloneTool(Diagram);
+        }
+        else
+        {
+            tool = new AddDeleteTool(Diagram);
+        }
+        return tool;
+    }
+    // Custom tool to delete the node.
+    public class AddDeleteTool : InteractionControllerBase
+    {
+        SfDiagramComponent sfDiagram;
+        public AddDeleteTool(SfDiagramComponent Diagram) : base(Diagram)
+        {
+            sfDiagram = Diagram;
+        }
+        public override void OnMouseUp(DiagramMouseEventArgs args)
+        {
+
+            bool GroupAction = false;
+            sfDiagram.BeginUpdate();
+            if(sfDiagram.SelectionSettings.Nodes.Count > 1 || sfDiagram.SelectionSettings.Connectors.Count > 1 || 
+                ((sfDiagram.SelectionSettings.Nodes.Count + sfDiagram.SelectionSettings.Connectors.Count) > 1))
+            {
+                GroupAction = true;
+            }
+            if (GroupAction)
+            {
+                sfDiagram.StartGroupAction();
+            }
+            if (sfDiagram.SelectionSettings.Nodes.Count != 0)
+            {
+                for (var i = sfDiagram.SelectionSettings.Nodes.Count-1; i >=0; i--)
+                {
+                    Node deleteNode = sfDiagram.SelectionSettings.Nodes[i];
+
+                    sfDiagram.Nodes.Remove(deleteNode);
+                }
+            }
+            if (sfDiagram.SelectionSettings.Connectors.Count != 0)
+            {
+                for (var i = sfDiagram.SelectionSettings.Connectors.Count-1; i >=0; i--)
+                {
+                    Connector deleteConnector = sfDiagram.SelectionSettings.Connectors[i];
+
+                    sfDiagram.Connectors.Remove(deleteConnector);
+                }
+            }
+            if (GroupAction)
+            {
+                sfDiagram.EndGroupAction();
+            }
+            _ = sfDiagram.EndUpdate();
+            base.OnMouseUp(args);
+            this.InAction = true;
+        }
+    }
+
+
+    // Custom tool to duplicate the node.
+    public class CloneTool : DragController
+    {
+        SfDiagramComponent sfDiagram; bool isNode = false;
+        public CloneTool(SfDiagramComponent diagram) : base(diagram)
+        {
+            sfDiagram = diagram;
+        }
+        public override void OnMouseDown(DiagramMouseEventArgs args)
+        {
+            isNode = sfDiagram.SelectionSettings.Nodes.Count > 0 ? true : false;
+            sfDiagram.Copy();
+            sfDiagram.Paste();
+            base.OnMouseDown(args);
+            this.InAction = true;
+        }
+        public override bool OnMouseMove(DiagramMouseEventArgs args)
+        {
+            if (isNode)
+                sfDiagram.Nodes.Last().IsVisible = false;
+            else
+                sfDiagram.Connectors.Last().IsVisible = false;
+            return base.OnMouseMove(args);
+        }
+        public override void OnMouseUp(DiagramMouseEventArgs args)
+        {
+            if (isNode)
+            {
+                sfDiagram.Nodes.Last().IsVisible = true;
+                sfDiagram.Select(new ObservableCollection<IDiagramObject>() { sfDiagram.Nodes.Last() });
+            }
+            else
+            {
+                sfDiagram.Connectors.Last().IsVisible = true;
+                sfDiagram.Select(new ObservableCollection<IDiagramObject>() { sfDiagram.Connectors.Last() });
+            }
+            base.OnMouseUp(args);
+            this.InAction = true;
+        }
+    }
+    @*Hidden:Lines*@
+    public class UserHandleShape
+    {
+        public string Name { get; set; }
+    }
+    private List<UserHandleShape> UserHandleShapeLists = new List<UserHandleShape>() {
+        new UserHandleShape() { Name ="Duplicate"},
+        new UserHandleShape() { Name ="Delete" },
+
+    };
+    public class UserHandlePosition
+    {
+        public string Name { get; set; }
+    }
+    private List<UserHandlePosition> UserHandlePositionLists = new List<UserHandlePosition>() {
+        new UserHandlePosition() { Name ="BottomLeft"},
+        new UserHandlePosition() { Name ="BottomRight" },
+         new UserHandlePosition() { Name ="TopRight" },
+
+    };
+    public class UserHandleAppearance
+    {
+        public string Name { get; set; }
+    }
+    private List<UserHandleAppearance> UserHandleAppearanceLists = new List<UserHandleAppearance>() {
+        new UserHandleAppearance() { Name ="Blue"},
+        new UserHandleAppearance() { Name ="Green" },
+         new UserHandleAppearance() { Name ="Orange" },
+          new UserHandleAppearance() { Name ="Black" },
+
+    };
+
+    public class UserHandleConstraints
+    {
+        public string Name { get; set; }
+    }
+    private List<UserHandleConstraints> UserHandleLists = new List<UserHandleConstraints>()
+    {
+        new UserHandleConstraints(){Name = "None"},
+        new UserHandleConstraints(){Name = "Node"},
+        new UserHandleConstraints(){Name = "Connector"},
+        new UserHandleConstraints(){Name = "Both"},
+    };
+
+    public void PositionChange(ChangeEventArgs<string, UserHandlePosition> args)
+    {
+
+        if (args.Value == "BottomRight")
+        {
+            userhandle.Offset = 1;
+            userhandle.Side = Direction.Bottom;
+
+        }
+        else if (args.Value == "BottomLeft")
+        {
+            userhandle.Offset = 0;
+            userhandle.Side = Direction.Bottom;
+        }
+        else if (args.Value == "TopRight")
+        {
+            userhandle.Offset = 0;
+            userhandle.Side = Direction.Right;
+        }
+    }
+    private void OnCommand(ChangeEventArgs<string, UserHandleShape> args)
+    {
+        if (args.Value == "Delete")
+        {
+            userhandle.PathData = "M1.0000023,3 L7.0000024,3 7.0000024,8.75 C7.0000024,9.4399996 6.4400025,10 5.7500024,10 L2.2500024,10 C1.5600024,10 1.0000023,9.4399996 1.0000023,8.75 z M2.0699998,0 L5.9300004,0 6.3420029,0.99999994 8.0000001,0.99999994 8.0000001,2 0,2 0,0.99999994 1.6580048,0.99999994 z";
+            handle.Name = "delete";
+        }
+        if (args.Value == "Duplicate")
+        {
+            userhandle.PathData = "M60.3,18H27.5c-3,0-5.5,2.4-5.5,5.5v38.2h5.5V23.5h32.7V18z M68.5,28.9h-30c-3,0-5.5,2.4-5.5,5.5v38.2c0,3,2.4,5.5,5.5,5.5h30c3,0,5.5-2.4,5.5-5.5V34.4C73.9,31.4,71.5,28.9,68.5,28.9z M68.5,72.5h-30V34.4h30V72.5z";
+            handle.Name = "clone";
+        }
+    }
+
+    private void OnUserHandleConstraintsChange(ChangeEventArgs<string, UserHandleConstraints> args)
+    {
+        if(args.Value == "Both")
+        {
+            userhandle.VisibleTarget = VisibleTarget.Node | VisibleTarget.Connector;
+        }
+        else if(args.Value == "None")
+        {
+            if(userhandle.VisibleTarget.HasFlag(VisibleTarget.Node))
+            {
+                userhandle.VisibleTarget &= ~VisibleTarget.Node;
+            }
+            if (userhandle.VisibleTarget.HasFlag(VisibleTarget.Connector))
+            {
+                userhandle.VisibleTarget &= ~VisibleTarget.Connector;
+            }
+        }
+        else if(args.Value == "Node")
+        {
+            userhandle.VisibleTarget = VisibleTarget.Node;
+        }
+        else if(args.Value == "Connector")
+        {
+            userhandle.VisibleTarget = VisibleTarget.Connector;
+        }
+    }
+
+    public void SetPattern(ChangeEventArgs<string, UserHandleAppearance> args)
+    {
+
+        userhandle.BackgroundColor = args.Value == "Blue" ? "#1E90FF" : (args.Value == "Green" ? "#3CB371" : (args.Value == "Black" ? "#000000" : "#FF6347"));
+        userhandle.PathColor = "white";
+    }
+    @*End:Hidden*@
+
+    private void InitDiagramModel()
+    {
+        handle = new UserHandle()
+        {
+            Name = "clone",
+            PathData = "M60.3,18H27.5c-3,0-5.5,2.4-5.5,5.5v38.2h5.5V23.5h32.7V18z M68.5,28.9h-30c-3,0-5.5,2.4-5.5,5.5v38.2c0,3,2.4,5.5,5.5,5.5h30c3,0,5.5-2.4,5.5-5.5V34.4C73.9,31.4,71.5,28.9,68.5,28.9z M68.5,72.5h-30V34.4h30V72.5z",
+            Visible = true,
+            Offset = 0,
+            Side = Direction.Bottom,
+            Margin = new DiagramThickness() { Top = 0, Bottom = 0, Left = 0, Right = 0 }
+        };
+        DiagramObjectCollection<UserHandle> cloneHandle = new DiagramObjectCollection<UserHandle>()
+        {
+            handle
+        };
+        selectionSettings.UserHandles = cloneHandle;
+        userhandle = handle;
+        userhandle.VisibleTarget = VisibleTarget.Node | VisibleTarget.Connector;
+
+        nodes = new DiagramObjectCollection<Node>();
+        connectors = new DiagramObjectCollection<Connector>();
+        // Node Region
+        CreateNode("Newidea", 300, 60, NodeFlowShapes.Terminator, "New idea identified");
+        CreateNode("Meeting", 300, 155, NodeFlowShapes.Process, "Meeting with board");
+        CreateNode("Board", 300, 280, NodeFlowShapes.Decision, "Board decides \n whether to proceed", 150, 110);
+        CreateNode("Find", 300, 430, NodeFlowShapes.Decision, "Find project \n manager");
+        CreateNode("Implement", 300, 555, NodeFlowShapes.Process, "Implement and deliver");
+        CreateNode("Decision", 530, 60, NodeFlowShapes.Card, "Decision process for new software ideas", 250, 60);
+        CreateNode("Reject", 550, 280, NodeFlowShapes.Process, "Reject");
+        CreateNode("Hire", 550, 430, NodeFlowShapes.Process, "Hire new resources");
+        // Connector Region
+        CreateConnector("Newidea", "Meeting");
+        CreateConnector("Meeting", "Board");
+        CreateConnector("Board", "Find");
+        CreateConnector("Find", "Implement");
+        CreateConnector("Board", "Reject");
+        CreateConnector("Find", "Hire");
+    }
+
+    // Method to create node
+    private void CreateNode(string id, double x, double y, NodeFlowShapes shape, string label, double width = 150, double height = 60)
+    {
+        ShapeAnnotation annotation = new ShapeAnnotation() { Content = label, Style = new TextStyle() { Color = "white" } };
+
+        Node diagramNode = new Node()
+        {
+            ID = id,
+            OffsetX = x,
+            OffsetY = y,
+            Width = width,
+            Height = height,
+            Shape = new FlowShape() { Type = shapes.Flow, Shape = shape },
+            Style = new ShapeStyle() { Fill = "#009EDF", StrokeColor = "#009FE5" },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { annotation },
+        };
+        nodes.Add(diagramNode);
+    }
+
+    // Method to create connector
+    private void CreateConnector(string sourceId, string targetId)
+    {
+        Connector diagramConnector = new Connector()
+        {
+            ID = string.Format("connector{0}", ++connectorCount),
+            TargetDecorator = new DecoratorSettings() { Style = new ShapeStyle() { Fill = "#009EDF", StrokeColor = "#009EDF" } },
+            Style = new ShapeStyle() { StrokeColor = "#009EDF" },
+            SourceID = sourceId,
+            TargetID = targetId,
+        };
+        connectors.Add(diagramConnector);
+    }
+}

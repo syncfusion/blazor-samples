@@ -1,0 +1,97 @@
+﻿@page "/chart/negative-stack"
+@using Syncfusion.Blazor.Charts
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+<SampleDescription>
+    <p>This sample illustrates a stacked bar chart with negative data points. Data point values are shown in data labels.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure negative values in a stacked bar chart. The stacked bar chart stacks points in the series horizontally. You can also use the  <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartSeries.html#Syncfusion_Blazor_Charts_ChartSeries_StackingGroup' aria-label="Navigate to the StackingGroup property reference for chart series">StackingGroup</a> property to group stacked collections based on category.</p>
+   <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the stacked bar series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/stacked-bar' aria-label="Navigate to the documentation for stacked bar in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Height vs Weight" Width="@Width" Theme="@Theme">
+        <ChartEvents TooltipRender="TooltipRender" OnAxisLabelRender="AxisLabelRenderEvent"></ChartEvents>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis Title="Height in Inches" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Interval="1">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}" Title="Weight (kg)">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries ColumnWidth="0.5" DataSource="@ChartPoints" XName="Height" YName="Female" Name="Female" Type="ChartSeriesType.StackingBar">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Top" Name="Female_Text">
+                        <ChartDataLabelFont FontWeight="600"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries ColumnWidth="0.5" DataSource="@ChartPoints" XName="Height" YName="Male" Name="Male" Type="ChartSeriesType.StackingBar">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Name="Text" Position="LabelPosition.Top">
+                        <ChartDataLabelFont FontWeight="600"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Position="@position" EnableHighlight="true"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+    </SfChart>
+</div>
+
+@code{
+    
+    public LegendPosition position { get; set; } = LegendPosition.Right;
+    public class StackedBarChartData
+    {
+        public string Height { get; set; }
+        public double Female { get; set; }
+        public double Male { get; set; }
+        public string Text {  get;  set; }
+        public string Female_Text { get; set; }
+    }
+    public string Width { get; set; } = "90%";
+
+    public List<StackedBarChartData> ChartPoints { get; set; } = new List<StackedBarChartData>
+    {
+        new StackedBarChartData { Height = "4.5", Female = 31, Male = -31, Text = "31 KG", Female_Text = "31 KG" },
+        new StackedBarChartData { Height = "4.8", Female = 37, Male = -39, Text = "39 KG", Female_Text = "37 KG" },
+        new StackedBarChartData { Height = "5.1", Female = 49, Male = -52, Text = "52 KG", Female_Text = "49 KG" },
+        new StackedBarChartData { Height = "5.4", Female = 57, Male = -64, Text = "64 KG", Female_Text = "57 KG" },
+        new StackedBarChartData { Height = "5.7", Female = 63, Male = -70, Text = "70 KG", Female_Text = "63 KG" },
+        new StackedBarChartData { Height = "6", Female = 69, Male = -74, Text = "74 KG", Female_Text = "69 KG" }
+    };
+
+    private Syncfusion.Blazor.Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+            position = LegendPosition.Bottom;
+        }
+    }
+
+    private void TooltipRender(TooltipRenderEventArgs args) 
+    {
+        args.Text = args.Text.IndexOf("-") > 0 ? args.Text.Replace("-", "") : args.Text;
+        args.Text = args.Text + " " + "<b>kg</b>";
+    }
+
+    private void AxisLabelRenderEvent(AxisLabelRenderEventArgs args)
+    {
+        args.Text = args.Text.Contains("-") ? (args.Text.Replace("-", "")) : args.Text;
+    }
+}

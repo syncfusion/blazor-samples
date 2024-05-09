@@ -1,0 +1,160 @@
+﻿@page "/heatmap-chart/palette-mode"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using SFHeatMap = Syncfusion.Blazor.HeatMap
+@using Syncfusion.Blazor.Buttons;
+@using MSComponents = Microsoft.AspNetCore.Components
+@using sf_blazor_heatmapdata
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the energy consumption in trillion British thermal units (BTU) by the various public sectors of the US government over the years. The data label is disabled in this sample, and the tooltip displays the data point values.</p>
+</SampleDescription>
+<ActionDescription>
+   <p> In this example, you can see how to change the Palette type between <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.PaletteType.html#Syncfusion_Blazor_HeatMap_PaletteType_Fixed' aria-label="Fixed">Fixed</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.PaletteType.html#Syncfusion_Blazor_HeatMap_PaletteType_Gradient' aria-label="Gradient">Gradient</a> types in Heatmap. The palette type can be defined using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.HeatMapPaletteSettings.html#Syncfusion_Blazor_HeatMap_HeatMapPaletteSettings_Type' aria-label="Type">Type</a> property in <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.HeatMapPaletteSettings.html' aria-label="PaletteSettings">PaletteSettings</a>.Legend is enabled in this example. When the palette mode is changed, the legend type will be automatically switched between Gradient and Fixed type legend.</p>
+   <p>The tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item on touch-enabled devices.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <div class="row">
+        <SfHeatMap DataSource="@DataSource" Theme="@theme">
+            <HeatMapEvents Resized="@Resized"></HeatMapEvents>
+            <HeatMapTitleSettings Text="U.S. Government Energy Consumption by Agency (Trillion Btu)">
+                <HeatMapTitleTextStyle Size="15px" FontFamily="inherit" FontWeight="500" FontStyle="Normal" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
+            </HeatMapTitleSettings>
+            <HeatMapXAxis Labels="@XLabels"
+                          LabelRotation="45"
+                          LabelIntersectAction="@SFHeatMap.LabelIntersectAction.None">
+                <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
+            </HeatMapXAxis>
+            <HeatMapYAxis Labels="@YLabels">
+                <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapYAxisTextStyle>
+            </HeatMapYAxis>
+            <HeatMapPaletteSettings Type="@PalatteType">
+                <HeatMapPalettes>
+                    <HeatMapPalette Value="4.3" Color="#FFFFDA"></HeatMapPalette>
+                    <HeatMapPalette Value="7" Color="#EDF8B6"></HeatMapPalette>
+                    <HeatMapPalette Value="9" Color="#CAE8B4"></HeatMapPalette>
+                    <HeatMapPalette Value="15" Color="#78D1BD"></HeatMapPalette>
+                    <HeatMapPalette Value="25" Color="#208FC6"></HeatMapPalette>
+                    <HeatMapPalette Value="30" Color="#253494"></HeatMapPalette>
+                    <HeatMapPalette Value="32" Color="#081D58"></HeatMapPalette>
+                </HeatMapPalettes>
+            </HeatMapPaletteSettings>
+            <HeatMapCellSettings ShowLabel="false">
+                <HeatMapCellBorder Width="0"></HeatMapCellBorder>
+            </HeatMapCellSettings>
+            <HeatMapLegendSettings EnableSmartLegend="@SmartLegend" Width="@LegendWidth" Position="SFHeatMap.LegendPosition.Bottom">
+                 <HeatMapLegendTextStyle FontFamily="inherit"></HeatMapLegendTextStyle>
+             </HeatMapLegendSettings>
+             <HeatMapTooltipSettings>
+                 <HeatMapFont FontFamily="inherit"></HeatMapFont>
+             </HeatMapTooltipSettings>
+        </SfHeatMap>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+        <tr style="height: 50px">
+            <td style="width: 50%">
+                <div style="font-size: 14px;">Palette Type </div>
+            </td>
+            <td style="width: 40%;margin-left: 30px">
+                <div class="row" style="padding-top: 10px;margin-left: 10px;">
+                    <SfRadioButton Label="Fixed" Name="PaletteType" Value="Fixed" @bind-Checked="@Type" ValueChange="@ValueChange" TChecked="string">
+                    </SfRadioButton>
+                </div>
+                <div class="row" style="padding-top: 10px;margin-left: 10px">
+                    <SfRadioButton Label="Gradient" Name="PaletteType" Value="Gradient" @bind-Checked="@Type" ValueChange="@ValueChange" TChecked="string"></SfRadioButton>
+                </div>
+            </td>
+        </tr>
+        <tr style="height: 50px">
+                <td style="width: 40%;">
+                    <div>Enable Smart Legend</div>
+                 </td>
+            <td>
+                <div style="margin-left: 10px">
+                    <SfCheckBox Checked="@SmartLegend" ValueChange="SmartLegendEnable" Disabled="@EnableSmartLegend" TChecked="bool"></SfCheckBox>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+@code{
+    private Theme theme { get; set; }
+    public string AxisLabelColor = "Black";
+    public string LegendWidth = "400px";
+    PaletteType PalatteType = PaletteType.Fixed;
+    string Type = "Fixed";
+    string[] XLabels = new string[] { "2005", "2006", "2007", "2008", "2009", "2010","2011", "2012", "2013", "2014", "2015" };
+    string[] YLabels = new string[] { "Agriculture", "Energy", "Administration", "Health", "Interior", "Justice", "NASA", "Transportation" };
+    double[,] DataSource = HeatMapData.GetPaletteData();
+    public bool SmartLegend = true;
+    public bool EnableSmartLegend = false;
+    public void ValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> args)
+    {
+        if ((string)args.Value == "Fixed")
+        {
+            PalatteType = PaletteType.Fixed;
+            Type = "Fixed";
+            EnableSmartLegend = false;
+        }
+        else
+        {
+            PalatteType = PaletteType.Gradient;
+            Type = "Gradient";
+            EnableSmartLegend = true;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        if (theme.ToString().IndexOf("Dark") > -1 || theme.ToString().IndexOf("HighContrast") > -1)
+        {
+            AxisLabelColor = "White";
+        }
+        else
+        {
+            AxisLabelColor = "Black";
+        }
+        if(SampleService.IsDevice)
+        {
+            LegendWidth = string.Empty;
+        } else
+        {
+            LegendWidth = "400px";            
+        }
+    }
+    private void Resized(ResizeEventArgs args)
+    {
+        if (args.CurrentSize.Width <= 550)
+        {
+            LegendWidth = string.Empty;
+        }
+        else
+        {
+            LegendWidth = "400px";
+        }
+    }
+    public void SmartLegendEnable(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        SmartLegend = args.Checked;
+    }
+}
+
+<style>
+    .col-lg-3.property-section {
+        padding-top: 60px;
+    }    
+</style>

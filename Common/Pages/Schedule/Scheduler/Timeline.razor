@@ -1,0 +1,48 @@
+﻿@page "/scheduler/timeline-view"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo showcases how the timeline Scheduler looks with its default set of configurations.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Like the vertical Scheduler, timeline view has the similar view types such as </p>
+    <ul>
+        <li>Timeline Day</li>
+        <li>Timeline Week</li>
+        <li>Timeline WorkWeek</li>
+        <li>Timeline Month</li>
+    </ul>
+    <p>The Agenda and MonthAgenda views shares the same layout for both the vertical and timeline views.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView=@CurrentView>
+        <ScheduleViews>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineDay"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWeek"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWorkWeek"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="13" Option="View.TimelineMonth"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+
+@code{
+    private  List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetScheduleData();
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 5);
+    public View CurrentView { get; set; } = View.TimelineWeek;
+    
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}

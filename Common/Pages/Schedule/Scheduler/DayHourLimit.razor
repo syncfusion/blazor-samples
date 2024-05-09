@@ -1,0 +1,82 @@
+﻿@page "/scheduler/hide-non-working-hours"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This demo depicts how to restrict the start and end hours of Schedule, thus limiting it to display only the given hour range. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, the Scheduler is made to display from 08:00 AM to 08:00 PM and the rest of the hours are hidden, as it is restricted to start from <code>08:00</code> hours and end on <code>20:00</code> hours by setting the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_StartHour">StartHour</a> and <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_EndHour">EndHour</a> properties respectively. </p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" StartHour="@scheduleStartHour" EndHour="@scheduleEndHour" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineDay"></ScheduleView>
+            <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWeek"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+    </SfSchedule>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id='property' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@StartTime" Placeholder="Start Hour" FloatLabelType="FloatLabelType.Always">
+                                    <TimePickerEvents TValue="DateTime?" ValueChange="OnStartHourChange"></TimePickerEvents>
+                                </SfTimePicker>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfTimePicker TValue="DateTime?" Format="HH:mm" @bind-Value="@EndTime" Placeholder="End Hour" FloatLabelType="FloatLabelType.Always">
+                                    <TimePickerEvents TValue="DateTime?" ValueChange="OnEndHourChange"></TimePickerEvents>
+                                </SfTimePicker>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@code{
+    public View CurrentView { get; set; } = View.Week;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
+    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetEmployeeEventData();
+    private string scheduleStartHour = "08:00";
+    private string scheduleEndHour = "20:00";
+    private DateTime? StartTime { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0);
+    private DateTime? EndTime { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0);
+    
+    public void OnStartHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.scheduleStartHour = args.Text;
+    }
+    public void OnEndHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
+    {
+        this.scheduleEndHour = args.Text;
+    }
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}

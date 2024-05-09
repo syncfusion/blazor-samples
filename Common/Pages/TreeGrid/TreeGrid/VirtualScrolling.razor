@@ -1,0 +1,94 @@
+﻿@page "/tree-grid/virtual-scrolling"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.TreeGrid
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using BlazorDemos
+@using ej2_blazor_virtualdata
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Tree Grid component with the horizontal and vertical scrollbars to view the exceeded tree grid content in list binding with large data.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Tree Grid UI virtualization allows it to render only rows and columns visible within the view-port without buffering the entire datasource. Tree Grid supports both row and column virtualization. To enable row virtualization, set <a aria-label="Navigate to the Enable Virtualization property reference for tree grid component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_EnableVirtualization'>EnableVirtualization</a> property as true. For column virtualization, set <a aria-label="Navigate to the EnableColumnVirtualization property reference for tree grid component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_EnableColumnVirtualization'>EnableColumnVirtualization</a> property as true.</p>
+    <p>In this demo, Tree Grid is rendered with row and column virtualization for 10000 rows and 20 columns</p>
+    <p>Set the <a aria-label="Navigate to the EnableVirtualMaskRow property reference for tree grid component" target='_blank' href='https://https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_EnableVirtualMaskRow'>EnableVirtualMaskRow </a>property value to <b>true</b> to enable mask row support.</p>
+    <p>The <code>OverscanCount</code> property is used to render additional items in the DOM before and after the visible items (based on pagesize) during virtual scrolling and initial rendering. This reduces the frequency of rendering during scrolling. In this demo, the <a aria-label="Opens in a new tab" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_OverscanCount'>OverscanCount</a> property is set to 5.</p>
+    <p>More information on the Virtual Scrolling can be found in this <a aria-label="Navigate to the documentation for virtualization in tree grid component" target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/virtualization'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <span class="topload">Loading 10,000 Rows and 20 Columns</span>
+            <SfTreeGrid DataSource="@TreeGridData" OverscanCount="5" IdMapping="TaskID" RowHeight="38" TreeColumnIndex="1" ParentIdMapping="ParentID" Height="410" Width="auto" EnableHover="false" EnableVirtualization="true" EnableVirtualMaskRow="true" EnableColumnVirtualization="true">
+                <TreeGridPageSettings PageSize="40"></TreeGridPageSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Jersey No" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="FIELD1" HeaderText="Name" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="FIELD2" HeaderText="Year" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="FIELD3" HeaderText="Stint" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="FIELD4" HeaderText="TMID" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="FIELD5" HeaderText="LGID" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="FIELD6" HeaderText="GP" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field7" HeaderText="GS" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field8" HeaderText="Minutes" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field9" HeaderText="Points" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field10" HeaderText="ORebounds" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field11" HeaderText="DRebounds" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field12" HeaderText="Rebounds" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field13" HeaderText="Assists" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field14" HeaderText="Steals" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field15" HeaderText="Blocks" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field16" HeaderText="TurnOvers" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field17" HeaderText="PF" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field18" HeaderText="FgAttempted" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field19" HeaderText="FgMade" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                    <TreeGridColumn Field="Field20" HeaderText="FtAttempted" TextAlign="TextAlign.Right" Width="150"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .visible {
+        display: inline-block;
+        font-size: 18px;
+        color: rgba(0,0,0,1);
+    }
+
+    .loading {
+        position: absolute;
+        height: 92%;
+        width: 100%;
+        background-color: rgba(1,1,1,0.2);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        padding-left: 44%;
+    }
+
+    .topload {
+        font-size: 15px;
+    }
+</style>
+@code{
+
+    private List<VirtualData> TreeGridData { get; set; } = new List<VirtualData>();
+
+
+    protected override void OnInitialized()
+    {
+
+        TreeGridData = VirtualData.GetTreeVirtualData();
+    }
+
+
+}

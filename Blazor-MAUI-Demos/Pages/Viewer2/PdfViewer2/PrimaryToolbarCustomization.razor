@@ -1,0 +1,369 @@
+@page "/pdf-viewer-2/primary-toolbar-customization"
+
+@using System.IO
+@inject IJSRuntime JSRuntime
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+@using Microsoft.JSInterop
+@using Syncfusion.Blazor.SfPdfViewer
+@using Blazor_MAUI_Demos.Services
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor SfPdfViewer Custom Toolbar Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Custom Toolbar in Blazor SfPdfViewer Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>In this example, observe the modification of default toolbar item positions, along with the ability to show or hide specific toolbar items as required.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>Witness the capabilities of the PDF Viewer control API in action as it empowers users to execute various functions:</p>
+   <ul>
+        <li>Navigate to the Previous Page - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_GoToPreviousPageAsync'>'viewer.GoToPreviousPageAsync()'</a></li>
+        <li>Navigate to the Next Page - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_GoToNextPageAsync'>'viewer.GoToNextPageAsync()'</a></li>
+        <li>Jump to a Specific Page - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_GoToPageAsync_System_Int32_'>'viewer.GoToPageAsync(pageindex)'</a></li>
+       <li>Download the Document - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_DownloadAsync'>'viewer.DownloadAsync()'</a></li>
+        <li>Zoom In - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_ZoomInAsync'>'viewer.DownloadAsync()'</a></li>
+        <li>Zoom Out - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_ZoomOutAsync'>'viewer.DownloadAsync()'</a></li>
+    </ul>   
+@*WASM:Block*@
+@{ #if (WASM || WASM_HOSTED) }
+    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/toolbar-customization'> documentation section</a>.</p>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !(WASM || WASM_HOSTED) }
+    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/toolbar-customization'> documentation section</a>.</p>
+@{ #endif }
+@*End:Server*@
+
+</ActionDescription>
+<div class="control-section col-lg-12">
+    <div class="col-lg-10">
+        <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%" ID="pdfviewer">
+            <PdfViewerToolbarSettings CustomToolbarItems="@CustomToolbarItems" ToolbarItems="null" MobileToolbarItems="null" />
+            <PdfViewerEvents DocumentLoaded="@DocumentLoaded" ToolbarClicked="@ClickAction" PageChanged="@OnPageChanged" DownloadEnd="@DownloadEndEvent"></PdfViewerEvents>
+        </SfPdfViewer2>
+    </div>
+    <div class="col-lg-2">
+        <div class='content property-section'>
+            <div class="content-wrapper" style="margin-top:20px">
+                <div class="heading-section">
+                    <h5><b>Select Toolbar Items</b></h5>
+                </div>
+                <div class="control-styles">
+                    <SfMultiSelect @ref="multiSelect" @bind-Value="@SelectItems" TItem="string" TValue="string[]" Placeholder="Select toolbar items" Mode="@VisualMode.CheckBox" DataSource="@Items" ShowSelectAll="true" EnableSelectionOrder="true" ShowDropDownIcon="true" FilterBarPlaceholder="Search toolbar items" PopupHeight="200px">
+                    </SfMultiSelect>
+                </div><br>
+                <div class="evtbtn" style="padding-bottom: 10px">
+                    <SfButton @onclick="Customize">Customize</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+
+    private string DocumentPath { get; set; } = "";
+    SfPdfViewer2 Viewer;
+    SfMultiSelect<String[], string> multiSelect;
+    protected override void OnInitialized()
+    {
+        AddCustomToolbarItems();
+        //Hidden:Lines
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+        #if MAUI 
+        string basePath = "Blazor_MAUI_Demos.wwwroot.data.pdfviewer2.hive-succinctly.pdf";
+        Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+        DocumentStream.Position = 0;
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            DocumentStream.CopyTo(memoryStream);
+            byte[] bytes = memoryStream.ToArray();
+            string base64String = Convert.ToBase64String(bytes);
+            string base64prefix = "data:application/pdf;base64,";
+            //Assigned the base64 path to the PDF document path.
+            DocumentPath = $"{base64prefix}{base64String}";
+        }
+#endif
+        //End:Hidden
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+
+@*Server:Block*@
+#if !(WASM || WASM_HOSTED || MAUI)
+        //Sets the PDF document path for initial loading.
+        DocumentPath = "wwwroot/data/pdfviewer2/hive_succinctly.pdf";
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@    
+#if (WASM || WASM_HOSTED)
+        //Sets the PDF document path for initial loading.   
+        DocumentPath= fileDataPath + "data/pdfviewer2/hive-succinctly.pdf";
+#endif
+@*End:WebAssembly*@
+    }
+   
+    #region binded values
+     private bool PreviousPageDisable = true;
+    private bool NextPageDisable = true;
+    private SfNumericTextBox<int> CurrentPage;
+    private int TotalPages { get; set; }
+    private int CurrentPageNumber;
+    private List<PdfToolbarItem> CustomToolbarItems = new List<PdfToolbarItem>();
+    private bool OpenVisible = true;
+    private bool PreVisible = true;
+    private bool NextVisible = true;
+    private bool ZoomInVisible = true;
+    private bool PageNumberVisible = true;
+    private bool ZoomOutVisible = true;
+    private bool PrintVisible = true;
+    private bool DownloadVisible = true;
+    private bool AnnotationVisible = true;
+    private bool SearchVisible = true;
+    string[] Items = new string[9] { "Open", "Previous Page", "Next Page", "Page Number", "Zoom In", "Zoom Out", "Edit Annotation", "Text Search", "Download" };
+    string[] SelectItems = new string[] { "Open", "Previous Page", "Next Page", "Page Number", "Zoom In", "Zoom Out", "Edit Annotation", "Text Search", "Download" };
+    #endregion
+
+    // Method for Customize the List of the Selected Item to change the visibility of Toolbar Items
+    public void Customize()
+    {
+        SelectItems = multiSelect.Value;
+        ChangeVisibilty(SelectItems);
+    }
+
+    // Method to change the Visibility Boolean of the All Toolbar Items
+    public void ChangeVisibilty(string[] Items)
+    {
+        if (Items != null)
+        {
+            PreVisible = Items.Contains("Previous Page") ? true : false;
+            OpenVisible = Items.Contains("Open") ? true : false;
+            NextVisible = Items.Contains("Next Page") ? true : false;
+            DownloadVisible = Items.Contains("Download") ? true : false;
+            PageNumberVisible = Items.Contains("Page Number") ? true : false;
+            ZoomInVisible = Items.Contains("Zoom In") ? true : false;
+            ZoomOutVisible = Items.Contains("Zoom Out") ? true : false;
+            AnnotationVisible = Items.Contains("Edit Annotation") ? true : false;
+            SearchVisible = Items.Contains("Text Search") ? true : false;
+        }
+        else
+        {
+            PreVisible = OpenVisible = NextVisible = DownloadVisible = PageNumberVisible = ZoomInVisible = ZoomOutVisible = AnnotationVisible = SearchVisible = false;
+        }
+    }
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+    //End:Hidden
+
+    public async Task createdHandler()
+    {
+       await JSRuntime.InvokeVoidAsync("created");
+    }
+
+    // Method to render the Template for the CustomToolbarItems
+     private RenderFragment GetTemplate(string templatename)
+    {
+        return __builder =>
+        {
+            if (templatename == "PreviousPage")
+            {
+                <ToolbarItem Text="Previous Page" Visible="@PreVisible" Disabled="@PreviousPageDisable" PrefixIcon="e-icons e-chevron-up" TooltipText="Previous Page" Id="previousPage" Align="ItemAlign.Center" CssClass="e-pv-previous-page-navigation-container" TabIndex="@GetTabIndex(PreviousPageDisable)">
+                </ToolbarItem>
+                
+            }
+            else if(templatename == "NextPage")
+            {
+                <ToolbarItem Text="Next Page" Visible="@NextVisible" Disabled="@NextPageDisable" PrefixIcon="e-icons e-chevron-down" TooltipText="Next Page" id="nextPage" Align="ItemAlign.Center" CssClass="e-pv-next-page-navigation-container" TabIndex="@GetTabIndex(NextPageDisable)">
+                </ToolbarItem>
+            }
+            else if(templatename == "PageNumber")
+            {
+                <ToolbarItem Text="Page Number" Visible="@PageNumberVisible" Type="ItemType.Input" Align="ItemAlign.Center" Id="currentPageInput" TooltipText="Current Page Number" CssClass="e-pv-current-page-input-container" TabIndex="0">
+                    <Template>
+                        <SfNumericTextBox @ref="@CurrentPage"
+                                        Max="@TotalPages"
+                                        Min="0"
+                                        Width="50px"
+                                        TValue="int"
+                                        Value="@CurrentPageNumber"
+                                        ShowSpinButton=false>
+                            <NumericTextBoxEvents ValueChange="GoToPage" TValue="int"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </Template>
+                </ToolbarItem>
+                <ToolbarItem Visible="@PageNumberVisible" Align="ItemAlign.Center" Id="totalPage" CssClass="e-pv-total-page-container">
+                    <Template>
+                        <span class="e-pv-total-page"> of @TotalPages</span>
+                    </Template>
+                </ToolbarItem>
+            }
+            else if (templatename == "Open")
+            {
+                <ToolbarItem Text="Open File" Visible="@OpenVisible" PrefixIcon="e-pv-open-document-icon e-pv-icon" TooltipText="Open File" Id="pdfviewer_open" Align="ItemAlign.Left" CssClass="e-pv-open-document-container e-pv-open-document" TabIndex="0">
+                </ToolbarItem>
+            }
+            else if (templatename == "ZoomIn")
+            {
+                <ToolbarItem Text="Zoom In" Visible="@ZoomInVisible" PrefixIcon="e-icons e-circle-add" Id="zoomin" TooltipText="Zoom In" Align="ItemAlign.Center" CssClass="e-pv-zoom-in-container" TabIndex="0">
+                </ToolbarItem>
+            }
+            else if (templatename == "ZoomOut")
+            {
+                <ToolbarItem Text="Zoom Out" Visible="@ZoomOutVisible" PrefixIcon="e-icons e-circle-remove" Id="zoomout" TooltipText="Zoom Out" Align="ItemAlign.Center" CssClass="e-pv-zoom-out-container" TabIndex="0">
+                </ToolbarItem>
+            }
+            else if (templatename == "Download")
+            {
+                <ToolbarItem Text="Download" Visible="@DownloadVisible" PrefixIcon="e-icons e-download" TooltipText="Download File" Id="download" Align="ItemAlign.Right" CssClass="e-pv-download-document-container" TabIndex="0">
+                </ToolbarItem>
+            }
+            else if (templatename == "Annotation")
+            {
+                <ToolbarItem Visible="@AnnotationVisible" CssClass="e-pv-annotation-container" Text="Edit Annotation" PrefixIcon="e-pv-annotation-icon e-pv-icon" TooltipText="Edit Annotation" Id="annotation" Align="ItemAlign.Right" TabIndex="0">
+                </ToolbarItem>
+            }
+            else if (templatename == "TextSearch")
+            {
+                <ToolbarItem Text="Text Search" Visible="@SearchVisible" PrefixIcon="e-pv-text-search-icon e-pv-icon" TooltipText="Text Search" Id="textsearch" Align="ItemAlign.Right" CssClass="e-pv-text-search-container" TabIndex="0">
+                </ToolbarItem>
+            }
+        };
+    }
+
+    // Method for Get the Tab Index for the Toolbar Item
+    private int GetTabIndex(bool Boolean)
+    {
+        return (Boolean == true) ? -1 : 0; 
+    }
+
+    // Method to add items to the CustomToolbarItems list
+    private void AddCustomToolbarItems()
+    {
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 0, Template = GetTemplate("Open") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 1, Template = GetTemplate("PreviousPage") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 2, Template = GetTemplate("NextPage") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 3, Template = GetTemplate("PageNumber") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 4, Template = GetTemplate("ZoomIn") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 5, Template = GetTemplate("ZoomOut") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 6, Template = GetTemplate("Annotation") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 7, Template = GetTemplate("TextSearch") });
+        CustomToolbarItems.Add(new PdfToolbarItem() { Index = 8, Template = GetTemplate("Download") });
+    }
+
+    //Triggers while loading document in to the PDFViewer.
+    private void DocumentLoaded(LoadEventArgs args)
+    {
+        TotalPages = Viewer.PageCount;
+        CurrentPageNumber = Viewer.CurrentPageNumber;
+        NextPageDisable = false;
+        if(TotalPages == 1)
+        {
+            PreviousPageDisable = true;
+            NextPageDisable = true;
+        }
+    }
+
+    // Clickevent for the CustomToolbarItems
+    private async void ClickAction(ClickEventArgs Item)
+    {
+        if (Item.Item.Id == "previousPage")
+        {
+            await Viewer.GoToPreviousPageAsync();
+            NextPageDisable = false;
+        }
+        else if (Item.Item.Id == "nextPage")
+        {
+            await Viewer.GoToNextPageAsync();
+            PreviousPageDisable = false;
+        }
+        else if (Item.Item.Id == "zoomin")
+        {
+            await Viewer.ZoomInAsync();
+        }
+        else if (Item.Item.Id == "zoomout")
+        {
+            await Viewer.ZoomOutAsync();
+        }
+        else if (Item.Item.Id == "download")
+        {
+            await Viewer.DownloadAsync();
+        }
+    }
+
+    //Triggers when the value of the numeric textbox changes.
+    public async void GoToPage(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        int currentValue = args.Value;
+        if (args.Event != null)
+        {
+            var changeEventArgs = args.Event as Microsoft.AspNetCore.Components.ChangeEventArgs;
+            if (changeEventArgs != null && changeEventArgs.Value != null)
+            {
+                currentValue = int.Parse(changeEventArgs.Value.ToString());
+            }
+        }
+        if (currentValue == args.Value && args.Value != 0)
+        {
+            CurrentPageNumber = args.Value;
+            //Navigate to given page number in loaded document of the PDFViewer2.
+            await Viewer.GoToPageAsync(args.Value);
+        }
+        else
+        {
+            CurrentPageNumber = Viewer.CurrentPageNumber;
+        }
+    }
+
+    //Triggers when there is change in the current page number.
+    private void OnPageChanged(PageChangeEventArgs args)
+    {
+        CurrentPageNumber = (int)args.CurrentPageNumber;
+        if (args.CurrentPageNumber == TotalPages)
+        {
+            NextPageDisable = true;
+            PreviousPageDisable = false;
+        }
+        if (args.CurrentPageNumber < TotalPages && args.CurrentPageNumber != 1)
+        {
+            PreviousPageDisable = false;
+            NextPageDisable = false;
+        }
+        if (args.CurrentPageNumber == 1)
+        {
+            NextPageDisable = false;
+            PreviousPageDisable = true;
+        }
+    }
+
+    private void DownloadEndEvent(DownloadEndEventArgs downloadEndEvent)
+    {
+         string bas64string = downloadEndEvent.DownloadDocument.Replace("data:application/pdf;base64,", "");
+         byte[] bytes = Convert.FromBase64String(bas64string);
+         SaveService saveService = new();
+         saveService.SaveAndView(downloadEndEvent.FileName, "application/pdf", new MemoryStream(bytes));
+    }
+}
+
+@*Hidden:Lines*@
+<!--Style for custom toolbar-->
+<style>
+    .div{
+        padding-top: 10px;
+    }
+
+    .e-pv-total-page-container {
+        margin-left: 6px;
+    }
+
+</style>
+@*End:Hidden*@

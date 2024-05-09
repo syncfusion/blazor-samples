@@ -1,0 +1,490 @@
+﻿@page "/diagramcomponent/export"
+
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.PdfExport;
+@using System.Text.Json;
+@using System.IO;
+@using System.Text.Json.Serialization;
+@inject IJSRuntime JS;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p> This sample demonstrates exporting the Diagram as an image.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This example shows how to export the Diagram in image (*.jpeg, *.png) and SVG format. <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramExportFormat.html' aria-label="DiagramExportFormat">DiagramExportFormat</a></code> specifies the type or format of the exported file. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_ExportAsync_Syncfusion_Blazor_Diagram_DiagramExportFormat_Syncfusion_Blazor_Diagram_DiagramExportSettings_' aria-label="ExportAsync">ExportAsync</a></code> method can be used to export a diagram. The ExportAsync method takes the exporting options (file formats, mode of export, and the region to export) as input. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.PageSettings.html#Syncfusion_Blazor_Diagram_PageSettings_MultiplePage' aria-label="MultiplePage">MultiplePage</a></code> property is used to enable or disable multiple pages.
+        Export the region specified using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.IDiagramPrintExportSettings.html#Syncfusion_Blazor_Diagram_IDiagramPrintExportSettings_ClipBounds' aria-label="ClipBounds">ClipBounds</a></code> property of DiagramExportSettings. This is applicable for export only.
+    </p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div>
+    <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
+        <SfDiagramComponent @ref="@diagram" Height="640px"
+                            Nodes="@nodes"
+                            Connectors="@connectors" Created="OnCreated">
+            <PageSettings MultiplePage="true" Width="@pageWidth" Height="@pageHeight" Orientation="@orientation" ShowPageBreaks="@showPageBreak">
+                <BackgroundStyle Background="white"></BackgroundStyle>
+                <PageMargin Left="@left" Right="@right" Top="@top" Bottom="@bottom"></PageMargin>
+            </PageSettings>
+        </SfDiagramComponent>
+    </div>
+
+    @*Hidden:Lines*@
+    <style>
+
+        .texstyle {
+            height: 35px;
+            padding-right: 2px;
+            padding-left: 0px;
+            width: 45%;
+            padding-top: 10px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .texstyle1 {
+            display: table;
+            height: 35px;
+            padding-right: 2px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 10px;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .e-radio + label .e-label {
+            font-size: 12px;
+        }
+
+        .e-custom {
+            border-radius: 5px;
+            height: 28px;
+            border-color: transparent;
+            width: 90px;
+            font-family: 'Segoe UI';
+            font-weight: normal;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+            .e-custom, .e-custom:hover, .e-custom:focus, .e-custom:active {
+                background-color: #E0E0E0;
+                color: black;
+            }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .e-input-group.e-corner {
+            border-radius: 4px;
+        }
+    </style>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-header" style="padding-bottom:0px">
+            Export Settings
+        </div>
+        <div class="row property-panel-content" style="padding-top: 10px">
+
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    File Format
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="120px" @bind-Enabled="file" TItem="@FileFomatItem" @bind-Value="@fileValue" ID="fileformat" PopupHeight="120" PopupWidth="150" CssClass="textboxstyle" DataSource="@FileFomatLists">
+                        <DropDownListEvents TItem="FileFomatItem" TValue="string" ValueChange="@FileFormateChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Export Mode
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="120px" TItem="@ExportMode" @bind-Value="@exportMode" ID="position" PopupHeight="120" PopupWidth="150" CssClass="textboxstyle" DataSource="@ExportModeLists">
+                        <DropDownListEvents TItem="ExportMode" TValue="string" ValueChange="@ExportModeChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Multiple/Single Page
+                </div>
+                <div class="col-xs-6">
+                    <div style="padding-top: 10px">
+                        <SfRadioButton Label="MultiplePage" Name="options" Value="multiple" Checked="@stringCheckedValue" @onclick="@OnMultiplePage"></SfRadioButton>
+                    </div>
+                    <div style="padding-top: 10px">
+                        <SfRadioButton Label="SinglePage" Name="options" Value="single" Checked="@stringCheckedValue" @onclick="@OnSinglePage"></SfRadioButton>
+                    </div>
+                </div>
+            </div>
+            <div class="texstyle1" style="font-weight:bold">
+                Clip
+            </div>
+            <div class="row" style="padding-top: 8px">
+
+                <div class="texstyle">
+                    X
+                </div>
+                <div class="col-xs-6">
+
+                    <SfTextBox Enabled="@clipBounds" ValueChanged="@xvalueChanged" Value="@x" CssClass="e-corner"></SfTextBox>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Y
+                </div>
+                <div class="col-xs-6">
+
+                    <SfTextBox Enabled="@clipBounds" ValueChanged="@yvalueChanged" Value="@y" CssClass="e-corner"></SfTextBox>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Width
+                </div>
+                <div class="col-xs-6">
+
+                    <SfTextBox Enabled="@clipBounds" Value="@cwidth" ValueChanged="@widthvalueChanged" CssClass="e-corner"></SfTextBox>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Height
+                </div>
+                <div class="col-xs-6">
+
+                    <SfTextBox Enabled="@clipBounds" Value="@cheight" ValueChanged="@heightvalueChanged" CssClass="e-corner"></SfTextBox>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6" style="padding-top: 8px;margin-left:-19px">
+            <SfButton OnClick="@OnExport" CssClass="e-custom">Export</SfButton>
+        </div>
+    </div>
+    @*End:Hidden*@
+</div>
+
+@code
+ {
+    @*Hidden:Lines*@
+    
+    string fileValue = "PNG";
+    bool clipBounds=false;
+    string exportMode = "PageSettings";
+    bool file = true;
+    private string stringCheckedValue = "multiple";
+    string x = "0";
+    string y = "0";
+    string cwidth = "0";
+    string cheight = "0";
+    double left = 0;
+    double top = 0;
+    double right = 0;
+    double bottom = 0;
+    DiagramExportFormat format = DiagramExportFormat.PNG;
+    @*End:Hidden*@
+    double pageWidth = 410;
+    double pageHeight = 550;
+    bool multiplePage = true;
+    bool showPageBreak = true;
+    DiagramPrintExportRegion region = DiagramPrintExportRegion.PageSettings;
+    PageOrientation orientation = PageOrientation.Portrait;
+
+    //Refer to diagram
+    SfDiagramComponent diagram;
+    //Define node's collection
+    public DiagramObjectCollection<Node> nodes
+    {
+        get;
+        set;
+    }
+    //Define connector's collection
+    public DiagramObjectCollection<Connector> connectors
+    {
+        get;
+        set;
+    }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
+    }
+    @*Hidden:Lines*@
+    private void PageWidthvalueChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        pageWidth = args.Value;
+    }
+    private void PageHeightvalueChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        pageHeight = args.Value;
+    }
+    private void xvalueChanged(string value)
+    {
+        x = value;
+    }
+    private void yvalueChanged(string value)
+    {
+        y = value;
+    }
+    private void widthvalueChanged(string value)
+    {
+        cwidth = value;
+    }
+    private void heightvalueChanged(string value)
+    {
+        cheight = value;
+    }
+    public void FileFormateChange(ChangeEventArgs<string, FileFomatItem> args)
+    {
+        format = args.Value.ToString() == "PNG" ? DiagramExportFormat.PNG : args.Value.ToString() == "JPEG" ? DiagramExportFormat.JPEG : args.Value.ToString() == "SVG" ? DiagramExportFormat.SVG : DiagramExportFormat.PNG;
+    }
+    public void ExportModeChange(ChangeEventArgs<string, ExportMode> args)
+    {
+        region = args.Value.ToString() == "PageSettings" ? DiagramPrintExportRegion.PageSettings : args.Value.ToString() == "Content" ? DiagramPrintExportRegion.Content : args.Value.ToString() == "ClipBounds" ? DiagramPrintExportRegion.ClipBounds : DiagramPrintExportRegion.PageSettings;
+        if (region == DiagramPrintExportRegion.Content || region == DiagramPrintExportRegion.PageSettings)
+        {
+            cwidth = "0";
+            cheight = "0";
+            y = "0";
+            x = "0";
+        }
+        clipBounds = region.ToString() == "ClipBounds" ? true : false;
+
+    }
+    public void ContentChange(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        region = DiagramPrintExportRegion.Content;
+    }
+    private void OnMultiplePage(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        multiplePage = true;
+    }
+    private void OnSinglePage(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        multiplePage = false;
+    }
+    @*End:Hidden*@
+    protected override void OnInitialized()
+    {
+
+        
+        nodes = new DiagramObjectCollection<Node>();
+        CreateNode("sourceNode1", 80, 160, "Source document");
+        CreateNode("censusNode2", 80, 260, "Census \n record");
+        CreateNode("booksNode3", 80, 375, "Books and magazine");
+        CreateNode("recordNode4", 270, 260, "Record template");
+        CreateNode("traditionalNode5", 270, 385, "Traditional template");
+        CreateNode("nontraditionalNode6", 80, 485, "Non traditional");
+        CreateNode("radial1", 610, 342, "Health fitness");
+        CreateNode("radial2", 610, 202, "Diet");
+        CreateNode("radial3", 750, 258, "Flexibility");
+        CreateNode("radial4", 730, 442, "Muscular endurance");
+        CreateNode("radial5", 470, 258, "Cardiovascular strength");
+        CreateNode("radial6", 490, 442, "Muscular strength");
+
+        connectors = new DiagramObjectCollection<Connector>();
+        CreateConnector("connector1", "sourceNode1", "censusNode2");
+        CreateConnector("connector2", "censusNode2", "booksNode3");
+        CreateConnector("connector3", "booksNode3", "nontraditionalNode6");
+        CreateConnector("connector4", "censusNode2", "recordNode4");
+        CreateConnector("connector5", "booksNode3", "traditionalNode5");
+        CreateConnector("connector6", "radial1", "radial2");
+        CreateConnector("connector7", "radial1", "radial3");
+        CreateConnector("connector8", "radial1", "radial4");
+        CreateConnector("connector9", "radial1", "radial5");
+        CreateConnector("connector10", "radial1", "radial6");
+    }
+    private void CreateNode(string id, double x, double y, string label)
+    {
+        ShapeAnnotation shapeAnnotation = new ShapeAnnotation() { Content = label };
+        Node diagramNode = new Node()
+        {
+            ID = id,
+            OffsetX = x,
+            OffsetY = y,
+            Height = 50,
+            Width = 100,
+            Style = new ShapeStyle() { Fill = "#90ee90", StrokeColor = "#666666" },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { shapeAnnotation }
+        };
+        if (id == "radial1" || id == "radial2" || id == "radial3" || id == "radial4" || id == "radial5" || id == "radial6")
+        {
+            diagramNode.Shape = new BasicShape() { Type = Syncfusion.Blazor.Diagram.NodeShapes.Basic, Shape = NodeBasicShapes.Ellipse };
+            diagramNode.Height = 75;
+            diagramNode.Width = 100;
+            diagramNode.Style = new ShapeStyle() { Fill = "#ffb6c1", StrokeColor = "#666666" };
+        }
+        if (id == "radial1")
+        {
+            diagramNode.Height = 50;
+            diagramNode.Style = new ShapeStyle() { Fill = "#fffcc8", StrokeColor = "#666666" };
+        }
+        if (id == "censusNode2" || id == "booksNode3")
+        {
+            diagramNode.Height = 75;
+            diagramNode.Width = 100;
+            diagramNode.Style = new ShapeStyle() { Fill = "#87ceeb", StrokeColor = "#666666" };
+            diagramNode.Shape = new BasicShape() { Type = Syncfusion.Blazor.Diagram.NodeShapes.Basic, Shape = NodeBasicShapes.Diamond };
+        }
+        if (id == "sourceNode1" || id == "censusNode2")
+        {
+            diagramNode.Annotations[0].Margin = new DiagramThickness() { Left = 15, Top = 15, Right = 15, Bottom = 15 };
+        }
+        nodes.Add(diagramNode);
+    }
+
+    private void CreateConnector(string id, string sourceID, string targetID)
+    {
+        Connector connector = new Connector()
+        {
+            ID = id,
+            SourceID = sourceID,
+            TargetID = targetID,
+            Style = new ShapeStyle() { StrokeColor = "Black" },
+        };
+        connectors.Add(connector);
+    }
+    @*Hidden:Lines*@
+    public class FileFomatItem
+    {
+        public string Name { get; set; }
+    }
+    private List<FileFomatItem> FileFomatLists = new List<FileFomatItem>() {
+        new FileFomatItem() { Name ="PNG"},
+        new FileFomatItem() { Name ="JPEG" },
+        new FileFomatItem() { Name ="SVG"},
+        new FileFomatItem() { Name ="PDF"},
+    };
+    public class ExportMode
+    {
+        public string Name { get; set; }
+    }
+    private List<ExportMode> ExportModeLists = new List<ExportMode>() {
+        new ExportMode() { Name ="PageSettings"},
+        new ExportMode() { Name ="Content" },
+        new ExportMode() { Name ="ClipBounds"},
+
+    };
+    @*End:Hidden*@
+    private async Task OnExport()
+    {
+        DiagramExportSettings print = new DiagramExportSettings();
+        print.Region = region;
+        print.PageWidth = pageWidth;
+        print.PageHeight = pageHeight;
+        print.Orientation = orientation;
+        print.FitToPage = !multiplePage;
+        print.Margin = new DiagramThickness() { Left = left, Top = top, Right = right, Bottom = bottom };
+        print.ClipBounds = new DiagramRect() { X = double.Parse(x), Y = double.Parse(y), Width = double.Parse(cwidth), Height = double.Parse(cheight) };
+        format = fileValue == "PNG" ? DiagramExportFormat.PNG : fileValue == "JPEG" ? DiagramExportFormat.JPEG : fileValue == "SVG" ? DiagramExportFormat.SVG : DiagramExportFormat.PNG;
+        if (fileValue == "PDF")
+        {
+            await OnExportEntry();
+        }
+        else
+        {
+            //To export the diagram
+            await diagram.ExportAsync("diagram", format, print);
+        }
+    }
+
+    private async Task<string[]> OnExportEntry()
+    {
+        DiagramExportSettings print = new DiagramExportSettings();
+        print.Region = region;
+        print.PageWidth = pageWidth;
+        print.PageHeight = pageHeight;
+        print.Orientation = orientation;
+        print.FitToPage = !multiplePage;
+        print.Margin = new DiagramThickness() { Left = left, Top = top, Right = right, Bottom = bottom };
+        print.ClipBounds = new DiagramRect() { X = double.Parse(x), Y = double.Parse(y), Width = double.Parse(cwidth), Height = double.Parse(cheight) };
+        //To export the diagram into base64
+        var images = await diagram.ExportAsync(format, print);
+        var pdforientation = orientation == PageOrientation.Landscape ? PdfPageOrientation.Landscape : PdfPageOrientation.Portrait;
+        await ExportToPdf("diagram", pdforientation, true, images);
+        return images;
+    }
+
+    private async Task<string> ExportToPdf(string fileName, PdfPageOrientation orientation, bool allowDownload, string[] images)
+    {
+        PdfDocument document = new PdfDocument();
+        document.PageSettings.Orientation = orientation;
+        document.PageSettings.Margins = new PdfMargins() { Left = 0, Right = 0, Top = 0, Bottom = 0 };
+        string base64String;
+        var dict = images;
+        for (int i = 0; i < dict.Count(); i++)
+        {
+            base64String = dict[i];
+            using (MemoryStream initialStream = new MemoryStream(Convert.FromBase64String(base64String.Split("base64,")[1])))
+            {
+                Stream stream = initialStream as Stream;
+                PdfPage page = document.Pages.Add();
+                PdfGraphics graphics = page.Graphics;
+                #pragma warning disable CA2000
+                PdfBitmap image = new PdfBitmap(stream);
+                #pragma warning restore CA2000
+                graphics.DrawImage(image, 0, 0);
+            }
+        }
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            document.Save(memoryStream);
+            memoryStream.Position = 0;
+            base64String = Convert.ToBase64String(memoryStream.ToArray());
+            if (allowDownload)
+            {
+                await JSRuntimeExtensions.InvokeAsync<string>(JS, "downloadPdf", new object[] { base64String, fileName });
+                base64String = string.Empty;
+            }
+            else
+            {
+                base64String = "data:application/pdf;base64," + base64String;
+            }
+            document.Dispose();
+        }
+        return base64String;
+    }
+
+
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}
+

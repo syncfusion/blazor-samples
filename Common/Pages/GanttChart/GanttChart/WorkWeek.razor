@@ -1,0 +1,76 @@
+﻿@page "/gantt-chart/work-week"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos
+@using ej2_blazor_defaultdata
+
+
+
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the support for changing different set of working days in a week and also displaying holidays based on sample mapping.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a Gantt chart with the provided data source and customizable array of working days. These working days are considered for taskbar rendering and duration calculations.</p>
+    <p>The working days in your project can be customized using the <a aria-label="Navigate to the WorkWeek property reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_WorkWeek'>WorkWeek</a> property. You can get to know the working days in the Gantt chart timeline by the highlighted weekend days. This can be enabled by using the <a aria-label="Navigate to the HighlightWeekends property reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_HighlightWeekends'>HighlightWeekends</a> property.</p>
+    <p>More information on the work time range can be found in this <a aria-label="Navigate to the documentation for Working time range in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/scheduling-tasks/#working-time-range'>documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" WorkWeek="@(new string[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" })" HighlightWeekends="true">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+                </GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" Width="100"></GanttColumn>
+                    <GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency" MinWidth="200"></GanttColumn>
+                </GanttColumns>
+                <GanttHolidays>
+                    <GanttHoliday From="new DateTime(2021, 04, 03)" To="new DateTime(2021, 04, 05)" Label="Public holiday"></GanttHoliday>
+                </GanttHolidays>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="9" To="18"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+                <GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+                <GanttLabelSettings RightLabel="TaskName" TValue="WorkData.TaskData"></GanttLabelSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+
+@code{
+
+    private DateTime ProjectStart = new DateTime(2021, 3, 28);
+    private DateTime ProjectEnd = new DateTime(2021, 7, 6);
+    private List<WorkData.TaskData> TaskCollection { get; set; }
+    
+    public class Weeks
+    {
+        public string Name { get; set; }
+
+        public string Code { get; set; }
+    }
+
+
+
+
+    protected override void OnInitialized()
+    {
+        
+        this.TaskCollection = WorkData.GetTaskCollection();
+    }
+}
