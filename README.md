@@ -1,4 +1,4 @@
-# Syncfusion Blazor Component Examples  
+# Syncfusion Blazor Component Examples   
 
 This repository contains the demos of [Syncfusion Blazor Components](https://www.syncfusion.com/blazor-components). This is the best place to check the controls to get more insight into the usage of APIs.
 
