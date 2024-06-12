@@ -21,6 +21,7 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
+@implements IDisposable;
 @inject NavigationManager NavigationManager
 
 
@@ -170,10 +171,14 @@
     public int CurrentPageNumber = 0;
     public bool IsChecked { get; set; } = false;
     public string Text = "";
+    private DotNetObjectReference<CustomToolbar> dotnetObjectRef { get; set; }
     #endregion
 
     
-
+    protected override void OnInitialized()
+    {
+       dotnetObjectRef = DotNetObjectReference.Create(this);
+    }
     public async Task createdHandler()
     {
        await JSRuntime.InvokeVoidAsync("created");
@@ -202,6 +207,13 @@
     public async void SearchClose()
     {
         await viewer.CancelTextSearchAsync();
+    }
+
+    //Function to close tooltip popup while scrolling
+    [JSInvokable]
+    public void CloseToolTip() 
+    {
+        Sftooltip.CloseAsync();
     }
 
     //Triggers when match case checkbox is clicked.
@@ -344,6 +356,19 @@
                     break;
             }
         }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("getInstance", dotnetObjectRef);
+            JSRuntime.InvokeVoidAsync("closeTooltipPopup", "CloseToolTip");
+        }
+        
+    }
+    public void Dispose()
+    {
+        dotnetObjectRef?.Dispose();
     }
 }
 

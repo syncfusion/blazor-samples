@@ -1,8 +1,9 @@
 var isScrolled = false; 
 var isUpdatedDevice = false;
 var isTouchEnabled = false;
-const DEFAULT_THEME = 'fluent';
-
+const DEFAULT_THEME = 'fluent2';
+var dotnetTooltipRef;
+var currentURL;
 window.sfBlazorSB = {
   dotnetRef: null,
   isDevice: function (dotnetObj) {
@@ -221,8 +222,8 @@ function OnDragStopCall(dragEventArgs) {
   }
 }
 
+var resizevalue = true;
 function callResizeEvent() {
-  //Due to facing issue with DocumentEditor component resizing on sidebar collapse/expand, enclosed the dispatch event within setTimeout.
     resizevalue = false;
     //Due to facing issue with DocumentEditor component resizing on sidebar collapse/expand, enclosed the dispatch event within setTimeout.
     setTimeout(() => { window.dispatchEvent(new Event('resize')); resizevalue = true; }, 300);
@@ -230,6 +231,7 @@ function callResizeEvent() {
         window.screen.availWidth,
         window.screen.availHeight
     );
+
 }
 
 function setThemeSelection(themeName) {
@@ -378,18 +380,18 @@ window.addEventListener('load', function () {
     let ThemeEle = document.getElementById('theme');
     if (ThemeEle) {
         let url = window.location.href.split("?theme=");
-        let theme = new URL(window.location.href).searchParams.get("theme");
-        if (url.length > 1) {
-            if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
-                ThemeEle.removeAttribute('integrity');
-                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/24.1.41/styles/' + theme + '.css';
-                ThemeEle.setAttribute('integrity', "sha384-q6lWA6UTLwy+yJ8/tmgzgBh/VgNOIwgsTLRkVjwB9NLOfVCgS3UOlZlgIPpWCE/R");
+        let theme = new URL(window.location.href).searchParams.get("theme"); 
+            if (url.length > 1) {
+                if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
+                    ThemeEle.removeAttribute('integrity');
+                    ThemeEle.href = 'https://cdn.syncfusion.com/blazor/24.1.41/styles/' + theme + '.css';
+                    ThemeEle.setAttribute('integrity', "sha384-q6lWA6UTLwy+yJ8/tmgzgBh/VgNOIwgsTLRkVjwB9NLOfVCgS3UOlZlgIPpWCE/R");
+                }
+                else {
+                    ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + theme + '.css';
+                }
+
             }
-            else {
-                ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + theme + '.css';
-            }
-           
-        }
     }
 
   // Add mobile class to the body element for device rendering.
@@ -450,6 +452,7 @@ window.disableSpinner = function () {
 window.openThumbnailPane = (viewerId) => {
     var viewer = window.sfBlazor.getCompInstance(viewerId);
     viewer.viewerBase.navigationPane.isThumbnail = false;
+    document.getElementsByClassName('e-pv-sidebar-toolbar-splitter')[0].style.width = '0px';
     viewer.thumbnailView.openThumbnailPane();
 };
 
@@ -729,7 +732,7 @@ var updatedURL;
 var currentURL;
 
 function updateThemeURL() {
-    const themeParameter = "fluent";
+    const themeParameter = "fluent2";
     currentURL = window.location.href;
     if (!currentURL.includes("?")) {
         // URL does not contain a query string
@@ -746,10 +749,13 @@ function updateThemeURL() {
         if (params.has("theme")) {
             var themeValue = params.get("theme");
             var themeParts = themeValue.split("-");
-            var themeName = themeParts[0]; // Extracting the theme name without the "-dark" suffix
+
+            // Extracting the theme name without the "-dark" suffix
+            var themeName = themeParts[0]; 
             if (themeName !== "highcontrast") {
                 // Check if the URL already contains "-dark"
                 if (!currentURL.includes("-dark")) {
+                    // Append "-dark" to the current URL
                     // Append "-dark" to the current URL
                     updatedURL = currentURL + "-dark";
                 } else if (currentURL.includes("-dark")) {
@@ -765,15 +771,64 @@ function updateThemeURL() {
     } else {
         //console.log("No query parameter found in the URL");
     }
-    return updatedURL; // Return the updated URL or current URL if no update is needed
+   // Return the updated URL or current URL if no update is needed
+    return updatedURL;
 }
 
 function navigateToPage() {
     var updatedURL = updateThemeURL();
     if (updatedURL) {
-        window.location.href = updatedURL; // Replace the current URL without reloading the page
+      // Replace the current URL without reloading the page
+        window.location.href = updatedURL;
     }
 
+}
+
+function updateButtonTheme() {
+    var currentURL = window.location.href;
+    if (currentURL.includes("-dark")) {
+        document.getElementById("buttoncolor").style.color = "#FFFFFF";
+        document.getElementById("darkThemeIcon").style.display = "none";
+        document.getElementById("lightThemeIcon").style.display = "inline-block";
+        document.getElementById("themeSwitch").textContent = "Light";
+        document.getElementById("themeSwitch").style.marginLeft = "4px";
+    } else {
+        document.getElementById("buttoncolor").style.color = "#000";
+        document.getElementById("lightThemeIcon").style.display = "none";
+        document.getElementById("darkThemeIcon").style.display = "inline-block";
+        document.getElementById("themeSwitch").textContent = "Dark";
+        document.getElementById("themeSwitch").style.marginLeft = "2px";
+    }
+    highContrast();
+}
+window.addEventListener('DOMContentLoaded', updateButtonTheme);
+function highContrast() {
+    // Check if the URL ends with "highcontrast"
+    if (window.location.href.endsWith("highcontrast")) {
+        // Get the div element by its id
+        var themeSwitchDiv = document.getElementById("themeSwitchDiv");
+        // Hide the div by setting its display property to "none"
+        themeSwitchDiv.style.display = "none";
+    }
+}
+
+function closeTooltipPopup(methodName) {
+    const scrollableDiv = document.getElementById("right-pane");
+     function scrollHandler() {
+        if (currentURL !== window.location.href) {
+            scrollableDiv.removeEventListener("scroll", scrollHandler);
+            dotnetTooltipRef = null;
+        }
+        if (dotnetTooltipRef) {
+            dotnetTooltipRef.invokeMethodAsync(methodName);
+        }
+    };
+    scrollableDiv.addEventListener("scroll",scrollHandler);
+}
+
+function getInstance(tooltipInstance) {
+    currentURL = window.location.href;
+    dotnetTooltipRef = tooltipInstance;
 }
 
 var visiblevalue = false;
@@ -785,7 +840,7 @@ function toggleSidebarVisibility() {
         sidebar.classList.remove('sf-visible');
         sidebar.classList.add('sf-hidden');
     }
-    else if (sidebar && visiblevalue && resizevalue && window.innerWidth >= 1026) {
+    else if (sidebar && visiblevalue &&resizevalue && window.innerWidth >= 1026) {
         visiblevalue = false;
         sidebar.classList.remove('sf-hidden');
         sidebar.classList.add('sf-visible');
@@ -809,3 +864,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+document.addEventListener('keydown', function (e) {
+    if (e.keyCode === 27) {
+        var preference_popup = document.querySelector(".sf-preferences-popup");
+        var theme_popup = document.querySelector(".sf-dropdown-popup");
+        if (!preference_popup.classList.contains("sb-hide")) {
+            preference_popup.classList.add("sb-hide");
+        } 
+        if (!theme_popup.classList.contains("sb-hide")) {
+            theme_popup.classList.add("sb-hide");
+        }
+    }
+});

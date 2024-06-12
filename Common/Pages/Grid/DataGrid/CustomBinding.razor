@@ -1,6 +1,7 @@
 ﻿@page "/datagrid/custom-binding"
 
 @using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Data
 @using System.Collections
@@ -18,7 +19,7 @@
 </SampleDescription>
 <ActionDescription>
   <p>The Blazor DataGrid custom data binding can be performed by providing the custom adaptor class
-     and overriding the DataAdaptor abstract class's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html#Syncfusion_Blazor_DataAdaptor_1_Read_Syncfusion_Blazor_DataManagerRequest_System_String_' aria-label="Read">Read</a> or <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html#Syncfusion_Blazor_DataAdaptor_1_ReadAsync_Syncfusion_Blazor_DataManagerRequest_System_String_' aria-label="ReadAsync">ReadAsync</a> method</p>
+     and overriding the DataAdaptor abstract class's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html#Syncfusion_Blazor_DataAdaptor_1_Read_Syncfusion_Blazor_DataManagerRequest_System_String_' aria-label="Navigate to the Read property reference for Data Adaptor">Read</a> or <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html#Syncfusion_Blazor_DataAdaptor_1_ReadAsync_Syncfusion_Blazor_DataManagerRequest_System_String_' aria-label="Navigate to the ReadAsync method reference for Data Adaptor">ReadAsync</a> method</p>
   <p>The custom adaptor class must be added as service using <strong>AddScoped/AddSingleton</strong> method in the <strong>Startup.cs</strong>. Using the <strong>Inject</strong> attribute on a specific property, you can inject your own services or DB context into a custom adaptor class.</p>
   <p>The CRUD operations for the custom data binding in the DataGrid component can be implemented by overriding the DataAdaptor abstract class's CRUD methods, which are listed below.<br> </p>
       <ul>
@@ -29,7 +30,7 @@
       </ul>
    <p>In this demo, CRUD operations for the custom data binding are performed using the DataAdaptor abstract class's methods.
       Similarly, you can use the <strong>BatchUpdate/BatchUpdateAsync</strong> methods to perform Batch Update operations.</p>
-    <p>More information about the Custom data binding feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/custom-binding/' aria-label="documentation section">documentation</a> section.</p> 
+    <p>More information about the Custom data binding feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/custom-binding' aria-label="Navigate to the documentation for Custom Binding in DataGrid component">documentation</a> section.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
@@ -73,7 +74,7 @@
                     <GridColumn Field=@nameof(OrderDetails.CustomerID) HeaderText="Customer ID" ValidationRules="@(new ValidationRules{ Required=true})" Width="150"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.Freight) EditType="EditType.NumericEdit" Format="C2" AllowGrouping=false ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" Width="140" TextAlign="@TextAlign.Right" HeaderTextAlign="@TextAlign.Right"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" ValidationRules="@(new ValidationRules{ Required=true})" Format="d" TextAlign="TextAlign.Right" Type="ColumnType.Date" Width="160"></GridColumn>
-                    <GridColumn Field=@nameof(OrderDetails.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams" Width="150"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
@@ -81,7 +82,22 @@
 </div>
 
 @code{
-    
+
+    public IEditorSettings ShipCountryEditParams = new DropDownEditCellParams
+    {
+        Params = new DropDownListModel<object, object>()
+        {
+            DataSource = new List<OrderDetails>()
+        {
+            new OrderDetails() { ShipCountry = "Denmark" },
+            new OrderDetails() { ShipCountry = "Brazil" },
+            new OrderDetails() { ShipCountry = "Germany" },
+            new OrderDetails() { ShipCountry = "Austria" },
+            new OrderDetails() { ShipCountry = "Switzerland" }
+        }
+        }
+    };
+
     //The custom adaptor class has to be added as service using AddScoped/AddSingleton method in the Startup.cs.
     //You can inject your own services or DB context into custom adaptor class using Inject attribute on the particular property.
     public class CustomAdaptor : DataAdaptor

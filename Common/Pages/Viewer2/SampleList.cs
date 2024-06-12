@@ -50,8 +50,18 @@ namespace BlazorDemos
                 Category = "File Management",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/multi-format-viewer",
-                FileName = "MultiFormatViewer.razor",
+                FileName = "MultiFormatViewer.razor"
+            },
+
+             new Sample
+            {
+                Name = "Redaction",
+                Category = "Editor",
+                Directory = "Viewer2/PdfViewer2",
+                Url = "pdf-viewer-2/redaction",
                 Type=SampleType.New,
+                FileName = "Redaction.razor",
+                NotificationDescription = new string[]{ @"We have included a demonstration on how to apply redaction to the PDF viewer document. This feature helps to hide sensitive or confidential information in PDF files with the assistance of the .NET PDF library." }
             },
 #endif
             new Sample
@@ -69,8 +79,7 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",             
                 Url = "pdf-viewer-2/primary-toolbar-customization",
                 FileName = "PrimaryToolbarCustomization.razor",
-                Type=SampleType.New,
-                NotificationDescription = new string[]{ @"Discover how to personalize the main toolbar in this sample, enabling seamless integration of additional items while offering the flexibility to show, hide, and rearrange existing ones according to specific needs." }
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -86,8 +95,9 @@ namespace BlazorDemos
                 Category = "Annotation",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/annotations-toolbar",
-                Type=SampleType.Updated,
-                FileName = "AnnotationsToolbar.razor"
+                Type = SampleType.Updated,              
+                FileName = "AnnotationsToolbar.razor",
+                NotificationDescription = new string[]{ @"This sample illustrates adding all the annotation types programmatically. Previously there was no support to add annotations programmatically but now the annotations are added programmatically." }
             },
             new Sample
             {
@@ -96,7 +106,9 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/programmatical-annotations",
                 Type=SampleType.New,
-                FileName = "ProgrammaticalAnnotations.razor" 
+                FileName = "ProgrammaticalAnnotations.razor",
+                NotificationDescription = new string[]{ @"This example demonstrates how to programmatically create or edit various types of annotations in the SfPdfViewer. You can also programmatically insert new annotations or update existing ones." }
+
             },
             new Sample
             {

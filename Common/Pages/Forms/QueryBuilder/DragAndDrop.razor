@@ -1,0 +1,303 @@
+﻿@page "/query-builder/drag-and-drop"
+
+@using Syncfusion.Blazor.QueryBuilder
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using BlazorDemos
+@using blazor_griddata
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the drag and drop support of the Query Builder component.
+    </p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this demo, the Query Builder includes a drag-and-drop feature that allows you to move rules or groups to different positions. You can enable or disable this feature using the <a target="" _blank="" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.QueryBuilder.SfQueryBuilder-1.html#Syncfusion_Blazor_QueryBuilder_SfQueryBuilder_1_AllowDragAndDrop">AllowDragAndDrop</a> property. </p>
+   <p>More information about Blazor QueryBuilder component can be found in this <a target=""_blank"" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started/"  aria-label="documentation section"> documentation </a>section.</p>
+</ActionDescription>
+
+<div class="e-main-content">
+    <div>
+        <SfQueryBuilder DataSource="@dataSource" AllowDragAndDrop="true" @ref="QueryBuilderObj">
+             <QueryBuilderEvents TValue="Orders" RuleChanged="QueryBuilderChanged"></QueryBuilderEvents>
+            <QueryBuilderRule Condition="and" Rules="@rules"></QueryBuilderRule>
+            <QueryBuilderColumns>
+                <QueryBuilderColumn Field="CustomerID" Label="CustomerID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                <QueryBuilderColumn Field="EmployeeID" Label="EmployeeID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number></QueryBuilderColumn>
+                <QueryBuilderColumn Field="Verified" Label="Verified" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Boolean></QueryBuilderColumn>
+                <QueryBuilderColumn Field="ShipName" Label="ShipName" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                <QueryBuilderColumn Field="OrderDate" Label="OrderDate" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date Format="dd/MM/yyyy"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="ShipCountry" Label="ShipCountry" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                <QueryBuilderColumn Field="ShipAddress" Label="ShipAddress" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+            </QueryBuilderColumns>
+        </SfQueryBuilder>
+    </div>
+    <div class="e-bottom-content">
+        <div class="e-query-preview">
+            <SfTab>
+                <TabEvents Selected="TabChanged" Created="TabCreated"></TabEvents>
+                <TabItems>
+                    <TabItem>
+                        <ChildContent>
+                            <TabHeader Text="SQL"></TabHeader>
+                        </ChildContent>
+                        <ContentTemplate>
+                            <div class="preview">
+                                <div class="content">
+                                    <SfRadioButton CssClass="e-radio-btns" Label="Inline" Name="Inline" Value="Inline" TChecked="string" @onchange="OnChange" @bind-Checked="QueryType"></SfRadioButton>
+                                    <SfRadioButton CssClass="e-radio-btns" Label="Parameter" Name="Parameter" Value="Parameter" TChecked="string" @onchange="OnChange" @bind-Checked="QueryType"></SfRadioButton>
+                                    <SfRadioButton CssClass="e-radio-btns" Label="Named Parameter" Name="Named Parameter" Value="Named Parameter" TChecked="string" @onchange="OnChange" @bind-Checked="QueryType"></SfRadioButton>
+                                    <div id="content" style="margin-top: 10px;">
+                                        <SfTextBox Multiline=true Readonly=true Value="@ExportContent" CssClass="e-text-area-content e-sql-content"></SfTextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </TabItem>
+                    <TabItem>
+                        <ChildContent>
+                            <TabHeader Text="JSON"></TabHeader>
+                        </ChildContent>
+                        <ContentTemplate>
+                            <div id="content" style="margin-top: 10px;">
+                                <SfTextBox Multiline=true Readonly=true Value="@ExportContent" CssClass="e-text-area-content e-json-content"></SfTextBox>
+                            </div>
+                        </ContentTemplate>
+                    </TabItem>
+                </TabItems>
+            </SfTab>
+        </div>
+    </div>
+</div>
+
+@code{
+    private List<RuleModel> rules = new List<RuleModel>()
+    {
+         new RuleModel { Label="EmployeeID", Field="EmployeeID", Type="Number", Operator="equal", Value = 1001 },
+         new RuleModel { Label="CustomerID", Field="CustomerID", Type="String", Operator="equal", Value = "FLKIN" },
+         new RuleModel {
+            Condition = "or", Rules = new List<RuleModel>() {
+                new RuleModel { Label= "OrderDate", Field = "OrderDate", Type = "Date", Operator = "equal", Value = new DateTime(2024, 01, 12) },
+                new RuleModel { Label= "ShipCountry", Field = "ShipCountry", Type = "String", Operator = "equal", Value = "USA" }
+            }
+        }
+    };
+
+    SfQueryBuilder<Orders> QueryBuilderObj;
+    private ParameterSql ParameterSql;
+    private NamedParameterSql ParameterNamedSQL;
+    private string SQL;
+    private string ExportContent = "";
+    private string QueryType = "Inline";
+    private int selectedTabIndex = 0;
+    private List<string> values = new List<string> { "True", "False" };
+    private List<Orders> dataSource { get; set; }
+
+    protected override void OnInitialized()
+    {
+        dataSource = Orders.GetAllRecords();
+    }
+
+    private void QueryBuilderChanged(Syncfusion.Blazor.QueryBuilder.RuleChangeEventArgs args)
+    {
+        UpdateContent();
+    }
+
+    public void TabCreated()
+    {
+        UpdateTextContent();
+    }
+
+    public void TabChanged(Syncfusion.Blazor.Navigations.SelectEventArgs args)
+    {
+        selectedTabIndex = args.SelectedIndex;
+        UpdateContent();
+    }
+
+    private void UpdateContent()
+    {
+        switch (selectedTabIndex)
+        {
+            case 0:
+                UpdateTextContent();
+                break;
+            case 1:
+                ConvertJSON();
+                break;
+        }
+    }
+
+    private void OnChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        QueryType = args.Value.ToString();
+        UpdateTextContent();
+    }
+
+    private void UpdateTextContent()
+    {
+        RuleModel Rule = QueryBuilderObj.GetValidRules();
+        switch (QueryType)
+        {
+            case "Inline":
+                ExportContent = QueryBuilderObj.GetSqlFromRules(Rule);
+                break;
+            case "Parameter":
+                ParameterSql = QueryBuilderObj.GetParameterSql(Rule);
+                ExportContent = JsonSerializer.Serialize(ParameterSql, new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+                break;
+            case "Named Parameter":
+                ParameterNamedSQL = QueryBuilderObj.GetNamedParameterSql(Rule);
+                ExportContent = JsonSerializer.Serialize(ParameterNamedSQL, new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+                break;
+        }
+    }
+
+    private void ConvertJSON()
+    {
+        ExportContent = JsonSerializer.Serialize(QueryBuilderObj.GetValidRules(), new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            WriteIndented = true,
+            Converters = { new CustomConverter() }
+        });
+    }
+
+    public class CustomConverter : JsonConverter<RuleModel>
+    {
+        public override RuleModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Write(Utf8JsonWriter writer, RuleModel value, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+            if (value.Condition != null)
+            {
+                writer.WriteString("Condition", value.Condition);
+            }
+            if (value.Operator != null)
+            {
+                writer.WriteString("Operator", value.Operator);
+            }
+            if (value.Field != null)
+            {
+                writer.WriteString("Field", value.Field);
+            }
+            if (value.Type != null)
+            {
+                writer.WriteString("Type", value.Type);
+            }
+            if (value.Not != null)
+            {
+                writer.WriteBoolean("Not", value.Not.Value);
+            }
+            if (value.Value != null)
+            {
+                writer.WritePropertyName("Value");
+                JsonSerializer.Serialize(writer, value.Value, options);
+            }
+            if (value.Rules != null)
+            {
+                writer.WritePropertyName("Rules");
+                JsonSerializer.Serialize(writer, value.Rules, options);
+            }
+            writer.WriteEndObject();
+        }
+    }
+}
+
+<style>
+    .e-query-builder {
+        margin: 0 auto;
+    }
+    .material3 .e-query-builder .e-group-header .e-group-action .e-btn,
+    .material3-dark .e-query-builder .e-group-header .e-group-action .e-btn { 
+        box-shadow: none; 
+    }
+    .fluent .e-query-builder .e-group-header .e-group-action .e-btn { 
+        background: #f3f2f1;
+        border: 0 solid #f3f2f1;
+    }
+    .bootstrap5 .e-query-builder .e-group-header .e-group-action .e-btn { 
+        background: #fff;
+        box-shadow: none;
+        color: #6c757d;
+    }
+    .e-main-content {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 5px;
+    }
+    .e-settings-popup-content {
+        width: 220px;
+    }
+    .e-bottom-content {
+        margin-top: 50px;
+    }
+    .e-query-preview .e-tab {
+        height: 200px;
+    }
+    .e-query-preview .preview {
+        margin-top: 20px;
+    }
+    .e-query-preview .content {
+        margin: 10px;
+    }
+    .e-text-area-content {
+        margin: 10px;
+        overflow: auto;
+        border: none;
+        height: 300px;
+        width: 98%;
+    }
+    .e-text-area-content:focus-visible {
+        outline: none;
+    }
+    .e-query-preview .e-sql-content,
+    .e-query-preview .e-mongo-content,
+    .e-query-preview .e-json-content {
+        margin: 10px;
+        border: none;
+        height: 200px;
+        width: 98%;
+    }
+    .e-query-preview .e-mongo-content,
+    .e-query-preview .e-json-content {
+        height: 320px;
+    }
+    .e-custom-radio-btn {
+        margin-left: 20px;
+    }
+    .content-area {
+        border: 1px solid black;
+        height: 225px !important;
+        width: 100% !important;
+        overflow-x: hidden;
+        padding: 10px;
+    }
+    .e-pre-content {
+        width: 0px;
+    }
+    .e-radio-btns {
+        margin-left: 20px;
+    }
+    .error-msg-hide {
+        display: none;
+    }
+    .error-msg {
+        display: block;
+        color: red;
+        float: left;
+    }
+</style>

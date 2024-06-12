@@ -1,0 +1,109 @@
+﻿@page "/treeview/ui-virtualization"
+
+@using Syncfusion.Blazor.Navigations
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The <a href='https://www.syncfusion.com/blazor-components/blazor-treeview' target='_blank' aria-label="Feature Tour of Blazor TreeView">Blazor TreeView</a> sample demonstrates the virtualization functionalities of the <code>TreeView</code>. By scrolling through the tree items, you can observe how the UI virtualization works, with enhanced performance and efficiency when handling a large number of items. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>Virtualization is an optimization technique that improves the performance of the TreeView by loading only the visible tree items within the viewport, thereby avoiding unnecessary construction and rendering of off-screen items. The tree items are updated dynamically while users scroll the list. Virtualization can be enabled by using the <code>EnableVirtualization</code> property in the TreeView.</p>
+    <p>When <code>EnableVirtualization</code> is enabled, the <code>Height</code> property must be defined.</p>
+</ActionDescription>
+
+
+<div class="control-section"> 
+    <div class="control_wrapper">
+        @*Initialize the TreeView component*@
+        <SfTreeView TValue="TreeData" EnableVirtualization="true" Height="400">
+            <TreeViewFieldsSettings DataSource="@TreeDataSource" Id="Id" ParentID="Pid" Text="Name" HasChildren="HasChild" Expanded="Expanded"></TreeViewFieldsSettings>
+        </SfTreeView>
+    </div>
+</div>
+
+
+@code {
+    // Specifies the DataSource value for TreeView component.
+    List<TreeData> TreeDataSource = new List<TreeData>()
+    {
+        new TreeData() { Id = "1", Name = "Software Developers", HasChild = true, Expanded = true },
+        new TreeData() { Id = "2", Name = "UX/UI Designers", HasChild = true, Expanded = false },
+        new TreeData() { Id = "3", Name = "Quality Testers", HasChild = true, Expanded = false },
+        new TreeData() { Id = "4", Name = "Technical Support", HasChild = true, Expanded = false },
+        new TreeData() { Id = "5", Name = "Network Engineers", HasChild = true, Expanded = false }
+    };
+
+    List<TreeData> DefaultData = new List<TreeData>()
+    {
+        new TreeData() { Name = "Nancy" },
+        new TreeData() { Name = "Andrew" },
+        new TreeData() { Name = "Janet" },
+        new TreeData() { Name = "Margaret" },
+        new TreeData() { Name = "Steven" },
+        new TreeData() { Name = "Laura" },
+        new TreeData() { Name = "Robert" },
+        new TreeData() { Name = "Michael" },
+        new TreeData() { Name = "Albert" },
+        new TreeData() { Name = "Nolan" },
+        new TreeData() { Name = "Jennifer" },
+        new TreeData() { Name = "Carter" },
+        new TreeData() { Name = "Allison" },
+        new TreeData() { Name = "John" },
+        new TreeData() { Name = "Susan" },
+        new TreeData() { Name = "Lydia" },
+        new TreeData() { Name = "Kelsey" },
+        new TreeData() { Name = "Jessica" },
+        new TreeData() { Name = "Shelley" },
+        new TreeData() { Name = "Jack" }
+    };
+
+    int count = 10005;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        List<TreeData> tempData1 = TreeDataSource?.ToList();
+        for (int i = 1; i <= TreeDataSource.Count; i++)
+        {
+            List<TreeData> tempData = Enumerable.Range(0, 5000)
+            .Select(j =>
+            {
+                count++;
+                return new TreeData { Id = i.ToString() + "-" + j.ToString(), Name = DefaultData[j % DefaultData.Count].Name + " - " + count.ToString(), Pid = i.ToString() };
+            }).ToList();
+            tempData1.AddRange(tempData);
+        }
+        TreeDataSource = tempData1.ToList();
+    }
+
+    class TreeData
+    {
+        public string Id { get; set; }
+        public string Pid { get; set; }
+        public bool HasChild { get; set; }
+        public bool Expanded { get; set; }
+        public string Name { get; set; }
+    }
+
+    class MenuItems
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+}
+
+<style>
+    /* Sample specific styles */
+    .control_wrapper {
+        max-width: 500px;
+        margin: auto;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        max-height: 420px;
+    }
+</style>

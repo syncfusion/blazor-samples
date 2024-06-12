@@ -21,8 +21,10 @@ namespace BlazorDemos
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/flowchart",
+                Type = SampleType.Updated,
                 FileName = "FlowChart.razor",
-                HeaderText="Flow Chart using Blazor Diagram Component Example"
+                HeaderText="Flow Chart using Blazor Diagram Component Example",
+                NotificationDescription = new string[]{ @"An added search option has been included in the Flow chart sample. Users can now search for symbols in the palette by entering the symbol ID (e.g., ""rectangle"") or by searching for tags in the search text box and clicking the search button. Additionally, users can utilize undo/redo support, z-order commands, zoom in/out actions, and print the diagram using the toolbar menu." },
             },
             new Sample
             {
@@ -68,8 +70,6 @@ namespace BlazorDemos
                 Url = "diagramcomponent/linerouting",
                 FileName = "Routing.razor",
                 HeaderText="Example of Line Routing in Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate line routing in the Diagram Component. This sample emphasizes how to visualize the connectors that automatically re-route or move away if a shape is found on the connectors’ path." }
             },
             new Sample
             {
@@ -91,14 +91,23 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Rulers",
+                Category = "Getting Started",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/rulers",
+                FileName = "Rulers.razor",
+                HeaderText="Example of Rulers in Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo about rulers in the Diagram Component. This sample shows how to visualize and customize rulers used to measure and position diagram elements." },
+            },
+            new Sample
+            {
                 Name = "Swimlanes",
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/swimlane",
                 FileName = "SwimlaneSample.razor",
                 HeaderText="Example of Swimlanes in Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate swimlane shapes in the Diagram Component. This sample emphasizes how to visualize the sales processing flow chart with the help of the built-in swimlane shapes." }
             },
             new Sample
             {
@@ -126,6 +135,8 @@ namespace BlazorDemos
                 Url = "diagramcomponent/symbolpalette",
                 FileName = "SymbolPalette.razor",
                 HeaderText="Example of Symbol Palette in Blazor Diagram Component",
+                 Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Added an Animation and Search option in symbol palette sample. Now users can search for symbols in the palette by entering the symbol id  (e.g., ""rectangle"") or search tags text into the search text box and clicking the search button. Additionally, users can enable/disable animation." },
             },
               new Sample
             {

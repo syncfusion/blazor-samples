@@ -45,28 +45,30 @@
                     </div>
                 </div>
                 <LeftPaneComponent @ref="LeftPaneRef"></LeftPaneComponent>
-                    @{ #if RELEASE && NET6_0}
-                    <RightPaneComponent @ref="RightPaneRef">
-                        <ErrorBoundary @ref="errorBoundaryRef">
-                            <ChildContent>
-                                @Body
-                            </ChildContent>
-                            <ErrorContent>
-                                <div class="e-error-ui">
-                                    <div class="e-error-content">
-                                        <div class="e-error-ui-text">Try that again</div>
-                                        <div class="e-error-text-ui">Page could not be loaded. Please try again later.</div>
-                                        <div class="e-page-refresh">
-                                            <SfButton CssClass="e-primary" OnClick="OnRefresh">Refresh the page</SfButton>
-                                        </div>
+                <RightPaneComponent @ref="RightPaneRef">
+                    <ErrorBoundary @ref="errorBoundaryRef" Context="Exception">
+                        <ChildContent>
+                            @Body
+                        </ChildContent>
+                        <ErrorContent>
+                            <div class="e-error-ui">
+                                <div class="e-error-content">
+                                    <div class="e-error-ui-text">Try that again</div>
+                                    <div class="e-error-text-ui">Page could not be loaded. Please try again later.</div>
+                                    <div class="border p-4 text-danger">
+                                        Error Type : @Exception.GetType() <br><br>
+                                        Error Message : @Exception.Message <br><br>
+                                        Error Stack Trace : @Exception.StackTrace <br><br>
+                                        Error Base Exception : @Exception.GetBaseException() <br><br>
+                                    </div>
+                                    <div class="e-page-refresh">
+                                        <SfButton CssClass="e-primary" OnClick="OnRefresh">Refresh the page</SfButton>
                                     </div>
                                 </div>
-                            </ErrorContent>
-                        </ErrorBoundary>
-                    </RightPaneComponent>
-                    @{ #else}
-                    <RightPaneComponent @ref="RightPaneRef">@Body</RightPaneComponent>
-                  @{ #endif}
+                            </div>
+                        </ErrorContent>
+                    </ErrorBoundary>
+                </RightPaneComponent>
                 @if (SampleService.IsDevice)
                 {
                     <SideBarComponent IsExpanded="@rightSidebarExpanded" Position="SidebarPlacement.Right">
@@ -95,9 +97,7 @@
     private DotNetObjectReference<object> dotnetObjectRef { get; set; }
     private SearchComponent searchRef { get; set; }
     public HeaderComponent headerRef { get; set; }
-    #if RELEASE && NET6_0
     private ErrorBoundary errorBoundaryRef { get; set; }
-    #endif
 
     /// <summary>
     /// Specifies the app is rendering in tablet or not.
@@ -118,7 +118,6 @@
     /// </summary>
     public SampleNavigator SampleNavigatorRef { get; set; }
 
-    #if RELEASE && NET6_0
     // Recover from the error state and handle the exception.
     protected override void OnParametersSet()
     {
@@ -130,7 +129,6 @@
     {
     UriHelper.NavigateTo(UriHelper.Uri, true);
     }
-   #endif
 
     // Left sidebar click handler
     private async Task OnToggleClick()

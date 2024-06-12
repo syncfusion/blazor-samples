@@ -14,6 +14,109 @@ namespace Blazor_MAUI_Demos
 {
     internal partial class SampleConfig
     {
+        public List<Sample> TextArea { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor TextArea | Default Functionalities | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Default Functionalities",
+                MetaDescription = "This example of Blazor TextArea demonstrates the rendering of the textArea component using a default functionalities.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DefaultFunctionalities",
+                        FileName="DefaultFunctionalities.razor"
+                    },
+                },
+                NotificationDescription = new string[]{ @"Added the TextArea demonstrates the rendering of the textArea component using a default functionalities." },
+            },
+            new Sample
+            {
+                Name = "Floating Label",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/FloatingLabel",
+                FileName = "FloatingLabel",
+                MetaTitle = "Blazor TextArea | Floating Label | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Floating Label",
+                MetaDescription = "The example below demonstrates the floating label functionality in the Blazor textArea component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Floating Label",
+                        FileName="FloatingLabel.razor"
+                    },
+                },
+                NotificationDescription = new string[]{ @"Added the TextArea demonstrates the floating label functionality in the Blazor textArea component." },
+            },
+            new Sample
+            {
+                Name = "Resize",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/Resize",
+                FileName = "Resize.razor",
+                MetaTitle = "Blazor TextArea | Resize | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Resize",
+                MetaDescription = "This Blazor TextArea example demonstrates how to adjust the size of the TextArea component dynamically using the ResizeMode property.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Resize",
+                        FileName="Resize.razor"
+                    },
+                },
+                NotificationDescription = new string[]{ @"Added the TextArea example demonstrates how to adjust the size of the TextArea component dynamically using the ResizeMode property." },
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/FormsValidation",
+                FileName = "FormsValidation.razor",
+                MetaTitle = "Blazor TextArea | Validation | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Validation",
+                MetaDescription = "This example of Blazor TextArea demonstrates the validation of the textArea component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Validation",
+                        FileName="FormsValidation.razor"
+                    },
+                },
+                NotificationDescription = new string[]{ @"Added the TextArea demonstrates the validation of the textArea component." },
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/Api",
+                FileName = "Api.razor",
+                MetaTitle = "Blazor TextArea | API | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - API",
+                MetaDescription = "This example of Blazor TextArea demonstrates how to dynamically update the column count, row count, max-length, enable, read only mode and show clear button of the textArea component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="API",
+                        FileName="Api.razor"
+                    },
+                },
+                NotificationDescription = new string[]{ @"Added the TextArea demonstrates how to dynamically update the column count, row count, max-length, enable, read only mode and show clear button of the textArea component." },
+            }
+        };
+
         public List<Sample> TextBox { get; set; } = new List<Sample> {
             new Sample
             {

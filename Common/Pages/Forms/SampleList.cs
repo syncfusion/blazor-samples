@@ -22,8 +22,7 @@ namespace BlazorDemos
                 Category = "Query Builder",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -40,9 +39,7 @@ namespace BlazorDemos
                 Category = "Query Builder",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/mongo-query",
-                FileName = "MongoQuery.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string []{@"Added the demo for import and export the Mongo and SQL query in the QueryBuilder component."}
+                FileName = "MongoQuery.razor"
             },
             new Sample
             {
@@ -50,9 +47,7 @@ namespace BlazorDemos
                 Category = "Query Builder",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/lock-group",
-                FileName = "LockGroup.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string []{@"Added the demo for lock the group/rule in the QueryBuilder component."}
+                FileName = "LockGroup.razor"
             },
             new Sample
             {
@@ -60,9 +55,27 @@ namespace BlazorDemos
                 Category = "Query Builder",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/clone-group",
-                FileName = "CloneGroup.razor",
+                FileName = "CloneGroup.razor"
+            },
+            new Sample
+            {
+                Name = "Drag and Drop",
+                Category = "Query Builder",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/drag-and-drop",
+                FileName = "DragAndDrop.razor",
                 Type = SampleType.New,
-                NotificationDescription = new string []{@"Added the demo for clone the group/rule in the QueryBuilder component."}
+                NotificationDescription = new string[]{ @"The Query Builder component now includes a drag-and-drop feature, allowing users to reposition rules or groups within the component effortlessly. This enhancement provides a more intuitive and flexible way to construct and modify queries." }
+            },
+            new Sample
+            {
+                Name = "Separate Connector",
+                Category = "Query Builder",
+                Directory = "Forms/QueryBuilder",
+                Url = "query-builder/separate-connector",
+                FileName = "SeparateConnector.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"The separate connector feature in the Query Builder component enables users to integrate standalone connectors between rules or groups within the same group. This allows for greater flexibility, as users can connect rules or groups using different connectors, enhancing the complexity and precision of query construction." }
             },
             new Sample
             {
@@ -267,8 +280,7 @@ namespace BlazorDemos
                         FileName="RegistrationDetails.cs"
                     }
                 },
-                NotificationDescription = new string[]{ @"Added the floating label functionality, DataType attribute, and display options custom attribute support for the Blazor Data Form component." },
-                Type = SampleType.New
+                Type = SampleType.None,
             },
             new Sample
             {

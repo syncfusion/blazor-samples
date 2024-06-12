@@ -19,6 +19,7 @@ namespace BlazorDemos
             {
                 Name = "Overview",
                 Category = "Rich Text Editor",
+                Type = SampleType.Updated,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor",
@@ -87,7 +88,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Resizeable Editor",
+                Name = "Resizable Editor",
                 Category = "Rich Text Editor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/resize-editor",
@@ -109,13 +110,40 @@ namespace BlazorDemos
                 Url = "rich-text-editor/form-validation",
                 FileName = "Form-Validation.razor"
             },
-            new Sample
+             new Sample
             {
-                Name = "Toolbar Type",
-                Category = "Rich Text Editor",
+                Name = "Type",
+                Category = "Toolbar",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/types",
                 FileName = "Types.razor"
+            },
+            new Sample
+            {
+                Name = "Quick Format Toolbar",
+                Category = "Toolbar",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/quick-format-toolbar",
+                FileName = "Quick-Format-Toolbar.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Import from Word",
+                Category = "Export / Import",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/import-word",
+                FileName = "Import.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
+                Name = "Export to Word / PDF",
+                Category = "Export / Import",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/export-word",
+                FileName = "Export-Word.razor",
+                Type = SampleType.New
             },
             new Sample
             {

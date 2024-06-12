@@ -230,10 +230,7 @@ namespace BlazorDemos
                 Category = "Timeline",
                 Directory = "Layouts/Timeline",
                 Url = "timeline/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the basic features of the Timeline component, such as DotCss, CssClass, and Content properties, and includes the item configuration in Timeline."
-                }
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -241,10 +238,7 @@ namespace BlazorDemos
                 Category = "Timeline",
                 Directory = "Layouts/Timeline",
                 Url = "timeline/api",
-                FileName = "API.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the usage of different API's available in the Timeline component, such as Orientation, Alignment, OppositeContent, and Reverse properties."
-                }
+                FileName = "API.razor"
             },
             new Sample
             {
@@ -252,10 +246,7 @@ namespace BlazorDemos
                 Category = "Timeline",
                 Directory = "Layouts/Timeline",
                 Url = "timeline/timeline-template",
-                FileName = "Template.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the customization of each timeline item using the template support."
-                }
+                FileName = "Template.razor"
             }
         };
     }

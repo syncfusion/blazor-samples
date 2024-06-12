@@ -21,7 +21,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/overview",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -112,7 +112,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/selection",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -125,6 +125,10 @@ namespace BlazorDemos
                         Id="SelectionRecord",
                         FileName="SelectionData.cs"
                     }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"This sample showcases the Gantt chart component with the row hover feature enabled. To view the hover effect, simply hover your mouse over the rows of the Gantt chart."
                 }
             },
             new Sample
@@ -165,7 +169,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Load On Demand",
+                Name = "Big Data Set",
                 Category = "Data Binding",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/load-on-demand",
@@ -436,7 +440,7 @@ namespace BlazorDemos
                 Category = "Resource",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/resource-allocation",
-                Type = SampleType.None,
+                Type = SampleType.Updated, 
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -447,8 +451,12 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="ResourceRecord",
-                        FileName="ResourceData.cs"
+                        FileName="ResourceModel.cs"
                     }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"Enhanced the Resource Allocation sample with simplified data binding support and improved resource assignment management."
                 }
             },
             new Sample
@@ -468,6 +476,7 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/multi-taskbar",
                 FileName="MultiTaskbar.razor",
+                Type = SampleType.None,
             },
              new Sample
             {
@@ -486,7 +495,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="TaskbarRecord",
-                        FileName="DefaultData.cs"
+                        FileName="ResourceModel.cs"
                     }
                 }
             },
@@ -624,7 +633,7 @@ namespace BlazorDemos
                 Category = "Filtering",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/advanced-filtering",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -638,10 +647,6 @@ namespace BlazorDemos
                         FileName="FilterData.cs"
                     }
                 },
-                 NotificationDescription = new string[]
-                {
-                    @"The sample has been added to demonstrate the comprehensive filtering support available in the Gantt Chart."
-                },
             },
              new Sample
             {
@@ -649,12 +654,8 @@ namespace BlazorDemos
                 Category = "Miscellaneous",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/split-tasks",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 FileName="SplitTasks.razor",
-                NotificationDescription = new string[]
-                {
-                    @"The sample has been added to demonstrate the split taskbar feature in Gantt Chart."
-                },
             },
 			new Sample
             {
@@ -662,7 +663,7 @@ namespace BlazorDemos
                 Category = "Miscellaneous",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/ganttresponsive",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -671,10 +672,6 @@ namespace BlazorDemos
                         FileName="GanttResponsive.razor"
                     }
                 },
-                 NotificationDescription = new string[]
-                 {
-                 @"The sample has been added to demonstrate the responsive behavior in the Gantt Chart."
-                 },
             },
             
 #if !(WASM)

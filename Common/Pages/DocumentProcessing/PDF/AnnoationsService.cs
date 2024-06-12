@@ -295,6 +295,15 @@ namespace BlazorDemos.Data.FileFormats.PDF
                 secondPage.Graphics.DrawString("Redaction Annotation", font, brush, new PointF(350, 260));
                 secondPage.Annotations.Add(redactionannot);
             }
+	    //Creates a new RubberStamp annotation
+            PdfRubberStampAnnotation rubberStampAnnotation = new PdfRubberStampAnnotation(new RectangleF(40, 600, 100, 50));
+            rubberStampAnnotation.Text = "Rubber Stamp Annotation";
+            rubberStampAnnotation.Author = "Syncfusion";
+            rubberStampAnnotation.ModifiedDate = new DateTime(2015, 1, 18);
+            rubberStampAnnotation.Color = new PdfColor(Color.Red);
+            rubberStampAnnotation.AnnotationFlags = PdfAnnotationFlags.Print;
+            secondPage.Graphics.DrawString("Rubber Stamp Annotation", font, brush, new PointF(40, 570));
+            secondPage.Annotations.Add(rubberStampAnnotation);
 			
 			secondPage.Graphics.DrawString("Rich Media Annotation (Video)", font, brush, new PointF(40, 390));
 

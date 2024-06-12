@@ -1,0 +1,194 @@
+﻿@page "/tree-grid/event"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using BlazorDemos
+@using ej2_blazor_selfdata
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the events that have been triggered on the Tree Grid operations with the help of Event Trace panel.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Tree Grid triggers events based on its actions. The events can be used as an extension point to perform custom operations.</p>
+    <p>In this demo, perform Tree Grid actions like paging, sorting, reordering, editing etc. and see the Event Trace panel for the events emitted.</p>
+    <p> More information on the Tree Grid events can be found in this <a aria-label="Navigate to the documentation for events in the tree grid component" target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/events'>documentation</a> section.</p>
+   
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid DataSource="@TreeGridData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" Height="312" AllowPaging="true" AllowSelection="true" AllowSorting="true" AllowReordering="true">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true" Mode="Syncfusion.Blazor.TreeGrid.EditMode.Cell" />
+                <TreeGridEvents TValue="SelfReferenceData" OnActionFailure="ActionFailureHandler" Created="CreatedHandler"
+                                OnCellEdit="CellEditHandler" OnBeginEdit="BeginEditHandler" OnCellSave="CellSaveHandler" CellSaved="CellSavedHandler" RowSelecting="RowSelectingHandler" RowSelected="RowSelectedHandler" 
+                                OnLoad="LoadHandler" OnDataBound="DataBoundHandler" RowDeselecting="RowDeselectingHandler" RowDeselected="RowDeselectHandler" ColumnReordered="ColumnReorderedHandler"
+                                Sorting="SortingHandler" Sorted="SortedHandler" Expanding="ExpandingHandler" Expanded="ExpandedHandler" ColumnReordering="ColumnReorderingHandler"
+                                PageChanging="PageChangingHandler" PageChanged="PageChangedHandler" Collapsed="CollapsedHandler" Collapsing="CollapsingHandler"></TreeGridEvents>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="200"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText=" Start Date" Format="d" Type=ColumnType.Date Width="140" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="d" Type=ColumnType.Date Width="120" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration" Width="130" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="140"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <table style="margin-top: 5px; border-collapse: separate; border-spacing: 5px 25px; width: 100%;">
+        <tr>
+            <td style="width: 100%;">
+                <div style="font-weight:600; padding-right: 3px"><h4>Event Trace</h4></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 100%; padding-right: 1px; padding-left: 15px;">
+                <div class="treegrid-eventarea" style="height: 250px; overflow-y: auto; font-size: 13px;font-family:'Times New Roman', Times, serif">
+                        @foreach (var eventName in EventNames)
+                        {
+                            <p><span style="color: green; font-weight:bold">@eventName</span> event called</p>
+                        }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="evtbtn"  style="width: 100%;">
+                <button class="clear-button" @onclick="ClearEventNames">Clear</button>
+            </td>
+        </tr>
+    </table>
+</div>
+@*Hidden:Lines*@
+<style>
+    .clear-button {
+        background-color: lightgray; 
+        border: none;
+        color: black;
+        padding: 10px 20px; 
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .clear-button:hover {
+            background-color: lightslategrey;
+        }
+</style>
+@*End:Hidden*@
+@code {
+    private List<string> EventNames { get; set; } = new List<string>();
+    private List<SelfReferenceData> TreeGridData { get; set; }
+    private bool ClearingByButton { get; set; }
+    protected override void OnInitialized()
+    {
+        this.TreeGridData = SelfReferenceData.GetTree().ToList();
+    }
+    private void ClearEventNames()
+    {
+        EventNames = new List<string>();
+        ClearingByButton = true;
+    }
+    public void ActionFailureHandler(FailureEventArgs args)
+    {
+        EventNames.Insert(0, "OnActionFailure");
+    }
+    public void BeginEditHandler(BeginEditArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "OnBeginEdit");
+    }
+    public void CellEditHandler(CellEditArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "OnCellEdit");
+    }
+    public void CellSaveHandler(CellSaveArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "OnCellSave");
+    }
+    public void CellSavedHandler(CellSavedArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "CellSaved");
+    }
+    public void CreatedHandler(object args)
+    {
+        EventNames.Insert(0, "Created");
+    }
+    public void LoadHandler(object args)
+    {
+        EventNames.Insert(0, "OnLoad");
+    }
+    public void DataBoundHandler(BeforeDataBoundArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "OnDataBound");
+    }
+    public void RowSelectingHandler(RowSelectingEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "RowSelecting");
+    }
+    public void RowSelectedHandler(RowSelectEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "RowSelected");
+    }
+    public void RowDeselectingHandler(RowDeselectEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "RowDeselecting");
+    }
+    public void RowDeselectHandler(RowDeselectEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "RowDeselected");
+    }
+    public void SortingHandler(SortingEventArgs args)
+    {
+        EventNames.Insert(0, "Sorting");
+    }
+    public void SortedHandler(SortedEventArgs args)
+    {
+        EventNames.Insert(0, "Sorted");
+    }
+    public void ExpandingHandler(RowExpandingEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "Expanding");
+    }
+    public void ExpandedHandler(RowExpandedEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "Expanded");
+    }
+    public void ColumnReorderingHandler(ColumnReorderingEventArgs args)
+    {
+        EventNames.Insert(0, "ColumnReordering");
+    }
+    public void ColumnReorderedHandler(ColumnReorderedEventArgs args)
+    {
+        EventNames.Insert(0, "ColumnReordered");
+    }
+    public void PageChangingHandler(GridPageChangingEventArgs args)
+    {
+        EventNames.Insert(0, "PageChanging");
+    }
+    public void PageChangedHandler(GridPageChangedEventArgs args)
+    {
+        EventNames.Insert(0, "PageChanged");
+    }
+    public void CollapsingHandler(RowCollapsingEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "Collapsing");
+    }
+    public void CollapsedHandler(RowCollapsedEventArgs<SelfReferenceData> args)
+    {
+        EventNames.Insert(0, "Collapsed");
+    }
+
+}

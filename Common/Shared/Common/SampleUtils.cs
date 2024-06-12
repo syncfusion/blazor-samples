@@ -190,7 +190,7 @@ namespace BlazorDemos.Shared
         {
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
-            themeName = themeName != null ? themeName : "fluent";
+            themeName = themeName != null ? themeName : "fluent2";
             return themeName;
         }
 
@@ -198,6 +198,7 @@ namespace BlazorDemos.Shared
         {
             new DropDownData { ID = "material3", Text = "Material 3" },
             new DropDownData { ID = "fluent", Text = "Fluent" },
+            new DropDownData { ID = "fluent2", Text = "Fluent2" },
             new DropDownData { ID = "bootstrap5", Text = "Bootstrap v5" },
             new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
 #if DEBUG || STAGING
@@ -207,8 +208,21 @@ namespace BlazorDemos.Shared
 #if DEBUG || STAGING
            // new DropDownData { ID = "fabric", Text = "Fabric" },
 #endif
-            new DropDownData { ID = "highcontrast", Text = "High Contrast" }
+            new DropDownData { ID = "highcontrast", Text = "High Contrast" },
+            //new DropDownData { ID = "fluent2-highcontrast", Text = "Fluent2 High Contrast" },
         };
+
+        /// <summary>
+        /// Returns the current theme mode from the url.
+        /// </summary>
+        /// <param name="url">Current url need to be parsed for getting the theme mode.</param>
+        public static string GetThemeMode(string url)
+        {
+            var uri = new Uri(url);
+            string themeMode = HttpUtility.ParseQueryString(uri.Query).Get("theme");
+            themeMode = themeMode == null ? "Light Mode" : !themeMode.Contains("-dark") ? "Light Mode" : "Dark Mode";
+            return themeMode;
+        }
 
         public static List<DropDownData> ThemeMode = new List<DropDownData> {
         new DropDownData { ID = "dark", Text = "Dark Mode" },

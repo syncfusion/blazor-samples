@@ -47,7 +47,7 @@ namespace BlazorDemos.Shared
                 sb.Append($"</h1>");
                 sb.Append(Environment.NewLine);
             }
-            //creating heading h1 tag using Meta data content generation for home page.
+            //creating h1 tag using Meta data content generation for home page.
             else
             {
                 sb.Append($"<h1");
@@ -79,3 +79,4 @@ namespace BlazorDemos.Shared
     }
 
 }
+

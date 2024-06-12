@@ -525,7 +525,7 @@ namespace Blazor_MAUI_Demos.Shared
         {
             List<PopularComponents> components = new List<PopularComponents>();
             {
-                components.Add(new PopularComponents("Data Grid", "data-grid", "datagrid/overview"));
+                components.Add(new PopularComponents("Data Grid", "data-grid", "datagrid/default-functionalities"));
                 components.Add(new PopularComponents("Charts", "charts", "chart/overview"));
                 components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
                 components.Add(new PopularComponents("Diagram", "diagram", "diagramcomponent/flowchart"));

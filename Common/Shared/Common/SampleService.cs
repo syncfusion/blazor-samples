@@ -337,7 +337,7 @@ namespace BlazorDemos.Shared
                         this.CurrentSampleUrl = this.SampleInfo.Url;
                         var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                         {
-                            ["theme"] = "fluent"
+                            ["theme"] = "fluent2"
                         });
                         urlHelper.NavigateTo(newUri);
                     }

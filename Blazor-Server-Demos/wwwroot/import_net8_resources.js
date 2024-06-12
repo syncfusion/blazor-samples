@@ -88,6 +88,7 @@ function samplePageAssets() {
             '/scripts/common/highlight.min.js',
             '/scripts/common/index.min.js',
             '/scripts/image-editor.min.js',
+            '/scripts/richtexteditor.min.js',
             '/styles/common/dark-theme.min.css',
         ];
     } else {
@@ -103,6 +104,7 @@ function samplePageAssets() {
             '/scripts/common/highlight.min.js',
             '/scripts/common/index.js',
             '/scripts/image-editor.js',
+            '/scripts/richtexteditor.js',
             '/styles/common/dark-theme.css',
         ]; }
     assetFiles.forEach((file) => {

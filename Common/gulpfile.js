@@ -4,7 +4,7 @@ var gulp = require('gulp');
 var fs = require('fs');
 var path = require('path');
 var concat = require('gulp-concat');
-var cssmin = require('gulp-cssmin');
+var exec = require('gulp-exec');
 var uglify = require('gulp-uglify');
 var merge = require('merge-stream');
 var bundleConfig = require('./bundleconfig.json');
@@ -28,8 +28,8 @@ gulp.task('min:css', async function () {
     merge(getBundles(REGEX.css).map(bundle => {
         return gulp.src(bundle.inputFiles, { base: '.' })
             .pipe(concat(bundle.outputFileName))
-            .pipe(cssmin())
-            .pipe(gulp.dest('.'));
+            .pipe(gulp.dest('.'))
+            .pipe(exec("csso "+ bundle.outputFileName + " --output " + bundle.outputFileName));
     }))
 });
 

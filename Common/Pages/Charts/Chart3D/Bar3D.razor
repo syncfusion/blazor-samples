@@ -1,0 +1,77 @@
+﻿@page "/chart-3d/bar"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Chart3D
+@using ThemeHelper
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This sample visualizes GDP data by country for the year 2017 using bar series in a 3D chart. The 3D bar chart can be rotated and viewed from different angles by dragging with the mouse or double tap and drag to rotate.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render and configure a 3D bar chart. Unlike the 3D column chart, the 3D bar chart features a horizontal orientation for the y-axis instead of a vertical one. 
+        Additionally, the <code>LabelFormat</code> property of the 3D chart axis is utilized to render the axis labels in a specified format category.
+    </p>
+</ActionDescription>
+
+<div class="control-section" align="center">
+    <SfChart3D EnableRotation="true" RotationAngle="22" Depth="100" Width="@Width" Height="@Height" Title="GDP Percentage by Country in 2017" Theme="@Theme">
+        <Chart3DPrimaryXAxis ValueType="Syncfusion.Blazor.Chart3D.ValueType.Category" LabelPlacement="LabelPlacement.BetweenTicks"></Chart3DPrimaryXAxis>
+        <Chart3DPrimaryYAxis LabelFormat="{value}%" Maximum="@Maximum" Interval="@Interval" EdgeLabelPlacement="EdgeLabelPlacement.Shift"></Chart3DPrimaryYAxis>
+        <Chart3DSeriesCollection>
+            <Chart3DSeries DataSource="@Bar3DPoints" XName="X" YName="Y" Name="GDP" ColumnSpacing="0.1" Type="Chart3DSeriesType.Bar"></Chart3DSeries>
+            <Chart3DSeries DataSource="@Bar3DPoints1" XName="X" YName="Y" Name="Share in World's GDP" ColumnSpacing="0.1" Type="Chart3DSeriesType.Bar"></Chart3DSeries>
+        </Chart3DSeriesCollection>
+        <Chart3DTooltipSettings Enable="true"></Chart3DTooltipSettings>
+        <Chart3DLegendSettings EnableHighlight="true"></Chart3DLegendSettings>
+    </SfChart3D>
+</div>
+
+@code {
+    private Theme Theme { get; set; }
+    public string Width { get; set; }
+    public string Height { get; set; } = "400";
+    public double Interval { get; set; }
+    public double Maximum { get; set; }
+    public List<BarChart3DData> Bar3DPoints { get; set; } = new List<BarChart3DData>
+    {
+         new BarChart3DData { X= "Japan", Y= 1.71 },
+         new BarChart3DData { X= "France", Y= 1.82 },
+         new BarChart3DData { X= "India", Y= 6.68 },
+         new BarChart3DData { X= "Germany", Y= 2.22 },
+         new BarChart3DData { X= "Italy", Y= 1.50 },
+         new BarChart3DData { X= "Canada", Y= 3.05 }
+    };
+
+    public List<BarChart3DData> Bar3DPoints1 { get; set; } = new List<BarChart3DData>
+    {
+         new BarChart3DData { X= "Japan", Y= 6.02 },
+         new BarChart3DData { X= "France", Y= 3.19 },
+         new BarChart3DData { X= "India", Y= 3.28 },
+         new BarChart3DData { X= "Germany", Y= 4.56 },
+         new BarChart3DData { X= "Italy", Y= 2.40 },
+         new BarChart3DData { X= "Canada", Y= 2.04 }
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        Width = SampleService.IsDevice ? "100%" : "70%";
+        Interval = SampleService.IsDevice ? 2 : 1;
+        Maximum = SampleService.IsDevice ? 8 : 7;
+    }
+
+    public class BarChart3DData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+}

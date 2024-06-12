@@ -35,6 +35,16 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Disabled Items",
+                Category = "Dropdown List",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDown-List/DisabledItems",
+                FileName = "DisabledItems.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @" Added the Disabled Items support for the DropdownList." }
+            },
+            new Sample
+            {
                 Name = "Filtering",
                 Category = "Dropdown List",
                 Directory = "DropDowns/DropDownList",
@@ -85,8 +95,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated,
-				NotificationDescription = new string[]{ @"The virtualization demo has been updated to include the feature of support for grouping data." }
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -170,6 +179,16 @@ namespace BlazorDemos
                 FileName = "DataBinding.razor",
                 Type = SampleType.None
             },
+            new Sample
+            {
+                Name = "Disabled Items",
+                Category = "ComboBox",
+                Directory = "DropDowns/DropDownList",
+                Url = "ComboBox/DisabledItems",
+                FileName = "DisabledItems.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @" Added the Disabled Items support for the ComboBox." }
+            },
            new Sample
             {
                 Name = "Cascading",
@@ -231,8 +250,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated,
-				NotificationDescription = new string[]{ @"The virtualization demo has been updated to include the feature of support for grouping data." }
+                Type = SampleType.None,
             },
              new Sample
             {
@@ -271,7 +289,17 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Data-Binding",
                 FileName = "DataBinding.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+            },
+            new Sample
+            {
+                Name = "Disabled Items",
+                Category = "AutoComplete",
+                Directory = "DropDowns/DropDownList",
+                Url = "AutoComplete/DisabledItems",
+                FileName = "DisabledItems.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @" Added the Disabled Items support for the AutoComplete." }
             },
             new Sample
             {
@@ -307,8 +335,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated,
-				NotificationDescription = new string[]{ @"The virtualization demo has been updated to include the feature of support for grouping data." }
+                Type = SampleType.None,
             },
              new Sample
             {
@@ -357,6 +384,16 @@ namespace BlazorDemos
                 Url = "MultiSelect-Dropdown/Data-Binding",
                 FileName = "DataBinding.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Disabled Items",
+                Category = "MultiSelect Dropdown",
+                Directory = "DropDowns/DropDownList",
+                Url = "MultiSelect-Dropdown/DisabledItems",
+                FileName = "DisabledItems.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @" Added the Disabled Items support for the MultiSelect Dropdown." }
             },
              new Sample
             {
@@ -428,7 +465,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @" The virtualization demo has been updated to include the feature of supporting UI virtualization, which improves MultiSelect Dropdown performance through UI virtualization, element reduction, and progressive updating of items." }
             },
             new Sample
             {

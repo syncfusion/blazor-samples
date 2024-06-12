@@ -49,5 +49,15 @@ namespace PointRender
         internal static List<string> Material3DarkColors { get; set; } = new List<string>()
         { "#4EAAFF", "#FA4EAB", "#FFF500", "#17EA58", "#38FFE7", "#FF9E45", "#B3F32F", "#B93CE4", "#FC5664",
           "#9B55FF" };
+        internal static List<string> Fluent2Colors { get; set; } = new List<string>()
+        { "#6200EE", "#09AF74", "#0076E5", "#CB3587", "#E7910F", "#0364DE", "#66CD15", "#F3A93C", "#107C10",
+            "#C19C00"};
+        internal static List<string> Fluent2DarkColors { get; set; } = new List<string>()
+        { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B",
+            "#C19C00"};
+        internal static List<string> Fluent2HighContrastColors { get; set; } = new List<string>()
+        { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B",
+            "#C19C00"};
+
     };
 }

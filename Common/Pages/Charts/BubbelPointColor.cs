@@ -49,5 +49,14 @@ namespace PointRender
         internal static List<string> Material3DarkColors { get; set; } = new List<string>()
         { "rgba(78, 170, 255, 0.5)", "rgba(250, 78, 171, 0.5)", "rgba(255, 245, 0, 0.5)", "rgba(23, 234, 88, 0.5)", "rgba(56, 255, 231, 0.5)", "rgba(255, 158, 69, 0.5)", "rgba(179, 243, 47, 0.5)",
           "rgba(185, 60, 228, 0.5)", "rgba(252, 86, 100, 0.5)", "rgba(155, 85, 255, 0.5)" };
+        internal static List<string> Fluent2Colors { get; set; } = new List<string>()
+        { "rgba(98, 0, 238, 0.5)", "rgba(9, 175, 116, 0.5)", "rgba(0, 118, 229, 0.5)", "rgba(203, 53, 135, 0.5)", "rgba(231, 145, 15, 0.5)", "rgba(3, 100, 222, 0.5)", "rgba(102, 205, 21, 0.5)",
+        "rgba(243, 169, 60, 0.5)", "rgba(16, 124, 16, 0.5)", "rgba(193, 156, 0, 0.5)"};
+        internal static List<string> Fluent2DarkColors { get; set; } = new List<string>()
+        { "rgba(155, 180, 73, 0.5)", "rgba(42, 114, 213, 0.5)", "rgba(67, 183, 134, 0.5)", "rgba(63, 87, 154, 0.5)", "rgba(88, 78, 198, 0.5)", "rgba(232, 95, 156, 0.5)", "rgba(110, 122, 137, 0.5)",
+        "rgba(234, 98, 102, 0.5)", "rgba(11, 106, 11, 0.5)", "rgba(193, 156, 0, 0.5)"};
+        //internal static List<string> Fluent2HighContrastColors { get; set; } = new List<string>()
+        //{ "rgba(155, 180, 73, 0.5)", "rgba(42, 114, 213, 0.5)", "rgba(67, 183, 134, 0.5)", "rgba(63, 87, 154, 0.5)", "rgba(88, 78, 198, 0.5)", "rgba(232, 95, 156, 0.5)", "rgba(110, 122, 137, 0.5)",
+        //"rgba(234, 98, 102, 0.5)", "rgba(11, 106, 11, 0.5)", "rgba(193, 156, 0, 0.5)"};
     };
 }

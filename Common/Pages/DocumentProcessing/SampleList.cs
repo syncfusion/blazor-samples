@@ -216,27 +216,50 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "LaTeX",
+                Name = "Create using LaTeX",
                 Category = "Mathematical Equation",
                 Directory = "DocumentProcessing/Word",
-                Url = "word/latex",
-                FileName = "LaTeX.razor",
-                MetaDescription = "This example demonstrates how to create an equation using LaTeX in the Blazor Word (DocIO) Library",
+                Url = "word/create-using-latex",
+                FileName = "CreateUsingLaTeX.razor",
+                MetaDescription = "This example demonstrates the create equation using LaTeX in Blazor Word (DocIO) library. Explore here for more details.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CreateUsingLaTeX",
+                        FileName="CreateUsingLaTeX.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CreateUsingLaTeXService",
+                        FileName="CreateUsingLaTeXService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Edit using LaTeX",
+                Category = "Mathematical Equation",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/edit-using-latex",
+                Type = SampleType.New,
+                FileName = "EditUsingLaTeX.razor",
+                MetaDescription = "This example demonstrates the edit equation using LaTeX in Blazor Word (DocIO) library. Explore here for more details.",
                 NotificationDescription = new string[]
                 {
-                    @"Provided support to create a mathematical equation using LaTeX in a Word document."
+                    @"Provided support to edit equation using LaTeX in Word document."
                 },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
                     {
-                        Id="LaTeX",
-                        FileName="LaTeX.razor"
+                        Id="EditUsingLaTeX",
+                        FileName="EditUsingLaTeX.razor"
                     },
                     new SourceCollection
                     {
-                        Id="LaTeXService",
-                        FileName="LaTeXService.cs"
+                        Id="EditUsingLaTeXService",
+                        FileName="EditUsingLaTeXService.cs"
                     }
                 }
             },
@@ -668,10 +691,6 @@ namespace BlazorDemos
                 Url = "word/compare-documents",
                 FileName = "CompareDocuments.razor",
                 MetaDescription = "This example demonstrates comparing two Word documents in Blazor Word (DocIO) Library. Explore here for more details.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to compare two Word documents. It helps the user easily identify the changes between two versions of a document."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -715,13 +734,8 @@ namespace BlazorDemos
                 Category = "Reference",
                 Directory = "DocumentProcessing/Word",
                 Url = "word/table-of-figures",
-                Type = SampleType.New,
                 FileName = "TableOfFigures.razor",
                 MetaDescription = "This example demonstrates the Table of Figures in Blazor Word Library (DocIO). Explore here for more details.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to insert and update table of figures in Word document."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -813,6 +827,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-image",
                 FileName = "PPTXToImage.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to convert the PowerPoint slide to an image.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -835,7 +850,12 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to convert a PowerPoint presentation to PDF.",
+                NotificationDescription = new string[]
+                {
+                    @"Provided support to preserve the highlight color in PowerPoint Presentation to PDF and image conversions."
+                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -924,6 +944,9 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/find-and-highlight",
                 FileName = "FindAndHighlight.razor",
+#if !(WASM) && !WEBAPP
+                Type = SampleType.Updated,
+#endif
                 MetaDescription = "This sample demonstrates how to find a specific text and highlight it in an existing PowerPoint presentation using Find functionality of .NET PowerPoint library.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -993,12 +1016,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/image",
                 FileName = "Image.razor",
-                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to add and format images in PowerPoint Presentation.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to crop images in PowerPoint Presentation."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1278,7 +1296,7 @@ namespace BlazorDemos
                     }
                 }
             },
-            new Sample
+             new Sample
             {
                 Name = "Call Center Dashboard",
                 Category = "Product Showcase",
@@ -1555,7 +1573,7 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "What-If Analysis",
+                Name = "What-If Analysis" ,
                 Category = "Data Management",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/WhatIfAnalysis",
@@ -1630,7 +1648,7 @@ namespace BlazorDemos
                 Type = SampleType.Updated,
 	        NotificationDescription = new string[]
 		{
-		     @"Provided line cap formatting and dashed line support in chart to image conversion."
+		     @"Provided error bar support in chart to image conversion and gradient fill support for conditional formatting in Excel to PDF conversion."
 		},
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1714,7 +1732,7 @@ namespace BlazorDemos
             },
              new Sample
             {
-                Name = "PivotTable",
+                Name = "Pivot Table",
                 Category = "Business Intelligence",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/PivotTable",
@@ -1731,6 +1749,32 @@ namespace BlazorDemos
                     {
                         Id="PivotTableService",
                         FileName="PivotTableService.cs"
+                    }
+                }
+            },
+			new Sample
+            {
+                Name = "Pivot Table Layout",
+                Category = "Business Intelligence",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/PivotTableLayout",
+                MetaDescription = " Click the \"Create Document\" button to view the created Excel document and click the \"Customize Pivot Table\" button to view the Excel document created with customized pivot table. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document..",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+		{
+		     @"Provided support for show values row in pivot table layout."
+		},
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="PivotTableLayout",
+                        FileName="PivotTableLayout.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="PivotTableLayoutService",
+                        FileName="PivotTableLayoutService.cs"
                     }
                 }
             },

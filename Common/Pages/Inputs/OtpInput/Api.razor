@@ -1,0 +1,170 @@
+@page "/otp-input/api"
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the properties available in the OTP Input component.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample can be customized further with the combination of OTP Input properties from the property pane. For example,
+    </p>
+    <ul>
+        <li>The input style can be changed by selecting the Styling Mode dropdownlist from the property pane.</li>
+        <li>The validation state can be changed by selecting the Validation Status dropdownlist from the property pane.</li>
+        <li>The hint placeholder character can be updated by using the Placeholder textbox from the property pane.</li>
+        <li>The separator character (-) can be updated by using the Separator textbox from the property pane.</li>
+        <li>The input field length can be changed by using the Length numerictextbox from the property pane.</li>
+        <li>Enable or Disable the OTP Input by toggling the Disabled switcher button.</li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div id="otp-container">
+        <SfOtpInput StylingMode="@StyleMode" @ref="otpInput" Disabled=@Disabled Value="@OtpInputValue" Length=@Length Separator="@Seperator" Placeholder="@PlaceHolder" CssClass="@CssClass"></SfOtpInput>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties">
+                <tr>
+                    <td class="property-styles">Styling Mode</td>
+                    <td>
+                        <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@StyleListData" @bind-Value="@DefaultValue" PopupHeight="200px">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="DropDownModel" ValueChange="@ChangeStyle" />
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="property-styles">Validation Status</td>
+                    <td>
+                        <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@ValidationData" @bind-Value="@ValidationValue" PopupHeight="200px">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="DropDownModel" ValueChange="@Validation" />
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="plcaeholder" class="property-styles"> Placeholder </label></td>
+                    <td>
+                        <SfTextBox CssClass="e-underline" @bind-Value="@PlaceHolder" maxlength="@textBoxLength" Type=InputType.Text Input="@InputHandler"></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="separator" class="property-styles"> Separator </label></td>
+                    <td><SfTextBox CssClass="e-underline" @bind-Value="@Seperator" maxlength="1" Type=InputType.Text Input="@ChangeSeperator"></SfTextBox></td>
+                </tr>
+                <tr>
+                    <td><label for="length" class="property-styles"> Length </label></td>
+                    <td>
+                        <SfNumericTextBox TValue="int?" Min=1 Max=10 @bind-Value=@NumericValue>
+                            <NumericTextBoxEvents TValue="int?" ValueChange="ValueChangeHandler"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="disabled" class="property-styles"> Disabled </label></td>
+                    <td> <SfSwitch ValueChange="@Change" TChecked="bool?"></SfSwitch> </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    private SfOtpInput otpInput;
+    private string CssClass;
+    private string DefaultValue { get; set; } = "Outlined";
+    private string ValidationValue { get; set; } = "None";
+    private bool Disabled { get; set; } = false;
+    private string PlaceHolder { get; set; } = "x";
+    private string Seperator { get; set; } = "-";
+    private string OtpInputValue { get; set; } = "5201";
+    private int Length { get; set; } = 4;
+    private int? NumericValue { get; set; } = 4;
+    private int? textBoxLength { get; set; } = 4;
+    private OtpInputStyle StyleMode { get; set; } = OtpInputStyle.Outlined;
+    public class DropDownModel
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+    private List<DropDownModel> StyleListData = new List<DropDownModel>()
+    {
+        new DropDownModel { Text = "Outlined", Value = "Outlined" },
+        new DropDownModel { Text = "Underlined", Value = "Underlined" },
+        new DropDownModel { Text = "Filled", Value = "Filled" }
+    };
+    private List<DropDownModel> ValidationData = new List<DropDownModel>()
+    {
+        new DropDownModel { Text = "None", Value = "None" },
+        new DropDownModel { Text = "Success", Value = "success" },
+        new DropDownModel { Text = "Warning", Value = "warning" },
+        new DropDownModel { Text = "Error", Value = "error" }
+    };
+    private void ChangeStyle(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownModel> args)
+    {
+        OtpInputValue = otpInput.Value;
+        StyleMode = (OtpInputStyle)Enum.Parse(typeof(OtpInputStyle), args.Value.ToString());
+    }
+    private void Validation(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownModel> args)
+    {
+        OtpInputValue = otpInput.Value;
+        CssClass = args.Value == "None" ? "" : "e-" + args.Value.ToString();
+    }
+    private void Change(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        OtpInputValue = otpInput.Value;
+        Disabled = (bool)args.Checked;
+    }
+    private void InputHandler(InputEventArgs args)
+    {
+        OtpInputValue = otpInput.Value;
+        PlaceHolder = args.Value.ToString();
+    }
+    private void ChangeSeperator(InputEventArgs args)
+    {
+        OtpInputValue = otpInput.Value;
+        Seperator = args.Value.ToString();
+    }
+    private void ValueChangeHandler(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        OtpInputValue = otpInput.Value;
+        textBoxLength = Length = args.Value == 0 ? 4 : Convert.ToInt32(args.Value);
+    }
+}
+
+<style>
+
+    #otp-container {
+        width: 240px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 420px;
+    }
+
+    .property-panel-content td {
+        padding: 10px 0px;
+        width: 35%;
+    }
+
+    .property-styles {
+        font-weight: 400;
+    }
+
+</style>

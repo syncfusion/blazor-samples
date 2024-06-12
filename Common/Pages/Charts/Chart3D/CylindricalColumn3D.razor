@@ -1,0 +1,243 @@
+﻿@page "/chart-3d/cylinder"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Chart3D
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This sample visualizes passenger car production in selected countries for 2021 using a 3D cylindrical column chart. Tapping or mouse over the data points reveals detailed tooltips, providing specific information about each data point.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see the rendering and configuration of a 3D cylindrical column chart. This type of chart is similar to a 3D column chart but features distinct cylindrical shapes. To render the chart with cylindrical columns, the <code>ColumnFacet</code> property of the 3D chart series must be set to the cylindrical shape type.
+    </p>
+</ActionDescription>
+
+<div class="control-section" align="center">
+    <SfChart3D WallColor="transparent" RotationAngle="7" TiltAngle="10" Depth="100" Width="@Width" Height="@Height" Title="Passenger Car Production in Selected Countries – 2021" Theme="@Theme" PointRendering="Point3DRender" AxisLabelRendering="AxisLabelRender">
+        <Chart3DPrimaryXAxis ValueType="Syncfusion.Blazor.Chart3D.ValueType.Category" Interval="1" LabelRotationAngle="-45" LabelPlacement="LabelPlacement.BetweenTicks"></Chart3DPrimaryXAxis>
+        <Chart3DPrimaryYAxis Maximum="4" Interval="1"></Chart3DPrimaryYAxis>
+        <Chart3DSeriesCollection>
+            <Chart3DSeries DataSource="@Chart3DPoints" XName="X" YName="Y" ColumnWidth="0.9" Type="Chart3DSeriesType.Column" ColumnFacet="Chart3DShapeType.Cylinder"></Chart3DSeries>
+        </Chart3DSeriesCollection>
+        <Chart3DTooltipSettings Enable="true" Header="${point.x}" Format="Car Production : <b>${point.y}M"></Chart3DTooltipSettings>
+    </SfChart3D>
+</div>
+
+@code {
+    private Theme Theme { get; set; }
+    public string Width { get; set; }
+    public string Height { get; set; } = "400";
+    public List<ColumnChart3DData> Chart3DPoints { get; set; } = new List<ColumnChart3DData>
+    {
+         new ColumnChart3DData { X= "Czechia", Y= 1.11 },
+         new ColumnChart3DData { X= "Spain", Y= 1.66 },
+         new ColumnChart3DData { X= "USA", Y= 1.56 },
+         new ColumnChart3DData { X= "Germany", Y= 3.1 },
+         new ColumnChart3DData { X= "Russia", Y= 1.35 },
+         new ColumnChart3DData { X= "Slovakia", Y= 1 },
+         new ColumnChart3DData { X= "South Korea", Y= 3.16 },
+         new ColumnChart3DData { X= "France", Y= 0.92 }
+    };
+
+    protected override void OnInitialized()
+    {
+        Set3DTheme(null);
+        Width = SampleService.IsDevice ? "100%" : "75%";
+    }
+
+    public void AxisLabelRender(Chart3DAxisLabelRenderEventArgs args)
+    {
+        if (args.Axis.Name == "PrimaryYAxis")
+        {
+            args.Text = args.Text + "M";
+        }
+    }
+
+    public void Point3DRender(Chart3DPointRenderEventArgs  args)
+    {
+        Set3DTheme(args);
+    }
+
+    private void Set3DTheme(Chart3DPointRenderEventArgs  args)
+    {
+        if (NavigationManager.Uri.IndexOf("material3") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.Material3Dark;
+                else
+                    args.Fill = PointColor.Material3DarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Material3;
+                else
+                    args.Fill = PointColor.Material3Colors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.MaterialDark;
+                else
+                    args.Fill = PointColor.MaterialDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Material;
+                else
+                    args.Fill = PointColor.MaterialColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FabricDark;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fabric;
+                else
+                    args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap5") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5Dark;
+                else
+                    args.Fill = PointColor.Bootstrap5DarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap5;
+                else
+                    args.Fill = PointColor.Bootstrap5Colors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fluent2") > -1)
+        {
+            // if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+            // {
+            //     if (args == null)
+            //         Theme = Theme.Fluent2HighContrast;
+            //     else
+            //         args.Fill = PointColor.Fluent2HighContrastColors[args.Point.Index % 10];
+            // }
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.Fluent2Dark;
+                else
+                    args.Fill = PointColor.Fluent2DarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fluent2;
+                else
+                    args.Fill = PointColor.Fluent2Colors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fluent") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.FluentDark;
+                else
+                    args.Fill = PointColor.FluentDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Fluent;
+                else
+                    args.Fill = PointColor.FluentColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap4") > -1)
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.BootstrapDark;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Bootstrap;
+                else
+                    args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("tailwind") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args == null)
+                    Theme = Theme.TailwindDark;
+                else
+                    args.Fill = PointColor.TailwindDarkColors[args.Point.Index % 10];
+            }
+            else
+            {
+                if (args == null)
+                    Theme = Theme.Tailwind;
+                else
+                    args.Fill = PointColor.TailwindColors[args.Point.Index % 10];
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            if (args == null)
+                Theme = Theme.HighContrast;
+            else
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        else
+        {
+            if (args == null)
+                Theme = Theme.Bootstrap4;
+            else
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+    }
+
+    public class ColumnChart3DData
+    {
+        public string X { get; set; }
+        public double Y { get; set; }
+    }
+}

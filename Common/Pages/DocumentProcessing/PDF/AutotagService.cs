@@ -131,6 +131,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             //Saving the PDF to the MemoryStream
             MemoryStream ms = new MemoryStream();
             document.Save(ms);
+	    document.Close(true);
             //If the position is not set to '0' then the PDF will be empty.
             ms.Position = 0;
 			

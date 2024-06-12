@@ -29,10 +29,215 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
+            <div>
+            <SfGantt @ref="Gantt" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@viewType" Height="450px" Width="100%"
+                     GridLines="@gridlines" WorkWeek="@week" WorkUnit="WorkUnit.Day" ProjectStartDate=@(new DateTime(2021, 12, 17)) ProjectEndDate="@(new DateTime(2022,10,26))" HighlightWeekends="true"
+                     AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue" EnableRowHover="true">
+                     @if(!ShowDependency)
+                     {
+                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
+                                 Duration="TimeLog" Progress="Progress" ParentID="ParentId">
+                    </GanttTaskFields>
+                     }
+                     else
+                     {
+                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
+                                 Duration="TimeLog" Dependency="Predecessor" Progress="Progress" ParentID="ParentId">
+                    </GanttTaskFields>
+                     }
+                    
+                    <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+                    <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="OverviewData.TaskData" TResources="OverviewData.ResourceInfoModel"></GanttResource>
+                    <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="Id" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="OverviewData.TaskData" TAssignment="OverviewData.AssignmentModel"></GanttAssignmentFields>
+                    <GanttColumns>
+                        <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
+                        <GanttColumn Field="TaskName" Width="250" HeaderText="Product Release" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="true" Freeze="FreezeDirection.Left"></GanttColumn>
+                        <GanttResourceColumn HeaderText="Assignee" Width="130" AllowEditing ="false" AllowFiltering="false" AllowSorting="false" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip">
+                            <Template>
+                                @{
+                                    var task = (context as OverviewData.TaskData);
+                                    var resource = Gantt.GetResources<OverviewData.ResourceInfoModel>(task);
+                                    string name = string.Empty;
+                                    if(resource != null && resource.Any())
+                                    {
+                                        name = resource[0].Name;
+                                        <div class="image">
+                                            <img style="height:25px; width:25px" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{name.Trim().Replace(" ","").ToLower()}.png")" aria-label="Profile Picture" />
+                                            <span>@name</span>
+                                        </div>
+                                    }
+                                }
+                            </Template>
+                        </GanttResourceColumn>
+                        <GanttColumn Field="Status" HeaderText="Status" MinWidth="100" Width="120" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
+                            <Template>
+                                @{
+                                    string statusString = (context as OverviewData.TaskData).Status;
+                                    if (!string.IsNullOrEmpty(statusString))
+                                    {
+                                        string statusStyle = GetStatusContentStyles(statusString);
+                                        <div><span style="@statusStyle">@statusString</span></div>
+                                    }
+                                }
+                            </Template>
+                        </GanttColumn>
+                        <GanttColumn Field="Priority" HeaderText="Priority" MinWidth="80" Width="100" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
+                            <Template>
+                                @{
+                                    string priorityString = (context as OverviewData.TaskData).Priority;
+                                    if (!string.IsNullOrEmpty(priorityString))
+                                    {
+                                        string statusStyle = this.GetPriorityContentStyle(priorityString);
+                                        <div><span style="@statusStyle">@priorityString</span></div>
+                                    }
+                                }
+                            </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="120"></GanttColumn>
+                    <GanttColumn Field="TimeLog" HeaderText="Work Log" Width="120"></GanttColumn>
+                </GanttColumns>
+                @if (TaskLabels)
+                {
+                    <GanttLabelSettings TValue="OverviewData.TaskData">
+                        <RightLabelTemplate>
+                            <div class="e-right-label-inner-div">
+                                @{
+                                        var record = (context as OverviewData.TaskData);
+                                        var resources = Gantt.GetResources<OverviewData.ResourceInfoModel>(record);
+                                        if (resources != null && resources.Any())
+                                        {
+                                            <span class="e-label">@resources[0].Name</span>
+                                        }
+                                }
+                                
+                            </div>
+                        </RightLabelTemplate>
+                    </GanttLabelSettings>
+                }
+                else
+                {
+                    <GanttLabelSettings  TValue="OverviewData.TaskData"></GanttLabelSettings>
+                }
+                <GanttTemplates TValue="OverviewData.TaskData">
+                    <TaskbarTemplate>
+                        @{
+                            var task = (context as OverviewData.TaskData);
+                            if (task == null)
+                            {
+                                return;
+                            }
+                            var taskModel = GetTaskData(task);
+                            if (task.Progress < 100 && task.Progress != 0)
+                            {
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 2)px">@task.Progress%</span>
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                                    </div>
+                                </div>
+                            }
+                            else if (task.Progress == 100)
+                            {
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                                    </div>
+                                </div>
+                            }
+                            if (task.Progress == 0)
+                            {
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");height:@(TaskbarHeightValue + "px")" tabindex=-1>
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </TaskbarTemplate>
+                    <ParentTaskbarTemplate>
+                        @{
+                            var task = (context as OverviewData.TaskData);
+                            if (task == null)
+                            {
+                                return;
+                            }
+                            var taskModel = GetTaskData(task);
+                            if (task.Progress < 100 && task.Progress != 0)
+                            {
+                                borderRadius = "0px";
+                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 20)px">@task.Progress%</span>
+                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
+                                    </div>
+                                </div>
+                            }
+                            else if (task.Progress == 100)
+                            {
+                                borderRadius = "4px";
+                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
+                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
+                                    </div>
+                                </div>
+                            }
+                            if (task.Progress == 0)
+                            {
+                                borderRadius = "0px";
+                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
+                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
+                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </ParentTaskbarTemplate>
+                </GanttTemplates>
+                    <SfToolbar ID="GanttOverview_Gantt_Toolbar">
+                        <ToolbarItems>
+                            <ToolbarItem Align="ItemAlign.Right" Text="View">
+                                <Template>
+                                @if (Settings)
+                                {
+                                    <SfButton class="settings-btn" IconCss="e-settings-icon" @onclick="onToggleClick">Settings</SfButton>
+                                }
+                                </Template>
+                            </ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_expandall" Text="Expand all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-expandall"></ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_collapseall" Text="Collapse all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-collapseall"></ToolbarItem>
+                         <ToolbarItem Id="GanttOverview_zoomin" Text="Zoom in" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomin"></ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_zoomout" Text="Zoom out" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomout"></ToolbarItem>
+                        <ToolbarItem Id="GanttOverview_zoomtofit" Text="Zoom fit" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomtofit"></ToolbarItem>
+                    </ToolbarItems>
+                </SfToolbar>
+
+                <GanttEventMarkers>
+                    @if (EventMarker)
+                    {
+                        <GanttEventMarker Day="@VolumeOneRelease" Label="Q-1 Release"
+                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                        <GanttEventMarker Day="@VolumeTwoRelease" Label="Q-2 Release"
+                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                        <GanttEventMarker Day="@VolumeThreeRelease" Label="Q-3 Release"
+                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                    }
+
+                </GanttEventMarkers>
+                         <GanttHolidays>
+                        <GanttHoliday From="@Holiday1" To="@Holiday2" Label="Christmas holidays"></GanttHoliday>
+                        <GanttHoliday From="@Holiday3" To="@Holiday4" Label="New year's' holiday"></GanttHoliday>
+                    </GanttHolidays>
+
+                    
+                    <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
+                        <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
+                        <GanttBottomTierSettings Unit="TimelineViewMode.Day" Format="dd" Count="4"></GanttBottomTierSettings>
+                    </GanttTimelineSettings>
+                    <GanttSplitterSettings Position="380px"> </GanttSplitterSettings>
+                </SfGantt>
+            </div>
             <div style="padding-left: 10px; padding-right: 20px;">
                     @if (IsSideBar)
                     {
-<SfSidebar class="default-sidebar" Width="280px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="SidebarToggle" >
+                    <SfSidebar class="default-sidebar" Width="280px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="SidebarToggle" >
                             <ChildContent>
 
                             <SfListView DataSource="@ListData"  CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
@@ -40,10 +245,12 @@
                                 <ListViewEvents TValue="DataModel"></ListViewEvents>
                                     <ListViewTemplates TValue="DataModel">
                                        <HeaderTemplate>
-                                            <div style="display: flex;justify-content: center; align-items: center; padding: 8px;" class="title">
-                                                @CurrentHeaderTitle
+                                            <div class="header-title">
+                                                <div>
+                                                    @CurrentHeaderTitle
+                                                </div>
+                                                <span class="e-close" @onclick="@Close" style="cursor:pointer"></span>
                                             </div>
-                                            <span id="close" class="e-close" @onclick="@Close" style="position: absolute;top: 23%;right: 7%;cursor:pointer"></span>
                                         </HeaderTemplate>
                                         <GroupTemplate>
                                             @{
@@ -174,197 +381,9 @@
                                     </ListViewTemplates>
                                 </SfListView>
                             </ChildContent>
-                        </SfSidebar>
+                    </SfSidebar>
                     }
                 </div>
-            </div>
-            <div>
-            <SfGantt @ref="Gantt" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@viewType" Height="450px" Width="100%"
-                     GridLines="@gridlines" WorkWeek="@week" WorkUnit="WorkUnit.Day" ProjectStartDate=@(new DateTime(2021, 12, 17)) ProjectEndDate="@(new DateTime(2022,10,26))" HighlightWeekends="true"
-                     AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue">
-                     @if(!ShowDependency)
-                     {
-                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
-                                 Duration="TimeLog"  ResourceInfo="Resources" Progress="Progress" ParentID="ParentId">
-                    </GanttTaskFields>
-                     }
-                     else
-                     {
-                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
-                                 Duration="TimeLog" Dependency="Predecessor" ResourceInfo="Resources" Progress="Progress" ParentID="ParentId">
-                    </GanttTaskFields>
-                     }
-                    
-                    <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
-                    <GanttResourceFields Resources="@ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="OverviewData.ResourceAlloacteData"></GanttResourceFields>
-                    <GanttColumns>
-                        <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
-                        <GanttColumn Field="TaskName" Width="250" HeaderText="Product Release" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="true" Freeze="FreezeDirection.Left"></GanttColumn>
-                        <GanttColumn Field="Assignee" HeaderText="Assignee" AllowFiltering="false" AllowSorting="false" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="130">
-                        <Template>
-                            @{
-                                if (!string.IsNullOrEmpty((context as OverviewData.TaskData).Assignee))
-                                {
-                                    var template = (context as OverviewData.TaskData).Assignee;
-                                    <div class="image">
-                                        <img style="height:25px; width:25px" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{template.Trim().Replace(" ","").ToLower()}.png")" aria-label="Profile Picture" />
-                                        <span>@template</span>
-                                    </div>
-                                }
-                            }
-                        </Template>
-                        </GanttColumn>
-                        <GanttColumn Field="Status" HeaderText="Status" MinWidth="100" Width="120" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
-                            <Template>
-                                @{
-                                    string statusString = (context as OverviewData.TaskData).Status;
-                                    if (!string.IsNullOrEmpty(statusString))
-                                    {
-                                        string statusStyle = GetStatusContentStyles(statusString);
-                                        <div><span style="@statusStyle">@statusString</span></div>
-                                    }
-                                }
-                            </Template>
-                        </GanttColumn>
-                        <GanttColumn Field="Priority" HeaderText="Priority" MinWidth="80" Width="100" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
-                            <Template>
-                                @{
-                                    string priorityString = (context as OverviewData.TaskData).Priority;
-                                    if (!string.IsNullOrEmpty(priorityString))
-                                    {
-                                        string statusStyle = this.GetPriorityContentStyle(priorityString);
-                                        <div><span style="@statusStyle">@priorityString</span></div>
-                                    }
-                                }
-                            </Template>
-                    </GanttColumn>
-                    <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="120"></GanttColumn>
-                    <GanttColumn Field="TimeLog" HeaderText="Work Log" Width="120"></GanttColumn>
-                </GanttColumns>
-                @if (TaskLabels)
-                {
-                    <GanttLabelSettings RightLabel="Assignee" TValue="OverviewData.TaskData"></GanttLabelSettings>
-                }
-                else
-                {
-                    <GanttLabelSettings  TValue="OverviewData.TaskData"></GanttLabelSettings>
-                }
-                <GanttTemplates TValue="OverviewData.TaskData">
-                    <TaskbarTemplate>
-                        @{
-                            var task = (context as OverviewData.TaskData);
-                            if (task == null)
-                            {
-                                return;
-                            }
-                            var taskModel = GetTaskData(task);
-                            if (task.Progress < 100 && task.Progress != 0)
-                            {
-                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 2)px">@task.Progress%</span>
-                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
-                                    </div>
-                                </div>
-                            }
-                            else if (task.Progress == 100)
-                            {
-                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
-                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
-                                    </div>
-                                </div>
-                            }
-                            if (task.Progress == 0)
-                            {
-                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");height:@(TaskbarHeightValue + "px")" tabindex=-1>
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
-                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </TaskbarTemplate>
-                    <ParentTaskbarTemplate>
-                        @{
-                            var task = (context as OverviewData.TaskData);
-                            if (task == null)
-                            {
-                                return;
-                            }
-                            var taskModel = GetTaskData(task);
-                            if (task.Progress < 100 && task.Progress != 0)
-                            {
-                                borderRadius = "0px";
-                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 20)px">@task.Progress%</span>
-                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
-                                    </div>
-                                </div>
-                            }
-                            else if (task.Progress == 100)
-                            {
-                                borderRadius = "4px";
-                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
-                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
-                                    </div>
-                                </div>
-                            }
-                            if (task.Progress == 0)
-                            {
-                                borderRadius = "0px";
-                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
-                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </ParentTaskbarTemplate>
-                </GanttTemplates>
-                    <SfToolbar ID="GanttOverview_Gantt_Toolbar">
-                        <ToolbarItems>
-                            <ToolbarItem Align="ItemAlign.Right" Text="View">
-                                <Template>
-                                @if (Settings)
-                                {
-                                    <SfButton class="settings-btn" IconCss="e-settings-icon" @onclick="onToggleClick">Settings</SfButton>
-                                }
-                                </Template>
-                            </ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_expandall" Text="Expand all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-expandall"></ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_collapseall" Text="Collapse all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-collapseall"></ToolbarItem>
-                         <ToolbarItem Id="GanttOverview_zoomin" Text="Zoom in" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomin"></ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_zoomout" Text="Zoom out" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomout"></ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_zoomtofit" Text="Zoom fit" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomtofit"></ToolbarItem>
-                    </ToolbarItems>
-                </SfToolbar>
-
-                <GanttEventMarkers>
-                    @if (EventMarker)
-                    {
-                        <GanttEventMarker Day="@VolumeOneRelease" Label="Q-1 Release"
-                                          CssClass="e-custom-event-marker"></GanttEventMarker>
-                        <GanttEventMarker Day="@VolumeTwoRelease" Label="Q-2 Release"
-                                          CssClass="e-custom-event-marker"></GanttEventMarker>
-                        <GanttEventMarker Day="@VolumeThreeRelease" Label="Q-3 Release"
-                                          CssClass="e-custom-event-marker"></GanttEventMarker>
-                    }
-
-                </GanttEventMarkers>
-                         <GanttHolidays>
-                        <GanttHoliday From="@Holiday1" To="@Holiday2" Label="Christmas holidays"></GanttHoliday>
-                        <GanttHoliday From="@Holiday3" To="@Holiday4" Label="New year's' holiday"></GanttHoliday>
-                    </GanttHolidays>
-
-                    
-                    <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
-                        <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
-                        <GanttBottomTierSettings Unit="TimelineViewMode.Day" Format="dd" Count="4"></GanttBottomTierSettings>
-                    </GanttTimelineSettings>
-                    <GanttSplitterSettings Position="380px"> </GanttSplitterSettings>
-                <GanttEvents TValue="OverviewData.TaskData" RowSelected="rowSelect"></GanttEvents>
-                </SfGantt>
             </div>
         </div>
     </div>
@@ -398,7 +417,7 @@
     public string parentTrackColor;
     public string progressValue { get; set; } = "white";
     public bool ShowDependency { get; set; } = true;
-    private List<OverviewData.ResourceAlloacteData> ResourceCollection { get; set; }
+    private List<OverviewData.ResourceInfoModel> ResourceCollection { get; set; }
     private List<string> Status = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
     private List<string> Priority = new List<string>() { "Low", "Normal", "High", "Critical" };
     public string borderRadius = "4px";
@@ -429,6 +448,7 @@
     private string filterHeaderFontWeight{ get; set; }
     private string filterBackground{ get; set; }
     private string labelTextColor{ get; set; }
+    private static List<OverviewData.AssignmentModel> AssignmentCollection { get; set; }
     // Specifies the ListView datasource.
     List<DataModel> ListData = new List<DataModel>();
     // Specifies the model class for ListView datasource.
@@ -439,17 +459,6 @@
         public string Category { get; set; }
         public int Order { get; set; }
         public List<DataModel> Child { get; set; }
-    }
-
-    public async Task rowSelect(RowSelectEventArgs<OverviewData.TaskData> args)
-    {
-        ToggleSidebarSettings();
-        await Task.CompletedTask;
-    }
-    private async Task ToggleSidebarSettings()
-    {
-        SidebarToggle = false;
-        Settings = true;
     }
     private void GanttViewTypes(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ViewTypes> args)
     {
@@ -742,6 +751,7 @@
             });
         this.TaskCollection = OverviewData.DataCollection();
         this.ResourceCollection = OverviewData.GetResources;
+        AssignmentCollection = OverviewData.GetAssignmentCollection();
         currentUri = Navigation.Uri;
         if (currentUri.Contains("fluent-dark"))
         {
@@ -1220,7 +1230,12 @@
     .e-listview .e-list-item.e-focused{
         background:none;
     }
-
+    .bootstrap5 .e-listview .e-list-item.e-focused{
+        color: #212529;
+    }
+    .highcontrast .e-listview .e-list-item.e-focused{
+        color: #fff;
+    }
     .bootstrap5 .e-listview .e-list-item,
     .bootstrap5-dark .e-listview .e-list-item{
         border:0px;
@@ -1332,5 +1347,12 @@
 
     .e-list-item:has(:hover){
         background-color:transparent !important;
+    }
+    .header-title{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        width:230px;
     }
     </style>

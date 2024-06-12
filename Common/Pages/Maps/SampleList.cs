@@ -117,9 +117,7 @@ namespace BlazorDemos
                Category = "Polygon",
                Directory = "Maps/Maps",
                Url = "maps/polygon",
-               FileName = "Polygon.razor",
-               Type = SampleType.Updated,
-               NotificationDescription = new string[]{ @"Added a demo to show a polygon shape rendering on top of the Maps main layer to highlight a specific region." }
+               FileName = "Polygon.razor"
            },
            new Sample
             {

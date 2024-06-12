@@ -14,6 +14,104 @@ namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
+        public List<Sample> TextArea { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                MetaTitle = "Blazor TextArea | Default Functionalities | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Default Functionalities",
+                MetaDescription = "This example of Blazor TextArea demonstrates the rendering of the textArea component using a default functionalities.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DefaultFunctionalities",
+                        FileName="DefaultFunctionalities.razor"
+                    },
+                },
+            },
+            new Sample
+            {
+                Name = "Floating Label",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/FloatingLabel",
+                FileName = "FloatingLabel.razor",
+                MetaTitle = "Blazor TextArea | Floating Label | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Floating Label",
+                MetaDescription = "The example below demonstrates the floating label functionality in the Blazor textArea component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Floating Label",
+                        FileName="FloatingLabel.razor"
+                    },
+                },
+            },
+            new Sample
+            {
+                Name = "Resize",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/Resize",
+                FileName = "Resize.razor",
+                MetaTitle = "Blazor TextArea | Resize | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Resize",
+                MetaDescription = "This Blazor TextArea example demonstrates how to adjust the size of the TextArea component dynamically using the ResizeMode property.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Resize",
+                        FileName="Resize.razor"
+                    },
+                },
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/FormsValidation",
+                FileName = "FormsValidation.razor",
+                MetaTitle = "Blazor TextArea | Validation | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - Validation",
+                MetaDescription = "This example of Blazor TextArea demonstrates the validation of the textArea component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Validation",
+                        FileName="FormsValidation.razor"
+                    },
+                },
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "TextArea",
+                Directory = "Inputs/TextArea",
+                Url = "TextArea/Api",
+                FileName = "Api.razor",
+                MetaTitle = "Blazor TextArea | API | Syncfusion Demos",
+                HeaderText = "Blazor TextArea - API",
+                MetaDescription = "This example of Blazor TextArea demonstrates how to dynamically update the column count, row count, max-length, enable, read only mode and show clear button of the textArea component.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="API",
+                        FileName="Api.razor"
+                    },
+                },
+            }
+        };
+        
         public List<Sample> TextBox { get; set; } = new List<Sample> {
             new Sample
             {
@@ -405,7 +503,31 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor"
             }
         };
-    }
+        public List<Sample> OtpInput { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "OtpInput",
+                Directory = "Inputs/OtpInput",
+                Url = "otp-input/default-functionalities",
+                FileName = "Default.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the basic features of the OTP Input component with its available input types such as Number, Text and Password."
+                }
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "OtpInput",
+                Directory = "Inputs/OtpInput",
+                Url = "otp-input/api",
+                FileName = "Api.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the usage of different API's available in the OTP Input component, such as StylingMode, Length, Placeholder, Separator, CssClass, and Disabled."
+                }
+            }
+        };
+  }
 
    
 

@@ -68,8 +68,6 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/linerouting",
                 FileName = "Routing.razor",
                 HeaderText="Example of Line Routing in Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate line routing in the Diagram Component. This sample emphasizes how to visualize the connectors that automatically re-route or move away if a shape is found on the connectors’ path." }
             },
             new Sample
             {
@@ -91,14 +89,23 @@ namespace Blazor_MAUI_Demos
             },
             new Sample
             {
+                Name = "Rulers",
+                Category = "Getting Started",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/rulers",
+                FileName = "Rulers.razor",
+                HeaderText="Example of Rulers in Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to demonstrate adding rulers to the Diagram Component. This sample emphasizes how to visualize and customize ruler which is used to measure and position diagram elements." },
+            },
+            new Sample
+            {
                 Name = "Swimlanes",
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/swimlane",
                 FileName = "SwimlaneSample.razor",
                 HeaderText="Example of Swimlanes in Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate swimlane shapes in the Diagram Component. This sample emphasizes how to visualize the sales processing flow chart with the help of the built-in swimlane shapes." }
             },
             new Sample
             {

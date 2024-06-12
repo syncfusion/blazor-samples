@@ -39,12 +39,7 @@ namespace BlazorDemos
                  Category = "Mail Merge",
                  Directory = "DocumentEditor/DocumentEditor",
                  Url = "document-editor/mail-merge",
-                 FileName = "MailMerge.razor",
-                 Type = SampleType.New,
-                 NotificationDescription = new string[]
-                {
-                 @"Added a demo to showcase performing mail merge using the Document Editor."
-                }
+                 FileName = "MailMerge.razor"
              },
              new Sample
             {
@@ -52,12 +47,7 @@ namespace BlazorDemos
                 Category = "Review",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/comments",
-                FileName = "Comments.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]
-                {
-                 @"Updated the demo to showcase the design improvement for the comment resolved state."
-                }
+                FileName = "Comments.razor"
             },
             new Sample
             {
@@ -97,13 +87,7 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/color-picker-customization",
-                FileName = "ColorPickerCustomization.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                 @"Added a demo to showcase options to customize the color picker used inside the Document Editor."
-                }
-                
+                FileName = "ColorPickerCustomization.razor"                
             },
             
             new Sample
@@ -144,13 +128,7 @@ namespace BlazorDemos
                 Category = "View",
                 Directory = "DocumentEditor/DocumentEditor",
                 Url = "document-editor/heading-navigation",
-                FileName = "HeadingNavigationPane.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                 @"Added a demo to showcase the heading navigation support in the Document Editor."
-                }
-                
+                FileName = "HeadingNavigationPane.razor"                
             },
             new Sample
             {

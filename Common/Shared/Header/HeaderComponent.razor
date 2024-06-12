@@ -5,37 +5,7 @@
 @inject IJSRuntime JsRuntime;
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
-@{
-    <script>
-        function updateButtonTheme() {
-            var currentURL = window.location.href;
-            if (currentURL.includes("-dark")) {
-                document.getElementById("buttoncolor").style.color = "#FFFFFF";
-                document.getElementById("darkThemeIcon").style.display = "none";
-                document.getElementById("lightThemeIcon").style.display = "inline-block";
-                document.getElementById("themeSwitch").textContent = "Light";
-                document.getElementById("themeSwitch").style.marginLeft = "4px";
-            } else {
-                document.getElementById("buttoncolor").style.color = "#000";
-                document.getElementById("lightThemeIcon").style.display = "none";
-                document.getElementById("darkThemeIcon").style.display = "inline-block";
-                document.getElementById("themeSwitch").textContent = "Dark";
-                document.getElementById("themeSwitch").style.marginLeft = "2px";
-            }
-            highContrast();
-        }
-        window.addEventListener('DOMContentLoaded', updateButtonTheme);
-        function highContrast() {
-            // Check if the URL ends with "highcontrast"
-            if (window.location.href.endsWith("highcontrast")) {
-                // Get the div element by its id
-                var themeSwitchDiv = document.getElementById("themeSwitchDiv");
-                // Hide the div by setting its display property to "none"
-                themeSwitchDiv.style.display = "none";
-            }
-        }
-    </script>
-}
+
 <div id='sample-header' class="sb-header e-view" role="banner">
     <div class='sb-header-left sb-left sb-table'>
         <div class='sb-header-item sb-table-cell'>
@@ -65,7 +35,7 @@
                          }
                           @if (currentTheme == context.ID)
                          {
-                          
+
                              <span class="sb-icons sf-theme-selection-icon"></span>
                          } 
                        
@@ -219,11 +189,6 @@
 </div>
 }
 </div>
-<script>
-    
-
-</script>
-
 @code {
     private string searchClass { get; set; }
     private string currentTheme { get; set; }
@@ -268,18 +233,21 @@
     private void OnThemeChange(DropDownData args)
     {
         var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
-
+        var themeModeCheck = currentTheme;
+        if (currentTheme.Contains("-dark"))
+        {
+            currentTheme = currentTheme.Replace("-dark", "");
+        }
         if (currentTheme != args.ID)
         {
             var url = SampleUtils.GetThemeUrl(UriHelper, args.ID);
             // Check if the current theme contains "dark"
-            if (currentTheme.Contains("dark") && args.ID != "highcontrast")
+            if (themeModeCheck.Contains("dark") && args.ID != "highcontrast")
             {
                 // Append "-dark" to the URL
                 url += "-dark";
             }
 
-            UriHelper.NavigateTo(url, true);
             UriHelper.NavigateTo(url, true);
         }
     }

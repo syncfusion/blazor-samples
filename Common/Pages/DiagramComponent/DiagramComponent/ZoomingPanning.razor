@@ -4,7 +4,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
 @using shapes = Syncfusion.Blazor.Diagram.NodeShapes
-
+@using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @implements IDisposable
@@ -320,7 +320,7 @@
     </div>
     <div id="diagram-space" class="content-wrapper" style="width:100%">
         <div  style="border:1px solid #d7d7d7; width: 100%; height: 100%;">
-        <SfDiagramComponent @ref="@diagram" Width="100%" Height="900px" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" InteractionController="@DiagramTool">
+        <SfDiagramComponent @ref="@diagram" Width="100%" Height="900px" SelectionChanged="OnSelectionChanged" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" InteractionController="@DiagramTool">
             <ScrollSettings @bind-ScrollLimit="@scrollLimit" CurrentZoomChanged = "@ZoomChanged"></ScrollSettings>
             <DataSourceSettings ID="EmployeeID" ParentID="ParentID" DataSource="DataSource"> </DataSourceSettings>
             <Layout @bind-Type="Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@HorizontalAlignment" @bind-VerticalAlignment="@VerticalAlignment" GetLayoutInfo="GetLayoutInfo">
@@ -568,7 +568,20 @@
         }
         reset = false;
     }
-
+    private void OnSelectionChanged(SelectionChangedEventArgs args)
+    {
+        if (diagram.SelectionSettings.Nodes.Count > 0)
+        {
+            view = false;
+            center = false;
+        }
+        else
+        {
+            view = true;
+            center = true;
+        }
+         
+    }
     private void OnPointerClick()
     {
         DiagramTool = DiagramInteractions.SingleSelect | DiagramInteractions.MultipleSelect;

@@ -20,7 +20,7 @@ namespace Blazor_MAUI_Demos
                 Type = SampleType.Updated,
                 Samples = DataGrid,
                 ControllerName = "DataGrid",
-                DemoPath = "datagrid/overview"
+                DemoPath = "datagrid/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -51,6 +51,17 @@ namespace Blazor_MAUI_Demos
                 Samples = Chart,
                 ControllerName = "Chart",
                 DemoPath = "chart/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "3D Chart",
+                Category = "Data Visualization",
+                Directory = "Charts",
+                Type = SampleType.Preview,
+                Samples = Chart3D,
+                ControllerName = "Chart3D",
+                DemoPath = "chart-3d/column",
+                IsPreview = true
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -542,6 +553,17 @@ namespace Blazor_MAUI_Demos
                 Samples = RangeSlider,
                 ControllerName = "RangeSlider",
                 DemoPath = "range-slider/default"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "TextArea",
+                Category = "Inputs",
+                Directory = "Inputs",
+                Type = SampleType.Preview,
+                IsPreview = true,
+                Samples = TextArea,
+                ControllerName = "TextArea",
+                DemoPath = "textarea/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {

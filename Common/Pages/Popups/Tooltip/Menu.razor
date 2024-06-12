@@ -4,18 +4,20 @@
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.Lists
+@inject IJSRuntime JsRuntime;
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
+@implements IDisposable;
 @inject NavigationManager NavigationManager
 
 
 @*End:Hidden*@
 
 <SampleDescription>
-    This sample demonstrates how to customize the <a href='https://www.syncfusion.com/blazor-components/blazor-tooltip' target='_blank' aria-label="Blazor Tooltip">Blazor Tooltip</a> component to show the list of menu items as its content.
+    This sample demonstrates how to customize the <a href='https://www.syncfusion.com/blazor-components/blazor-tooltip' target='_blank' aria-label="Feature Tour of Blazor Tooltip">Blazor Tooltip</a> component to show the list of menu items as its content.
 </SampleDescription>
 <ActionDescription>
-    <code>Tooltip</code> has been integrated with the <a href='https://www.syncfusion.com/blazor-components/blazor-listview' target='_blank' aria-label="ListView">ListView</a> component to display the tooltip menu. With the help of the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Popups.SfTooltip.html#Syncfusion_Blazor_Popups_SfTooltip_OnRender' target='_blank' aria-label="OnRender">OnRender</a> event, the template content of tooltip will be changed to show a different ListView, which appears like a menu. On clicking the toolbar items, the corresponding tooltip menu will be opened.
+    <code>Tooltip</code> has been integrated with the <a href='https://www.syncfusion.com/blazor-components/blazor-listview' target='_blank' aria-label="Feature Tour of Blazor ListView">ListView</a> component to display the tooltip menu. With the help of the <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Popups.SfTooltip.html#Syncfusion_Blazor_Popups_SfTooltip_OnRender' target='_blank' aria-label="Class reference of OnRender event in Tooltip">OnRender</a> event, the template content of tooltip will be changed to show a different ListView, which appears like a menu. On clicking the toolbar items, the corresponding tooltip menu will be opened.
 </ActionDescription>
 <div class="control-section">
     <div class="toolbarContainer">
@@ -66,7 +68,7 @@
     public SfTooltip tooltipInstance;
     // Specifies the current Toolbar item.
     public string DynamicContent = string.Empty;
-    
+    private DotNetObjectReference<Menu> dotnetObjectRef { get; set; }
     public class DataModel
     {
         public string Text { get; set; }
@@ -92,6 +94,19 @@
         new DataModel { Text = "Security", IconCss = "security", Id = "112" },
         new DataModel { Text = "Language", IconCss = "language", Id = "113" }
     };
+    protected override void OnInitialized()
+    {
+        dotnetObjectRef = DotNetObjectReference.Create(this);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("getInstance", dotnetObjectRef);
+            JsRuntime.InvokeVoidAsync("closeTooltipPopup", "CloseTooltipPopup");
+        }
+
+    }
     // Specifies the event handler for before rendering the Tooltip component.
     public void OnTooltipRender(TooltipEventArgs args)
     {
@@ -99,9 +114,19 @@
         tooltipInstance.RefreshPositionAsync();
     }
     // Specifies the event handler to close the tooltip while selecting the item.
+
     public void CloseTooltip(ClickEventArgs<DataModel> args)
     {
         tooltipInstance.CloseAsync();
+    }
+    [JSInvokable]
+    public void CloseTooltipPopup()
+    {
+        tooltipInstance.CloseAsync();
+    }
+    public void Dispose()
+    {
+        dotnetObjectRef?.Dispose();
     }
 }
 <style type="text/css">
@@ -183,6 +208,19 @@
 
     .e-tooltip-menu-settings.e-tooltip-wrap.e-popup {
         background: inherit;
+    }
+
+    .fluent2 .e-tooltip-menu-settings.e-tooltip-wrap.e-popup,
+    .fluent2-dark .e-tooltip-menu-settings.e-tooltip-wrap.e-popup,
+    .fluent2-highcontrast .e-tooltip-menu-settings.e-tooltip-wrap.e-popup {
+        background-color: var(--color-sf-tooltip-bg-color);
+    }
+
+    .fluent2 .tooltipMenu-list.e-listview .e-list-icon,
+    .fluent2-dark .tooltipMenu-list.e-listview .e-list-icon,
+    .fluent2-highcontrast .tooltipMenu-list.e-listview .e-list-icon {
+        padding: 0;
+        margin-top: 8px;
     }
 
     .e-tooltip-menu-settings.e-tooltip-wrap .e-tip-content {

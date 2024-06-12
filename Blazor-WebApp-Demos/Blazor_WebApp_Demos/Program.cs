@@ -9,6 +9,7 @@ using BlazorDemos.Pages;
 using BlazorDemos.Components;
 using Syncfusion.Blazor;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorDemos.Shared;
@@ -25,7 +26,10 @@ builder.Services.AddScoped<SfDialogService>();
 builder.Services.AddScoped<SampleService>();
 builder.Services.AddSingleton<DeviceMode>();
 builder.Services.AddMemoryCache();
-
+builder.Services.Configure<CookiePolicyOptions>(options =>
+    {
+        options.MinimumSameSitePolicy = SameSiteMode.Strict;
+    });
 builder.Services.AddSyncfusionBlazor();
 
 // Add services to the container.
@@ -56,7 +60,11 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseCookiePolicy(
+    new CookiePolicyOptions
+    {
+        Secure = CookieSecurePolicy.Always
+    });
 app.UseStaticFiles();
 app.UseAntiforgery();
 app.UseStatusCodePagesWithRedirects("/Error");

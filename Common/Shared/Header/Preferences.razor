@@ -23,10 +23,10 @@
             <div class="sb-icons sf-preference-icons"></div>
             <div class="sf-preference-text">Theme Selection</div>
         </div>
-        @{
-            var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
-            var themeParts = themeName.Split("-");
-            themeName = themeParts[0];
+            @{
+                var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
+                var themeParts = themeName.Split("-");
+                themeName = themeParts[0];
             var selectedTheme = SampleUtils.ThemeData.Where(item => item.ID == themeName).ToList();
             var currentTheme = SampleUtils.ThemeData.First().Text;
             if (selectedTheme.Any())
@@ -58,7 +58,13 @@
              </div>
             
             @{
+                 var themeMode = SampleUtils.GetThemeMode(UriHelper.Uri);
+                 var selectedMode = SampleUtils.ThemeMode.Where(item => item.Text == themeMode).ToList();
                  var currentMode = SampleUtils.ThemeMode.First().Text;
+                if (selectedMode.Any())
+                {
+                    currentMode = selectedMode.First().Text;
+                }
              }
              <div>
                  <DropDownComponent @ref="ThemeDropDownRefForMobile" DataSource="@SampleUtils.ThemeMode" Value="@currentMode" OnSelect="OnModeChange"></DropDownComponent>
@@ -164,9 +170,20 @@ else
     private void OnThemeChange(DropDownData args)
     {
         var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        var themeModeCheck = currentTheme;
+        if (currentTheme.Contains("-dark"))
+        {
+            currentTheme = currentTheme.Replace("-dark", "");
+        }
         if (currentTheme != args.ID)
         {
             var url = SampleUtils.GetThemeUrl(UriHelper, args.ID);
+            // Check if the current theme contains "dark"
+            if (themeModeCheck.Contains("dark") && args.ID != "highcontrast")
+            {
+                // Append "-dark" to the URL
+                url += "-dark";
+            }
             UriHelper.NavigateTo(url, true);
         }
     }
@@ -175,7 +192,7 @@ else
     {
         var currentURL = UriHelper.Uri;
         var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
-        string themeParameter = "fluent";
+        string themeParameter = "fluent2";
         // Check if the URL already contains a query string
         if (!currentURL.Contains("?"))
         {
@@ -183,42 +200,22 @@ else
             // Add the theme parameter with "?" prefix
             currentURL += $"?theme={themeParameter}";
         }
-        string updatedURL = ""; // Initialize with an empty string
-
-        // Get the themeName (assuming you have it already)
-        // string themeName = "highcontrast"; // Example value, replace with actual themeName
-
-         // if (themeName != "highcontrast")
-         // {
-            // Check if the URL already contains "-dark"
+        string updatedURL = ""; 
             if (!currentURL.Contains("-dark"))
             {
                 // Append "-dark" to the current URL
                 updatedURL = currentURL;
-                Console.WriteLine("Updated URL: " + updatedURL);
             }
             else if (currentURL.Contains("-dark"))
             {
                 // Remove "-dark" from the current URL
                 updatedURL = currentURL.Replace("-dark", "");
-                Console.WriteLine("Updated URL (removed -dark): " + updatedURL);
             }
             if (args.ID == "dark")
             {
-                Console.WriteLine("Updated URL: " + updatedURL);
                 updatedURL += "-dark";
             }
-            Console.WriteLine("Updated URL: " + updatedURL);
-            UriHelper.NavigateTo(updatedURL, true);
-        // }
-        // else
-        // {
-
-        //     Console.WriteLine("Theme is already fluent, no update needed");
-        // }
-
-        // Append "-dark" to updatedURL if the mode is "dark"
-      
+            UriHelper.NavigateTo(updatedURL, true);    
     }
     
     /// <summary>

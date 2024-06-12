@@ -127,8 +127,7 @@ namespace Blazor_MAUI_Demos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/toolbar",
                 FileName = "Toolbar.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] { @"The Toolbar demo has been updated to include a new multiple axis mode in the pivot chart settings popup that allows to group the chart series with a single Y-axis for all value fields in the pivot chart area at runtime." }
+                Type = SampleType.None,
             },            
             new Sample
             {

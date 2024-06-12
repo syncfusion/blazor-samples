@@ -90,7 +90,7 @@ namespace BlazorDemos
                 Url = "pivot-table/olap",
                 FileName = "OLAP.razor",
                 Type = SampleType.Updated,
-                NotificationDescription = new string[] { @"The OLAP demo has been updated to include a new multiple axis mode in the pivot chart settings popup that allows to group the chart series with a single Y-axis for all value fields in the pivot chart area at runtime." }
+                NotificationDescription = new string[] { @"The OLAP demo has been updated with the EnableValueSorting property enabled, allowing you to sort individual measures and their aggregated values in ascending and descending order via UI action by clicking the value header on the pivot table's row or column axis." }
             },
 #endif
            
@@ -219,8 +219,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/toolbar",
                 FileName = "Toolbar.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] { @"The Toolbar demo has been updated to include a new multiple axis mode in the pivot chart settings popup that allows to group the chart series with a single Y-axis for all value fields in the pivot chart area at runtime." }
+                Type = SampleType.None,
             },            
             new Sample
             {

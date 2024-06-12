@@ -1182,6 +1182,108 @@ namespace Blazor_MAUI_Demos
             // }
         };
 
+        public List<Sample> Chart3D { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Column",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/column",
+                FileName = "Column3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with column series." }
+            },
+            new Sample
+            {
+                Name = "Back to Back Column",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/back-to-back-column",
+                FileName = "BackToBackColumn3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with column series with each column positioned behind the preceding one." }
+            },
+            new Sample
+            {
+                Name = "Cylindrical Column",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/cylinder",
+                FileName = "CylindricalColumn3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with cylindrical column series which is similar to a 3D column chart but features a distinct cylindrical shape." }
+            },
+            new Sample
+            {
+                Name = "Bar",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/bar",
+                FileName = "Bar3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with bar series which is similar to 3D column chart but differs by the orientation of the y-axis is horizontal rather than vertical." }
+            },
+            new Sample
+            {
+                Name = "Stacking Column with Grouping",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/stacked-column",
+                FileName = "StackingColumnGrouping3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with stacked column series which stacks points in the series vertically." }
+            },
+            new Sample
+            {
+                Name = "100% Stacked Column",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/stacked-column-100",
+                FileName = "StackedColumn100.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with 100% stacked column series which ensuring that the cumulative proportion of each stacked element always totals 100%." }
+            },
+            new Sample
+            {
+                Name = "Stacked Bar",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/stacked-bar",
+                FileName = "StackedBar3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with stacked bar series which stacks points in the series horizontally." }
+            },
+            new Sample
+            {
+                Name = "100% Stacked Bar",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/stacked-bar-100",
+                FileName = "StackedBar100.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with 100% stacked bar series which ensuring that the cumulative proportion of each stacked element always totals 100%." }
+            },
+            new Sample
+            {
+                Name = "Column with null and 0 values",
+                Category = "3D Chart",
+                Directory = "Charts/Chart3D",
+                Url = "chart-3d/empty-point",
+                FileName = "ColumnNullValues3D.razor",
+                HeaderText = "Blazor 3D Chart",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component column series which accommodating the null and zero values ." }
+            }
+        };
+
         public List<Sample> RangeNavigator { get; set; } = new List<Sample>{
             new Sample
             {

@@ -263,8 +263,7 @@ namespace BlazorDemos
                  Directory = "Grid/DataGrid",
                  Url = "datagrid/row-drag-and-drop",
                  FileName = "RowDragAndDrop.razor",
-                 Type = SampleType.Updated,
-                 NotificationDescription = new string[]{ @"The drag-and-drop functionality between grids has been enhanced to allow dragging and dropping rows using the drag icon." },
+                 Type = SampleType.None,
              },
             new Sample
             {
@@ -301,7 +300,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/inline-editing",
                 FileName = "InlineEditing.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The Inline Editing demo has been updated to include the ShowAddNewRow property. This demo showcases how to easily add records using the add form, which is always displayed on the grid content." },
             },
             new Sample
             {
@@ -390,8 +390,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/filter-menu",
                 FileName = "FilterMenu.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The menu filtering demo has been updated to include additional filter operators. This demo showcases how to filter columns using the newly provided filter operators." },
+                Type = SampleType.None,
             },
              new Sample
             {
@@ -400,8 +399,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/checkbox-filter",
                 FileName = "FilterCheckbox.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The checkbox filtering demo has been updated to include feature for adding the current selection to the filter. This demo showcases how to retain previously filtered values when multiple filtering actions are performed on the same column." },
+                Type = SampleType.None,
             },
              new Sample
             {
@@ -410,8 +408,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/excel-like-filter",
                 FileName = "FilterExcel.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Excel filtering demo has been updated to include the feature for adding the current selection to the filter. This demo showcases how to retain previously filtered values when multiple filtering actions are performed on the same column." },
+                Type = SampleType.None,
             },
             new Sample
             {
@@ -622,8 +619,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/detail-template-exporting",
                 FileName = "DetailTemplateExporting.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample includes a demo showcasing the detail template with exporting features in DataGrid." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -632,8 +628,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/template-exporting",
                 FileName = "TemplateExporting.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample includes a demonstration of the column template exporting features in DataGrid, along with group captions and footer aggregates."}
+                Type = SampleType.None
             },
             new Sample
             {

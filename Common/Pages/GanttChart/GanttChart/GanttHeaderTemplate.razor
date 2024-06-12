@@ -26,11 +26,13 @@
         <div class="row">
             <SfGantt DataSource="@TaskCollection" Height="100%" Width="100%" HighlightWeekends="true"
                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
-                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                                 ResourceInfo="Resources" ParentID="ParentId"></GanttTaskFields>
+                <GanttTaskFields Id="Id" Name="Name" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 ParentID="ParentId"></GanttTaskFields>
+                <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="ResourceModel.TaskInfoModel" TResources="ResourceModel.ResourceInfoModel"></GanttResource>
+                <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="PrimaryId" TaskID="TaskId" ResourceID="ResourceId" TValue="ResourceModel.TaskInfoModel" TAssignment="ResourceModel.AssignmentModel"></GanttAssignmentFields>
                 <GanttColumns>
-                    <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
-                    <GanttColumn Field="TaskName" HeaderText="Job Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip">
+                    <GanttColumn Field="Id" Visible="false"></GanttColumn>
+                    <GanttColumn Field="Name" HeaderText="Job Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip">
                         <HeaderTemplate>
                             <div>
                                 <i class="app-icon-job_title"> </i>
@@ -39,14 +41,14 @@
                         </HeaderTemplate>
                     </GanttColumn>
 
-                    <GanttColumn Field="Resources" HeaderText="Event Resources" Width="300">
+                    <GanttResourceColumn HeaderText="Event Resources" Width="300">
                         <HeaderTemplate>
                             <div>
                                 <i class="app-icon-resource"></i>
                                 Resources
                             </div>
                         </HeaderTemplate>
-                    </GanttColumn>
+                    </GanttResourceColumn>
                     <GanttColumn Field="StartDate" HeaderText="Start Date" Width="140">
                         <HeaderTemplate>
                             <div>
@@ -80,7 +82,7 @@
                         </HeaderTemplate>
                     </GanttColumn>
                 </GanttColumns>
-                <GanttResourceFields Resources="ResourceCollection" Id="ResourceId" Name="ResourceName" Unit="Unit" TResources="ResourceData.ResourceAlloacteData"></GanttResourceFields>
+                
                 <GanttSplitterSettings ColumnIndex="3"> </GanttSplitterSettings>
             </SfGantt>
         </div>
@@ -90,14 +92,15 @@
 @code{
     private DateTime ProjectStart = new DateTime(2021, 3, 24);
     private DateTime ProjectEnd = new DateTime(2021, 7, 6);
-    private List<ResourceData.TaskData> TaskCollection { get; set; }
-    private List<ResourceData.ResourceAlloacteData> ResourceCollection { get; set; }
-    
+    private List<ResourceModel.TaskInfoModel> TaskCollection { get; set; }
+    private List<ResourceModel.ResourceInfoModel> ResourceCollection { get; set; }
+    private static List<ResourceModel.AssignmentModel> AssignmentCollection { get; set; }
+
     protected override void OnInitialized()
     {
-        
-        this.TaskCollection = ResourceData.GetTaskCollection();
-        this.ResourceCollection = ResourceData.GetResources;
+        this.TaskCollection = ResourceModel.GetTaskCollection();
+        this.ResourceCollection = ResourceModel.GetResources;
+        AssignmentCollection = ResourceModel.GetAssignmentCollection();
     }
 }
 <style>

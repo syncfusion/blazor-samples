@@ -8,6 +8,8 @@
 
 using System.IO;
 using Syncfusion.Presentation;
+using Syncfusion.PresentationRenderer;
+using Syncfusion.Pdf;
 using System.Collections.Generic;
 
 namespace BlazorDemos.Data.DocumentProcessing.PowerPoint
@@ -24,7 +26,7 @@ namespace BlazorDemos.Data.DocumentProcessing.PowerPoint
         /// Create a Find and Hightlight Presentation document
         /// </summary>
         /// <returns>Return the created Presentation document as stream</returns>
-        public MemoryStream FindAndHighlightPresentation(string button)
+        public MemoryStream FindAndHighlightPresentation(string documentType, string button)
         {
             if (button == "View Input Template")
             {
@@ -45,14 +47,46 @@ namespace BlazorDemos.Data.DocumentProcessing.PowerPoint
                     textPart.Font.HighlightColor = ColorObject.Yellow;
                 }
             }
-
-            //Save the document as a stream and return the stream
-            using (MemoryStream stream = new MemoryStream())
+            /*Server:Block*/
+#if !(WASM) && !WEBAPP
+            //Save as .pdf format
+            if (documentType == "PDF")
             {
-                //Save the created PowerPoint document to MemoryStream
-                presentation.Save(stream);
-                return stream;
+                // Create new instance for PresentationToPdfConverterSettings
+                PresentationToPdfConverterSettings settings = new PresentationToPdfConverterSettings();
+                //Convert the PowerPoint document to PDF document.
+                using (PdfDocument pdfDocument = PresentationToPdfConverter.Convert(presentation, settings))
+                {
+                    //Save the document as a stream and return the stream
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        //Save the converted PDF document to Memory stream.
+                        pdfDocument.Save(stream);
+                        //Set the position of the stream to beginning.
+                        stream.Position = 0;
+                        //Close the PowerPoint Presentation.
+                        presentation.Close();
+                        return stream;
+                    }
+                }
             }
+            else
+            {
+#endif
+                /*End:Server*/
+                //Save the document as a stream and return the stream
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    //Save the created PowerPoint document to MemoryStream
+                    presentation.Save(stream);
+                    stream.Position = 0;
+                    return stream;
+                }
+                /*Server:Block*/
+#if !(WASM) && !WEBAPP
+            }
+#endif
+            /*End:Server*/
         }
 
 

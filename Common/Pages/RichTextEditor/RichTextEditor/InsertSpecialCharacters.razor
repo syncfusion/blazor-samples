@@ -19,8 +19,8 @@
 </SampleDescription>
 <ActionDescription>
     <p>
-        The Rich Text Editor allows to configure custom commands to its Toolbar using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html#Syncfusion_Blazor_RichTextEditor_RichTextEditorToolbarSettings_Items" aria-label="Items">Items</a> property of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>. 
-        The custom command toolbar item appearance can be configured using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorCustomToolbarItems.html" aria-label="RichTextEditorCustomToolbarItems">RichTextEditorCustomToolbarItems</a> within <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>.
+        The Rich Text Editor allows to configure custom commands to its Toolbar using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html#Syncfusion_Blazor_RichTextEditor_RichTextEditorToolbarSettings_Items" aria-label="Class reference of Items property in Rich Text Editor">Items</a> property of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="Class reference of RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>. 
+        The custom command toolbar item appearance can be configured using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorCustomToolbarItems.html" aria-label="Class reference of RichTextEditorCustomToolbarItems">RichTextEditorCustomToolbarItems</a> within <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="Class reference of RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>.
     </p>
 </ActionDescription>
 
@@ -29,10 +29,11 @@
         <div class="default-section" id="rteSection">
             <SfRichTextEditor @ref="rteObj" @bind-Value="@Value">
                 <RichTextEditorToolbarSettings Items="@Tools">
+                    <RichTextEditorEvents OnActionComplete="@OnActionCompleteHandler" />
                     <RichTextEditorCustomToolbarItems>
                         <RichTextEditorCustomToolbarItem Name="Symbol">
                             <Template>
-                                <SfButton class="e-tbar-btn" @onclick="ClickHandler">
+                                <SfButton cssClass="@buttonCssClass" @onclick="ClickHandler">
                                     <div class="e-tbar-btn-text" style="font-weight: 500;"> &#937;</div>
                                 </SfButton>
                             </Template>
@@ -45,7 +46,7 @@
 </div>
 
 <div>
-    <SfDialog @bind-Visible="@dialogVisible" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection">
+    <SfDialog @bind-Visible="@dialogVisible" CssClass="e-rte-elements" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection">
         <DialogTemplates>
             <Header> Special Characters </Header>
             <Content>
@@ -85,7 +86,7 @@
     int currentIndex { get; set; } = -1;
 
     string activeClass = "e-active";
-
+    string buttonCssClass = "e-tbar-btn";
     private bool dialogVisible { get; set; }
     private bool disableInsertBtn { get; set; } = true;
     
@@ -97,6 +98,7 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Separator },
         new ToolbarItemModel() { Command = ToolbarCommand.Formats },
         new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Blockquote },
         new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
         new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
         new ToolbarItemModel() { Command = ToolbarCommand.Separator },
@@ -108,6 +110,18 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Undo },
         new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
+
+    private void OnActionCompleteHandler(ActionCompleteEventArgs args)
+    {
+        if (args.RequestType == "SourceCode")
+        {
+            this.buttonCssClass = "e-tbar-btn e-overlay";
+        }
+        if (args.RequestType == "Preview")
+        {
+            this.buttonCssClass = "e-tbar-btn";
+        }
+    }
 
     private void OnIconIconClick(int index)
     {
@@ -124,7 +138,9 @@
     {
         if (this.currentIndex > -1)
         {
-            await this.rteObj.ExecuteCommandAsync(CommandName.InsertText, this.charactersArray[this.currentIndex]);
+            ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
+            executeCommandOption.Undo = true;
+            await this.rteObj.ExecuteCommandAsync(CommandName.InsertText, this.charactersArray[this.currentIndex], executeCommandOption);
             this.dialogVisible = false;
             this.currentIndex = -1;
         }
@@ -210,6 +226,13 @@
         outline: 1px solid #0078DE;
         border-color: #0078DE;
     }
+
+    .fluent2 .char_block.e-active,
+    .fluent2-dark .char_block.e-active {
+        outline: 1px solid #0f6cbd;
+        border-color: #0f6cbd;
+    }
+    
     .material3 .char_block.e-active,
     .material3-dark .char_block.e-active {
         outline: 1px solid #7D69B1;

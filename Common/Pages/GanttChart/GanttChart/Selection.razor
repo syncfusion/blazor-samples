@@ -1,4 +1,4 @@
-﻿@page "/gantt-chart/selection"
+@page "/gantt-chart/selection"
 
 @using Syncfusion.Blazor.Gantt
 @using BlazorDemos
@@ -31,6 +31,7 @@
     </ul>
     <p>Toggle selection can be enabled by using the <a aria-label="Navigate to the enable toggle property reference for gantt selection settings" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_EnableToggle'>SelectionSettings.EnableToggle</a> property.</p>
     <p>The Taskbar which is not visible in the viewport can be auto scrolled to make it viewable by selecting the row and setting the <code>ScrollToTaskbarOnClick</code> property to true.</p>
+    <p>The <code>EnableRowHover</code> feature allows users to easily identify the current row by highlighting it when the mouse hovers over it. This feature can be activated by setting the <a aria-label="Navigate to the enable row hover property reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableRowHover'>EnableRowHover</a> property to true.</p>
     <p>More information about the Selection feature can be found in this <a aria-label="Navigate to the documentation for selection in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/selection'>documentation</a> section.</p>
 </ActionDescription>
 
@@ -38,14 +39,14 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="e-mastertext">Properites</div>
-            <div class="e-switch-control" style="width: 750px;">
+            <div class="e-switch-control" style="width: 100%;">
                 <label class="showhide" style="padding: 10px 15px 10px 10px"> Mode </label>
-                <SfDropDownList Width="15%" @ref="@DropdownMode" TValue="string" TItem="DropDownData" DataSource="@SelectionModes" @bind-Value="@Mode" Placeholder="e.g. Cell">
+                <SfDropDownList Width="90px" @ref="@DropdownMode" TValue="string" TItem="DropDownData" DataSource="@SelectionModes" @bind-Value="@Mode" Placeholder="e.g. Cell" CssClass="e-selection-mode">
                     <DropDownListEvents TValue="string" ValueChange="ModeChange" TItem="DropDownData"></DropDownListEvents>
                     <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
                 </SfDropDownList>
                 <label class="showhide" style="padding: 10px 15px 10px 25px"> Type </label>
-                <SfDropDownList Width="15%" @ref="@DropdownType" TValue="string" TItem="DropDownData" DataSource="@SelectionTypes" @bind-Value="@Type" Placeholder="e.g. Multiple">
+                <SfDropDownList Width="110px" @ref="@DropdownType" TValue="string" TItem="DropDownData" DataSource="@SelectionTypes" @bind-Value="@Type" Placeholder="e.g. Multiple" CssClass="e-selection-type">
                     <DropDownListEvents TValue="string" ValueChange="TypeChange" TItem="DropDownData"></DropDownListEvents>
                     <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
                 </SfDropDownList>
@@ -53,8 +54,10 @@
                 <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("Toggle", args); })" @bind-Checked="@Check" TChecked="bool"></SfSwitch>
                 <label class="showhide" style="padding: 10px 10px 10px 25px"> Autoscroll to taskbar </label>
                 <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("AutoScroll", args); })" @bind-Checked="@AutoScrollToTaskbar" TChecked="bool"></SfSwitch>
+                <label class="showhide" style="padding: 10px 10px 10px 25px"> Enable row hover </label>
+                <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("RowHover", args); })" @bind-Checked="@isRowHoverEnable" TChecked="bool"></SfSwitch>
             </div>
-            <SfGantt @ref="Gantt" DataSource="@TaskCollection" TreeColumnIndex="1" Height="450px" Width="100%" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" AllowSelection="@SelectionValue" SelectedRowIndex="@SelectedValue" ScrollToTaskbarOnClick="@AutoScrollToTaskbar">
+            <SfGantt @ref="Gantt" DataSource="@TaskCollection" TreeColumnIndex="1" Height="450px" Width="100%" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" AllowSelection="@SelectionValue" SelectedRowIndex="@SelectedValue" ScrollToTaskbarOnClick="@AutoScrollToTaskbar" EnableRowHover="@isRowHoverEnable">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
                 </GanttTaskFields>
                 <GanttColumns>
@@ -91,6 +94,13 @@
         opacity: 0.87;
         padding: 0.7em;
     }
+    .e-selection-mode {
+        min-width: 90px !important;
+    }
+
+    .e-selection-type {
+        min-width: 110px !important;
+    }
 </style>
                     
 @code{
@@ -101,6 +111,7 @@
     private DateTime ProjectStart = new DateTime(2021, 3, 27);
     private DateTime ProjectEnd = new DateTime(2021, 7, 6);
     private bool AutoScrollToTaskbar { get; set; }
+    private bool isRowHoverEnable { get; set; }
     private List<DropDownData> SelectionModes { get; set; } = new List<DropDownData>();
     private string Mode { get; set; }       
     private List<DropDownData> SelectionTypes { get; set; } = new List<DropDownData>();
@@ -112,7 +123,7 @@
     private int SelectedValue = -1;
     private List<double> SelectedRowIndexes { get; set; }
     private List<FilterData.TaskData> TaskCollection { get; set; }
-    
+
     public class DropDownData
     {
         public string ID { get; set; }
@@ -123,12 +134,24 @@
         if (args.Checked)
         {
             if(Name == "Toggle")
+            {
                 Toggle = true;
+            }
+            if (Name == "RowHover")
+            {
+                isRowHoverEnable = true;
+            }
         }
         else
         {
-            if(Name == "Toggle")
+            if (Name == "Toggle")
+            {
                 Toggle = false;
+            }
+            if (Name == "RowHover")
+            {
+                isRowHoverEnable = false;
+            }
         }
     }
     public void ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
@@ -166,4 +189,3 @@
         this.Type = (this.GanttSelectType).ToString();
     }
 }
-

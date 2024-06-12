@@ -55,7 +55,7 @@ using Microsoft.Extensions.Localization;
                         .AddSupportedUICultures(supportedCultures);
     #endregion
         builder.Services.AddServerSideBlazor().AddCircuitOptions(option => { option.DetailedErrors = true; });
-        builder.Services.AddServerSideBlazor().AddHubOptions(o => { o.MaximumReceiveMessageSize = 102400000; });
+        builder.Services.AddSignalR(o => { o.MaximumReceiveMessageSize = 102400000; });
         var app = builder.Build();
     #region Localization
         app.UseRequestLocalization(localizationOptions);

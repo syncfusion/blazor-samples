@@ -1,0 +1,244 @@
+@page "/rich-text-editor/export-word"
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+@inject IJSRuntime JS
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example illustrates how to efficiently export content in the Rich Text Editor. You can seamlessly convert your content into a PDF or Word document.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, the Rich Text Editor content can be exported using the service side,</p>
+    <ol>
+        <li>Clicking the export to PDF icon will export the content of the Rich Text Editor to a PDF document.</li>
+        <li>Clicking the export to Word icon will export the content of the Rich Text Editor to a Word document.</li>
+   </ol>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="control-wrapper">
+        <div class="">
+            <SfRichTextEditor @ref="EditorRef" ID="RT_Editor" ShowCharCount="true" AutoSaveOnIdle="true" EnableTabKey="true" EnableXhtml="true" Placeholder="@PlaceHolderText">
+                <h2 style="text-align: center;">Invitation to Microsoft Webinar Meet-Up</h2><p>
+                    Dear Guest,
+                </p><p>
+                    We're thrilled to extend a special invitation to you for an exclusive Microsoft webinar meet-up, where we'll explore the latest innovations and insights driving the future of technology. As a valued member of our community, we believe this event will offer invaluable knowledge and networking opportunities.
+                </p><h2>Event Details:</h2><table class="e-rte-table" style="width: 100%; height: 125px;">
+                    <tbody>
+                    <tr style="height: 20%;">
+                        <th class="">Time:</th>
+                        <td>10:00 AM - 12:00 PM</td>
+                    </tr>
+                    <tr style="height: 20%;">
+                        <th>Duration:</th>
+                        <td>2 hours</td>
+                    </tr>
+                    <tr style="height: 20%;">
+                        <th>Platform:</th>
+                        <td>Microsoft Teams</td>
+                    </tr>
+                </tbody></table><p><br></p><h2>Agenda:</h2><ul>
+                    <li>Introduction to Cutting-Edge Microsoft Technologies</li>
+                    <li>Deep Dive into AI in Business: Leveraging Microsoft Azure Solutions</li>
+                    <li>Live Q&amp;A Session with Industry Experts</li>
+                    <li>Networking Opportunities with Peers and Professionals</li>
+                </ul><h2>Why Attend?</h2><ul>
+                    <li>Gain insights into the latest trends and advancements in technology.</li>
+                    <li>Interact with industry experts and expand your professional network.</li>
+                    <li>Get your questions answered in real-time during the live Q&amp;A session.</li>
+                    <li>Access exclusive resources and offers available only to webinar attendees.</li>
+                </ul><p>
+                    Feel free to invite your colleagues and peers who might benefit from this enriching experience. Simply forward this email to them or share the event details.
+                </p><p>
+                    We're looking forward to your participation and to exploring the exciting world of Microsoft technology together. Should you have any questions or require further information, please don't hesitate to contact us at <a href="mailto:webinar@company.com">webinar@company.com</a>.</p><p>
+                <br></p><p>Warm regards,</p><p>John Doe<br>Event Coordinator<br>ABC Company</p>
+                <RichTextEditorToolbarSettings Items="@Tools">
+                    <RichTextEditorEvents OnActionComplete="@OnActionCompleteHandler" />
+                    <RichTextEditorCustomToolbarItems>
+                        <RichTextEditorCustomToolbarItem Name="ExportToWord">
+                            <Template>
+                                <button class="@buttonClass" tabindex="-1" id="custom_tbarbtn_2" style="width:100%"
+                                    @onclick="exportContentToWord">
+                                    <span class="e-icons e-rte-export-doc e-btn-icon"></span>
+                                </button>
+                            </Template>
+                        </RichTextEditorCustomToolbarItem>
+                        <RichTextEditorCustomToolbarItem Name="ExportToPDF">
+                            <Template>
+                                <button class="@buttonClass" tabindex="-1" id="custom_tbarbtn_3" style="width:100%"
+                                    @onclick="exportContentToPDF">
+                                    <span class="e-icons e-rte-export-pdf e-btn-icon"></span>
+                                </button>
+                            </Template>
+                        </RichTextEditorCustomToolbarItem>
+                    </RichTextEditorCustomToolbarItems>
+                </RichTextEditorToolbarSettings>
+                <RichTextEditorQuickToolbarSettings Table="@TableQuickToolbarItems" ShowOnRightClick="true" />
+                <RichTextEditorImageSettings SaveUrl="@SaveURL" Path="@Path"></RichTextEditorImageSettings>
+            </SfRichTextEditor>
+        </div>
+    </div>
+</div>
+
+<style>
+    .sb-content div#navigation-btn,
+    .sb-content .sb-toolbar-splitter {
+        z-index: 0
+    }
+</style>
+
+@code {
+    SfRichTextEditor EditorRef;
+    private string SaveURL = "http://localhost:63028/api/RichTextEditor/SaveFile";
+    private string Path = "http://localhost:63028/RichTextEditor/";
+    private string PlaceHolderText = "Type something or use @ to tag a user...";
+    string buttonClass = "e-tbar-btn e-control e-btn e-lib e-icon-btn";
+    private void OnActionCompleteHandler(Syncfusion.Blazor.RichTextEditor.ActionCompleteEventArgs args)
+    {
+        if (args.RequestType == "SourceCode")
+        {
+            this.buttonClass = "e-tbar-btn e-control e-btn e-lib e-icon-btn e-overlay";
+        }
+        if (args.RequestType == "Preview")
+        {
+            this.buttonClass = "e-tbar-btn e-control e-btn e-lib e-icon-btn";
+        }
+    }
+    private async Task exportContentToWord()
+    {
+        var HTMLContent = await EditorRef.GetXhtmlAsync();
+        var result = await JS.InvokeAsync<string>("customJsFunctions.exportContentToWord", HTMLContent);
+    }
+    private async Task exportContentToPDF()
+    {
+        var HTMLContent = await EditorRef.GetXhtmlAsync();
+        var result = await JS.InvokeAsync<string>("customJsFunctions.exportContentToPDF", HTMLContent);
+    }   
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Name = "ExportToWord", TooltipText = "ExportToWord" },
+        new ToolbarItemModel() { Name = "ExportToPDF", TooltipText = "ExportToPDF" },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.SuperScript },
+        new ToolbarItemModel() { Command = ToolbarCommand.SubScript },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontName },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontSize },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.LowerCase },
+        new ToolbarItemModel() { Command = ToolbarCommand.UpperCase },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Blockquote },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.NumberFormatList },
+        new ToolbarItemModel() { Command = ToolbarCommand.BulletFormatList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.Video },
+        new ToolbarItemModel() { Command = ToolbarCommand.Audio },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.ClearFormat },
+        new ToolbarItemModel() { Command = ToolbarCommand.Print },
+        new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.FullScreen },
+    };
+    private List<TableToolbarItemModel> TableQuickToolbarItems = new List<TableToolbarItemModel>()
+    {
+        new TableToolbarItemModel() { Command = TableToolbarCommand.TableHeader },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.TableRows },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.TableColumns },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.TableCell },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.HorizontalSeparator },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.BackgroundColor },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.TableRemove },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.TableCellVerticalAlign },
+        new TableToolbarItemModel() { Command = TableToolbarCommand.Styles }
+    };
+}
+@*
+Please refer to the below code snippet for customJsFunctions.js
+
+window.customJsFunctions = {
+    exportContentToPDF: function (rteHtmlData) {
+        const hostUrl = 'http://localhost:63028/';
+        const html = `<html><head></head><body>${rteHtmlData}</body></html>`;
+        fetch(hostUrl + 'api/RichTextEditor/ExportToPdf', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ html: html }) // Wrap HTML in a JSON object
+        }).then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.blob();
+            }).then(blob => {
+                const url = window.URL.createObjectURL(blob);       // Create a Blob URL from the response and initiate the download
+                const a = document.createElement('a');   // Create an anchor element
+                a.href = url;
+                a.download = 'Sample.pdf';
+                document.body.appendChild(a);             // Append the anchor element to the document
+                a.click();                                // Trigger a click on the anchor element to initiate the download
+                document.body.removeChild(a);             // Remove the anchor element from the document
+                window.URL.revokeObjectURL(url);          // Revoke the object URL to free up resources
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+            });
+    },
+    exportContentToWord: function (rteHtmlData) {
+        const hostUrl = 'http://localhost:63028/';
+        const html = `<html><head></head><body>${rteHtmlData}</body></html>`;
+        fetch(hostUrl + 'api/RichTextEditor/ExportToDocx', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ html: html }) // Wrap HTML in a JSON object
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const filename = 'Result.docx';
+            // Create a Blob from the response and initiate the download
+            return response.blob().then(blob => ({ blob, filename }));
+        })
+        .then(({ blob, filename }) => {
+            const url = window.URL.createObjectURL(blob);       // Create a Blob URL from the response and initiate the download
+            const a = document.createElement('a');              // Create an anchor element
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);                       // Append the anchor element to the document
+            a.click();                                          // Trigger a click on the anchor element to initiate the download
+            document.body.removeChild(a);                       // Remove the anchor element from the document
+            window.URL.revokeObjectURL(url);                    // Revoke the object URL to free up resources
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    }
+};*@

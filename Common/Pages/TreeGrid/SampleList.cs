@@ -441,8 +441,8 @@ namespace BlazorDemos
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/row-drag-and-drop",
-                Type = SampleType.None,
                 FileName="RowDragAndDrop.razor",
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -900,6 +900,29 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="ContextData",
+                        FileName="TreeData.cs"
+                    }
+                }
+            },
+             new Sample
+            {
+                Name = "Events",
+                Category = "Miscellaneous",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/event",
+                FileName="Event.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample demonstrates the events that have been triggered on the Tree Grid operations with the help of Event Trace panel." },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Events",
+                        FileName="Event.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EventsData",
                         FileName="TreeData.cs"
                     }
                 }

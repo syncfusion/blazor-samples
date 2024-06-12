@@ -54,6 +54,17 @@ namespace BlazorDemos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "3D Chart",
+                Category = "Data Visualization",
+                Directory = "Charts",
+                Type = SampleType.Preview,
+                Samples = Chart3D,
+                ControllerName = "Chart3D",
+                DemoPath = "chart-3d/column",
+                IsPreview = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Barcode Generator",
                 Category = "Data Visualization",
                 Directory = "Barcodes",
@@ -137,7 +148,6 @@ namespace BlazorDemos
                 Name = "Maps",
                 Category = "Data Visualization",
                 Directory = "Maps/Maps",
-                Type = SampleType.Updated,
                 Samples = Maps,
                 ControllerName = "Maps",
                 DemoPath = "maps/default-functionalities"
@@ -220,7 +230,8 @@ namespace BlazorDemos
                 Samples = ImageEditor,
                 ControllerName = "ImageEditor",
                 DemoPath = "image-editor/default-functionalities",
-		ComponentIconName = "image_editor"
+		        ComponentIconName = "image_editor",
+                Type = SampleType.Updated
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -228,7 +239,6 @@ namespace BlazorDemos
                 Category = "File Viewers & Editors",
                 Directory = "DocumentEditor/DocumentEditor",
                 Samples = DocumentEditor,
-                Type = SampleType.Updated,
                 ControllerName = "DocumentEditor",
                 CustomDocLink = "document-editor/getting-started/features",
                 DemoPath = "document-editor/default-functionalities",
@@ -451,7 +461,7 @@ namespace BlazorDemos
                 Name = "MultiSelect Dropdown",
                 Category = "DropDowns",
                 Directory = "DropDowns/MultiSelect",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = MultiSelectDropdown,
                 ControllerName = "MultiSelectDropdown",
                 DemoPath = "multiselect-dropdown/default-functionalities"
@@ -554,6 +564,17 @@ namespace BlazorDemos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "TextArea",
+                Category = "Inputs",
+                Directory = "Inputs",
+                Type = SampleType.Preview,
+                IsPreview = true,
+                Samples = TextArea,
+                ControllerName = "TextArea",
+                DemoPath = "textarea/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "TextBox",
                 Category = "Inputs",
                 Directory = "Inputs",
@@ -581,6 +602,18 @@ namespace BlazorDemos
                 Samples = Rating,
                 ControllerName = "Rating",
                 DemoPath = "rating/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+              Name = "OTP Input",
+              Category = "Inputs",
+              Directory = "Inputs/OtpInput",
+              Type = SampleType.Preview,
+              Samples = OtpInput,
+              ControllerName = "OtpInput",
+              DemoPath = "otp-input/default-functionalities",
+              IsPreview = true,
+              ComponentIconName = "otpinput"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -625,7 +658,6 @@ namespace BlazorDemos
                 Directory = "Navigations/FileManager",
                 Samples = FileManager,
                 ControllerName = "FileManager",
-                Type = SampleType.Updated,
                 DemoPath = "file-manager/overview"
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -672,7 +704,6 @@ namespace BlazorDemos
                 Category = "Navigation",
                 Directory = "Navigations/Toolbar",
                 Samples = Toolbar,
-                Type = SampleType.Updated,
                 ControllerName = "Toolbar",
                 DemoPath = "toolbar/default-functionalities"
             });
@@ -681,7 +712,7 @@ namespace BlazorDemos
                 Name = "TreeView",
                 Category = "Navigation",
                 Directory = "Navigations/TreeView",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = TreeView,
                 ControllerName = "TreeView",
                 DemoPath = "treeview/default-functionalities"
@@ -768,8 +799,6 @@ namespace BlazorDemos
                 Category = "Layout",
                 Directory = "Layouts/Timeline",
                 Samples = Timeline,
-                Type = SampleType.Preview,
-                IsPreview = true,
                 ControllerName = "Timeline",
                 DemoPath = "timeline/default-functionalities",
                 ComponentIconName = "timeline"
@@ -882,7 +911,7 @@ namespace BlazorDemos
                 Samples = DataForm,
                 ControllerName = "DataForm",
                 DemoPath = "data-form/default-functionalities",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 ComponentIconName = "data_form",
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -892,11 +921,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Word",
                 Samples = DocIO,
                 ControllerName = "Word",
-#if !(WASM) && !WEBAPP
                 Type = SampleType.Updated,
-#else
-                Type = SampleType.None,
-#endif
                 DemoPath = "word/hello-world",
                 ComponentIconName = "word"
             });
@@ -921,7 +946,9 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Samples = Presentation,
                 ControllerName = "PowerPoint",
+#if !WASM && !WEBAPP
                 Type = SampleType.Updated,
+#endif
                 DemoPath = "powerpoint/getting-started",
                 ComponentIconName = "powerpoint"
             });
@@ -930,9 +957,7 @@ namespace BlazorDemos
                 Name = "Excel (XlsIO)",
                 Category = "Document Processing Libraries",
                 Directory = "DocumentProcessing/Excel",
-#if !WASM && !WEBAPP
                 Type = SampleType.Updated,
-#endif
                 Samples = XlsIO,
                 ControllerName = "Excel",
                 DemoPath = "excel/create-excel",

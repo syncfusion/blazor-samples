@@ -280,7 +280,6 @@ namespace BlazorDemos
                 Name = "Alignment",
                 Category = "Toolbar",
                 Directory = "Navigations/Toolbar",
-                Type = SampleType.Updated,
                 FileName = "Alignment.razor",
                 Url = "toolbar/alignment"
             },
@@ -459,6 +458,16 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 FileName = "KeyboardNavigation.razor"
             },
+            new Sample
+            {
+                Name = "Virtualization",
+                Category = "TreeView",
+                Directory = "Navigations/TreeView",
+                Url = "treeview/ui-virtualization",
+                Type = SampleType.New,
+                FileName = "UIVirtualization.razor",
+                 NotificationDescription = new string[]{ @" Added the Virtualization support for the TreeView" }
+            },
               new Sample
             {
                 Name = "Local Data",
@@ -492,7 +501,6 @@ namespace BlazorDemos
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/flat-data",
                 FileName = "FlatData.razor",
-                Type = SampleType.New,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -506,7 +514,6 @@ namespace BlazorDemos
                         FileName = "FileManagerService.cs"
                     },
                 },
-                NotificationDescription = new string[]{ @"Introduces a new feature in the File Manager, Showcases the seamless integration of Flat Data retrieved as complete folder data as a list of objects during the initial rendering of the File Manager. File operations such as reading, deleting, and creating folders are efficiently executed within the injected FileManagerService." }
             },
              new Sample
             {

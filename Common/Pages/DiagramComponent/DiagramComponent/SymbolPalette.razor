@@ -23,8 +23,8 @@
     <p>This example illustrates predefining shapes in a palette that can be easily dragged and dropped into the drawing area. Customizable options of the symbol palette are also illustrated in this example.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>This example shows how to add shapes to the symbol palette and how to customize it. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.Palette.html#Syncfusion_Blazor_Diagram_SymbolPalette_Palette_Symbols' aria-label="Symbols">Symbols</a></code> property can be used to add shapes to the symbol palette. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.SfSymbolPaletteComponent.html#Syncfusion_Blazor_Diagram_SymbolPalette_SfSymbolPaletteComponent_SymbolWidth' aria-label="SymbolWidth">SymbolWidth</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.SfSymbolPaletteComponent.html#Syncfusion_Blazor_Diagram_SymbolPalette_SfSymbolPaletteComponent_SymbolHeight' aria-label="SymbolHeight">SymbolHeight</a></code> properties allow you to define the size of the symbols.</p>
-   <p>In this example, options to enable/disable animation, show/hide symbol descriptions, and show header icons are provided. </p>
+    <p>This example shows how to add shapes to the symbol palette and customize it. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.Palette.html#Syncfusion_Blazor_Diagram_SymbolPalette_Palette_Symbols' aria-label="Symbols">Symbols</a></code> is used to add shapes to the symbol palette. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.SfSymbolPaletteComponent.html#Syncfusion_Blazor_Diagram_SymbolPalette_SfSymbolPaletteComponent_SymbolWidth' aria-label="SymbolWidth">SymbolWidth</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.SfSymbolPaletteComponent.html#Syncfusion_Blazor_Diagram_SymbolPalette_SfSymbolPaletteComponent_SymbolHeight' aria-label="SymbolHeight">SymbolHeight</a></code> is used to define the size of the symbols.</p>
+    <p>In this example, options to enable/disable animation, show/hide symbol descriptions, show header icons and a search option that allows users to search for symbols based on their id and search tags.</p>
 </ActionDescription>
 @*End:Hidden*@
 
@@ -227,6 +227,8 @@
                 <SfSymbolPaletteComponent @ref="@palette"
                                           Width="100%"
                                           Height="700px"
+                                          ShowSearchTextBox="searchbox"
+                                          EnableAnimation="animation"
                                           Palettes="@palettes"
                                           PaletteExpandMode="@paletteExpandMode"
                                           SymbolHeight="@symbolHeight"
@@ -238,6 +240,12 @@
             </div>
             <div id="diagram-space" class="sb-mobile-diagram">
                 <SfDiagramComponent @ref="@Diagram" Connectors="@diagramConnectors" Nodes="@nodes" Height="700px">
+                   <RulerSettings>
+                    <HorizontalRuler>
+                      </HorizontalRuler>
+                    <VerticalRuler >
+                      </VerticalRuler>
+                    </RulerSettings>
                     <SnapSettings>
                         <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@GridLineIntervals">
                         </HorizontalGridLines>
@@ -290,18 +298,36 @@
                 <SfCheckBox ID="itemtext" @bind-Checked="@text" ValueChange="TextChange" TChecked="bool"></SfCheckBox>
             </div>
         </div>
+        <div class="row" style="padding-top: 8px">
+            <div class="texstyle">
+              Animation
+            </div>
+            <div class="col-xs-6" style="padding-top: 15px">
+                <SfCheckBox ID="itemanimation" @bind-Checked="@animation" ValueChange="AnimationChange" TChecked="bool"></SfCheckBox>
+            </div>
+        </div>
+          <div class="row" style="padding-top: 8px">
+            <div class="texstyle">
+                Show Search TextBox
+            </div>
+            <div class="col-xs-6" style="padding-top: 15px">
+                <SfCheckBox ID="itemsearchbox" @bind-Checked="@searchbox" ValueChange="SearchBoxChange" TChecked="bool"></SfCheckBox>
+            </div>
+        </div>
     </div>
     @*End:Hidden*@
 </div>
 
 @code{
     @*Hidden:Lines*@
-    
+
     private int? index { get; set; } = 1;
     SfDropDownList<string, ExpandModevalue> expandDropDown;
     public int? sizeChangeValue { get; set; } = 75;
     bool icon = true;
     bool text = true;
+    bool animation = true;
+    bool searchbox = true;
     @*End:Hidden*@
     DiagramSize symbolDragPreviewSize;
     SymbolExpandMode paletteExpandMode = SymbolExpandMode.Multiple;
@@ -378,6 +404,14 @@
     private void TextChange(ButtonChangeArgs args)
     {
         palette.RefreshSymbols();
+    }
+    private void AnimationChange(ButtonChangeArgs args)
+    {
+        animation = args.Checked;
+    }
+      private void SearchBoxChange(ButtonChangeArgs args)
+    {
+        searchbox=args.Checked;
     }
     @*End:Hidden*@
 
@@ -507,6 +541,7 @@
                 Type = shapes.Basic,
                 Shape = type
             },
+            SearchTags = new List<string>() {"Basic" },
             Style = new ShapeStyle() { StrokeWidth = 2, StrokeColor = "#757575" }
         };
         return node;
@@ -523,6 +558,7 @@
                 Type = shapes.Flow,
                 Shape = type
             },
+            SearchTags = new List<string>() {"flow" },
             Style = new ShapeStyle() { StrokeWidth = 2, StrokeColor = "#757575" }
         };
         return node;
@@ -535,6 +571,7 @@
         {
             ID = id,
             Type = type,
+            SearchTags = new List<string>() {"connector" },
             SourcePoint = new DiagramPoint() { X = 0, Y = 0 },
             TargetPoint = new DiagramPoint() { X = 40, Y = 40 },
             TargetDecorator = new DecoratorSettings()
