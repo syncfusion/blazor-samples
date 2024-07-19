@@ -15,6 +15,8 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
+* [NET 6 WebAssembly Workload / NET 8 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools)
+
 * Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
 
 ## How to run the demo
