@@ -24,7 +24,7 @@ namespace BlazorDemos
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor",
                 NotificationDescription = new string[] {
-                    @"Enhanced the demo by introducing new toolbar items for the 'Audio' and 'Video' features."
+                    @" We have enhanced the overview demo sample by integrating the mention feature and also providing import from word and export to word and PDF options."
                 }
             },
             new Sample
@@ -81,10 +81,7 @@ namespace BlazorDemos
                 Category = "Rich Text Editor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/enterKeyConfiguration",
-                FileName = "EnterKey-Configuration.razor",
-                NotificationDescription = new string[] {
-                    @"Added a demo to showcase enter and shift-enter key configuration of the Rich Text Editor component."
-                }
+                FileName = "EnterKey-Configuration.razor"
             },
             new Sample
             {
@@ -125,7 +122,10 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/quick-format-toolbar",
                 FileName = "Quick-Format-Toolbar.razor",
-                Type = SampleType.New
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @" Introduced the feature a quick toolbar that appears upon text selection, offering convenient access to text formatting options. This floating toolbar allows users to easily apply bold, italic, underline, strikethrough, and more formats directly from the quick toolbar near the selected text."
+                }
             },
             new Sample
             {
@@ -134,7 +134,10 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/import-word",
                 FileName = "Import.razor",
-                Type = SampleType.New
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @" This example illustrates how to efficiently import the content from the word using the Rich Text Editor."
+                }
             },
             new Sample
             {
@@ -143,7 +146,10 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/export-word",
                 FileName = "Export-Word.razor",
-                Type = SampleType.New
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @" This example illustrates how to efficiently convert your content into a PDF or Word document using the Rich Text Editor."
+                }
             },
             new Sample
             {
@@ -159,10 +165,7 @@ namespace BlazorDemos
                 Category = "Mention Integration",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/smart-suggestion",
-                FileName = "Smart-Suggestion.razor",
-                NotificationDescription = new string[] {
-                    "This demo demonstrates how to easily apply formatting or insert media and tables in the Rich Text Editor content using the Mention component."
-                },
+                FileName = "Smart-Suggestion.razor"
             },
             new Sample
             {

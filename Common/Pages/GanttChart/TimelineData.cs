@@ -33,100 +33,22 @@ namespace ej2_blazor_timelinedata
        
         public static List<TaskData> TimelineRecord()
         {
-            List<TaskData> Tasks = new List<TaskData>() {
+            List<TaskData> Tasks = new List<TaskData>() 
+            {
+                new TaskData() { TaskId = 1, TaskName = "Project initiation", StartDate = new DateTime(2021, 04, 03), EndDate = new DateTime(2021, 04, 21) },
+                new TaskData() { TaskId = 2, TaskName = "Identify site location", StartDate = new DateTime(2021, 04, 03), Duration = "5", Progress = 70, ParentId=1 },
+                new TaskData() { TaskId = 3, TaskName = "Perform soil test", StartDate = new DateTime(2021, 04, 03), Duration = "5", Progress = 50, ParentId = 1 },
+                new TaskData() { TaskId = 4, TaskName = "Soil test approval", StartDate = new DateTime(2021, 04, 03), Duration = "5", Progress = 50, ParentId = 1, Predecessor="2" },
+                new TaskData() { TaskId = 5, TaskName = "Project estimation", StartDate = new DateTime(2021, 04, 10), EndDate = new DateTime(2021, 04, 21) },
+                new TaskData() { TaskId = 6, TaskName = "Develop floor plan for estimation", StartDate = new DateTime(2021, 04, 10), Duration = "5", ParentId=5 },
+                new TaskData() { TaskId = 7, TaskName = "List materials", StartDate = new DateTime(2021, 04, 10), Duration = "5", Progress = 50, ParentId = 5 },
+                new TaskData() { TaskId = 8, TaskName = "Development of final design", StartDate = new DateTime(2021, 04, 30), EndDate = new DateTime(2021, 05, 08), Duration="7" },
+                new TaskData() { TaskId = 9, TaskName = "Develop dimensions and design", StartDate = new DateTime(2021, 04, 03), EndDate = new DateTime(2021, 04, 21), Duration = "2", Progress = 30, ParentId = 8 },
+                new TaskData() { TaskId = 10, TaskName = "Develop designs to meet industry", StartDate = new DateTime(2021, 04, 03), Duration = "2", Progress = 40, ParentId = 8 },
+                new TaskData() { TaskId = 11, TaskName = "Include all the details", StartDate = new DateTime(2021, 04, 03), Duration = "3", Progress = 30, ParentId = 8 },
+                new TaskData() { TaskId = 12, TaskName = "CAD - Computer Aided Design", StartDate = new DateTime(2021, 04, 03), Duration = "3", ParentId = 8 },
 
-        new TaskData() {
-            TaskId = 1,
-            TaskName = "Project initiation",
-            StartDate = new DateTime(2021, 04, 03),
-            EndDate = new DateTime(2021, 04, 21)
-        },
-        new TaskData() {
-            TaskId = 2,
-            TaskName = "Identify site location",
-            StartDate = new DateTime(2021, 04, 03),
-            Duration = "5",
-            Progress = 70,
-            ParentId=1
-        },
-        new TaskData() {
-            TaskId = 3,
-            TaskName = "Perform soil test",
-            StartDate = new DateTime(2021, 04, 03),
-            Duration = "5",
-            Progress = 50,
-            ParentId = 1
-        },
-        new TaskData() {
-            TaskId = 4,
-            TaskName = "Soil test approval",
-            StartDate = new DateTime(2021, 04, 03),
-            Duration = "5",
-            Progress = 50,               
-            ParentId = 1,
-            Predecessor="2"
-        },
-        new TaskData(){
-            TaskId = 5,
-            TaskName = "Project estimation",
-            StartDate = new DateTime(2021, 04, 10),
-            EndDate = new DateTime(2021, 04, 21)
-        },
-        new TaskData() {
-            TaskId = 6,
-            TaskName = "Develop floor plan for estimation",
-            StartDate = new DateTime(2021, 04, 10),
-            Duration = "5",
-            ParentId=5
-        },
-        new TaskData() {
-            TaskId = 7,
-            TaskName = "List materials",
-            StartDate = new DateTime(2021, 04, 10),
-            Duration = "5",
-            Progress = 50,
-            ParentId = 5
-        },
-        new TaskData() {
-            TaskId = 8,
-            TaskName = "Development of final design",
-            StartDate = new DateTime(2021, 04, 30),
-            EndDate = new DateTime(2021, 05, 08),
-            Duration="7",
-        },
-        new TaskData() {
-            TaskId = 9,
-            TaskName = "Develop dimensions and design",
-            StartDate = new DateTime(2021, 04, 03),
-            EndDate = new DateTime(2021, 04, 21),
-            Duration = "2",
-            Progress = 30,
-            ParentId = 8,
-        },
-        new TaskData() {
-            TaskId = 10,
-            TaskName = "Develop designs to meet industry",
-            StartDate = new DateTime(2021, 04, 03),
-            Duration = "2",
-            Progress = 40,
-            ParentId = 8,
-        },
-        new TaskData() {
-            TaskId = 11,
-            TaskName = "Include all the details",
-            StartDate = new DateTime(2021, 04, 03),
-            Duration = "3",
-            Progress = 30,
-            ParentId = 8,
-        },
-        new TaskData() {
-            TaskId = 12,
-            TaskName = "CAD - Computer Aided Design",
-            StartDate = new DateTime(2021, 04, 03),
-            Duration = "3",
-            ParentId = 8
-        },
-    };
+            };
             return Tasks;
         }
     }

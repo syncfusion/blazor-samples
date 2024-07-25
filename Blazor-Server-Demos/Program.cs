@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor.Popups;
 using Syncfusion.Blazor;
+using Microsoft.AspNetCore.Http;
 using Syncfusion.Licensing;
 using System.Diagnostics.Metrics;
 using System.Globalization;
@@ -41,6 +42,10 @@ using Microsoft.Extensions.Localization;
     builder.Services.AddScoped<SampleService>();
     builder.Services.AddSingleton<DeviceMode>();
     builder.Services.AddMemoryCache();
+    builder.Services.Configure<CookiePolicyOptions>(options =>
+    {
+        options.MinimumSameSitePolicy = SameSiteMode.Strict;
+    });
 #region Localization
 // Set the resx file folder path to access
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -70,6 +75,11 @@ if (!app.Environment.IsDevelopment())
     }
     app.UseStatusCodePagesWithRedirects("/Error");
     app.UseHttpsRedirection();
+    app.UseCookiePolicy(
+    new CookiePolicyOptions
+    {
+        Secure = CookieSecurePolicy.Always
+    });
     app.UseDefaultFiles();
     app.UseStaticFiles();
     app.UseRouting();

@@ -14,14 +14,12 @@
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>The File Manager component in the property pane displays its features in this sample. The visibility of the toolbar, multi-selection, file extensions, and image thumbnails can all be easily controlled by checking or unchecking the respective checkboxes. Additionally, specific toolbar items can be enabled or disabled by selecting values in the Dropdown List.</p>
+    <p>The File Manager component in the property pane displays its features in this sample. The visibility of the toolbar, file extensions, and image thumbnails can all be easily controlled by checking or unchecking the respective checkboxes. Additionally, specific toolbar items can be enabled or disabled by selecting values in the Dropdown List.</p>
 </SampleDescription>
 <ActionDescription>
     <p>In this demo, the above mentioned requirements are achieved by using the following API properties and method of the File Manager component. </p>
     <ul>
         <li><code>ToolbarSettings</code> defines the group of items in the toolbar that are aligned horizontally.</li>
-        
-        <li><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.FileManager.SfFileManager-1.html#Syncfusion_Blazor_FileManager_SfFileManager_1_AllowMultiSelection' aria-label="Class reference of AllowMultiSelection property in File Manager">AllowMultiSelection</a> property enables or disables the File Manager's multiple folder or file selection.</li>
 
         <li><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.FileManager.SfFileManager-1.html#Syncfusion_Blazor_FileManager_SfFileManager_1_ShowThumbnail' aria-label="Class reference of ShowThumbnail property in File Manager">ShowThumbnail</a> property shows or hides thumbnail images in the large icons view.</li>
 
@@ -40,7 +38,7 @@
             </FileManagerAjaxSettings>
             <FileManagerToolbarSettings ToolbarItems="@Items" Visible="@visible" />
             <FileManagerNavigationPaneSettings Visible=false />
-            <FileManagerContextMenuSettings Layout="@LayoutItems" Visible="true"></FileManagerContextMenuSettings>
+            <FileManagerContextMenuSettings File="@FileItems" Layout="@LayoutItems" Visible="true"></FileManagerContextMenuSettings>
         </SfFileManager>
     </div>
 </div>
@@ -55,13 +53,6 @@
                         <td class="e-width-45">
                             @* Initialization of Checkbox component *@
                             <SfCheckBox @bind-Checked="@check" Name="toolbar" ValueChange="OnToolbarChange" TChecked="bool"></SfCheckBox>
-                        </td>
-                    </tr>
-                   <tr class="e-height-50">
-                        <td class="property-text e-width-55">Allow MultiSelection</td>
-                        <td class="e-width-45">
-                            @* Initialization of Checkbox component *@
-                            <SfCheckBox @bind-Checked="@multiSelectionCheck" Name="multiselection" ValueChange="OnMultiSelectionChange" TChecked="bool"></SfCheckBox>
                         </td>
                     </tr>
                     <tr class="e-height-50">
@@ -81,7 +72,7 @@
                     <tr class="e-height-50">
                         <td class="property-text e-width-55">Disable Toolbar Item</td>
                         <td class="e-width-45"> 
-                            <SfDropDownList TItem="Fields" TValue="string" PopupHeight="100px" Placeholder="Select Items" DataSource="@dropDownListItems">
+                            <SfDropDownList TItem="Fields" TValue="string" PopupHeight="100px" Placeholder="Select Items" DataSource="@dropDownListItems" @bind-Value="@disableValue">
                                 <DropDownListEvents TItem="Fields" TValue="string" ValueChange="DisableSelectedItems" />
                                 <DropDownListFieldSettings Text="Text" Value="ID"/>
                             </SfDropDownList>
@@ -90,7 +81,7 @@
                     <tr class="e-height-50">
                         <td class="property-text e-width-55">Enable Toolbar Item</td>
                         <td class="e-width-45">
-                            <SfDropDownList TItem="Fields" TValue="string" PopupHeight="100px" Placeholder="Select Items" DataSource="@dropDownListItems">
+                            <SfDropDownList TItem="Fields" TValue="string" PopupHeight="100px" Placeholder="Select Items" DataSource="@dropDownListItems" @bind-Value="@enableValue">
                                 <DropDownListEvents TItem="Fields" TValue="string" ValueChange="EnableSelectedItems" />
                                 <DropDownListFieldSettings Text="Text" Value="ID" />
                             </SfDropDownList>
@@ -105,13 +96,14 @@
 @code {
     SfFileManager<FileManagerDirectoryContent>? File;
     private bool check { get; set; } = true;
-    private bool multiSelectionCheck { get; set; } = true;
     private bool fileExtensionCheck { get; set; } = false;
     private bool showThumbnailCheck { get; set; } = true;
     private bool visible { get; set; } = true;
     private bool allowMultiSelection { get; set; } = true;
     private bool showFileExtension { get; set; } = false;
     private bool showThumbnail { get; set; } = true;
+    private string? disableValue { get; set; }
+    private string? enableValue { get; set; }
     //Hidden:Lines
     
     
@@ -131,6 +123,7 @@
         new ToolBarItemModel() { Name = "Details" },
     };
     public string[] LayoutItems = new string[] { "SortBy", "View", "Refresh", "|", "Paste", "|", "NewFolder", "|", "Details", "|", "SelectAll" };
+    public string[] FileItems = new string[] { "Cut", "Copy", "|", "Delete", "Download", "Rename", "|", "Details" };
     //End:Hidden
     // Specifies the event handler to show/hide the toolbar.
     private void OnCheckChanged(string property, bool args)
@@ -156,11 +149,6 @@
     private void OnToolbarChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         OnCheckChanged("Visible", args.Checked);
-    }
-
-    private void OnMultiSelectionChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        OnCheckChanged("AllowMultiSelection", args.Checked);
     }
 
     private void FileExtensionChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
@@ -208,7 +196,7 @@
 
     public void DisableEnableSelectedItems(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Fields> args, bool disable)
     {
-        if (toolbarItems.TryGetValue(args.ItemData.Text, out var item))
+        if (args.ItemData != null && toolbarItems.TryGetValue(args.ItemData.Text, out var item))
         {
             if (disable)
             {
@@ -223,11 +211,19 @@
     public void DisableSelectedItems(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Fields> args)
     {
         DisableEnableSelectedItems(args, true);
+        if (args.Value == enableValue)
+        {
+            enableValue = null;
+        }
     }
 
     public void EnableSelectedItems(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Fields> args)
     {
         DisableEnableSelectedItems(args, false);
+        if (args.Value == disableValue)
+        {
+            disableValue = null;
+        }
     }
 }
 
@@ -239,11 +235,12 @@
 
     .e-width-45 {
         width: 45%;
-        padding: 2px;
+        padding: 10px;
     }
 
     .e-width-55 {
         width: 55%;
+        padding-top: 5px;
     }
 
     .e-width-100 {

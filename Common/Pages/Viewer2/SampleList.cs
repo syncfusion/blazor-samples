@@ -52,7 +52,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/multi-format-viewer",
                 FileName = "MultiFormatViewer.razor"
             },
-
+#endif
              new Sample
             {
                 Name = "Redaction",
@@ -63,14 +63,16 @@ namespace BlazorDemos
                 FileName = "Redaction.razor",
                 NotificationDescription = new string[]{ @"We have included a demonstration on how to apply redaction to the PDF viewer document. This feature helps to hide sensitive or confidential information in PDF files with the assistance of the .NET PDF library." }
             },
-#endif
+
             new Sample
             {
                 Name = "Custom Toolbar",
                 Category = "Toolbar",
                 Directory = "Viewer2/PdfViewer2",             
                 Url = "pdf-viewer-2/custom-toolbar",
+                Type=SampleType.Updated,
                 FileName = "CustomToolbar.razor",
+                NotificationDescription = new string[]{ @"The custom toolbar demo has been updated with a new UI and additional functionalities, adding various annotations such as highlights, free text, shapes, stamps, drawings, and handwritten signatures. Users can also edit these annotations within the document." }
             },
             new Sample
             {

@@ -68,7 +68,7 @@ namespace Blazor_MAUI_Demos
                 Name = "Barcode Generator",
                 Category = "Data Visualization",
                 Directory = "Barcodes",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Barcode,
                 ControllerName = "Barcodes",
                 CustomDocLink = "barcode/getting-started",

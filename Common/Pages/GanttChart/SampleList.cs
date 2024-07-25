@@ -224,7 +224,19 @@ namespace BlazorDemos
                 Category = "Scheduling Concepts",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/working-time-range",
-                FileName="WorkTimeRange.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="WorkTimeRange",
+                        FileName="WorkTimeRange.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WorkTimeRangeRecord",
+                        FileName="WorkTimeRangeData.cs"
+                    }
+                },
                 Type = SampleType.None,
             },
             new Sample
@@ -380,7 +392,19 @@ namespace BlazorDemos
                 Category = "Columns",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/column-template",
-                FileName="ColumnTemplate.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ColumnTemplate",
+                        FileName="ColumnTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ColumnTemplateRecord",
+                        FileName="ColumnTemplateData.cs"
+                    }
+                },
                 Type = SampleType.None,
             },
             new Sample
@@ -410,6 +434,19 @@ namespace BlazorDemos
                 Category = "Columns",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/column-resizing",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ColumnResizing",
+                        FileName="ColumnResizing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ColumnResizingRecord",
+                        FileName="DefaultData.cs"
+                    }
+                },
                 FileName="ColumnResizing.razor",
                 Type = SampleType.None,
             },
@@ -475,7 +512,20 @@ namespace BlazorDemos
                 Category = "Resource",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/multi-taskbar",
-                FileName="MultiTaskbar.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ResourceMultiTaskbar",
+                        FileName="MultiTaskbar.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="MultiTaskbarRecord",
+                        FileName="MultiTaskbarData.cs"
+                    }
+                },
+                
                 Type = SampleType.None,
             },
              new Sample
@@ -536,8 +586,8 @@ namespace BlazorDemos
                     },
                     new SourceCollection
                     {
-                        Id="DefaultRecord",
-                        FileName="DefaultData.cs"
+                        Id="TooltipTemplateRecord",
+                        FileName="TooltipTemplateData.cs"
                     }
                 }
             },
@@ -559,7 +609,19 @@ namespace BlazorDemos
                 Category = "Scrolling",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/frozen-column",
-                FileName="FrozenColumn.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="FrozenColumn",
+                        FileName="FrozenColumn.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="FrozenColumnRecord",
+                        FileName="GanttData.cs"
+                    }
+                },
                 Type = SampleType.None,
                 IsHideInMobile= true,
                
@@ -670,6 +732,11 @@ namespace BlazorDemos
                     {
                         Id="GanttResponsive",
                         FileName="GanttResponsive.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="GanttResponsiveRecord",
+                        FileName="WorkData.cs"
                     }
                 },
             },

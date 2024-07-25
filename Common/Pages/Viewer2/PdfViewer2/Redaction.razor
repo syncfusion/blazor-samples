@@ -53,12 +53,12 @@ Various types of redactions are demonstrated: </p>
 @*End:Server*@
 </ActionDescription>
 
-<div class="control-section"id="panel">
+<div class="control-section" id="panel">
     @*Hidden:Lines*@
         <div style="display:none">
             <SfUploader @ref="@uploadFiles" ID="UploadFiles" ShowFileList="false" AllowedExtensions=".pdf">
                 <UploaderEvents OnUploadStart="@FileUploadSelected" Created="@createdHandler"></UploaderEvents>
-                <UploaderAsyncSettings SaveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Save" RemoveUrl="https://aspnetmvc.syncfusion.com/services/api/uploadbox/Remove"></UploaderAsyncSettings>
+                <UploaderAsyncSettings SaveUrl="https://services.syncfusion.com/aspnet/production/api/FileUploader/Save" RemoveUrl="https://services.syncfusion.com/aspnet/production/api/FileUploader/Remove"></UploaderAsyncSettings>
             </SfUploader>
         </div>
     @*End:Hidden*@
@@ -101,7 +101,7 @@ Various types of redactions are demonstrated: </p>
     @*Hidden:Lines*@
     @if (IsVisibleDialog)
     {
-        <SfDialog ShowCloseIcon="false" CssClass="dialog-container" IsModal="true" Target="#panel"  Visible="@IsVisibleDialog" Height="477px" Width="477px">
+        <SfDialog ShowCloseIcon="false" CssClass="dialog-container" IsModal="true" Target="#panel"  Visible="@IsVisibleDialog" Width="477px">
             <DialogTemplates>
              <Content><span style="border:2px solid black"></span></Content>
              <Header>Upload Image <SfButton IconCss="e-icons e-close" CssClass="close-button" OnClick="ClosePopUp"></SfButton></Header>
@@ -114,22 +114,22 @@ Various types of redactions are demonstrated: </p>
                      <div class="upload-footer">(Only JPG and PNG images will be accepted)</div>
                      </div>
                      <div class="image-list">
-                    @if(CustomImageList != null)
+                    @if(Images != null)
                     {
-                        if(CustomImageList.Count > 0)
+                        if(Images.Count > 0)
                         {
-                             <div class="image-container" >
-                                <img class="image-source" src="@CustomImageList[0]" @onclick="()=>ImageSelectd(0)"/>
+                             <div class="@(Images[0].ImageSelected ? "image-container image-container-selected" : "image-container")" >
+                                <img class="image-source" src="@Images[0].ImageData" @onclick="()=>ImageSelected(0)"/>
                             </div>
-                            if(CustomImageList.Count > 1)
+                            if(Images.Count > 1)
                             {
-                                <div class="image-container" >
-                                    <img class="image-source" src="@CustomImageList[1]" @onclick="()=>ImageSelectd(1)"/>
+                                <div class="@(Images[1].ImageSelected ? "image-container image-container-selected" : "image-container")" >
+                                    <img class="image-source" src="@Images[1].ImageData" @onclick="()=>ImageSelected(1)"/>
                                 </div>
-                                if (CustomImageList.Count > 2)
+                                if (Images.Count > 2)
                                 {
-                                    <div class="image-container">
-                                            <img class="image-source" src="@CustomImageList[2]" @onclick="()=>ImageSelectd(2)"/>
+                                    <div class="@(Images[2].ImageSelected ? "image-container image-container-selected" : "image-container")">
+                                            <img class="image-source" src="@Images[2].ImageData" @onclick="()=>ImageSelected(2)"/>
                                     </div> 
                                 }
                             }
@@ -140,13 +140,14 @@ Various types of redactions are demonstrated: </p>
              </Content>
          </DialogTemplates>
          <DialogButtons>
-            <DialogButton CssClass="e-flat" Content="Cancel" OnClick="ClosePopUp"></DialogButton>
+            <DialogButton CssClass="e-flat" Content="OK" Disabled="IsImageSelected" OnClick="AddImage"></DialogButton>
+            <DialogButton CssClass="e-flat" Content="Cancel" OnClick="CancelImage"></DialogButton>
         </DialogButtons>
     </SfDialog>
     }
    @*End:Hidden*@
    
-     <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" ContextMenuSettings="@contextMenu"  EnableNavigationToolbar="false" EnableCommentPanel="false" Width="100%" Height="640px" DownloadFileName="Redact"
+     <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" ContextMenuSettings="@contextMenu" EnableAnnotationToolbar="false" EnableNavigationToolbar="false" EnableCommentPanel="false" Width="100%" Height="640px" DownloadFileName="Redact"
          RectangleSettings="@RectangleAnnoSettings" CustomStampSettings="@CustomStampSettings">
          <PdfViewerCustomStampSettings CustomStamps="@CustomStamps" Author="Image"></PdfViewerCustomStampSettings>
          <PdfViewerAnnotationSettings Author="Image"></PdfViewerAnnotationSettings>
@@ -158,8 +159,16 @@ Various types of redactions are demonstrated: </p>
     .image-list {
         display: flex;
         justify-content: center;
-        padding: 24px 15px;
         gap: 35px;
+    }
+    .image-container-selected {
+        border: 1px solid #757575 !important;
+    }
+    .image-container:hover {
+        border: 1px solid #757575;
+    }
+    .e-dialog .e-upload-files {
+        border: none !important;
     }
     .e-pv-primary-toolbar .e-toolbar {
         border-left-width: 1px !important;
@@ -240,9 +249,6 @@ Various types of redactions are demonstrated: </p>
         width: 70px;
         height: 70px;
     }
-    .e-upload .e-file-select-wrap .e-btn, .e-upload .e-upload-actions .e-btn, .e-bigger.e-small .e-upload .e-file-select-wrap .e-btn, .e-bigger.e-small .e-upload .e-upload-actions .e-btn {
-        border-radius:24px;
-    }
     .dialog-container .e-dlg-header {
         display: flex !important;
         justify-content: space-between;
@@ -258,7 +264,8 @@ Various types of redactions are demonstrated: </p>
            height: 38px !important;
     }
     .image-container {
-        box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid transparent;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -285,23 +292,18 @@ Various types of redactions are demonstrated: </p>
         flex-direction: column;
         align-items: center;
     }
-    .e-footer-content {
-        border-top: 1px solid #C4C7C5 !important;
-    }
     .e-dlg-content .e-upload {
         border:none;
-    }
-    .e-dlg-header-content {
-        border-bottom: 1px solid #C4C7C5 !important;
-        margin-bottom: 20px;
     }
     .control-section .e-appbar {
         height:36px;
         font-size: 14px !important;
     }
-    .e-popup.e-popup-open.e-dialog,
     .e-popup.e-popup-open.e-dialog .e-dlg-content{
-            border-radius: 16px;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
     }
     .e-pv-primary-toolbar .e-toolbar {
         height:72px !important;
@@ -391,13 +393,14 @@ Various types of redactions are demonstrated: </p>
     }
     @*Hidden:Lines*@
     SfUploader uploadFiles;
-    private List<string> CustomImageList { get; set; } = new List<string>();
+    private bool IsImageSelected = true;
     private bool IsPreviousPageExist { get; set; } = true;
     private bool IsNextPageExist { get; set; }
     private string[] ZoomValues = { "10%","25%","50%","75%","100%", "200%", "400%"};
     private string ZoomValue = "100%";
     private string RedactionText = "Redacted";
     private int RedactionCount = 0;
+    private List<ImageDetails> Images = new List<ImageDetails>();
     @*End:Hidden*@
     private int TotalPageNumber { get; set; } = 1;
     private int CurrentPageNumber { get; set; } = 1; 
@@ -741,20 +744,13 @@ Various types of redactions are demonstrated: </p>
         await Viewer.SetAnnotationModeAsync(AnnotationType.None);
     }
     //Method for update the page number 
-    private async Task DocumentLoaded(LoadEventArgs args)
+    private void DocumentLoaded(LoadEventArgs args)
     {
         TotalPageNumber = Viewer.PageCount;
         CurrentPageNumber = Viewer.CurrentPageNumber;
         ZoomValue = "100%";
-        List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation> pdfAnnotationList = new List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation>();
-        pdfAnnotationList = await Viewer.GetAnnotationsAsync();
-        foreach(Syncfusion.Blazor.SfPdfViewer.PdfAnnotation annotation in pdfAnnotationList)
-        {
-            if((annotation.Author == "Redaction" || annotation.Author == "Image" || annotation.Author == "Pattern" || annotation.Author == "Text") && (annotation.Type != AnnotationType.Distance &&annotation.Type != AnnotationType.Distance &&annotation.Type != AnnotationType.Perimeter && annotation.Type != AnnotationType.Radius && annotation.Type != AnnotationType.Volume && annotation.Type != AnnotationType.Area ))
-            {
-                RedactionCount = RedactionCount + 1;    
-            }
-        }
+        IsPreviousPageExist = true;
+        IsNextPageExist = false;
     }
     //Method for Adding the redaction count
     private  async Task OnAddAnnotation(AnnotationAddEventArgs args)
@@ -820,6 +816,19 @@ Various types of redactions are demonstrated: </p>
         string docBase64 = args.FileData.RawFile.ToString();
         await Viewer.LoadAsync(docBase64, null);
         await uploadFiles.ClearAllAsync();
+        byte[] byteArray = Convert.FromBase64String(docBase64.Replace("data:application/pdf;base64,", ""));
+        PdfLoadedDocument loadedDocument = new PdfLoadedDocument(byteArray);
+        foreach (PdfLoadedPage loadedPage in loadedDocument.Pages)
+        {
+            foreach (PdfLoadedAnnotation annotation in loadedPage.Annotations)
+            {
+                if((annotation.Author == "Redaction" && annotation is PdfLoadedRectangleAnnotation) || (annotation.Author == "Image" && annotation is PdfLoadedRubberStampAnnotation) || (annotation.Author == "Pattern" && annotation is PdfLoadedRectangleAnnotation) || (annotation.Author == "Text" && annotation is PdfLoadedRectangleAnnotation))
+                {
+                    RedactionCount = RedactionCount + 1;    
+                }
+            }
+        }
+        loadedDocument.Close(true);
     }
     //Method for handle the open the file uploader
     private async Task createdHandler()
@@ -844,31 +853,76 @@ Various types of redactions are demonstrated: </p>
         IsVisibleDialog = false;
         StateHasChanged();
     }
-    //Method for selecting the custom imgage
-    private async Task ImageSelectd(int i)
+    //Method for selecting the custom image
+    private void ImageSelected(int i)
+    {
+        CustomStampSource = Images[i].ImageData;
+        RefreshImages();
+        Images[i].ImageSelected = true;
+    }
+    //Method for cancel the popup
+    private async Task CancelImage()
     {
         ClosePopUp();
-        CustomStampSource = CustomImageList[i];
-        CustomStamps = new List<PdfViewerCustomStamp>() { new PdfViewerCustomStamp { CustomStampImageSource = CustomStampSource } };
-        await AddStamp();
+        await ResetMode();
+    }
+    //Method for add the custom stamp
+    private async Task AddImage()
+    {
+        foreach(ImageDetails image in Images)
+        {
+            if(image.ImageSelected)
+            {
+                CustomStampSource = image.ImageData;
+                await AddStamp();
+                break;
+            }
+        }
+        ClosePopUp();
+    }
+    //Class for the custom stamp
+    private class ImageDetails
+    {
+        public string ImageData { get; set; }
+        public bool ImageSelected { get; set; }
+    }
+    //Method for unselect the images
+    private void RefreshImages()
+    {
+        if (Images != null)
+        {
+            foreach(ImageDetails image in Images)
+            {
+                image.ImageSelected = false;
+            } 
+        }
+
     }
     //Method for load the custom image
     private async Task ImageChane(UploadChangeEventArgs action)
     {
+        IsImageSelected = false;
         string base64 = action.Files[0].File.ToString();
         string type = action.Files[0].FileInfo.Type.ToLower(); 
         var fileStream = new MemoryStream();
         await action.Files[0].File.OpenReadStream(long.MaxValue).CopyToAsync(fileStream);
         string baseString = Convert.ToBase64String(fileStream.ToArray());
         string image = "data:image/jpeg;base64," + baseString;
-        if(CustomImageList.Count > 2)
+        RefreshImages();
+        if(Images.Count > 2)
         {
-            CustomImageList.Remove(CustomImageList[0]);   
+            Images.Remove(Images[0]);   
         }
-        CustomImageList.Add(image);
-        byte[] bytes = Convert.FromBase64String(Convert.ToBase64String(fileStream.ToArray()));
+        ImageDetails newImage = new ImageDetails()
+        {
+            ImageData = image,
+            ImageSelected = true
+        };
+        Images.Add(newImage);
+        CustomStampSource = Images[Images.Count - 1].ImageData;
+        ClosePopUp();
+        await AddStamp();
         fileStream.Close();
-        StateHasChanged();
     }
     @*End:Hidden*@
 }

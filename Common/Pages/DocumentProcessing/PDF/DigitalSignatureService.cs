@@ -1,3 +1,4 @@
+
 #region Copyright Syncfusion Inc. 2001 - 2024
 // Copyright Syncfusion Inc. 2001 - 2024. All rights reserved.
 // Use of this code is subject to the terms of our license.
@@ -42,28 +43,28 @@ namespace BlazorDemos.Data.FileFormats.PDF
             PdfSignature signature = new PdfSignature(page, pdfCert, "Signature");
             
             PdfBitmap bmp = new PdfBitmap(fileDataValue["logo.png"]);
-            signature.Bounds = new RectangleF(new PointF(5, 5), page.GetClientSize());
+            signature.Bounds = new RectangleF(new PointF(20, 20), new SizeF(500, 170));
             signature.ContactInfo = "johndoe@owned.us";
             signature.LocationInfo = "Honolulu, Hawaii";
             signature.Reason = "I am author of this document.";
             SetCryptographicStandard(Cryptographic, signature);
             SetDigest_Algorithm(Digest_Algorithm, signature);
             if (RadioButtonList2 == "Standard")
-                signature.Certificated = true;
-            else
                 signature.Certificated = false;
+            else
+                signature.Certificated = true;
             PdfGraphics graphics = signature.Appearance.Normal.Graphics;
 
-            string validto = "Valid To: " + signature.Certificate.ValidTo.ToString();
-            string validfrom = "Valid From: " + signature.Certificate.ValidFrom.ToString();
+            string validto = " Valid To: " + signature.Certificate.ValidTo.ToString();
+            string validfrom = " Valid From: " + signature.Certificate.ValidFrom.ToString();
 
             graphics.DrawImage(bmp, 0, 0);
 
-            doc.Pages[0].Graphics.DrawString(validfrom, font, pen, brush, 0, 90);
-            doc.Pages[0].Graphics.DrawString(validto, font, pen, brush, 0, 110);
+            doc.Pages[0].Graphics.DrawString(validfrom, font, pen, brush, 20, 90);
+            doc.Pages[0].Graphics.DrawString(validto, font, pen, brush, 20, 110);
 
-            doc.Pages[0].Graphics.DrawString(" Protected Document. Digitally signed Document.", font, pen, brush, 0, 130);
-            doc.Pages[0].Graphics.DrawString("* To validate Signature click on the signature on this page \n * To check Document Status \n click document status icon on the bottom left of the acrobat reader.", font, pen, brush, 0, 150);
+            doc.Pages[0].Graphics.DrawString(" Protected Document. Digitally signed Document.", font, pen, brush, 20, 130);
+            doc.Pages[0].Graphics.DrawString(" * To validate Signature click on the signature on this page \n * To check Document Status \n click document status icon on the bottom left of the acrobat reader.", font, pen, brush, 20, 150);
 
             // Save the pdf document to the Stream.
             MemoryStream stream = new MemoryStream();
@@ -71,7 +72,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             doc.Save(stream);
 
             //Close document
-            doc.Close();
+            doc.Close(true);
 
             stream.Position = 0;
             return stream;
@@ -127,4 +128,3 @@ namespace BlazorDemos.Data.FileFormats.PDF
     }
 }
     
-

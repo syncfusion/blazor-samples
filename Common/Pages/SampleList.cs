@@ -68,7 +68,7 @@ namespace BlazorDemos
                 Name = "Barcode Generator",
                 Category = "Data Visualization",
                 Directory = "Barcodes",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = Barcode,
                 ControllerName = "Barcodes",
                 CustomDocLink = "barcode/getting-started",
@@ -220,7 +220,8 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Samples = RichTextEditor,
                 ControllerName = "RichTextEditor",
-                DemoPath = "rich-text-editor/overview"
+                DemoPath = "rich-text-editor/overview",
+                Type = SampleType.Updated
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
