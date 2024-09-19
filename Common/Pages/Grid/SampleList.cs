@@ -25,7 +25,20 @@ namespace BlazorDemos
                 MetaTitle = "Blazor DataGrid Example | Grid Overview | Syncfusion Demos",
                 HeaderText = "Blazor DataGrid Example - Overview",
                 MetaDescription = "This Blazor DataGrid example is an overview of the Blazor DataGrid features with its performance metrics calculated for huge volume of data.",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Overview.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OverviewData.cs"
+                    }
+                }
             },
              
             new Sample
@@ -39,6 +52,19 @@ namespace BlazorDemos
                 HeaderText = "Blazor Grid Example - Default Functionalities",
                 MetaDescription = "This Blazor Grid example demonstrates the default rendering of the DataGrid with a minimum configuration.",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DefaultFunctionalities.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -47,7 +73,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/adaptive-rendering",
                 FileName = "AdaptiveRendering.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AdaptiveRendering.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -56,7 +95,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/local-data",
                 FileName = "LocalData.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="LocalData.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -74,7 +126,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/custom-binding",
                 FileName = "CustomBinding.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CustomBinding.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrderDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -82,7 +147,7 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/datatable-binding",
-                FileName = "CustomBinding.razor",
+                FileName = "DataTableBinding.razor",
                 Type = SampleType.None
             },
             new Sample
@@ -92,7 +157,7 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/data-annotation",
                 FileName = "DataAnnotation.razor",
-                Type = SampleType.None,
+                Type = SampleType.None
             },
             new Sample
             {
@@ -128,7 +193,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/column-template",
                 FileName = "ColumnTemplate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ColumnTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Employee.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -137,7 +215,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/header-template",
                 FileName = "GridHeaderTemplate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GridHeaderTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Employee.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -146,7 +237,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/stacked-header",
                 FileName = "GridStackedHeader.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GridStackedHeader.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -164,7 +268,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/reorder",
                 FileName = "Reorder.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Reorder.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -173,7 +290,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/column-resize",
                 FileName = "Columnresize.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ColumnResize.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -182,7 +312,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/column-menu",
                 FileName = "Columnmenu.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ColumnMenu.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -191,7 +334,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/auto-wrap",
                 FileName = "AutoWrap.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AutoWrap.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="InventorData.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -200,7 +356,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/column-chooser",
                 FileName = "ColumnChooser.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ColumnChooser.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -209,7 +378,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/column-chooser-template",
                 FileName = "ColumnChooserTemplate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ColumnChooserTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -218,7 +400,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/show-or-hide-column",
                 FileName = "ShoworHideColumn.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ShoworHideColumn.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -227,7 +422,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/cell-formatting",
                 FileName = "Cellformatting.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CellFormatting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="CellData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -245,7 +453,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/row-template",
                 FileName = "GridRowTemplate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GridRowTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Employee.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -254,7 +475,25 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/detail-template",
                 FileName = "GridDetailTemplate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GridDetailTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Employee.cs"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="EmployeeOrders.cs"
+                    }
+                }
             },
             new Sample
              {
@@ -264,6 +503,19 @@ namespace BlazorDemos
                  Url = "datagrid/row-drag-and-drop",
                  FileName = "RowDragAndDrop.razor",
                  Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="RowDragAndDrop.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
              },
             new Sample
             {
@@ -272,7 +524,20 @@ namespace BlazorDemos
                Directory = "Grid/DataGrid",
                Url = "datagrid/draganddrop-within-grid",
                FileName = "DragAndDropWithinGrid.razor",
-               Type = SampleType.None
+               Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DragAndDropWithinGrid.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
 
             },
             new Sample
@@ -282,7 +547,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/row-hover",
                 FileName = "RowHover.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="RowHover.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Product.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -291,7 +569,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/row-height",
                 FileName = "RowHeight.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="RowHeight.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -299,9 +590,21 @@ namespace BlazorDemos
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/inline-editing",
-                FileName = "InlineEditing.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Inline Editing demo has been updated to include the ShowAddNewRow property. This demo showcases how to easily add records using the add form, which is always displayed on the grid content." },
+                FileName = "InlineEditing.razor", 
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="InlineEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Orders.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -310,7 +613,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/dialog-editing",
                 FileName = "DialogEditing.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DialogEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -318,7 +634,20 @@ namespace BlazorDemos
                 Category = "Editing",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/grid-dialog-template",
-                FileName = "GridDialogTemplate.razor"
+                FileName = "GridDialogTemplate.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GridDialogTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -327,7 +656,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/batch-editing",
                 FileName = "BatchEditing.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="BatchEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -336,7 +678,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/command-column",
                 FileName = "CommandColumn.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CommandColumn.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -345,7 +700,21 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/external-form-editing",
                 FileName = "ExternalFormEditing.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ExternalFormEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrderDetails.cs"
+                    }
+                }
+                 
             },
             new Sample
             {
@@ -363,7 +732,21 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/sorting",
                 FileName = "Sorting.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Sorting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrderDetails.cs"
+                    }
+                 
+                },
             },
             new Sample
             {
@@ -372,7 +755,21 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/customsorting",
                 FileName = "CustomSorting.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CustomSorting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="TaskDetails.cs"
+                    }
+                 
+               },
             },
             new Sample
             {
@@ -381,7 +778,21 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Filtering.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Category.cs"
+                    }
+                 
+                },
             },
              new Sample
             {
@@ -391,6 +802,20 @@ namespace BlazorDemos
                 Url = "datagrid/filter-menu",
                 FileName = "FilterMenu.razor",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="FilterMenu.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Orders.cs"
+                    }
+                 
+                },
             },
              new Sample
             {
@@ -400,6 +825,20 @@ namespace BlazorDemos
                 Url = "datagrid/checkbox-filter",
                 FileName = "FilterCheckbox.razor",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="FilterCheckbox.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                 
+                },
             },
              new Sample
             {
@@ -409,6 +848,20 @@ namespace BlazorDemos
                 Url = "datagrid/excel-like-filter",
                 FileName = "FilterExcel.razor",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="FilterExcel.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                 
+                },
             },
             new Sample
             {
@@ -417,7 +870,21 @@ namespace BlazorDemos
                Directory = "Grid/DataGrid",
                Url = "datagrid/search",
                FileName = "Search.razor",
-               Type = SampleType.None
+               Type = SampleType.None,
+               SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Search.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="InventorData.cs"
+                    }
+                 
+                },
             },
             new Sample
             {
@@ -426,7 +893,21 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/pager-dropdown",
                 FileName = "PagerDropdown.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="PagerDropdown.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                 
+                },
             },
             new Sample
             {
@@ -435,7 +916,21 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/pager-template",
                 FileName = "PagerTemplate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="PagerTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrderPage.cs"
+                    }
+                 
+                },
             },
             new Sample
             {
@@ -445,6 +940,20 @@ namespace BlazorDemos
                 Url = "datagrid/grouping",
                 FileName = "Grouping.razor",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Grouping.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Orders.cs"
+                    }
+                 
+                },
             },
 #if !(WASM)
 			new Sample
@@ -466,14 +975,27 @@ namespace BlazorDemos
                 FileName = "LazyLoadGroupingInfiniteScrolling.razor",
                 Type = SampleType.None,
             },
-            new Sample
+            new Sample 
             {
                 Name = "Default Aggregate",
                 Category = "Aggregates",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/aggregate",
                 FileName = "Aggregate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Aggregate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -482,7 +1004,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/group-and-caption-aggregate",
                 FileName = "GroupAndCaptionAggregate.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GroupAndCaptionAggregate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Category.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -492,6 +1027,19 @@ namespace BlazorDemos
                 Url= "datagrid/reactive-aggregate",
                 FileName= "ReactiveAggregate.razor",
                 Type= SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ReactiveAggregate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrderData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -500,7 +1048,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/selection",
                 FileName = "Selection.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Selection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -509,7 +1070,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/checkbox-selection",
                 FileName = "CheckboxSelection.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CheckboxSelection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -518,7 +1092,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/drag-selection",
                 FileName = "DragSelection.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DragSelection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -547,7 +1134,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/default-scrolling",
                 FileName = "DefaultScrolling.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DefaultScrolling.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -556,7 +1156,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/sticky-header",
                 FileName = "StickyHeader.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="StickyHeader.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
              new Sample
             {
@@ -565,7 +1178,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/frozen-rows",
                 FileName = "FrozenRowsAndColumns.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="FrozenRowsAndColumns.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="TaskDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -584,6 +1210,19 @@ namespace BlazorDemos
                 Url = "datagrid/virtual-mask-row",
                 FileName = "VirtualMaskRow.razor",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="VirtualMaskRow.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Order.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -601,7 +1240,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/exporting",
                 FileName = "Exporting.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Exporting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -610,7 +1262,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/advanced-exporting",
                 FileName = "AdvancedExporting.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AdvancedExporting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="Product.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -628,7 +1293,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/template-exporting",
                 FileName = "TemplateExporting.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="TemplateExporting.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -637,7 +1315,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/print",
                 FileName = "Print.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Print.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -646,7 +1337,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/context-menu",
                 FileName = "ContextMenu.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ContextMenu.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -655,7 +1359,20 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/clipboard",
                 FileName = "Clipboard.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Clipboard.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -665,6 +1382,19 @@ namespace BlazorDemos
                 Url = "datagrid/keyboard-navigation",
                 FileName = "KeyboardNavigation.razor",
                 Type = SampleType.None,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="KeyboardNavigation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="OrdersDetails.cs"
+                    }
+                }
             },
             //new Sample
             //{

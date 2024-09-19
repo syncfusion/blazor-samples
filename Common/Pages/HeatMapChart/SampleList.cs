@@ -109,8 +109,7 @@ namespace BlazorDemos
                 Category = "Features",
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/label-template",
-                FileName = "LabelTemplate.razor",
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate label template support, which is to add any HTML elements into the HeatMap cells, such as images, text, and so on." }
+                FileName = "LabelTemplate.razor"
             }, 
              new Sample
             {

@@ -99,6 +99,49 @@ namespace Blazor_MAUI_Demos
             }
         };
 
+        public List<Sample> DropDownTree { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor"
+            },
+            new Sample
+            {
+                Name = "Customization",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/customization",
+                FileName = "Customization.razor"
+            },
+            new Sample
+            {
+                Name = "Selection",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/selection",
+                FileName = "Selection.razor"
+            },
+            new Sample
+            {
+                Name = "Filtering",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/Filtering",
+                FileName = "Filtering.razor"
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "Dropdown Tree",
+                Directory = "DropDowns/DropDownTree",
+                Url = "dropdown-tree/validation",
+                FileName = "Validation.razor"
+            }
+        };
+
         public List<Sample> ComboBox { get; set; } = new List<Sample> {
             new Sample
             {

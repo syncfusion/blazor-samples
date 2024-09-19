@@ -727,5 +727,71 @@ namespace Blazor_MAUI_Demos
                 MappingSampleName = "With Color"
             }
         };
+
+	    public List<Sample> Stepper { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Orientation",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/orientation",
+                FileName = "Orientation.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Linear Flow",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/linear-flow",
+                FileName = "Linear.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Validation",
+                Category = "Stepper",
+                Directory = "Navigations/Stepper",
+                Url = "stepper/validation",
+                FileName = "Validation.razor",
+                Type = SampleType.None
+            }
+        };
+
+        public List<Sample> Ribbon { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/default-functionalities",
+                FileName = "DefaultFunctionalities.razor"
+            },
+            new Sample
+            {
+                Name = "Simplified",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/simplified",
+                FileName = "Simplified.razor"
+            },
+            new Sample
+            {
+                Name = "Ribbon Resizing",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/resize",
+                FileName = "Resize.razor"
+            }
+        };
     }
 }

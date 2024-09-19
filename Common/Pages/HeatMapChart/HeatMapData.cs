@@ -78,6 +78,21 @@ namespace sf_blazor_heatmapdata
                     return Theme.Tailwind;
                 }
             }
+            else if (navURL.IndexOf("fluent2") > -1)
+            {
+                if (navURL.IndexOf("highcontrast") > -1)
+                {
+                    return Theme.Fluent2HighContrast;
+                }
+                else if (navURL.IndexOf("dark") > -1)
+                {
+                    return Theme.Fluent2Dark;
+                }
+                else
+                {
+                    return Theme.Fluent2;
+                }
+            }
             else if (navURL.IndexOf("fluent") > -1)
             {
                 if (navURL.IndexOf("dark") > -1)

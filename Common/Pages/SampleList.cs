@@ -5,18 +5,201 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
+
+
 namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
         internal SampleConfig()
         {
+#if SERVER
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Smart Paste",
+                Category = "Smart Components",
+                Directory = "AISamples",
+                Samples = AISmartPaste,
+                ControllerName = "AISmartPaste",
+                DemoPath = "ai-smartpaste/annotations",
+                ComponentIconName = "data_form"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Smart TextArea",
+                Category = "Smart Components",
+                Directory = "AISamples",
+                Samples = AISmartTextArea,
+                ControllerName = "AISmartTextArea",
+                DemoPath = "ai-smarttextarea/default",
+                ComponentIconName = "textarea"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "DataGrid",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIDataGrid,
+                ControllerName = "AIDataGrid",
+                DemoPath = "ai-datagrid/semantic-filtering",
+                ComponentIconName = "datagrid",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "TreeGrid",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AITreeGrid,
+                ControllerName = "AITreeGrid",
+                DemoPath = "ai-treegrid/adaptive-datastructuring",
+                ComponentIconName = "treegrid",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Diagram",
+                Category = "Smart AI Solutions",
+                Directory = "DiagramComponent",
+                Samples = AIDiagram,
+                ControllerName = "AIDiagram",
+                DemoPath = "ai-diagram/text-to-flowchart",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Gantt Chart",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIGanttChart,
+                ControllerName = "AIGanttChart",
+                DemoPath = "ai-ganttchart/task-prioritizer",
+                ComponentIconName = "ganttchart",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "QueryBuilder",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIQueryBuilder,
+                ControllerName = "AIQueryBuilder",
+                DemoPath = "ai-querybuilder/natural-languagequery",
+                ComponentIconName = "querybuilder",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Combo Box",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIComboBox,
+                ControllerName = "AIComboBox",
+                DemoPath = "ai-combobox/embeddings",
+                ComponentIconName = "combobox",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Image Editor",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIImageEditor,
+                ControllerName = "AIImageEditor",
+                ComponentIconName = "image_editor",
+                DemoPath = "ai-imageeditor/smart-imageeditor",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "File Manager",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIFileManager,
+                ControllerName = "AIFileManager",
+                ComponentIconName = "filemanager",
+                DemoPath = "ai-filemanager/smart-filemanager",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Pivot Table",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIPivotTable,
+                ControllerName = "AIPivotTable",
+                DemoPath = "ai-pivottable/smartpivot",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Rich Text Editor",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIRichTextEditor,
+                ControllerName = "AIRichTextEditor",
+                DemoPath = "ai-richtexteditor/ai-assistant",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Kanban",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIKanban,
+                ControllerName = "AIKanban",
+                DemoPath = "ai-kanban/aitask-recommendation",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Scheduler",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIScheduler,
+                ControllerName = "AIScheduler",
+                DemoPath = "ai-scheduler/smartscheduler",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Maps",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIMaps,
+                ControllerName = "AIMaps",
+                DemoPath = "ai-maps/weather-prediction",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "PDF Viewer",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIPdfViewer,
+                ControllerName = "AIPdfViewer2",
+                ComponentIconName = "PdfViewer",
+                DemoPath = "ai-pdfviewer-2/smartfill",
+                IsHideFromHomePageList = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Word Processor",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples",
+                Samples = AIDocumentEditor,
+                ControllerName = "AIDocumentEditor",
+                DemoPath = "ai-documenteditor/writing-assist",
+                CustomDocLink = "document-editor/getting-started/features",
+                IsHideFromHomePageList = true
+            });
+#endif
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "DataGrid",
                 Category = "Grids",
                 Directory = "Grid",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = DataGrid,
                 ControllerName = "DataGrid",
                 DemoPath = "datagrid/overview"
@@ -37,7 +220,7 @@ namespace BlazorDemos
                 Category = "Grids",
                 Directory = "TreeGrid/TreeGrid",
                 Samples = TreeGrid,
-		        Type = SampleType.Updated,
+                Type = SampleType.None,
                 ControllerName = "TreeGrid",
                 CustomDocLink = "treegrid/getting-started/",
                 DemoPath = "tree-grid/overview"
@@ -57,22 +240,21 @@ namespace BlazorDemos
                 Name = "3D Chart",
                 Category = "Data Visualization",
                 Directory = "Charts",
-                Type = SampleType.Preview,
+                Type = SampleType.None,
                 Samples = Chart3D,
                 ControllerName = "Chart3D",
-                DemoPath = "chart-3d/column",
-                IsPreview = true
+                DemoPath = "chart-3d/column"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Barcode Generator",
                 Category = "Data Visualization",
                 Directory = "Barcodes",
-                Type = SampleType.Updated,
                 Samples = Barcode,
                 ControllerName = "Barcodes",
                 CustomDocLink = "barcode/getting-started",
-                DemoPath = "barcodes/default-functionalities"
+                DemoPath = "barcodes/default-functionalities",
+                Type = SampleType.Updated,
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -103,14 +285,13 @@ namespace BlazorDemos
                 ControllerName = "ArcGauge",
                 DemoPath = "arc-gauge/default"
             });
-          
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
                 Directory = "DiagramComponent",
                 Samples = DiagramComponent,
-		Type = SampleType.Updated,
+                Type = SampleType.Updated,
                 ControllerName = "DiagramComponent",
                 DemoPath = "diagramcomponent/flowchart",
             });
@@ -218,9 +399,19 @@ namespace BlazorDemos
                 Name = "Rich Text Editor",
                 Category = "File Viewers & Editors",
                 Directory = "RichTextEditor/RichTextEditor",
+                Type = SampleType.Updated,
                 Samples = RichTextEditor,
                 ControllerName = "RichTextEditor",
-                DemoPath = "rich-text-editor/overview",
+                DemoPath = "rich-text-editor/overview"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Markdown Editor",
+                Category = "File Viewers & Editors",
+                Directory = "RichTextEditor/MarkdownEditor",
+                Samples = MarkdownEditor,
+                ControllerName = "MarkdownEditor",
+                DemoPath = "markdown-editor/overview",
                 Type = SampleType.Updated
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -231,7 +422,7 @@ namespace BlazorDemos
                 Samples = ImageEditor,
                 ControllerName = "ImageEditor",
                 DemoPath = "image-editor/default-functionalities",
-		        ComponentIconName = "image_editor",
+                ComponentIconName = "image_editor",
                 Type = SampleType.Updated
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -251,10 +442,10 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",
                 Samples = PDFViewer2,
                 Type = SampleType.Updated,
+                InfoTooltip = "This new Blazor PDF Viewer component is powered by WASM rendering engine which provides fast rendering of pages and improved performance. Also, there is no need of external Web service for processing the files and ease out the deployment complexity. It can be used in Blazor Server, WASM and hybrid applications without any changes.",
                 ControllerName = "PdfViewer2",
                 CustomDocLink = "pdfviewer-2/getting-started",
                 DemoPath = "pdf-viewer-2/default-functionalities",
-                InfoTooltip = "This new Blazor PDF Viewer component is powered by WASM rendering engine which provides fast rendering of pages and improved performance. Also, there is no need of external Web service for processing the files and ease out the deployment complexity. It can be used in Blazor Server, WASM and hybrid applications without any changes.",
                 ComponentIconName = "pdfviewer"
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -264,6 +455,7 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Samples = Scheduler,
                 ControllerName = "Scheduler",
+                Type = SampleType.Updated,
                 DemoPath = "scheduler/overview"
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -291,7 +483,7 @@ namespace BlazorDemos
                 Name = "DatePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DatePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DatePicker,
                 ControllerName = "DatePicker",
                 DemoPath = "datepicker/default-functionalities"
@@ -301,7 +493,7 @@ namespace BlazorDemos
                 Name = "DateRangePicker",
                 Category = "Calendars",
                 Directory = "Calendars/DateRangePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DateRangePicker,
                 ControllerName = "DateRangePicker",
                 DemoPath = "daterangepicker/default-functionalities"
@@ -311,7 +503,7 @@ namespace BlazorDemos
                 Name = "DateTime Picker",
                 Category = "Calendars",
                 Directory = "Calendars/DateTimePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = DateTimePicker,
                 ControllerName = "DateTimePicker",
                 DemoPath = "datetime-picker/default-functionalities"
@@ -321,7 +513,7 @@ namespace BlazorDemos
                 Name = "TimePicker",
                 Category = "Calendars",
                 Directory = "Calendars/TimePicker",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 Samples = TimePicker,
                 ControllerName = "TimePicker",
                 DemoPath = "timepicker/default-functionalities"
@@ -357,16 +549,16 @@ namespace BlazorDemos
                 CustomDocLink = "chip/getting-started",
                 DemoPath = "chips/default-functionalities"
             });
-			SampleBrowser.SampleList.Add(new SampleList
-			{
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Floating Action Button",
                 Category = "Buttons",
-                Directory = "Buttons/FAB",                
+                Directory = "Buttons/FAB",
                 Type = SampleType.None,
                 Samples = FAB,
                 ControllerName = "FAB",
                 DemoPath = "fab/overview"
-			});
+            });
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Dropdown Menu",
@@ -397,7 +589,7 @@ namespace BlazorDemos
                 CustomDocLink = "button/getting-started",
                 DemoPath = "buttons/split-button"
             });
-			SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Speed Dial",
                 Category = "Buttons",
@@ -412,7 +604,7 @@ namespace BlazorDemos
                 Name = "AutoComplete",
                 Category = "DropDowns",
                 Directory = "DropDowns/AutoComplete",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = AutoComplete,
                 ControllerName = "AutoComplete",
                 DemoPath = "autocomplete/default-functionalities"
@@ -422,7 +614,7 @@ namespace BlazorDemos
                 Name = "ComboBox",
                 Category = "DropDowns",
                 Directory = "DropDowns/ComboBox",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = ComboBox,
                 ControllerName = "ComboBox",
                 DemoPath = "combobox/default-functionalities"
@@ -432,7 +624,7 @@ namespace BlazorDemos
                 Name = "Dropdown List",
                 Category = "DropDowns",
                 Directory = "DropDowns/DropDownList",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = DropDownList,
                 ControllerName = "DropDownList",
                 DemoPath = "dropdown-list/default-functionalities"
@@ -462,7 +654,7 @@ namespace BlazorDemos
                 Name = "MultiSelect Dropdown",
                 Category = "DropDowns",
                 Directory = "DropDowns/MultiSelect",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = MultiSelectDropdown,
                 ControllerName = "MultiSelectDropdown",
                 DemoPath = "multiselect-dropdown/default-functionalities"
@@ -472,9 +664,21 @@ namespace BlazorDemos
                 Name = "Mention",
                 Category = "DropDowns",
                 Directory = "DropDowns/Mention",
+                Type = SampleType.Updated,
                 Samples = Mention,
                 ControllerName = "Mention",
                 DemoPath = "mention/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "MultiColumn ComboBox",
+                Category = "DropDowns",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Type = SampleType.Preview,
+                IsPreview = true,
+                Samples = MultiColumnComboBox,
+                ControllerName = "MultiColumnComboBox",
+                DemoPath = "multiColumn-combobox/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -568,8 +772,7 @@ namespace BlazorDemos
                 Name = "TextArea",
                 Category = "Inputs",
                 Directory = "Inputs",
-                Type = SampleType.Preview,
-                IsPreview = true,
+                Type = SampleType.None,
                 Samples = TextArea,
                 ControllerName = "TextArea",
                 DemoPath = "textarea/default-functionalities"
@@ -606,15 +809,24 @@ namespace BlazorDemos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
-              Name = "OTP Input",
-              Category = "Inputs",
-              Directory = "Inputs/OtpInput",
-              Type = SampleType.Preview,
-              Samples = OtpInput,
-              ControllerName = "OtpInput",
-              DemoPath = "otp-input/default-functionalities",
-              IsPreview = true,
-              ComponentIconName = "otpinput"
+                Name = "OTP Input",
+                Category = "Inputs",
+                Directory = "Inputs/OtpInput",
+                Samples = OtpInput,
+                ControllerName = "OtpInput",
+                DemoPath = "otp-input/default-functionalities",
+                ComponentIconName = "otpinput"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "AI AssistView",
+                Category = "Interactive Chat",
+                Directory = "InteractiveChat/AIAssistView",
+                Samples = AIAssistView,
+                ControllerName = "AIAssistView",
+                DemoPath = "ai-assistview/default-functionalities",
+                Type = SampleType.Preview,
+                IsPreview = true
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -659,7 +871,8 @@ namespace BlazorDemos
                 Directory = "Navigations/FileManager",
                 Samples = FileManager,
                 ControllerName = "FileManager",
-                DemoPath = "file-manager/overview"
+                DemoPath = "file-manager/overview",
+                Type = SampleType.Updated
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -713,7 +926,6 @@ namespace BlazorDemos
                 Name = "TreeView",
                 Category = "Navigation",
                 Directory = "Navigations/TreeView",
-                Type = SampleType.Updated,
                 Samples = TreeView,
                 ControllerName = "TreeView",
                 DemoPath = "treeview/default-functionalities"
@@ -727,7 +939,7 @@ namespace BlazorDemos
                 ControllerName = "AppBar",
                 DemoPath = "appbar/default-functionalities"
             });
-	        SampleBrowser.SampleList.Add(new SampleList
+            SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "Stepper",
                 Category = "Navigation",
@@ -813,7 +1025,6 @@ namespace BlazorDemos
                 Samples = Tooltip,
                 ControllerName = "Tooltip",
                 DemoPath = "tooltip/default"
-				
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -901,7 +1112,6 @@ namespace BlazorDemos
                 Directory = "Forms/QueryBuilder",
                 Samples = QueryBuilder,
                 ControllerName = "QueryBuilder",
-                Type = SampleType.Updated,
                 DemoPath = "query-builder/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
@@ -932,9 +1142,9 @@ namespace BlazorDemos
                 Category = "Document Processing Libraries",
                 Directory = "DocumentProcessing/PDF",
 #if !(WASM)
-                Type = SampleType.None,
+                Type = SampleType.Updated,
 #else
-                Type = SampleType.None,
+               Type = SampleType.Updated,
 #endif
                 Samples = PDF,
                 ControllerName = "PDF",
@@ -947,9 +1157,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Samples = Presentation,
                 ControllerName = "PowerPoint",
-#if !WASM && !WEBAPP
-                Type = SampleType.Updated,
-#endif
                 DemoPath = "powerpoint/getting-started",
                 ComponentIconName = "powerpoint"
             });
@@ -958,13 +1165,15 @@ namespace BlazorDemos
                 Name = "Excel (XlsIO)",
                 Category = "Document Processing Libraries",
                 Directory = "DocumentProcessing/Excel",
+#if !WASM && !WEBAPP
                 Type = SampleType.Updated,
+#endif
                 Samples = XlsIO,
                 ControllerName = "Excel",
                 DemoPath = "excel/create-excel",
                 ComponentIconName = "excel"
             });
-            SampleBrowser.SampleList.Add(new SampleList
+            /*SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "PDF Viewer",
                 Category = "File Viewer",
@@ -974,7 +1183,7 @@ namespace BlazorDemos
                 CustomDocLink = "pdfviewer/getting-started",
                 DemoPath = "pdf-viewer/default-functionalities",
                 IsHideFromHomePageList = true
-            });
+            });*/ 
         }
     }
 }

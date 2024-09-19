@@ -744,7 +744,7 @@ namespace BlazorDemos.Pages.FileManager
                 {
                     if (!item.IsFile)
                     {
-                        this.CopyFolderItems(item, targetData);
+                        this.CopyFolderItems(item, targetData, true);
                     }
                 }
                 catch (Exception e)
@@ -758,7 +758,7 @@ namespace BlazorDemos.Pages.FileManager
             return await Task.FromResult(copyResponse);
         }
 
-        private void CopyFolderItems(FileManagerDirectoryContent item, FileManagerDirectoryContent target)
+        private void CopyFolderItems(FileManagerDirectoryContent item, FileManagerDirectoryContent target, bool isTargetData)
         {
             if (!item.IsFile)
             {
@@ -778,7 +778,10 @@ namespace BlazorDemos.Pages.FileManager
                     FilterPath = target.FilterPath + target.Name + "/",
                     FilterId = target.FilterId + target.Id + "/"
                 };
-                CopyFiles.Add(CreateData);
+                if (isTargetData)
+                {
+                    CopyFiles.Add(CreateData);
+                }
                 Data.Add(CreateData);
                 if (target.HasChild == false)
                 {
@@ -816,7 +819,7 @@ namespace BlazorDemos.Pages.FileManager
                 {
                     if (!child.IsFile)
                     {
-                        this.CopyFolderItems(child, Data.Where(x => x.Id == (idValue).ToString()).Select(x => x).ToArray()[0]);
+                        this.CopyFolderItems(child, Data.Where(x => x.Id == (idValue).ToString()).Select(x => x).ToArray()[0], false);
                     }
                 }
             }

@@ -17,8 +17,7 @@ namespace BlazorDemos
                 Category = "Arc Gauge",
                 Directory = "ArcGauge/ArcGauge",
                 Url = "arc-gauge/default",
-                FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[]{ @" This demo shows the Arc Gauge's basic rendering." }
+                FileName = "DefaultFunctionalities.razor"
             },
             
             new Sample
@@ -27,8 +26,7 @@ namespace BlazorDemos
                 Category = "Arc Gauge",
                 Directory = "ArcGauge/ArcGauge",
                 Url = "arc-gauge/customer-satisfaction-score",
-                FileName = "CustomerSatisfactionScore.razor",
-                NotificationDescription = new string[]{ @" This demo shows how the Arc Gauge can be customized to represent a customer satisfaction score scenario." }
+                FileName = "CustomerSatisfactionScore.razor"
             },
             new Sample
             {
@@ -36,8 +34,7 @@ namespace BlazorDemos
                 Category = "Arc Gauge",
                 Directory = "ArcGauge/ArcGauge",
                 Url = "arc-gauge/key-performance-indicator",
-                FileName = "KeyPerformanceIndicator.razor",
-                NotificationDescription = new string[]{ @" This demo shows how the Arc Gauge can be customized to represent a key performance indicator scenario." }
+                FileName = "KeyPerformanceIndicator.razor"
             },            
             new Sample
             {
@@ -45,8 +42,7 @@ namespace BlazorDemos
                 Category = "Arc Gauge",
                 Directory = "ArcGauge/ArcGauge",
                 Url = "arc-gauge/patterns",
-                FileName = "Patterns.razor",
-                NotificationDescription = new string[]{ @" This demo shows how the Arc Gauge can be rendered in different ways to demonstrate different user interfaces by customizing its axis, range, pointer, etc." }
+                FileName = "Patterns.razor"
             }
         };
     }

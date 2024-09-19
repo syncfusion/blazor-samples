@@ -727,8 +727,7 @@ namespace BlazorDemos
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/excel-filter",
                 FileName="ExcelFilter.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample demonstrates the way of filtering tree grid columns using Excel-like filter UI. Which helps to create complex filter criteria for a column by allowing users to select possible filter values from a check box list" },
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -911,8 +910,7 @@ namespace BlazorDemos
                 Directory = "TreeGrid/TreeGrid",
                 Url = "tree-grid/event",
                 FileName="Event.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample demonstrates the events that have been triggered on the Tree Grid operations with the help of Event Trace panel." },
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection

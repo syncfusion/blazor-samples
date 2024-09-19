@@ -177,6 +177,14 @@ namespace Blazor_MAUI_Demos
                 Directory = "Inputs/ColorPicker",
                 Url = "color-picker/api",
                 FileName = "Api.razor"
+            },
+             new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Color Picker",
+                Directory = "Inputs/ColorPicker",
+                Url = "color-picker/keyboard-navigation",
+                FileName = "KeyboardNavigation.razor"
             }
         };
 
@@ -509,9 +517,41 @@ namespace Blazor_MAUI_Demos
                     @"Showcase the usage of EmptyTemplate and FullTemplate in Rating."
                 },
                 FileName = "Template.razor"
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "Rating",
+                Directory = "Inputs/Rating",
+                Url = "rating/navigation",
+                FileName = "KeyboardNavigation.razor"
             }
         };
-    }
+        public List<Sample> OtpInput { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "OtpInput",
+                Directory = "Inputs/OtpInput",
+                Url = "otp-input/default-functionalities",
+                FileName = "Default.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the basic features of the OTP Input component with its available input types such as Number, Text and Password."
+                }
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "OtpInput",
+                Directory = "Inputs/OtpInput",
+                Url = "otp-input/api",
+                FileName = "Api.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the usage of different API's available in the OTP Input component, such as StylingMode, Length, Placeholder, Separator, CssClass, and Disabled."
+                }
+            }
+        };
+  }
 
    
 

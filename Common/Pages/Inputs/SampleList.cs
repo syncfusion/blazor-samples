@@ -510,10 +510,7 @@ namespace BlazorDemos
                 Category = "OtpInput",
                 Directory = "Inputs/OtpInput",
                 Url = "otp-input/default-functionalities",
-                FileName = "Default.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the basic features of the OTP Input component with its available input types such as Number, Text and Password."
-                }
+                FileName = "Default.razor"
             },
             new Sample
             {
@@ -521,10 +518,7 @@ namespace BlazorDemos
                 Category = "OtpInput",
                 Directory = "Inputs/OtpInput",
                 Url = "otp-input/api",
-                FileName = "Api.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the usage of different API's available in the OTP Input component, such as StylingMode, Length, Placeholder, Separator, CssClass, and Disabled."
-                }
+                FileName = "Api.razor"
             }
         };
   }

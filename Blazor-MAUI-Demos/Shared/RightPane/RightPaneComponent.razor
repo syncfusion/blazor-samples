@@ -1,61 +1,24 @@
-﻿@using Syncfusion.Blazor.Navigations;
+﻿﻿﻿@using Syncfusion.Blazor.Navigations;
 
 @namespace Blazor_MAUI_Demos.Shared
 
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
+@inject IJSRuntime JsRuntime;
 
 <div class="@rootClass" id='right-pane'>
     <div class='sb-desktop-wrapper'>
-        <BreadCrumbComponent @ref="BreadCrumbRef"></BreadCrumbComponent>
-        <SampleDescription @ref="SampleDescriptionRef" Visible="true">
-            @sampleDescription
-        </SampleDescription>
-        <div id="sb-content" class='sb-content-section'>
-            <SampleNavigator @ref="SampleNavigatorRef" DeviceMode="false"></SampleNavigator>
-            <div class='sb-toolbar-splitter sb-custom-item'></div>
-            <!-- LoadOn Value Changed due to Source Tab header text value not updated properly issue -->
-            <SfTab CssClass='sb-content-tab' id='content-tab' LoadOn="ContentLoad.Dynamic" @bind-SelectedItem="tabSelectedItem">
-                <TabEvents Selecting="OnSourceTabSelecting" Selected="OnSourceTabSelected"></TabEvents>
-                <TabItems>
-                    <TabItem>
-                        <ChildContent>
-                            <TabHeader Text="DEMO" IconCss="sb-icons sb-icon-demo"></TabHeader>
-                        </ChildContent>
-                        <ContentTemplate>
-                            <div>
-                                <div class='sb-demo-section'>
-                                    <div class="control-fluid">
-                                        <div class="container-fluid">
-                                            <div id="control-content">
-                                                @ChildContent
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ContentTemplate>
-                    </TabItem>
-                    <TabItem>
-                        <ChildContent>
-                            <TabHeader Text="SOURCE" IconCss="sb-icons sb-icon-code"></TabHeader>
-                        </ChildContent>
-                        <ContentTemplate>
-                            <div>
-                                <SourceCodeComponent @ref="SourceCodeRef"></SourceCodeComponent>
-                            </div>
-                        </ContentTemplate>
-                    </TabItem>
-                </TabItems>
-            </SfTab>
+        <div>
+            <div class='sb-demo-section'>
+                <div class="control-fluid">
+                    <div class="container-fluid">
+                        <div id="control-content">
+                            @ChildContent
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <ActionDescription @ref="ActionDescriptionRef" Visible="true">
-            @actionDescription
-        </ActionDescription>
-        @if(!SampleService.IsDevice) {
-        <AdStripComponent />
-        }
-        <FooterComponent @ref="FooterRef" />
     </div>
 </div>
 
@@ -68,6 +31,7 @@
     protected SourceCodeComponent SourceCodeRef { get; set; }
     protected ActionDescription ActionDescriptionRef { get; set; }
     protected SampleDescription SampleDescriptionRef { get; set; }
+    private bool IsMobileMode = false;
 
     [CascadingParameter]
     protected MainLayout Layout { get; set; }
@@ -99,7 +63,7 @@
     public void RefreshActionDescription(RenderFragment description)
     {
         actionDescription = description;
-        ActionDescriptionRef.Refresh();
+        //ActionDescriptionRef.Refresh();
     }
 
     /// <summary>
@@ -109,9 +73,9 @@
     {
         SampleService.Update(UriHelper);
         var componentName = SampleService.SampleInfo.Directory == "Buttons/Button" ? "Button" : SampleService.ComponentName;
-        BreadCrumbRef.Refresh(componentName, SampleService.SampleInfo.Category, SampleService.SampleInfo.Name);
+        //BreadCrumbRef.Refresh(componentName, SampleService.SampleInfo.Category, SampleService.SampleInfo.Name);
         sampleDescription = description;
-        SampleDescriptionRef.Refresh();
+        // SampleDescriptionRef.Refresh();
     }
 
     /// <summary>
@@ -146,15 +110,15 @@
         base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            SampleNavigatorRef.RefreshState(SampleService.SampleInfo?.Url,true);
+            // SampleNavigatorRef.RefreshState(SampleService.SampleInfo?.Url,true);
         }
-        if (SampleNavigatorRef.isNavigated)
-        {
-            TabSelectedItemChange();
-            SampleNavigatorRef.isNavigated = false;
-            Layout.LeftPaneRef.NavMenuRef.SelectItem(SampleService.SampleInfo);
-        }
-        FooterRef.Refresh();
+        // if (SampleNavigatorRef.isNavigated)
+        // {
+        //     TabSelectedItemChange();
+        //     SampleNavigatorRef.isNavigated = false;
+        //     Layout.LeftPaneRef.NavMenuRef.SelectItem(SampleService.SampleInfo);
+        // }
+        // FooterRef.Refresh();
     }
 
     protected override void OnParametersSet()

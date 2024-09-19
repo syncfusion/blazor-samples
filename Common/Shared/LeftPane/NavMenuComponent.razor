@@ -147,13 +147,13 @@
 
     public void LoadDynamicResources(string componentName)
     {
-        if ((componentName.Equals("PDF Viewer") || componentName.Equals("PowerPoint (Presentation)")) && !SampleService.IsPdfScriptLoaded)
+        if (componentName.Equals("PowerPoint (Presentation)") && !SampleService.IsPdfScriptLoaded)
         {
             SampleService.IsPdfScriptLoaded = true;
             var resources = new List<string> { SampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js" };
             this.JsRuntime.InvokeVoidAsync("sfBlazorSB.loadResources", resources);
         }
-        if (componentName.Equals("PDF Viewer (NextGen)") && !SampleService.IsPdfScript2Loaded)
+        if ((componentName.Equals("PDF Viewer (NextGen)") || componentName.Equals("PDF Viewer")) && !SampleService.IsPdfScript2Loaded)
         {
             SampleService.IsPdfScript2Loaded = true;
             var resources = new List<string> { SampleService.PdfScriptPath2 + "/syncfusion-blazor-sfpdfviewer.min.js" };
@@ -196,7 +196,7 @@
     {
         foreach (var parentData in TreeDataSource)
         {
-            var treeSelectedNode = parentData.SourceData.Where(data => data.Name == componentName).ToList();
+            var treeSelectedNode = parentData.SourceData.Where(data => data.Name == componentName && data.DemoPath == demoPath).ToList();
             if (treeSelectedNode.Count > 0)
             {
                 if (treeSelectedNode.Count > 1 && !string.IsNullOrEmpty(demoPath))
@@ -321,7 +321,7 @@
         base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            this.SelectTreeNode(SampleService.ComponentName);
+            this.SelectTreeNode(SampleService.ComponentName, SampleService.CurrentSampleUrl);
         }
         else
         {

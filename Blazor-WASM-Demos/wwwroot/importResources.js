@@ -1,11 +1,11 @@
 import {data} from './version.js';
 if (data.version == "net6.0") {
     var path = "_content/Blazor_WASM_Common_NET6";
-    var css = "/Blazor_WASM_Common_NET6.bundle.scp.css";
+    var isolatedCss = "Blazor_WASM_Demos_NET6.styles.css";
 }
 else {
     var path = "_content/Blazor_WASM_Common_NET8";
-    var css = "/Blazor_WASM_Common_NET8.bundle.scp.css";
+    var isolatedCss = "Blazor_WASM_Demos_NET8.styles.css";
 }
 
 const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/", "/release/wasm/net6/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/cloudtesting/net8-wasm/","/"];
@@ -63,8 +63,7 @@ function homePageAssets() {
             '/styles/site.css',
             '/styles/common/home.min.css',
             '/styles/common/devices.min.css',
-            '/scripts/common/index.min.js',
-            css
+            '/scripts/common/index.min.js'
         ];
     } else {
         assetFiles = [
@@ -73,8 +72,7 @@ function homePageAssets() {
             '/styles/site.css',
             '/styles/common/home.css',
             '/styles/common/devices.css',
-            '/scripts/common/index.js',
-            css
+            '/scripts/common/index.js'
         ];
     }
     assetFiles.forEach((file) => {
@@ -88,7 +86,6 @@ function samplePageAssets() {
     if (data.configuration == "Release") {
         assetFiles = [
             '/favicon.ico',
-            css,
             '/styles/bootstrap.min.css',
             '/styles/common/demos.min.css',
             '/styles/common/devices.min.css',
@@ -101,7 +98,6 @@ function samplePageAssets() {
         assetFiles = [
             '/styles/common/highcontrast.css',
             '/favicon.ico',
-            css,
             '/styles/common/roboto.css',
             '/styles/bootstrap.min.css',
             '/styles/common/highlight.css',
@@ -122,9 +118,11 @@ function samplePageAssets() {
 if (homepagepath.indexOf(window.location.pathname) !== -1) {
     homePageAssets();
     loadAssets('_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js');
+    loadAssets(isolatedCss);
 }
 else {
     samplePageAssets();
+    loadAssets(isolatedCss);
 }
 dynamicResources();
 setTimeout(LoadingText, 400);

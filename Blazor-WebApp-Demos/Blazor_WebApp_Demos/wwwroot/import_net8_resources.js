@@ -1,6 +1,5 @@
 import {data} from './version.js';
 var path = "_content/Blazor_WebApp_Common_NET8";
-var css = "/Blazor_WebApp_Common_NET8.bundle.scp.css";
 
 const homepagepath = ["/", "/staging/demos/", "/demos/", "/staging/demos/", "/development/webapp/demos/", "/release/webapp/demos/", "/hotfix/webapp/demos/"];
 
@@ -56,8 +55,7 @@ function homePageAssets() {
             '/styles/site.css',
             '/styles/common/home.min.css',
             '/styles/common/devices.min.css',
-            '/scripts/common/index.min.js',
-            css
+            '/scripts/common/index.min.js'
         ];
     } else {
         assetFiles = [
@@ -66,8 +64,7 @@ function homePageAssets() {
             '/styles/site.css',
             '/styles/common/home.css',
             '/styles/common/devices.css',
-            '/scripts/common/index.js',
-            css
+            '/scripts/common/index.js'
         ];
     }
     assetFiles.forEach((file) => {
@@ -81,7 +78,6 @@ function samplePageAssets() {
     if (data.configuration == "Release") {
         assetFiles = [
             '/favicon.ico',
-            css,
             '/styles/bootstrap.min.css',
             '/styles/common/demos.min.css',
             '/styles/common/devices.min.css',
@@ -95,7 +91,6 @@ function samplePageAssets() {
         assetFiles = [
             '/styles/common/highcontrast.css',
             '/favicon.ico',
-            css,
             '/styles/common/roboto.css',
             '/styles/bootstrap.min.css',
             '/styles/common/highlight.css',

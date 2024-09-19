@@ -101,3 +101,65 @@ window.customToolbarInterop = {
         }
     }
 }
+
+
+//Interop scripts for smart image editor
+async function getStabilityAiModel(file, prompt, searchPrompt, maskImagebase64, apiKey) {
+    file = base64ToFile(file, "image.png");
+    const formData = new FormData();
+    let endPoint = "https://api.stability.ai/v2beta/stable-image/edit/remove-background";
+    formData.append('image', file);
+    if (prompt !== null && searchPrompt !== null) {
+        formData.append('prompt', prompt);
+        formData.append('search_prompt', searchPrompt);
+        endPoint = "https://api.stability.ai/v2beta/stable-image/edit/search-and-replace";
+    } else if (maskImagebase64 !== null) {
+        maskImagebase64 = base64ToFile(maskImagebase64);
+        formData.append('mask', maskImagebase64);
+        endPoint = "https://api.stability.ai/v2beta/stable-image/edit/erase";
+    }
+
+    try {
+        const response = await fetch(endPoint, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Accept': 'image/*'
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`${response.status}: ${await response.text()}`);
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        return url;
+    } catch (error) {
+        console.error('Error during API request:', error);
+        throw error;
+    }
+}
+
+function base64ToFile(base64String, fileName) {
+    const byteString = atob(base64String.split(',')[1]);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const intArray = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+        intArray[i] = byteString.charCodeAt(i);
+    }
+
+    const blob = new Blob([intArray], { type: 'image/png' });
+    const file = new File([blob], fileName, { type: 'image/png' });
+
+    return file;
+}
+
+function setBlazorTimeout(dotNetObject, methodName, delay) {
+    setTimeout(() => {
+        dotNetObject.invokeMethodAsync(methodName);
+    }, delay);
+}

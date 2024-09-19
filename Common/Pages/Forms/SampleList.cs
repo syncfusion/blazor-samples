@@ -30,8 +30,7 @@ namespace BlazorDemos
                 Category = "Query Builder",
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/complex-databinding",
-                FileName = "ComplexDataBinding.razor",
-                NotificationDescription = new string []{@"Added the demo for binding nested columns in the QueryBuilder component."},
+                FileName = "ComplexDataBinding.razor"
             },
             new Sample
             {
@@ -64,7 +63,6 @@ namespace BlazorDemos
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/drag-and-drop",
                 FileName = "DragAndDrop.razor",
-                Type = SampleType.New,
                 NotificationDescription = new string[]{ @"The Query Builder component now includes a drag-and-drop feature, allowing users to reposition rules or groups within the component effortlessly. This enhancement provides a more intuitive and flexible way to construct and modify queries." }
             },
             new Sample
@@ -74,7 +72,6 @@ namespace BlazorDemos
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/separate-connector",
                 FileName = "SeparateConnector.razor",
-                Type = SampleType.New,
                 NotificationDescription = new string[]{ @"The separate connector feature in the Query Builder component enables users to integrate standalone connectors between rules or groups within the same group. This allows for greater flexibility, as users can connect rules or groups using different connectors, enhancing the complexity and precision of query construction." }
             },
             new Sample

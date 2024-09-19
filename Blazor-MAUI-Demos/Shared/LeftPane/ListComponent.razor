@@ -3,47 +3,161 @@
 
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
+@inject IJSRuntime JSRuntime
 
-<div class="@classNames" role="list" tabindex="0">
-    <div class="@SampleUtils.CONTENT">
-        <ul class="@SampleUtils.LIST_UL_CLASS" role="presentation">
+@using System.Text.Json
+
+<div style="margin-top: 0px;" role="list" tabindex="0">
+<style>
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .list-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .list-container {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 0px;
+        background: #6750A4;
+    }
+
+    .bootstrap5-dark .list-container {
+        background-color: #D0BCFF
+    }
+
+    .material3-dark .list-container {
+        background-color: #D0BCFF
+    }
+
+    .fluent-dark .list-container {
+        background-color: #D0BCFF
+    }
+
+    .tailwind-dark .list-container {
+        background-color: #D0BCFF
+    }
+
+    .highcontrast .list-container {
+        background-color: #D0BCFF
+    }
+
+    .nested-list-container {
+        white-space: nowrap;
+        margin-top: -10px;
+    }
+
+    .nested-list {
+        display: none;
+        list-style: none;
+        padding: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        overflow-x: auto;
+        scrollbar-width: none;
+        white-space: nowrap;
+    }
+
+    .bootstrap5-dark .nested-list {
+        background-color: #444746;
+    }
+
+    .material3-dark .nested-list {
+        background-color: #444746;
+    }
+
+    .fluent-dark .nested-list {
+        background-color: #444746;
+    }
+
+    .tailwind-dark .nested-list {
+        background-color: #444746;
+    }
+
+    .highcontrast .nested-list {
+        background-color: #444746;
+    }
+
+    .nested-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .list-item {
+        display: inline-block;
+        margin-right: 10px;
+        vertical-align: top;
+        cursor: pointer;
+        color: #FFFFFF;
+    }
+</style>
+
+    <div class="hide-scrollbar">
+        <ul class="list-container" role="presentation">
             @if (groupData != null)
             {
+                var hasActiveItem = false;
                 @foreach (var group in @groupData)
                 {
                     var groupName = group.FirstOrDefault().Category;
                     if (GroupTemplate != null && groupName != null && this.groupList != null && !this.groupList.Contains(groupName))
                     {
+                        var liGroupClass = SampleUtils.LIST_LI_GROUP_CLASS;
+                        if (groupName.Equals(selectedItem.Category))
+                        {
+                            liGroupClass = SampleUtils.AddClass(liGroupClass, SampleUtils.LIST_LI_GROUP_ACTIVE_CLASS);
+                        }
                         this.groupList.Add(groupName);
-                        <li class="@SampleUtils.LIST_LI_GROUP_CLASS" role="listitem" >
+                        // Serialize the group object to JSON
+                        var groupJson = JsonSerializer.Serialize(group);
+                        <li class="list-item @liGroupClass" role="listitem" onclick="toggleList('@groupName')">
                             @GroupTemplate(group.FirstOrDefault())
                         </li>
-                    }
-                    foreach (var item in group)
-                    {
-                        if ((!SampleService.IsDevice) || (Template != null && (!item.IsHideInMobile)))
-                        {
-                            var liClass = SampleUtils.LIST_LI_CLASS;
-                            if (EqualityComparer<Sample>.Default.Equals(item, selectedItem))
-                            {
-                                liClass = SampleUtils.AddClass(liClass, SampleUtils.LIST_ACTIVE);
-                            }
-                            <li class="@liClass" role="listitem" @onclick="@(async () => { await OnSelection(item); })">
-                                @Template(item)
-                            </li>
-                        }
                     }
                 }
             }
         </ul>
     </div>
+
+    <div class="nested-list-container">
+        @if (groupData != null)
+        {
+            @foreach (var group in @groupData)
+            {
+                var groupName = group.FirstOrDefault().Category;
+                if (GroupTemplate != null && groupName != null && this.groupList != null && this.groupList.Contains(groupName))
+                {
+                    <ul id="@groupName" class="nested-list">
+                        @foreach (var item in group)
+                        {
+                            if ((Template != null && (!item.IsHideInMobile)))
+                            {
+                                var liClass = SampleUtils.LIST_LI_CLASS;
+                                if (EqualityComparer<Sample>.Default.Equals(item, selectedItem))
+                                {
+                                    liClass = SampleUtils.AddClass(liClass, SampleUtils.LIST_ACTIVE);
+                                }
+                                <li class="@liClass" role="listitem" @onclick="@(async () => { await OnSelection(item); })" style="display: inline-block;">
+                                    @Template(item)
+                                </li>
+                            }
+                        }
+                    </ul>
+                }
+            }
+        }
+    </div>
 </div>
 
 @code {
     private Sample selectedItem;
+    private Sample selectedGroup;
     private List<string> groupList;
     private List<List<Sample>> groupData { get; set; }
     private string classNames = SampleUtils.LIST_CLASS;
+    private bool firstRender = true;
 
     /// <summary>
     /// Child content of ListComponent.
@@ -82,6 +196,7 @@
     public void SelectItem(Sample item)
     {
         selectedItem = item;
+        selectedGroup = item;
         this.groupList = new List<string>();
         StateHasChanged();
     }
@@ -92,6 +207,7 @@
         if (this.OnSelectList.HasDelegate)
         {
             selectedItem = item;
+            selectedGroup = item;
             await this.OnSelectList.InvokeAsync(item);
         }
     }
@@ -112,10 +228,15 @@
         }
     }
 
-    protected override void OnAfterRender(bool firstRender)
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         base.OnAfterRender(firstRender);
         this.groupList = null;
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("initializeActiveGroup");
+        }
     }
 
     public void Dispose()

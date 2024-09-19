@@ -517,10 +517,7 @@ namespace BlazorDemos
                 Url = "chart/drilldown",
                 FileName = "Drilldown.razor",
                 HeaderText = "Blazor Pie with Drilldown Chart Example.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {
-                    @"Added a demo to show case drilldown options in Chart component."
-                }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1190,8 +1187,7 @@ namespace BlazorDemos
                 Url = "chart-3d/column",
                 FileName = "Column3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with column series." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1201,8 +1197,7 @@ namespace BlazorDemos
                 Url = "chart-3d/back-to-back-column",
                 FileName = "BackToBackColumn3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with column series with each column positioned behind the preceding one." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1212,8 +1207,7 @@ namespace BlazorDemos
                 Url = "chart-3d/cylinder",
                 FileName = "CylindricalColumn3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with cylindrical column series which is similar to a 3D column chart but features a distinct cylindrical shape." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1223,8 +1217,7 @@ namespace BlazorDemos
                 Url = "chart-3d/bar",
                 FileName = "Bar3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with bar series which is similar to 3D column chart but differs by the orientation of the y-axis is horizontal rather than vertical." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1234,8 +1227,7 @@ namespace BlazorDemos
                 Url = "chart-3d/stacked-column",
                 FileName = "StackingColumnGrouping3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with stacked column series which stacks points in the series vertically." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1245,8 +1237,7 @@ namespace BlazorDemos
                 Url = "chart-3d/stacked-column-100",
                 FileName = "StackedColumn100.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with 100% stacked column series which ensuring that the cumulative proportion of each stacked element always totals 100%." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1256,8 +1247,7 @@ namespace BlazorDemos
                 Url = "chart-3d/stacked-bar",
                 FileName = "StackedBar3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with stacked bar series which stacks points in the series horizontally." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1267,8 +1257,7 @@ namespace BlazorDemos
                 Url = "chart-3d/stacked-bar-100",
                 FileName = "StackedBar100.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component with 100% stacked bar series which ensuring that the cumulative proportion of each stacked element always totals 100%." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -1278,8 +1267,7 @@ namespace BlazorDemos
                 Url = "chart-3d/empty-point",
                 FileName = "ColumnNullValues3D.razor",
                 HeaderText = "Blazor 3D Chart",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"This sample showcases how to render and configure a 3D chart component column series which accommodating the null and zero values ." }
+                Type = SampleType.None
             }
         };
 

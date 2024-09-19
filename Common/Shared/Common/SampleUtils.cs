@@ -170,6 +170,7 @@ namespace BlazorDemos.Shared
         public static string GetThemeUrl(NavigationManager UriHelper, string themeName)
         {
             string url = UriHelper.Uri.TrimEnd('/');
+            themeName = themeName.Equals("bootstrap5.3") ? "bootstrap5" : themeName;
             if (url.Contains("?theme="))
             {
                 string[] splittedUrl = url.Split("?theme=");
@@ -191,6 +192,7 @@ namespace BlazorDemos.Shared
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
             themeName = themeName != null ? themeName : "fluent2";
+            themeName = themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName;
             return themeName;
         }
 
@@ -198,8 +200,8 @@ namespace BlazorDemos.Shared
         {
             new DropDownData { ID = "material3", Text = "Material 3" },
             new DropDownData { ID = "fluent", Text = "Fluent" },
-            new DropDownData { ID = "fluent2", Text = "Fluent2" },
-            new DropDownData { ID = "bootstrap5", Text = "Bootstrap v5" },
+            new DropDownData { ID = "fluent2", Text = "Fluent 2" },
+            new DropDownData { ID = "bootstrap5.3", Text = "Bootstrap 5" },
             new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
 #if DEBUG || STAGING
       //      new DropDownData { ID = "material-dark", Text = "Material Dark" },
@@ -209,7 +211,7 @@ namespace BlazorDemos.Shared
            // new DropDownData { ID = "fabric", Text = "Fabric" },
 #endif
             new DropDownData { ID = "highcontrast", Text = "High Contrast" },
-            //new DropDownData { ID = "fluent2-highcontrast", Text = "Fluent2 High Contrast" },
+            new DropDownData { ID = "fluent2-highcontrast", Text = "Fluent 2 High Contrast" },
         };
 
         /// <summary>

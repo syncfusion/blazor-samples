@@ -1,0 +1,483 @@
+﻿@page "/diagramcomponent/flowchart-layout"
+
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.DropDowns
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor Diagram Flowchart Layout Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Flowchart Layout in Blazor Diagram Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This Blazor Diagram example demonstrates the online purchasing process by creating a flowchart layout using the built-in flow shapes in Syncfusion Blazor Diagram.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation' aria-label="Orientation">Orientation</a></code> property of the Layout to change the flowchart's orientation. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.FlowchartLayoutSettings.html#Syncfusion_Blazor_Diagram_FlowchartLayoutSettings_YesBranchDirection' aria-label="YesBranchDirection">YesBranchDirection</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.FlowchartLayoutSettings.html#Syncfusion_Blazor_Diagram_FlowchartLayoutSettings_NoBranchDirection' aria-label="NoBranchDirection">NoBranchDirection</a></code> properties allow you to customize the direction of the "Yes" and "No" branches. Additionally, the spacing between objects in the layout can be adjusted using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing' aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing' aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html' aria-label="Layout">Layout</a></code>.</p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="content-wrapper">
+    <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7;height: 640px">
+        <div class="sb-mobile-diagram">
+            <SfDiagramComponent @ref="Diagram" Width="100%" Height="600px" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" DataLoaded="@OnDataLoaded" InteractionController="@DiagramInteractions.ZoomPan">
+                <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
+                <DataSourceSettings ID="Id" ParentID="ParentId" DataSource="DataSource"> </DataSourceSettings>
+                <Layout @bind-Type="@Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" FlowchartLayoutSettings="@flowchartSettings">
+
+                </Layout>
+                <RulerSettings>
+                    <HorizontalRuler>
+                    </HorizontalRuler>
+                    <VerticalRuler>
+                    </VerticalRuler>
+                </RulerSettings>
+            </SfDiagramComponent>
+        </div>
+    </div>
+    @*Hidden:Lines*@
+    <style>
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 10px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .textboxstyle {
+            padding-left: 0px;
+            padding-right: 0px;
+            float: left;
+            width: 50%;
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .e-bigger .e-btn.e-small.e-icon-btn {
+            padding: 0px;
+        }
+
+        .sb-mobile-diagram {
+            border: 1px solid #d9dedd;
+        }
+    </style>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-header">
+            Properties
+        </div>
+        <div id="propertypanel" class="e-remove-selection">
+            <div class="property-section-content property-panel-content">
+                <div class="row" style="padding-top: 8px">
+                    <div style="display: table;height: 30px;" class="textboxstyle">
+                        <div style="display: table-cell; vertical-align: middle">Orientation</div>
+                    </div>
+                    <div class="textboxstyle" style="padding-left:10px">
+                        <SfDropDownList @ref="@expandDropDown" TValue="string" @bind-Value="@orientation" TItem="Orientationvalue" Width="100%" DataSource="@Orientation">
+                            <DropDownListEvents TValue="string" TItem="Orientationvalue" ValueChange="OrientationTypeChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="Value" Value="Text"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div style="display: table;height: 30px;" class="textboxstyle">
+                        <div style="display: table-cell; vertical-align: middle">Yes branch direction</div>
+                    </div>
+                    <div class="textboxstyle" style="padding-left:10px">
+                        <SfDropDownList @ref="@expandDropDown1" TValue="string" @bind-Value="@yesBranchDirection" TItem="BranchDirectionvalue" Width="100%" DataSource="@BranchDirection1">
+                            <DropDownListEvents TValue="string" TItem="BranchDirectionvalue" ValueChange="YesBranchDirectionChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="Value" Value="Text"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div style="display: table;height: 30px;" class="textboxstyle">
+                        <div style="display: table-cell; vertical-align: middle">No branch direction</div>
+                    </div>
+                    <div class="textboxstyle" style="padding-left:10px">
+                        <SfDropDownList @ref="@expandDropDown2" TValue="string" @bind-Value="@noBranchDirection" TItem="BranchDirectionvalue1" Width="100%" DataSource="@BranchDirection2">
+                            <DropDownListEvents TValue="string" TItem="BranchDirectionvalue1" ValueChange="NoBranchDirectionChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="Value" Value="Text"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div style="display: table;height: 30px;" class="textboxstyle">
+                        <div style="display: table-cell; vertical-align: middle">Horizontal spacing</div>
+                    </div>
+                    <div class="textboxstyle" style="padding-left:10px">
+                        <SfNumericTextBox TValue="int" Width="100%" @bind-Value="@HorizontalSpacing" Min="30" Max="1000" Step="10" Format="n0">
+                            <NumericTextBoxEvents TValue="int" ValueChange="OnHorizontalSpacingChange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div style="display: table;height: 30px;" class="textboxstyle">
+                        <div style="display: table-cell; vertical-align: middle">Vertical spacing</div>
+                    </div>
+                    <div class="textboxstyle" style="padding-left:10px">
+                        <SfNumericTextBox TValue="int" Width="100%" @bind-Value="@VerticalSpacing" Min="30" Max="1000" Step="10" Format="n0">
+                            <NumericTextBoxEvents TValue="int" ValueChange="OnVerticalSpacingChange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*End:Hidden*@
+</div>
+@code
+{
+    FlowchartLayoutSettings flowchartSettings = new FlowchartLayoutSettings()
+        {
+            YesBranchDirection = BranchDirection.RightInFlow,
+            NoBranchDirection = BranchDirection.LeftInFlow
+        };
+    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
+    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    public SfDiagramComponent Diagram;
+    public int? HValue { get; set; } = 60;
+    public int? VValue { get; set; } = 60;
+    public LayoutType Type = LayoutType.Flowchart;
+    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
+    public int HorizontalSpacing = 50;
+    public int VerticalSpacing = 50;
+    string orientation = "Vertical";
+    SfDropDownList<string, Orientationvalue> expandDropDown;
+    SfDropDownList<string, BranchDirectionvalue> expandDropDown1;
+    SfDropDownList<string, BranchDirectionvalue1> expandDropDown2;
+    string yesBranchDirection = "left";
+    string noBranchDirection = "right";
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+    //End:Hidden
+
+    public class Orientationvalue
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
+    private List<Orientationvalue> Orientation = new List<Orientationvalue>()
+    {
+         new Orientationvalue  { Text ="Horizontal",  Value= "Horizontal" },
+         new Orientationvalue  { Text = "Vertical", Value = "Vertical" },
+    };
+
+    public class BranchDirectionvalue
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class BranchDirectionvalue1
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
+    private List<BranchDirectionvalue> BranchDirection1 = new List<BranchDirectionvalue>()
+    {
+         new BranchDirectionvalue  { Text ="same",  Value= "Same as flow" },
+         new BranchDirectionvalue  { Text = "left", Value = "Left in flow" },
+         new BranchDirectionvalue  { Text = "right", Value = "Right in flow" },
+    };
+    private List<BranchDirectionvalue1> BranchDirection2 = new List<BranchDirectionvalue1>()
+    {
+         new BranchDirectionvalue1  { Text ="same",  Value= "Same as flow" },
+         new BranchDirectionvalue1  { Text = "left", Value = "Left in flow" },
+         new BranchDirectionvalue1  { Text = "right", Value = "Right in flow" },
+    };
+    private void OnDataLoaded(object obj)
+    {
+        for (int i = 0; i < Diagram.Connectors.Count; i++)
+        {
+            var connector = Diagram.Connectors[i];
+            {
+                var node = Diagram.GetObject(connector.TargetID) as Node;
+                var srcNode = Diagram.GetObject(connector.SourceID) as Node;
+                if (node.Data != null && node.Data is ItemInfo itemInfo)
+                {
+                    if (itemInfo.Label != null && itemInfo.Label.Count > 0)
+                    {
+                        if (itemInfo.ParentId.IndexOf((srcNode.Data as ItemInfo).Id) != -1)
+                        {
+                            var parentIndex = itemInfo.ParentId.IndexOf((srcNode.Data as ItemInfo).Id);
+                            if (itemInfo.Label.Count > parentIndex)
+                            {
+                                connector.Annotations = new DiagramObjectCollection<PathAnnotation>()
+                                    {
+                                        new PathAnnotation() { Content = itemInfo.Label[parentIndex] }
+                                    };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private void OnConnectorCreating(IDiagramObject obj)
+    {
+        if (obj is Connector connector)
+        {
+            connector.Type = ConnectorSegmentType.Orthogonal;
+        }
+    }
+    private void OnNodeCreating(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        if (node.Data != null && node.Data is ItemInfo)
+        {
+            ItemInfo employeeDetails = node.Data as ItemInfo;
+            node.Width = employeeDetails._Width;
+            node.Height = employeeDetails._Height;
+            if (employeeDetails._Shape == "Rectangle")
+            {
+                node.Shape = new FlowShape() { Shape = NodeFlowShapes.Process };
+            }
+            else if (employeeDetails._Shape == "StartOrEnd")
+            {
+                node.Shape = new FlowShape() { Shape = NodeFlowShapes.Terminator };
+            }
+            else
+                node.Shape = new FlowShape() { Shape = (NodeFlowShapes)Enum.Parse(typeof(NodeFlowShapes), employeeDetails._Shape.ToString()) };
+            node.Style.Fill = employeeDetails._Color;
+            node.Style.StrokeColor = employeeDetails._Color;
+            node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation(){ Content = employeeDetails.Name, Style = new TextStyle(){ Color="white"} }
+            };
+        }
+    }
+    public List<ItemInfo> DataSource = new List<ItemInfo>(){
+    new ItemInfo()
+    {
+        Id = "1",
+            Name = "Start",
+            _Shape = "StartOrEnd",
+            _Width = 120,
+            _Height = 40,
+            _Color = "#8E44CC"
+        },
+        new ItemInfo()
+    {
+        Id = "2",
+            Name = "Open the browser and go to Amazon site",
+            ParentId = new List<string> { "1" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#1759B7"
+        },
+        new ItemInfo()
+    {
+        Id = "3",
+            Name = "Already a customer?",
+            ParentId = new List<string> { "2" },
+            _Shape = "Decision",
+            _Width = 150,
+            _Height = 80,
+            _Color = "#2F95D8"
+        },
+        new ItemInfo()
+    {
+        Id = "4",
+            Label = new List<string> { "No" },
+            Name = "Create an account",
+            ParentId = new List<string> { "3" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#70AF16"
+        },
+        new ItemInfo()
+    {
+        Id = "5",
+            Label = new List<string> { "Yes" },
+            Name = "Enter login information",
+            ParentId = new List<string>() { "3" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#70AF16"
+        },
+        new ItemInfo()
+    {
+        Id = "6",
+            Name = "Search for the book in the search bar",
+            ParentId = new List<string> { "5", "4" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#1759B7"
+        },
+        new ItemInfo()
+    {
+        Id = "7",
+            Name = "Select the preferred book",
+            ParentId = new List<string> { "6" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#1759B7"
+        },
+        new ItemInfo()
+    {
+        Id = "8",
+            Name = "Is the book new or used?",
+            ParentId = new List<string> { "7" },
+            _Shape = "Decision",
+            _Width = 180,
+            _Height = 80,
+            _Color = "#2F95D8"
+        },
+        new ItemInfo()
+    {
+        Id = "9",
+            Label = new List<string> { "Yes" },
+            Name = "Select the new book",
+            ParentId = new List<string> { "8" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#70AF16"
+        },
+        new ItemInfo()
+    {
+        Id = "10",
+            Label = new List<string> { "No" },
+            Name = "Select the used book",
+            ParentId = new List<string> { "8" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#70AF16"
+        },
+        new ItemInfo()
+    {
+        Id = "11",
+            Name = "Add to Cart & Proceed to Checkout",
+            ParentId = new List<string> { "9", "10" },
+            _Shape = "Rectangle",
+            _Width = 155,
+            _Height = 50,
+            _Color = "#1759B7"
+        },
+        new ItemInfo()
+    {
+        Id = "12",
+            Label = new List<string> { "", "False" },
+            Name = "Enter shipping and payment details",
+            ParentId = new List<string> { "11", "13" },
+            _Shape = "Rectangle",
+            _Width = 155,
+            _Height = 50,
+            _Color = "#1759B7"
+        },
+        new ItemInfo()
+    {
+        Id = "13",
+            Name = "Is the information correct?",
+            ParentId = new List<string> { "12" },
+            _Shape = "Decision",
+            _Width = 180,
+            _Height = 100,
+            _Color = "#2F95D8"
+        },
+        new ItemInfo()
+    {
+        Id = "14",
+            Label = new List<string> { "True" },
+            Name = "Review and place the order",
+            ParentId = new List<string> { "13" },
+            _Shape = "Rectangle",
+            _Width = 150,
+            _Height = 50,
+            _Color = "#1759B7"
+        },
+        new ItemInfo()
+    {
+        Id = "15",
+            Name = "End",
+            ParentId = new List<string> { "14" },
+            _Shape = "StartOrEnd",
+            _Width = 120,
+            _Height = 40,
+            _Color = "#8E44CC"
+        }
+    };
+    public class ItemInfo
+    {
+        public string Name { get; set; }
+        public string Id { get; set; }
+        public List<string> Label { get; set; }
+        public List<string> ParentId { get; set; }
+        public string _Shape { get; set; }
+        public double _Width { get; set; }
+        public double _Height { get; set; }
+        public string _Color { get; set; }
+
+    }
+
+    public void OrientationTypeChange(ChangeEventArgs<string, Orientationvalue> args)
+    {
+        OrientationType = args.ItemData.Value == "Vertical" ? LayoutOrientation.TopToBottom : LayoutOrientation.LeftToRight;
+    }
+
+    public void YesBranchDirectionChange(ChangeEventArgs<string, BranchDirectionvalue> args)
+    {
+        if (args.ItemData.Text == "same")
+        {
+            flowchartSettings.YesBranchDirection = BranchDirection.SameAsFlow;
+        }
+        if (args.ItemData.Text == "left")
+        {
+            flowchartSettings.YesBranchDirection = BranchDirection.LeftInFlow;
+        }
+        if (args.ItemData.Text == "right")
+        {
+            flowchartSettings.YesBranchDirection = BranchDirection.RightInFlow;
+        }
+    }
+    public void NoBranchDirectionChange(ChangeEventArgs<string, BranchDirectionvalue1> args)
+    {
+        if (args.ItemData.Text == "same")
+        {
+            flowchartSettings.NoBranchDirection = BranchDirection.SameAsFlow;
+        }
+        if (args.ItemData.Text == "left")
+        {
+            flowchartSettings.NoBranchDirection = BranchDirection.LeftInFlow;
+        }
+        if (args.ItemData.Text == "right")
+        {
+            flowchartSettings.NoBranchDirection = BranchDirection.RightInFlow;
+        }
+    }
+    private void OnHorizontalSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        int val = Convert.ToInt32(args.Value);
+        HorizontalSpacing = val;
+    }
+    private void OnVerticalSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        int val = Convert.ToInt32(args.Value);
+        VerticalSpacing = val;
+    }
+
+}

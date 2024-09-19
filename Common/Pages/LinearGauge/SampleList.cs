@@ -45,8 +45,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/ticks",
                 FileName = "Ticks.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -55,8 +54,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/labels",
                 FileName = "Labels.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -65,8 +63,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/range",
                 FileName = "Range.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -75,8 +72,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/marker-pointer",
                 FileName = "MarkerPointer.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -85,8 +81,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/bar-pointer",
                 FileName = "BarPointer.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -95,8 +90,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/custom-pointer",
                 FileName = "CustomPointer.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -123,8 +117,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/progress-bar",
                 FileName = "ProgressBar.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -169,8 +162,7 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/steps-counter",
                 FileName = "StepsCounter.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {

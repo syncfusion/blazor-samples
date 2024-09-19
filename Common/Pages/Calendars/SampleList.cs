@@ -133,7 +133,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Format",
                 FileName = "Format.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @" The format demo has been updated to include the feature of date parsing, which improves DatePicker performance by allowing users to input date values in various valid formats." }
             },
              new Sample
             {
@@ -217,7 +218,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Date-Time-Range",
                 FileName = "DateTimeRange.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @" The date time range demo has been updated to include the feature of time restriction, which improves DateTimePicker performance by allowing users to limited time range to specific intervals." }
             },
              new Sample
             {
@@ -226,7 +228,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Format",
                 FileName = "Format.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @" The format demo has been updated to include the feature of date parsing, which improves DateTimePicker performance by allowing users to input date values in various valid formats." }
             },
               new Sample
             {
@@ -293,7 +296,8 @@ namespace BlazorDemos
                 Directory = "Calendars/TimePicker",
                 Url = "TimePicker/Time-Format",
                 FileName = "Format.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @" The format demo has been updated to include the feature of date parsing, which improves TimePicker performance by allowing users to input date values in various valid formats." }
             },
               new Sample
             {
@@ -390,7 +394,8 @@ namespace BlazorDemos
                 MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
                 MetaDescription = "This example demonstrates the formatting in Blazor DataRangePicker. Explore here for more details.",
                 HeaderText = "Example of Formatting in Blazor Date Range Picker Component",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @" The format demo has been updated to include the feature of date parsing, which improves DateRangePicker performance by allowing users to input date values in various valid formats." }
             },
              new Sample
             {

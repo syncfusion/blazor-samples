@@ -4,12 +4,12 @@
 @inject IJSRuntime JSRuntime
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.SplitButtons
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.Buttons
 @using Microsoft.JSInterop
 @using Syncfusion.Blazor.SfPdfViewer
-@using Syncfusion.Blazor.SplitButtons
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -31,11 +31,16 @@
         <li>Search Text - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_SearchTextAsync_System_String_System_Boolean' aria-label="Navigate to the SearchTextAsync method reference for PdfViewerBase">'viewer.SearchTextAsync()'</a></li>
         <li>Search Next Text - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_SearchNextAsync' aria-label="Navigate to the SearchNextAsync method reference for PdfViewerBase">'viewer.SearchNextAsync()'</a></li>
         <li>Search Previous Text - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_SearchPreviousAsync' aria-label="Navigate to the SearchPreviousAsync method reference for PdfViewerBase">'viewer.SearchPreviousAsync()'</a></li>
+        <li>Cancel Text Search- <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_CancelTextSearchAsync' aria-label="Navigate to the CancelTextSearchAsync method reference for PdfViewerBase">'viewer.CancelTextSearchAsync()'</a></li>
         <li>Print - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_PrintAsync' aria-label="Navigate to the PrintAsync method reference for PdfViewerBase">'viewer.PrintAsync()'</a></li>
         <li>Download - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_DownloadAsync' aria-label="Navigate to the DownloadAsync method reference for PdfViewerBase">'viewer.DownloadAsync()'</a></li>
         <li>Load Document - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_LoadAsync_System_String_System_String_' aria-label="Navigate to the LoadAsync method reference for PdfViewerBase">'viewer.LoadAsync(String, String)'</a></li>
         <li>Set Annotation Mode - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_SetAnnotationModeAsync_Syncfusion_Blazor_PdfViewer_AnnotationType_' aria-label="Navigate to the SetAnnotationModeAsync method reference for PdfViewerBase">'viewer.SetAnnotationModeAsync(AnnotationType)'</a></li>
         <li>Edit Annotation - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_EditAnnotationAsync_Syncfusion_Blazor_PdfViewer_PdfAnnotation_' aria-label="Navigate to the EditAnnotationAsync method reference for PdfViewerBase">'viewer.EditAnnotationAsync(AnnotationType)'</a></li>
+        <li>Get Annotation - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_GetAnnotationsAsync' aria-label="Navigate to the GetAnnotationAsync method reference for PdfViewerBase">'viewer.GetAnnotationAsync()'</a></li>
+        <li>ZoomIn - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_ZoomInAsync' aria-label="Navigate to the ZoomInAsync method reference for PdfViewerBase">'viewer.ZoomInAsync()'</a></li>
+        <li>ZoomOut - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_ZoomOutAsync' aria-label="Navigate to the ZoomOutAsync method reference for PdfViewerBase">'viewer.ZoomOutAsync()'</a></li>
+        <li>FitToPage - <a href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PdfViewer.PdfViewerBase.html#Syncfusion_Blazor_PdfViewer_PdfViewerBase_FitToPageAsync' aria-label="Navigate to the FitToPageAsync method reference for PdfViewerBase">'viewer.FitToPageAsync()'</a></li>
     </ul>
 @*WASM:Block*@
 @{ #if (WASM) }
@@ -50,14 +55,13 @@
 @*End:Server*@
 
 </ActionDescription>
-
 <div class="control-section" id="target">
      <!--Custom Toolbar-->
     @*Hidden:Lines*@
     <div style="display:none">
         <SfUploader @ref="@uploadFiles" ID="UploadFiles" ShowFileList="false" AllowedExtensions=".pdf">
             <UploaderEvents OnUploadStart="@FileUploadSelected" Created="@createdHandler"></UploaderEvents>
-            <UploaderAsyncSettings SaveUrl="https://services.syncfusion.com/aspnet/production/api/FileUploader/Save" RemoveUrl="https://services.syncfusion.com/aspnet/production/api/FileUploader/Remove"></UploaderAsyncSettings>
+            <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/development/api/FileUploader/Save" RemoveUrl="https://blazor.syncfusion.com/services/development/api/FileUploader/Remove"></UploaderAsyncSettings>
         </SfUploader>
     </div>
     @*End:Hidden*@
@@ -86,7 +90,7 @@
                </SfDropDownButton></Template></ToolbarItem>
                <ToolbarItem Width="70px" TabIndex="5" TooltipText="Stamp" PrefixIcon="e-pv-stamp-icon e-pv-icon" Text="Stamp" CssClass="e-pv-stamp-container" >
                     <Template>
-                       <SfDropDownButton Content="Stamp" IconPosition="SplitButtonIconPosition.Top" IconCss="e-icons e-stamp" CssClass=""> 
+                       <SfDropDownButton Content="Stamp" IconPosition="SplitButtonIconPosition.Top" IconCss="e-icons e-stamp" CssClass="e-dropDown-button"> 
                                 <PopupContent>
                                     <SfContextMenu @ref="ContextMenuItem" Items="@MenuItems" TValue="CustomMenuItem" ShowItemOnClick="true">
                                     <MenuEvents TValue="CustomMenuItem" Created="OnMenuCreated" ItemSelected="StampSelect"></MenuEvents>
@@ -197,7 +201,7 @@
     @*Hidden:Lines*@
     @if (IsVisibleDialog)
     {
-        <SfDialog ShowCloseIcon="false" CssClass="dialog-container" IsModal="true" Target="#target"  Visible="@IsVisibleDialog" Width="477px">
+        <SfDialog ShowCloseIcon="false" CssClass="dialog-container" IsModal="true" Target="#target" Visible="@IsVisibleDialog" Width="477px">
             <DialogTemplates>
              <Content><span style="border:2px solid black"></span></Content>
              <Header>Upload Image <SfButton IconCss="e-icons e-close" CssClass="close-button" OnClick="ClosePopUp"></SfButton></Header>
@@ -241,18 +245,35 @@
     </SfDialog>
     }
 @*End:Hidden*@
-    <SfTooltip OpensOn="Click" Target="#searchicon" ID="Tooltip" @ref="Sftooltip" Position="Position.BottomCenter" OnClose="SearchClose">
-   <ContentTemplate>
-           <div class="div">
-            <SfTextBox ID="textbox" @ref="Sftextbox" Placeholder="Search Text" Created="@AddIcon" ValueChanged="@SearchText"></SfTextBox>
-             </div>
-            <div class="buttondiv">
-            <SfButton id="prevbtn" CssClass="e-previous" Content="Previous" OnClick="@PreviousClick"></SfButton>
-            <SfButton id="nextsearchbtn" CssClass="e-next" Content="Next" OnClick="@NextClick"></SfButton>
-            </div>
-            <div class="checkboxdiv">
-              <SfCheckBox TChecked="bool" Label="Match case" @onchange="MatchCaseChanged"></SfCheckBox>  
-            </div>
+    <SfTooltip OpensOn="Custom" IsSticky="true" Opened="TooltipOpen" Closed="TooltipClosed" Target="#searchicon" ID="Tooltip" @ref="Sftooltip" Position="Position.BottomCenter" OnClose="SearchClose">
+      <ContentTemplate>
+           <table>
+              <tr>
+                 <td>
+                   <div class="div">
+                       <SfTextBox ID="textbox" @ref="Sftextbox" Placeholder="Search Text" Created="@AddIcon" ValueChanged="@SearchText"></SfTextBox>
+                   </div>
+                 </td>
+                 <td>
+                   <div class="buttondiv">
+                       <SfButton id="prevbtn" IconCss="e-icons e-chevron-left" CssClass="e-previous" OnClick="@PreviousClick">
+                       </SfButton>
+                   </div>
+                 </td>
+                 <td>
+                   <div class="buttondiv">
+                       <SfButton id="nextsearchbtn" IconCss="e-icons e-chevron-right" CssClass="e-next" OnClick="@NextClick"></SfButton>
+                   </div>
+                 </td>
+             </tr>
+             <tr>
+             <td>
+                <div class="checkboxdiv">
+                   <SfCheckBox CssClass="e-match-case" TChecked="bool" Label="Match case" @onchange="MatchCaseChanged"></SfCheckBox>
+                </div>
+              </td>
+             </tr>
+           </table>
        </ContentTemplate>
    </SfTooltip>
 
@@ -261,8 +282,8 @@
     <ToolbarEvents Clicked="@ToolbarClick" ></ToolbarEvents>
         <ToolbarItems>
             <ToolbarItem PrefixIcon="e-icons e-zoom-to-fit" Id="fitpage" TooltipText="Fit Page" Align=@ItemAlign.Left CssClass="e-pv-fit-page-container"></ToolbarItem>
-            <ToolbarItem PrefixIcon="e-icons e-circle-add" Id="zoomin" TooltipText="Zoom In" Align=@ItemAlign.Left CssClass="e-pv-zoom-in-container"></ToolbarItem>
-            <ToolbarItem PrefixIcon="e-icons e-circle-remove" Id="zoomout" TooltipText="Zoom Out" Align=@ItemAlign.Left CssClass="e-pv-zoom-out-container"></ToolbarItem>
+            <ToolbarItem Disabled="@ZoomInVisible" PrefixIcon="e-icons e-circle-add" Id="zoomin" TooltipText="Zoom In" Align=@ItemAlign.Left CssClass="e-pv-zoom-in-container"></ToolbarItem>
+            <ToolbarItem Disabled="@ZoomOutVisible" PrefixIcon="e-icons e-circle-remove" Id="zoomout" TooltipText="Zoom Out" Align=@ItemAlign.Left CssClass="e-pv-zoom-out-container"></ToolbarItem>
         </ToolbarItems>
     </SfToolbar>
 </div>
@@ -270,13 +291,11 @@
 #zoominput {
     width : 95px;
 }
-    </style>
-
-
-      <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" ContextMenuSettings="@contextMenu"  EnableNavigationToolbar="false" EnableCommentPanel="false" Width="100%" Height="640px"
+</style>
+     <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" ContextMenuSettings="@contextMenu" EnableCommentPanel="false"  EnableNavigationToolbar="false" Width="100%" Height="640px"
          FreeTextSettings="@FreeAnnotationSetting" RectangleSettings="@RectangleAnnoSettings" LineSettings="@LineAnnoSettings" CircleSettings="@CircleAnnoSettings" CustomStampSettings="@CustomStampSettings" InkAnnotationSettings="@InkAnnoSettings">
          <PdfViewerHighlightSettings Color="@Color"></PdfViewerHighlightSettings>
-         <PdfViewerEvents DocumentLoaded="@DocumentLoaded" AnnotationAdded="OnAnnotationAdd" DocumentEdited="ChangeInFile" PageChanged="@OnPageChanged" AnnotationRemoved="@OnAnnotationRemove" AnnotationSelected="@OnAnnotationSelect" AnnotationUnselected="@OnAnnotationUnSelect" AnnotationMoved="@OnAnnotationMoved"></PdfViewerEvents>  
+         <PdfViewerEvents DocumentLoaded="@DocumentLoaded" ZoomChanged="@ZoomChanged" AnnotationAdded="OnAnnotationAdd" DocumentEdited="ChangeInFile" PageChanged="@OnPageChanged" AnnotationRemoved="@OnAnnotationRemove" AnnotationSelected="@OnAnnotationSelect" AnnotationUnselected="@OnAnnotationUnSelect" AnnotationMoved="@OnAnnotationMoved"></PdfViewerEvents>  
          <PdfViewerCustomStampSettings CustomStamps="@CustomStamps"></PdfViewerCustomStampSettings>
      </SfPdfViewer2>
 
@@ -316,7 +335,7 @@
     SfDropDownButton FontColorDropdown;
     SfDropDownButton FillColorDropdown;
     SfDropDownButton StrokeColorDropdown;
-    SfDropDownButton ColorDropdown; 
+    SfDropDownButton ColorDropdown;
     private bool IsFreeTextTool = false;
     private bool IsShapeTool = false;
     private bool IsHighlightTool = false;
@@ -329,6 +348,7 @@
     private bool IsUnderline = false;
     private bool IsStrikethrough= false;
     private bool IsToolbarIconClicked = false;
+    private bool isToolTipOpened = false;
     private PdfViewerFreeTextSettings FreeAnnotationSetting = new PdfViewerFreeTextSettings();
     private PdfViewerRectangleSettings RectangleAnnoSettings = new PdfViewerRectangleSettings();
     private PdfViewerLineSettings LineAnnoSettings = new PdfViewerLineSettings();
@@ -358,16 +378,39 @@
     public string Text = "";
     public string ZoomValue = "100%";
     private bool IsImageSelected = true;
+    private bool ZoomInVisible = false;
+    private bool ZoomOutVisible = false;
     private List<ImageDetails> Images = new List<ImageDetails>();
     #endregion
 
+    //Method for handle the Zoom change
+    private void ZoomChanged(ZoomChangeEventArgs args)
+    {
+        if (args.CurrentZoomValue <= 10)
+        {
+            ZoomOutVisible = true;
+        }
+        else if (args.CurrentZoomValue >= 400)
+        {
+            ZoomInVisible = true;
+        }
+        else
+        {
+            ZoomOutVisible = false;
+            ZoomInVisible = false;
+        }
+    }
 
     //Method for handle the Toolbar items click
     private async Task ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
+        int zoomPercentage = 0;
         if (args.Item != null)
-        {
-
+        { 
+            if(isToolTipOpened)
+            {
+                await Sftooltip.CloseAsync();
+            }
             // Switch case based on the CSS class of the clicked item
             switch (args.Item.CssClass)
             {
@@ -381,14 +424,20 @@
                 case "e-pv-zoom-in-container":
                     //Zoom in  the PDF document being loaded in the PDFViewer2.
                     await Viewer.ZoomInAsync();
+                    zoomPercentage = await Viewer.GetZoomPercentageAsync();
+                    ZoomValue = zoomPercentage.ToString() + "%";
                     break;
                 case "e-pv-zoom-out-container":
                     //Zoom out the PDF document being loaded in the PDFViewer2.
                     await Viewer.ZoomOutAsync();
+                    zoomPercentage = await Viewer.GetZoomPercentageAsync();
+                    ZoomValue = zoomPercentage.ToString() + "%";
                     break;
                 case "e-pv-fit-page-container":
                     //Fit page the PDF document being loaded in the PDFViewer2.
                     await Viewer.FitToPageAsync();
+                    zoomPercentage = await Viewer.GetZoomPercentageAsync();
+                    ZoomValue = zoomPercentage.ToString() + "%";
                     break;
                 // Case when the 'Free text' tool is clicked
                 case "e-pv-font-container":
@@ -481,6 +530,17 @@
                         IsUnderline = true;
                     }
                     await ModifiedStyle();
+                    break;
+                case "e-pv-search-container":
+                    if(isToolTipOpened)
+                    {
+                        await Sftooltip.CloseAsync();
+                    }
+                    else
+                    {
+                        await Sftooltip.OpenAsync();
+                    }
+                    isToolTipOpened = !isToolTipOpened;
                     break;
             }
         }
@@ -685,7 +745,7 @@
         }
         if (annotation != null)
         {
-            RefreshButtons();
+            RefreshToolbarItems();
             RefreshIcon();
             IsAnnotationSelected = true;
             //Set the annotations type for update the annotation type after select the annotation
@@ -732,7 +792,7 @@
         bool temp = IsHighlightTool;
         if (!IsToolbarIconClicked)
         {
-            RefreshButtons();
+             RefreshToolbarItems();
         }
         if (temp)
         {
@@ -975,7 +1035,7 @@
 
     private List<CustomMenuItem> MenuItems = new List<CustomMenuItem>
     {
-        new CustomMenuItem { Id = "Dynamic", Text = "Dynamic", Items = new List<CustomMenuItem>()
+        new CustomMenuItem { Id = "Dynamic", Text = "Dynamic", Items = new List<CustomMenuItem>
         {
             new CustomMenuItem { Id = "DApproved", Text = "Approved"},
             new CustomMenuItem { Id = "DNotApproved", Text = "Not Approved"},
@@ -984,7 +1044,7 @@
             new CustomMenuItem { Id = "DReviewed", Text = "Reviewed" },
             new CustomMenuItem { Id = "DRevised", Text = "Revised" }
         } },
-        new CustomMenuItem { Id = "SignHere", Text = "Sign Here", Items = new List<CustomMenuItem>()
+        new CustomMenuItem { Id = "SignHere", Text = "Sign Here", Items = new List<CustomMenuItem>
         {
             new CustomMenuItem { Id = "Accepted", Text = "Accepted" },
             new CustomMenuItem { Id = "InitialHere", Text = "Initial Here" },
@@ -992,7 +1052,7 @@
             new CustomMenuItem { Id = "Sign Here", Text = "Sign Here" },
             new CustomMenuItem { Id = "Witness", Text = "Witness" },
         } },
-        new CustomMenuItem { Id = "StandardBusiness", Text = "Standard Business", Items = new List<CustomMenuItem>()
+        new CustomMenuItem { Id = "StandardBusiness", Text = "Standard Business", Items = new List<CustomMenuItem>
         {
             new CustomMenuItem { Id = "Approved", Text = "Approved" },
             new CustomMenuItem { Id = "Completed", Text = "Completed"},
@@ -1009,13 +1069,11 @@
         } },
         };
     SfContextMenu<CustomMenuItem> ContextMenuItem;
-
     //Method for the oen the context menu for the stamp
     private void OnMenuCreated()
     {
         ContextMenuItem.Open();
     }
-
     public class CustomMenuItem
     {
         public List<CustomMenuItem> Items { get; set; }
@@ -1107,11 +1165,10 @@
         }
 
     }
-
     //Method for Identify the annotation shape from the dropdown
     private async Task ShapeSelected(MenuEventArgs args)
     {
-       RefreshButtons();
+        RefreshButtons();
         IsShapeTool = true;
         if(args != null)
         {
@@ -1136,7 +1193,7 @@
     //Method for Identify the icon from the dropdown
     private async Task IconSelected(MenuEventArgs args)
     {
-       RefreshButtons();
+        RefreshButtons();
         if (args != null)
         {
             switch (args.Item.Text)
@@ -1162,9 +1219,8 @@
         IsUnderline =false;
         IsItalic = false;
     }
-    @*End:Hidden*@
-    //Method for refresh the buttons in the toolbar
-    private void RefreshButtons()
+    //Refresh annotation select
+    private void ResetToolbarState()
     {
         ClosePopUp();
         IsFreeTextTool = false;
@@ -1181,15 +1237,25 @@
         ShapeThickness = 1;
         FontFamilyName = "Helvetica";
         FontSize = "16px";
+        IsAnnotationSelected = false;
+        IsToolbarIconClicked = false;
+    }
+    //Refresh toolbar Items
+    private void RefreshToolbarItems()
+    {
+        ResetToolbarState();
+    }
+    //Method for refresh the buttons in the toolbar
+    private void RefreshButtons()
+    {
+        ResetToolbarState();
         CustomStampSettings = new PdfViewerCustomStampSettings();
         InkAnnoSettings = new PdfViewerInkAnnotationSettings();
         LineAnnoSettings = new PdfViewerLineSettings();
         RectangleAnnoSettings = new PdfViewerRectangleSettings();
         LineAnnoSettings = new PdfViewerLineSettings();
         FreeAnnotationSetting = new PdfViewerFreeTextSettings();
-        IsAnnotationSelected = false;
-        IsToolbarIconClicked = false;
-    } 
+    }
     //Method for the Font size is changing
     private async Task FontSizeChange(ChangeEventArgs<string, string> args)
     {
@@ -1350,20 +1416,20 @@
             await Viewer.SetAnnotationModeAsync(AnnotationType.Highlight);
         }
     }
-    //Method for close the dialog box
-    private void ClosePopUp()
-    {
-        IsVisibleDialog = false;
-        StateHasChanged();
-    }
     //Class for the Custom stamp images
     private class ImageDetails
     {
         public string ImageData { get; set; }
         public bool ImageSelected { get; set; }
     }
+    //Method for close the dialog box
+    private void ClosePopUp()
+    {
+        IsVisibleDialog = false;
+        StateHasChanged();
+    }
     //Method for selecting the custom imgage
-    private async Task ImageSelected(int i)
+    private void ImageSelected(int i)
     {
         CustomStampSource = Images[i].ImageData;
         RefreshImages();
@@ -1427,33 +1493,59 @@
         await AddStamp();
         fileStream.Close();
     }
+    private void TooltipOpen()
+    {
+        isToolTipOpened = true;
+    }
+    private void TooltipClosed()
+    {
+        isToolTipOpened = false;
+    }
+
+    @*End:Hidden*@
 }
 
 @*Hidden:Lines*@
 <!--Style for custom toolbar-->
 <style>
     .e-previous {
-        width: 48%;
+        margin-left:4px;
+        border: none;
+        width:100%;
+        height:100%
     }
 
     .e-next {
-        width: 48%;
         margin-left:4px;
-    }
-
-    .div{
-        padding-top: 10px;
-    }
-
-    .buttondiv{
-        padding-top: 10px;
+        border: none;
         width:100%;
+        height:100%;
+    }
+
+    .div {
+        padding-top: 5px;
+    }
+
+    .buttondiv {
+        padding-top: 5px;
+        width:85%;
     }
 
     .checkboxdiv
     {
-        padding: 6px 0px;
+        padding: 6px 0px 0px;
         text-align: left;
+    }
+
+    .tailwind .checkboxdiv,
+    .e-bigger .tailwind .checkboxdiv,
+    .tailwind-dark .checkboxdiv,
+    .e-bigger .tailwind-dark .checkboxdiv,
+    .bootstrap5\.3-dark .checkboxdiv,
+    .e-bigger .bootstrap5\.3-dark .checkboxdiv,
+    .bootstrap5\.3 .checkboxdiv,
+    .e-bigger .bootstrap5\.3 .checkboxdiv {
+        padding-bottom: 4px;
     }
 
     .checkboxdiv .e-frame
@@ -1497,6 +1589,10 @@
         background: transparent !important;
     }
 
+    .magnification-toolbar .e-toolbar .e-toolbar-item.e-overlay {
+        background: none !important;
+     }
+
     .magnification-toolbar .e-toolbar .e-tbar-btn {
         min-height: 30px;
         min-width: 30px;
@@ -1530,6 +1626,7 @@
     .image-list {
         display: flex;
         justify-content: center;
+        padding: 24px 15px;
         gap: 35px;
     }
     .image-container-selected {
@@ -1563,6 +1660,9 @@
     }
     .e-bigger .e-pv-primary-toolbar .e-toolbar-item.e-template .e-dropdown-btn {
         font-size:16px;
+    }
+    .e-bigger.fluent .e-pv-primary-toolbar .e-toolbar-item.e-template .e-dropdown-btn {
+        margin-bottom: 6px;
     }
     .e-icons.e-shapes,
     .e-icons.e-stamp,
@@ -1615,7 +1715,6 @@
     .image-container {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border: 1px solid transparent;
-        display: flex;
         flex-direction: column;
         align-items: center;
         padding: 4px;
@@ -1762,6 +1861,17 @@
     .highcontrast.e-bigger .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn .e-icons.e-btn-icon, 
     .highcontrast.e-bigger .e-toolbar .e-toolbar-item .e-tbar-btn.e-btn.e-control .e-icons.e-btn-icon  {
         line-height :16px !important;
+    }
+    .e-tooltip-close {
+        display: none;
+    }
+    .mobile.fluent.e-bigger .e-pv-primary-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn,
+    .mobile.bootstrap5\.3.e-bigger .e-pv-primary-toolbar .e-toolbar .e-toolbar-item .e-tbar-btn {
+        padding: 5px !important;
+    }
+    .mobile.highcontrast.e-bigger .e-pv-primary-toolbar .e-dropdown-btn .e-btn-icon.e-icon-top {
+        top: -5px !important; 
+        padding-bottom: 7px !important;
     }
 </style>
 @*End:Hidden*@

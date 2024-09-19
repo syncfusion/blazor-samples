@@ -145,6 +145,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             lineAnnotation.Text = "PdfLineAnnotation";
             lineAnnotation.BackColor = new PdfColor(Color.Red);
             lineAnnotation.AnnotationFlags = PdfAnnotationFlags.Print;
+            lineAnnotation.SetAppearance(true);
             page.Graphics.DrawString("Line Annotation", font, brush, new PointF(400, 420));
             page.Annotations.Add(lineAnnotation);
 
@@ -157,6 +158,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             polygonannotation.Color = new PdfColor(Color.Red);
             polygonannotation.InnerColor = new PdfColor(Color.LightPink);
             polygonannotation.AnnotationFlags = PdfAnnotationFlags.Print;
+            polygonannotation.SetAppearance(true);
             page.Graphics.DrawString("Polygon Annotation", font, brush, new PointF(50, 420));
             page.Annotations.Add(polygonannotation);
 
@@ -173,6 +175,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             freeText.Color = new PdfColor(Color.Yellow);
             PointF[] Freetextpoints = { new PointF(365, 700), new PointF(379, 654), new PointF(405, 654) };
             freeText.CalloutLines = Freetextpoints;
+            freeText.SetAppearance(true);
             page.Graphics.DrawString("FreeText Annotation", font, brush, new PointF(400, 610));
             page.Annotations.Add(freeText);
 
@@ -226,6 +229,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
                 popupAnnotation.FlattenPopUps = true;
                 popupAnnotation.Flatten = true;
             }
+            popupAnnotation.SetAppearance(true);
             secondPage.Graphics.DrawString("Popup Annotation", font, brush, new PointF(400, 40));
             secondPage.Annotations.Add(popupAnnotation);
 
@@ -244,6 +248,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             {
                 lineMeasureAnnot.Flatten = true;
             }
+            lineMeasureAnnot.SetAppearance(true);
             secondPage.Graphics.DrawString("Line Measurement Annotation", font, brush, new PointF(370, 130));
             secondPage.Annotations.Add(lineMeasureAnnot);
 
@@ -261,6 +266,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             freeText0.Color = new PdfColor(Color.Yellow);
             PointF[] Freetextpoints0 = { new PointF(45, 220), new PointF(60, 175), new PointF(80, 175) };
             freeText0.CalloutLines = Freetextpoints0;
+            freeText0.SetAppearance(true);
             secondPage.Graphics.DrawString("Rotated FreeText Annotation", font, brush, new PointF(40, 130));
             if (flatten)
             {
@@ -277,12 +283,56 @@ namespace BlazorDemos.Data.FileFormats.PDF
             bordereffect.Intensity = 2;
             bordereffect.Style = PdfBorderEffectStyle.Cloudy;
             cloudannotation.BorderEffect = bordereffect;
-            secondPage.Graphics.DrawString("Cloud Annotation", font, brush, new PointF(40, 260));
+            cloudannotation.SetAppearance(true);
+            secondPage.Graphics.DrawString("Rectangle Cloud Annotation", font, brush, new PointF(40, 260));
             secondPage.Annotations.Add(cloudannotation);
+
+            //Creates a Ellipse Annotation with Cloud Border
+            PdfEllipseAnnotation ellipseCloud = new PdfEllipseAnnotation(new RectangleF(355, 310, 70, 30), "Ellipse Cloud Annoatation");
+            ellipseCloud.Border.BorderWidth = 1;
+            ellipseCloud.Color = Color.Red;
+            ellipseCloud.InnerColor = Color.Blue;
+            ellipseCloud.AnnotationFlags = PdfAnnotationFlags.Print;
+            bordereffect.Intensity = 2;
+            bordereffect.Style = PdfBorderEffectStyle.Cloudy;
+            ellipseCloud.BorderEffect = bordereffect;
+            ellipseCloud.SetAppearance(true);
+            secondPage.Graphics.DrawString("Ellipse Cloud Annotation", font, brush, new PointF(350, 260));
+            secondPage.Annotations.Add(ellipseCloud);
+
+            //Creates a Circle Annotation with Cloud Border
+            PdfCircleAnnotation circleCloud = new PdfCircleAnnotation(new RectangleF(40, 430, 90, 90), "Circle Cloud Annoatation");
+            circleCloud.Border.BorderWidth = 1;
+            circleCloud.Color = Color.Red;
+            circleCloud.InnerColor = Color.Blue;
+            circleCloud.AnnotationFlags = PdfAnnotationFlags.Print;
+            bordereffect.Intensity = 2;
+            bordereffect.Style = PdfBorderEffectStyle.Cloudy;
+            circleCloud.BorderEffect = bordereffect;
+            circleCloud.SetAppearance(true);
+            secondPage.Graphics.DrawString("Circle Cloud Annotation", font, brush, new PointF(40, 390));
+            secondPage.Annotations.Add(circleCloud);
+
+            //Creates a Polygon Annotation with Cloud Border
+            int[] cloudpolypoints = new int[] { 436, 254, 491, 324, 461, 374, 411, 344, 391, 294, 431, 264, 436, 254 };
+            PdfPolygonAnnotation polygonCloud = new PdfPolygonAnnotation(cloudpolypoints, "Polygon Cloud Annoatation");
+            polygonCloud.Border.BorderWidth = 1;
+            polygonCloud.Color = Color.Red;
+            polygonCloud.InnerColor = Color.Blue;
+            polygonCloud.AnnotationFlags = PdfAnnotationFlags.Print;
+            bordereffect.Intensity = 2;
+            bordereffect.Style = PdfBorderEffectStyle.Cloudy;
+            polygonCloud.BorderEffect = bordereffect;
+            polygonCloud.SetAppearance(true);
+            secondPage.Graphics.DrawString("Polygon Cloud Annotation", font, brush, new PointF(350, 390));
+            secondPage.Annotations.Add(polygonCloud);
+
+            PdfPage thirdPage = document.Pages.Add();
+
             if (!flatten)
             {
                 PdfRedactionAnnotation redactionannot = new PdfRedactionAnnotation();
-                redactionannot.Bounds = new RectangleF(350, 300, 100, 50);
+                redactionannot.Bounds = new RectangleF(40, 610, 100, 55);
                 redactionannot.Text = "Redaction Annotation";
                 redactionannot.InnerColor = Color.Orange;
                 redactionannot.BorderColor = Color.Red;
@@ -292,23 +342,23 @@ namespace BlazorDemos.Data.FileFormats.PDF
                 redactionannot.RepeatText = true;
                 redactionannot.TextAlignment = PdfTextAlignment.Left;
                 redactionannot.SetAppearance(true);
-                secondPage.Graphics.DrawString("Redaction Annotation", font, brush, new PointF(350, 260));
+                secondPage.Graphics.DrawString("Redaction Annotation", font, brush, new PointF(40, 580));
                 secondPage.Annotations.Add(redactionannot);
             }
-	    //Creates a new RubberStamp annotation
-            PdfRubberStampAnnotation rubberStampAnnotation = new PdfRubberStampAnnotation(new RectangleF(40, 600, 100, 50));
+            //Creates a new RubberStamp annotation
+            PdfRubberStampAnnotation rubberStampAnnotation = new PdfRubberStampAnnotation(new RectangleF(30, 70, 100, 50));
             rubberStampAnnotation.Text = "Rubber Stamp Annotation";
             rubberStampAnnotation.Author = "Syncfusion";
             rubberStampAnnotation.ModifiedDate = new DateTime(2015, 1, 18);
             rubberStampAnnotation.Color = new PdfColor(Color.Red);
             rubberStampAnnotation.AnnotationFlags = PdfAnnotationFlags.Print;
-            secondPage.Graphics.DrawString("Rubber Stamp Annotation", font, brush, new PointF(40, 570));
-            secondPage.Annotations.Add(rubberStampAnnotation);
-			
-			secondPage.Graphics.DrawString("Rich Media Annotation (Video)", font, brush, new PointF(40, 390));
+            thirdPage.Graphics.DrawString("Rubber Stamp Annotation", font, brush, new PointF(30, 40));
+            thirdPage.Annotations.Add(rubberStampAnnotation);
+
+            thirdPage.Graphics.DrawString("Rich Media Annotation (Video)", font, brush, new PointF(350, 40));
 
             //Create rich media annotation
-            PdfRichMediaAnnotation richMediaAnnotation = new PdfRichMediaAnnotation(new RectangleF(30, 420, 160, 100));
+            PdfRichMediaAnnotation richMediaAnnotation = new PdfRichMediaAnnotation(new RectangleF(350, 70, 160, 100));
             //Set activation mode
             richMediaAnnotation.ActivationMode = PdfRichMediaActivationMode.Click;
             //Set presentation style
@@ -316,8 +366,8 @@ namespace BlazorDemos.Data.FileFormats.PDF
             richMediaAnnotation.AnnotationFlags = PdfAnnotationFlags.Print;
             //Create rich media content with video file  
             string path = "Syncfusion.PdfDemos.WinUI.";
-           
-			//Create rich media content with video file
+
+            //Create rich media content with video file
             PdfRichMediaContent videoContent = new PdfRichMediaContent("video", fileDataValue["Video.mp4"], "mp4");
             //Set the content type
             videoContent.ContentType = PdfRichMediaContentType.Video;
@@ -328,12 +378,12 @@ namespace BlazorDemos.Data.FileFormats.PDF
             //Draw image to the appearance
             richMediaAnnotation.Appearance.Normal.Graphics.DrawImage(image, new RectangleF(0, 0, richMediaAnnotation.Bounds.Width, richMediaAnnotation.Bounds.Height));
             //Add annotation to the page
-            secondPage.Annotations.Add(richMediaAnnotation);
+            thirdPage.Annotations.Add(richMediaAnnotation);
 
-            secondPage.Graphics.DrawString("Rich Media Annotation (Sound)", font, brush, new PointF(350, 390));
+            secondPage.Graphics.DrawString("Rich Media Annotation (Sound)", font, brush, new PointF(340, 580));
 
             //Create rich media annotation
-            PdfRichMediaAnnotation richMediaAnnotationSound = new PdfRichMediaAnnotation(new RectangleF(340, 420, 160, 100));
+            PdfRichMediaAnnotation richMediaAnnotationSound = new PdfRichMediaAnnotation(new RectangleF(340, 610, 160, 100));
             //Set activation mode
             richMediaAnnotationSound.ActivationMode = PdfRichMediaActivationMode.Click;
             //Set presentation style
@@ -382,16 +432,16 @@ namespace BlazorDemos.Data.FileFormats.PDF
         }
 		private void AddWatermarkAnnotation(PdfDocument document, string path)
         {
-            PdfPage page = document.Pages.Add();
-            SizeF pageClientSize = page.GetClientSize();            
+            PdfPage page = document.Pages[2];
+            SizeF pageClientSize = page.GetClientSize();
             //Load the image from the disk.
             PdfImage img = PdfImage.FromStream(fileDataValue["adventure-cycle.jpg"]);
             //Draw the image in the specified location and size.
-            page.Graphics.DrawImage(img, new RectangleF(150, 40, 250, 150));
+            page.Graphics.DrawImage(img, new RectangleF(150, 220, 250, 150));
 
             PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 15);
 
-            page.Graphics.DrawString("Watermark Annotation", font, PdfBrushes.Black, new PointF(30, 0));
+            page.Graphics.DrawString("Watermark Annotation", font, PdfBrushes.Black, new PointF(30, 200));
 
             PdfTextElement textElement = new PdfTextElement("Adventure Works Cycles, the fictitious company on which the AdventureWorks sample databases are based," +
                                 " is a large, multinational manufacturing company. The company manufactures and sells metal and composite bicycles to North American, " +
@@ -400,7 +450,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             {
                 Font = font
             };
-            PdfLayoutResult layoutResult = textElement.Draw(page, new RectangleF(0, 220, pageClientSize.Width, pageClientSize.Height));
+            PdfLayoutResult layoutResult = textElement.Draw(page, new RectangleF(0, 390, pageClientSize.Width, pageClientSize.Height));
 
             textElement = new PdfTextElement("In 2000, Adventure Works Cycles bought a small manufacturing plant, Importadores Neptuno, located in Mexico." +
                 " Importadores Neptuno manufactures several critical subcomponents for the Adventure Works Cycles product line." +

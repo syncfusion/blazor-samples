@@ -21,10 +21,8 @@ namespace BlazorDemos
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/flowchart",
-                Type = SampleType.Updated,
                 FileName = "FlowChart.razor",
                 HeaderText="Flow Chart using Blazor Diagram Component Example",
-                NotificationDescription = new string[]{ @"An added search option has been included in the Flow chart sample. Users can now search for symbols in the palette by entering the symbol ID (e.g., ""rectangle"") or by searching for tags in the search text box and clicking the search button. Additionally, users can utilize undo/redo support, z-order commands, zoom in/out actions, and print the diagram using the toolbar menu." },
             },
             new Sample
             {
@@ -59,8 +57,10 @@ namespace BlazorDemos
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/connectors",
+                Type = SampleType.Updated,
                 FileName = "ConnectorSample.razor",
                 HeaderText="Example of Connectors in Blazor Diagram Component",
+                NotificationDescription = new string[]{ @"Segment thumb shape customization has been included in the Connector sample. Users can now modify the connector segment shape by selecting different shapes from the available options(e.g., ""Rectangle"",""Square"",""Ellipse"") .This sample lets you easily change the look of connector segments." },
             },
             new Sample
             {
@@ -88,6 +88,8 @@ namespace BlazorDemos
                 Url = "diagramcomponent/ports",
                 FileName = "Ports.razor",
                 HeaderText="Example of Ports in Blazor Diagram Component",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The ConnectionDirection for Port option has been included in the Ports sample. Users can now specify the connection direction for the incoming and outgoing connectors of the port. When a specific direction is set, the connector will establish a connection to the port only in that direction." },
             },
             new Sample
             {
@@ -97,8 +99,6 @@ namespace BlazorDemos
                 Url = "diagramcomponent/rulers",
                 FileName = "Rulers.razor",
                 HeaderText="Example of Rulers in Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added a demo about rulers in the Diagram Component. This sample shows how to visualize and customize rulers used to measure and position diagram elements." },
             },
             new Sample
             {
@@ -127,6 +127,17 @@ namespace BlazorDemos
                 FileName = "Constraintssample.razor",
                 HeaderText="Example of Constraints in Blazor Diagram Component"
             },
+             new Sample
+            {
+                 Name = "Tooltip",
+                Category = "Getting Started",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/tooltip",
+                FileName = "TooltipSample.razor",
+                HeaderText="Example of Tooltip in Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample demonstrates how to enhance your diagram by adding extra details to nodes and connectors and displaying this information using common user interface elements."},
+            },
               new Sample
             {
                 Name = "Symbol Palette",
@@ -135,8 +146,6 @@ namespace BlazorDemos
                 Url = "diagramcomponent/symbolpalette",
                 FileName = "SymbolPalette.razor",
                 HeaderText="Example of Symbol Palette in Blazor Diagram Component",
-                 Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"Added an Animation and Search option in symbol palette sample. Now users can search for symbols in the palette by entering the symbol id  (e.g., ""rectangle"") or search tags text into the search text box and clicking the search button. Additionally, users can enable/disable animation." },
             },
               new Sample
             {
@@ -209,6 +218,8 @@ namespace BlazorDemos
                 Url = "diagramcomponent/Snapping",
                 FileName = "Snapping.razor",
                 HeaderText="Example of Snapping in Blazor Diagram Component",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The SnapLineStyle option has been included in the Snapping sample. Now users can customize the style of snap line." },
             },
              new Sample
             {
@@ -218,6 +229,8 @@ namespace BlazorDemos
                 Url = "diagramcomponent/scrollsettings",
                 FileName = "Scrolling.razor",
                 HeaderText="Example of Scrolling in Blazor Diagram Component",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The ScrollPadding option has been included in the Scrolling sample. Users can now specify the spacing between diagram elements and the edges of the viewport. For example, if the user sets the right padding value to 50 pixels, the scroll padding region will start 50 pixels from the inner edge of the right viewport edge." },
             },
             new Sample
             {
@@ -236,6 +249,17 @@ namespace BlazorDemos
                 Url = "diagramcomponent/nodecontent",
                 FileName = "NodeContent.razor",
                 HeaderText="Example of Node content in Blazor Diagram Component",
+            },
+            new Sample
+            {
+                Name = "Flowchart Layout",
+                Category = "Automatic Layouts",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/flowchart-layout",
+                FileName = "FlowchartLayout.razor",
+                HeaderText="Example of Flowchart Layout in Blazor Diagram Component",
+                Type= SampleType.New,
+                NotificationDescription=new string[]{ @"Added a demo to demonstrate flow chart layout in Diagram Component. This layout organizes nodes based on the relationships between parent and child nodes." }
             },
             new Sample
             {

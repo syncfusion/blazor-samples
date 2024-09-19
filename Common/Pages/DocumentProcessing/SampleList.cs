@@ -242,13 +242,8 @@ namespace BlazorDemos
                 Category = "Mathematical Equation",
                 Directory = "DocumentProcessing/Word",
                 Url = "word/edit-using-latex",
-                Type = SampleType.New,
                 FileName = "EditUsingLaTeX.razor",
                 MetaDescription = "This example demonstrates the edit equation using LaTeX in Blazor Word (DocIO) library. Explore here for more details.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to edit equation using LaTeX in Word document."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -529,6 +524,56 @@ namespace BlazorDemos
                 }
             },
 #endif
+            new Sample
+            {
+                Name = "Word to HTML",
+                Category = "Import and Export",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/word-to-html",
+                Type = SampleType.Updated,
+                FileName = "WordToHTML.razor",
+                MetaDescription = "This sample demonstrates how to convert a Word document to HTML using .NET Word Library (DocIO).",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="WordToHTML",
+                        FileName="WordToHTML.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WordToHTMLService",
+                        FileName="WordToHTMLService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "HTML to Word",
+                Category = "Import and Export",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/html-to-word",
+                Type = SampleType.Updated,
+                FileName = "HTMLToWord.razor",
+                MetaDescription = "This sample demonstrates how to convert the HTML to a Word document using .NET Word Library (DocIO).",
+                NotificationDescription = new string[]
+                {
+                    @"Now supports HTML that deviates from XML standards, enhancing document processing capabilities."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="HTMLToWord",
+                        FileName="HTMLToWord.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="HTMLToWordService",
+                        FileName="HTMLToWordService.cs"
+                    }
+                }
+            },
             new Sample
             {
                 Name = "Word to Markdown",
@@ -827,7 +872,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-image",
                 FileName = "PPTXToImage.razor",
-                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to convert the PowerPoint slide to an image.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -850,12 +894,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
-                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to convert a PowerPoint presentation to PDF.",
-                NotificationDescription = new string[]
-                {
-                    @"Provided support to preserve the highlight color in PowerPoint Presentation to PDF and image conversions."
-                },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -944,9 +983,6 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/find-and-highlight",
                 FileName = "FindAndHighlight.razor",
-#if !(WASM) && !WEBAPP
-                Type = SampleType.Updated,
-#endif
                 MetaDescription = "This sample demonstrates how to find a specific text and highlight it in an existing PowerPoint presentation using Find functionality of .NET PowerPoint library.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1403,6 +1439,48 @@ namespace BlazorDemos
             },
 			new Sample
             {
+                Name = "Collection Objects",
+                Category = "Data Binding",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/collection-objects",
+                MetaDescription = "This sample demonstrates how to use Collection Objects in spreadsheets using Essential XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CollectionObjects",
+                        FileName="CollectionObjects.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CollectionObjects",
+                        FileName="CollectionObjectsService.cs"
+                    }
+                }
+            },
+			new Sample
+            {
+                Name = "Import Export Data Table",
+                Category = "Data Binding",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/import-export-data-table",
+                MetaDescription = "This sample demonstrates exporting data from Excel to a data table, and import data from the data table to the Grid.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ImportExportDataTable",
+                        FileName="ImportExportDataTable.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ImportExportDataTable",
+                        FileName="ImportExportDataTableService.cs"
+                    }
+                }
+            },
+			new Sample
+            {
                 Name = "Import HTML Table",
                 Category = "Data Binding",
                 Directory = "DocumentProcessing/Excel",
@@ -1419,6 +1497,27 @@ namespace BlazorDemos
                     {
                         Id="ImportHTMLTable",
                         FileName="ImportHTMLTableService.cs"
+                    }
+                }
+            },
+			new Sample
+            {
+                Name = "Template Marker",
+                Category = "Data Binding",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/template-marker",
+                MetaDescription = "The sample demonstrates how to import data to a predefined Excel template using template marker in Excel (XlsIO) library.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="TemplateMarker",
+                        FileName="TemplateMarker.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="TemplateMarker",
+                        FileName="TemplateMarkerService.cs"
                     }
                 }
             },
@@ -1645,11 +1744,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-pdf",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to pdf file using Essential XlsIO.",
-                Type = SampleType.Updated,
-	        NotificationDescription = new string[]
-		{
-		     @"Provided error bar support in chart to image conversion and gradient fill support for conditional formatting in Excel to PDF conversion."
-		},
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1686,6 +1781,69 @@ namespace BlazorDemos
                     }
                 }
             },
+			new Sample
+            {
+                Name = "Excel To TSV",
+                Category = "Conversions",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/excel-to-tsv",
+                MetaDescription = "This sample demonstrates how to convert Excel documents to TSV documents using Essential XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExcelToTSV",
+                        FileName="ExcelToTSV.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ExcelToTSVService",
+                        FileName="ExcelToTSVService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "CSV To Excel",
+                Category = "Conversions",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/csv-to-excel",
+                MetaDescription = "This sample demonstrates how to convert CSV files to Excel files using Essential XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CSVToExcel",
+                        FileName="CSVToExcel.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CSVToExcelService",
+                        FileName="CSVToExcelService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Excel To CSV",
+                Category = "Conversions",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/excel-to-csv",
+                MetaDescription = "This sample demonstrates how to convert Excel files to CSV files using Essential XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExcelToCSV",
+                        FileName="ExcelToCSV.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ExcelToCSVService",
+                        FileName="ExcelToCSVService.cs"
+                    }
+                }
+            },
 #if !WASM && !WEBAPP
             new Sample
             {
@@ -1705,6 +1863,48 @@ namespace BlazorDemos
                     {
                         Id="EncryptAndDecryptService",
                         FileName="EncryptAndDecryptService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Workbook Protection",
+                Category = "Settings",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/workbook-protection",
+                MetaDescription  = "This sample demonstrates how to set protection for a workbook using Excel (XlsIO) Library.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="WorkbookProtection",
+                        FileName="WorkbookProtection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WorkbookProtectionService",
+                        FileName="WorkbookProtectionService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Worksheet Protection",
+                Category = "Settings",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/worksheet-protection",
+                MetaDescription  = "This sample demonstrates how to Lock and Unlock spreadsheets using Excel (XlsIO) Library.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="WorksheetProtection",
+                        FileName="WorksheetProtection.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="WorksheetProtectionService",
+                        FileName="WorksheetProtectionService.cs"
                     }
                 }
             },
@@ -1759,11 +1959,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/PivotTableLayout",
                 MetaDescription = " Click the \"Create Document\" button to view the created Excel document and click the \"Customize Pivot Table\" button to view the Excel document created with customized pivot table. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document..",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]
-		{
-		     @"Provided support for show values row in pivot table layout."
-		},
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1883,6 +2079,34 @@ namespace BlazorDemos
                     }
                 }
             },
+#if !WASM && !WEBAPP
+            new Sample
+            {
+                Name = "Excel to PDF/UA",
+                Category = "Conversions",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/excel-to-pdf-ua",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Converting Excel documents to PDF with PDF/UA standard compliance is now supported. This ensures that users who rely on accessibility tools can effectively read the content of these PDF documents."
+                },
+                MetaDescription = "This sample demonstrates how to create macros using XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExcelToPDFUA",
+                        FileName="ExcelToPDFUA.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ExcelToPDFUAService",
+                        FileName="ExcelToPDFUAService.cs"
+                    }
+                }
+            },
+#endif
         };	
 
           public List<Sample> PDF { get; set; } = new List<Sample>{
@@ -2289,11 +2513,7 @@ namespace BlazorDemos
                 Directory="DocumentProcessing/PDF",
                 MetaDescription="This sample demonstrates the creation of different type of annotations such as ink, free text, pop up, text markup annotation and more. The Essential PDF supports 20+ annotations with create, edit, and delete support.",
                 Url="pdf/annotations",
-				NotificationDescription = new string[]
-                {
-                    @"Updated the demo with rich media and watermark annotation support."
-                },
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -2308,7 +2528,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !WASM && !WEBAPP
+#if !WEBAPP
               new Sample
               {
                   Name = "Compress Existing PDF",
@@ -2331,6 +2551,28 @@ namespace BlazorDemos
                         }
                     }
               },
+               new Sample
+              {
+                  Name = "Redaction",
+                  Category = "Security",
+                  Directory = "DocumentProcessing/PDF",
+                  MetaDescription = "This sample demonstrates redacting a text from the PDF document. It is also possible to redact the images. The redaction is a process of removing sensitive or unwanted information from the PDF document.",
+                  Url = "pdf/redaction",
+                  Type = SampleType.None,
+                  SourceFiles = new List<SourceCollection>()
+                  {
+                        new SourceCollection
+                        {
+                            Id="Redaction",
+                            FileName="Redaction.razor"
+                        },
+                        new SourceCollection
+                        {
+                            Id="Redaction",
+                            FileName="RedactionService.cs"
+                        }
+                    }
+              },
 #endif
               new Sample
                {
@@ -2339,10 +2581,6 @@ namespace BlazorDemos
                 Directory="DocumentProcessing/PDF",
                 MetaDescription="This sample demonstrates various PDF conformance support in Essential PDF.",
                 Url="pdf/conformance",
-				NotificationDescription = new string[]
-                {
-                    @"Updated the demo with PDF/A-4, PDF/A-4E, and PDF/A-4F conformance support."
-                },
                 Type = SampleType.None,
                 SourceFiles=new List<SourceCollection>()
                 {
@@ -2470,28 +2708,6 @@ namespace BlazorDemos
                               }
                           }
                       },
-              new Sample
-              {
-                  Name = "Redaction",
-                  Category = "Security",
-                  Directory = "DocumentProcessing/PDF",
-                  MetaDescription = "This sample demonstrates redacting a text from the PDF document. It is also possible to redact the images. The redaction is a process of removing sensitive or unwanted information from the PDF document.",
-                  Url = "pdf/redaction",
-                  Type = SampleType.None,
-                  SourceFiles = new List<SourceCollection>()
-                  {
-                        new SourceCollection
-                        {
-                            Id="Redaction",
-                            FileName="Redaction.razor"
-                        },
-                        new SourceCollection
-                        {
-                            Id="Redaction",
-                            FileName="RedactionService.cs"
-                        }
-                    }
-              },
               new Sample
               {
                   Name = "Remove Image",

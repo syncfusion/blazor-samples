@@ -1,9 +1,10 @@
 ﻿@namespace Blazor_MAUI_Demos.Shared
 
 @inject IJSRuntime JsRuntime;
+@inject NavigationManager UriHelper;
 
 <div class="sf-dropdown-container">
-    <div class="sf-dropdown-input-container" @onclick="@OnInputClick">
+    <div class="sf-dropdown-input-container items" @onclick="@OnInputClick">
         <input @ref="inputElement" @bind="Value" class="sf-dropdown-input" role="button" aria-label="Culture Switcher" readonly="readonly" />
         <span class="sb-icons sf-dropdown-icon"></span>
     </div>
@@ -19,7 +20,8 @@
                 <li class="@liClass" @onclick="@(async () => { await OnItemSelect(item); })">
                     @if (ItemTemplate != null)
                     {
-                        @ItemTemplate(item);
+                        @ItemTemplate(item)
+                        ;
                     }
                     else
                     {
@@ -33,12 +35,14 @@
         </div>
     </div>
 </div>
-
 @code {
     public string popupClass { get; set; }
     private ElementReference inputElement { get; set; }
     public bool isthemepopupopen { get; set; }
+    private string currentTheme { get; set; }
 
+    [Parameter]
+    public string themeAlignment { get; set; }
     /// <summary>
     /// ChildContent of DropDownComponent.
     /// </summary>
@@ -121,6 +125,7 @@
             Value = DataSource.First().Text;
         }
         popupClass = SampleUtils.DROPDOWN_POPUP + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+        currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
     }
 
     protected override void OnParametersSet()
@@ -140,3 +145,13 @@
         StateHasChanged();
     }
 }
+<style>
+    .items {
+        display: flex;
+    }
+
+    /*  .icons {
+            margin-right: 20px; /* Adjust spacing between icon and text */
+
+
+</style>

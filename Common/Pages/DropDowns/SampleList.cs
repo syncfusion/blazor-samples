@@ -22,7 +22,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
+
             },
             new Sample
             {
@@ -40,8 +41,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/DisabledItems",
                 FileName = "DisabledItems.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @" Added the Disabled Items support for the DropdownList." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -186,8 +186,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "ComboBox/DisabledItems",
                 FileName = "DisabledItems.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @" Added the Disabled Items support for the ComboBox." }
+                Type = SampleType.None
             },
            new Sample
             {
@@ -241,7 +240,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Multi-Column",
                 FileName = "MultiColumn.razor",
-                Type = SampleType.None
+                Type = SampleType.None,
             },
              new Sample
             {
@@ -298,8 +297,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "AutoComplete/DisabledItems",
                 FileName = "DisabledItems.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @" Added the Disabled Items support for the AutoComplete." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -392,8 +390,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "MultiSelect-Dropdown/DisabledItems",
                 FileName = "DisabledItems.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @" Added the Disabled Items support for the MultiSelect Dropdown." }
+                Type = SampleType.None
             },
              new Sample
             {
@@ -465,8 +462,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Virtualization",
                 FileName = "Virtualization.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @" The virtualization demo has been updated to include the feature of supporting UI virtualization, which improves MultiSelect Dropdown performance through UI virtualization, element reduction, and progressive updating of items." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -484,6 +480,103 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
+                Type = SampleType.None
+            }
+        };
+
+        public List<Sample> MultiColumnComboBox { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.None,
+                NotificationDescription = new string[]
+                {
+                    "This sample demonstrates the default functionalities of the MultiColumn ComboBox component, showcasing various options for customization, selection, and data binding."
+                }
+            },
+            new Sample
+            {
+                Name = "Remote Data Binding",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Remote-Data-Binding",
+                FileName = "RemoteDataBinding.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Paging",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Paging",
+                FileName = "Paging.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Filtering",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Filtering",
+                FileName = "Filtering.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Virtualization",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Virtualization",
+                FileName = "Virtualization.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Grouping and Sorting",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Grouping-Sorting",
+                FileName = "Grouping.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Template",
+                FileName = "Template.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Row Style",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/RowStyle",
+                FileName = "RowStyle.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Form Support",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/FormSupport",
+                FileName = "FormSupport.razor",
                 Type = SampleType.None
             }
         };
@@ -579,6 +672,16 @@ namespace BlazorDemos
                 Url = "Mention/Template",
                 FileName = "Templates.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Disabled Items",
+                Category = "Mention",
+                Directory = "DropDowns/Mention",
+                Url = "Mention/DisabledItems",
+                FileName = "DisabledItems.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @" Added the Disabled Items support for the Mention." }
             }
         };
     }

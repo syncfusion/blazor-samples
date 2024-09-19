@@ -30,25 +30,32 @@
     <div class="content-wrapper">
         <div class="row">
             <div>
-            <SfGantt @ref="Gantt" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@viewType" Height="450px" Width="100%"
-                     GridLines="@gridlines" WorkWeek="@week" WorkUnit="WorkUnit.Day" ProjectStartDate=@(new DateTime(2021, 12, 17)) ProjectEndDate="@(new DateTime(2022,10,26))" HighlightWeekends="true"
-                     AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue" EnableRowHover="true">
+            <SfGantt @ref="Gantt" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" AllowPdfExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@viewType" Height="450px" Width="100%"
+                         GridLines="@gridlines" WorkWeek="@week" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" Toolbar="Toolbaritems"
+                         AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue" EnableRowHover="true" EnableCriticalPath="@EnableCriticalPath" EnableContextMenu="true">
                      @if(!ShowDependency)
                      {
                          <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
                                  Duration="TimeLog" Progress="Progress" ParentID="ParentId">
-                    </GanttTaskFields>
-                     }
+                        </GanttTaskFields>
+                    }
+                    else if(CustomScheduling)
+                    {
+                        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
+                                         Duration="TimeLog" Dependency="Predecessor" Progress="Progress" ParentID="ParentId" Manual="IsManual">
+                        </GanttTaskFields>
+                    }
                      else
                      {
                          <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
                                  Duration="TimeLog" Dependency="Predecessor" Progress="Progress" ParentID="ParentId">
-                    </GanttTaskFields>
+                        </GanttTaskFields>
                      }
                     
                     <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
                     <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="OverviewData.TaskData" TResources="OverviewData.ResourceInfoModel"></GanttResource>
                     <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="Id" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="OverviewData.TaskData" TAssignment="OverviewData.AssignmentModel"></GanttAssignmentFields>
+                    <GanttSegmentFields DataSource="SegmentCollection" PrimaryKey="id" ForeignKey="TaskId" StartDate="StartDate" EndDate="EndDate" Duration="Duration" TValue="OverviewData.TaskData" TSegments="OverviewData.SegmentModel"></GanttSegmentFields>
                     <GanttColumns>
                         <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
                         <GanttColumn Field="TaskName" Width="250" HeaderText="Product Release" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="true" Freeze="FreezeDirection.Left"></GanttColumn>
@@ -93,12 +100,12 @@
                                 }
                             </Template>
                     </GanttColumn>
-                    <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="120"></GanttColumn>
+                    <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="150"></GanttColumn>
                     <GanttColumn Field="TimeLog" HeaderText="Work Log" Width="120"></GanttColumn>
                 </GanttColumns>
                 @if (TaskLabels)
                 {
-                    <GanttLabelSettings TValue="OverviewData.TaskData">
+                    <GanttLabelSettings TValue="OverviewData.TaskData" TaskLabel="Progress">
                         <RightLabelTemplate>
                             <div class="e-right-label-inner-div">
                                 @{
@@ -116,99 +123,9 @@
                 }
                 else
                 {
-                    <GanttLabelSettings  TValue="OverviewData.TaskData"></GanttLabelSettings>
+                    <GanttLabelSettings TValue="OverviewData.TaskData" TaskLabel="Progress"></GanttLabelSettings>
                 }
-                <GanttTemplates TValue="OverviewData.TaskData">
-                    <TaskbarTemplate>
-                        @{
-                            var task = (context as OverviewData.TaskData);
-                            if (task == null)
-                            {
-                                return;
-                            }
-                            var taskModel = GetTaskData(task);
-                            if (task.Progress < 100 && task.Progress != 0)
-                            {
-                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 2)px">@task.Progress%</span>
-                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
-                                    </div>
-                                </div>
-                            }
-                            else if (task.Progress == 100)
-                            {
-                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");" tabindex=-1>
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
-                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
-                                    </div>
-                                </div>
-                            }
-                            if (task.Progress == 0)
-                            {
-                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" style="border-radius:4px;height:@TaskBarHeight;width:@(taskModel.Width + "px");height:@(TaskbarHeightValue + "px")" tabindex=-1>
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
-                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="border-radius:10px;height:@TaskBarHeight;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </TaskbarTemplate>
-                    <ParentTaskbarTemplate>
-                        @{
-                            var task = (context as OverviewData.TaskData);
-                            if (task == null)
-                            {
-                                return;
-                            }
-                            var taskModel = GetTaskData(task);
-                            if (task.Progress < 100 && task.Progress != 0)
-                            {
-                                borderRadius = "0px";
-                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:@(taskModel.ProgressWidth - 20)px">@task.Progress%</span>
-                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
-                                    </div>
-                                </div>
-                            }
-                            else if (task.Progress == 100)
-                            {
-                                borderRadius = "4px";
-                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;right:2px">@task.Progress%</span>
-                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
-                                    </div>
-                                </div>
-                            }
-                            if (task.Progress == 0)
-                            {
-                                borderRadius = "0px";
-                                <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="border-radius:4px;color:@parentTrackColor;height:@TaskBarHeight;margin-top:@MarginValue;width:100%" tabindex="-1">
-                                    <span style="color:white;font-size:12px;top:@TopPosition;position: absolute;left:4px">@task.Progress%</span>
-                                    <div class="e-gantt-parent-progressbar-inner-div e-gantt-parent-progressbar" style="border-radius:@borderRadius;color:@parentProgressColor;height:@TaskBarHeight;width:@task.Progress%;text-align: right;box-sizing: border-box;">
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </ParentTaskbarTemplate>
-                </GanttTemplates>
-                    <SfToolbar ID="GanttOverview_Gantt_Toolbar">
-                        <ToolbarItems>
-                            <ToolbarItem Align="ItemAlign.Right" Text="View">
-                                <Template>
-                                @if (Settings)
-                                {
-                                    <SfButton class="settings-btn" IconCss="e-settings-icon" @onclick="onToggleClick">Settings</SfButton>
-                                }
-                                </Template>
-                            </ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_expandall" Text="Expand all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-expandall"></ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_collapseall" Text="Collapse all" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-collapseall"></ToolbarItem>
-                         <ToolbarItem Id="GanttOverview_zoomin" Text="Zoom in" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomin"></ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_zoomout" Text="Zoom out" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomout"></ToolbarItem>
-                        <ToolbarItem Id="GanttOverview_zoomtofit" Text="Zoom fit" Align="ItemAlign.Left" OnClick="ToolbarAction" PrefixIcon="e-zoomtofit"></ToolbarItem>
-                    </ToolbarItems>
-                </SfToolbar>
-
+                
                 <GanttEventMarkers>
                     @if (EventMarker)
                     {
@@ -229,15 +146,16 @@
                     
                     <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
                         <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
-                        <GanttBottomTierSettings Unit="TimelineViewMode.Day" Format="dd" Count="4"></GanttBottomTierSettings>
+                        <GanttBottomTierSettings Unit="TimelineViewMode.Week" Format="dd"></GanttBottomTierSettings>
                     </GanttTimelineSettings>
-                    <GanttSplitterSettings Position="380px"> </GanttSplitterSettings>
+                    <GanttSplitterSettings Position="500px"> </GanttSplitterSettings>
+                    <GanttEvents OnToolbarClick="ToolbarClickHandler" TValue="OverviewData.TaskData"></GanttEvents>
                 </SfGantt>
             </div>
             <div style="padding-left: 10px; padding-right: 20px;">
                     @if (IsSideBar)
                     {
-                    <SfSidebar class="default-sidebar" Width="280px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="SidebarToggle" >
+                    <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="SidebarToggle" >
                             <ChildContent>
 
                             <SfListView DataSource="@ListData"  CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
@@ -344,7 +262,7 @@
                                             {
                                                 <div class="list-fields">
                                                     <label class="labels"> Show grid lines:</label>
-                                                    <div style="float: right; margin-right: 10px;">
+                                                    <div>
                                                         <SfSwitch ValueChange="GridLines" TValue="bool?" TChecked="bool?"></SfSwitch>
                                                     </div>
                                                 </div>
@@ -353,7 +271,7 @@
                                             {
                                                 <div class="list-fields">
                                                     <label class="labels"> Show event marker:</label>
-                                                    <div style="float: right; margin-right: 10px;">
+                                                    <div>
                                                         <SfSwitch ValueChange="EventMarkerEvent" TValue="bool?" TChecked="bool?"></SfSwitch>
                                                     </div>
                                                 </div>
@@ -362,7 +280,7 @@
                                             {
                                                 <div class="list-fields">
                                                     <label class="labels">Show dependencies:</label>
-                                                    <div style="float: right; margin-right: 10px;">
+                                                    <div>
                                                         <SfSwitch ValueChange="ShowDependencies" TValue="bool?" @bind-Checked="ShowDependency" TChecked="bool"></SfSwitch>
                                                     </div>
                                                 </div>
@@ -371,8 +289,26 @@
                                             {
                                                 <div class="list-fields">
                                                     <label class="labels">Show task labels:</label>
-                                                    <div style="float: right; margin-right: 10px;">
+                                                    <div>
                                                         <SfSwitch ValueChange="ShowTaskLabels" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                    </div>
+                                                </div>
+                                            }
+                                            if (context.Text == "Enable critical path")
+                                            {
+                                                <div class="list-fields">
+                                                    <label class="labels">Critical path:</label>
+                                                    <div>
+                                                        <SfSwitch ValueChange="CriticalPathEnable" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                    </div>
+                                                </div>
+                                            }
+                                            if (context.Text == "Custom scheduling")
+                                            {
+                                                <div class="list-fields">
+                                                    <label class="labels">Custom scheduling:</label>
+                                                    <div>
+                                                        <SfSwitch ValueChange="EnableCustomScheduling" TValue="bool?" TChecked="bool?"></SfSwitch>
                                                     </div>
                                                 </div>
                                             }
@@ -389,609 +325,25 @@
     </div>
 
 @code {
-    public bool SidebarToggle;
-    SfSwitch<bool?> SwitchObj;
-    public bool IsSideBar = false;
-    public bool Settings = true;
-    private int RowHeightValue { get; set; } = 40;
-    private int TaskbarHeightValue { get; set; } = 24;
-    private string TaskBarHeight = "24px";
-    private string MarginValue = "0px";
-    private string TopPosition = "4px";
-    private int DefaultUnitWidth = 40;
-    private SfGantt<OverviewData.TaskData> Gantt;
-    public List<OverviewData.TaskData> TaskCollection { get; set; }
-    private DateTime VolumeOneRelease = new DateTime(2022, 04, 04);
-    private DateTime VolumeTwoRelease = new DateTime(2022, 06, 30);
-    private DateTime VolumeThreeRelease = new DateTime(2022, 09, 29);
-    private DateTime Holiday1 = new DateTime(2021, 12, 25);
-    private DateTime Holiday2 = new DateTime(2021, 12, 26);
-    private DateTime Holiday3 = new DateTime(2022, 01, 01);
-    private DateTime Holiday4 = new DateTime(2022, 01, 01);
-    public Theme CurrentTheme { get; set; }
-    public string currentUri;
-    public string style;
-    public string childProgressColor;
-    public string parentProgressColor;
-    public string childTrackColor;
-    public string parentTrackColor;
-    public string progressValue { get; set; } = "white";
-    public bool ShowDependency { get; set; } = true;
-    private List<OverviewData.ResourceInfoModel> ResourceCollection { get; set; }
-    private List<string> Status = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
-    private List<string> Priority = new List<string>() { "Low", "Normal", "High", "Critical" };
-    public string borderRadius = "4px";
-    public string statusStyleColor;
-    public string statusContentstyleColor;
-    public string priorityContentStyle;
-    public string priorityStyle;
-    private List<Theme> ThemeCollection = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material };
-    public string progressLeft = "0px";
-    private string dropDownWidth { get; set; } = "80px";
-    //***API properties
-    public Syncfusion.Blazor.Gantt.GridLine gridlines { get; set; } = Syncfusion.Blazor.Gantt.GridLine.Vertical;
-    private ViewType viewType { get; set; } = ViewType.ProjectView;
-    public string viewTypes { get; set; } = "Project view";
-    public string DurationUnitValue { get; set; } = "Day";
-    public Syncfusion.Blazor.Gantt.DurationUnit DurationValue { get; set; } = DurationUnit.Day;
-    private bool EventMarker { get; set; } = false;
-    private bool TaskLabels { get; set; } = false;
-    public int CurrentValue { get; set; }
-    public int PreviousValue { get; set; } = 11;
-    public int BindValue { get; set; } = 11;
-    string CurrentHeaderTitle = "Project Settings";
-    public string[] week = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-    private string filterHeaderFontSize { get; set; }
-    private string filterHeaderFontSizeTouch { get; set; }
-    private string filteraHeaderHeight { get; set; }
-    private string filteraHeaderHeightTouch { get; set; }
-    private string filterHeaderFontWeight{ get; set; }
-    private string filterBackground{ get; set; }
-    private string labelTextColor{ get; set; }
-    private static List<OverviewData.AssignmentModel> AssignmentCollection { get; set; }
-    // Specifies the ListView datasource.
-    List<DataModel> ListData = new List<DataModel>();
-    // Specifies the model class for ListView datasource.
-    class DataModel
-    {
-        public string Id { get; set; }
-        public string Text { get; set; }
-        public string Category { get; set; }
-        public int Order { get; set; }
-        public List<DataModel> Child { get; set; }
-    }
-    private void GanttViewTypes(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, ViewTypes> args)
-    {
-        if (args.Value.Contains("Resource view"))
-        {
-            viewType = ViewType.ResourceView;
-            viewTypes = viewType.ToString();
-        }
-        else
-        {
-            viewType = ViewType.ProjectView;
-            viewTypes = viewType.ToString();
-        }
-        StateHasChanged();
-        Settings = true;
-    }
-    private void GridLines(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
-    {
-        if (args.Checked == true)
-        {
-            gridlines = Syncfusion.Blazor.Gantt.GridLine.Both;
-        }
-        else
-        {
-            gridlines = Syncfusion.Blazor.Gantt.GridLine.Vertical;
-        }
-        Settings = true;
-        Gantt.RefreshAsync();
-    }
-    private void EventMarkerEvent(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
-    {
-        if (args.Checked == true)
-        {
-            EventMarker = true;
-        }
-        else
-        {
-            EventMarker = false;
-        }
-        Settings = true;
-        Gantt.RefreshAsync();
-    }
-    private void ShowDependencies(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        if (args.Checked == true)
-        {
-            ShowDependency = true;
-        }
-        else
-        {
-            ShowDependency = false;
-        }
-        Settings = true;
-        Gantt.RefreshAsync();
-    }
-    private void ShowTaskLabels(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
-    {
-        if (args.Checked == true)
-        {
-            TaskLabels = true;
-        }
-        else
-        {
-            TaskLabels = false;
-        }
-        Settings = true;
-        Gantt.RefreshAsync();
-    }
 
-    private void onToggleClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-    {
-        SidebarToggle = !SidebarToggle;
-        IsSideBar = true;
-        Settings = false;
-    }
-    public void OnChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
-    {
-        DefaultUnitWidth = (int)args.Value;
-    }
-    private void rowheightchange(int value)
-    {
-        RowHeightValue = value;
-        if (value == 40)
-        {
-            TaskbarHeightValue = 24;
-            TaskBarHeight = "24px";
-            MarginValue = "0px";
-            TopPosition = "4px";
-        }
-        else if (value == 50)
-        {
-            TaskbarHeightValue = 32;
-            TaskBarHeight = "32px";
-            MarginValue = "0px";
-            TopPosition = "7px";
-        }
-        else if (value == 60)
-        {
-            TaskbarHeightValue = 40;
-            TaskBarHeight = "40px";
-            MarginValue = "4px";
-            TopPosition = "10px";
-        }
-    }
-    public void Close()
-    {
-        SidebarToggle = false;
-        Settings = true;
-    }
-    public class WorkWeek
-    {
-        public string Week { get; set; }
-    }
-    List<WorkWeek> Weeks = new List<WorkWeek>
-    {
-        new WorkWeek() { Week = "Monday"},
-        new WorkWeek() { Week = "Tuesday"},
-        new WorkWeek() { Week = "Wednesday"},
-        new WorkWeek() { Week = "Thursday"},
-        new WorkWeek() { Week = "Friday"},
-        new WorkWeek() { Week = "Saturday"}
-    };
-    public class Duration
-    {
-        public string Unit { get; set; }
-    }
-    List<Duration> Duration1 = new List<Duration>
-    {
-        new Duration() { Unit = "Hour"},
-        new Duration() { Unit = "Minute"},
-        new Duration() { Unit = "Day"}
-    };
-    public class ViewTypes
-    {
-        public string Type { get; set; }
-    }
-    List<ViewTypes> Types = new List<ViewTypes>
-    {
-        new ViewTypes() { Type = "Resource view"},
-        new ViewTypes() { Type = "Project view"}
+    [CascadingParameter]
+    protected MainLayout Layout { get; set; }
 
-    };
-    private void ValueChangeHandler(MultiSelectChangeEventArgs<string[]> args)
-    {
-        if (args.Value == null)
-        {
-            week = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
-        }
-        else
-        {
-            week = args.Value;
-        }
-    }
-    private async void ValueChangeHandler2(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Duration> args)
-    {
-        if (args.Value.Contains("Hour"))
-        {
-            DurationValue = DurationUnit.Hour;
-            DurationUnitValue = DurationValue.ToString();
-        }
-        else if (args.Value.Contains("Day"))
-        {
-            DurationValue = DurationUnit.Day;
-            DurationUnitValue = DurationValue.ToString();
-        }
-        else if (args.Value.Contains("Minute"))
-        {
-            DurationValue = DurationUnit.Minute;
-            DurationUnitValue = DurationValue.ToString();
-        }
-        await Gantt.RefreshAsync();
-    }
-    public class SplitterView
-    {
-        public string ID { get; set; }
-        public string Text { get; set; }
-    }
-    public List<SplitterView> SplitterViews = new List<SplitterView>
-{
-        new SplitterView() { ID= "Default", Text= "Default" },
-        new SplitterView() { ID= "Grid", Text= "Grid" },
-        new SplitterView() { ID= "Chart", Text= "Chart" },
-    };
-    public async void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, SplitterView> args)
-    {
-        if (args.Value == "Grid")
-        {
-            await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Grid);
-
-        }
-        else if (args.Value == "Chart")
-        {
-            await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Chart);
-        }
-        else
-        {
-            await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Default);
-            dropDownWidth = "90px";
-        }
-        await Gantt.RefreshAsync();
-    }
-    public async void ToolbarAction(Syncfusion.Blazor.Navigations.ClickEventArgs args)
-    {
-        switch (args.Item.Id)
-        {
-            case "GanttOverview_expandall":
-                await this.Gantt.ExpandAllAsync();
-                break;
-            case "GanttOverview_collapseall":
-                await this.Gantt.CollapseAllAsync();
-                break;
-            case "GanttOverview_zoomin":
-                await this.Gantt.ZoomInAsync();
-                break;
-            case "GanttOverview_zoomout":
-                await this.Gantt.ZoomOutAsync();
-                break;
-            case "GanttOverview_zoomtofit":
-                await this.Gantt.ZoomToFitAsync();
-                break;
-        }
-    }
     protected override void OnInitialized()
     {
         // Updating the ListView datasource.
-        ListData.Add(new DataModel
-            {
-                Id = "01",
-                Text = "RowHeight",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "02",
-                Text = "Show grid Lines",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "02",
-                Text = "Event markers",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "02",
-                Text = "Show dependencies",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "02",
-                Text = "Show task labels",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "03",
-                Text = "Work Week",
-                Category = "Scheduling Settings",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "03",
-                Text = "Work Time Range",
-                Category = "Scheduling Settings",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "02",
-                Text = "TimeLine Cell Unit",
-                Category = "Scheduling Settings",
-                Order = 1,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "04",
-                Text = "View Type",
-                Category = "View settings",
-                Order = 2,
-            });
-        ListData.Add(new DataModel
-            {
-                Id = "04",
-                Text = "View Mode",
-                Category = "View settings",
-                Order = 2,
-            });
+        UpdateDataModel();
+        ProjectStartDate = new DateTime(2021, 12, 19);
+        ProjectEndDate = new DateTime(2022, 07, 8);
         this.TaskCollection = OverviewData.DataCollection();
         this.ResourceCollection = OverviewData.GetResources;
         AssignmentCollection = OverviewData.GetAssignmentCollection();
+        SegmentCollection = OverviewData.GetSegmentCollection();
         currentUri = Navigation.Uri;
-        if (currentUri.Contains("fluent-dark"))
-        {
-            CurrentTheme = Theme.FluentDark;
-            parentProgressColor = "#3b3a39";
-            parentTrackColor = "#323130";
-            childProgressColor = "#0078d4";
-            childTrackColor = "#6ec0ff";
-            progressValue = "#f3f2f1";
-            filterBackground = "#201f1e";
-            filterHeaderFontSize = "14px";
-            filterHeaderFontSizeTouch = "16px";
-            filteraHeaderHeight = "50px";
-            filteraHeaderHeightTouch = "56px";
-            filterHeaderFontWeight = "600";
-        }
-        else if (currentUri.Contains("fluent"))
-        {
-            CurrentTheme = Theme.Fluent;
-            parentProgressColor = "#d2d0ce";
-            parentTrackColor = "#e1dfdd";
-            childProgressColor = "#0078d4";
-            childTrackColor = "#6ec0ff";
-            progressValue = "#201f1e";
-            filterBackground = "#faf9f8";
-            labelTextColor = "#201f1e";
-            filterHeaderFontSize = "14px";
-            filterHeaderFontSizeTouch = "16px";
-            filteraHeaderHeight = "50px";
-            filteraHeaderHeightTouch = "56px";
-            filterHeaderFontWeight = "600";
-        }
-        else if (currentUri.Contains("fabric-dark"))
-        {
-            CurrentTheme = Theme.FabricDark;
-            parentProgressColor = "#4cc7ba";
-            parentTrackColor = "#029f90";
-            childProgressColor = "#0063ad";
-            childTrackColor = "#0074cc";
-            filterBackground = "#333232";
-            labelTextColor = "#f3f2f1";
-        }
-        else if (currentUri.Contains("fabric"))
-        {
-            CurrentTheme = Theme.Fabric;
-            parentProgressColor = "#505050";
-            parentTrackColor = "#767676";
-            childProgressColor = "#005ba3";
-            childTrackColor = "#0078d6";
-            filterBackground = "#f4f4f4";
-        }
-        else if (currentUri.Contains("bootstrap5-dark"))
-        {
-            CurrentTheme = Theme.Bootstrap5Dark;
-            parentProgressColor = "#adb5bd";
-            parentTrackColor = "#6c757d";
-            childProgressColor = "#0d6efd";
-            childTrackColor = "#86b7fe";
-            progressValue = "#212529";
-            filterBackground = "#282d31";
-            labelTextColor = "#fff";
-            filterHeaderFontSize = "14px";
-            filterHeaderFontSizeTouch = "14px";
-            filteraHeaderHeight = "40px";
-            filteraHeaderHeightTouch = "48px";
-            filterHeaderFontWeight = "400";
-        }
-        else if (currentUri.Contains("bootstrap-dark"))
-        {
-            CurrentTheme = Theme.BootstrapDark;
-            parentProgressColor = "#4cc7ba";
-            parentTrackColor = "#029f90";
-            childProgressColor = "#0070f0";
-            childTrackColor = "#248aff";
-            filterBackground = "#393939";
-        }
-        else if (currentUri.Contains("bootstrap5"))
-        {
-            CurrentTheme = Theme.Bootstrap5;
-            parentProgressColor = "#adb5bd";
-            parentTrackColor = "#ced4da";
-            childProgressColor = "#0d6efd";
-            childTrackColor = "#86b7fe";
-            progressValue = "#212529";
-            filterBackground = "#f8f9fa";
-            labelTextColor = "#212529";
-            filterHeaderFontSize = "14px";
-            filterHeaderFontSizeTouch = "14px";
-            filteraHeaderHeight = "40px";
-            filteraHeaderHeightTouch = "48px";
-            filterHeaderFontWeight = "400";
-        }
-        else if (currentUri.Contains("bootstrap4"))
-        {
-            CurrentTheme = Theme.Bootstrap4;
-            parentProgressColor = "#495057";
-            parentTrackColor = "#6c757d";
-            childProgressColor = "#0056b3";
-            childTrackColor = "#007bff";
-            filterBackground = "#e9ecef";
-        }
-        else if (currentUri.Contains("bootstrap"))
-        {
-            CurrentTheme = Theme.Bootstrap;
-            parentProgressColor = "#555";
-            parentTrackColor = "#777";
-            childProgressColor = "#21527d";
-            childTrackColor = "#317ab9";
-            filterBackground = "#eee";
-        }
-        else if (currentUri.Contains("highcontrast"))
-        {
-            CurrentTheme = Theme.HighContrast;
-            parentProgressColor = "#005201";
-            parentTrackColor = "#007d01";
-            childProgressColor = "#3e047d";
-            childTrackColor = "#6e06f1";
-            filterBackground = "#000";
-            labelTextColor = "#fff";
-        }
-        else if (currentUri.Contains("tailwind-dark"))
-        {
-            CurrentTheme = Theme.TailwindDark;
-            parentProgressColor = "#9ca3af";
-            parentTrackColor = "#6b7280";
-            childProgressColor = "#22d3ee";
-            childTrackColor = "#0891b2";
-            progressValue = "white";
-            filterBackground = "#232e3e";
-            labelTextColor = "#fff";
-            filterHeaderFontSize = "14px";
-            filterHeaderFontSizeTouch = "16px";
-            filteraHeaderHeight = "44px";
-            filteraHeaderHeightTouch = "52px";
-            filterHeaderFontWeight = "400";
-        }
-        else if (currentUri.Contains("tailwind"))
-        {
-            CurrentTheme = Theme.Tailwind;
-            parentProgressColor = "#9ca3af";
-            parentTrackColor = "#d1d5db";
-            childProgressColor = "#4f46e5";
-            childTrackColor = "#818cf8";
-            progressValue = "#111827";
-            filterBackground = "#f9fafb";
-            labelTextColor = "rgb(17, 24, 39)";
-            filterHeaderFontSize = "14px";
-            filterHeaderFontSizeTouch = "16px";
-            filteraHeaderHeight = "44px";
-            filteraHeaderHeightTouch = "52px";
-            filterHeaderFontWeight = "400";
-        }
-        else if (currentUri.Contains("material-dark"))
-        {
-            CurrentTheme = Theme.MaterialDark;
-            parentProgressColor = "#4cc7ba";
-            parentTrackColor = "#029f90";
-            childProgressColor = "#7280ce";
-            childTrackColor = "#3f51b5";
-            filterHeaderFontSize = "16px";
-            filterHeaderFontSizeTouch = "18px";
-            filteraHeaderHeight = "52px";
-            filteraHeaderHeightTouch = "58px";
-            filterBackground = "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)),rgba(28, 27, 31)";
-            labelTextColor = "rgba(230, 225, 229)";
-            filterHeaderFontWeight = "400";
-        }
-        else if (currentUri.Contains("material"))
-        {
-            CurrentTheme = Theme.Material;
-            parentProgressColor = "#616161";
-            parentTrackColor = "rgba(97, 97, 97, 0.87)";
-            childProgressColor = "#3f51b5";
-            childTrackColor = "#5869c5";
-            filterHeaderFontSize = "16px";
-            filterHeaderFontSizeTouch = "18px";
-            filteraHeaderHeight = "52px";
-            filteraHeaderHeightTouch = "58px";
-            filterBackground = "linear-gradient(0deg, rgba(208, 188, 255, 0.05), rgba(208, 188, 255, 0.05)),rgba(255, 255, 255)";
-            labelTextColor = "#404042";
-            filterHeaderFontWeight = "400";
-        }
-
+        UpdateTheme(currentUri);
+        Layout.Collapse();
     }
-    private string GetStatusContentStyles(string status)
-    {
-        switch (status)
-        {
-            case "In Progress":
-                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#DFECFF" : "#2D3E57";
-                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#006AA6" : "#34B6FF";
-
-                break;
-            case "Open":
-                statusStyleColor = "red";
-                statusContentstyleColor = "white";
-                break;
-            case "On Hold":
-                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#E4E4E7" : "#3C3B43";
-                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#766B7C" : "#CDCBD7";
-                break;
-            case "Completed":
-                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#DFFFE2" : "#16501C";
-                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#00A653" : "#92FFC8";
-                break;
-            case "High":
-                statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
-                break;
-        }
-        return $"background:{statusStyleColor};color:{statusContentstyleColor};padding: 5px 12px; border-radius: 24px";
-    }
-    
-    private string GetPriorityContentStyle(string status)
-    {
-        switch (status)
-        {
-            case "Low":
-                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFF6D1" : "#473F1E";
-                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#70722B" : "#FDFF88";
-                break;
-            case "Normal":
-                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#F5DFFF" : "#4D2F5A";
-                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#7100A6" : "#E3A9FF";
-                break;
-            case "Critical":
-                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
-                break;
-            case "High":
-                priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
-                break;
-        }
-        return $"background:{priorityStyle};color:{priorityContentStyle};padding: 5px 12px; border-radius: 24px";
-    }
-    private IGanttTaskModel<OverviewData.TaskData> GetTaskData(OverviewData.TaskData data)
-    {
-        return Gantt.GetRowTaskModel(data);
-    }
+   
 }
 
 <style>
@@ -1000,6 +352,9 @@
         content: '\e729';
         padding-top: 5px;
         padding-right: 10px;
+    }
+    .e-tbar-btn-text {
+        display: none;
     }
 
     .e-task-label {
@@ -1218,7 +573,14 @@
         font-weight: 400;
         font-size: 14px;
     }
-    
+    .e-sidebar{
+        overflow: hidden;
+    }
+
+    .e-list-container {
+        overflow-y: auto !important; 
+        max-height: calc(450px - 57px); 
+    }
     .e-sidebar.e-right.e-open {
         transition-duration: 200ms;
     }
@@ -1250,7 +612,15 @@
         width: 52px;
         height: 32px;
     }
+    .e-switch-wrapper{
+        margin: 0 !important;
+    }
 
+    .list-fields{
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+    }
     .e-bigger
     .title {
         line-height: 24px;
@@ -1308,6 +678,15 @@
         height: inherit;
     }
 
+    .bootstrap5\.3 .e-listview .e-list-item.e-focused {
+        color: #212529;
+    }
+
+    body.fluent2-highcontrast .e-listview .e-list-item.e-focused,
+    body.fluent2-highcontrast .e-listview .e-list-item.e-hover {
+        color: #fff;
+    }
+
      /* Dark theme related customization*/
     .bootstrap5-dark .groupedList.e-listview .icon,
     .bootstrap-dark .groupedList.e-listview .icon,
@@ -1345,7 +724,7 @@
         color: rgba(255,255,255,0.7);
     }
 
-    .e-list-item:has(:hover){
+    .groupedList .e-list-item:has(:hover){
         background-color:transparent !important;
     }
     .header-title{

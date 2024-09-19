@@ -134,7 +134,7 @@ namespace BlazorDemos
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/qr-code-with-logo",
                 FileName = "QRCodeWithLogo.razor",
-                Type = SampleType.New,
+                Type = SampleType.Updated,
                 NotificationDescription = new string[]{ @"Added a demo about QR code with logo in the Barcode Generator Component. This sample shows how to visualize the logo image that will be displayed in the center of the QR code." }
             },
             new Sample

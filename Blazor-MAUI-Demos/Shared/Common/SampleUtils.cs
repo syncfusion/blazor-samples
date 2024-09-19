@@ -44,6 +44,7 @@ namespace Blazor_MAUI_Demos.Shared
         public const string LIST_UL_CLASS = "sf-list-ul";
         public const string LIST_LI_CLASS = "sf-list-li";
         public const string LIST_LI_GROUP_CLASS = "sf-list-group-li";
+        public const string LIST_LI_GROUP_ACTIVE_CLASS = "sf-group-list-li-active";
         public const string LIST_ACTIVE = "sf-list-li-active";
         #endregion
 
@@ -67,7 +68,7 @@ namespace Blazor_MAUI_Demos.Shared
         #region CarouselComponent
         public const string CAROUSEL = "sf-carousel";
         public const string CAROUSEL_CONTAINER = "sf-carousel-container";
-         public const string CAROUSEL_TRANSITION = "sf-carousel-transition";
+        public const string CAROUSEL_TRANSITION = "sf-carousel-transition";
         public const string CAROUSEL_ITEM = "sf-carousel-item";
         public const string CAROUSEL_SELECTED = "sf-carousel-selected";
         public const string CAROUSEL_PREVIOUS_BUTTON = "sf-carousel-prev-button sb-icons";
@@ -208,16 +209,16 @@ namespace Blazor_MAUI_Demos.Shared
             new DropDownData { ID = "bootstrap5-dark", Text = "Bootstrap v5 Dark" },
             new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
             new DropDownData { ID = "tailwind-dark", Text = "Tailwind CSS Dark" },
-            new DropDownData { ID = "material", Text = "Material" },
+            //new DropDownData { ID = "material", Text = "Material" },
 #if DEBUG || STAGING
-            new DropDownData { ID = "material-dark", Text = "Material Dark" },
+            //new DropDownData { ID = "material-dark", Text = "Material Dark" },
 #endif
-            new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
+            //new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
 #if DEBUG || STAGING
-            new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
-            new DropDownData { ID = "bootstrap-dark", Text = "Bootstrap Dark" },
-            new DropDownData { ID = "fabric", Text = "Fabric" },
-            new DropDownData { ID = "fabric-dark", Text = "Fabric Dark" },
+            //new DropDownData { ID = "bootstrap", Text = "Bootstrap" },
+            //new DropDownData { ID = "bootstrap-dark", Text = "Bootstrap Dark" },
+            //new DropDownData { ID = "fabric", Text = "Fabric" },
+            //new DropDownData { ID = "fabric-dark", Text = "Fabric Dark" },
 #endif
             new DropDownData { ID = "highcontrast", Text = "High Contrast" }
         };
@@ -325,7 +326,7 @@ namespace Blazor_MAUI_Demos.Shared
     }
 
 #pragma warning disable
-    
+
     /// <summary>
     /// Search Component datasource model class.
     /// </summary>
@@ -535,14 +536,14 @@ namespace Blazor_MAUI_Demos.Shared
             return components;
         }
     }
-    
+
 #pragma warning restore
 
     /// <summary>
     /// Specifies the position of the SideBar component.
     /// </summary>
     public enum SidebarPlacement
-    {   
+    {
         /// <summary>
         /// Renders the sidebar at left side.
         /// </summary>

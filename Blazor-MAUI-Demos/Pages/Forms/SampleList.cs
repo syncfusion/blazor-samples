@@ -65,5 +65,73 @@ namespace Blazor_MAUI_Demos
                 FileName = "HeaderTemplate.razor"
             }
         };
+
+        public List<Sample> DataForm { get; set; } = new List<Sample>
+        {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/default-functionalities",
+                FileName = "DefaultFunctionalities.razor"
+            },
+            new Sample
+            {
+                Name = "Column Layout",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/column-layout",
+                FileName = "ColumnLayout.razor"
+            },
+            new Sample
+            {
+                Name = "Form Groups",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/form-group",
+                FileName = "FormGroups.razor"
+            },
+            new Sample
+            {
+                Name = "Adaptive Layout",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/adaptive-layout",
+                FileName = "AdaptiveLayout.razor"
+            },
+            new Sample
+            {
+                Name = "Templates",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/templates",
+                FileName = "Templates.razor"
+            },
+            new Sample
+            {
+                Name = "Custom Editors",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/custom-editors",
+                FileName = "CustomEditor.razor"
+            },
+            new Sample
+            {
+                Name = "Floating Label",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/floating-label",
+                FileName = "FloatingLabel.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Data Form",
+                Directory = "Forms/DataForm",
+                Url = "data-form/api",
+                FileName = "Api.razor"
+            }
+        };
     }
 }

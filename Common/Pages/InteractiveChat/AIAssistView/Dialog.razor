@@ -1,0 +1,294 @@
+﻿@page "/ai-assistview/dialog"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Layouts
+@inject IJSRuntime JSRuntime
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This example showcases the integration of AI AssistView within the Syncfusion dialog component, allowing you to display generated responses in the notes view.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the AI AssistView is shown inside a dialog component, which opens with a floating action button (FAB) click.
+        It uses predefined <code>PromptSuggestions</code> that are displayed based on user configuration and a custom toolbar item as a close icon to close the dialog.
+        The <code>PromptRequested</code> event finds matching prompts and displays the responses.
+    </p>
+</ActionDescription>
+<div class="control-section">
+    <div class="dialog-aiassistview">
+        <SfSplitter ID="splitter" Height="600px">
+            <SplitterPanes>
+                <SplitterPane Size="22%" Resizable="false" CssClass="left-content">
+                    <ContentTemplate>
+                        <div class="header">Quick Notes</div>
+                        <hr />
+                        <div class="content e-card">
+                            <div class="note-title">
+                                <div class="heading">Planning and Requirements</div>
+                                <div class="sub-heading">Outline the process of gathering input from stakeholders</div>
+                            </div>
+                            <div class="note-title e-skeleton e-skeleton-text">
+                                <div class="heading">Meeting with Stakeholders</div>
+                                <div class="sub-heading">Discuss strategies for conducting productive meetings with stakeholders</div>
+                            </div>
+                            <div class="note-title">
+                                <div class="heading">Risk Management and Problem-Solving</div>
+                                <div class="sub-heading">Offer tips on how to proactively manage challenges, including regular</div>
+                            </div>
+                            <div class="note-title">
+                                <div class="heading e-skeleton e-skeleton-text"></div>
+                                <div class="sub-heading e-skeleton e-skeleton-text"></div>
+                            </div>
+                            <div class="note-title">
+                                <div class="heading e-skeleton e-skeleton-text"></div>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+                <SplitterPane Size="78%" Resizable="false" CssClass="right-content">
+                    <ContentTemplate>
+                        <div class="heading">Meeting with Stakeholders</div>
+                        <hr />
+                        <div class="date-info">Tuesday, August 27, 2024</div>
+                        <div class="content e-card" contenteditable="true">
+                            <i><mark>(Open AI Assist, generate a response, and click 'Copy' from the toolbar item to get it updated here.)</mark></i>
+                            Discuss strategies for conducting productive meetings with stakeholders. <br />
+                            Highlight the significance of setting clear agendas, defining outcomes, and maintaining open communication. <br />
+                            @((MarkupString)content)
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+            </SplitterPanes>                    
+        </SfSplitter>
+    </div>
+    <SfDialog ID="dialogElem" Height="100%" Width="440px" Target=".dialog-aiassistview" Visible="@visibility" CssClass="custom-dialog">
+        <DialogTemplates>
+            <Content>
+                <SfAIAssistView @ref="AIAssistView" ID="aiAssistView" PromptSuggestions="@suggestions" CssClass="custom-aiassistview" PromptRequested="@PromptRequest">
+                    <AssistViews>
+                        <AssistView>
+                            <BannerTemplate>
+                                <div class="banner-content">
+                                    <div class="e-icons e-assistview-icon"></div>
+                                    <h3>AI Assistance</h3>
+                                    <i>To get started, provide input or choose a suggestion.</i>
+                                </div>
+                            </BannerTemplate>
+                            <ChildContent>
+                                <ResponseToolbar ItemClicked="ToolbarItemClicked"></ResponseToolbar>
+                            </ChildContent>
+                        </AssistView>
+                    </AssistViews>
+                    <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                        <AssistViewToolbarItem Type="Syncfusion.Blazor.Navigations.ItemType.Spacer"></AssistViewToolbarItem>
+                        <AssistViewToolbarItem Type="Syncfusion.Blazor.Navigations.ItemType.Button" IconCss="e-icons e-close"></AssistViewToolbarItem>
+                    </AssistViewToolbar>
+                </SfAIAssistView>
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
+    <SfFab id="fabElem" Target=".dialog-aiassistview" Content="AI Assist" IconCss="e-icons e-assistview-icon" OnClick="dialogOpenClose"></SfFab>
+</div>
+
+@code {
+    private SfAIAssistView AIAssistView;
+    private string content { get; set; }
+    private bool visibility = false;
+    List<string> suggestions = new List<string> { "How do I set daily goals in my work day?", "Steps to publish a e-book with marketing strategy" };
+
+    public class AssistModel
+    {
+        public string Prompt { get; set; }
+        public string Response { get; set; }
+        public List<string> SuggestionData { get; set; }
+    }
+
+    private List<AssistViewPrompt> defaultPrompt = new List<AssistViewPrompt>()
+    {
+        new AssistViewPrompt() { Response = "Ask Questions, to better understand how your prompt interacts with AI-generated or default data responses..!" }
+    };
+
+    private List<AssistModel> prompts = new List<AssistModel>()
+    {
+
+        new AssistModel() { Prompt = "How do I set daily goals in my work day?", Response = "<p>To stay focused and productive, try these steps for setting daily goals:</p> <ol><li><strong>Identify Priorities:</strong> List the most important tasks based on deadlines or significance.</li> <li><strong>Break Down Tasks:</strong> Split larger tasks into smaller, manageable steps.</li> <li><strong>Set SMART Goals:</strong> Make sure goals are Specific, Measurable, Achievable, Relevant, and Time-bound.</li> <li><strong>Time Blocking:</strong> Allocate specific times for each task to stay organized and on track.</li></ol> <p>Would you like more tips on any of these steps?</p>", SuggestionData = new List<string> { "How do I prioritize tasks effectively?", "What tools or apps can help me prioritize tasks?" } },
+
+        new AssistModel() { Prompt = "Steps to publish a e-book with marketing strategy", Response = "<p>To publish an e-book, follow the steps below:</p> <ol><li><strong>Write and format your e-book:</strong> Ensure your content is well-organized, edited, and formatted for digital reading.</li> <li><strong>Choose a publishing platform:</strong> Platforms like Amazon Kindle Direct Publishing (KDP) or Smashwords can help you publish and distribute your e-book.</li> <li><strong>Develop a marketing strategy:</strong> Utilize social media, email newsletters, and book promotion sites to create buzz and reach your target audience.</li> <li><strong>Launch and promote:</strong> Schedule a launch date, gather reviews, and continue promoting through various channels to maintain momentum and drive sales.</li></ol> <p>Do you have a specific topic in mind for your e-book?</p>", SuggestionData = new List<string>  { "How do I create an eye-catching e-book cover?", "What are common mistakes to avoid in e-book covers?" } },
+
+        new AssistModel() { Prompt = "How do I prioritize tasks effectively?", Response = "<p>To stay focused and productive, set daily goals by:</p> <ol><li><strong>Identifying Priorities:</strong> List important tasks based on deadlines or significance.</li> <li><strong>Breaking Down Tasks:</strong> Divide larger tasks into smaller, manageable steps.</li> <li><strong>Setting SMART Goals:</strong> Ensure goals are Specific, Measurable, Achievable, Relevant, and Time-bound. </li> <li><strong>Time Blocking:</strong>Schedule specific times for each task to stay organized.</li></ol> <p> Need more tips on any of these steps? </p>", SuggestionData = new List<string> { } },
+
+        new AssistModel() { Prompt = "What tools or apps can help me prioritize tasks?", Response = "<p>Here are some tools to help you prioritize tasks effectively:</p> <ol><li><strong>Google Keep:</strong> For simple note-taking and task organization with labels and reminders.</li> <li><strong>Scoro:</strong> A project management tool for streamlining activities and team collaboration.</li> <li><strong>Evernote:</strong> Great for note-taking, to-do lists, and reminders.</li> <li><strong>Todoist:</strong> A powerful task manager for setting priorities and tracking progress.</li></ol> <p>Are you looking for tools to manage a specific type of task or project?</p>", SuggestionData = new List<string> { } },
+
+        new AssistModel() { Prompt = "How do I create an eye-catching e-book cover?", Response = "<p>Creating an eye-catching e-book cover involves a few key steps:</p> <ol><li><strong>Understand your genre and audience:</strong> Research covers of popular books in your genre to see what appeals to your target readers.</li> <li><strong>Choose the right imagery and colors:</strong> Use high-quality images and a color scheme that reflects the tone and theme of your book.</li> <li><strong>Focus on typography:</strong> Select fonts that are readable and complement the overall design. The title should be prominent and easy to read even in thumbnail size.</li> <li><strong>Use design tools or hire a professional:</strong> Tools like Canva or Adobe Spark can help you create a professional-looking cover. Alternatively, consider hiring a graphic designer for a more polished result.</li></ol> <p>Would you like some tips on where to find good images or fonts for your cover?</p>", SuggestionData = new List<string> { } },
+
+        new AssistModel() { Prompt = "What are common mistakes to avoid in e-book covers?", Response = "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the book’s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>", SuggestionData = new List<string> { } },
+    };
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(3000);
+        var isPromptFound = prompts.Any(prompt => prompt.Prompt == args.Prompt);
+        var promptData = prompts.FirstOrDefault(prompt => prompt.Prompt == args.Prompt);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        args.Response = isPromptFound ? promptData.Response : defaultResponse;
+        args.PromptSuggestions = isPromptFound && promptData.SuggestionData.Any() ? promptData.SuggestionData : suggestions;
+    }
+
+    private async Task ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-close")
+        {
+            dialogOpenClose();
+        }
+        if (args.Item.IconCss == "e-icons e-assist-copy")
+        {
+            dialogOpenClose();
+            var clipboardContent = AIAssistView.Prompts[args.DataIndex].Response;
+            content += $"\n{clipboardContent}";
+        }
+    }
+
+    private void dialogOpenClose()
+    {
+        visibility = !visibility;
+    }
+}
+<style>
+    .dialog-aiassistview {
+        width: 50vw;
+        height: 600px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .dialog-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .dialog-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 300px;
+        text-align: center;
+    }
+
+    .dialog-aiassistview .left-content .header {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 10px 15px 5px;
+    }
+
+    .dialog-aiassistview .e-card:hover {
+        background: none;
+    }
+
+    .dialog-aiassistview .left-content .content {
+        height: 80%;
+        justify-content: flex-start;
+        border: none;
+        box-shadow: none;
+        padding-left: 3px; 
+        background: inherit;
+    }
+
+    .dialog-aiassistview .right-content .content {
+        height: 100%;
+        justify-content: flex-start;
+        border: none;
+        box-shadow: none;
+        margin-top: 20px;
+        font-size: 12px;
+        overflow: auto;
+        line-height: 25px;
+        background: inherit;
+    }
+
+    .dialog-aiassistview .note-title {
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        padding: 5px 10px;
+    }
+
+    .dialog-aiassistview .note-title .heading,
+    .dialog-aiassistview .note-title .sub-heading {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        line-height: 25px;
+    }
+
+    .dialog-aiassistview .note-title .heading {
+        font-weight: 400;
+    }
+
+    .dialog-aiassistview .note-title .sub-heading {
+        font-size: 10px;
+        line-height: 15px;
+    }
+
+    .dialog-aiassistview .note-title .heading.e-skeleton {
+        height: 13px;
+        width: 100%;
+        margin-bottom: 7px;
+    }
+
+    .dialog-aiassistview .note-title .sub-heading.e-skeleton {
+        height: 12px;
+        width: 80%;
+    }
+
+    .dialog-aiassistview hr {
+        margin: 0 0 0 2px;
+    }
+
+    .dialog-aiassistview .right-content {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 0 15px 20px;
+        gap: 5px;
+    }
+
+    .dialog-aiassistview .right-content .heading {
+        font-size: 20px;
+    }
+
+    .dialog-aiassistview .right-content .date-info {
+        font-size: 10px;
+    }
+
+    .dialog-aiassistview #fabElem {
+        z-index: 9999;
+    }
+
+    .dialog-aiassistview .custom-dialog .e-dlg-content {
+        padding: 0;
+    }
+
+    .dialog-aiassistview .custom-aiassistview {
+        border: none;
+    }
+
+    body[class*="fluent2-highcontrast"] .dialog-aiassistview .e-card {
+        color: #8c8c8c;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .dialog-aiassistview {
+            width: 100%;
+        }
+    }
+</style>

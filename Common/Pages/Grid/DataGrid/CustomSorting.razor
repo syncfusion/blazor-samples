@@ -2,10 +2,10 @@
 
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Buttons
-@using BlazorDemos
-@using blazor_griddata
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_taskdetails
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
 
@@ -28,11 +28,11 @@
                 <GridPageSettings PageSize="10"></GridPageSettings>
                 <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
                 <GridColumns>
-                    <GridColumn Field=@nameof(BugData.Name) HeaderText="Title" Width="180" MaxWidth="300"></GridColumn>
-                    <GridColumn Field=@nameof(BugData.Priority) SortComparer="new CustomPriorityComparer()" Width="150">
+                    <GridColumn Field=@nameof(TaskDetails.Name) HeaderText="Title" Width="180" MaxWidth="300"></GridColumn>
+                    <GridColumn Field=@nameof(TaskDetails.Priority) SortComparer="new CustomPriorityComparer()" Width="150">
                         <Template>
                             @{
-                                var catagory = (context as BugData);
+                                var catagory = (context as TaskDetails);
                                 @if (catagory.Priority == "Critical")
                                 {
                                     <div class="title-temp1 critical">
@@ -64,10 +64,10 @@
                             }
                         </Template>
                     </GridColumn>
-                    <GridColumn Field=@nameof(BugData.Status) SortComparer="new CustomStatusComparer()" Width="150">
+                    <GridColumn Field=@nameof(TaskDetails.Status) SortComparer="new CustomStatusComparer()" Width="150">
                         <Template>
                             @{
-                                var catagory = (context as BugData);
+                                var catagory = (context as TaskDetails);
                                 @if (catagory.Status == "In Progress")
                                 {
                                     <div class="title-temp2 inprogress">
@@ -107,7 +107,7 @@
                             }
                         </Template>
                     </GridColumn>
-                    <GridColumn Field=@nameof(BugData.Description) Width="300"></GridColumn>
+                    <GridColumn Field=@nameof(TaskDetails.Description) Width="300"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
@@ -116,21 +116,21 @@
 
 @code{
 
-    public List<BugData> GridData { get; set; }
+    public List<TaskDetails> GridData { get; set; }
 
 
     protected override void OnInitialized()
     {
 
-        GridData = BugData.GetAllBugData();
+        GridData = TaskDetails.GetAllTaskDetails();
     }
 
     public class CustomPriorityComparer : IComparer<object>
     {
         public int Compare(object X, object Y)
         {
-            BugData XData = X as BugData;
-            BugData YData = Y as BugData;
+            TaskDetails XData = X as TaskDetails;
+            TaskDetails YData = Y as TaskDetails;
             int XPriority = MapPriority(XData.Priority);
             int YPriority = MapPriority(YData.Priority);
             if (XPriority < YPriority)
@@ -186,8 +186,8 @@
     {
         public int Compare(object X, object Y)
         {
-            BugData XData = X as BugData;
-            BugData YData = Y as BugData;
+            TaskDetails XData = X as TaskDetails;
+            TaskDetails YData = Y as TaskDetails;
             int XStatus = MapStatus(XData.Status);
             int YStatus = MapStatus(YData.Status);
             if (XStatus < YStatus)

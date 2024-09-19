@@ -38,6 +38,7 @@ namespace Blazor_MAUI_Demos
         public string CustomDocLink { get; set; }
         public bool IsHideFromHomePageList { get; set; }
         public bool IsHide { get; set; }
+        public bool IsHideFromDevice { get; set; }
         public string InfoTooltip { get; set; }
         public string ComponentIconName { get; set; }
         public string[] NotificationDescription { get; set; }

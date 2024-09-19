@@ -126,8 +126,7 @@ namespace BlazorDemos
                 Directory = "Maps/Maps",
                 Url = "maps/shapefile",
                 FileName = "Shapefile.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"A demo of shapefile (*.shp) loading and rendering, a new data source introduced in the component, has been added." }
+                Type = SampleType.None
             },
             new Sample
             {

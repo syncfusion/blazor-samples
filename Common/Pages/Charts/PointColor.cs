@@ -26,11 +26,7 @@ namespace PointRender
         { "#79ECE4", "#E98272", "#DFE6B6", "#C6E773", "#BA98FF", "#FA83C3", "#00C27A", "#43ACEF", "#D681EF",
           "#D8BC6E"};
         internal static List<string> Bootstrap5Colors { get; set; } = new List<string>()
-        { "#6355C7", "#FFB400", "#2196F5", "#F7523F", "#963C70", "#4BE0BC", "#FD7400", "#C9E422", "#DE3D8A",
-          "#162F88"};
-        internal static List<string> Bootstrap5DarkColors { get; set; } = new List<string>()
-        { "#8F80F4", "#FFD46D", "#6CBDFF", "#FF7F71", "#FF6DB3", "#63F5D2", "#FCAA65", "#ECFF77", "#EF8EFF",
-          "#5F82FD"};
+        { "#FD7E14", "#6610F2", "#6F42C1", "#D63384", "#DC3545", "#FFC107", "#198754", "#0DCAF0" };
         internal static List<string> FluentColors { get; set; } = new List<string>()        
         {"#1AC9E6", "#DA4CB2",  "#EDBB40",  "#AF4BCF",  "#FF7266",  "#1BD565",  "#EE993D",  "#5887FF",  "#EC548D",  
           "#7D39C0"};
@@ -55,8 +51,8 @@ namespace PointRender
         internal static List<string> Fluent2DarkColors { get; set; } = new List<string>()
         { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B",
             "#C19C00"};
-        //internal static List<string> Fluent2HighContrastColors { get; set; } = new List<string>()
-        //{ "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B",
-        //    "#C19C00"};
+        internal static List<string> Fluent2HighContrastColors { get; set; } = new List<string>()
+        { "#9BB449", "#2A72D5", "#43B786", "#3F579A", "#584EC6", "#E85F9C", "#6E7A89", "#EA6266", "#0B6A0B",
+            "#C19C00"};
     };
 }

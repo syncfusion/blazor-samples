@@ -85,11 +85,11 @@ namespace ThemeHelper
             }
             else if (navURL.IndexOf("fluent2") > -1)
             {
-                //if(navURL.IndexOf("highcontrast") > -1)
-                //{
-                //    return Theme.Fluent2HighContrast;
-                //}
-                if (navURL.IndexOf("dark") > -1)
+                if (navURL.IndexOf("highcontrast") > -1)
+                {
+                    return Theme.Fluent2HighContrast;
+                }
+                else if (navURL.IndexOf("dark") > -1)
                 {
                     return Theme.Fluent2Dark;
                 }

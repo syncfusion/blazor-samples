@@ -227,5 +227,32 @@ namespace Blazor_MAUI_Demos
                 HeaderText = "Example of Blazor CSS Avatar Component with Card"
             }
         };
+
+        public List<Sample> Timeline { get; set; } = new List<Sample>{
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Timeline",
+                Directory = "Layouts/Timeline",
+                Url = "timeline/default-functionalities",
+                FileName = "DefaultFunctionalities.razor"
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Timeline",
+                Directory = "Layouts/Timeline",
+                Url = "timeline/api",
+                FileName = "API.razor"
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "Timeline",
+                Directory = "Layouts/Timeline",
+                Url = "timeline/timeline-template",
+                FileName = "Template.razor"
+            }
+        };
     }
 }

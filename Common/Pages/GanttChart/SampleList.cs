@@ -21,7 +21,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/overview",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -31,13 +31,18 @@ namespace BlazorDemos
                     },
                     new SourceCollection
                     {
+                        Id="Overview",
+                        FileName="Overview.razor.cs"
+                    },
+                    new SourceCollection
+                    {
                         Id="OverviewRecord",
                         FileName="OverviewData.cs"
                     }
                 },
                  NotificationDescription = new string[]
                 {
-                    @"Enhanced Overview sample demonstrating additional configuration options for the Gantt, Including Row Height, Duration Unit, Work Week, Event Markers, Dependencies, Task Labels, Timeline Width, View Type, and View Mode."
+                    @"The Overview sample now supports PDF export. This addition enables data to be exported to PDF, improving reporting capabilities."
                 },
                 IsHideInMobile= true,
             },
@@ -112,7 +117,7 @@ namespace BlazorDemos
                 Category = "Gantt Chart",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/selection",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -126,10 +131,96 @@ namespace BlazorDemos
                         FileName="SelectionData.cs"
                     }
                 },
+            },
+            new Sample
+            {
+                Name = "Airline Tracker",
+                Category = "Use Case",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/airline-tracker",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="AirlineTracker",
+                        FileName = "AirlineTracker.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="AirlineTracker",
+                        FileName="AirlineTracker.razor.cs"
+                    },
+                    new SourceCollection
+                    {
+                        Id="AirlineTracker",
+                        FileName="AirlineTrackerData.cs"
+                    }
+                },
                 NotificationDescription = new string[]
                 {
-                    @"This sample showcases the Gantt chart component with the row hover feature enabled. To view the hover effect, simply hover your mouse over the rows of the Gantt chart."
-                }
+                    @"The sample has been added to demonstrate the tracking airline information in Gantt Chart."
+                },
+            },
+            new Sample
+            {
+                Name = "Digital Marketing",
+                Category = "Use Case",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/digital-marketing",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="DigitalMarketing",
+                        FileName = "DigitalMarketing.razor",
+                   },
+                   new SourceCollection
+                   {
+                       Id="DigitalMarketing",
+                       FileName="DigitalMarketing.razor.cs"
+                   },
+                   new SourceCollection
+                   {
+                       Id="DigitalMarketing",
+                       FileName="DigitalMarketingData.cs"
+                   }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"The sample has been added to demonstrate the analyze the digital marketing information in Gantt Chart."
+                },
+            },
+            new Sample
+            {
+                Name = "Human Resource",
+                Category = "Use Case",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/human-resource-management",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="HumanResourceManagement",
+                        FileName = "HumanResourceManagement.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="HumanResourceManagement",
+                        FileName="HumanResourceManagement.razor.cs"
+                    },
+                    new SourceCollection
+                    {
+                        Id="HumanResourceManagement",
+                        FileName="HumanResourceData.cs"
+                    }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"The sample has been added to demonstrate the human resource management in Gantt Chart."
+                },
             },
             new Sample
             {
@@ -371,7 +462,7 @@ namespace BlazorDemos
                 Category = "Timeline",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/zooming",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -384,7 +475,11 @@ namespace BlazorDemos
                         Id="ZoomRecord",
                         FileName="ZoomingData.cs"
                     }
-                }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"Zooming now supports touch gestures and mouse wheel interaction. Zoom in and out using pinch gestures or the 'Ctrl' key with the mouse wheel for enhanced navigation."
+                },
             },
             new Sample
             {
@@ -477,7 +572,7 @@ namespace BlazorDemos
                 Category = "Resource",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/resource-allocation",
-                Type = SampleType.Updated, 
+                Type = SampleType.None, 
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -491,10 +586,6 @@ namespace BlazorDemos
                         FileName="ResourceModel.cs"
                     }
                 },
-                NotificationDescription = new string[]
-                {
-                    @"Enhanced the Resource Allocation sample with simplified data binding support and improved resource assignment management."
-                }
             },
             new Sample
             {
@@ -597,11 +688,7 @@ namespace BlazorDemos
                 Category = "Scrolling",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/virtual-scroll",
-                FileName="VirtualScroll.razor",
-                NotificationDescription = new string[]
-                {
-                    @"Enhanced virtual scrolling with OverscanCount and PageSize support which reduces the frequency of data fetching when scrolling through records."
-                },
+                FileName="VirtualScroll.razor"
             },
             new Sample
             {
@@ -710,6 +797,44 @@ namespace BlazorDemos
                     }
                 },
             },
+            new Sample
+            {
+                Name = "Default Exporting",
+                Category = "Exporting",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/exporting",
+                Type = SampleType.Updated,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExportTask",
+                        FileName = "Exporting.razor",
+                    },
+                    new SourceCollection
+                    {
+                        Id="ExportRecord",
+                        FileName="GanttData.cs"
+                    }
+                },
+                NotificationDescription = new string[]
+                {
+                    @"The Default Exporting sample now includes PDF export support. This update allows for exporting data to PDF, enhancing reporting capabilities. "
+                },
+            },
+            new Sample
+            {
+                Name = "Advanced Exporting",
+                Category = "Exporting",
+                Directory = "GanttChart/GanttChart",
+                Url = "gantt-chart/advanced-exporting",
+                Type = SampleType.New,
+                FileName = "AdvancedExporting.razor",
+                NotificationDescription = new string[]
+                {
+                    @"The Advanced exporting sample shows capability of Gantt's PDF export with customizations such as adding PDF header, including templates and taskbar UI customizations"
+                },
+            },
              new Sample
             {
                 Name = "Split Tasks",
@@ -802,27 +927,6 @@ namespace BlazorDemos
                     {
                         Id="Clipboard",
                         FileName="DefaultData.cs"
-                    }
-                }
-            },
-            new Sample
-            {
-                Name = "Exporting",
-                Category = "Miscellaneous",
-                Directory = "GanttChart/GanttChart",
-                Url = "gantt-chart/exporting",
-                Type = SampleType.None,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="ExportTask",
-                        FileName = "Exporting.razor",
-                    },
-                    new SourceCollection
-                    {
-                        Id="ExportRecord",
-                        FileName="GanttData.cs"
                     }
                 }
             },

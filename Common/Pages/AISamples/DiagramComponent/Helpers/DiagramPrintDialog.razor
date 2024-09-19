@@ -1,0 +1,281 @@
+﻿@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+@inject IJSRuntime jsRuntime
+@namespace TextToMindMapDiagram
+
+<SfDialog @ref="@PrintDialog" @bind-Visible="@printDialogVisible" IsModal="true" Width="335px" ShowCloseIcon="true">
+    <DialogTemplates>
+        <Header>Print Diagram</Header>
+        <Content>
+            <div id="printDialogContent">
+                <div class="row">
+                    <div class="row">Region</div> <div class="row db-dialog-child-prop-row">
+                        <SfDropDownList ID="printRegionDropdown" TValue="Regions" TItem="string" Placeholder="Content" @bind-Value="@CurrentRegionValue" DataSource="@RegionValues">
+                        </SfDropDownList>
+                    </div>
+                </div><div class="row db-dialog-prop-row">
+                    <div class="row">Print Settings</div>
+                    <div class="row db-dialog-child-prop-row">
+                        <SfDropDownList ID="printPaperSizeDropdown" TValue="string" TItem = "PaperListFields" @bind-Value="@Papersize" DataSource="@PaperList">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="PaperListFields" ValueChange="@PaperChanged"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                </div>
+                <div id="printCustomSize" class="row db-dialog-prop-row" style="display:none; height: 28px;">
+                    <div class="col-xs-6 db-col-left">
+                        <div class="db-text-container">
+                            <div class="db-text"><span>W</span></div><div class="db-text-input">
+                                <SfNumericTextBox ID="printPageWidth" TValue="int" Min="100" Step="1" Format="int">
+                                </SfNumericTextBox>
+                            </div>
+                        </div>
+                    </div> <div class="col-xs-6 db-col-right">
+                        <div class="db-text-container">
+                            <div class="db-text"><span>H</span></div>
+                            <div class="db-text-input">
+                                <SfNumericTextBox ID="printPageHeight" TValue="int" Min="100" Step="1" Format="int">
+                                </SfNumericTextBox>
+                            </div>
+                        </div>
+                    </div>
+                </div><div id="printOrientation" class="row db-dialog-prop-row" style="height: 28px; padding: 5px 0px;">
+                    <div class="col-xs-3 db-prop-col-style" style="margin-right: 8px; width: 25%;">
+                        <SfRadioButton TChecked="string" Label="Potrait" Name="printSettings" Value="portrait" Checked="@orientationCheckedValue" ValueChange="@OrientationChanged">
+                           
+                        </SfRadioButton>
+                    </div>
+                    <div class="col-xs-3 db-prop-col-style" style="width: 25%;">
+                        <SfRadioButton TChecked="string" Label="Landscape" Name="printSettings" Value="landscape" Checked="@orientationCheckedValue" ValueChange="@OrientationChanged">
+                        </SfRadioButton>
+                    </div>
+                </div>
+                <div class="row db-dialog-prop-row" style="margin-top: 16px">
+                    <SfCheckBox ID="printMultiplePage" TChecked="bool" Label="Scale to fit entire page to single page" Checked="@IsMultiplePage" ValueChange="@MultiplePage">
+                    </SfCheckBox>
+                </div>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+    <DialogButtons>
+        <DialogButton OnClick="@PrintDialogHandler" Content="Print" CssClass="e-flat e-db-primary" IsPrimary="true">
+        </DialogButton>
+        <DialogButton OnClick="@PrintDialogCloseHandler" Content="Cancel" CssClass="e-flat">
+        </DialogButton>
+    </DialogButtons>
+</SfDialog>
+@code {
+    /// <summary>
+    /// Object reference for menu bar.
+    /// </summary>
+    internal DiagramMenuBar Parent;
+    /// <summary>
+    /// SfDialog instance for the print dialog.
+    /// </summary>
+    public SfDialog PrintDialog;
+    /// <summary>
+    /// Indicates whether the print dialog is visible.
+    /// </summary>
+    private bool printDialogVisible = false;
+    /// <summary>
+    /// The paper size selected for printing.
+    /// </summary>
+    private string Papersize = "Letter";
+    /// <summary>
+    /// Indicates whether the paper orientation is in portrait mode.
+    /// </summary>
+    bool IsPortrait = true;
+    /// <summary>
+    /// Indicates whether the paper orientation is in landscape mode.
+    /// </summary>
+    bool IsLandscape = false;
+    /// <summary>
+    /// Indicates whether multiple pages are selected for printing.
+    /// </summary>
+    bool IsMultiplePage = false;
+    /// <summary>
+    /// The height of the printed page.
+    /// </summary>
+    double PageHeight = 816;
+    /// <summary>
+    /// The width of the printed page.
+    /// </summary>
+    double PageWidth = 1056;
+    /// <summary>
+    /// The value of the checked orientation option (portrait or landscape).
+    /// </summary>
+    string orientationCheckedValue = "portrait";
+    /// <summary>
+    /// This method is used to set the page size.
+    /// </summary>
+    private PaperSize GetPaperSize(string paperName)
+    {
+        PaperSize Paper = new PaperSize();
+        switch (paperName)
+        {
+            case "Letter":
+                Paper.PageWidth = 816;
+                Paper.PageHeight = 1056;
+                break;
+            case "Legal":
+                Paper.PageWidth = 816;
+                Paper.PageHeight = 1344;
+                break;
+            case "Tabloid":
+                Paper.PageWidth = 1056;
+                Paper.PageHeight = 1632;
+                break;
+            case "A3":
+                Paper.PageWidth = 1122;
+                Paper.PageHeight = 1587;
+                break;
+            case "A4":
+                Paper.PageWidth = 793;
+                Paper.PageHeight = 1122;
+                break;
+            case "A5":
+                Paper.PageWidth = 559;
+                Paper.PageHeight = 793;
+                break;
+            case "A6":
+                Paper.PageWidth = 396;
+                Paper.PageHeight = 559;
+                break;
+        }
+        return Paper;
+    }
+    /// <summary>
+    /// This method is used to set the page width and height values.
+    /// </summary>
+    private void PaperChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, PaperListFields> args)
+    {
+        PaperSize Size=this.GetPaperSize(args.Value);
+        PageHeight = Size.PageHeight;
+        PageWidth = Size.PageWidth;
+    }
+    /// <summary>
+    /// This method is used to enable the multiple page options.
+    /// </summary>
+    private void MultiplePage(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsMultiplePage = args.Checked;
+    }
+    /// <summary>
+    /// Prints the diagram pages based on <see cref="DiagramPrintSettings"/>.
+    /// </summary>
+    private async Task PrintDialogHandler()
+    {
+        double pageWidth = PageWidth;
+        double pageHeight = PageHeight;
+        if (IsPortrait)
+        {
+            if (pageWidth > pageHeight)
+            {
+                var temp = pageWidth;
+                pageWidth = pageHeight;
+                pageHeight = temp;
+            }
+        }
+        if (IsLandscape)
+        {
+            if (pageHeight > pageWidth)
+            {
+                var temp1 = pageHeight;
+                pageHeight = pageWidth;
+                pageWidth = temp1;
+            }
+        }
+
+        DiagramPrintSettings options = new DiagramPrintSettings()
+        {
+            FitToPage = IsMultiplePage,
+            Orientation = IsPortrait ? Syncfusion.Blazor.Diagram.PageOrientation.Portrait : Syncfusion.Blazor.Diagram.PageOrientation.Landscape,
+            PageHeight = pageHeight,
+            PageWidth = pageWidth,
+            Margin = new DiagramThickness() { Bottom = 0, Left = 0, Right = 0, Top = 0 },
+            Region = (DiagramPrintExportRegion)Enum.Parse(typeof(DiagramPrintExportRegion), CurrentRegionValue.ToString(), true),
+        };
+
+        await Parent.PrintDiagram(options);
+        await PrintDialog.HideAsync();
+    }
+    /// <summary>
+    /// This method is used to close the print dialog box.
+    /// </summary>
+    private async Task PrintDialogCloseHandler()
+    {
+        await PrintDialog.HideAsync();
+    }
+    /// <summary>
+    /// this method is used to changes the orientation of the diagram page.
+    /// </summary>
+    private void OrientationChanged(ChangeArgs<string> args)
+    {
+        if (args.Value.ToString() == "portrait")
+        {
+            IsPortrait = true;
+            IsLandscape = false;
+            orientationCheckedValue = "portrait";
+        }
+        else if (args.Value.ToString() == "landscape")
+        { 
+            IsLandscape = true;
+            IsPortrait = false;
+            orientationCheckedValue = "landscape";
+        }
+    }
+    /// <summary>
+    /// List of available paper sizes for printing.
+    /// </summary>
+    public List<PaperListFields> PaperList = new List<PaperListFields>() 
+    {
+        new PaperListFields{ Text= "Letter (8.5 in x 11 in)", Value= "Letter" },
+        new PaperListFields{ Text= "Legal (8.5 in x 14 in)", Value= "Legal" },
+        new PaperListFields{ Text= "Tabloid (279 mm x 432 mm)", Value= "Tabloid" },
+        new PaperListFields{ Text= "A3 (297 mm x 420 mm)", Value= "A3" },
+        new PaperListFields{ Text= "A4 (210 mm x 297 mm)", Value= "A4" },
+        new PaperListFields{ Text= "A5 (148 mm x 210 mm)", Value= "A5" },
+        new PaperListFields{ Text= "A6 (105 mm x 148 mm)", Value= "A6" },
+        new PaperListFields{ Text= "Custom", Value= "Custom" },
+    };
+    /// <summary>
+    /// Array of region values obtained from the 'Regions' enum.
+    /// </summary>
+    private string[] RegionValues = Enum.GetNames(typeof(Regions));
+    /// <summary>
+    /// The currently selected region value.
+    /// Default value is 'PageSettings'.
+    /// </summary>
+    private Regions CurrentRegionValue { get; set; } = Regions.PageSettings;
+    /// <summary>
+    /// Enum representing the regions.
+    /// </summary>
+    private enum Regions
+    {
+        PageSettings,
+        Content,
+    }
+    /// <summary>
+    /// Represents the paper size with its width and height.
+    /// </summary>
+    public class PaperSize
+    {
+        public double PageWidth { get; set; }
+        public double PageHeight { get; set; }
+    }
+    /// <summary>
+    /// Represents the fields for the list of paper sizes.
+    /// </summary>
+    #region
+    public class PaperListFields
+    {
+        public string Value { get; set; } = "";
+        public string Text { get; set; } = "";
+    }
+    #endregion
+}

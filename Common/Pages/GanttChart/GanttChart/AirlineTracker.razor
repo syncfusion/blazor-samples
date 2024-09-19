@@ -1,0 +1,675 @@
+﻿@page "/gantt-chart/airline-tracker"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Calendars
+
+@using blazor_gantt_airline_data
+
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<SampleDescription>
+    This sample demonstrates visualizing the airline tracking system using a Gantt chart. It is useful for tracking and finding detailed airlines information.
+</SampleDescription>
+
+<ActionDescription>
+    This sample includes several components for customization purposes. The Gantt chart <a href="https://blazor.syncfusion.com/documentation/gantt-chart/taskbar">taskbar</a>, <a href="https://blazor.syncfusion.com/documentation/gantt-chart/time-line">timeline</a>, <a href="https://blazor.syncfusion.com/documentation/gantt-chart/labels">taskbar labels</a>, and tooltip have been customized using various styles.
+    <ul>
+        <li><a href="https://blazor.syncfusion.com/demos/sidebar/default-functionalities?theme=fluent">SfSidebar</a> - This component is used for the filter options set in mobile mode.</li>
+        <li><a href="https://blazor.syncfusion.com/demos/dropdown-list/default-functionalities?theme=fluent">SfDropDownList</a> - This component is used to get the airline name, origin, and destination for searching purposes.</li>
+        <li><a href="https://blazor.syncfusion.com/demos/buttons/default-functionalities?theme=fluent">SfButton</a> - This component is used to filter and clear input values purposes.</li>
+        <li><a href="https://blazor.syncfusion.com/demos/textbox/default-functionalities?theme=fluent">SfTextBox</a> - This component is used to get the flight code for searching purposes.</li>
+        <li><a href="https://blazor.syncfusion.com/demos/daterangepicker/default-functionalities?theme=fluent">SfDateRangePicker</a> - This component is used to get the flight arrival date and departure date range for searching purposes.</li>
+    </ul>
+</ActionDescription>
+
+<section class="col-lg-12 control-section" style="padding:0px">
+    <div class="content-wrapper">
+        <div class="airline-filter-icon">
+            <button @onclick="onToggleClick" class="e-gantt-airline-filter-btn" style="background-color:#115EA3;color:#fff;border: none; border-radius: 2px; padding:0px !important;">
+                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/filter-icon.png")" style="width: 14px; height: 14px;margin: 12px !important;" />
+            </button>
+        </div>
+        <div style="padding-left: 10px; padding-right: 20px;">
+            @if (IsSideBar)
+            {
+                <div class="e-gantt-sidebar">
+                <SfSidebar class="default-sidebar" ShowBackdrop="true" Width="100%" Target="#syncfuction-gantt-chart" EnableGestures="true" Position="SidebarPosition.Left" Type="SidebarType.Slide" @bind-IsOpen="SidebarToggle">
+                    <ChildContent>
+                        <div class="row airline-filter-row1" id="side-bar-target-element">
+                    <div class="header-title">
+                        <div class="w-100" style="padding:16px 25px;border-bottom:1px solid #E0E0E0;">
+                            <h5 style="width: fit-content; display: inline-block;margin: 0px;">Filter</h5>
+                            <span class="e-close float-right" @onclick="@Close" style="cursor: pointer; display: inline-block; float: right;"></span>
+                        </div>
+                    </div>
+                    <div class="w-100" style="margin:10px 0px;padding: 0px 15px;">
+                        <label>Origin</label>
+                        <SfDropDownList Placeholder="Select Origin" ShowClearButton Value="@flightOrigin" ValueChanged="FlightOriginHandler" TValue="string" DataSource="@startPlaces" TItem="string"></SfDropDownList>
+                        </div>
+                        <div class="w-100" style="margin:10px 0px;padding: 0px 15px;">
+                            <label>Destination</label>
+                            <SfDropDownList Placeholder="Select Destination" ShowClearButton Value="@flightDestination" ValueChanged="FlightDestinationHandler" TValue="string" DataSource="@destinationPlaces" TItem="string"></SfDropDownList>
+                        </div>
+                        <div class="w-100" style="margin:10px 0px;padding: 0px 15px;">
+                            <label>Airlines</label>
+                            <SfDropDownList Placeholder="Select Airline" ShowClearButton Value="@airlineName" ValueChanged="FlightAirlineHandler" TValue="string" DataSource="@airlines" TItem="string"></SfDropDownList>
+                        </div>
+                        <div class="w-100" style="margin:10px 0px;padding: 0px 15px;">
+                            <label>Flight Code</label>
+                            <SfTextBox Placeholder="Flight Code" ShowClearButton Value="@flightNumber" ValueChanged="FlightNumberHandler"></SfTextBox>
+                        </div>
+                        <div class="w-100" style="margin:10px 0px;padding: 0px 15px;">
+                            <label>Select Date</label>
+                            <SfDateRangePicker Width="100%" TValue="DateTime?" Min=@(new DateTime(2024, 06, 01)) Max=@(new DateTime(2024,07,30)) Placeholder="Select Flight Date Range" FullScreen="true" ShowClearButton="true">
+                                <DateRangePickerEvents TValue="DateTime?" ValueChange="DateValueChangeHandler"></DateRangePickerEvents>
+                            </SfDateRangePicker>
+                        </div>
+                            <div class="w-100" style="margin:10px 0px;padding: 0px 15px;text-align: end;">
+                            <div>
+                                <SfButton CssClass="gantt-search-btn" OnClick="FilterHandler">Search</SfButton>
+                                <SfButton CssClass="gantt-clear-btn" OnClick="ClearFilterHandler">Clear</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                    </ChildContent>
+            </SfSidebar>
+            </div>
+            }
+        </div>
+
+        <div class="row airline-filter-row" id="side-bar-target-element">
+            <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 airline-filter-row-input">
+                <label>Origin</label>
+                <SfDropDownList Placeholder="Select Origin" ShowClearButton Value="@flightOrigin" ValueChanged="FlightOriginHandler" TValue="string" DataSource="@startPlaces" TItem="string"></SfDropDownList>
+             </div>
+             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 airline-filter-row-input">
+                 <label>Destination</label>
+                 <SfDropDownList Placeholder="Select Destination" ShowClearButton Value="@flightDestination" ValueChanged="FlightDestinationHandler" TValue="string" DataSource="@destinationPlaces" TItem="string"></SfDropDownList>
+             </div>
+             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 airline-filter-row-input">
+                <label>Airlines</label>
+                <SfDropDownList Placeholder="Select Airline" ShowClearButton Value="@airlineName" ValueChanged="FlightAirlineHandler" TValue="string" DataSource="@airlines" TItem="string"></SfDropDownList>
+                </div>
+             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 airline-filter-row-input">
+                <label>Flight Code</label>
+                <SfTextBox Placeholder="Flight Code" ShowClearButton Value="@flightNumber" ValueChanged="FlightNumberHandler"></SfTextBox>
+            </div>
+             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 airline-filter-row-input">
+                 <label>Select Date</label>
+                 <SfDateRangePicker Width="100%" TValue="DateTime?" Min=@(new DateTime(2024, 06, 01)) Max=@(new DateTime(2024,07,30)) Placeholder="Select Flight Date Range" FullScreen="true" ShowClearButton="true">
+                     <DateRangePickerEvents TValue="DateTime?" ValueChange="DateValueChangeHandler"></DateRangePickerEvents>
+                 </SfDateRangePicker>
+             </div>
+             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2" style="padding:0px;text-align:end">
+                 <div>
+                     <div class="e-gantt-filter-div" style="display:inline-block; padding-right: 5px;">
+                         <label style="visibility:hidden !important;">Label</label>
+                        <SfButton CssClass="gantt-search-btn" style="width:100%" OnClick="FilterHandler">Search</SfButton>
+                     </div>
+                     <div class ="e-gantt-filter-div" style="display:inline-block;float:right;">
+                        <label style="visibility:hidden !important;">Label</label>
+                        <SfButton CssClass="gantt-clear-btn" style="width:100%" OnClick="ClearFilterHandler">Clear</SfButton>
+                     </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" style="padding:0px 30px;">
+            <SfGantt @ref="ganttInstance" ID="syncfuction-gantt-chart" Query="@queryCollection" ConnectorLineBackground="#006400" DataSource="@AirlineInformations" DurationUnit="DurationUnit.Hour" IncludeWeekend="true" TreeColumnIndex="1" ScrollToTaskbarOnClick="true" Height="550px" Width="100%" RowHeight="44">
+             <GanttTaskFields Id="Id" Name="FlightId" ParentID="ParentId" StartDate="Departure" EndDate="Arrival" Duration="Duration" Progress="Progress">
+             </GanttTaskFields>
+             <GanttSearchSettings HierarchyMode="FilterHierarchyMode.Both"></GanttSearchSettings>
+             <GanttDayWorkingTimeCollection>
+                 <GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
+             </GanttDayWorkingTimeCollection>
+             <GanttSplitterSettings Position="40%" Collapsible="true"></GanttSplitterSettings>
+             <GanttLabelSettings RightLabel="Destination" LeftLabel="Origin" TValue="AirlineTrackerData.AirlineInfoModel"></GanttLabelSettings>
+             <GanttColumns>
+                 <GanttColumn Field="Id" Visible="false"></GanttColumn>
+                 <GanttColumn Field="FlightId" IsFrozen HeaderText="Flight Info" Width="200px">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            <div>
+                                @if (taskData != null && !string.IsNullOrEmpty(taskData.FlightId))
+                                {
+                                    <span>@taskData.FlightId</span>
+                                }
+                                else
+                                {
+                                    <span class="grid-airline-text">@taskData.Airline</span>
+                                }
+                            </div>
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="Status">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            string statusStyle = GetStatusContentStyles(taskData.Status);
+                            <div><span class="e-airline-status" style="@statusStyle">@taskData.Status</span></div>
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn AllowEditing=false Field="LandingTime" HeaderText="Landing Time" TextAlign="TextAlign.Center">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            if (taskData != null && taskData.Arrival != null && taskData.LandingTime != null)
+                            {
+                                var diff = taskData.Arrival.Value.CompareTo(taskData.LandingTime.Value);
+                                if (diff == -1)
+                                {
+                                    var diffTime = (taskData.Arrival.Value - taskData.LandingTime.Value).Minutes + ".00";
+                                    <div>
+                                            <span style="color:#FF0000;">@(diffTime) Min</span>
+                                    </div>
+                                }
+                                else if (diff == 1)
+                                {
+                                    var diffTime = (taskData.Arrival.Value - taskData.LandingTime.Value).Minutes + ".00";
+                                    <div>
+                                            <span style="color:#28A745;">+@(diffTime) Min</span>
+                                    </div>
+                                }
+                            }
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="ArrivalGate" HeaderText="Gate">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            if (taskData != null)
+                            {
+                                if (taskData.Status == "SCHEDULED")
+                                {
+                                    <div><span>@taskData.DepartureGate</span></div>
+                                }
+                                else if (taskData.Status == "ON TIME" || taskData.Status == "DELAYED" || taskData.Status == "LANDED")
+                                {
+                                    <div><span>@taskData.ArrivalGate</span></div>
+                                }
+                            }
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="Origin" ClipMode="ClipMode.EllipsisWithTooltip">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            if (taskData != null)
+                            {
+                                <div>@(taskData.Origin)</div>
+                            }
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="Destination" ClipMode="ClipMode.EllipsisWithTooltip">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            if (taskData != null)
+                            {
+                                <div>@(taskData.Destination)</div>
+                            }
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="DepartureTime" Width="180px" TextAlign="TextAlign.Right" EditType="EditType.DateTimePickerEdit" HeaderText="Departure Time" ClipMode="ClipMode.EllipsisWithTooltip">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            if (taskData == null || taskData.ParentId == null)
+                            {
+                                return;
+                            }
+                            <span>@taskData.Departure?.ToString("MM/dd/yyyy HH:mm")</span>
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="ArrivalTime" Width="180px" TextAlign="TextAlign.Right" EditType="EditType.DateTimePickerEdit" HeaderText="Arrival Time" ClipMode="ClipMode.EllipsisWithTooltip">
+                    <Template>
+                        @{
+                            var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                            if (taskData == null || taskData.ParentId == null)
+                            {
+                                return;
+                            }
+                            <span>@taskData.Arrival?.ToString("MM/dd/yyyy HH:mm")</span>
+                        }
+                    </Template>
+                </GanttColumn>
+                <GanttColumn Field="Aircraft"></GanttColumn>
+            </GanttColumns>
+            <GanttTimelineSettings TimelineUnitSize="145">
+                <GanttTopTierSettings Unit="TimelineViewMode.Day" Format="MMM dd,yyyy"></GanttTopTierSettings>
+                <GanttBottomTierSettings Count="2" Unit="TimelineViewMode.Hour" Format="HH:mm"></GanttBottomTierSettings>
+            </GanttTimelineSettings>
+            <GanttTooltipSettings TValue="AirlineTrackerData.AirlineInfoModel">
+                <TaskbarTemplate>
+                    @{
+                        var taskData = context as AirlineTrackerData.AirlineInfoModel;
+                        if (taskData.ParentId == null)
+                        {
+                            <div style="padding:10px"><span>@taskData.Airline</span></div>
+                        }
+                        else
+                        {
+                            <div style="box-sizing: border-box;">
+                                <div class="row" style="margin: 0; text-align: center;">
+                                    <span style="width: 50%; padding: 10px; font-weight: 600; font-size: 16px; display: inline-block;">
+                                        @taskData.Origin
+                                    </span>
+                                    <span style="width: 50%; padding: 10px; font-weight: 600; font-size: 16px; display: inline-block;">
+                                        @taskData.Destination
+                                    </span>
+                                </div>
+                                <div class="row" style="margin: 0; padding: 0 10px;">
+                                    <div style="width: 50%; display: inline-block;box-sizing: border-box; padding-right: 8px;">
+                                        <div class="row" style="margin: 0;">
+                                            <div style="padding: 6px 0;">
+                                                <span class="e-gantt-chart-toolbar-template-body-content">Departed</span>
+                                                <span>@taskData.Departure.Value.ToString("HH:mm")</span>
+                                            </div>
+                                            <div style="padding: 6px 0;">
+                                                <span class="e-gantt-chart-toolbar-template-body-content">Gate</span>
+                                                <span>@taskData.DepartureGate</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 50%; display: inline-block; padding-left: 8px;">
+                                        <div class="row" style="margin: 0;">
+                                            <div style="padding: 6px 0;">
+                                                <span class="e-gantt-chart-toolbar-template-body-content">Arrival</span>
+                                                <span>@taskData.Arrival.Value.ToString("HH:mm")</span>
+                                            </div>
+                                            <div style="padding: 6px 0;">
+                                                <span class="e-gantt-chart-toolbar-template-body-content">Gate</span>
+                                                <span>@taskData.ArrivalGate</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </TaskbarTemplate>
+            </GanttTooltipSettings>
+            <GanttTemplates TValue="AirlineTrackerData.AirlineInfoModel">
+                <TaskbarTemplate>
+                        @{
+                            var taskData = (context as AirlineTrackerData.AirlineInfoModel);
+                            if (taskData == null)
+                            {
+                                return;
+                            }
+                            var taskModel = ganttInstance.GetRowTaskModel(taskData);
+                            var progresswidth = taskModel.ProgressWidth;
+                            var progressColor = GetChildProgressColor(taskData);
+                            var taskbarColor = GetChildBgColor(taskData);
+                            <div>
+                                <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div e-gantt-child-taskbar-template" style="background: none !important;background-color: @taskbarColor !important;">
+                                    <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar e-gantt-child-taskbar-template-progress" style="width:@(progresswidth+"px");background: none !important;background-color: @progressColor !important;">
+                                </div>
+                                
+                            </div>
+                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{GetImageName(taskData)}")" style="width: 25px; height: 27px; position: absolute;top:7px;left:@(taskModel.ProgressWidth + 3)px" />
+                        </div>
+                            <div style="position: absolute; left: -42px; top: -1px; width: 46px;">
+                                <div class="e-gantt-child-taskbar-bottom-label e-gantt-child-taskbar-bottom-label-left" style="width: 100%; font-size: 14px; font-weight: 400;color:@GetTaskbarLeftLabelColor(taskData)">
+                                @(taskData.Departure.Value.ToString("HH:mm"))
+                            </div>
+                        </div>
+                    }
+                </TaskbarTemplate>
+                <ParentTaskbarTemplate>
+                    @{
+                        var taskData = (context as AirlineTrackerData.AirlineInfoModel);
+                        if (taskData == null)
+                        {
+                            return;
+                        }
+                        var taskModel = ganttInstance.GetRowTaskModel(taskData);
+                        var progresswidth = taskModel.ProgressWidth;
+                        var taskbarColor = GetParentBgColor();
+                        var progressColor = GetParentProgressColor(); 
+                        <div>
+                            <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar e-gantt-parent-taskbar-div e-gantt-parent-taskbar-template" style="background: none !important; background-color:@taskbarColor !important;">
+                                <div class="e-gantt e-gantt-chart e-gantt-parent-progressbar-inner-div e-gantt-parent-taskbar-template-progress" style=" width:@(progresswidth+"px");background: none !important; background-color:@progressColor !important;">
+                                        
+                                </div>
+                            </div>
+                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{GetParentImageName()}")" style="width: 25px; height: 27px; position: absolute;top:7px;left:@(taskModel.ProgressWidth + 3)px" />
+                        </div>
+                            <div style="position: absolute; left: -42px; top: -1px; width: 46px;">
+                                <div class="e-gantt-parent-taskbar-bottom-label e-gantt-parent-taskbar-bottom-label-left" style="width: 100%; font-size: 14px; font-weight: 400;">
+                                @(taskData.Departure.Value.ToString("HH:mm"))
+                            </div>
+                        </div>
+                    }
+                </ParentTaskbarTemplate>
+            </GanttTemplates>
+        </SfGantt>
+        </div>
+    </div>
+</section>
+
+<style>
+    #syncfuction-gantt-chart .e-right-label-inner-div .e-label, .e-left-label-inner-div .e-label {
+        font-weight: 600;
+        font-size: 20px !important;
+        line-height:28px;
+    }
+
+    #syncfuction-gantt-chart .e-right-label-inner-div .e-label {
+        margin-left: 17px !important;
+    }
+
+    #syncfuction-gantt-chart .e-taskbar-main-container {
+        margin-top: 0px !important;
+    }
+
+    #syncfuction-gantt-chart .e-control-wrapper.e-slider-container .e-slider.e-gantt-slider-child-taskbar .e-handle {
+        background-image: url(@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/flight-green-icon.png"));
+        width: 50px !important;
+        height: 49px !important;
+        background-repeat: no-repeat;
+        margin-top: -9px !important;
+        margin-left: -4px !important;
+        background-color: transparent !important;
+        border: none !important;
+        transform: rotate(90deg) !important;
+        box-shadow: none !important;
+    }
+
+    #syncfuction-gantt-chart .e-control-wrapper.e-slider-container .e-slider.e-gantt-slider-parent-taskbar .e-handle {
+        background-image: url(@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/flight-blue-icon.png")) !important;
+        width: 50px !important;
+        height: 49px !important;
+        background-repeat: no-repeat;
+        margin-top: -9px !important;
+        margin-left: -4px !important;
+        background-color: transparent !important;
+        border: none !important;
+        transform: rotate(90deg) !important;
+        box-shadow: none !important;
+    }
+
+    #syncfuction-gantt-chart .e-control-wrapper.e-slider-container.e-horizontal {
+        height: 0px;
+    }
+
+    #syncfuction-gantt-chart .e-slider-container {
+        padding-top: 30px;
+    }
+
+    .airline-filter-row label{
+        font-weight:500;
+        color:@labelColor;
+    }
+    .airline-filter-row {
+        background: @searchInputBgColor;
+        padding:10px;
+        margin-bottom: 9px;
+    }
+
+    .airline-filter-row1 label {
+        font-weight: 500;
+        color: @labelColor;
+    }
+
+    .airline-filter-row1 {
+        background: @searchInputBgColor;
+        padding: 10px;
+        width:80%;
+        height:100%;
+    }
+    
+    .airline-filter-icon{
+        background: @searchInputBgColor;
+        padding: 14px 16px;
+        margin: 4px 0px;
+    }
+
+    .gantt-search-btn {
+        width: 45%;
+        background: #0F6CBD !important;
+        color: @searchBtnColor !important;
+        font-weight: bold !important;
+        border-color:transparent !important;
+        padding-left: 0px !important;
+        border-radius: 4px;
+        padding-right: 0px !important;
+    }
+
+    .gantt-search-btn:hover
+    {
+        background: #0F6CBD !important;
+        color: @searchBtnColor !important;
+        border-color: transparent !important;
+    }
+
+    .default-sidebar{
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .default-sidebar .gantt-search-btn{
+        padding: 6px 0px;
+    }
+
+    .default-sidebar .gantt-clear-btn {
+        padding: 6px 0px;
+    }
+
+    .e-close::before {
+        font-family: 'e-icons' !important;
+        content: '\e7e7';
+        font-size: 15px;
+    }
+
+    .material3 .e-close::before,
+    .materia3l-dark .e-close::before,
+    .material3 .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .material .e-close::before,
+    .material-dark .e-close::before,
+    .material .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .fabric .e-close::before,
+    .fabric-dark .e-close::before,
+    .highcontrast .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap .e-close::before,
+    .bootstrap-dark .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap4 .e-close::before {
+        content: '\e745';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .tailwind .e-close::before,
+    .tailwind-dark .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap5 .e-close::before,
+    .bootstrap5-dark .e-close::before,
+    .fluent .e-close::before, .fluent-dark .e-close::before,
+    .tailwind .e-close::before, .tailwind-dark .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    #syncfuction-gantt-chart .e-grid .e-headercell {
+        padding-left: 18px !important;
+    }
+
+    .gantt-clear-btn {
+        width: 45%;
+        background: @clearBtnBgColor !important;
+        color: @clearBtnColor !important;
+        font-weight: bold;
+        border:1px solid @clearBtnBorderColor !important;
+        padding-left: 0px !important;
+        border-radius: 4px;
+        padding-right: 0px !important;
+    }
+
+    .gantt-clear-btn:hover{
+        background: @clearBtnBgColor !important;
+        color: @clearBtnColor !important;
+        border: 1px solid @clearBtnBorderColor !important;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-child-taskbar-bottom-label-left, .e-gantt-parent-taskbar-bottom-label-left {
+        float: left;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-child-taskbar-bottom-label, .e-gantt-parent-taskbar-bottom-label {
+        font-weight: 600;
+        font-size: 11px;
+        padding: 13px 0px;
+        width: 50%;
+        display: inline-block;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-child-taskbar-bottom-label-right, .e-gantt-parent-taskbar-bottom-label-right {
+        float: right;
+        text-align: end;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-parent-taskbar-bottom-label {
+        color: #0000FF;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-chart-toolbar-template-header-td {
+        padding: 6px 0px;
+        text-align: center
+    }
+
+    #syncfuction-gantt-chart .e-gantt-chart-toolbar-template-header-td span {
+        font-size: 20px;
+        font-weight: bold
+    }
+
+    #syncfuction-gantt-chart .e-gantt-chart-toolbar-template-body-td {
+        padding: 5px
+    }
+
+    #syncfuction-gantt-chart .e-gantt-chart-toolbar-template-div .row {
+        margin: 0 !important;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-chart-toolbar-template-body-div {
+        display: inline-block;
+    }
+
+    #syncfuction-gantt-chart .e-gantt-chart-toolbar-template-body-content {
+        display: block;
+        font-weight: 600
+    }
+
+    #syncfuction-gantt-chart .e-gridheader .e-headertext, .grid-airline-text {
+        font-weight:600;
+    }
+
+    .e-gantt-parent-taskbar-inner-div, .e-gantt-child-taskbar-inner-div {
+        height: 30px;
+        border: none !important;
+        border-radius: 2px !important;
+        outline: none !important;
+        margin-top: 6px !important;
+    }
+
+    .e-gantt-parent-progressbar-inner-div, .e-gantt-child-progressbar-inner-div{
+        border-radius:2px !important;
+    }
+
+    .airline-filter-icon {
+        display: none;
+    }
+
+    .control-section{
+        padding:0px !important; 
+    }
+
+    @@media only screen and (max-width:1200px){
+        .airline-filter-row .e-gantt-filter-div 
+        {
+            width:50%;
+        } 
+    }
+    @@media only screen and (max-width:992px) {
+              
+        .airline-filter-row {
+            display: none !important;
+        }
+
+        .airline-filter-icon {
+            display:block !important;
+        }
+
+        .container-fluid {
+            padding: 0px !important;
+        }
+
+        .control-section {
+            padding: 16px 0px !important;
+            overflow-x:hidden;
+        }
+    }
+
+    .e-gantt .e-gantt-chart .e-left-label-container {
+        padding-right: 50px !important;
+    }
+    .e-gantt .e-gantt-chart .e-gantt-parent-progressbar-inner-div{
+        border:none !important;
+    }
+
+    .e-bigger .e-input-group-icon.e-range-icon, .e-bigger.e-control-wrapper .e-input-group-icon.e-range-icon, .e-bigger .e-control-wrapper .e-input-group-icon.e-range-icon{
+        padding:5px !important;
+    }
+
+    input.e-input.e-bigger, .e-bigger input.e-input, .e-input-group.e-bigger input.e-input, .e-input-group.e-control-wrapper.e-bigger input.e-input, .e-float-input.e-control-wrapper.e-bigger input, .e-float-input.e-control-wrapper input.e-bigger, .e-float-input.e-bigger input, .e-float-input input.e-bigger, .e-input-group input.e-input.e-bigger, .e-input-group.e-control-wrapper input.e-input.e-bigger, .e-bigger .e-float-input.e-control-wrapper input, .e-bigger .e-float-input input, .e-bigger .e-input-group.e-control-wrapper input.e-input, .e-bigger .e-input-group input.e-input, .e-input-group.e-bigger input.e-input:focus, .e-input-group.e-control-wrapper.e-bigger input.e-input:focus, .e-float-input.e-control-wrapper.e-bigger input:focus, .e-float-input.e-bigger input:focus, .e-bigger .e-input-group input.e-input:focus, .e-bigger .e-input-group.e-control-wrapper input.e-input:focus, .e-bigger .e-float-input.e-control-wrapper input:focus, .e-bigger .e-float-input input:focus, .e-input-group.e-bigger.e-input-focus input.e-input, .e-input-group.e-control-wrapper.e-bigger.e-input-focus input.e-input, .e-bigger .e-input-group.e-input-focus input.e-input, .e-bigger .e-input-group.e-control-wrapper.e-input-focus input.e-input, .e-float-input.e-control-wrapper.e-bigger.e-input-focus input, .e-float-input.e-bigger.e-input-focus input, .e-bigger .e-float-input.e-control-wrapper.e-input-focus input, .e-bigger .e-float-input.e-input-focus input{
+        padding: 2px 9px !important;
+    }
+
+    .airline-filter-row-input{
+        padding: 0px 8px;
+    }
+
+    .e-blazor-gantt-tooltip .e-tip-content {
+        padding:0px !important;
+    }
+</style>

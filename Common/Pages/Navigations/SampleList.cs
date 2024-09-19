@@ -165,7 +165,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Pager",
                 FileName = "DefaultFunctionalities.razor",
                 Url = "pager/default-functionalities",
-                NotificationDescription = new string[]{ @"Introduce the Pager component in Blazor and it’s commonly used to display the data into page segments." },
                 Type = SampleType.None
             },
 			new Sample
@@ -175,7 +174,6 @@ namespace BlazorDemos
 				Directory = "Navigations/Pager",
 				FileName = "PagingAPI.razor",
 				Url = "pager/paging-api",
-                NotificationDescription = new string[]{ @" Added the demo to show the properties available in Pager component Such as PageSize, CurrentPage, PageCount and TotalItemsCount." },
                 Type = SampleType.None
             },
             new Sample
@@ -185,7 +183,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Pager",
                 FileName = "PagerDropdown.razor",
                 Url = "pager/pager-dropdown",
-                NotificationDescription = new string[]{ @" Added the demo to show Pager Dropdown used to dynamically change the number of records displayed in the current page." },
                 Type = SampleType.None
             },
             new Sample
@@ -195,7 +192,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Pager",
                 FileName = "PagerKeyboardNavigation.razor",
                 Url = "pager/keyboard-navigation",
-                NotificationDescription = new string[]{ @" Added the demo to show Keyboard shortcut keys can be used to interact with Pager functionality." },
                 Type = SampleType.None
             },
             new Sample
@@ -205,7 +201,6 @@ namespace BlazorDemos
                 Directory = "Navigations/Pager",
                 FileName = "PagerIntegrateWithGrid.razor",
                 Url = "pager/pager-template",
-                NotificationDescription = new string[]{ @" Added the demo to show how to customize the pager UI using Template support." },
                 Type = SampleType.None
             }
         };
@@ -464,9 +459,7 @@ namespace BlazorDemos
                 Category = "TreeView",
                 Directory = "Navigations/TreeView",
                 Url = "treeview/ui-virtualization",
-                Type = SampleType.New,
-                FileName = "UIVirtualization.razor",
-                 NotificationDescription = new string[]{ @" Added the Virtualization support for the TreeView" }
+                FileName = "UIVirtualization.razor"
             },
               new Sample
             {
@@ -525,11 +518,23 @@ namespace BlazorDemos
             },
              new Sample
             {
+                Name = "Pagination",
+                Category = "File Manager",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/pagination",
+                FileName = "Pagination.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added the demo about pagination support in the File Manager. This sample showcases how to render and configure a File Manager with pager." }
+            },
+             new Sample
+            {
                 Name = "API",
                 Category = "File Manager",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/api",
-                FileName = "API.razor"
+                FileName = "API.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"The API sample has been updated with the EnableRangeSelection property. This demo showcases how to select multiple items with mouse dragging." }
             },
             new Sample
             {
@@ -579,8 +584,17 @@ namespace BlazorDemos
                 Category = "Use Case",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/access-control",
-                FileName = "AccessControl.razor",
-                NotificationDescription = new string[]{ @"Showcases the access control permissions enabled for specific folders in File Manager based on user role." }
+                FileName = "AccessControl.razor"
+            },
+            new Sample
+            {
+                Name = "File Upload",
+                Category = "Use Case",
+                Directory = "Navigations/FileManager",
+                Url = "file-manager/file-upload",
+                FileName = "FileUpload.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample showcases how files are browsed and selected in the FileManager component to upload through the Uploader component." }
             },
             new Sample
             {
@@ -762,8 +776,7 @@ namespace BlazorDemos
                 Directory = "Navigations/Carousel",
                 Url = "carousel/indicator-type",
                 FileName = "IndicatorType.razor",
-                MappingSampleName = "With Indicator Types",
-                NotificationDescription = new string[]{ @"Added a demo to showcase the indicator types feature in Carousel." }
+                MappingSampleName = "With Indicator Types"
             },
             new Sample
             {
@@ -835,5 +848,6 @@ namespace BlazorDemos
                 Type = SampleType.None
             }
         };
+
     }
 }

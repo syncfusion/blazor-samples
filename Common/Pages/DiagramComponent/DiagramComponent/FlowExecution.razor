@@ -106,7 +106,7 @@
 
 @code
 {
-    
+
     private int connectorCount;
     private string currentButton = "NodesReachable";
     private string stringChecked = "NodesReachable";
@@ -135,20 +135,23 @@
     /// </summary>
     protected override void OnInitialized()
     {
-        
+
         InitDiagramModel();
     }
     private async Task OnSelectionChanged(SelectionChangedEventArgs args)
     {
-        if(Diagram.SelectionSettings.Nodes.Count >0 || Diagram.SelectionSettings.Connectors.Count>0)
+        if (Diagram != null)
         {
-            disabled = false;
+            if (Diagram.SelectionSettings.Nodes.Count > 0 || Diagram.SelectionSettings.Connectors.Count > 0)
+            {
+                disabled = false;
+            }
+            else
+            {
+                disabled = true;
+            }
+            await ApplyChanges(currentButton);
         }
-        else
-        {
-            disabled = true;
-        }
-        await ApplyChanges(currentButton);
     }
     private void InitDiagramModel()
     {
@@ -276,7 +279,7 @@
                 await ChildrenFlow();
                 break;
         }
-        await Diagram.EndUpdate();
+        await Diagram.EndUpdateAsync();
     }
 
     public void LinkedConnector(bool isOutEdge)

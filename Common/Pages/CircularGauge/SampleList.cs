@@ -18,8 +18,7 @@ namespace BlazorDemos
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             
             new Sample
@@ -47,8 +46,7 @@ namespace BlazorDemos
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/custom-labels",
                 FileName = "CustomLabels.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -57,8 +55,7 @@ namespace BlazorDemos
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/range-color-for-axis",
                 FileName = "RangeColorsForAxis.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -112,8 +109,7 @@ namespace BlazorDemos
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/multiple-ranges",
                 FileName = "MultipleRanges.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -158,8 +154,7 @@ namespace BlazorDemos
                 Directory = "CircularGauge/CircularGauge",
                 Url = "circular-gauge/tooltip",
                 FileName = "Tooltip.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[]{ @"Added animation support to the demo by providing appropriate animation duration for the gauge and its elements." }
+                Type = SampleType.None
             },
             new Sample
             {

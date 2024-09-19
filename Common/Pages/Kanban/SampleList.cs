@@ -131,8 +131,7 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Kanban/Kanban",
                 Url = "kanban/card-template",
-                FileName = "CardTemplate.razor",
-                NotificationDescription = new string[] { @"The demo has been updated to include a date field for updating the card's delivery date, which is about to be delivered." }
+                FileName = "CardTemplate.razor"
             },
             new Sample
             {

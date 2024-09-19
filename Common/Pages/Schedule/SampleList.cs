@@ -33,6 +33,15 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Holiday Calendar",
+                Category = "Product Use Case",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/holiday-Calendar",
+                Type = SampleType.New,
+                FileName = "HolidayCalendar.razor"
+            },
+            new Sample
+            {
                 Name = "Local Data",
                 Category = "Data Binding",
                 Directory = "Schedule/Scheduler",
@@ -519,6 +528,7 @@ namespace BlazorDemos
                 Category = "Miscellaneous",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/keyboard-interaction",
+                Type = SampleType.Updated,
                 FileName = "KeyboardInteraction.razor",
                 IsHideInMobile = true
             },

@@ -108,6 +108,15 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Auto Shapes",
+                Category = "Shapes",
+                Directory = "DocumentEditor/DocumentEditor",
+                Url = "document-editor/autoshapes",
+                FileName = "AutoShapes.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Web Layout",
                 Category = "View",
                 Directory = "DocumentEditor/DocumentEditor",

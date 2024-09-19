@@ -37,29 +37,21 @@
     {
         <div class="sample-browser e-view sf-new" @onclick="OnAppClick">
             <div class="sb-mobile-overlay sb-hide"></div>
-            <HeaderComponent @ref="headerRef" OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick" HomeIconClick="@HomeIconClick" OnSearchRender="@OnSearchRender"></HeaderComponent>
+            <HeaderComponent @ref="headerRef" OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick" OnSearchRender="@OnSearchRender"></HeaderComponent>
             <div class="sb-content e-view">
                 <div class="@searchContainer">
                     <div class="index-search-container">
                         <SearchComponent @ref="@searchRef"></SearchComponent>
                     </div>
                 </div>
-                <LeftPaneComponent @ref="LeftPaneRef"></LeftPaneComponent>                
-                    <RightPaneComponent @ref="RightPaneRef">@Body</RightPaneComponent>
-                @if (SampleService.IsDevice)
-                {
-                    <SideBarComponent IsExpanded="@rightSidebarExpanded" Position="SidebarPlacement.Right">
-                        <Preferences IsMobile="true"></Preferences>
-                    </SideBarComponent>
-                    <SampleNavigator @ref="SampleNavigatorRef"></SampleNavigator>
-                }
+                <RightPaneComponent @ref="RightPaneRef">@Body</RightPaneComponent>
             </div>
         </div>
     }
 </CascadingValue>
-<Syncfusion.Blazor.Popups.SfDialogProvider/>
+<Syncfusion.Blazor.Popups.SfDialogProvider />
 <style>
-        h1:focus {
+    h1:focus {
         outline: none;
     }
 </style>
@@ -80,9 +72,9 @@
     private SearchComponent searchRef { get; set; }
     public HeaderComponent headerRef { get; set; }
 
-     /// <summary>
-     /// Specifies the app is rendering in tablet or not.
-    /// </summary> 
+    /// <summary>
+    /// Specifies the app is rendering in tablet or not.
+    /// </summary>
     public bool isTablet { get; set; }
 
     /// <summary>
@@ -102,13 +94,10 @@
     // Left sidebar click handler
     private async Task OnToggleClick()
     {
-        if(headerRef.isNotifyClicked)
+        if (headerRef.isNotifyClicked)
         {
             headerRef.NotifyClicked();
         }
-        // Update left sidebar expand and collapse status
-        this.LeftPaneRef.UpdateExpandedState();
-        // Collapse right sidebar if it is expanded
         if (SampleService.IsDevice && rightSidebarExpanded)
         {
             rightSidebarExpanded = !rightSidebarExpanded;
@@ -122,20 +111,16 @@
     {
         // Update right sidebar expand and collapse status
         rightSidebarExpanded = !rightSidebarExpanded;
-        // Collapse left sidebar if it is expanded
-        if (LeftPaneRef.IsExpanded())
-        {
-            LeftPaneRef.UpdateExpandedState();
-        }
         await ShowSearchLayout();
-        if(headerRef.isNotifyClicked)
+        if (headerRef.isNotifyClicked)
         {
             headerRef.NotifyClicked();
         }
     }
 
     // Home icon click handler.
-     private async Task HomeIconClick(){
+    private async Task HomeIconClick()
+    {
         await LeftPaneRef.HomeButtonClick();
     }
 
@@ -149,12 +134,15 @@
     private async Task OnAppClick()
     {
         this.CollapseSideBar();
-        if (!headerRef.dropdownRef.isthemepopupopen)
+        if (headerRef != null && headerRef.dropdownRef != null)
         {
-            headerRef.dropdownRef.popupClass = SampleUtils.AddClass(headerRef.dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
+            if (!headerRef.dropdownRef.isthemepopupopen)
+            {
+                headerRef.dropdownRef.popupClass = SampleUtils.AddClass(headerRef.dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
+            }
+            headerRef.dropdownRef.isthemepopupopen = false;
+            headerRef.HidePreferences();
         }
-        headerRef.dropdownRef.isthemepopupopen = false;
-        headerRef.HidePreferences();
         if (searchRef.IsFocusOut() && !isSearchIconClick)
         {
             // Await the search layout hide process for the search list selection.
@@ -191,7 +179,7 @@
     {
         if (isIconClick && searchContainer.Contains(SampleUtils.DISPLAY_NONE))
         {
-            if(headerRef.isNotifyClicked)
+            if (headerRef.isNotifyClicked)
             {
                 headerRef.NotifyClicked();
             }
@@ -238,21 +226,13 @@
     {
         isDeviceMode = isDevice;
         SampleService.IsDevice = isDevice;
-        if(isTablet){
-            RightPaneRef?.SampleNavigatorRef.Rerender(SampleService.IsDevice,isTablet);
+        if (isTablet)
+        {
+            RightPaneRef?.SampleNavigatorRef.Rerender(SampleService.IsDevice, isTablet);
         }
         StateHasChanged();
     }
 
-    /// <summary>
-    /// Close both theme and preference popups
-    /// </summary>
-    public void CloseThemePrefPopups()
-    {
-        headerRef.HidePreferences();
-        headerRef.dropdownRef.popupClass = SampleUtils.AddClass(headerRef.dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
-        StateHasChanged();
-    }
     protected override async void OnInitialized()
     {
         base.OnInitialized();
@@ -261,10 +241,10 @@
         SyncfusionService.EnableRipple(UriHelper.Uri.IndexOf("material") > 0);
         searchContainer = SampleUtils.SEARCH_OVERLAY + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
 
-		//For getting the user preferred language for localization
-        string userSelectedCulture =null;
-        userSelectedCulture=await this.GetValueAsync<string>("UserSelected");
-        if(userSelectedCulture != null) {
+        //For getting the user preferred language for localization
+        string userSelectedCulture = null;
+        if (userSelectedCulture != null)
+        {
             var customisedCulture = new CultureInfo(userSelectedCulture);
             CultureInfo.DefaultThreadCurrentCulture = customisedCulture;
             CultureInfo.DefaultThreadCurrentUICulture = customisedCulture;
@@ -292,13 +272,11 @@
 
             dotnetObjectRef = DotNetObjectReference.Create<object>(this);
             // Get device information for mobile sidebar rendering
-	    if(Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android)
+            if (Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.iOS || Microsoft.Maui.Devices.DeviceInfo.Platform == DevicePlatform.Android)
             {
-                this.SampleService.IsDevice = true;
+                this.SampleService.IsDevice = false;
             }
-            this.SampleService.IsDevice = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDevice", dotnetObjectRef);
             this.DeviceMode.Isdevice = this.SampleService.IsDevice;
-            this.isTablet = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isTablet");
             this.isDeviceMode = this.SampleService.IsDevice;
             if (this.SampleService.IsDevice)
             {
@@ -316,21 +294,11 @@
                 SampleService.MetaData?.Refresh();
             }
         }
-        if(!firstRender && LeftPaneRef !=null && LeftPaneRef.NavMenuRef.isNavigate)
+        if (!firstRender && LeftPaneRef != null && LeftPaneRef.NavMenuRef.isNavigate)
         {
-            CloseThemePrefPopups();
             LeftPaneRef.NavMenuRef.isNavigate = false;
         }
-        if (!this.SampleService.IsDevice || this.isTablet)
-        {
-            // Render sample navigator in the right pane for desktop.
-            RightPaneRef?.SampleNavigatorRef.Rerender(SampleService.IsDevice,this.isTablet);
-        }
-    }
-    public async Task<T> GetValueAsync<T>(T key)
-    {
-        var previouslySelectedCulture= await this.JsRuntime.InvokeAsync<T>("sfBlazorSB.getValue", key);
-        return previouslySelectedCulture;
+      
     }
     public void Dispose()
     {
@@ -338,4 +306,3 @@
         UriHelper.LocationChanged -= LocationChanged;
     }
 }
-

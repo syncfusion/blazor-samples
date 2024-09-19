@@ -16,16 +16,23 @@ using BlazorDemos.Shared;
 using Syncfusion.Blazor.Popups;
 using Syncfusion.Licensing;
 using System;
+using System.Net.Http;
+using Microsoft.AspNetCore.Components;
 
 var licenseKey = "";
 var builder = WebApplication.CreateBuilder(args);
 
 SyncfusionLicenseProvider.RegisterLicense(licenseKey);
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<SfDialogService>();
 builder.Services.AddScoped<SampleService>();
 builder.Services.AddSingleton<DeviceMode>();
 builder.Services.AddMemoryCache();
+builder.Services.AddSignalR(e => e.MaximumReceiveMessageSize = 102400000);
+builder.Services.AddScoped(sp => new HttpClient {
+    BaseAddress = new Uri(sp.GetRequiredService<NavigationManager>().BaseUri)
+});
 builder.Services.Configure<CookiePolicyOptions>(options =>
     {
         options.MinimumSameSitePolicy = SameSiteMode.Strict;
@@ -41,7 +48,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHsts(options =>
 {
     options.IncludeSubDomains = true;
-    options.MaxAge = TimeSpan.FromDays(365);
+    options.MaxAge = TimeSpan.FromDays(730);
 });
 
 

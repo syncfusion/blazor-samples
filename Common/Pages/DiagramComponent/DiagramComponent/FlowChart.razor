@@ -448,12 +448,8 @@
             {
                 redoStack.Clear();
             }
-
-            if (arg.EntryType != HistoryEntryType.PropertyChanged)
-            {
-                string entryLog = arg.EntryType.ToString();
-                undoStack.Add(entryLog);
-            }
+            string entryLog = arg.EntryType.ToString();
+            undoStack.Add(entryLog);
         }
         else if (arg.ActionTrigger == HistoryChangedAction.Redo && redoStack.Count > 0)
         {
@@ -483,7 +479,7 @@
             connector.Constraints &= ~ConnectorConstraints.Tooltip;
         }
     }
-    private void OnSelectionChanged(Syncfusion.Blazor.Diagram.SelectionChangedEventArgs args)
+    private void UpdateToolbarItems()
     {
         int? nodeCount = Diagram?.SelectionSettings.Nodes.Count;
         int? connectorCount = Diagram?.SelectionSettings.Connectors.Count;
@@ -515,6 +511,10 @@
             deleteDisable = true;
             isMultipleNode = true;
         }
+    }
+    private void OnSelectionChanged(Syncfusion.Blazor.Diagram.SelectionChangedEventArgs args)
+    {
+        this.UpdateToolbarItems();
         if (args.NewValue.Count > 0 && args.NewValue[0] is Node)
         {
             Diagram.SelectionSettings.Constraints = Diagram.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
@@ -570,7 +570,7 @@
                 sfDiagram.StartGroupAction();
                 sfDiagram.BeginUpdate();
                 sfDiagram.Nodes.Remove(deleteObject);
-                _ = sfDiagram.EndUpdate();
+                _ = sfDiagram.EndUpdateAsync();
                 sfDiagram.EndGroupAction();
             }
             base.OnMouseUp(args);
@@ -690,8 +690,8 @@
     @*Hidden:Lines*@
             #pragma warning disable BL0005
     @*End:Hidden*@
-            new Palette() {Symbols = flowShapeSymbols, Title = "Flow Shapes", ID = "Flow Shapes", IconCss = "e-ddb-icons e-flow"},
-            new Palette() {Symbols = connectorSymbols, Title = "Connectors", IsExpanded = true, IconCss = "e-ddb-icons e-connector"},
+            new Palette() {Symbols = flowShapeSymbols, Title = "Flow Shapes", ID = "FlowShapes", IconCss = "e-ddb-icons e-flow"},
+            new Palette() {Symbols = connectorSymbols, Title = "Connectors",ID="Connectors", IsExpanded = true, IconCss = "e-ddb-icons e-connector"},
     @*Hidden:Lines*@
             #pragma warning restore BL0005
     @*End:Hidden*@
@@ -701,7 +701,7 @@
     {
         Node node = obj as Node;
         node.Style.Fill = "#357BD2";
-        if (!(node.ID.StartsWith("Annotation") || node.ID.StartsWith("Sequential Data")))
+        if (!(node.ID.StartsWith("Annotation") || node.ID.StartsWith("SequentialData")))
             node.Style.StrokeColor = "White";
         node.Style.Opacity = 1;
     }
@@ -728,6 +728,7 @@
             ID = NodeID,
             Shape = new FlowShape() { Type = Syncfusion.Blazor.Diagram.NodeShapes.Flow, Shape = flowShape },
             Style = new ShapeStyle() { StrokeColor = "#757575", StrokeWidth = 1 },
+                SearchTags = new List<string>() { "flow" },
         };
         if (isSpace)
         {
@@ -804,7 +805,7 @@
             SourceID = sourceId,
             TargetID = targetId,
             SourcePortID = sport,
-            TargetPortID = tport
+            TargetPortID = tport,
         };
         if (isDashLine)
         {
@@ -872,6 +873,7 @@
             SourcePoint = new DiagramPoint() { X = 0, Y = 0 },
             TargetPoint = new DiagramPoint() { X = 60, Y = 60 },
             Style = new ShapeStyle() { StrokeWidth = 1, StrokeColor = "#757575" },
+            SearchTags = new List<string>() { "connector" },
             TargetDecorator = new DecoratorSettings()
             {
                 Shape = decoratorShape,
@@ -957,6 +959,7 @@
                 break;
             case "Undo":
                 Diagram.Undo();
+                this.UpdateToolbarItems();
                 break;
             case "Redo":
                 Diagram.Redo();
@@ -1145,7 +1148,7 @@
         Diagram.BeginUpdate();
         ExtensionType = ".json";
         await FileUtil.Click(jsRuntime);
-        await Diagram.EndUpdate();
+        await Diagram.EndUpdateAsync();
     }
     public async Task OnUploadFileSelected(UploadingEventArgs args)
     {
@@ -1153,7 +1156,9 @@
         {
             string json = await FileUtil.LoadFile(jsRuntime, args.FileData);
             json = json.Replace(System.Environment.NewLine, string.Empty);
-            await Diagram.LoadDiagram(json.ToString());
+            await Diagram.LoadDiagramAsync(json.ToString());
+            FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+            Diagram.FitToPage(options);
             await uploadFiles.ClearAllAsync();
         }
     }

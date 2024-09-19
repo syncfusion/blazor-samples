@@ -16,13 +16,12 @@
         <ul class="@SampleUtils.LIST_UL_CLASS">
             @foreach (var group in searchResult)
             {
-                <li class="@SampleUtils.LIST_LI_GROUP_CLASS">
-                    <span>@group.Category</span>
-                </li>
                 @foreach (var item in group.SampleList)
                 {
-                    <li class="@liClass"  @onclick="@(() => { OnSampleSelect(item.SamplePath); })">
-                        <span>@item.SampleName</span>
+                    <li class="@liClass samplelist" @onclick="@(() => { OnSampleSelect(item.SamplePath); })">
+                        <span class="sf-home-icon @(GetIconClass(group.Category))"></span>
+                        <span class="samplename">@item.SampleName</span>
+                        <span class="groupname">@group.Category</span>
                     </li>
                 }
             }
@@ -35,7 +34,36 @@
         </div>
     }
 </div>
+<style>
+    .groupname {
+        position: absolute;
+        /* margin-left:50px; */
+        /* right :390px; */
+        /* width: 22px; */
+        /* height: 18px; */
+        top: 20px;
+        left: 290px;
+        gap: 0px;
+        color: #79747E;
+    }
 
+    .samplename {
+        position: absolute;
+        color: #1C1B1F;
+        /* width: 110px; */
+        /* height: 24px; */
+        /* top: 76px; */
+        /* left: 60px; */
+        /* gap: 0px; */
+        top: 20px;
+        font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: left;
+        /* margin-top:-30px; */
+    }
+</style>
 @code {
 
     const int SEARCH_LENGTH = 0;
@@ -52,8 +80,33 @@
     private ElementReference inputElement { get; set; }
     private ElementReference popupElement { get; set; }
     private DotNetObjectReference<object> dotnetObjectRef { get; set; }
+    private List<List<string>> categoryOrders { get; set; } = new List<List<string>>();
     [CascadingParameter]
     protected MainLayout Layout { get; set; }
+
+    private string GetIconClass(string samplePath)
+    {
+        // Iterate through the orders and categories to find the matching component
+        foreach (var orders in categoryOrders)
+        {
+            foreach (var category in orders)
+            {
+                var components = SampleBrowser.SampleList.Where(comp => comp.Category == category).ToList();
+                foreach (var component in components)
+                {
+                    if (!component.IsHideFromHomePageList)
+                    {
+                        if (component.ControllerName == samplePath)
+                        {
+                            string iconClass = $"sf-icon-{string.Join("", (component.ComponentIconName != null ? component.ComponentIconName : component.Name).ToLower().Split(' '))}";
+                            return iconClass;
+                        }
+                    }
+                }
+            }
+        }
+        return "sf-icon-datagrid"; // Default icon class
+    }
 
     // Update search result based on the search content.
     private void UpdateSearchResult(string searchContent)
@@ -133,7 +186,7 @@
                 }
             }
             // Set category search result at first if it doesn't have any sample search result.
-            else if (categorySearch.IndexOf(item) > 0 && !isMultiContentSearch && categorySearch[0].Category!=categorySearch[1].Category)
+            else if (categorySearch.IndexOf(item) > 0 && !isMultiContentSearch && categorySearch[0].Category != categorySearch[1].Category)
             {
                 sampleSearch.Add(new SearchList { Category = item.Category, SampleList = item.SampleList.Take(CATEGORY_LENGTH).ToList() });
             }
@@ -209,8 +262,7 @@
         //SampleService.Spinner.Show();
         var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
         Layout.RightPaneRef?.TabSelectedItemChange();
-        UriHelper.NavigateTo(samplePath.ToLower() + "?theme=" + themeName,true);
-       
+        UriHelper.NavigateTo(samplePath.ToLower() + "?theme=" + themeName, true);
     }
 
     // Icon click event handler method.
@@ -288,6 +340,10 @@
         iconClass = SampleUtils.SEARCH_ICON;
         liClass = SampleUtils.LIST_LI_CLASS;
         popupClass = SampleUtils.SEARCH_POPUP + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+        this.categoryOrders.Add(new List<string> { "Grids", "File Viewers & Editors", "Document Processing Libraries", "Layout" });
+        this.categoryOrders.Add(new List<string> { "Data Visualization", "Buttons" });
+        this.categoryOrders.Add(new List<string> { "Calendars", "Inputs", "Forms" });
+        this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Notifications" });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -295,7 +351,7 @@
         if (firstRender)
         {
             dotnetObjectRef = DotNetObjectReference.Create<object>(this);
-            await JsRuntime.InvokeVoidAsync("sfBlazorSB.wireSearchEvents", dotnetObjectRef, inputElement, popupElement);
+            //  await JsRuntime.InvokeVoidAsync("sfBlazorSB.wireSearchEvents", dotnetObjectRef, inputElement, popupElement);
         }
     }
 

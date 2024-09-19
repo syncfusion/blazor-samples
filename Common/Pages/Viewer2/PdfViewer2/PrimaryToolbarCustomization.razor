@@ -48,7 +48,7 @@
     <div class="col-lg-9">
         <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" Height="640px" ID="pdfviewer">
             <PdfViewerToolbarSettings CustomToolbarItems="@CustomToolbarItems" ToolbarItems="null" MobileToolbarItems="null" />
-            <PdfViewerEvents DocumentLoaded="@DocumentLoaded" ToolbarClicked="@ClickAction" PageChanged="@OnPageChanged"></PdfViewerEvents>
+            <PdfViewerEvents DocumentLoaded="@DocumentLoaded" ToolbarClicked="@ClickAction" ZoomChanged="@ZoomChanged" PageChanged="@OnPageChanged"></PdfViewerEvents>
         </SfPdfViewer2>
     </div>
     <div class="col-lg-3">
@@ -113,6 +113,8 @@
     private bool DownloadVisible = true;
     private bool AnnotationVisible = true;
     private bool SearchVisible = true;
+    private bool ZoomInDisabled = false;
+    private bool ZoomOutDisabled = false;
     string[] Items = new string[10] { "Open", "Previous Page", "Next Page", "Page Number", "Zoom In", "Zoom Out", "Edit Annotation", "Text Search", "Print", "Download" };
     string[] SelectItems = new string[] { "Open", "Previous Page", "Next Page", "Page Number", "Zoom In", "Zoom Out", "Edit Annotation", "Text Search", "Print", "Download" };
     #endregion
@@ -153,13 +155,13 @@
         {
             if (templatename == "PreviousPage")
             {
-                <ToolbarItem Text="Previous Page" Visible="@PreVisible" Disabled="@PreviousPageDisable" PrefixIcon="e-icons e-chevron-up" TooltipText="Previous Page" Id="previousPage" Align="ItemAlign.Center" CssClass="e-pv-previous-page-navigation-container" TabIndex="@GetTabIndex(PreviousPageDisable)">
+                <ToolbarItem Text="Previous Page" Visible="@PreVisible" Disabled="@PreviousPageDisable" PrefixIcon="e-icons e-chevron-up" TooltipText="Previous Page" Id="previousPage" Align="ItemAlign.Center" CssClass="e-pv-custom-previous-page-navigation-container" TabIndex="@GetTabIndex(PreviousPageDisable)">
                 </ToolbarItem>
 
             }
             else if(templatename == "NextPage")
             {
-                <ToolbarItem Text="Next Page" Visible="@NextVisible" Disabled="@NextPageDisable" PrefixIcon="e-icons e-chevron-down" TooltipText="Next Page" id="nextPage" Align="ItemAlign.Center" CssClass="e-pv-next-page-navigation-container" TabIndex="@GetTabIndex(NextPageDisable)">
+                <ToolbarItem Text="Next Page" Visible="@NextVisible" Disabled="@NextPageDisable" PrefixIcon="e-icons e-chevron-down" TooltipText="Next Page" id="nextPage" Align="ItemAlign.Center" CssClass="e-pv-custom-next-page-navigation-container" TabIndex="@GetTabIndex(NextPageDisable)">
                 </ToolbarItem>
             }
             else if(templatename == "PageNumber")
@@ -185,7 +187,7 @@
             }
             else if (templatename == "Print")
             {
-                <ToolbarItem Text="Print File" Visible="@PrintVisible" PrefixIcon="e-icons e-print" TooltipText="Print File" id="print" Align="ItemAlign.Right" CssClass="e-pv-print-document-container" TabIndex="0">
+                <ToolbarItem Text="Print File" Visible="@PrintVisible" PrefixIcon="e-icons e-print" TooltipText="Print File" id="print" Align="ItemAlign.Right" CssClass="e-pv-custom-print-document-container" TabIndex="0">
                 </ToolbarItem>
             }
             else if (templatename == "Open")
@@ -195,17 +197,17 @@
             }
             else if (templatename == "ZoomIn")
             {
-                <ToolbarItem Text="Zoom In" Visible="@ZoomInVisible" PrefixIcon="e-icons e-circle-add" Id="zoomin" TooltipText="Zoom In" Align="ItemAlign.Center" CssClass="e-pv-zoom-in-container" TabIndex="0">
+                <ToolbarItem Text="Zoom In" Disabled="@ZoomInDisabled" Visible="@ZoomInVisible" PrefixIcon="e-icons e-pv-zoom-in-icon e-pv-icon" Id="zoomin" TooltipText="Zoom In" Align="ItemAlign.Center" CssClass="e-pv-custom-zoom-in-container" TabIndex="0">
                 </ToolbarItem>
             }
             else if (templatename == "ZoomOut")
             {
-                <ToolbarItem Text="Zoom Out" Visible="@ZoomOutVisible" PrefixIcon="e-icons e-circle-remove" Id="zoomout" TooltipText="Zoom Out" Align="ItemAlign.Center" CssClass="e-pv-zoom-out-container" TabIndex="0">
+                <ToolbarItem Text="Zoom Out" Disabled="@ZoomOutDisabled" Visible="@ZoomOutVisible" PrefixIcon="e-icons e-pv-zoom-out-icon e-pv-icon" Id="zoomout" TooltipText="Zoom Out" Align="ItemAlign.Center" CssClass="e-pv-custom-zoom-out-container" TabIndex="0">
                 </ToolbarItem>
             }
             else if (templatename == "Download")
             {
-                <ToolbarItem Text="Download" Visible="@DownloadVisible" PrefixIcon="e-icons e-download" TooltipText="Download File" Id="download" Align="ItemAlign.Right" CssClass="e-pv-download-document-container" TabIndex="0">
+                <ToolbarItem Text="Download" Visible="@DownloadVisible" PrefixIcon="e-icons e-download" TooltipText="Download File" Id="download" Align="ItemAlign.Right" CssClass="e-pv-custom-download-document-container" TabIndex="0">
                 </ToolbarItem>
             }
             else if (templatename == "Annotation")
@@ -240,6 +242,24 @@
         CustomToolbarItems.Add(new PdfToolbarItem() { Index = 7, Template = GetTemplate("TextSearch") });
         CustomToolbarItems.Add(new PdfToolbarItem() { Index = 8, Template = GetTemplate("Print") });
         CustomToolbarItems.Add(new PdfToolbarItem() { Index = 9, Template = GetTemplate("Download") });
+    }
+
+    // ZoomChanged for the CustomToolbarItems
+    private void ZoomChanged(ZoomChangeEventArgs args)
+    {
+        if (args.CurrentZoomValue <= 10)
+        {
+            ZoomOutDisabled = true;
+        }
+        else if (args.CurrentZoomValue >= 400)
+        {
+            ZoomInDisabled = true;
+        }
+        else
+        {
+            ZoomOutDisabled = false;
+            ZoomInDisabled = false;
+        }
     }
 
     // Clickevent for the CustomToolbarItems
@@ -284,6 +304,13 @@
             PreviousPageDisable = true;
             NextPageDisable = true;
         }
+        @*Hidden:Lines*@
+@*WebAssembly:Block*@
+#if (WASM || WEBAPP)
+       Viewer.UpdateViewerContainerAsync();
+#endif
+@*End:WebAssembly*@
+       @*End:Hidden*@
     }
 
     //Triggers when there is change in the current page number.
@@ -346,6 +373,14 @@
     .fluent2 .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon,
     .e-bigger.fluent2 .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon {
         padding: 0px !important;
+    }
+
+    .highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon,
+    .e-bigger.highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon {
+        padding: 0px !important;
+    }
+    .highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt {
+        height: 50px;
     }
 
 </style>

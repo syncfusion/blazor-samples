@@ -51,14 +51,14 @@
     </div>
 
     @*End:Hidden*@
-    <div id="diagramEventsControlSection" class="content-wrapper" style="background: white">
+    <div id="diagramEventsControlSection" class="content-wrapper">
         @*Hidden:Lines*@
         <div class="sb-mobile-palette-bar">
             <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette" aria-label="palette-icon"></div>
         </div>
         @*End:Hidden*@
     <div style="width: 100%;height: 90%;padding-top: 2px">
-            <div id="palette-space" class="sb-mobile-palette" style="border:1px solid lightgrey;overflow:auto;background: #f2f2f2;">
+            <div id="palette-space" class="sb-mobile-palette" style="border:1px solid lightgrey;overflow:auto;">
             <SfTreeView @ref="dom" TValue="TreeItem" @bind-SelectedNodes="@selectedNodes" AllowEditing="true">
                 <TreeViewFieldsSettings Id="Id" DataSource="@treeviewnodes" Text="Name" ParentID="ParentId" HasChildren="HasChild" Expanded="Expanded" Selected="IsSelected"></TreeViewFieldsSettings>
                 <TreeViewEvents TValue="TreeItem" OnKeyPress="OnKeyPressHandler" NodeClicked="nodeClicked" NodeCollapsed="NodeCollapse" NodeExpanding="NodeExpand" NodeEdited="NodeEditing" ></TreeViewEvents>
@@ -92,6 +92,10 @@
         width: calc(100% - 280px);
         height: 100%;
         float: left;
+    }
+
+    .sb-mobile-palette-bar {
+        display: none;
     }
 
     @@media (max-width: 550px) {
@@ -210,7 +214,7 @@
             var node = selectedElement as Node;
             HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
             DataSource.Remove(deletenodes);
-            await diagram.RefreshDataSource();
+            await diagram.RefreshDataSourceAsync();
             int? id=0;
             bool isParent = false;
             for (int i = 0; i < treeviewnodes.Count; i++)
@@ -251,7 +255,7 @@
             Node node = diagram.SelectionSettings.Nodes[0];
             HierarchicalDetails nodes = node.Data as HierarchicalDetails;
             DataSource.Add(new HierarchicalDetails() { Id = id.ToString(), Role = "Craft Personnel" + text, Manager = nodes.Id, });
-            await diagram.RefreshDataSource();
+            await diagram.RefreshDataSourceAsync();
             for (int i = 0; i < diagram.Nodes.Count; i++)
             {
                 if (diagram.Nodes[i].Annotations[0].Content == "Craft Personnel" + text)
@@ -355,7 +359,7 @@
             if (deletenodes.Id != "1")
             {
                 DataSource.Remove(deletenodes);
-                await diagram.RefreshDataSource();
+                await diagram.RefreshDataSourceAsync();
                 int? id = 0;
                 bool isParent = false;
                 for (int i = 0; i < treeviewnodes.Count; i++)

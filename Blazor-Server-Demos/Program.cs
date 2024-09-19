@@ -8,44 +8,57 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 #if NET8_0
-    using BlazorDemos.Components;
+using BlazorDemos.Components;
 #endif
 using BlazorDemos.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Syncfusion.Blazor.Popups;
 using Syncfusion.Blazor;
+using SmartComponents.LocalEmbeddings;
+using Syncfusion.Blazor.SmartComponents;
+using BlazorDemos.Service;
+using FileManagerAI.Services;
 using Microsoft.AspNetCore.Http;
 using Syncfusion.Licensing;
-using System.Diagnostics.Metrics;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using System.Collections.Generic;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Localization;
+using System;
 
 
-    var licenseKey = "";
-    var builder = WebApplication.CreateBuilder(args);
+
+var licenseKey = "";
+var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 #if NET8_0
-    builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents()
+.AddInteractiveServerComponents();
 #else
     builder.Services.AddRazorPages();
 #endif
-    SyncfusionLicenseProvider.RegisterLicense(licenseKey);
-    builder.Services.AddControllers();
-    builder.Services.AddServerSideBlazor();
-    builder.Services.AddScoped<SfDialogService>();
-    builder.Services.AddScoped<SampleService>();
-    builder.Services.AddSingleton<DeviceMode>();
-    builder.Services.AddMemoryCache();
-    builder.Services.Configure<CookiePolicyOptions>(options =>
-    {
-        options.MinimumSameSitePolicy = SameSiteMode.Strict;
-    });
+SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+#region AI Integration
+builder.Services.AddScoped<FileManagerService>();
+// Local Embeddings
+builder.Services.AddSingleton<LocalEmbedder>();
+// Smart Components
+builder.Services.AddSyncfusionSmartComponents()
+    .ConfigureCredentials(new AIServiceCredentials("your-api-key", "your-deployment-name", "")).InjectOpenAIInference();
+builder.Services.AddSingleton<OpenAIConfiguration>();
+builder.Services.AddSingleton<AzureAIService>();
+
+#endregion
+builder.Services.AddControllers();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<SfDialogService>();
+builder.Services.AddScoped<SampleService>();
+builder.Services.AddSingleton<DeviceMode>();
+builder.Services.AddMemoryCache();
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+});
+
+
+
 #region Localization
 // Set the resx file folder path to access
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -61,6 +74,14 @@ using Microsoft.Extensions.Localization;
     #endregion
         builder.Services.AddServerSideBlazor().AddCircuitOptions(option => { option.DetailedErrors = true; });
         builder.Services.AddSignalR(o => { o.MaximumReceiveMessageSize = 102400000; });
+
+    // Set HSTS value is 1 year. see https://aka.ms/aspnetcore-hsts.
+    builder.Services.AddHsts(options =>
+    {
+        options.IncludeSubDomains = true;
+        options.MaxAge = TimeSpan.FromDays(730);
+    });
+
         var app = builder.Build();
     #region Localization
         app.UseRequestLocalization(localizationOptions);

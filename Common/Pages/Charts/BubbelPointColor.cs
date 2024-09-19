@@ -26,12 +26,8 @@ namespace PointRender
         { "rgba(121, 236, 228, 0.5)", "rgba(233, 130, 114, 0.5)", "rgba(223, 230, 182, 0.5)", "rgba(198, 231, 115, 0.5)", "rgba(186, 152, 255, 0.5)", "rgba(250, 131, 195, 0.5)", "rgba(0, 194, 122, 0.5)",
           "rgba(67, 172, 239, 0.5)", "rgba(214, 129, 239, 0.5)", "rgba(216, 188, 110, 0.5)"};
         internal static List<string> Bootstrap5Colors { get; set; } = new List<string>()
-        { "rgba( 99, 85, 199, 0.5)", "rgba(255, 180, 0, 0.5)", "rgba(33, 150, 245, 0.5)", "rgba(247, 82, 63, 0.5)", "rgba(150, 60, 112, 0.5)", "rgba(75, 224, 188, 0.5)", "rgba(253, 116, 0, 0.5)",
-          "rgba(201, 228, 34, 0.5)", "rgba(222, 61, 138, 0.5)", "rgba(22, 47, 136, 0.5)"};
-        internal static List<string> Bootstrap5DarkColors { get; set; } = new List<string>()
-        { "rgba(143, 128, 244, 0.5)", "rgba(255, 212, 109, 0.5)", "rgba(108, 189, 255, 0.5)", "rgba(255, 127, 113, 0.5)", "rgba(255, 109, 179, 0.5)", "rgba(99, 245, 210, 0.5)", "rgba(252, 170, 101, 0.5)",
-          "rgba(236, 255, 119, 0.5)", "rgba(239, 142, 255, 0.5)", "rgba(95, 130, 253, 0.5)"};
-		internal static List<string> FluentColors { get; set; } = new List<string>()
+        { "rgba(253, 126, 20, 0.5)", "rgba(102, 16, 242, 0.5)", "rgba(111, 66, 193, 0.5)", "rgba(214, 51, 132, 0.5)", "rgba(220, 53, 69, 0.5)", "rgba(255, 193, 7, 0.5)", "rgba(25, 135, 84, 0.5)", "rgba(13, 202, 240, 0.5)"};
+        internal static List<string> FluentColors { get; set; } = new List<string>()
         { "rgba(26, 201, 230, 0.5)", "rgba(218, 76, 178, 0.5)", "rgba(237, 187, 64, 0.5)", "rgba(175, 75, 207, 0.5)", "rgba(255, 114, 102, 0.5)", "rgba(27, 213, 101, 0.5)", "rgba(238, 153, 61, 0.5)",
         "rgba(88, 135, 255, 0.5)", "rgba(236, 84, 141, 0.5)", "rgba(125, 57, 192, 0.5)"};
         internal static List<string> FluentDarkColors { get; set; } = new List<string>()
@@ -55,8 +51,8 @@ namespace PointRender
         internal static List<string> Fluent2DarkColors { get; set; } = new List<string>()
         { "rgba(155, 180, 73, 0.5)", "rgba(42, 114, 213, 0.5)", "rgba(67, 183, 134, 0.5)", "rgba(63, 87, 154, 0.5)", "rgba(88, 78, 198, 0.5)", "rgba(232, 95, 156, 0.5)", "rgba(110, 122, 137, 0.5)",
         "rgba(234, 98, 102, 0.5)", "rgba(11, 106, 11, 0.5)", "rgba(193, 156, 0, 0.5)"};
-        //internal static List<string> Fluent2HighContrastColors { get; set; } = new List<string>()
-        //{ "rgba(155, 180, 73, 0.5)", "rgba(42, 114, 213, 0.5)", "rgba(67, 183, 134, 0.5)", "rgba(63, 87, 154, 0.5)", "rgba(88, 78, 198, 0.5)", "rgba(232, 95, 156, 0.5)", "rgba(110, 122, 137, 0.5)",
-        //"rgba(234, 98, 102, 0.5)", "rgba(11, 106, 11, 0.5)", "rgba(193, 156, 0, 0.5)"};
+        internal static List<string> Fluent2HighContrastColors { get; set; } = new List<string>()
+        { "rgba(155, 180, 73, 0.5)", "rgba(42, 114, 213, 0.5)", "rgba(67, 183, 134, 0.5)", "rgba(63, 87, 154, 0.5)", "rgba(88, 78, 198, 0.5)", "rgba(232, 95, 156, 0.5)", "rgba(110, 122, 137, 0.5)",
+        "rgba(234, 98, 102, 0.5)", "rgba(11, 106, 11, 0.5)", "rgba(193, 156, 0, 0.5)"};
     };
 }

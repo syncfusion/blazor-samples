@@ -23,7 +23,7 @@ namespace BlazorDemos
                 Url = "image-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The Image Editor component has an enhanced annotation feature. Users can now draw multiple annotations simultaneously, enhancing creative flexibility. Furthermore, every action, including customizations, will be tracked in the undo/redo collection, ensuring a seamless user experience and making it easier to experiment with different designs. The Image Editor component also provides z-order support, allowing users to adjust the positioning of annotations. This feature is particularly useful for designing personalized templates like greeting cards or posters, where managing the layering of multiple annotations is crucial for a polished final product. Additionally, the Image Editor component has an enhanced save feature. Users can now save an image with a specified file name, file type, and image quality, providing more control over the output and ensuring that users can save their work exactly as they need it." }
+                NotificationDescription = new string[]{ @"The Image Editor component includes a redact feature that is useful for hiding sensitive information in images by covering or obscuring specific areas to make the information unreadable or unidentifiable." }
             },
             new Sample
             {

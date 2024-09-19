@@ -1,0 +1,227 @@
+@page "/DropDown-Tree/validation"
+
+@using System.ComponentModel.DataAnnotations;
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to use the Dropdown Tree component inside an <code>EditForm</code> and validate using <code>Data Annotations</code>. Click <b>Submit</b> to validate the form.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this demo, <code>EditForm</code> validates all data annotation rules using <code>DataAnnotationsValidator</code>.
+        Choose the value from the dropdown pop-up, and if the value is valid, then the given input will be ready to submit.
+        Otherwise, an error message will be shown until you choose a valid value.
+    </p>
+    <p>
+        In this demo, the field mapped to the Dropdown Tree component value is configured with the following rule.
+    </p>
+    <table style='width:100%'>
+        <tr>
+            <th>Field</th>
+            <th>Rule</th>
+        </tr>
+        <tr>
+            <td>Skills</td>
+            <td>The field must have a valid value and a minimum of two values.</td>
+        </tr>
+        <tr>
+            <td>Role</td>
+            <td>The field must have a valid value.</td>
+        </tr>
+    </table>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@treeModel" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+
+                    <label class="validation-label" for="skills">Skills</label>
+                    <SfDropDownTree TItem="Skills" TValue="string" ID="skills" Placeholder="Select your skills" @bind-Value=@treeModel.Skills ShowCheckBox="true" AutoUpdateCheckState="true" PopupHeight="200px">
+                        <DropDownTreeField TItem="Skills" DataSource="@skillCategories" ID="Id" ParentID="ParentId" Text="Name" HasChildren="HasChildren" Expanded="Expanded"></DropDownTreeField>
+                    </SfDropDownTree>
+                    <ValidationMessage For="@(() => treeModel.Skills)" TValue="List<string>"></ValidationMessage>
+                    <label class="validation-label" for="role">Role</label>
+                    <SfDropDownTree TItem="Roles" TValue="string" ID="role" Placeholder="Select your role" @bind-Value=@treeModel.Role PopupHeight="200px" ValueChanging="OnValueChanging" ExpandOn="ExpandAction.Click">
+                        <DropDownTreeField TItem="Roles" DataSource="@RoleList" ID="Id" Text="Name" ParentID="ParentId" HasChildren="HasChild" Expanded="Expanded"></DropDownTreeField>
+                    </SfDropDownTree>
+                    <ValidationMessage For="@(() => treeModel.Role)" TValue="List<string>"></ValidationMessage>
+                </div>
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+
+    </div>
+</div>
+
+<style>
+    .control-section {
+        min-height: 370px;
+    }
+
+    .control-wrapper {
+        max-width: 350px;
+        margin: 0 auto;
+        padding: 20px 0px 0px;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px 0px;
+    }
+
+    .validation-label {
+        font-size: 14px;
+        margin-top: 40px;
+    }
+
+    @@media (max-width: 900px) {
+        .control-wrapper {
+            padding: 30px 0px 0px;
+        }
+    }
+
+</style>
+
+@code {
+    private string Message = string.Empty;
+    private TreeModel treeModel = new TreeModel();
+    private List<Skills> skillCategories = new List<Skills>
+    {
+        new Skills { Id = "1", Name = "Programming Languages", HasChildren = true, Expanded = true },
+        new Skills { Id = "2", Name = "General-purpose Languages", ParentId = "1", HasChildren = true },
+        new Skills { Id = "3", Name = "C#", ParentId = "2" },
+        new Skills { Id = "4", Name = "Java", ParentId = "2" },
+        new Skills { Id = "5", Name = "Python", ParentId = "2" },
+        new Skills { Id = "6", Name = "C++", ParentId = "2" },
+        new Skills { Id = "7", Name = "Ruby", ParentId = "2" },
+        new Skills { Id = "8", Name = "Web Development Languages", ParentId = "1", HasChildren = true, Expanded = true },
+        new Skills { Id = "9", Name = "JavaScript", ParentId = "8" },
+        new Skills { Id = "10", Name = "HTML/CSS", ParentId = "8" },
+        new Skills { Id = "11", Name = "PHP", ParentId = "8" },
+        new Skills { Id = "12", Name = "TypeScript", ParentId = "8" },
+        new Skills { Id = "13", Name = "Ruby on Rails", ParentId = "8" },
+        new Skills { Id = "14", Name = "Database Management", HasChildren = true },
+        new Skills { Id = "15", Name = "Relational Databases", ParentId = "14", HasChildren = true },
+        new Skills { Id = "16", Name = "MySQL", ParentId = "15" },
+        new Skills { Id = "17", Name = "PostgreSQL", ParentId = "15" },
+        new Skills { Id = "18", Name = "Oracle", ParentId = "15" },
+        new Skills { Id = "19", Name = "SQL Server", ParentId = "15" },
+        new Skills { Id = "20", Name = "SQLite", ParentId = "15" },
+        new Skills { Id = "21", Name = "NoSQL Databases", ParentId = "14", HasChildren = true, Expanded = true },
+        new Skills { Id = "22", Name = "MongoDB", ParentId = "21" },
+        new Skills { Id = "23", Name = "Cassandra", ParentId = "21" },
+        new Skills { Id = "24", Name = "Redis", ParentId = "21" },
+        new Skills { Id = "25", Name = "Elasticsearch", ParentId = "21" },
+        new Skills { Id = "26", Name = "UI/UX Design Tools", HasChildren = true },
+        new Skills { Id = "27", Name = "Adobe XD", ParentId = "26" },
+        new Skills { Id = "28", Name = "Sketch", ParentId = "26" },
+        new Skills { Id = "29", Name = "Figma", ParentId = "26" },
+        new Skills { Id = "30", Name = "Adobe Illustrator", ParentId = "26" },
+        new Skills { Id = "31", Name = "Adobe Photoshop", ParentId = "26" },
+        new Skills { Id = "32", Name = "Microsoft Office Suite", HasChildren = true },
+        new Skills { Id = "33", Name = "Microsoft Word", ParentId = "32" },
+        new Skills { Id = "34", Name = "Microsoft Excel", ParentId = "32" },
+        new Skills { Id = "35", Name = "Microsoft PowerPoint", ParentId = "32" },
+        new Skills { Id = "36", Name = "Microsoft Outlook", ParentId = "32" },
+        new Skills { Id = "37", Name = "Microsoft Access", ParentId = "32" }
+    };
+    
+    private List<Roles> RoleList = new List<Roles>
+    {
+        new Roles { Id = "1", Name = "HR Department", HasChild = true },
+        new Roles { Id = "2", Name = "HR Manager", ParentId = "1" },
+        new Roles { Id = "3", Name = "HR Specialist", ParentId = "1" },
+        new Roles { Id = "4", Name = "Finance Department", HasChild = true },
+        new Roles { Id = "5", Name = "Finance Manager", ParentId = "4" },
+        new Roles { Id = "6", Name = "Accountant", ParentId = "4" },
+        new Roles { Id = "7", Name = "Product Development", HasChild = true },
+        new Roles { Id = "8", Name = "Team Lead", ParentId = "7" },
+        new Roles { Id = "9", Name = "Developer", ParentId = "7" },
+        new Roles { Id = "10", Name = "Marketing Department", HasChild = true },
+        new Roles { Id = "11", Name = "Marketing Manager", ParentId = "10" },
+        new Roles { Id = "12", Name = "Marketing Specialist", ParentId = "10" },
+        new Roles { Id = "13", Name = "Customer Support Department", HasChild = true },
+        new Roles { Id = "14", Name = "Support Manager", ParentId = "13" },
+        new Roles { Id = "15", Name = "Customer Support Representative", ParentId = "13" },
+    };
+
+    private async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        treeModel.Role = null;
+        treeModel.Skills = null;
+        StateHasChanged();
+    }
+
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+
+    private void OnValueChanging(DdtChangeEventArgs<string> args)
+    {
+        if (args.NodeData.HasChildren)
+        {
+            args.Cancel = true;
+        }
+    }
+    
+    private class TreeModel
+    {
+        [Required(ErrorMessage = "Please select your role.")]
+        [MinLength(1, ErrorMessage = "Please select your role.")]
+        public List<string> Role { get; set; }
+
+        [Required(ErrorMessage = "Please select your skill.")]
+        [MinLength(2, ErrorMessage = "Please select atleast 2 skills.")]
+        public List<string> Skills { get; set; }
+    }
+
+    class Skills
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string ParentId { get; set; }
+        public bool HasChildren { get; set; }
+        public bool Expanded { get; set; }
+    }
+
+    class Roles
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string ParentId { get; set; }
+        public bool Expanded { get; set; }
+        public bool HasChild { get; set; }
+    }
+}

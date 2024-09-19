@@ -221,11 +221,7 @@
         {
              FillColors = PointColor.FabricColors;
         }
-        else if (Theme == Theme.Bootstrap5Dark)
-        {
-			FillColors = PointColor.Bootstrap5DarkColors;
-		}
-		else if (Theme == Theme.Bootstrap5)
+        else if (Theme == Theme.Bootstrap5Dark || Theme == Theme.Bootstrap5)
         {
             FillColors = PointColor.Bootstrap5Colors;
         }
@@ -265,10 +261,10 @@
         {
             FillColors = PointColor.Fluent2DarkColors;
         }
-        // else if (Theme == Theme.Fluent2HighContrast)
-        // {
-        //     FillColors = PointColor.Fluent2HighContrastColors;
-        // }
+        else if (Theme == Theme.Fluent2HighContrast)
+        {
+            FillColors = PointColor.Fluent2HighContrastColors;
+        }
         else {
 			FillColors = PointColor.FluentColors;
 		}
@@ -281,7 +277,9 @@
     private void legendClick(LegendClickEventArgs args) 
     {
         seriesIndex = 0;
-		IsLegendClick = true;
+        IsLegendClick = true;
+        First_QuarterVisible = Second_QuarterVisible = Third_QuarterVisible = Fourth_QuarterVisible = false;
+        StateHasChanged();
     }
     private void MouseClick(ChartMouseEventArgs args)
     {
@@ -293,54 +291,55 @@
     }
     private void OnSeriesRender(SeriesRenderEventArgs args)
     {
-      if (IsLegendClick) {
-	    if(seriesIndex > 3)
+        if (IsLegendClick)
         {
-           seriesIndex = 0;
-        }
-        if(args.Series.Name == "Quarter 1")
-        {
-            First_QuarterVisible = args.Series.Visible;
-            if (First_QuarterVisible)
+            if (seriesIndex > 3)
             {
-                First_SegmentStart = Segments[seriesIndex, 0];
-                First_SegmentEnd = Segments[seriesIndex, 1];
-                seriesIndex++;
+                seriesIndex = 0;
             }
-        }
-        else if (args.Series.Name == "Quarter 2")
-        {
-             Second_QuarterVisible = args.Series.Visible;
-             if (Second_QuarterVisible)
+            if (args.Series.Name == "Quarter 1")
             {
-                Second_SegmentStart = Segments[seriesIndex, 0];
-                Second_SegmentEnd = Segments[seriesIndex, 1];
-                seriesIndex++;
+                First_QuarterVisible = args.Series.Visible;
+                if (First_QuarterVisible)
+                {
+                    First_SegmentStart = Segments[seriesIndex, 0];
+                    First_SegmentEnd = Segments[seriesIndex, 1];
+                    seriesIndex++;
+                }
             }
-        }
-        else if (args.Series.Name == "Quarter 3")
-        {
-             Third_QuarterVisible = args.Series.Visible;
-             if (Third_QuarterVisible)
+            else if (args.Series.Name == "Quarter 2")
             {
-                Third_SegmentStart = Segments[seriesIndex, 0];
-                Third_SegmentEnd = Segments[seriesIndex, 1];
-                seriesIndex++;
+                Second_QuarterVisible = args.Series.Visible;
+                if (Second_QuarterVisible)
+                {
+                    Second_SegmentStart = Segments[seriesIndex, 0];
+                    Second_SegmentEnd = Segments[seriesIndex, 1];
+                    seriesIndex++;
+                }
             }
-        }
-        else
-        {
-             Fourth_QuarterVisible = args.Series.Visible;
-             if (Fourth_QuarterVisible)
+            else if (args.Series.Name == "Quarter 3")
             {
-                Fourth_SegmentStart = Segments[seriesIndex, 0];
-                Fourth_SegmentEnd = Segments[seriesIndex, 1];
-                seriesIndex++;
+                Third_QuarterVisible = args.Series.Visible;
+                if (Third_QuarterVisible)
+                {
+                    Third_SegmentStart = Segments[seriesIndex, 0];
+                    Third_SegmentEnd = Segments[seriesIndex, 1];
+                    seriesIndex++;
+                }
             }
-             StateHasChanged();
+            else
+            {
+                Fourth_QuarterVisible = args.Series.Visible;
+                if (Fourth_QuarterVisible)
+                {
+                    Fourth_SegmentStart = Segments[seriesIndex, 0];
+                    Fourth_SegmentEnd = Segments[seriesIndex, 1];
+                    seriesIndex++;
+                }
+            }
+            StateHasChanged();
         }
-		}
-		}
+    }
    
     public List<CategoryData> Quarter1 { get; set; } = new List<CategoryData>
     {

@@ -14,18 +14,43 @@ namespace BlazorDemos
 {
     internal partial class SampleConfig
     {
+        public List<Sample> MarkdownEditor { get; set; } = new List<Sample> { 
+            new Sample
+            {
+                Name = "Overview",
+                Category = "Markdown Editor",
+                Directory = "RichTextEditor/MarkdownEditor",
+                Url = "markdown-editor/overview",
+                FileName = "Overview.razor"
+            },
+            new Sample
+            {
+                Name = "Custom Format",
+                Category = "Markdown Editor",
+                Directory = "RichTextEditor/MarkdownEditor",
+                Url = "markdown-editor/custom-format",
+                FileName = "Custom-Format.razor"
+            },
+            new Sample
+            {
+                Name = "Mention Integration",
+                Category = "Markdown Editor",
+                Directory = "RichTextEditor/MarkdownEditor",
+                Url = "markdown-editor/mention-integration",
+                FileName = "Mention-Integration.razor",
+                Type = SampleType.New
+            },
+        };
         public List<Sample> RichTextEditor { get; set; } = new List<Sample>{
             new Sample
             {
                 Name = "Overview",
                 Category = "Rich Text Editor",
-                Type = SampleType.Updated,
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor",
-                NotificationDescription = new string[] {
-                    @" We have enhanced the overview demo sample by integrating the mention feature and also providing import from word and export to word and PDF options."
-                }
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] { @"The Rich Text Editor overview sample has been updated to configure the import/export feature directly within the Rich Text Editor. Previously, this was achieved at the application level, but now this support is provided at the source level." }
             },
             new Sample
             {
@@ -122,9 +147,17 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/quick-format-toolbar",
                 FileName = "Quick-Format-Toolbar.razor",
+            },
+            new Sample
+            {
+                Name = "Mail Merge",
+                Category = "Rich Text Editor",
+                Directory = "RichTextEditor/RichTextEditor",
+                Url = "rich-text-editor/mail-merge",
+                FileName = "Mail-Merge.razor",
                 Type = SampleType.New,
                 NotificationDescription = new string[] {
-                    @" Introduced the feature a quick toolbar that appears upon text selection, offering convenient access to text formatting options. This floating toolbar allows users to easily apply bold, italic, underline, strikethrough, and more formats directly from the quick toolbar near the selected text."
+                    @"Added a demo to showcase Mail Merge configuration of the Rich Text Editor component."
                 }
             },
             new Sample
@@ -134,10 +167,8 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/import-word",
                 FileName = "Import.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @" This example illustrates how to efficiently import the content from the word using the Rich Text Editor."
-                }
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] { @"The Rich Text Editor import from word sample has been updated to configure the import feature directly within the Rich Text Editor. Previously, this was achieved at the application level, but now this support is provided at the source level." }
             },
             new Sample
             {
@@ -146,10 +177,8 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/export-word",
                 FileName = "Export-Word.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[] {
-                    @" This example illustrates how to efficiently convert your content into a PDF or Word document using the Rich Text Editor."
-                }
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] { @"The Rich Text Editor export to pdf/word sample has been updated to configure the export feature directly within the Rich Text Editor. Previously, this was achieved at the application level, but now this support is provided at the source level." }
             },
             new Sample
             {
@@ -182,22 +211,6 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/insert-special-characters",
                 FileName = "InsertSpecialCharacters.razor"
-            },
-            new Sample
-            {
-                Name = "Overview",
-                Category = "Markdown",
-                Directory = "RichTextEditor/RichTextEditor",
-                Url = "rich-text-editor/markdown-overview",
-                FileName = "Markdown-Overview.razor"
-            },
-            new Sample
-            {
-                Name = "Custom Format",
-                Category = "Markdown",
-                Directory = "RichTextEditor/RichTextEditor",
-                Url = "rich-text-editor/markdown-custom-format",
-                FileName = "Markdown-Custom-Format.razor"
             },
             new Sample
             {

@@ -1,4 +1,3 @@
-
 #region Copyright Syncfusion Inc. 2001 - 2024
 // Copyright Syncfusion Inc. 2001 - 2024. All rights reserved.
 // Use of this code is subject to the terms of our license.
@@ -128,3 +127,4 @@ namespace BlazorDemos.Data.FileFormats.PDF
     }
 }
     
+

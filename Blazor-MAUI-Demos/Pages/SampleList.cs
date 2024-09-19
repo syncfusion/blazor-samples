@@ -68,7 +68,6 @@ namespace Blazor_MAUI_Demos
                 Name = "Barcode Generator",
                 Category = "Data Visualization",
                 Directory = "Barcodes",
-                Type = SampleType.Updated,
                 Samples = Barcode,
                 ControllerName = "Barcodes",
                 CustomDocLink = "barcode/getting-started",
@@ -113,6 +112,7 @@ namespace Blazor_MAUI_Demos
                 Samples = DiagramComponent,
                 ControllerName = "DiagramComponent",
                 DemoPath = "diagramcomponent/flowchart",
+                IsHideFromDevice = true // Hide from mobile mode alone
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -441,6 +441,17 @@ namespace Blazor_MAUI_Demos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Dropdown Tree",
+                Category = "DropDowns",
+                Directory = "DropDowns/DropDownTree",
+                Type = SampleType.None,
+                Samples = DropDownTree,
+                ControllerName = "DropDownTree",
+                DemoPath = "dropdown-tree/default-functionalities",
+                ComponentIconName = "dropdowntree"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "ListBox",
                 Category = "DropDowns",
                 Directory = "DropDowns/ListBox",
@@ -597,6 +608,18 @@ namespace Blazor_MAUI_Demos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+              Name = "OTP Input",
+              Category = "Inputs",
+              Directory = "Inputs/OtpInput",
+              Type = SampleType.Preview,
+              Samples = OtpInput,
+              ControllerName = "OtpInput",
+              DemoPath = "otp-input/default-functionalities",
+              IsPreview = true,
+              ComponentIconName = "otpinput"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Accordion",
                 Category = "Navigation",
                 Directory = "Navigations/Accordion",
@@ -708,6 +731,15 @@ namespace Blazor_MAUI_Demos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Stepper",
+                Category = "Navigation",
+                Directory = "Navigations/Stepper",
+                Samples = Stepper,
+                ControllerName = "Stepper",
+                DemoPath = "stepper/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Card",
                 Category = "Layout",
                 Directory = "Cards",
@@ -766,6 +798,16 @@ namespace Blazor_MAUI_Demos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Timeline",
+                Category = "Layout",
+                Directory = "Layouts/Timeline",
+                Samples = Timeline,
+                ControllerName = "Timeline",
+                DemoPath = "timeline/default-functionalities",
+                ComponentIconName = "timeline"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Tooltip",
                 Category = "Layout",
                 Directory = "Layouts/Tooltip",
@@ -773,6 +815,16 @@ namespace Blazor_MAUI_Demos
                 Samples = Tooltip,
                 ControllerName = "Tooltip",
                 DemoPath = "tooltip/default"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Media Query",
+                Category = "Layout",
+                Directory = "MediaQuery",
+                Type = SampleType.None,
+                Samples = MediaQuery,
+                ControllerName = "MediaQuery",
+                DemoPath = "media-query/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -851,6 +903,17 @@ namespace Blazor_MAUI_Demos
                 Samples = QueryBuilder,
                 ControllerName = "QueryBuilder",
                 DemoPath = "query-builder/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Data Form",
+                Category = "Forms",
+                Directory = "Forms/DataForm",
+                Samples = DataForm,
+                ControllerName = "DataForm",
+                DemoPath = "data-form/default-functionalities",
+                Type = SampleType.None,
+                ComponentIconName = "data_form",
             });
         }
     }

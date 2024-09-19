@@ -1,0 +1,291 @@
+﻿@page "/scheduler/holiday-Calendar"
+
+@using System.Linq
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This demo illustrates how to add and remove holiday events and perform CRUD operations on holiday dates in the
+        Scheduler.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample demonstrates how to perform CRUD operations on holiday dates in a calendar. If a user wants to
+        schedule an appointment on a holiday, they should check the <code>Scheduling event on holiday</code> checkbox.
+        This will enable them to add an appointment on a holiday date.If a holiday list is displayed in the calendar, the
+        <code>Holiday events</code> checkbox will be checked. The holiday list is highlighted in a different color.
+    </p>
+    <ul>
+        <li>
+            When an action is performed to drag and resize an event, if the <code>Scheduling event on holiday</code>
+            checkbox is checked, the appointment can be scheduled on holiday dates. If it is unchecked, the appointment
+            cannot have CRUD actions performed on it, and a warning message will be displayed.
+        </li>
+        <li>
+            If a recurring event is added on a holiday date and the <code>Scheduling event on holiday</code> checkbox is
+            checked, it allows the event to occur on that dates. If the checkbox is unchecked, it prevents the event from
+            occurring, based on the dates in the holiday collection.
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <SfSchedule @ref="scheduleObj" CssClass="schedule-holiday-calendar" TValue="AppointmentData" Width="100%" Height="100%" EnableAutoRowHeight="true" @bind-SelectedDate="@CurrentDate">
+        <ScheduleViews>
+            <ScheduleView Option="View.Month"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleEvents TValue="AppointmentData" OnCellClick="ClickOnHoliday" OnCellDoubleClick="ClickOnHoliday" EventRendered="OnEventRender" OnActionBegin="OnActionBegin" Dragged="OnEventDrag" Resized="OnEventResize"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+    </SfSchedule>
+    <SfToast ID="toast_default" @ref="ToastObj" Title='Information!' Target=".e-schedule" CssClass="e-toast-info" Content="@ToastContent" Icon="e-info toast-icons">
+        <ToastPosition X="Right" Y="Top"></ToastPosition>
+    </SfToast>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header"></div>
+        <div class="property-panel-content">
+            <table id='property' class='property-panel-table' style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfCheckBox @bind-Checked="@HolidayListCollection" Label="Holiday events" @onchange="RefreshScheduleEvent"></SfCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <SfCheckBox @bind-Checked="@HolidayEventCollection" Label="Scheduling event on holiday" @onchange="RefreshScheduleEvent">
+                                </SfCheckBox>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <style>
+        .schedule-holiday-calendar.e-schedule .e-appointment.e-read-only .e-appointment-details .e-subject.e-text-center {
+            text-align: left;
+        }
+    </style>
+
+@code {
+    private SfToast ToastObj;
+    private SfSchedule<AppointmentData> scheduleObj;
+    private string ToastContent = "";
+    private bool HolidayEventCollection = true;
+    private bool HolidayListCollection = true;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 8, 5);
+    private int currentYear = DateTime.Now.Year;
+
+    List<HolidayData> HolidayList;
+    List<AppointmentData> ScheduleEvent;
+    List<AppointmentData> DataSource;
+
+    public List<AppointmentData> GetAppointmentData()
+    {
+        return new List<AppointmentData>
+    {
+        new AppointmentData { Id = 1, Subject = "Explosion of Betelgeuse Star", Location = "Space Centre USA", StartTime = new DateTime(2024, 8, 15, 9, 30, 0), EndTime = new DateTime(2024, 8, 15, 11, 0, 0), IsAllDay = false, IsReadonly = false, Description = "A rare astronomical event where the Betelgeuse star is expected to explode." },
+        new AppointmentData { Id = 2, Subject = "Thule Air Crash Report", Location = "New York City", StartTime = new DateTime(2024, 8, 10, 12, 0, 0), EndTime = new DateTime(2024, 8, 10, 14, 0, 0), IsAllDay = false, IsReadonly = false, Description = "Meeting to discuss the details of the Thule Air Crash report." },
+        new AppointmentData { Id = 3, Subject = "Blue Moon Eclipse", Location = "Space Centre USA", StartTime = new DateTime(2024, 8, 11, 9, 30, 0), EndTime = new DateTime(2024, 8, 11, 11, 0, 0), IsAllDay = false, IsReadonly = false, Description = "Observing the rare Blue Moon Eclipse." },
+        new AppointmentData { Id = 4, Subject = "Meteor Showers in 2021", Location = "Space Centre USA", StartTime = new DateTime(2024, 8, 12, 13, 0, 0), EndTime = new DateTime(2024, 8, 12, 14, 30, 0), IsAllDay = false, IsReadonly = false, Description = "A discussion about meteor showers expected in 2021."},
+        new AppointmentData { Id = 5, Subject = "Milky Way as Melting Pot", Location = "Space Centre USA", StartTime = new DateTime(2024, 8, 13, 12, 0, 0), EndTime = new DateTime(2024, 8, 13, 14, 0, 0), IsAllDay = false, IsReadonly = false, Description = "Lecture on the Milky Way's role as a melting pot of cosmic materials."},
+        new AppointmentData { Id = 6, Subject = "Mysteries of Bermuda Triangle", Location = "Bermuda", StartTime = new DateTime(2024, 8, 13, 9, 30, 0), EndTime = new DateTime(2024, 8, 13, 11, 0, 0), IsAllDay = false, IsReadonly = false, Description = "Exploring the mysteries and theories of the Bermuda Triangle."},
+        new AppointmentData { Id = 7, Subject = "Glaciers and Snowflakes", Location = "Himalayas", StartTime = new DateTime(2024, 8, 14, 11, 0, 0), EndTime = new DateTime(2024, 8, 14, 12, 30, 0), IsAllDay = false, IsReadonly = false, Description = "Study of glaciers and the formation of snowflakes." },
+        new AppointmentData { Id = 8, Subject = "Life on Mars", Location = "Space Centre USA", StartTime = new DateTime(2024, 8, 15, 9, 0, 0), EndTime = new DateTime(2024, 8, 15, 10, 0, 0), IsAllDay = false, IsReadonly = false, Description = "Discussion on the potential for life on Mars." },
+        new AppointmentData { Id = 9, Subject = "Alien Civilization", Location = "Space Centre USA", StartTime = new DateTime(2024, 8, 17, 11, 0, 0), EndTime = new DateTime(2024, 8, 17, 13, 0, 0), IsAllDay = false, IsReadonly = false, Description = "Exploring theories and evidence about alien civilizations."},
+        new AppointmentData { Id = 10, Subject = "Wildlife Galleries", Location = "Africa", StartTime = new DateTime(2024, 8, 19, 11, 0, 0), EndTime = new DateTime(2024, 8, 19, 13, 0, 0), IsAllDay = false, IsReadonly = false, Description = "A tour of various wildlife galleries in Africa." }
+    };
+    }
+
+    private List<HolidayData> GetHolidayList(int currentYear)
+    {
+        return new List<HolidayData>
+        {
+            new HolidayData { Id = 11, Subject = "New Year's Day", StartTime = new DateTime(currentYear, 1, 1, 0, 0, 0), EndTime = new DateTime(currentYear, 1, 1, 23, 59, 0), CategoryColor = "#0b8043", Location = string.Empty, IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 12, Subject = "Makar Sankranti", StartTime = new DateTime(currentYear, 1, 14, 0, 0, 0), EndTime = new DateTime(currentYear, 1, 14, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 13, Subject = "Republic Day", StartTime = new DateTime(currentYear, 1, 26, 0, 0, 0), EndTime = new DateTime(currentYear, 1, 26, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 14, Subject = "Maha Shivaratri", StartTime = new DateTime(currentYear, 3, 8, 0, 0, 0), EndTime = new DateTime(currentYear, 3, 8, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 15, Subject = "Holi", StartTime = new DateTime(currentYear, 3, 25, 0, 0, 0), EndTime = new DateTime(currentYear, 3, 25, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 16, Subject = "Good Friday", StartTime = new DateTime(currentYear, 3, 29, 0, 0, 0), EndTime = new DateTime(currentYear, 3, 29, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 17, Subject = "Eid al-Fitr", StartTime = new DateTime(currentYear, 4, 10, 0, 0, 0), EndTime = new DateTime(currentYear, 4, 10, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 18, Subject = "Buddha Purnima", StartTime = new DateTime(currentYear, 4, 23, 0, 0, 0), EndTime = new DateTime(currentYear, 4, 23, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 19, Subject = "Raksha Bandhan", StartTime = new DateTime(currentYear, 8, 19, 0, 0, 0), EndTime = new DateTime(currentYear, 8, 19, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 20, Subject = "Janmashtami", StartTime = new DateTime(currentYear, 8, 26, 0, 0, 0), EndTime = new DateTime(currentYear, 8, 26, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 21, Subject = "Independence Day", StartTime = new DateTime(currentYear, 8, 15, 0, 0, 0), EndTime = new DateTime(currentYear, 8, 15, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 22, Subject = "Ganesh Chaturthi", StartTime = new DateTime(currentYear, 9, 7, 0, 0, 0), EndTime = new DateTime(currentYear, 9, 7, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 23, Subject = "Gandhi Jayanti", StartTime = new DateTime(currentYear, 10, 2, 0, 0, 0), EndTime = new DateTime(currentYear, 10, 2, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 24, Subject = "Dussehra", StartTime = new DateTime(currentYear, 10, 13, 0, 0, 0), EndTime = new DateTime(currentYear, 10, 13, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 25, Subject = "Diwali", StartTime = new DateTime(currentYear, 11, 1, 0, 0, 0), EndTime = new DateTime(currentYear, 11, 1, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true },
+            new HolidayData { Id = 26, Subject = "Christmas Day", StartTime = new DateTime(currentYear, 12, 25, 0, 0, 0), EndTime = new DateTime(currentYear, 12, 25, 23, 59, 0), CategoryColor = "#0b8043", IsAllDay = true, IsReadonly = true, IsHoliday = true }
+        };
+    }
+
+
+    protected override void OnInitialized()
+    {
+        HolidayList = GetHolidayList(currentYear);
+        ScheduleEvent = GetAppointmentData();
+        var holidayAppointments = HolidayList.Select(h => new AppointmentData
+            {
+                Id = h.Id,
+                Subject = h.Subject,
+                StartTime = h.StartTime,
+                EndTime = h.EndTime,
+                IsAllDay = h.IsAllDay,
+                IsReadonly = h.IsReadonly,
+                Location = h.Location,
+                Description = string.Empty,
+                CategoryColor = h.CategoryColor,
+                RecurrenceRule = null,
+                RecurrenceException = null,
+                RecurrenceID = null,
+                IsHoliday = h.IsHoliday
+            }).ToList();
+
+        DataSource = holidayAppointments.Concat(ScheduleEvent).ToList();
+    }
+
+    private async Task RefreshScheduleEvent()
+    {
+        await scheduleObj.RefreshEventsAsync();
+    }
+
+    private bool IsEventWithinHolidayRange(DateTime eventStartDate, DateTime eventEndDate)
+    {
+        return HolidayList.Any(holiday =>
+            (eventStartDate >= holiday.StartTime && eventStartDate <= holiday.EndTime) ||
+            (eventEndDate >= holiday.StartTime && eventEndDate <= holiday.EndTime) ||
+            (eventStartDate <= holiday.StartTime && eventEndDate >= holiday.EndTime));
+    }
+
+    private async Task ShowToastForAction(string actionName, bool holidayDateRange)
+    {
+        if (!holidayDateRange) return;
+        var messages = new Dictionary<string, string>
+        {
+            { "eventCreate", "You cannot create an event within the holiday date range" },
+            { "dragStop", "You cannot drag an event within the holiday date range" },
+            { "resizeStop", "You cannot resize an event within the holiday date range" },
+            { "eventChange", "You cannot edit an event within the holiday date range" }
+        };
+
+        if (messages.ContainsKey(actionName))
+        {
+            ToastContent = messages[actionName];
+            await Task.Delay(100);
+            await InvokeAsync(() => ToastObj.ShowAsync());
+        }
+    }
+
+    private async Task OnActionBegin(ActionEventArgs<AppointmentData> args)
+    {
+        bool isHolidayDateRange = false;
+        if (args.ActionType == ActionType.EventCreate)
+        {
+            var eventData = args.AddedRecords[0];
+            isHolidayDateRange =
+               !HolidayEventCollection &&
+                string.IsNullOrEmpty(eventData.RecurrenceRule) &&
+                IsEventWithinHolidayRange(eventData.StartTime, eventData.EndTime);
+            await ShowToastForAction("eventCreate", isHolidayDateRange);
+        }
+        else if (args.ActionType == ActionType.EventChange)
+        {
+            var data = args.ChangedRecords[0];
+            isHolidayDateRange =
+               !HolidayEventCollection &&
+                IsEventWithinHolidayRange(data.StartTime, data.EndTime);
+            await ShowToastForAction("eventChange", isHolidayDateRange);
+        }
+        args.Cancel = isHolidayDateRange;
+    }
+
+    private void OnEventRender(EventRenderedArgs<AppointmentData> args)
+    {
+        var eventData = args.Data;
+        if (!HolidayEventCollection)
+        {
+            if (!eventData.IsHoliday && eventData.IsAllDay)
+            {
+                eventData.EndTime = eventData.EndTime.AddMinutes(-1);
+            }
+            args.Cancel =
+                !eventData.IsHoliday &&
+               IsEventWithinHolidayRange(eventData.StartTime, eventData.EndTime);
+        }
+        if (eventData.IsHoliday && !HolidayListCollection)
+        {
+            args.Cancel = true;
+        }
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, scheduleObj.CurrentView);
+    }
+
+    private async Task OnEventDrag(DragEventArgs<AppointmentData> args)
+    {
+        var isHolidayDateRange = !HolidayEventCollection &&
+            IsEventWithinHolidayRange(args.Data.StartTime, args.Data.EndTime);
+        args.Cancel = isHolidayDateRange;
+        await ShowToastForAction("dragStop", isHolidayDateRange);
+    }
+
+    private async Task OnEventResize(ResizeEventArgs<AppointmentData> args)
+    {
+        var isHolidayDateRange = !HolidayEventCollection &&
+            IsEventWithinHolidayRange(args.Data.StartTime, args.Data.EndTime);
+        args.Cancel = isHolidayDateRange;
+        await ShowToastForAction("resizeStop", isHolidayDateRange);
+    }
+
+    private void ClickOnHoliday(CellClickEventArgs args)
+    {
+        args.Cancel = !HolidayEventCollection &&
+        IsEventWithinHolidayRange(args.StartTime, args.EndTime.AddMinutes(-1));
+    }
+
+    public class HolidayData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string CategoryColor { get; set; }
+        public string Location { get; set; }
+        public bool IsAllDay { get; set; }
+        public bool IsReadonly { get; set; }
+        public bool IsHoliday { get; set; }
+    }
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public string Location { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+        public bool IsAllDay { get; set; }
+        public string RecurrenceRule { get; set; }
+        public string RecurrenceException { get; set; }
+        public int? RecurrenceID { get; set; }
+        public bool IsReadonly { get; set; }
+        public string CategoryColor { get; set; }
+        public bool IsHoliday { get; set; }
+    }
+}

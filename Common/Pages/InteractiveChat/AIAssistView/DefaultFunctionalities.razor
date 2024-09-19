@@ -1,0 +1,114 @@
+﻿@page "/ai-assistview/default-functionalities"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Navigations
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the default functionalities of the AI AssistView component. The AI AssistView creates an interface through which users can interact with AI-driven suggestions and prompts.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the <code>BannerTemplate</code> customizes the banner content, and <code>AssistViewToolbar</code> adds custom toolbar items like a right-aligned <code>Refresh</code> button. The <code>PromptSuggestions</code> provides AI prompt suggestions, and <code>PromptRequested</code> handles prompt requests when triggered.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="default-aiassistview">
+        <SfAIAssistView @ref="sfAIAssistView" ID="aiAssistView" PromptSuggestions="@suggestions" PromptRequested="@PromptRequest">
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="e-icons e-assistview-icon"></div>
+                            <h3>AI Assistance</h3>
+                            <i>To get started, provide input or choose a suggestion.</i>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+            <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+            </AssistViewToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+@code {
+    private SfAIAssistView sfAIAssistView;
+
+    List<string> suggestions = new List<string> { "How do I set daily goals in my work day?", "Steps to publish a e-book with marketing strategy" };
+
+    public class AssistModel
+    {
+        public string Prompt { get; set; }
+        public string Response { get; set; }
+        public List<string> SuggestionData { get; set; }
+    }
+
+    private List<AssistModel> prompts = new List<AssistModel>()
+    {
+        new AssistModel() { Prompt = "How do I set daily goals in my work day?", Response = "<p>To stay focused and productive, try these steps for setting daily goals:</p> <ol><li><strong>Identify Priorities:</strong> List the most important tasks based on deadlines or significance.</li> <li><strong>Break Down Tasks:</strong> Split larger tasks into smaller, manageable steps.</li> <li><strong>Set SMART Goals:</strong> Make sure goals are Specific, Measurable, Achievable, Relevant, and Time-bound.</li> <li><strong>Time Blocking:</strong> Allocate specific times for each task to stay organized and on track.</li></ol> <p>Would you like more tips on any of these steps?</p>", SuggestionData = new List<string> { "How do I prioritize tasks effectively?", "What tools or apps can help me prioritize tasks?" } },
+
+        new AssistModel() { Prompt = "Steps to publish a e-book with marketing strategy", Response = "<p>To publish an e-book, follow the steps below:</p> <ol><li><strong>Write and format your e-book:</strong> Ensure your content is well-organized, edited, and formatted for digital reading.</li> <li><strong>Choose a publishing platform:</strong> Platforms like Amazon Kindle Direct Publishing (KDP) or Smashwords can help you publish and distribute your e-book.</li> <li><strong>Develop a marketing strategy:</strong> Utilize social media, email newsletters, and book promotion sites to create buzz and reach your target audience.</li> <li><strong>Launch and promote:</strong> Schedule a launch date, gather reviews, and continue promoting through various channels to maintain momentum and drive sales.</li></ol> <p>Do you have a specific topic in mind for your e-book?</p>", SuggestionData = new List<string>  { "How do I create an eye-catching e-book cover?", "What are common mistakes to avoid in e-book covers?" } },
+
+        new AssistModel() { Prompt = "How do I prioritize tasks effectively?", Response = "<p>To stay focused and productive, set daily goals by:</p> <ol><li><strong>Identifying Priorities:</strong> List important tasks based on deadlines or significance.</li> <li><strong>Breaking Down Tasks:</strong> Divide larger tasks into smaller, manageable steps.</li> <li><strong>Setting SMART Goals:</strong> Ensure goals are Specific, Measurable, Achievable, Relevant, and Time-bound. </li> <li><strong>Time Blocking:</strong>Schedule specific times for each task to stay organized.</li></ol> <p> Need more tips on any of these steps? </p>" },
+
+        new AssistModel() { Prompt = "What tools or apps can help me prioritize tasks?", Response = "<p>Here are some tools to help you prioritize tasks effectively:</p> <ol><li><strong>Google Keep:</strong> For simple note-taking and task organization with labels and reminders.</li> <li><strong>Scoro:</strong> A project management tool for streamlining activities and team collaboration.</li> <li><strong>Evernote:</strong> Great for note-taking, to-do lists, and reminders.</li> <li><strong>Todoist:</strong> A powerful task manager for setting priorities and tracking progress.</li></ol> <p>Are you looking for tools to manage a specific type of task or project?</p>" },
+
+        new AssistModel() { Prompt = "How do I create an eye-catching e-book cover?", Response = "<p>Creating an eye-catching e-book cover involves a few key steps:</p> <ol><li><strong>Understand your genre and audience:</strong> Research covers of popular books in your genre to see what appeals to your target readers.</li> <li><strong>Choose the right imagery and colors:</strong> Use high-quality images and a color scheme that reflects the tone and theme of your book.</li> <li><strong>Focus on typography:</strong> Select fonts that are readable and complement the overall design. The title should be prominent and easy to read even in thumbnail size.</li> <li><strong>Use design tools or hire a professional:</strong> Tools like Canva or Adobe Spark can help you create a professional-looking cover. Alternatively, consider hiring a graphic designer for a more polished result.</li></ol> <p>Would you like some tips on where to find good images or fonts for your cover?</p>" },
+
+        new AssistModel() { Prompt = "What are common mistakes to avoid in e-book covers?", Response = "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the book’s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>" },
+    };
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(3000);
+        var isPromptFound = prompts.Any(prompt => prompt.Prompt == args.Prompt);
+        var promptData = prompts.FirstOrDefault(prompt => prompt.Prompt == args.Prompt);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        args.Response = isPromptFound ? promptData.Response : defaultResponse;
+        args.PromptSuggestions = isPromptFound ? promptData.SuggestionData : suggestions;
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            sfAIAssistView.Prompts = new List<AssistViewPrompt>() { };
+        }
+    }
+}
+<style>
+    .default-aiassistview {
+        height: 600px;
+        width: 60vw;
+        margin: 0 auto;
+    }
+
+    .default-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .default-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 330px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .default-aiassistview {
+            width: 100%;
+        }
+    }
+</style>

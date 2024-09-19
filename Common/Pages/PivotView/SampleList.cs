@@ -47,8 +47,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/live-data",
                 FileName = "LiveData.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[] { @"Added a demo to show how the pivot table and pivot chart are frequently updated with live data at a given time period." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -89,8 +88,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/olap",
                 FileName = "OLAP.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[] { @"The OLAP demo has been updated with the EnableValueSorting property enabled, allowing you to sort individual measures and their aggregated values in ascending and descending order via UI action by clicking the value header on the pivot table's row or column axis." }
+                Type = SampleType.None
             },
 #endif
            
@@ -102,8 +100,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/performance",
                 FileName = "Performance.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[] { @"Added a demo to show the pivot table loading a large amount of data without any performance delays." }
+                Type = SampleType.None
             },
 #else
              new Sample
@@ -113,8 +110,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/performance-wasm",
                 FileName = "Performance-WASM.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[] {  @"Added a demo to show the pivot table loading a large amount of data without any performance delays." }
+                Type = SampleType.None
 
             },
 #endif
@@ -134,10 +130,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/external-binding",
                 FileName = "ExternalBinding.razor",
-                Type = SampleType.None,
-                NotificationDescription = new string[] { @"Added a demo to create and update a Heatmap component externally using data obtained from cell selection in the Pivot Table UI.
-
- " }
+                Type = SampleType.None
             },
               new Sample
             {
@@ -174,7 +167,8 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/conditional-formatting",
                 FileName = "ConditionalFormatting.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] { @"The custom toolbar demo has been updated with a new UI option ""Apply to Grand Total"" added in the conditional formatting dialog UI, that allows the conditional formatting to be applied to row and column grand totals." }
             },
             new Sample
             {
