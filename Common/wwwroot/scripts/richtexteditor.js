@@ -3,7 +3,7 @@ window.customJsFunctions = {
         window.sfBlazor.instances["rteCustomWordUpload"].element.click();
     },
     exportContentToPDF: function (rteHtmlData) {
-        const hostUrl = 'http://localhost:63028/';
+        const hostUrl = 'https://blazor.syncfusion.com/services/production/';
         const html = `<html><head></head><body>${rteHtmlData}</body></html>`;
         fetch(hostUrl + 'api/RichTextEditor/ExportToPdf', {
             method: 'POST',
@@ -31,7 +31,7 @@ window.customJsFunctions = {
             });
     },
     exportContentToWord: function (rteHtmlData) {
-        const hostUrl = 'http://localhost:63028/';
+        const hostUrl = 'https://blazor.syncfusion.com/services/production/';
         const html = `<html><head></head><body>${rteHtmlData}</body></html>`;
         fetch(hostUrl + 'api/RichTextEditor/ExportToDocx', {
             method: 'POST',
