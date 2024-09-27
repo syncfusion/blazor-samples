@@ -15,17 +15,18 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
-* [NET 6 WebAssembly Workload / NET 8 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools)
+* [NET 6 WebAssembly Workload / NET 8 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools) (For [PDF Viewer Component](https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-app#prerequisites))
 
 * Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
 
 ## How to run the demo
 
-Clone the repository. This repository contains both Blazor Server demos and Blazor WASM demos with .NET Core 3.1 and .NET 6 project and solution files. This repository has Common, Blazor Server Demos and Blazor WASM Demos folder.
+Clone the repository. This repository contains Blazor Server demos(.NET 6 and .NET 8), Blazor WASM demos(.NET 6 and .NET 8), Blazor Web App demos(.NET 8) and Blazor MAUI demos(.NET 8) project and solution files. This repository has Common, Blazor Server Demos, Blazor WASM Demos and Blazor Web App demos folders.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
-* `Blazor-WASM-Hosted-Demos` folder has solution and project files to run Blazor WebAssembly Hosted demos.
-* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server Demos, Blazor WebAssembly Demos and Blazor WebAssembly Hosted Demos.
+* `Blazor-WebApp-Demos` folder has solution and project files to run Blazor Web app(InteractiveMode Auto) demos.
+* `Blazor-MAUI-Demos` folder has project file to run Blazor MAUI demos(Android).
+* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server demos(.NET 6 and .NET 8), Blazor WASM demos(.NET 6 and .NET 8) and Blazor Web App demos(.NET 8).
 
 ### Run the demo using .NET CLI
 
@@ -41,8 +42,11 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
    To run .NET 6 Blazor WASM Demos project
    > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET6.csproj`
 
-    To run .NET 8 Blazor WASM Demos project
+   To run .NET 8 Blazor WASM Demos project
    > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET8.csproj`
+
+   To run .NET 8 Blazor WebApp Demos project(InteractiveMode Auto)
+   > `dotnet run --project Blazor-WebApp-Demos/Blazor_WebApp_Demos/Blazor_WebApp_Demos.csproj`
 
 ### Run the demo using Visual Studio
 
@@ -72,6 +76,10 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
     <tr>
         <td>
             <p></p>
+            <div><p class="controlcategory">SMART COMPONENTS</p></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/demos/ai-smartpaste/annotations">Smart Paste Button - Preview</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/demos/ai-smarttextarea/default">Smart TextArea - Preview</a></div>
+            <p>&nbsp;</p>
             <div><p class="controlcategory">GRIDS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/datagrid/getting-started">DataGrid</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pivot-table/getting-started">Pivot Table</a></div>
@@ -80,10 +88,11 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div><p class="controlcategory">FILE VIEWERS & EDITORS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/in-place-editor/getting-started">InPlace Editor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">RichTextEditor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor - Preview</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">Markdown Editor</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/document-editor/getting-started/features">Word Processor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features">PDF Viewer</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen) - Preview</a></div>     
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen)</a></div>     
             <p>&nbsp;</p>
             <div><p class="controlcategory">DOCUMENT PROCESSING LIBRARIES</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/docio/create-word-document-in-blazor">Word (DocIO)</a></div>
@@ -98,6 +107,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/predefined-dialogs/getting-started">Predefined Dialogs</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/listview/getting-started">ListView</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/splitter/getting-started">Splitter</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/timeline/getting-started">Timeline</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/tooltip/getting-started">Tooltip</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/media-query/getting-started">Media Query</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/avatar/getting-started">Avatar</a></div>
@@ -107,6 +117,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <p></p>
             <div><p class="controlcategory">DATA VISUALIZATION</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chart/getting-started-server">Charts</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/3d-chart/getting-started-with-web-app">3D Chart</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/barcode/getting-started">Barcode Generator</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/bullet-chart/getting-started">Bullet Chart</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started">Circular Gauge</a></div>
@@ -131,7 +142,11 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/progress-button/getting-started">Progress Button</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/split-button/getting-started">SplitButton</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/speeddial/getting-started">Speed Dial</a></div>
-           <br>
+            <p>&nbsp;</p>
+            <div><p class="controlcategory">INTERACTIVE CHAT</p></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/ai-assistview/getting-started-webapp">AI AssistView - Preview</a></div>
+            <br>
+            <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
@@ -157,12 +172,17 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/numeric-textbox/getting-started">Numeric TextBox</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/radio-button/getting-started">RadioButton</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/range-slider/getting-started">Range Slider</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/textarea/getting-started">TextArea</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/textbox/getting-started">TextBox</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/toggle-switch-button/getting-started">Toggle Switch Button</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rating/getting-started">Rating</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/otp-input/getting-started">OTP Input</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">FORMS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started">Query Builder</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/data-form/getting-started">Data Form</a></div>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
@@ -174,9 +194,11 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/autocomplete/getting-started">AutoComplete</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/combobox/getting-started">ComboBox</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/dropdown-list/getting-started">Dropdown List</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/dropdown-tree/getting-started-with-web-app">Dropdown Tree</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/listbox/getting-started">ListBox</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/multiselect-dropdown/getting-started">Multiselect DropDown</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/mention/getting-started">Mention</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/multicolumn-combobox/getting-started-with-web-app">MultiColumn ComboBox - Preview</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">NAVIGATION</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/accordion/getting-started">Accordion</a></div>
@@ -191,6 +213,7 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/toolbar/getting-started">Toolbar</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/treeview/getting-started">TreeView</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/appbar/getting-started">AppBar</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/stepper/getting-started">Stepper</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">NOTIFICATION</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/message/getting-started">Message</a></div>
@@ -199,6 +222,8 @@ Clone the repository. This repository contains both Blazor Server demos and Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/spinner/getting-started">Spinner</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/skeleton/getting-started">Skeleton</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/badge/getting-started">Badge</a></div>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
         </td>
@@ -232,4 +257,6 @@ The Syncfusion license that contains the terms and conditions can be found at
 * [Blazor Components](https://www.syncfusion.com/blazor-components)
 * [Blazor Live Demos - Server](https://blazor.syncfusion.com/demos/)
 * [Blazor Live Demos - WebAssembly](https://blazor.syncfusion.com/wasm/demos/)
-* [Blazor Playground](https://blazorplayground.syncfusion.com/) 
+* [Blazor Live Demos - Web app(InteractiveMode Auto) demos](https://blazor.syncfusion.com/webapp/demos/)
+* [Blazor Playground](https://blazorplayground.syncfusion.com/)
+* [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples) 
