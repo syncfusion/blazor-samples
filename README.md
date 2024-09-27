@@ -15,7 +15,7 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
-* [NET 6 WebAssembly Workload / NET 8 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools)
+* [NET 6 WebAssembly Workload / NET 8 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools) (For [PDF Viewer Component](https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-app#prerequisites))
 
 * Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
 
@@ -258,4 +258,5 @@ The Syncfusion license that contains the terms and conditions can be found at
 * [Blazor Live Demos - Server](https://blazor.syncfusion.com/demos/)
 * [Blazor Live Demos - WebAssembly](https://blazor.syncfusion.com/wasm/demos/)
 * [Blazor Live Demos - Web app(InteractiveMode Auto) demos](https://blazor.syncfusion.com/webapp/demos/)
-* [Blazor Playground](https://blazorplayground.syncfusion.com/) 
+* [Blazor Playground](https://blazorplayground.syncfusion.com/)
+* [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples) 
